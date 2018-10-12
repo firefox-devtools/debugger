@@ -15,22 +15,12 @@ class ResultsList extends Component {
     return {
       expressions: ImPropTypes.map.isRequired,
       showResultPacket: PropTypes.func.isRequired,
-      hideResultPacket: PropTypes.func.isRequired,
-      createObjectClient: PropTypes.func.isRequired,
-      createLongStringClient: PropTypes.func.isRequired,
-      releaseActor: PropTypes.func.isRequired
+      hideResultPacket: PropTypes.func.isRequired
     };
   }
 
   render() {
-    const {
-      expressions,
-      showResultPacket,
-      hideResultPacket,
-      createObjectClient,
-      createLongStringClient,
-      releaseActor
-    } = this.props;
+    const { expressions, showResultPacket, hideResultPacket } = this.props;
 
     return dom.div(
       { className: "expressions" },
@@ -42,10 +32,7 @@ class ResultsList extends Component {
             key,
             expression: expression.toJS(),
             showResultPacket: () => showResultPacket(key),
-            hideResultPacket: () => hideResultPacket(key),
-            createObjectClient,
-            createLongStringClient,
-            releaseActor
+            hideResultPacket: () => hideResultPacket(key)
           })
         )
     );

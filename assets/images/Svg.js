@@ -70,7 +70,8 @@ const svg = {
   showSources: require("./showSources.svg"),
   showOutline: require("./showOutline.svg"),
   nuxtjs: require("./nuxtjs.svg"),
-  rxjs: require("./rxjs.svg")
+  rxjs: require("./rxjs.svg"),
+  loader: require('./loader.svg')
 };
 
 type SvgType = {

@@ -92,7 +92,7 @@ export function setPreview(
         if (location && isOriginal(source)) {
           const mapResult = await dispatch(getMappedExpression(expression));
           if (mapResult) {
-            expression = mapResult.expression || mapResult;
+            expression = mapResult.expression;
           }
         }
 

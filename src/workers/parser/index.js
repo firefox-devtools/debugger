@@ -7,30 +7,78 @@
 import { workerUtils } from "devtools-utils";
 const { WorkerDispatcher } = workerUtils;
 
-const dispatcher = new WorkerDispatcher();
-export const start = dispatcher.start.bind(dispatcher);
-export const stop = dispatcher.stop.bind(dispatcher);
+import type { AstLocation, AstPosition, PausePoints } from "./types";
+import type { Location, Source, SourceId } from "../../types";
+import type { SourceScope } from "./getScopes/visitor";
+import type { SymbolDeclarations } from "./getSymbols";
 
-export const getClosestExpression = dispatcher.task("getClosestExpression");
-export const getSymbols = dispatcher.task("getSymbols");
-export const getScopes = dispatcher.task("getScopes");
-export const findOutOfScopeLocations = dispatcher.task(
-  "findOutOfScopeLocations"
-);
-export const clearSymbols = dispatcher.task("clearSymbols");
-export const clearScopes = dispatcher.task("clearScopes");
-export const clearASTs = dispatcher.task("clearASTs");
-export const getNextStep = dispatcher.task("getNextStep");
-export const hasSource = dispatcher.task("hasSource");
-export const setSource = dispatcher.task("setSource");
-export const clearSources = dispatcher.task("clearSources");
-export const hasSyntaxError = dispatcher.task("hasSyntaxError");
-export const mapExpression = dispatcher.task("mapExpression");
-export const getFramework = dispatcher.task("getFramework");
-export const getPausePoints = dispatcher.task("getPausePoints");
-export const replaceOriginalVariableName = dispatcher.task(
-  "replaceOriginalVariableName"
-);
+const dispatcher = new WorkerDispatcher();
+export const start = (url: string) => dispatcher.start(url);
+export const stop = () => dispatcher.stop();
+
+export const findOutOfScopeLocations = async (
+  sourceId: string,
+  position: AstPosition
+): Promise<AstLocation[]> =>
+  dispatcher.invoke("findOutOfScopeLocations", sourceId, position);
+
+export const getNextStep = async (
+  sourceId: SourceId,
+  pausedPosition: AstPosition
+): Promise<?Location> =>
+  dispatcher.invoke("getNextStep", sourceId, pausedPosition);
+
+export const clearASTs = async (): Promise<void> =>
+  dispatcher.invoke("clearASTs");
+
+export const getScopes = async (location: Location): Promise<SourceScope[]> =>
+  dispatcher.invoke("getScopes", location);
+
+export const clearScopes = async (): Promise<void> =>
+  dispatcher.invoke("clearScopes");
+
+export const clearSymbols = async (): Promise<void> =>
+  dispatcher.invoke("clearSymbols");
+
+export const getSymbols = async (
+  sourceId: string
+): Promise<SymbolDeclarations> => dispatcher.invoke("getSymbols", sourceId);
+
+export const hasSource = async (sourceId: SourceId): Promise<Source> =>
+  dispatcher.invoke("hasSource", sourceId);
+
+export const setSource = async (source: Source): Promise<void> =>
+  dispatcher.invoke("setSource", source);
+
+export const clearSources = async (): Promise<void> =>
+  dispatcher.invoke("clearSources");
+
+export const hasSyntaxError = async (input: string): Promise<string | false> =>
+  dispatcher.invoke("hasSyntaxError", input);
+
+export const mapExpression = async (
+  expression: string,
+  mappings: {
+    [string]: string | null
+  } | null,
+  bindings: string[],
+  shouldMapBindings?: boolean,
+  shouldMapAwait?: boolean
+): Promise<{ expression: string }> =>
+  dispatcher.invoke(
+    "mapExpression",
+    expression,
+    mappings,
+    bindings,
+    shouldMapBindings,
+    shouldMapAwait
+  );
+
+export const getFramework = async (sourceId: string): Promise<?string> =>
+  dispatcher.invoke("getFramework", sourceId);
+
+export const getPausePoints = async (sourceId: string): Promise<PausePoints> =>
+  dispatcher.invoke("getPausePoints", sourceId);
 
 export type {
   SourceScope,

@@ -12,6 +12,7 @@
 const { networkRequest } = require("devtools-utils");
 const { SourceMapConsumer, SourceMapGenerator } = require("source-map");
 
+const { createConsumer } = require("./utils/createConsumer");
 const assert = require("./utils/assert");
 const { fetchSourceMap } = require("./utils/fetchSourceMap");
 const {
@@ -170,17 +171,36 @@ async function getGeneratedLocation(
     return location;
   }
 
-  const { line, column } = map.generatedPositionFor({
+  const positions = map.allGeneratedPositionsFor({
     source: originalSource.url,
     line: location.line,
-    column: location.column == null ? 0 : location.column,
-    bias: SourceMapConsumer.LEAST_UPPER_BOUND
+    column: location.column == null ? 0 : location.column
   });
+
+  // Prior to source-map 0.7, the source-map module returned the earliest
+  // generated location in the file when there were multiple generated
+  // locations. The current comparison fn in 0.7 does not appear to take
+  // generated location into account properly.
+  let match;
+  for (const pos of positions) {
+    if (!match || pos.line < match.line || pos.column < match.column) {
+      match = pos;
+    }
+  }
+
+  if (!match) {
+    match = map.generatedPositionFor({
+      source: originalSource.url,
+      line: location.line,
+      column: location.column == null ? 0 : location.column,
+      bias: SourceMapConsumer.LEAST_UPPER_BOUND
+    });
+  }
 
   return {
     sourceId: generatedSourceId,
-    line,
-    column
+    line: match.line,
+    column: match.column
   };
 }
 
@@ -305,7 +325,7 @@ function applySourceMap(
   mappings.forEach(mapping => generator.addMapping(mapping));
   generator.setSourceContent(url, code);
 
-  const map = SourceMapConsumer(generator.toJSON());
+  const map = createConsumer(generator.toJSON());
   setSourceMap(generatedId, Promise.resolve(map));
 }
 

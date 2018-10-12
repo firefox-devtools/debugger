@@ -3,64 +3,23 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-const { applyMiddleware, createStore, compose } = require("redux");
+
+/* global window */
 const { thunk } = require("../shared/redux/middleware/thunk");
 const {
   waitUntilService
 } = require("../shared/redux/middleware/waitUntilService");
-const reducer = require("./reducer");
 
-import type { Props, State } from "./types";
+/**
+ * Redux store utils
+ * @module utils/create-store
+ */
 
-function createInitialState(overrides: Object): State {
-  return {
-    actors: new Set(),
-    expandedPaths: new Set(),
-    focusedItem: null,
-    loadedProperties: new Map(),
-    forceUpdated: false,
-    ...overrides
-  };
-}
+import { createStore, applyMiddleware } from "redux";
 
-function enableStateReinitializer(props) {
-  return next => (innerReducer, initialState, enhancer) => {
-    function reinitializerEnhancer(state, action) {
-      if (action.type !== "ROOTS_CHANGED") {
-        return innerReducer(state, action);
-      }
-
-      if (props.releaseActor && initialState.actors) {
-        initialState.actors.forEach(props.releaseActor);
-      }
-
-      return {
-        ...action.data,
-        actors: new Set(),
-        expandedPaths: new Set(),
-        loadedProperties: new Map(),
-        // Indicates to the component that we do want to render on the next
-        // render cycle.
-        forceUpdate: true
-      };
-    }
-    return next(reinitializerEnhancer, initialState, enhancer);
-  };
-}
-
-module.exports = (props: Props) => {
-  const middlewares = [thunk];
-
-  if (props.injectWaitService) {
-    middlewares.push(waitUntilService);
-  }
-
-  return createStore(
-    reducer,
-    createInitialState(props),
-    compose(
-      applyMiddleware(...middlewares),
-      enableStateReinitializer(props)
-    )
-  );
+const configureStore = (opts: ReduxStoreOptions = {}) => {
+  const middleware = [thunk(opts.thunkArgs), waitUntilService];
+  return applyMiddleware(...middleware)(createStore);
 };
+
+export default configureStore;

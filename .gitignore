@@ -1,5 +1,5 @@
 .DS_Store
-build
+/assets/build
 node_modules
 configs/local.json
 npm-debug.log

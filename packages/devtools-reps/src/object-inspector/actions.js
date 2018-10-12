@@ -4,17 +4,10 @@
 
 // @flow
 
-import type {
-  CreateLongStringClient,
-  CreateObjectClient,
-  GripProperties,
-  LoadedProperties,
-  Node,
-  Props,
-  ReduxAction
-} from "./types";
+import type { GripProperties, Node, Props, ReduxAction } from "./types";
 
 const { loadItemProperties } = require("./utils/load-properties");
+const { getLoadedProperties, getActors } = require("./reducer");
 
 type Dispatch = ReduxAction => void;
 
@@ -27,30 +20,10 @@ type ThunkArg = {
  * This action is responsible for expanding a given node, which also means that
  * it will call the action responsible to fetch properties.
  */
-function nodeExpand(
-  node: Node,
-  actor?: string,
-  loadedProperties: LoadedProperties,
-  createObjectClient: CreateObjectClient,
-  createLongStringClient: CreateLongStringClient
-) {
-  return async ({ dispatch }: ThunkArg) => {
-    dispatch({
-      type: "NODE_EXPAND",
-      data: { node }
-    });
-
-    if (!loadedProperties.has(node.path)) {
-      dispatch(
-        nodeLoadProperties(
-          node,
-          actor,
-          loadedProperties,
-          createObjectClient,
-          createLongStringClient
-        )
-      );
-    }
+function nodeExpand(node: Node, actor) {
+  return async ({ dispatch, getState }: ThunkArg) => {
+    dispatch({ type: "NODE_EXPAND", data: { node } });
+    dispatch(nodeLoadProperties(node, actor));
   };
 }
 
@@ -61,33 +34,27 @@ function nodeCollapse(node: Node) {
   };
 }
 
-function nodeFocus(node: Node) {
-  return {
-    type: "NODE_FOCUS",
-    data: { node }
-  };
-}
 /*
  * This action checks if we need to fetch properties, entries, prototype and
  * symbols for a given node. If we do, it will call the appropriate ObjectClient
  * functions.
  */
-function nodeLoadProperties(
-  item: Node,
-  actor?: string,
-  loadedProperties: LoadedProperties,
-  createObjectClient: CreateObjectClient,
-  createLongStringClient: CreateLongStringClient
-) {
-  return async ({ dispatch }: ThunkArg) => {
+function nodeLoadProperties(node: Node, actor) {
+  return async ({ dispatch, client, getState }: ThunkArg) => {
+    const loadedProperties = getLoadedProperties(getState());
+    if (loadedProperties.has(node.path)) {
+      return;
+    }
+
     try {
       const properties = await loadItemProperties(
-        item,
-        createObjectClient,
-        createLongStringClient,
+        node,
+        client.createObjectClient,
+        client.createLongStringClient,
         loadedProperties
       );
-      dispatch(nodePropertiesLoaded(item, actor, properties));
+
+      dispatch(nodePropertiesLoaded(node, actor, properties));
     } catch (e) {
       console.error(e);
     }
@@ -105,6 +72,12 @@ function nodePropertiesLoaded(
   };
 }
 
+function closeObjectInspector() {
+  return async ({ getState, client }: ThunkArg) => {
+    releaseActors(getState(), client);
+  };
+}
+
 /*
  * This action is dispatched when the `roots` prop, provided by a consumer of
  * the ObjectInspector (inspector, console, …), is modified. It will clean the
@@ -114,26 +87,26 @@ function nodePropertiesLoaded(
  * consumer.
  */
 function rootsChanged(props: Props) {
-  return {
-    type: "ROOTS_CHANGED",
-    data: props
+  return async ({ dispatch, client, getState }: ThunkArg) => {
+    releaseActors(getState(), client);
+    dispatch({
+      type: "ROOTS_CHANGED",
+      data: props
+    });
   };
 }
 
-/*
- * This action will reset the `forceUpdate` flag in the state.
- */
-function forceUpdated() {
-  return {
-    type: "FORCE_UPDATED"
-  };
+function releaseActors(state, client) {
+  const actors = getActors(state);
+  for (const actor of actors) {
+    client.releaseActor(actor);
+  }
 }
 
 module.exports = {
-  forceUpdated,
+  closeObjectInspector,
   nodeExpand,
   nodeCollapse,
-  nodeFocus,
   nodeLoadProperties,
   nodePropertiesLoaded,
   rootsChanged

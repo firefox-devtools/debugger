@@ -12,7 +12,7 @@ export default function mapExpression(
   expression: string,
   mappings: {
     [string]: string | null
-  },
+  } | null,
   bindings: string[],
   shouldMapBindings: boolean = true,
   shouldMapAwait: boolean = true

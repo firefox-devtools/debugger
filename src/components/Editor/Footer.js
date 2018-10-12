@@ -6,7 +6,7 @@
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import classnames from "classnames";
-
+import Svg from "../shared/Svg";
 import actions from "../../actions";
 import {
   getSelectedSource,
@@ -19,7 +19,8 @@ import {
   isPretty,
   isLoaded,
   getFilename,
-  isOriginal
+  isOriginal,
+  isLoading
 } from "../../utils/source";
 import { getGeneratedSource } from "../../reducers/sources";
 import { shouldShowFooter, shouldShowPrettyPrint } from "../../utils/editor";
@@ -33,7 +34,6 @@ import "./Footer.css";
 type Props = {
   selectedSource: Source,
   mappedSource: Source,
-  editor: any,
   endPanelCollapsed: boolean,
   horizontal: boolean,
   togglePrettyPrint: string => void,
@@ -46,13 +46,21 @@ type Props = {
 class SourceFooter extends PureComponent<Props> {
   prettyPrintButton() {
     const { selectedSource, togglePrettyPrint } = this.props;
-    const sourceLoaded = selectedSource && isLoaded(selectedSource);
+
+    if (isLoading(selectedSource) && selectedSource.isPrettyPrinted) {
+      return (
+        <div className="loader">
+          <Svg name="loader" />
+        </div>
+      );
+    }
 
     if (!shouldShowPrettyPrint(selectedSource)) {
       return;
     }
 
     const tooltip = L10N.getStr("sourceTabs.prettyPrint");
+    const sourceLoaded = selectedSource && isLoaded(selectedSource);
 
     const type = "prettyPrint";
     return (

@@ -2,11 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-const { mount } = require("enzyme");
-const React = require("react");
-const { createFactory } = React;
-const ObjectInspector = createFactory(require("../../index"));
 const ObjectClient = require("../__mocks__/object-client");
+const { mountObjectInspector } = require("../test-utils");
 
 function generateDefaults(overrides) {
   return {
@@ -18,39 +15,37 @@ function generateDefaults(overrides) {
         contents: { value: 42 }
       }
     ],
-    createObjectClient: grip => ObjectClient(grip),
     ...overrides
   };
 }
 
-function mountObjectInspector(props) {
-  return mount(ObjectInspector(generateDefaults(props))).find(
-    "div.object-inspector"
-  );
+function mount(props) {
+  const client = { createObjectClient: grip => ObjectClient(grip) };
+
+  return mountObjectInspector({
+    client,
+    props: generateDefaults(props)
+  });
 }
 
 describe("ObjectInspector - classnames", () => {
   it("has the expected class", () => {
-    const wrapper = mountObjectInspector();
-    expect(wrapper.hasClass("tree")).toBeTruthy();
-    expect(wrapper.hasClass("inline")).toBeFalsy();
-    expect(wrapper.hasClass("nowrap")).toBeFalsy();
-    expect(wrapper).toMatchSnapshot();
+    const { tree } = mount();
+    expect(tree.hasClass("tree")).toBeTruthy();
+    expect(tree.hasClass("inline")).toBeFalsy();
+    expect(tree.hasClass("nowrap")).toBeFalsy();
+    expect(tree).toMatchSnapshot();
   });
 
   it("has the nowrap class when disableWrap prop is true", () => {
-    const wrapper = mountObjectInspector({
-      disableWrap: true
-    });
-    expect(wrapper.hasClass("nowrap")).toBeTruthy();
-    expect(wrapper).toMatchSnapshot();
+    const { tree } = mount({ disableWrap: true });
+    expect(tree.hasClass("nowrap")).toBeTruthy();
+    expect(tree).toMatchSnapshot();
   });
 
   it("has the inline class when inline prop is true", () => {
-    const wrapper = mountObjectInspector({
-      inline: true
-    });
-    expect(wrapper.hasClass("inline")).toBeTruthy();
-    expect(wrapper).toMatchSnapshot();
+    const { tree } = mount({ inline: true });
+    expect(tree.hasClass("inline")).toBeTruthy();
+    expect(tree).toMatchSnapshot();
   });
 });

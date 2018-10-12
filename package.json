@@ -44,11 +44,6 @@
     "flow-utils": "flow-coverage-report -i 'src/utils/*.js' -i 'src/utils/**/*.js' -t text",
     "flow-redux": "flow-coverage-report  -i 'src/reducers/*.js' -i 'src/actions/*.js'  -t text",
     "flow-react": "flow-coverage-report -i 'src/components/**/*.js' -t text",
-    "postcheckout": "node bin/post-checkout.js",
-    "postmerge": "node bin/post-merge.js",
-    "postrewrite": "node bin/post-rewrite.js",
-    "precommit": "yarn lint-staged",
-    "prepush": "yarn lint",
     "nom": "node bin/nom",
     "diff": "node bin/diff",
     "install": "prettier --write package.json"
@@ -62,7 +57,7 @@
     "babel-plugin-transform-imports": "^1.5.0",
     "codemirror": "^5.28.0",
     "devtools-environment": "^0.0.5",
-    "devtools-launchpad": "^0.0.136",
+    "devtools-launchpad": "^0.0.137",
     "devtools-linters": "^0.0.4",
     "devtools-reps": "0.23.0",
     "devtools-source-map": "0.16.0",
@@ -84,8 +79,8 @@
     "react-inlinesvg": "^0.8.1",
     "react-redux": "^5.0.7",
     "react-transition-group": "^2.2.1",
-    "redux-saga": "^0.16.0",
-    "reselect": "^3.0.1",
+    "redux-saga": "^0.16.1",
+    "reselect": "^4.0.0",
     "svg-inline-react": "^3.0.0",
     "wasmparser": "^0.6.1"
   },
@@ -110,7 +105,7 @@
   "author": "Jason Laster <jlaster@mozilla.com>",
   "devDependencies": {
     "@sucrase/webpack-object-rest-spread-plugin": "^1.0.0",
-    "babel-eslint": "^8.2.1",
+    "babel-eslint": "^10.0.1",
     "babel-jest": "^22.4.3",
     "babel-plugin-syntax-trailing-function-commas": "^6.22.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
@@ -119,6 +114,7 @@
     "babel-preset-react": "^6.24.1",
     "chalk": "^2.1.0",
     "copy-paste": "^1.3.0",
+    "copy-webpack-plugin": "^4.5.2",
     "devtools-license-check": "^0.7.0",
     "documentation": "^5.2.1",
     "enzyme": "^3.3.0",
@@ -132,12 +128,12 @@
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jest": "^21.15.1",
     "eslint-plugin-mozilla": "^0.16.1",
-    "eslint-plugin-prettier": "^2.3.1",
+    "eslint-plugin-prettier": "^3.0.0",
     "eslint-plugin-react": "^7.2.1",
     "expect.js": "^0.3.1",
     "flow-bin": "^0.81.0",
     "glob": "^7.0.3",
-    "husky": "^0.14.2",
+    "husky": "^1.0.1",
     "jest": "^23.0.0",
     "jest-environment-jsdom": "^23.0.0",
     "jest-in-case": "^1.0.2",
@@ -145,7 +141,7 @@
     "jest-localstorage-mock": "^2.2.0",
     "jest-serializer-babel-ast": "^0.0.5",
     "lint-staged": "^7.0.5",
-    "mochii": "^0.0.28",
+    "mochii": "^0.0.32",
     "mock-require": "^3.0.0",
     "node-emoji": "^1.8.1",
     "npm-run-all": "^4.0.2",
@@ -169,7 +165,7 @@
     "stylelint": "^9.0.0",
     "webpack": "^3.5.5",
     "webpack-visualizer-plugin": "^0.1.11",
-    "workerjs": "github:jasonLaster/workerjs"
+    "workerjs": "github:jasonLaster/workerjs#a2425aaeebacae7a7640e496a54c2a41962f3890"
   },
   "lint-staged": {
     "bin/*.js": [
@@ -196,5 +192,14 @@
       "prettier",
       "git add"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "post-checkout": "node bin/post-checkout.js",
+      "post-merge": "node bin/post-merge.js",
+      "post-rewrite": "node bin/post-rewrite.js",
+      "pre-commit": "yarn lint-staged",
+      "pre-push": "yarn lint"
+    }
   }
 }

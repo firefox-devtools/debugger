@@ -10,13 +10,19 @@ import actions from "../../actions";
 import { createObjectClient } from "../../client/firefox";
 import { getSelectedFrame, getAllPopupObjectProperties } from "../../selectors";
 
-import { ObjectInspector, ObjectInspectorUtils } from "devtools-reps";
+import { objectInspector } from "devtools-reps";
 import { isReactComponent } from "../../utils/preview";
 
 import type { Frame } from "../../types";
 
-const { createNode, getChildren } = ObjectInspectorUtils.node;
-const { loadItemProperties } = ObjectInspectorUtils.loadProperties;
+const {
+  component: ObjectInspector,
+  utils: {
+    createNode,
+    getChildren,
+    loadProperties: { loadItemProperties }
+  }
+} = objectInspector;
 
 type Props = {
   selectedFrame: Frame,

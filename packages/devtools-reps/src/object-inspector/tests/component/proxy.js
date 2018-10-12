@@ -3,11 +3,8 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 /* global jest */
+const { mountObjectInspector } = require("../test-utils");
 
-const { mount } = require("enzyme");
-const React = require("react");
-const { createFactory } = React;
-const ObjectInspector = createFactory(require("../../index"));
 const { MODE } = require("../../../reps/constants");
 const stub = require("../../../reps/stubs/grip").get("testProxy");
 const { formatObjectInspector } = require("../test-utils");
@@ -23,10 +20,6 @@ function generateDefaults(overrides) {
     ],
     autoExpandDepth: 1,
     mode: MODE.LONG,
-    createObjectClient: grip => ObjectClient(grip),
-    // Have the prototype already loaded so the component does not call
-    // enumProperties for the root's properties.
-    loadedProperties: new Map([["root", { prototype: {} }]]),
     ...overrides
   };
 }
@@ -39,29 +32,58 @@ function getEnumPropertiesMock() {
   }));
 }
 
+function mount(props, { initialState } = {}) {
+  const enumProperties = getEnumPropertiesMock();
+
+  const client = {
+    createObjectClient: grip => ObjectClient(grip, { enumProperties })
+  };
+
+  const obj = mountObjectInspector({
+    client,
+    props: generateDefaults(props),
+    initialState
+  });
+
+  return { ...obj, enumProperties };
+}
+
 describe("ObjectInspector - Proxy", () => {
   it("renders Proxy as expected", () => {
-    const enumProperties = getEnumPropertiesMock();
+    const { wrapper, enumProperties } = mount(
+      {},
+      {
+        initialState: {
+          objectInspector: {
+            // Have the prototype already loaded so the component does not call
+            // enumProperties for the root's properties.
+            loadedProperties: new Map([["root", { prototype: {} }]])
+          }
+        }
+      }
+    );
 
-    const props = generateDefaults({
-      createObjectClient: grip => ObjectClient(grip, { enumProperties })
-    });
-    const oi = mount(ObjectInspector(props));
-    expect(formatObjectInspector(oi)).toMatchSnapshot();
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
 
     // enumProperties should not have been called.
     expect(enumProperties.mock.calls).toHaveLength(0);
   });
 
   it("calls enumProperties on <target> and <handler> clicks", () => {
-    const enumProperties = getEnumPropertiesMock();
+    const { wrapper, enumProperties } = mount(
+      {},
+      {
+        initialState: {
+          objectInspector: {
+            // Have the prototype already loaded so the component does not call
+            // enumProperties for the root's properties.
+            loadedProperties: new Map([["root", { prototype: {} }]])
+          }
+        }
+      }
+    );
 
-    const props = generateDefaults({
-      createObjectClient: grip => ObjectClient(grip, { enumProperties })
-    });
-    const oi = mount(ObjectInspector(props));
-
-    const nodes = oi.find(".node");
+    const nodes = wrapper.find(".node");
 
     const targetNode = nodes.at(1);
     const handlerNode = nodes.at(2);

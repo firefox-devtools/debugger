@@ -5,7 +5,18 @@
 
 import type { ReduxAction, State } from "./types";
 
-function reducer(state: State = {}, action: ReduxAction): State {
+function initialState() {
+  return {
+    expandedPaths: new Set(),
+    loadedProperties: new Map(),
+    actors: new Set()
+  };
+}
+
+function reducer(
+  state: State = initialState(),
+  action: ReduxAction = {}
+): State {
   const { type, data } = action;
 
   const cloneState = overrides => ({ ...state, ...overrides });
@@ -34,23 +45,47 @@ function reducer(state: State = {}, action: ReduxAction): State {
     });
   }
 
-  if (type === "NODE_FOCUS") {
-    if (state.focusedItem === data.node) {
-      return state;
-    }
-
-    return cloneState({
-      focusedItem: data.node
-    });
-  }
-
-  if (type === "FORCE_UPDATED") {
-    return cloneState({
-      forceUpdate: false
-    });
+  if (type === "ROOTS_CHANGED") {
+    return cloneState();
   }
 
   return state;
 }
 
-module.exports = reducer;
+function getObjectInspectorState(state) {
+  return state.objectInspector;
+}
+
+function getExpandedPaths(state) {
+  return getObjectInspectorState(state).expandedPaths;
+}
+
+function getExpandedPathKeys(state) {
+  return [...getExpandedPaths(state).keys()];
+}
+
+function getActors(state) {
+  return getObjectInspectorState(state).actors;
+}
+
+function getLoadedProperties(state) {
+  return getObjectInspectorState(state).loadedProperties;
+}
+
+function getLoadedPropertyKeys(state) {
+  return [...getLoadedProperties(state).keys()];
+}
+
+const selectors = {
+  getExpandedPaths,
+  getExpandedPathKeys,
+  getActors,
+  getLoadedProperties,
+  getLoadedPropertyKeys
+};
+
+Object.defineProperty(module.exports, "__esModule", {
+  value: true
+});
+module.exports = selectors;
+module.exports.default = reducer;

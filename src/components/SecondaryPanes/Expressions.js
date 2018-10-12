@@ -7,7 +7,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import classnames from "classnames";
 import { features } from "../../utils/prefs";
-import { ObjectInspector } from "devtools-reps";
+import { objectInspector } from "devtools-reps";
 
 import actions from "../../actions";
 import {
@@ -25,6 +25,8 @@ import type { List } from "immutable";
 import type { Expression } from "../../types";
 
 import "./Expressions.css";
+
+const { ObjectInspector } = objectInspector;
 
 type State = {
   editing: boolean,

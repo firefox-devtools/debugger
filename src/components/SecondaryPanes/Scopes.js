@@ -18,11 +18,13 @@ import {
 } from "../../selectors";
 import { getScopes } from "../../utils/pause/scopes";
 
-import { ObjectInspector } from "devtools-reps";
+import { objectInspector } from "devtools-reps";
 import type { Pause, Why } from "../../types";
 import type { NamedValue } from "../../utils/pause/scopes/types";
 
 import "./Scopes.css";
+
+const { ObjectInspector } = objectInspector;
 
 type Props = {
   isPaused: Pause,

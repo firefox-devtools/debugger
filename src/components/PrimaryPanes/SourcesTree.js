@@ -20,7 +20,7 @@ import {
   getSourceCount
 } from "../../selectors";
 
-import { getSourceByURL } from "../../reducers/sources";
+import { getGeneratedSourceByURL } from "../../reducers/sources";
 
 // Actions
 import actions from "../../actions";
@@ -88,6 +88,13 @@ class SourcesTree extends Component<Props, State> {
     });
   }
 
+  componentDidMount() {
+    const { selectedSource } = this.props;
+    if (selectedSource) {
+      this.setHighlightFocusItems(selectedSource);
+    }
+  }
+
   componentWillReceiveProps(nextProps: Props) {
     const {
       projectRoot,
@@ -115,19 +122,14 @@ class SourcesTree extends Component<Props, State> {
     }
 
     if (nextProps.shownSource && nextProps.shownSource != shownSource) {
-      const listItems = getDirectories(nextProps.shownSource, sourceTree);
-      return this.setState({ listItems });
+      return this.setHighlightFocusItems(nextProps.shownSource);
     }
 
     if (
       nextProps.selectedSource &&
       nextProps.selectedSource != selectedSource
     ) {
-      const highlightItems = getDirectories(
-        nextProps.selectedSource,
-        sourceTree
-      );
-      this.setState({ highlightItems });
+      this.setHighlightFocusItems(nextProps.selectedSource);
     }
 
     // NOTE: do not run this every time a source is clicked,
@@ -143,6 +145,14 @@ class SourcesTree extends Component<Props, State> {
           sourceTree
         })
       );
+    }
+  }
+
+  setHighlightFocusItems(source: ?Source) {
+    const { sourceTree, parentMap } = this.state;
+    if (source) {
+      const items = getDirectories(source, parentMap, sourceTree);
+      return this.setState({ listItems: items, highlightItems: items });
     }
   }
 
@@ -348,7 +358,7 @@ function getSourceForTree(state: AppState, source: ?Source): ?Source | null {
     return source;
   }
 
-  return getSourceByURL(state, getRawSourceURL(source.url), false);
+  return getGeneratedSourceByURL(state, getRawSourceURL(source.url));
 }
 
 const mapStateToProps = state => {

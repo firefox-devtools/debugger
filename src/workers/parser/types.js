@@ -8,4 +8,4 @@ export type AstPosition = { line: number, column: number };
 export type AstLocation = { end: AstPosition, start: AstPosition };
 
 export type PausePoint = { break: boolean, step: boolean };
-export type PausePoints = { line: { column: PausePoint } };
+export type PausePoints = { [line: string]: { [column: string]: PausePoint } };

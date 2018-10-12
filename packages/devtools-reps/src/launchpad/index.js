@@ -32,14 +32,12 @@ function onConnect(connection) {
         })
     },
 
-    getObjectClient: function(grip) {
+    createObjectClient: function(grip) {
       return connection.tabConnection.threadClient.pauseGrip(grip);
     },
-
-    getLongStringClient: function(grip) {
+    createLongStringClient: function(grip) {
       return connection.tabConnection.tabTarget.activeConsole.longString(grip);
     },
-
     releaseActor: function(actor) {
       return connection.tabConnection.debuggerClient.release(actor);
     }

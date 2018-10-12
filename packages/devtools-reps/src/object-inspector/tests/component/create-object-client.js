@@ -4,10 +4,7 @@
 
 /* global jest */
 
-const { mount } = require("enzyme");
-const React = require("react");
-const { createFactory } = React;
-const ObjectInspector = createFactory(require("../../index"));
+const { mountObjectInspector } = require("../test-utils");
 const ObjectClient = require("../__mocks__/object-client");
 
 const {
@@ -20,26 +17,34 @@ const repsPath = "../../../reps";
 const gripRepStubs = require(`${repsPath}/stubs/grip`);
 const gripArrayRepStubs = require(`${repsPath}/stubs/grip-array`);
 
+function mount(props, overrides = {}) {
+  const client = {
+    createObjectClient:
+      overrides.createObjectClient || jest.fn(grip => ObjectClient(grip))
+  };
+
+  return mountObjectInspector({
+    client,
+    props
+  });
+}
+
 describe("createObjectClient", () => {
   it("is called with the expected object for regular node", () => {
     const stub = gripRepStubs.get("testMoreThanMaxProps");
-    const createObjectClient = jest.fn(grip => ObjectClient(grip));
-    mount(
-      ObjectInspector({
-        autoExpandDepth: 1,
-        roots: [
-          {
-            path: "root",
-            contents: {
-              value: stub
-            }
+    const { client } = mount({
+      autoExpandDepth: 1,
+      roots: [
+        {
+          path: "root",
+          contents: {
+            value: stub
           }
-        ],
-        createObjectClient
-      })
-    );
+        }
+      ]
+    });
 
-    expect(createObjectClient.mock.calls[0][0]).toBe(stub);
+    expect(client.createObjectClient.mock.calls[0][0]).toBe(stub);
   });
 
   it("is called with the expected object for entries node", () => {
@@ -47,15 +52,12 @@ describe("createObjectClient", () => {
     const mapStubNode = createNode({ name: "map", contents: { value: grip } });
     const entriesNode = makeNodesForEntries(mapStubNode);
 
-    const createObjectClient = jest.fn(x => ObjectClient(x));
-    mount(
-      ObjectInspector({
-        autoExpandDepth: 1,
-        roots: [entriesNode],
-        createObjectClient
-      })
-    );
-    expect(createObjectClient.mock.calls[0][0]).toBe(grip);
+    const { client } = mount({
+      autoExpandDepth: 1,
+      roots: [entriesNode]
+    });
+
+    expect(client.createObjectClient.mock.calls[0][0]).toBe(grip);
   });
 
   it("is called with the expected object for bucket node", () => {
@@ -63,15 +65,11 @@ describe("createObjectClient", () => {
     const root = createNode({ name: "root", contents: { value: grip } });
     const [bucket] = makeNumericalBuckets(root);
 
-    const createObjectClient = jest.fn(x => ObjectClient(x));
-    mount(
-      ObjectInspector({
-        autoExpandDepth: 1,
-        roots: [bucket],
-        createObjectClient
-      })
-    );
-    expect(createObjectClient.mock.calls[0][0]).toBe(grip);
+    const { client } = mount({
+      autoExpandDepth: 1,
+      roots: [bucket]
+    });
+    expect(client.createObjectClient.mock.calls[0][0]).toBe(grip);
   });
 
   it("is called with the expected object for sub-bucket node", () => {
@@ -80,15 +78,12 @@ describe("createObjectClient", () => {
     const [bucket] = makeNumericalBuckets(root);
     const [subBucket] = makeNumericalBuckets(bucket);
 
-    const createObjectClient = jest.fn(x => ObjectClient(x));
-    mount(
-      ObjectInspector({
-        autoExpandDepth: 1,
-        roots: [subBucket],
-        createObjectClient
-      })
-    );
-    expect(createObjectClient.mock.calls[0][0]).toBe(grip);
+    const { client } = mount({
+      autoExpandDepth: 1,
+      roots: [subBucket]
+    });
+
+    expect(client.createObjectClient.mock.calls[0][0]).toBe(grip);
   });
 
   it("doesn't fail when ObjectClient doesn't have expected methods", () => {
@@ -101,11 +96,11 @@ describe("createObjectClient", () => {
 
     const createObjectClient = x => ({});
     mount(
-      ObjectInspector({
+      {
         autoExpandDepth: 1,
-        roots: [root],
-        createObjectClient
-      })
+        roots: [root]
+      },
+      { createObjectClient }
     );
 
     // rollback console.error.

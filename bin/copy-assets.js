@@ -1,6 +1,7 @@
 const {
   tools: { makeBundle, symlinkTests, copyFile }
 } = require("devtools-launchpad/index");
+const sourceMapAssets = require("devtools-source-map/assets");
 const path = require("path");
 const minimist = require("minimist");
 var fs = require("fs");
@@ -210,13 +211,6 @@ function start() {
     { cwd: projectPath }
   );
 
-  console.log("[copy-assets] - dwarf_to_json.wasm");
-  copyFile(
-    path.join(projectPath, "./assets/wasm/dwarf_to_json.wasm"),
-    path.join(mcPath, "devtools/client/shared/source-map/dwarf_to_json.wasm"),
-    { cwd: projectPath }
-  );
-
   // Ensure /dist path exists.
   const bundlePath = "devtools/client/debugger/new/dist";
   shell.mkdir("-p", path.join(mcPath, bundlePath));
@@ -274,6 +268,13 @@ function onBundleFinish({mcPath, bundlePath, projectPath}) {
     path.join(mcPath, "devtools/client/shared/source-map/worker.js"),
     {cwd: projectPath}
   );
+  for (const filename of Object.keys(sourceMapAssets)) {
+    moveFile(
+      path.join(mcPath, bundlePath, "source-map-worker-assets", filename),
+      path.join(mcPath, "devtools/client/shared/source-map/assets", filename),
+      {cwd: projectPath}
+    );
+  }
 
   moveFile(
     path.join(mcPath, bundlePath, "source-map-index.js"),

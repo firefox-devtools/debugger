@@ -58,7 +58,7 @@ export function formatSourcesForList(source: Source, tabs: TabList) {
     value: source.relativeUrl,
     title,
     subtitle,
-    icon: tabs.includes(source.url)
+    icon: tabs.some(tab => tab.url == source.url)
       ? "tab result-item-icon"
       : classnames(getSourceClassnames(source), "result-item-icon"),
     id: source.id,

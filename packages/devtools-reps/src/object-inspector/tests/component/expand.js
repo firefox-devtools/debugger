@@ -1,11 +1,8 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+const { mountObjectInspector } = require("../test-utils");
 
-const { mount } = require("enzyme");
-const React = require("react");
-const { createFactory } = React;
-const ObjectInspector = createFactory(require("../../index"));
 const repsPath = "../../../reps";
 const { MODE } = require(`${repsPath}/constants`);
 const ObjectClient = require("../__mocks__/object-client");
@@ -19,6 +16,15 @@ const {
   waitForDispatch
 } = require("../test-utils");
 const { createNode, NODE_TYPES } = require("../../utils/node");
+const { getActors, getExpandedPaths } = require("../../reducer");
+
+const protoStub = {
+  prototype: {
+    type: "object",
+    actor: "server2.conn0.child1/obj628",
+    class: "Object"
+  }
+};
 
 function generateDefaults(overrides) {
   return {
@@ -42,21 +48,44 @@ function generateDefaults(overrides) {
     ...overrides
   };
 }
+const LongStringClientMock = require("../__mocks__/long-string-client");
+
+function mount(props, { initialState } = {}) {
+  const client = {
+    createObjectClient: grip =>
+      ObjectClient(grip, {
+        getPrototype: () => Promise.resolve(protoStub)
+      }),
+
+    createLongStringClient: grip =>
+      LongStringClientMock(grip, {
+        substring: function(initiaLength, length, cb) {
+          cb({
+            substring: "<<<<"
+          });
+        }
+      })
+  };
+
+  return mountObjectInspector({
+    client,
+    props: generateDefaults(props),
+    initialState: { objectInspector: initialState }
+  });
+}
 
 describe("ObjectInspector - state", () => {
   it("has the expected expandedPaths state when clicking nodes", async () => {
-    const wrapper = mount(
-      ObjectInspector(
-        generateDefaults({
-          injectWaitService: true,
+    const { wrapper, store } = mount(
+      {},
+      {
+        initialState: {
           loadedProperties: new Map([
             ["root-1", gripPropertiesStubs.get("proto-properties-symbols")]
           ])
-        })
-      )
+        }
+      }
     );
-
-    const store = wrapper.instance().getStore();
 
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
     let nodes = wrapper.find(".node");
@@ -69,7 +98,7 @@ describe("ObjectInspector - state", () => {
 
     expect(storeHasExactExpandedPaths(store, ["root-1"])).toBeTruthy();
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
-
+    //
     // Clicking on the root node removes it path from "expandedPaths".
     root1.simulate("click");
     expect(storeHasExactExpandedPaths(store, [])).toBeTruthy();
@@ -107,35 +136,16 @@ describe("ObjectInspector - state", () => {
     ).toBeTruthy();
 
     // The property and symbols have primitive values, and can't be expanded.
-    expect(store.getState().expandedPaths.size).toBe(3);
+    expect(getExpandedPaths(store.getState()).size).toBe(3);
   });
 
   it("has the expected state when expanding a node", async () => {
-    const protoStub = {
-      prototype: {
-        type: "object",
-        actor: "server2.conn0.child1/obj628",
-        class: "Object"
-      }
-    };
-
-    const wrapper = mount(
-      ObjectInspector(
-        generateDefaults({
-          injectWaitService: true,
-          createObjectClient: grip =>
-            ObjectClient(grip, {
-              getPrototype: () => Promise.resolve(protoStub)
-            })
-        })
-      )
-    );
+    const { wrapper, store } = mount({}, {});
 
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
     let nodes = wrapper.find(".node");
     const root1 = nodes.at(0);
 
-    const store = wrapper.instance().getStore();
     let onPropertiesLoad = waitForDispatch(store, "NODE_PROPERTIES_LOADED");
     root1.simulate("click");
     await onPropertiesLoad;
@@ -144,9 +154,9 @@ describe("ObjectInspector - state", () => {
     expect(storeHasLoadedProperty(store, "root-1")).toBeTruthy();
     // We don't want to track root actors.
     expect(
-      store
-        .getState()
-        .actors.has(gripRepStubs.get("testMoreThanMaxProps").actor)
+      getActors(store.getState()).has(
+        gripRepStubs.get("testMoreThanMaxProps").actor
+      )
     ).toBeFalsy();
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
 
@@ -164,23 +174,20 @@ describe("ObjectInspector - state", () => {
     expect(
       storeHasLoadedProperty(store, "Symbol(root-1/<prototype>)")
     ).toBeTruthy();
-    expect(store.getState().actors.has(protoStub.prototype.actor)).toBeTruthy();
+
+    expect(
+      getActors(store.getState()).has(protoStub.prototype.actor)
+    ).toBeTruthy();
   });
 
-  it("has the expected state when expanding a proxy node", async () => {
-    const wrapper = mount(
-      ObjectInspector(
-        generateDefaults({
-          injectWaitService: true
-        })
-      )
-    );
+  xit("has the expected state when expanding a proxy node", async () => {
+    const { wrapper, store } = mount({});
+
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
     let nodes = wrapper.find(".node");
 
     const proxyNode = nodes.at(1);
 
-    const store = wrapper.instance().getStore();
     let onLoadProperties = waitForDispatch(store, "NODE_PROPERTIES_LOADED");
     proxyNode.simulate("click");
     await onLoadProperties;
@@ -192,7 +199,7 @@ describe("ObjectInspector - state", () => {
 
     // We don't want to track root actors.
     expect(
-      store.getState().actors.has(gripRepStubs.get("testProxy").actor)
+      getActors(store.getState()).has(gripRepStubs.get("testProxy").actor)
     ).toBeFalsy();
 
     nodes = wrapper.find(".node");
@@ -209,17 +216,17 @@ describe("ObjectInspector - state", () => {
   });
 
   it("does not expand if the user selected some text", async () => {
-    const wrapper = mount(
-      ObjectInspector(
-        generateDefaults({
-          injectWaitService: true,
+    const { wrapper, store } = mount(
+      {},
+      {
+        initialSate: {
           loadedProperties: new Map([
             ["root-1", gripPropertiesStubs.get("proto-properties-symbols")]
           ])
-        })
-      )
+        }
+      }
     );
-    const store = wrapper.instance().getStore();
+
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
     const nodes = wrapper.find(".node");
 
@@ -236,17 +243,17 @@ describe("ObjectInspector - state", () => {
   });
 
   it("expands if user selected some text and clicked the arrow", async () => {
-    const wrapper = mount(
-      ObjectInspector(
-        generateDefaults({
-          injectWaitService: true,
+    const { wrapper, store } = mount(
+      {},
+      {
+        initialState: {
           loadedProperties: new Map([
             ["root-1", gripPropertiesStubs.get("proto-properties-symbols")]
           ])
-        })
-      )
+        }
+      }
     );
-    const store = wrapper.instance().getStore();
+
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
     const nodes = wrapper.find(".node");
 
@@ -255,7 +262,7 @@ describe("ObjectInspector - state", () => {
 
     const root1 = nodes.at(0);
     root1.find("img.arrow").simulate("click");
-    expect(store.getState().expandedPaths.has("root-1")).toBeTruthy();
+    expect(getExpandedPaths(store.getState()).has("root-1")).toBeTruthy();
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
 
     // Clear the selection for other tests.
@@ -281,6 +288,7 @@ describe("ObjectInspector - state", () => {
       ],
       type: NODE_TYPES.BLOCK
     });
+
     const proxyNode = createNode({
       name: "Proxy",
       contents: {
@@ -288,15 +296,10 @@ describe("ObjectInspector - state", () => {
       }
     });
 
-    const wrapper = mount(
-      ObjectInspector(
-        generateDefaults({
-          roots: [blockNode, proxyNode],
-          injectWaitService: true
-        })
-      )
-    );
-    const store = wrapper.instance().getStore();
+    const { wrapper, store } = mount({
+      roots: [blockNode, proxyNode]
+    });
+
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
 
     const nodes = wrapper.find(".node");
@@ -311,19 +314,18 @@ describe("ObjectInspector - state", () => {
 
   it("calls recordTelemetryEvent when expanding a node", async () => {
     const recordTelemetryEvent = jest.fn();
-    const wrapper = mount(
-      ObjectInspector(
-        generateDefaults({
-          injectWaitService: true,
+    const { wrapper, store } = mount(
+      {
+        recordTelemetryEvent
+      },
+      {
+        initialState: {
           loadedProperties: new Map([
             ["root-1", gripPropertiesStubs.get("proto-properties-symbols")]
-          ]),
-          recordTelemetryEvent
-        })
-      )
+          ])
+        }
+      }
     );
-
-    const store = wrapper.instance().getStore();
 
     let nodes = wrapper.find(".node");
     const root1 = nodes.at(0);
@@ -367,29 +369,18 @@ describe("ObjectInspector - state", () => {
   });
 
   it("expanding a getter returning a longString does not throw", async () => {
-    const LongStringClientMock = require("../__mocks__/long-string-client");
-
-    const wrapper = mount(
-      ObjectInspector(
-        generateDefaults({
-          injectWaitService: true,
+    const { wrapper, store } = mount(
+      {
+        focusable: false
+      },
+      {
+        initialState: {
           loadedProperties: new Map([
             ["root-1", gripPropertiesStubs.get("longs-string-safe-getter")]
-          ]),
-          focusable: false,
-          createLongStringClient: grip =>
-            LongStringClientMock(grip, {
-              substring: function(initiaLength, length, cb) {
-                cb({
-                  substring: "<<<<"
-                });
-              }
-            })
-        })
-      )
+          ])
+        }
+      }
     );
-
-    const store = wrapper.instance().getStore();
 
     wrapper
       .find(".node")

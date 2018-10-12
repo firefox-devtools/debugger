@@ -75,15 +75,17 @@ export function clearEditor(editor: SourceEditor) {
 }
 
 export function showLoading(editor: SourceEditor) {
-  if (hasDocument("loading")) {
-    return;
-  }
+  let doc = getDocument("loading");
 
-  const doc = editor.createDocument();
-  setDocument("loading", doc);
-  editor.replaceDocument(doc);
-  editor.setText(L10N.getStr("loadingText"));
-  editor.setMode({ name: "text" });
+  if (doc) {
+    editor.replaceDocument(doc);
+  } else {
+    doc = editor.createDocument();
+    setDocument("loading", doc);
+    doc.setValue(L10N.getStr("loadingText"));
+    editor.replaceDocument(doc);
+    editor.setMode({ name: "text" });
+  }
 }
 
 export function showErrorMessage(editor: Object, msg: string) {

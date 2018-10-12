@@ -223,6 +223,109 @@ exports[`SourcesTree on receiving new props updates highlighted items updates hi
       }
       itemHeight={21}
       key="full"
+      listItems={
+        Array [
+          Object {
+            "contents": Array [
+              Object {
+                "contents": Array [
+                  Object {
+                    "contents": Object {
+                      "contentType": "",
+                      "error": undefined,
+                      "id": "server1.conn13.child1/42",
+                      "isBlackBoxed": false,
+                      "isPrettyPrinted": false,
+                      "isWasm": false,
+                      "loadedState": "unloaded",
+                      "sourceMapURL": "data:application/json?charset=utf?dsffewrsf",
+                      "text": undefined,
+                      "url": "http://mdn.com/four.js",
+                    },
+                    "name": "four.js",
+                    "path": "mdn.com/four.js",
+                    "type": "source",
+                  },
+                  Object {
+                    "contents": Object {
+                      "contentType": "",
+                      "error": undefined,
+                      "id": "server1.conn13.child1/42/originalSource-sha",
+                      "isBlackBoxed": false,
+                      "isPrettyPrinted": false,
+                      "isWasm": false,
+                      "loadedState": "unloaded",
+                      "sourceMapURL": null,
+                      "text": undefined,
+                      "url": "http://mdn.com/four.js",
+                    },
+                    "name": "four.js",
+                    "path": "mdn.com/four.js",
+                    "type": "source",
+                  },
+                  Object {
+                    "contents": Object {
+                      "contentType": "",
+                      "error": undefined,
+                      "id": "server1.conn13.child1/39",
+                      "isBlackBoxed": false,
+                      "isPrettyPrinted": false,
+                      "isWasm": false,
+                      "loadedState": "unloaded",
+                      "sourceMapURL": null,
+                      "text": undefined,
+                      "url": "http://mdn.com/one.js",
+                    },
+                    "name": "one.js",
+                    "path": "mdn.com/one.js",
+                    "type": "source",
+                  },
+                  Object {
+                    "contents": Object {
+                      "contentType": "",
+                      "error": undefined,
+                      "id": "server1.conn13.child1/41",
+                      "isBlackBoxed": false,
+                      "isPrettyPrinted": false,
+                      "isWasm": false,
+                      "loadedState": "unloaded",
+                      "sourceMapURL": null,
+                      "text": undefined,
+                      "url": "http://mdn.com/three.js",
+                    },
+                    "name": "three.js",
+                    "path": "mdn.com/three.js",
+                    "type": "source",
+                  },
+                  Object {
+                    "contents": Object {
+                      "contentType": "",
+                      "error": undefined,
+                      "id": "server1.conn13.child1/40",
+                      "isBlackBoxed": false,
+                      "isPrettyPrinted": false,
+                      "isWasm": false,
+                      "loadedState": "unloaded",
+                      "sourceMapURL": null,
+                      "text": undefined,
+                      "url": "http://mdn.com/two.js",
+                    },
+                    "name": "two.js",
+                    "path": "mdn.com/two.js",
+                    "type": "source",
+                  },
+                ],
+                "name": "mdn.com",
+                "path": "mdn.com",
+                "type": "directory",
+              },
+            ],
+            "name": "root",
+            "path": "",
+            "type": "directory",
+          },
+        ]
+      }
       onCollapse={[Function]}
       onExpand={[Function]}
       onFocus={[Function]}

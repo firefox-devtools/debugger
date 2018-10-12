@@ -83,12 +83,6 @@ Some good rules of thumb are:
 3. offer to pair or talk on Slack.
 4. try to breakdown the work so small pieces can be merged
 
-#### Ship
-
-I recommend [ship] for tracking issues.
-
-![][ship-screenshot]
-
 ### Adding a patch
 
 Patches are a great way to clarify what work needs to be done.

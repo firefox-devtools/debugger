@@ -27,7 +27,8 @@ function loadFromPrefs(actions: Object) {
 
 async function loadInitialState() {
   const pendingBreakpoints = await asyncStore.pendingBreakpoints;
-  return { pendingBreakpoints };
+  const tabs = await asyncStore.tabs;
+  return { pendingBreakpoints, tabs };
 }
 
 export async function onConnect(

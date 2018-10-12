@@ -3,11 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 /* global jest */
-
-const { mount } = require("enzyme");
-const React = require("react");
-const { createFactory } = React;
-const ObjectInspector = createFactory(require("../../index"));
+const { mountObjectInspector } = require("../test-utils");
 
 const gripRepStubs = require("../../../reps/stubs/grip");
 const ObjectClient = require("../__mocks__/object-client");
@@ -15,9 +11,17 @@ const ObjectClient = require("../__mocks__/object-client");
 function generateDefaults(overrides) {
   return {
     autoExpandDepth: 0,
-    createObjectClient: grip => ObjectClient(grip),
     ...overrides
   };
+}
+
+function mount(props) {
+  const client = { createObjectClient: grip => ObjectClient(grip) };
+
+  return mountObjectInspector({
+    client,
+    props: generateDefaults(props)
+  });
 }
 
 describe("ObjectInspector - properties", () => {
@@ -25,23 +29,19 @@ describe("ObjectInspector - properties", () => {
     const stub = gripRepStubs.get("testMaxProps");
     const onFocus = jest.fn();
 
-    const oi = mount(
-      ObjectInspector(
-        generateDefaults({
-          roots: [
-            {
-              path: "root",
-              contents: {
-                value: stub
-              }
-            }
-          ],
-          onFocus
-        })
-      )
-    );
+    const { wrapper } = mount({
+      roots: [
+        {
+          path: "root",
+          contents: {
+            value: stub
+          }
+        }
+      ],
+      onFocus
+    });
 
-    const node = oi.find(".node").first();
+    const node = wrapper.find(".node").first();
     node.simulate("focus");
 
     expect(onFocus.mock.calls).toHaveLength(1);
@@ -51,24 +51,20 @@ describe("ObjectInspector - properties", () => {
     const stub = gripRepStubs.get("testMaxProps");
     const onFocus = jest.fn();
 
-    const oi = mount(
-      ObjectInspector(
-        generateDefaults({
-          focusable: false,
-          roots: [
-            {
-              path: "root",
-              contents: {
-                value: stub
-              }
-            }
-          ],
-          onFocus
-        })
-      )
-    );
+    const { wrapper } = mount({
+      focusable: false,
+      roots: [
+        {
+          path: "root",
+          contents: {
+            value: stub
+          }
+        }
+      ],
+      onFocus
+    });
 
-    const node = oi.find(".node").first();
+    const node = wrapper.find(".node").first();
     node.simulate("focus");
 
     expect(onFocus.mock.calls).toHaveLength(0);
@@ -78,23 +74,19 @@ describe("ObjectInspector - properties", () => {
     const stub = gripRepStubs.get("testMaxProps");
     const onDoubleClick = jest.fn();
 
-    const oi = mount(
-      ObjectInspector(
-        generateDefaults({
-          roots: [
-            {
-              path: "root",
-              contents: {
-                value: stub
-              }
-            }
-          ],
-          onDoubleClick
-        })
-      )
-    );
+    const { wrapper } = mount({
+      roots: [
+        {
+          path: "root",
+          contents: {
+            value: stub
+          }
+        }
+      ],
+      onDoubleClick
+    });
 
-    const node = oi.find(".node").first();
+    const node = wrapper.find(".node").first();
     node.simulate("doubleclick");
 
     expect(onDoubleClick.mock.calls).toHaveLength(1);
@@ -104,23 +96,19 @@ describe("ObjectInspector - properties", () => {
     const stub = gripRepStubs.get("testMaxProps");
     const onCmdCtrlClick = jest.fn();
 
-    const oi = mount(
-      ObjectInspector(
-        generateDefaults({
-          roots: [
-            {
-              path: "root",
-              contents: {
-                value: stub
-              }
-            }
-          ],
-          onCmdCtrlClick
-        })
-      )
-    );
+    const { wrapper } = mount({
+      roots: [
+        {
+          path: "root",
+          contents: {
+            value: stub
+          }
+        }
+      ],
+      onCmdCtrlClick
+    });
 
-    const node = oi.find(".node").first();
+    const node = wrapper.find(".node").first();
     node.simulate("click", { ctrlKey: true });
 
     expect(onCmdCtrlClick.mock.calls).toHaveLength(1);
@@ -130,24 +118,20 @@ describe("ObjectInspector - properties", () => {
     const stub = gripRepStubs.get("testMaxProps");
     const onLabelClick = jest.fn();
 
-    const oi = mount(
-      ObjectInspector(
-        generateDefaults({
-          roots: [
-            {
-              path: "root",
-              name: "Label",
-              contents: {
-                value: stub
-              }
-            }
-          ],
-          onLabelClick
-        })
-      )
-    );
+    const { wrapper } = mount({
+      roots: [
+        {
+          path: "root",
+          name: "Label",
+          contents: {
+            value: stub
+          }
+        }
+      ],
+      onLabelClick
+    });
 
-    const label = oi.find(".object-label").first();
+    const label = wrapper.find(".object-label").first();
     label.simulate("click");
 
     expect(onLabelClick.mock.calls).toHaveLength(1);
@@ -157,24 +141,20 @@ describe("ObjectInspector - properties", () => {
     const stub = gripRepStubs.get("testMaxProps");
     const onLabelClick = jest.fn();
 
-    const oi = mount(
-      ObjectInspector(
-        generateDefaults({
-          roots: [
-            {
-              path: "root",
-              name: "Label",
-              contents: {
-                value: stub
-              }
-            }
-          ],
-          onLabelClick
-        })
-      )
-    );
+    const { wrapper } = mount({
+      roots: [
+        {
+          path: "root",
+          name: "Label",
+          contents: {
+            value: stub
+          }
+        }
+      ],
+      onLabelClick
+    });
 
-    const label = oi.find(".object-label").first();
+    const label = wrapper.find(".object-label").first();
 
     // Set a selection using the mock.
     getSelection().setMockSelection("test");

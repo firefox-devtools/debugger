@@ -18,12 +18,9 @@ const telemetry = new Telemetry();
 
 describe("telemetry.recordEvent()", () => {
   it("Receives the correct telemetry information", () => {
-    recordEvent("foo", {
-      bar: 1
-    });
+    recordEvent("foo", { bar: 1 });
 
     expect(telemetry.recordEvent).toHaveBeenCalledWith(
-      "devtools.main",
       "foo",
       "debugger",
       null,
