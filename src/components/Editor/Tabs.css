@@ -58,13 +58,13 @@
 }
 
 .source-tab:hover {
-  border-top: 2px solid rgba(0,0,0,.2);
+  border-top: 2px solid rgba(0, 0, 0, 0.2);
   background-color: var(--theme-toolbar-hover);
 }
 
 .source-tab.active {
-  color: rgb(0, 96, 223);;
-  border-top: 2px solid rgb(0, 96, 223);;
+  color: rgb(0, 96, 223);
+  border-top: 2px solid rgb(0, 96, 223);
   border-bottom-color: transparent;
 }
 
