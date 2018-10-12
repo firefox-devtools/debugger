@@ -1,19 +1,19 @@
 /* eslint-disable */
 const a = {
     sameName: () => {
-        return 1; /* After refresh breakpoint is now set on this line instead. */
+        return 1;
     }
 }
 const b = {
     sameName: () => {
-        return 42; /* Set breakpoint here and refresh.*/
+        return 42;
     }
 }
 
 const e = {
   c: {
     sameName: () => {
-        return 42; /* Set breakpoint here and refresh.*/
+        return 42;
     }
   }
 }

@@ -129,6 +129,9 @@ function getFunctionSignature(path: SimplePath, signature: string | null) {
   }
 
   if (t.isFunctionDeclaration(path)) {
+    if (path.node.id == null) {
+      return "anonymous";
+    }
     return path.node.id.name;
   }
 

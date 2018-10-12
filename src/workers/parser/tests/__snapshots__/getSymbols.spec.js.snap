@@ -1141,7 +1141,6 @@ exports[`Parser.getSymbols function names 1`] = `
 [(34, 2), (34, 12)]  foo() Cls
 [(35, 2), (35, 9)]  42() Cls
 [(38, 1), (38, 13)]  anonymous()
-[(40, 15), (40, 28)]  default()
 [(44, 0), (44, 27)]  a(first, second)
 [(45, 0), (45, 35)]  b(first = bla, second)
 [(46, 0), (46, 32)]  c(first = {}, second)
@@ -1259,6 +1258,88 @@ identifiers:
 
 classes:
 [(28, 0), (36, 1)]  Cls
+
+imports:
+
+
+literals:
+
+
+hasJsx: false
+
+hasTypes: false
+
+loading: false"
+`;
+
+exports[`Parser.getSymbols function signatures 1`] = `
+"functions:
+[(3, 14), (5, 5)]  sameName()
+[(8, 14), (10, 5)]  sameName()
+[(15, 14), (17, 5)]  sameName()
+[(22, 13), (24, 1)]  sameName()
+[(27, 1), (29, 5)]  sameName() d
+[(32, 0), (34, 1)]  sameName()
+
+variables:
+[(2, 6), (6, 1)]  a
+[(7, 6), (11, 1)]  b
+[(13, 6), (19, 1)]  e
+[(14, 2), (18, 3)]  c
+[(21, 6), (21, 13)]  f
+
+callExpressions:
+
+
+memberExpressions:
+[(22, 2), (22, 10)] f.sameName sameName
+
+objectProperties:
+[(3, 4), (3, 12)] a.sameName sameName
+[(8, 4), (8, 12)] b.sameName sameName
+[(14, 2), (14, 3)] e.c c
+[(15, 4), (15, 12)] e.c.sameName sameName
+
+comments:
+[(1, 0), (1, 20)]
+[(4, 18), (4, 81)]
+[(9, 19), (9, 56)]
+[(16, 19), (16, 56)]
+
+identifiers:
+[(2, 6), (6, 1)] a a
+[(2, 6), (2, 7)] a a
+[(3, 4), (3, 12)] () => {
+  return 1;
+  /* After refresh breakpoint is now set on this line instead. */
+} sameName
+[(7, 6), (11, 1)] b b
+[(7, 6), (7, 7)] b b
+[(8, 4), (8, 12)] () => {
+  return 42;
+  /* Set breakpoint here and refresh.*/
+} sameName
+[(13, 6), (19, 1)] e e
+[(13, 6), (13, 7)] e e
+[(14, 2), (14, 3)] ({
+  sameName: () => {
+    return 42;
+    /* Set breakpoint here and refresh.*/
+  }
+}) c
+[(15, 4), (15, 12)] () => {
+  return 42;
+  /* Set breakpoint here and refresh.*/
+} sameName
+[(21, 6), (21, 13)] f f
+[(21, 6), (21, 7)] f f
+[(22, 0), (22, 1)] f f
+[(22, 2), (22, 10)] sameName sameName
+[(26, 6), (26, 7)] d d
+[(32, 9), (32, 17)] sameName sameName
+
+classes:
+[(26, 0), (30, 1)]  d
 
 imports:
 
