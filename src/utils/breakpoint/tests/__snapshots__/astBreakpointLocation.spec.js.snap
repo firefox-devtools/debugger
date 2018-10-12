@@ -27,6 +27,7 @@ Object {
     "column": undefined,
     "line": 22,
   },
+  "signature": "outer",
 }
 `;
 
@@ -37,6 +38,7 @@ Object {
     "column": undefined,
     "line": 1,
   },
+  "signature": "inner",
 }
 `;
 
@@ -47,6 +49,7 @@ Object {
     "column": undefined,
     "line": 1,
   },
+  "signature": "globalDeclaration",
 }
 `;
 
@@ -57,5 +60,6 @@ Object {
     "column": undefined,
     "line": 5,
   },
+  "signature": "math",
 }
 `;

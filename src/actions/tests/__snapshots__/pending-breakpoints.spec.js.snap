@@ -8,6 +8,7 @@ Object {
       "offset": Object {
         "line": 5,
       },
+      "signature": undefined,
     },
     "condition": null,
     "disabled": false,

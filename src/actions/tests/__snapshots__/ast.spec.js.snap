@@ -91,6 +91,7 @@ Object {
       "parameterNames": Array [
         "boo",
       ],
+      "signature": "base",
     },
   ],
   "hasJsx": false,
