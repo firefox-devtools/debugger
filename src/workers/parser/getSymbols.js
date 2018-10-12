@@ -142,7 +142,7 @@ function getFunctionSignature(path: SimplePath, signature: string | null) {
 
   if (t.isMemberExpression(path)) {
     if (!path.node.object.name) {
-      return "djsfkjshdfkj" + signature;
+      return signature;
     }
     return `${path.node.object.name}.${signature}`;
   }
