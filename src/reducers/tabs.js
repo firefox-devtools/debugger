@@ -82,9 +82,11 @@ function updateTabList(
   tabs: TabList,
   { url, framework = null, sourceId, isOriginal = false }
 ) {
-  const currentIndex = tabs.findIndex(tab =>
-    isSimilarTab(tab, url, isOriginal)
-  );
+  // Set currentIndex to -1 for URL-less tabs so that they aren't
+  // filtered by isSimilarTab
+  const currentIndex = url
+    ? tabs.findIndex(tab => isSimilarTab(tab, url, isOriginal))
+    : -1;
 
   if (currentIndex === -1) {
     tabs = [{ url, framework, sourceId, isOriginal }, ...tabs];
@@ -141,6 +143,7 @@ export function getNewSelectedSourceId(
   if (matchingTab) {
     const sources = state.sources.sources;
     if (!sources) {
+      console.log("getNewSelectedSourceId: bailing on matchingTab 1");
       return "";
     }
 
@@ -151,9 +154,11 @@ export function getNewSelectedSourceId(
     );
 
     if (selectedSource) {
+      console.log("getNewSelectedSourceId: bailing on matchingTab 2");
       return selectedSource.id;
     }
 
+    console.log("getNewSelectedSourceId: bailing on matchingTab 3");
     return "";
   }
 
