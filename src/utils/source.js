@@ -151,7 +151,7 @@ export function getFormattedSourceId(id: string) {
  */
 export function getFilename(source: Source) {
   const { url, id } = source;
-  if (!url) {
+  if (!getRawSourceURL(url)) {
     return getFormattedSourceId(id);
   }
 
