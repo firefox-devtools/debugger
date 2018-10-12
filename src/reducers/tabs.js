@@ -143,7 +143,6 @@ export function getNewSelectedSourceId(
   if (matchingTab) {
     const sources = state.sources.sources;
     if (!sources) {
-      console.log("getNewSelectedSourceId: bailing on matchingTab 1");
       return "";
     }
 
@@ -154,11 +153,9 @@ export function getNewSelectedSourceId(
     );
 
     if (selectedSource) {
-      console.log("getNewSelectedSourceId: bailing on matchingTab 2");
       return selectedSource.id;
     }
 
-    console.log("getNewSelectedSourceId: bailing on matchingTab 3");
     return "";
   }
 
