@@ -116,7 +116,7 @@ function getMenuItems(
     id: "node-menu-copy-source-url",
     label: copySourceUri2Label,
     accesskey: copySourceUri2Key,
-    disabled: false,
+    disabled: !selectedSource.url,
     click: () => copyToTheClipboard(getRawSourceURL(selectedSource.url))
   };
 
@@ -154,7 +154,7 @@ function getMenuItems(
     id: "node-menu-show-source",
     label: revealInTreeLabel,
     accesskey: revealInTreeKey,
-    disabled: false,
+    disabled: !selectedSource.url,
     click: () => showSource(sourceId)
   };
 
@@ -162,7 +162,8 @@ function getMenuItems(
     id: "node-menu-blackbox",
     label: toggleBlackBoxLabel,
     accesskey: blackboxKey,
-    disabled: isOriginal || isPrettyPrinted || hasSourceMap,
+    disabled:
+      isOriginal || isPrettyPrinted || hasSourceMap || !selectedSource.url,
     click: () => toggleBlackBox(selectedSource)
   };
 
