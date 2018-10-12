@@ -6,7 +6,8 @@
   "dir": "ltr",
   "defaultURL": "https://devtools-html.github.io/debugger-examples/",
   "logging": {
-    "firefoxProxy": false
+    "firefoxProxy": false,
+    "actions": true
   },
   "chrome": {
     "debug": true,

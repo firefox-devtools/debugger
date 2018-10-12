@@ -1,5 +1,7 @@
-// MIT © Sindre Sorhus - sindresorhus.com
-// via https://gist.github.com/sindresorhus/7996717
+/*
+ MIT © Sindre Sorhus - sindresorhus.com
+ via https://gist.github.com/sindresorhus/7996717
+*/
 
 const { execFile } = require('child_process');
 

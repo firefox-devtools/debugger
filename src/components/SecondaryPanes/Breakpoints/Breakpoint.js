@@ -14,7 +14,7 @@ import actions from "../../../actions";
 import showContextMenu from "./BreakpointsContextMenu";
 import { CloseButton } from "../../shared/Button";
 
-import { getLocationWithoutColumn } from "../../../utils/breakpoint";
+import { makeLocationId } from "../../../utils/breakpoint";
 
 import { features } from "../../../utils/prefs";
 import { getEditor } from "../../../utils/editor";
@@ -95,22 +95,23 @@ class Breakpoint extends PureComponent<Props> {
     }
   };
 
+  // 1:  "server1.conn43.child2/source26/originalSource-9ccfcc40ef957e175260b209cc76ffd7:2" / "server1.conn43.child2/source26/originalSource-9ccfcc40ef957e175260b209cc76ffd7:45"
+  // 2:  "server1.conn43.child2/source26/originalSource-9ccfcc40ef957e175260b209cc76ffd7:2" / "server1.conn43.child2/source26/originalSource-9ccfcc40ef957e175260b209cc76ffd7:45"
+  // 3:
+
   isCurrentlyPausedAtBreakpoint() {
     const { frame, breakpoint, selectedSource } = this.props;
+    // eslint-disable-next-line no-debugger
+
     if (!frame) {
       return false;
     }
 
-    const bpId = getLocationWithoutColumn(
-      getMappedLocation(breakpoint, selectedSource)
-    );
-    const frameId = getLocationWithoutColumn(
-      getMappedLocation(frame, selectedSource)
-    );
+    const bpId = makeLocationId(getMappedLocation(breakpoint, selectedSource));
+    const frameId = makeLocationId(getMappedLocation(frame, selectedSource));
 
     return bpId == frameId;
   }
-
   getBreakpointLocation() {
     const { breakpoint, source, selectedSource } = this.props;
     const { column, line } = getMappedLocation(breakpoint, selectedSource);

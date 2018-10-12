@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
@@ -144,6 +145,7 @@ export function addBreakpoint(
   { condition, hidden }: addBreakpointOptions = {}
 ) {
   const breakpoint = createBreakpoint(location, { condition, hidden });
+  // debugger;
   return ({ dispatch, getState, sourceMaps, client }: ThunkArgs) => {
     recordEvent("add_breakpoint");
 

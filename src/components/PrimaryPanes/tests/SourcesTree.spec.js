@@ -49,7 +49,17 @@ describe("SourcesTree", () => {
       expect(component).toMatchSnapshot();
     });
   });
-
+  describe("Switching to outline tabs with same url", () => {
+    it("shows source and prettyprint tab fcns match", async () => {
+      const { component, props, defaultState } = render();
+      const mockSource = {
+        "server1.conn13.child1/41": createMockSource(
+          "server1.conn13.child1/41",
+          "https://davidwalsh.name/wp-includes/js/wp-embed.min.js?ver=4.9.8"
+        )
+      };
+    });
+  });
   describe("on receiving new props", () => {
     describe("recreates tree", () => {
       it("does not recreate tree if no new source is added", async () => {

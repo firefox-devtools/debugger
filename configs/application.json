@@ -10,8 +10,7 @@
   "theme": "light",
   "logging": {
     "client": false,
-    "firefoxProxy": false,
-    "actions": false
+    "firefoxProxy": false
   },
   "performance": {
     "actions": false
