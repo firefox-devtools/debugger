@@ -19,15 +19,19 @@ import {
   getSources,
   getUrls,
   getSpecificSourceByURL,
-  getSpecificSourceByUrlInSources,
-  getSourcesBySourceId
+  getSpecificSourceByUrlInSources
 } from "./sources";
 
 import type { Action } from "../actions/types";
 import type { SourcesState } from "./sources";
 import type { Source } from "../types";
 
-type Tab = { url: string, framework?: string | null, isOriginal: boolean };
+type Tab = {
+  url: string,
+  framework?: string | null,
+  isOriginal: boolean,
+  sourceId?: string
+};
 export type TabList = Tab[];
 
 function isSimilarTab(tab: Tab, url: string, isOriginal: boolean) {
@@ -206,10 +210,15 @@ export const getSourcesForTabs = createSelector(
 
 function getTabWithOrWithoutUrl(tab, sources, urls) {
   if (tab.url) {
-    return getSpecificSourceByUrlInSources(sources, urls, tab.url, tab.isOriginal)
-  } else {
-    return getSourcesBySourceId(sources, tab.sourceId, tab.isOriginal)
+    return getSpecificSourceByUrlInSources(
+      sources,
+      urls,
+      tab.url,
+      tab.isOriginal
+    );
   }
+
+  return sources[tab.sourceId];
 }
 
 export default update;
