@@ -116,14 +116,18 @@ class Tab extends PureComponent<Props> {
       {
         item: {
           ...tabMenuItems.copySourceUri2,
+          disabled: !selectedSource.url,
           click: () => copyToTheClipboard(getRawSourceURL(sourceTab.url))
+        }
+      },
+      {
+        item: {
+          ...tabMenuItems.showSource,
+          disabled: !selectedSource.url,
+          click: () => showSource(tab)
         }
       }
     ];
-
-    items.push({
-      item: { ...tabMenuItems.showSource, click: () => showSource(tab) }
-    });
 
     if (!isPrettySource) {
       items.push({
