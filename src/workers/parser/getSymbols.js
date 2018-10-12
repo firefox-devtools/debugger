@@ -43,7 +43,8 @@ export type ClassDeclaration = SymbolDeclaration & {
 export type FunctionDeclaration = SymbolDeclaration & {
   parameterNames: string[],
   klass: string | null,
-  identifier: Object
+  identifier: Object,
+  signature?: string | null
 };
 
 export type CallDeclaration = SymbolDeclaration & {
@@ -123,7 +124,10 @@ function getFunctionParameterNames(path: SimplePath): string[] {
   return [];
 }
 
-function getFunctionSignature(path: SimplePath, signature: string | null) {
+function getFunctionSignature(
+  path: SimplePath | null,
+  signature: string | null
+) {
   if (!path) {
     return signature;
   }
@@ -137,38 +141,38 @@ function getFunctionSignature(path: SimplePath, signature: string | null) {
 
   if (!signature) {
     signature = getFunctionName(path.node, path.parent);
-    path = path.parentPath.parentPath;
+    path = path.parentPath && path.parentPath.parentPath;
   }
 
   if (t.isMemberExpression(path)) {
-    if (!path.node.object.name) {
+    if (!path || !path.node.object.name) {
       return signature;
     }
     return `${path.node.object.name}.${signature}`;
   }
 
   if (t.isAssignmentExpression(path)) {
-    if (!path.node.left.name) {
+    if (!path || !path.node.left.name) {
       return signature;
     }
     return `${path.node.left.name}.${signature}`;
   }
 
-  if (t.isObjectProperty(path)) {
+  if (path && t.isObjectProperty(path)) {
     return getFunctionSignature(
       path.parentPath,
       `${path.node.key.name}.${signature}`
     );
   }
 
-  if (t.isVariableDeclarator(path) || t.isClassDeclaration(path)) {
+  if (path && (t.isVariableDeclarator(path) || t.isClassDeclaration(path))) {
     if (!path.node.id.name) {
       return signature;
     }
     return `${path.node.id.name}.${signature}`;
   }
 
-  return getFunctionSignature(path.parentPath, signature);
+  return getFunctionSignature(path && path.parentPath, signature);
 }
 
 /* eslint-disable complexity */
