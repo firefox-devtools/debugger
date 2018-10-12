@@ -7,6 +7,7 @@ Object {
     "column": 0,
     "line": 44,
   },
+  "signature": undefined,
 }
 `;
 
@@ -17,6 +18,7 @@ Object {
     "column": 0,
     "line": 10,
   },
+  "signature": undefined,
 }
 `;
 
