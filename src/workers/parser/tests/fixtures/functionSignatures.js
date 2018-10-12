@@ -18,11 +18,6 @@ const e = {
   }
 }
 
-const f =  {}
-f.sameName = function() {
-  return 5;
-}
-
 class d {
 	sameName(){
     	return 3;

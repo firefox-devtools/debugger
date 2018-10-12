@@ -140,7 +140,17 @@ function getFunctionSignature(path: SimplePath, signature: string | null) {
     path = path.parentPath.parentPath;
   }
 
+  if (t.isMemberExpression(path)) {
+    if (!path.node.object.name) {
+      return "djsfkjshdfkj" + signature;
+    }
+    return `${path.node.object.name}.${signature}`;
+  }
+
   if (t.isAssignmentExpression(path)) {
+    if (!path.node.left.name) {
+      return signature;
+    }
     return `${path.node.left.name}.${signature}`;
   }
 
@@ -152,6 +162,9 @@ function getFunctionSignature(path: SimplePath, signature: string | null) {
   }
 
   if (t.isVariableDeclarator(path) || t.isClassDeclaration(path)) {
+    if (!path.node.id.name) {
+      return signature;
+    }
     return `${path.node.id.name}.${signature}`;
   }
 
