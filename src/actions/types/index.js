@@ -49,14 +49,16 @@ type AddTabAction = {|
   +type: "ADD_TAB",
   +url: string,
   +framework?: string,
-  +isOriginal?: boolean
+  +isOriginal?: boolean,
+  +sourceId?: string
 |};
 
 type UpdateTabAction = {|
   +type: "UPDATE_TAB",
   +url: string,
   +framework?: string,
-  +isOriginal?: boolean
+  +isOriginal?: boolean,
+  +sourceId?: string
 |};
 
 type ReplayAction =

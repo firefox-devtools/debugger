@@ -26,7 +26,12 @@ import type { Action } from "../actions/types";
 import type { SourcesState } from "./sources";
 import type { Source } from "../types";
 
-type Tab = { url: string, framework?: string | null, isOriginal: boolean };
+type Tab = {
+  url: string,
+  framework?: string | null,
+  isOriginal: boolean,
+  sourceId?: string
+};
 export type TabList = Tab[];
 
 function isSimilarTab(tab: Tab, url: string, isOriginal: boolean) {
@@ -75,20 +80,30 @@ export function removeSourcesFromTabList(tabs: TabList, sources: Source[]) {
  */
 function updateTabList(
   tabs: TabList,
-  { url, framework = null, isOriginal = false }
+  { url, framework = null, sourceId, isOriginal = false }
 ) {
-  const currentIndex = tabs.findIndex(tab =>
-    isSimilarTab(tab, url, isOriginal)
-  );
+  // Set currentIndex to -1 for URL-less tabs so that they aren't
+  // filtered by isSimilarTab
+  const currentIndex = url
+    ? tabs.findIndex(tab => isSimilarTab(tab, url, isOriginal))
+    : -1;
 
   if (currentIndex === -1) {
-    tabs = [{ url, framework, isOriginal }, ...tabs];
+    tabs = [{ url, framework, sourceId, isOriginal }, ...tabs];
   } else if (framework) {
     tabs[currentIndex].framework = framework;
   }
 
-  asyncStore.tabs = tabs;
+  asyncStore.tabs = persistTabs(tabs);
   return tabs;
+}
+
+function persistTabs(tabs) {
+  return tabs.filter(tab => tab.url).map(tab => {
+    const newTab = { ...tab };
+    delete newTab.sourceId;
+    return newTab;
+  });
 }
 
 function moveTabInList(tabs: TabList, { url, tabIndex: newIndex }) {
@@ -184,22 +199,28 @@ export const getSourceTabs = createSelector(
   getSources,
   getUrls,
   (tabs, sources, urls) =>
-    tabs.filter(tab =>
-      getSpecificSourceByUrlInSources(sources, urls, tab.url, tab.isOriginal)
-    )
+    tabs.filter(tab => getTabWithOrWithoutUrl(tab, sources, urls))
 );
 
 export const getSourcesForTabs = createSelector(
   getSourceTabs,
   getSources,
   getUrls,
-  (tabs, sources, urls) => {
-    return tabs
-      .map(tab =>
-        getSpecificSourceByUrlInSources(sources, urls, tab.url, tab.isOriginal)
-      )
-      .filter(Boolean);
-  }
+  (tabs, sources, urls) =>
+    tabs.map(tab => getTabWithOrWithoutUrl(tab, sources, urls)).filter(Boolean)
 );
+
+function getTabWithOrWithoutUrl(tab, sources, urls) {
+  if (tab.url) {
+    return getSpecificSourceByUrlInSources(
+      sources,
+      urls,
+      tab.url,
+      tab.isOriginal
+    );
+  }
+
+  return tab.sourceId ? sources[tab.sourceId] : null;
+}
 
 export default update;
