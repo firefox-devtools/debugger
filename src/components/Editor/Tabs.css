@@ -38,9 +38,7 @@
 }
 
 .source-tab {
-  border: 1px solid transparent;
-  border-top-left-radius: 2px;
-  border-top-right-radius: 2px;
+  border: 2px solid transparent;
   display: inline-flex;
   align-items: center;
   position: relative;
@@ -50,9 +48,9 @@
   overflow: hidden;
   padding: 5px;
   margin-inline-start: 3px;
-  margin-top: 3px;
   cursor: default;
   height: 27px;
+  font-size: 12px;
 }
 
 .source-tab:first-child {
@@ -60,14 +58,13 @@
 }
 
 .source-tab:hover {
-  background-color: var(--theme-toolbar-background-alt);
-  border-color: var(--theme-splitter-color);
+  border-top: 2px solid rgba(0,0,0,.2);
+  background-color: var(--theme-toolbar-hover);
 }
 
 .source-tab.active {
-  color: var(--theme-body-color);
-  background-color: var(--theme-body-background);
-  border-color: var(--theme-splitter-color);
+  color: rgb(0, 96, 223);;
+  border-top: 2px solid rgb(0, 96, 223);;
   border-bottom-color: transparent;
 }
 
@@ -129,7 +126,6 @@ html[dir="rtl"] img.moreTabs {
   overflow: hidden;
   padding: 0 4px;
   align-self: center;
-  margin-bottom: 2px;
 }
 
 .source-tab .filename span {
