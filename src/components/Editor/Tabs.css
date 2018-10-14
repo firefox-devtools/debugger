@@ -38,7 +38,7 @@
 }
 
 .source-tab {
-  border: 2px solid transparent;
+  border-top: 2px solid transparent;
   display: inline-flex;
   align-items: center;
   position: relative;
@@ -49,7 +49,7 @@
   padding: 5px;
   margin-inline-start: 3px;
   cursor: default;
-  height: 27px;
+  height: 28px;
   font-size: 12px;
 }
 
@@ -62,10 +62,22 @@
   background-color: var(--theme-toolbar-hover);
 }
 
+.theme-dark .source-tab:hover { 
+  border-top: 2px solid rgb(177, 177, 179);;
+}
+
 .source-tab.active {
   color: rgb(0, 96, 223);
   border-top: 2px solid rgb(0, 96, 223);
   border-bottom-color: transparent;
+}
+
+.theme-dark .source-tab.active {
+  color: var(--theme-toolbar-selected-color);
+}
+
+.theme-dark .source-tab.active:hover { 
+  border-top: 2px solid rgb(0, 96, 223);
 }
 
 .source-tab.active path,
@@ -126,6 +138,7 @@ html[dir="rtl"] img.moreTabs {
   overflow: hidden;
   padding: 0 4px;
   align-self: center;
+  margin-bottom: 1px;
 }
 
 .source-tab .filename span {
