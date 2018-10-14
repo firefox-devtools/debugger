@@ -62,8 +62,8 @@
   background-color: var(--theme-toolbar-hover);
 }
 
-.theme-dark .source-tab:hover { 
-  border-top: 2px solid rgb(177, 177, 179);;
+.theme-dark .source-tab:hover {
+  border-top: 2px solid rgb(177, 177, 179);
 }
 
 .source-tab.active {
@@ -76,7 +76,7 @@
   color: var(--theme-toolbar-selected-color);
 }
 
-.theme-dark .source-tab.active:hover { 
+.theme-dark .source-tab.active:hover {
   border-top: 2px solid rgb(0, 96, 223);
 }
 

@@ -161,7 +161,7 @@
 
 .source-outline-tabs .tab {
   background-color: var(--theme-toolbar-background);
-  border-top: 2px solid transparent; 
+  border-top: 2px solid transparent;
   border-bottom: 1px solid var(--theme-splitter-color);
   color: var(--theme-toolbar-color);
   cursor: default;
@@ -191,7 +191,7 @@
 
 .source-outline-tabs .tab.active {
   border-top: 2px solid rgb(0, 96, 223);
-  color: rgb(0, 96, 223)
+  color: rgb(0, 96, 223);
 }
 
 .theme-dark .source-outline-tabs .tab.active {
