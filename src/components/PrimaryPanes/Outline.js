@@ -7,6 +7,7 @@
 import React, { Component } from "react";
 import { showMenu } from "devtools-contextmenu";
 import { connect } from "react-redux";
+import { score as fuzzaldrinScore } from "fuzzaldrin-plus";
 
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { findFunctionText } from "../../utils/function";
@@ -18,6 +19,7 @@ import {
   getSelectedLocation
 } from "../../selectors";
 
+import OutlineFilter from "./OutlineFilter";
 import "./Outline.css";
 import PreviewFunction from "../shared/PreviewFunction";
 import { uniq, sortBy } from "lodash";
@@ -41,7 +43,34 @@ type Props = {
   flashLineRange: Function
 };
 
-export class Outline extends Component<Props> {
+type State = {
+  filter: string
+};
+
+/**
+ * Check whether the name argument matches the fuzzy filter argument
+ */
+const filterOutlineItem = (name: string, filter: string) => {
+  // Set higher to make the fuzzaldrin filter more specific
+  const FUZZALDRIN_FILTER_THRESHOLD = 15000;
+  if (!filter) {
+    return true;
+  }
+
+  if (filter.length === 1) {
+    // when filter is a single char just check if it starts with the char
+    return filter.toLowerCase() === name.toLowerCase()[0];
+  }
+  return fuzzaldrinScore(name, filter) > FUZZALDRIN_FILTER_THRESHOLD;
+};
+
+export class Outline extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    (this: any).updateFilter = this.updateFilter.bind(this);
+    this.state = { filter: "" };
+  }
+
   selectItem(location: AstLocation) {
     const { selectedSource, selectLocation } = this.props;
     if (!selectedSource) {
@@ -89,6 +118,10 @@ export class Outline extends Component<Props> {
     };
     const menuOptions = [copyFunctionItem];
     showMenu(event, menuOptions);
+  }
+
+  updateFilter(filter: string) {
+    this.setState({ filter: filter.trim() });
   }
 
   renderPlaceholder() {
@@ -151,14 +184,17 @@ export class Outline extends Component<Props> {
   }
 
   renderFunctions(functions: Array<FunctionDeclaration>) {
+    const { filter } = this.state;
     let classes = uniq(functions.map(func => func.klass));
     let namedFunctions = functions.filter(
       func =>
-        func.name != "anonymous" && !func.klass && !classes.includes(func.name)
+        filterOutlineItem(func.name, filter) &&
+        !func.klass &&
+        !classes.includes(func.name)
     );
 
     let classFunctions = functions.filter(
-      func => func.name != "anonymous" && !!func.klass
+      func => filterOutlineItem(func.name, filter) && !!func.klass
     );
 
     if (this.props.alphabetizeOutline) {
@@ -168,43 +204,53 @@ export class Outline extends Component<Props> {
     }
 
     return (
-      <div>
-        <ul className="outline-list">
-          {namedFunctions.map(func => this.renderFunction(func))}
-          {classes.map(klass =>
-            this.renderClassFunctions(klass, classFunctions)
-          )}
-        </ul>
-        <div className="outline-footer bottom">
-          <button
-            onClick={() => {
-              this.props.onAlphabetizeClick();
-            }}
-            className={this.props.alphabetizeOutline ? "active" : ""}
-          >
-            {L10N.getStr("outline.sortLabel")}
-          </button>
-        </div>
+      <ul className="outline-list">
+        {namedFunctions.map(func => this.renderFunction(func))}
+        {classes.map(klass => this.renderClassFunctions(klass, classFunctions))}
+      </ul>
+    );
+  }
+
+  renderFooter() {
+    return (
+      <div className="outline-footer bottom">
+        <button
+          onClick={this.props.onAlphabetizeClick}
+          className={this.props.alphabetizeOutline ? "active" : ""}
+        >
+          {L10N.getStr("outline.sortLabel")}
+        </button>
       </div>
     );
   }
 
   render() {
     const { symbols, selectedSource } = this.props;
+    const { filter } = this.state;
+
     if (!selectedSource) {
       return this.renderPlaceholder();
     }
+
     if (!symbols || symbols.loading) {
       return this.renderLoading();
     }
+
     const symbolsToDisplay = symbols.functions.filter(
       func => func.name != "anonymous"
     );
+
+    if (symbolsToDisplay.length === 0) {
+      return this.renderPlaceholder();
+    }
+
     return (
       <div className="outline">
-        {symbolsToDisplay.length > 0
-          ? this.renderFunctions(symbols.functions)
-          : this.renderPlaceholder()}
+        <div>
+          <OutlineFilter filter={filter} updateFilter={this.updateFilter} />
+          {this.renderFunctions(symbolsToDisplay)}
+          {this.renderFooter()}
+        </div>
       </div>
     );
   }
