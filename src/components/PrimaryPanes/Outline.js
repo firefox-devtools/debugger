@@ -55,7 +55,9 @@ const filterOutlineItem = (name: string, filter: string) => {
   const FUZZALDRIN_FILTER_THRESHOLD = 15000;
   if (!filter) {
     return true;
-  } else if (filter.length === 1) {
+  }
+
+  if (filter.length === 1) {
     // when filter is a single char just check if it starts with the char
     return filter.toLowerCase() === name.toLowerCase()[0];
   }

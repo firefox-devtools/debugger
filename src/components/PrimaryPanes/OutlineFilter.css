@@ -5,7 +5,6 @@
 
 .outline-filter-input {
   padding: 0.5em 1.6em;
-  height: 26px;
   width: 100%;
   border: 1px solid var(--theme-splitter-color);
   background-color: var(--theme-sidebar-background);
