@@ -44,7 +44,7 @@ function missingFilesErrorMessage() {
     'https://github.com/devtools-html/debugger.html/blob/master/docs/mochitests.md'
   ].join('');
 
-  console.warn(chalk.red(errorMessage));
+  console.warn(chalk.yellow(errorMessage));
 }
 
 start();
