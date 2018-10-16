@@ -18,15 +18,18 @@ const assets = args.assets
 console.log(`Copying Files to ${mc} with params: `, {watch, assets, symlink})
 
 async function start() {
-  // if (fs.existsSync(mc)) {
-  try {
-    await copyAssets({ assets, mc, watch, symlink})
-    await copyModules.run({ mc, watch })
-  } catch (e) {
-    console.error(e);
-    if (e.code === "ENOENT") {
-      missingFilesErrorMessage();
+  if (fs.existsSync(mc)) {
+    try {
+      await copyAssets({ assets, mc, watch, symlink})
+      await copyModules.run({ mc, watch })
+    } catch (e) {
+      console.error(e);
+      if (e.code === "ENOENT") {
+        missingFilesErrorMessage();
+      }
     }
+  } else {
+    missingFilesErrorMessage();
   }
 }
 
@@ -41,7 +44,7 @@ function missingFilesErrorMessage() {
     'https://github.com/devtools-html/debugger.html/blob/master/docs/mochitests.md'
   ].join('');
 
-  console.error(chalk.red(errorMessage));
+  console.warn(chalk.red(errorMessage));
 }
 
 start();
