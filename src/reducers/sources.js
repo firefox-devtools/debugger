@@ -345,6 +345,10 @@ export function getSourcesByURL(state: OuterState, url: string): Source[] {
   return getSourcesByUrlInSources(getSources(state), getUrls(state), url);
 }
 
+export function getSourcesURL(state: OuterState, url: string): Source[] {
+  return getSourcesUrlsInSources(getSources(state), getUrls(state), url);
+}
+
 export function getGeneratedSource(state: OuterState, source: Source): Source {
   if (isGenerated(source)) {
     return source;
@@ -429,6 +433,18 @@ function getSourcesByUrlInSources(
   }
 
   return urls[url].map(id => sources[id]);
+}
+
+function getSourcesUrlsInSources(
+  sources: SourcesMap,
+  urls: UrlsMap,
+  url: string
+) {
+  if (!url || !urls[url]) {
+    return [];
+  }
+
+  return [...new Set(Object.keys(urls).filter(ele => ele != "undefined"))];
 }
 
 export function getSourceInSources(sources: SourcesMap, id: string): ?Source {
