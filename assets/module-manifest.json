@@ -20574,7 +20574,8 @@
       "../../parse5/lib/serializer/serializer_stream.js": 1752,
       "../../parse5/lib/sax/index.js": 1753,
       "../../parse5/lib/sax/dev_null_stream.js": 1754,
-      "../../parse5/lib/sax/parser_feedback_simulator.js": 1755
+      "../../parse5/lib/sax/parser_feedback_simulator.js": 1755,
+      "../../svg-inline-loader/index.js!../../../assets/images/column-marker.svg": 1758,
     },
     "usedIds": {
       "0": 0,
@@ -22334,7 +22335,8 @@
       "1754": 1754,
       "1755": 1755,
       "1756": 1756,
-      "1757": 1757
+      "1757": 1757,
+      "1758": 1758
     }
   },
   "chunks": {

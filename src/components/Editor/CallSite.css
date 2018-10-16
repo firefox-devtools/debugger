@@ -3,47 +3,43 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 .call-site {
-  background: #f0f9ff;
-  border-bottom: 2px solid #aed3ef;
   position: relative;
+  border-bottom: 2px solid lightgrey;
 }
 
 .call-site::before {
-  content: ">>";
-  width: 100%;
-  height: calc(100% - 2px);
-  border-bottom: 2px solid #aed3ef;
+  content: "";
+  mask: url(/images/column-marker.svg) no-repeat 100% 100%;
+  mask-size: contain;
+  display: inline-block;
+  background-color: var(--blue-55);
+  opacity: 0.5;
+  width: 9px;
+  height: 12px;
 }
 
 .call-site-bp {
   position: relative;
-  border-bottom: 2px solid red;
-}
-
-.debug-expression.call-site-bp,
-.call-site-bp {
-  background-color: #fce7e7;
+  border-bottom: 2px solid #aed3ef;
 }
 
 .call-site-bp::before {
-  content: ">>";
-  width: 100%;
-  height: calc(100% - 2px);
-  border-bottom: 2px solid red;
-}
-
-.theme-dark .call-site {
-  background-color: #4b5462;
+  content: "";
+  mask: url(/images/column-marker.svg) no-repeat 100% 100%;
+  mask-size: contain;
+  display: inline-block;
+  background-color: var(--blue-55);
+  width: 9px;
+  height: 12px;
 }
 
 .theme-dark .call-site::before {
-  border-bottom-color: #5f78a4;
-}
-
-.theme-dark .call-site-bp {
-  background-color: #4b3f3f;
+  background-color: var(--blue-60);
+  opacity: 1;
+  border-bottom: none;
 }
 
 .theme-dark .call-site-bp::before {
-  border-bottom-color: #dd4d4d;
+  background-color: var(--blue-40);
+  border-bottom: none;
 }
