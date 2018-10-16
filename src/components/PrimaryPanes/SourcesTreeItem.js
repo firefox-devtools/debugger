@@ -179,9 +179,10 @@ class SourceTreeItem extends Component<Props, State> {
     ) : null;
 
     const querystring = source ? parse(source.url).search : null;
-    const query = hasSiblingOfSameName ? (
-      <span className="query">{querystring}</span>
-    ) : null;
+    const query =
+      hasSiblingOfSameName && querystring ? (
+        <span className="query">{querystring}</span>
+      ) : null;
 
     return (
       <div
