@@ -18,19 +18,17 @@ add_task(async function() {
 
   await waitForSources(dbg, "simple1.js?x=1", "simple1.js?x=2");
 
-  debugger;
-
   // Expand nodes and make sure more sources appear.
   await assertSourceCount(dbg, 2);
   await clickElement(dbg, "sourceDirectoryLabel", 2);
 
   is(
-    getLabel(dbg, 7),
+    getLabel(dbg, 4),
     "simple1.js?x=1",
     "simple1.js?x=1 exists"
   );
   is(
-    getLabel(dbg, 8),
+    getLabel(dbg, 3),
     "simple1.js?x=2",
     "simple1.js?x=2 exists"
   );
