@@ -209,6 +209,32 @@ yarn watch
 
 Now you can make code changes the bundle will be automatically built for you inside `firefox`, and you can simply run mochitests and edit code as much as you like.
 
+If you see an `ENOENT` error when running either of these commands, like below:
+
+```
+{ Error: ENOENT: no such file or directory, open '/path/to/debugger.html/firefox/devtools/client/jar.mn'
+    at Object.fs.openSync (fs.js:646:18)
+    at Object.fs.readFileSync (fs.js:551:33)
+    at updateFile (/path/to/debugger.html/bin/copy-assets.js:29:17)
+    at copySVGs (/path/to/debugger.html/bin/copy-assets.js:102:3)
+    at start (/path/to/debugger.html/bin/copy-assets.js:225:3)
+    at module.exports (/path/to/debugger.html/bin/copy-assets.js:319:12)
+    at start (/path/to/debugger.html/bin/copy.js:23:13)
+    at Object.<anonymous> (/path/to/debugger.html/bin/copy.js:50:1)
+    at Module._compile (module.js:652:30)
+    at Object.Module._extensions..js (module.js:663:10)
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/path/to/debugger.html/firefox/devtools/client/jar.mn' }
+```
+
+It may be that you have not cloned the latest `mozilla-central` repository, or it does not exist at the path you've provided. You can clone the latest `mozilla-central` by running the following command:
+
+```
+./bin/prepare-mochitests-dev
+```
+
 ## Adding New Tests
 
 If you add new tests, make sure to list them in the `browser.ini` file. You will see the other tests there. Add a new entry with the same format as the others. You can also add new JS or HTML files by listing in under `support-files`.
