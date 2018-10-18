@@ -23,6 +23,11 @@ add_task(async function() {
 
   findElementWithSelector(dbg, ".outline-tab").click();
   is(getItems(dbg).length, 5, "5 items in the list");
+  const original_source = getItems(dbg);
+  findElementWithSelector(dbg, ".prettyPrint").click();
+  const pretty_source = getItems(dbg);
+  is(original_source.length == pretty_source.length, "Outline functions match")
+  findElementWithSelector(dbg, ".outline-tab").click();
 
   // click on an element
   const item = getNthItem(dbg, 3);
@@ -58,4 +63,6 @@ add_task(async function() {
     "doEval()",
     "Alphabetized first function is correct"
   );
+
+
 });
