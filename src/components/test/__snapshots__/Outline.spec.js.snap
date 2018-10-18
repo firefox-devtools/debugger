@@ -5,6 +5,10 @@ exports[`Outline renders a list of functions when properties change 1`] = `
   className="outline"
 >
   <div>
+    <OutlineFilter
+      filter=""
+      updateFilter={[Function]}
+    />
     <ul
       className="outline-list"
     >
@@ -54,7 +58,7 @@ exports[`Outline renders a list of functions when properties change 1`] = `
     >
       <button
         className=""
-        onClick={[Function]}
+        onClick={[MockFunction]}
       >
         Sort by name
       </button>
@@ -68,6 +72,10 @@ exports[`Outline renders outline renders functions by function class 1`] = `
   className="outline"
 >
   <div>
+    <OutlineFilter
+      filter=""
+      updateFilter={[Function]}
+    />
     <ul
       className="outline-list"
     >
@@ -177,7 +185,7 @@ exports[`Outline renders outline renders functions by function class 1`] = `
     >
       <button
         className=""
-        onClick={[Function]}
+        onClick={[MockFunction]}
       >
         Sort by name
       </button>
@@ -191,6 +199,10 @@ exports[`Outline renders outline renders functions by function class, alphabetic
   className="outline"
 >
   <div>
+    <OutlineFilter
+      filter=""
+      updateFilter={[Function]}
+    />
     <ul
       className="outline-list"
     >
@@ -300,7 +312,7 @@ exports[`Outline renders outline renders functions by function class, alphabetic
     >
       <button
         className="active"
-        onClick={[Function]}
+        onClick={[MockFunction]}
       >
         Sort by name
       </button>
@@ -314,6 +326,10 @@ exports[`Outline renders outline renders ignore anonymous functions 1`] = `
   className="outline"
 >
   <div>
+    <OutlineFilter
+      filter=""
+      updateFilter={[Function]}
+    />
     <ul
       className="outline-list"
     >
@@ -343,7 +359,7 @@ exports[`Outline renders outline renders ignore anonymous functions 1`] = `
     >
       <button
         className=""
-        onClick={[Function]}
+        onClick={[MockFunction]}
       >
         Sort by name
       </button>
@@ -378,25 +394,17 @@ exports[`Outline renders outline renders placeholder \`No File Selected\` if sel
 
 exports[`Outline renders outline renders placeholder \`No functions\` if all func are anonymous 1`] = `
 <div
-  className="outline"
+  className="outline-pane-info"
 >
-  <div
-    className="outline-pane-info"
-  >
-    No functions
-  </div>
+  No functions
 </div>
 `;
 
 exports[`Outline renders outline renders placeholder \`No functions\` if symbols has no func 1`] = `
 <div
-  className="outline"
+  className="outline-pane-info"
 >
-  <div
-    className="outline-pane-info"
-  >
-    No functions
-  </div>
+  No functions
 </div>
 `;
 
@@ -405,6 +413,10 @@ exports[`Outline renders outline sorts functions alphabetically by function name
   className="outline"
 >
   <div>
+    <OutlineFilter
+      filter=""
+      updateFilter={[Function]}
+    />
     <ul
       className="outline-list"
     >
@@ -474,7 +486,7 @@ exports[`Outline renders outline sorts functions alphabetically by function name
     >
       <button
         className="active"
-        onClick={[Function]}
+        onClick={[MockFunction]}
       >
         Sort by name
       </button>

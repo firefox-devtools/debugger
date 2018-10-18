@@ -20,6 +20,7 @@
 
 .search-bar .search-shadow {
   flex-grow: 1;
+  border-bottom: none;
 }
 
 .search-bar .search-shadow.focused {

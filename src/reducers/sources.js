@@ -92,7 +92,9 @@ function update(
         url: action.source.url
       };
 
-      prefs.pendingSelectedLocation = location;
+      if (action.source.url) {
+        prefs.pendingSelectedLocation = location;
+      }
 
       return {
         ...state,

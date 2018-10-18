@@ -96,6 +96,8 @@
   display: flex;
   align-self: stretch;
   flex-grow: 1;
+  width: 100%;
+  border-bottom: none;
 }
 
 .project-text-search .search-field .close-btn.big {
