@@ -95,10 +95,6 @@ class Breakpoint extends PureComponent<Props> {
     }
   };
 
-  // 1:  "server1.conn43.child2/source26/originalSource-9ccfcc40ef957e175260b209cc76ffd7:2" / "server1.conn43.child2/source26/originalSource-9ccfcc40ef957e175260b209cc76ffd7:45"
-  // 2:  "server1.conn43.child2/source26/originalSource-9ccfcc40ef957e175260b209cc76ffd7:2" / "server1.conn43.child2/source26/originalSource-9ccfcc40ef957e175260b209cc76ffd7:45"
-  // 3:
-
   isCurrentlyPausedAtBreakpoint() {
     const { frame, breakpoint, selectedSource } = this.props;
     // eslint-disable-next-line no-debugger
