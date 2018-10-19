@@ -3,8 +3,10 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 /* global window */
 
-import { isTesting } from "devtools-environment";
+// @flow
 
+import { isTesting } from "devtools-environment";
+import type { ThunkArgs } from '../../types';
 const blacklist = [
   "SET_POPUP_OBJECT_PROPERTIES",
   "SET_PAUSE_POINTS",
@@ -86,13 +88,13 @@ function serializeAction(action) {
  * A middleware that logs all actions coming through the system
  * to the console.
  */
-export function log({ dispatch, getState }) {
-  return next => action => {
+export function log({ dispatch, getState }: ThunkArgs) {
+  return (next => {action => {
     const asyncMsg = !action.status ? "" : `[${action.status}]`;
 
     if (isTesting()) {
       dump(
-        `[ACTION] ${action.type} ${asyncMsg} - ${serializeAction(action)}\n`
+        `[ACTION] ${action.type} ${asyncMsg} - ${this.serializeAction(action)}\n`
       );
     } else {
       console.log(action, asyncMsg);
@@ -100,4 +102,6 @@ export function log({ dispatch, getState }) {
 
     next(action);
   };
+}
+  );
 }
