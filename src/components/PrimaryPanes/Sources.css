@@ -176,21 +176,17 @@
   transition: all 0.25s ease;
 }
 
-.source-outline-tabs .tab:first-child {
-  border-inline-end: 1px solid var(--theme-splitter-color);
-}
-
-.source-outline-tabs .tab:hover {
+.source-outline-tabs .tab:not(.active):hover {
   background-color: var(--theme-toolbar-hover);
   border-top: 2px solid rgba(0, 0, 0, 0.2);
 }
 
 .theme-dark .source-outline-tabs .tab:hover {
-  border-top: 2px solid rgb(177, 177, 179);
+  border-top: 2px solid var(--tab-line-hover-color);
 }
 
 .source-outline-tabs .tab.active {
-  border-top: 2px solid rgb(0, 96, 223);
+  border-top: 2px solid rgb(10, 132, 255);
   color: rgb(0, 96, 223);
 }
 
@@ -199,7 +195,7 @@
 }
 
 .theme-dark .source-outline-tabs .tab.active:hover {
-  border-top: 2px solid rgb(0, 96, 223);
+  border-top: 2px solid rgb(10, 132, 255);
 }
 
 .source-outline-tabs .tab.active path,

@@ -47,7 +47,6 @@
   max-width: 100%;
   overflow: hidden;
   padding: 5px;
-  margin-inline-start: 3px;
   cursor: default;
   height: 28px;
   font-size: 12px;
@@ -57,19 +56,30 @@
   margin-inline-start: 0;
 }
 
-.source-tab:hover {
+.source-tab:not(.active):hover {
   border-top: 2px solid rgba(0, 0, 0, 0.2);
   background-color: var(--theme-toolbar-hover);
 }
 
 .theme-dark .source-tab:hover {
-  border-top: 2px solid rgb(177, 177, 179);
+  border-top: 2px solid var(--tab-line-hover-color);
 }
 
 .source-tab.active {
   color: rgb(0, 96, 223);
-  border-top: 2px solid rgb(0, 96, 223);
+  border-top: 2px solid rgb(10, 132, 255);
   border-bottom-color: transparent;
+  border-left: 1px solid var(--theme-splitter-color);
+  border-right: 1px solid var(--theme-splitter-color);
+
+  /* added this part to connect active file tab to editor */
+  background-color: var(--theme-body-background);
+  height: 30px;
+}
+
+/* added this part to balance out height of the not active file tabs */
+.source-tab:not(.active) {
+  bottom: 2px;
 }
 
 .theme-dark .source-tab.active {
@@ -77,7 +87,7 @@
 }
 
 .theme-dark .source-tab.active:hover {
-  border-top: 2px solid rgb(0, 96, 223);
+  border-top: 2px solid rgb(10, 132, 255);
 }
 
 .source-tab.active path,
