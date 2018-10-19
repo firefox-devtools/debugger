@@ -44,14 +44,11 @@ function GripMap(props) {
   const title = getTitle(props, object);
   const isEmpty = getLength(object) === 0;
 
-  if (isEmpty || mode === MODE.TINY) {
+  if (isEmpty || mode === MODE.TINY || mode == MODE.EXPANDED) {
     return span(config, title);
   }
 
   const propsArray = safeEntriesIterator(props, object, maxLengthMap.get(mode));
-  if (mode == MODE.EXPANDED) {
-    return span(config, title);
-  }
 
   return span(
     config,
