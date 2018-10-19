@@ -449,17 +449,17 @@ export function updateXHRBreakpoint(
 export function togglePauseOnAny() {
   return ({ dispatch, getState }: ThunkArgs) => {
     const xhrBreakpoints = getXHRBreakpoints(getState());
-    const emptyBp = xhrBreakpoints.find(({ path }) => path.length === 0);
-    if (!emptyBp) {
+    const index = xhrBreakpoints.findIndex(({ path }) => path.length === 0);
+    if (index < 0) {
       return dispatch(setXHRBreakpoint("", "ANY"));
     }
 
-    const { disabled } = emptyBp;
-    if (disabled) {
-      return dispatch(enableXHRBreakpoint(0, emptyBp));
+    const bp = xhrBreakpoints.get(index);
+    if (bp.disabled) {
+      return dispatch(enableXHRBreakpoint(index, bp));
     }
 
-    return dispatch(disableXHRBreakpoint(0, emptyBp));
+    return dispatch(disableXHRBreakpoint(index, bp));
   };
 }
 

@@ -20,18 +20,20 @@ import type { Action, DonePromiseAction } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 export type BreakpointsMap = I.Map<string, Breakpoint>;
-export type XHRBreakpointsMap = I.Map<string, XHRBreakpoint>;
+export type XHRBreakpointsList = I.List<XHRBreakpoint>;
 
 export type BreakpointsState = {
   breakpoints: BreakpointsMap,
-  xhrBreakpoints: XHRBreakpointsMap
+  xhrBreakpoints: XHRBreakpointsList
 };
 
-export function initialBreakpointsState(): Record<BreakpointsState> {
+export function initialBreakpointsState(
+  xhrBreakpoints?: any[] = []
+): Record<BreakpointsState> {
   return makeRecord(
     ({
       breakpoints: I.Map(),
-      xhrBreakpoints: I.List(),
+      xhrBreakpoints: I.List(xhrBreakpoints),
       breakpointsDisabled: false
     }: BreakpointsState)
   )();
@@ -136,6 +138,7 @@ function removeXHRBreakpoint(state, action) {
   const index = xhrBreakpoints.findIndex(
     bp => bp.path === path && bp.method === method
   );
+
   return state.set("xhrBreakpoints", xhrBreakpoints.delete(index));
 }
 

@@ -15,10 +15,10 @@ import "./XHRBreakpoints.css";
 import { getXHRBreakpoints, shouldPauseOnAnyXHR } from "../../selectors";
 import ExceptionOption from "./Breakpoints/ExceptionOption";
 
-import type { XHRBreakpointsMap } from "../../reducers/types";
+import type { XHRBreakpointsList } from "../../reducers/types";
 
 type Props = {
-  xhrBreakpoints: XHRBreakpointsMap,
+  xhrBreakpoints: XHRBreakpointsList,
   shouldPauseOnAny: boolean,
   showInput: boolean,
   onXHRAdded: Function,

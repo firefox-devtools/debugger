@@ -114,12 +114,14 @@ export const features = new PrefsHelper("devtools.debugger.features", {
 
 export const asyncStore = asyncStoreHelper("debugger", {
   pendingBreakpoints: ["pending-breakpoints", {}],
-  tabs: ["tabs", []]
+  tabs: ["tabs", []],
+  xhrBreakpoints: ["xhr-breakpoints", []]
 });
 
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
   // clear pending Breakpoints
   prefs.pendingBreakpoints = {};
   prefs.tabs = [];
+  prefs.xhrBreakpoints = [];
   prefs.debuggerPrefsSchemaVersion = prefsSchemaVersion;
 }
