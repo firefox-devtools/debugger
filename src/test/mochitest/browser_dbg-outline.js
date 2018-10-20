@@ -9,6 +9,7 @@ function getNthItem(dbg, index) {
   return findElement(dbg, "outlineItem", index);
 }
 
+
 // Tests that the editor highlights the correct location when the
 // debugger pauses
 add_task(async function() {
