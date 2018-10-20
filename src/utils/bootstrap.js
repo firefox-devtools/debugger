@@ -101,14 +101,21 @@ export function bootstrapApp(store: any) {
 }
 
 let currentPendingBreakpoints;
+let currentXHRBreakpoints;
 function updatePrefs(state: any) {
   const previousPendingBreakpoints = currentPendingBreakpoints;
+  const previousXHRBreakpoints = currentXHRBreakpoints;
   currentPendingBreakpoints = selectors.getPendingBreakpoints(state);
+  currentXHRBreakpoints = selectors.getXHRBreakpoints(state);
 
   if (
     previousPendingBreakpoints &&
     currentPendingBreakpoints !== previousPendingBreakpoints
   ) {
     asyncStore.pendingBreakpoints = currentPendingBreakpoints;
+  }
+
+  if (currentXHRBreakpoints !== previousXHRBreakpoints) {
+    asyncStore.xhrBreakpoints = currentXHRBreakpoints.toJS();
   }
 }

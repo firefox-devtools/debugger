@@ -149,6 +149,14 @@ function getBreakpointByLocation(location: Location) {
   return null;
 }
 
+function setXHRBreakpoint(path: string, method: string) {
+  return threadClient.setXHRBreakpoint(path, method);
+}
+
+function removeXHRBreakpoint(path: string, method: string) {
+  return threadClient.removeXHRBreakpoint(path, method);
+}
+
 function setBreakpoint(
   location: Location,
   condition: boolean,
@@ -439,6 +447,8 @@ const clientCommands = {
   sourceContents,
   getBreakpointByLocation,
   setBreakpoint,
+  setXHRBreakpoint,
+  removeXHRBreakpoint,
   removeBreakpoint,
   setBreakpointCondition,
   evaluate,

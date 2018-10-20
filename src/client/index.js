@@ -14,6 +14,7 @@ import {
   bootstrapStore,
   bootstrapWorkers
 } from "../utils/bootstrap";
+import { initialBreakpointsState } from "../reducers/breakpoints";
 
 function loadFromPrefs(actions: Object) {
   const { pauseOnExceptions, pauseOnCaughtExceptions } = prefs;
@@ -25,10 +26,24 @@ function loadFromPrefs(actions: Object) {
   }
 }
 
+function syncXHRBreakpoints() {
+  asyncStore.xhrBreakpoints.then(bps => {
+    bps.forEach(({ path, method, disabled }) => {
+      if (!disabled) {
+        firefox.clientCommands.setXHRBreakpoint(path, method);
+      }
+    });
+  });
+}
+
 async function loadInitialState() {
   const pendingBreakpoints = await asyncStore.pendingBreakpoints;
   const tabs = await asyncStore.tabs;
-  return { pendingBreakpoints, tabs };
+  const xhrBreakpoints = await asyncStore.xhrBreakpoints;
+
+  const breakpoints = initialBreakpointsState(xhrBreakpoints);
+
+  return { pendingBreakpoints, tabs, breakpoints };
 }
 
 export async function onConnect(
@@ -54,7 +69,7 @@ export async function onConnect(
   const workers = bootstrapWorkers();
   await firefox.onConnect(connection, actions);
   await loadFromPrefs(actions);
-
+  syncXHRBreakpoints();
   setupHelper({
     store,
     actions,

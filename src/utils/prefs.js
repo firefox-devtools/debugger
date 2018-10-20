@@ -58,6 +58,7 @@ if (isDevelopment()) {
   pref("devtools.debugger.features.autocomplete-expressions", false);
   pref("devtools.debugger.features.map-expression-bindings", true);
   pref("devtools.debugger.features.map-await-expression", true);
+  pref("devtools.debugger.features.xhr-breakpoints", true);
 }
 
 export const prefs = new PrefsHelper("devtools", {
@@ -107,17 +108,20 @@ export const features = new PrefsHelper("devtools.debugger.features", {
   autocompleteExpression: ["Bool", "autocomplete-expressions"],
   mapExpressionBindings: ["Bool", "map-expression-bindings"],
   mapAwaitExpression: ["Bool", "map-await-expression"],
-  componentPane: ["Bool", "component-pane"]
+  componentPane: ["Bool", "component-pane"],
+  xhrBreakpoints: ["Bool", "xhr-breakpoints"]
 });
 
 export const asyncStore = asyncStoreHelper("debugger", {
   pendingBreakpoints: ["pending-breakpoints", {}],
-  tabs: ["tabs", []]
+  tabs: ["tabs", []],
+  xhrBreakpoints: ["xhr-breakpoints", []]
 });
 
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
   // clear pending Breakpoints
   prefs.pendingBreakpoints = {};
   prefs.tabs = [];
+  prefs.xhrBreakpoints = [];
   prefs.debuggerPrefsSchemaVersion = prefsSchemaVersion;
 }
