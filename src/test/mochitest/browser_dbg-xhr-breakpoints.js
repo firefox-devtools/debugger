@@ -2,6 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
+// Tests that a basic XHR breakpoint works for get and POST is ignored
 add_task(async function() {
     const dbg = await initDebugger("doc-xhr.html");
     await waitForSources(dbg, "fetch.js");
@@ -20,6 +21,7 @@ add_task(async function() {
     assertNotPaused(dbg);
 });
 
+// Tests the "pause on any URL" checkbox works properly
 add_task(async function() {
     const dbg = await initDebugger("doc-xhr.html");
     await waitForSources(dbg, "fetch.js");
