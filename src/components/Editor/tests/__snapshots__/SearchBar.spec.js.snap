@@ -6,7 +6,6 @@ exports[`SearchBar should render 1`] = `
 >
   <SearchInput
     expanded={false}
-    handleClose={[Function]}
     handleNext={[Function]}
     handlePrev={[Function]}
     hasPrefix={false}
@@ -19,7 +18,7 @@ exports[`SearchBar should render 1`] = `
     query=""
     selectedItemId=""
     shouldFocus={false}
-    showClose={true}
+    showClose={false}
     showErrorEmoji={false}
     size=""
     summaryMsg=""
@@ -53,6 +52,15 @@ exports[`SearchBar should render 1`] = `
         svgName="whole-word-match"
         tooltip="Whole word"
       />
+      <React.Fragment>
+        <span
+          className="pipe-divider"
+        />
+        <CloseButton
+          buttonClass="big"
+          handleClick={[Function]}
+        />
+      </React.Fragment>
     </div>
   </div>
 </div>
@@ -67,7 +75,6 @@ exports[`showErrorEmoji false if no query + no results 1`] = `
   <SearchInput
     count={0}
     expanded={false}
-    handleClose={[Function]}
     handleNext={[Function]}
     handlePrev={[Function]}
     hasPrefix={false}
@@ -80,7 +87,7 @@ exports[`showErrorEmoji false if no query + no results 1`] = `
     query=""
     selectedItemId=""
     shouldFocus={false}
-    showClose={true}
+    showClose={false}
     showErrorEmoji={false}
     size=""
     summaryMsg=""
@@ -114,6 +121,15 @@ exports[`showErrorEmoji false if no query + no results 1`] = `
         svgName="whole-word-match"
         tooltip="Whole word"
       />
+      <React.Fragment>
+        <span
+          className="pipe-divider"
+        />
+        <CloseButton
+          buttonClass="big"
+          handleClick={[Function]}
+        />
+      </React.Fragment>
     </div>
   </div>
 </div>
@@ -126,7 +142,6 @@ exports[`showErrorEmoji false if query + results 1`] = `
   <SearchInput
     count={10}
     expanded={false}
-    handleClose={[Function]}
     handleNext={[Function]}
     handlePrev={[Function]}
     hasPrefix={false}
@@ -139,7 +154,7 @@ exports[`showErrorEmoji false if query + results 1`] = `
     query="test"
     selectedItemId=""
     shouldFocus={false}
-    showClose={true}
+    showClose={false}
     showErrorEmoji={false}
     size=""
     summaryMsg="-NaN of 10 results"
@@ -173,6 +188,15 @@ exports[`showErrorEmoji false if query + results 1`] = `
         svgName="whole-word-match"
         tooltip="Whole word"
       />
+      <React.Fragment>
+        <span
+          className="pipe-divider"
+        />
+        <CloseButton
+          buttonClass="big"
+          handleClick={[Function]}
+        />
+      </React.Fragment>
     </div>
   </div>
 </div>
@@ -185,7 +209,6 @@ exports[`showErrorEmoji true if query + no results 1`] = `
   <SearchInput
     count={0}
     expanded={false}
-    handleClose={[Function]}
     handleNext={[Function]}
     handlePrev={[Function]}
     hasPrefix={false}
@@ -198,7 +221,7 @@ exports[`showErrorEmoji true if query + no results 1`] = `
     query="test"
     selectedItemId=""
     shouldFocus={false}
-    showClose={true}
+    showClose={false}
     showErrorEmoji={true}
     size=""
     summaryMsg="No results"
@@ -232,6 +255,15 @@ exports[`showErrorEmoji true if query + no results 1`] = `
         svgName="whole-word-match"
         tooltip="Whole word"
       />
+      <React.Fragment>
+        <span
+          className="pipe-divider"
+        />
+        <CloseButton
+          buttonClass="big"
+          handleClick={[Function]}
+        />
+      </React.Fragment>
     </div>
   </div>
 </div>

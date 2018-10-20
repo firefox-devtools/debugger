@@ -7,6 +7,7 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { CloseButton } from "../shared/Button";
 import Svg from "../shared/Svg";
 import actions from "../../actions";
 import {
@@ -67,7 +68,9 @@ type Props = {
   closeFileSearch: SourceEditor => void,
   doSearch: (string, SourceEditor) => void,
   traverseResults: (boolean, SourceEditor) => void,
-  updateSearchResults: ({ count: number, index?: number }) => any
+  updateSearchResults: ({ count: number, index?: number }) => any,
+  showClose?: boolean,
+  size?: string
 };
 
 class SearchBar extends Component<Props, State> {
@@ -253,7 +256,13 @@ class SearchBar extends Component<Props, State> {
   }
 
   renderSearchModifiers = () => {
-    const { modifiers, toggleFileSearchModifier, query } = this.props;
+    const {
+      modifiers,
+      toggleFileSearchModifier,
+      query,
+      showClose = true,
+      size = "big"
+    } = this.props;
     const { doSearch } = this;
 
     function SearchModBtn({ modVal, className, svgName, tooltip }) {
@@ -297,6 +306,12 @@ class SearchBar extends Component<Props, State> {
           svgName="whole-word-match"
           tooltip={L10N.getStr("symbolSearch.searchModifier.wholeWord")}
         />
+        {showClose && (
+          <React.Fragment>
+            <span className="pipe-divider" />
+            <CloseButton handleClick={this.closeSearch} buttonClass={size} />
+          </React.Fragment>
+        )}
       </div>
     );
   };
@@ -336,8 +351,8 @@ class SearchBar extends Component<Props, State> {
           onHistoryScroll={this.onHistoryScroll}
           handleNext={e => this.traverseResults(e, false)}
           handlePrev={e => this.traverseResults(e, true)}
-          handleClose={this.closeSearch}
           shouldFocus={this.state.inputFocused}
+          showClose={false}
         />
         <div className="search-bottom-bar">{this.renderSearchModifiers()}</div>
       </div>

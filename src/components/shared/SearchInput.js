@@ -31,7 +31,7 @@ const arrowBtn = (onClick, type, className, tooltip) => {
 type Props = {
   count: number,
   expanded: boolean,
-  handleClose: (e: SyntheticMouseEvent<HTMLDivElement>) => void,
+  handleClose?: (e: SyntheticMouseEvent<HTMLDivElement>) => void,
   handleNext?: (e: SyntheticMouseEvent<HTMLButtonElement>) => void,
   handlePrev?: (e: SyntheticMouseEvent<HTMLButtonElement>) => void,
   hasPrefix?: boolean,
