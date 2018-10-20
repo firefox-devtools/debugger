@@ -1,5 +1,6 @@
-const url = "doc-xhr.html";
+const doc = "doc-xhr.html";
 
-function main() {
+
+function main(url) {
     fetch(url).then(console.log);
 }
