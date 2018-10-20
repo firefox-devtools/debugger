@@ -14,11 +14,12 @@ import { PROMISE } from "../utils/middleware/promise";
 import {
   getBreakpoint,
   getBreakpoints,
+  getXHRBreakpoints,
   getSelectedSource,
   getBreakpointAtLocation,
   getBreakpointsAtLine
 } from "../../selectors";
-import { assertBreakpoint } from "../../utils/breakpoint";
+import { assertBreakpoint, createXHRBreakpoint } from "../../utils/breakpoint";
 import {
   addBreakpoint,
   addHiddenBreakpoint,
@@ -31,7 +32,7 @@ import { isEmptyLineInSource } from "../../reducers/ast";
 // this will need to be changed so that addCLientBreakpoint is removed
 
 import type { ThunkArgs, Action } from "../types";
-import type { Breakpoint, Location } from "../../types";
+import type { Breakpoint, Location, XHRBreakpoint } from "../../types";
 import type { BreakpointsMap } from "../../reducers/types";
 
 import { recordEvent } from "../../utils/telemetry";
@@ -379,6 +380,111 @@ export function toggleDisabledBreakpoint(line: number, column?: number) {
       return dispatch(disableBreakpoint(bp.location));
     }
     return dispatch(enableBreakpoint(bp.location));
+  };
+}
+
+export function enableXHRBreakpoint(index: number, bp: XHRBreakpoint) {
+  return ({ dispatch, getState, client }: ThunkArgs) => {
+    const xhrBreakpoints = getXHRBreakpoints(getState());
+    const breakpoint = bp || xhrBreakpoints.get(index);
+    const enabledBreakpoint = {
+      ...breakpoint,
+      disabled: false
+    };
+
+    return dispatch({
+      type: "ENABLE_XHR_BREAKPOINT",
+      breakpoint: enabledBreakpoint,
+      index,
+      [PROMISE]: client.setXHRBreakpoint(breakpoint.path, breakpoint.method)
+    });
+  };
+}
+
+export function disableXHRBreakpoint(index: number, bp: XHRBreakpoint) {
+  return ({ dispatch, getState, client }: ThunkArgs) => {
+    const xhrBreakpoints = getXHRBreakpoints(getState());
+    const breakpoint = bp || xhrBreakpoints.get(index);
+    const disabledBreakpoint = {
+      ...breakpoint,
+      disabled: true
+    };
+
+    return dispatch({
+      type: "DISABLE_XHR_BREAKPOINT",
+      breakpoint: disabledBreakpoint,
+      index,
+      [PROMISE]: client.removeXHRBreakpoint(breakpoint.path, breakpoint.method)
+    });
+  };
+}
+
+export function updateXHRBreakpoint(
+  index: number,
+  path: string,
+  method: string
+) {
+  return ({ dispatch, getState, client }: ThunkArgs) => {
+    const xhrBreakpoints = getXHRBreakpoints(getState());
+    const breakpoint = xhrBreakpoints.get(index);
+
+    const updatedBreakpoint = {
+      ...breakpoint,
+      path,
+      method,
+      text: `URL contains "${path}"`
+    };
+
+    return dispatch({
+      type: "UPDATE_XHR_BREAKPOINT",
+      breakpoint: updatedBreakpoint,
+      index,
+      [PROMISE]: Promise.all([
+        client.removeXHRBreakpoint(breakpoint.path, breakpoint.method),
+        client.setXHRBreakpoint(path, method)
+      ])
+    });
+  };
+}
+export function togglePauseOnAny() {
+  return ({ dispatch, getState }: ThunkArgs) => {
+    const xhrBreakpoints = getXHRBreakpoints(getState());
+    const index = xhrBreakpoints.findIndex(({ path }) => path.length === 0);
+    if (index < 0) {
+      return dispatch(setXHRBreakpoint("", "ANY"));
+    }
+
+    const bp = xhrBreakpoints.get(index);
+    if (bp.disabled) {
+      return dispatch(enableXHRBreakpoint(index, bp));
+    }
+
+    return dispatch(disableXHRBreakpoint(index, bp));
+  };
+}
+
+export function setXHRBreakpoint(path: string, method: string) {
+  return ({ dispatch, getState, client }: ThunkArgs) => {
+    const breakpoint = createXHRBreakpoint(path, method);
+
+    return dispatch({
+      type: "SET_XHR_BREAKPOINT",
+      breakpoint,
+      [PROMISE]: client.setXHRBreakpoint(path, method)
+    });
+  };
+}
+
+export function removeXHRBreakpoint(index: number) {
+  return ({ dispatch, getState, client }: ThunkArgs) => {
+    const xhrBreakpoints = getXHRBreakpoints(getState());
+    const breakpoint = xhrBreakpoints.get(index);
+    return dispatch({
+      type: "REMOVE_XHR_BREAKPOINT",
+      breakpoint,
+      index,
+      [PROMISE]: client.removeXHRBreakpoint(breakpoint.path, breakpoint.method)
+    });
   };
 }
 

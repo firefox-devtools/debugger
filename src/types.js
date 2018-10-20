@@ -107,6 +107,19 @@ export type Breakpoint = {
 };
 
 /**
+ * XHR Breakpoint
+ * @memberof types
+ * @static
+ */
+export type XHRBreakpoint = {
+  path: string,
+  method: "GET" | "POST" | "DELETE" | "ANY",
+  loading: boolean,
+  disabled: boolean,
+  text: string
+};
+
+/**
  * Breakpoint Result is the return from an add/modify Breakpoint request
  *
  * @memberof types

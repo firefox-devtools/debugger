@@ -15,20 +15,25 @@ import makeRecord from "../utils/makeRecord";
 import { isGeneratedId } from "devtools-source-map";
 import { makeLocationId } from "../utils/breakpoint";
 
-import type { Breakpoint, Location } from "../types";
+import type { XHRBreakpoint, Breakpoint, Location } from "../types";
 import type { Action, DonePromiseAction } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
 export type BreakpointsMap = I.Map<string, Breakpoint>;
+export type XHRBreakpointsList = I.List<XHRBreakpoint>;
 
 export type BreakpointsState = {
-  breakpoints: BreakpointsMap
+  breakpoints: BreakpointsMap,
+  xhrBreakpoints: XHRBreakpointsList
 };
 
-export function initialBreakpointsState(): Record<BreakpointsState> {
+export function initialBreakpointsState(
+  xhrBreakpoints?: any[] = []
+): Record<BreakpointsState> {
   return makeRecord(
     ({
       breakpoints: I.Map(),
+      xhrBreakpoints: I.List(xhrBreakpoints),
       breakpointsDisabled: false
     }: BreakpointsState)
   )();
@@ -78,9 +83,69 @@ function update(
     case "NAVIGATE": {
       return initialBreakpointsState();
     }
+
+    case "SET_XHR_BREAKPOINT": {
+      return addXHRBreakpoint(state, action);
+    }
+
+    case "REMOVE_XHR_BREAKPOINT": {
+      return removeXHRBreakpoint(state, action);
+    }
+
+    case "UPDATE_XHR_BREAKPOINT": {
+      return updateXHRBreakpoint(state, action);
+    }
+
+    case "ENABLE_XHR_BREAKPOINT": {
+      return updateXHRBreakpoint(state, action);
+    }
+
+    case "DISABLE_XHR_BREAKPOINT": {
+      return updateXHRBreakpoint(state, action);
+    }
   }
 
   return state;
+}
+
+function addXHRBreakpoint(state, action) {
+  const { xhrBreakpoints } = state;
+  const { breakpoint } = action;
+  const { path, method } = breakpoint;
+
+  const existingBreakpointIndex = state.xhrBreakpoints.findIndex(
+    bp => bp.path === path && bp.method === method
+  );
+
+  if (existingBreakpointIndex === -1) {
+    return state.set("xhrBreakpoints", xhrBreakpoints.push(breakpoint));
+  } else if (xhrBreakpoints.get(existingBreakpointIndex) !== breakpoint) {
+    return state.set(
+      "xhrBreakpoints",
+      xhrBreakpoints.set(existingBreakpointIndex, breakpoint)
+    );
+  }
+
+  return state;
+}
+
+function removeXHRBreakpoint(state, action) {
+  const {
+    breakpoint: { path, method }
+  } = action;
+  const { xhrBreakpoints } = state;
+
+  const index = xhrBreakpoints.findIndex(
+    bp => bp.path === path && bp.method === method
+  );
+
+  return state.set("xhrBreakpoints", xhrBreakpoints.delete(index));
+}
+
+function updateXHRBreakpoint(state, action) {
+  const { breakpoint, index } = action;
+  const { xhrBreakpoints } = state;
+  return state.set("xhrBreakpoints", xhrBreakpoints.set(index, breakpoint));
 }
 
 function addBreakpoint(state, action) {
