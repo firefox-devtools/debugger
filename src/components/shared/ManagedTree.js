@@ -6,7 +6,7 @@
 import React, { Component } from "react";
 import "./ManagedTree.css";
 
-const { Tree } = require("devtools-components");
+const { Tree } = require("../../../packages/devtools-components");
 
 export type Item = {
   contents: any,
