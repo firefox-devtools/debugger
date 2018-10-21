@@ -2,6 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
+// @flow
+
 import { isOriginalId } from "devtools-source-map";
 import {
   locationMoved,
@@ -16,10 +18,17 @@ import { getSource, getSymbols, getBreakpoint } from "../../selectors";
 import { getGeneratedLocation } from "../../utils/source-maps";
 import { getTextAtPosition } from "../../utils/source";
 import { recordEvent } from "../../utils/telemetry";
+import type { ThunkArgs } from "../types";
+import type { Location } from "../../types";
+
+type addBreakpointOptions = {
+  condition?: string,
+  hidden?: boolean
+};
 
 async function addBreakpointPromise(getState, client, sourceMaps, breakpoint) {
   const state = getState();
-  const source = getSource(state, breakpoint.location.sourceId);
+  const source:any = getSource(state, breakpoint.location.sourceId);
 
   const location = {
     ...breakpoint.location,
@@ -56,7 +65,7 @@ async function addBreakpointPromise(getState, client, sourceMaps, breakpoint) {
     newGeneratedLocation
   );
 
-  const symbols = getSymbols(getState(), source);
+  const symbols:any = getSymbols(getState(), source);
   const astLocation = await getASTLocation(source, symbols, newLocation);
 
   const originalText = getTextAtPosition(source, location);
@@ -95,6 +104,7 @@ async function addBreakpointPromise(getState, client, sourceMaps, breakpoint) {
  * @param location
  * @return {function(ThunkArgs)}
  */
+
 export function addHiddenBreakpoint(location: Location) {
   return ({ dispatch }: ThunkArgs) => {
     return dispatch(addBreakpoint(location, { hidden: true }));
@@ -111,7 +121,7 @@ export function addHiddenBreakpoint(location: Location) {
  */
 export function enableBreakpoint(location: Location) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    const breakpoint = getBreakpoint(getState(), location);
+    const breakpoint = getBreakpoint(getState(),this.location);
     if (!breakpoint || breakpoint.loading) {
       return;
     }
@@ -143,7 +153,7 @@ export function addBreakpoint(
   location: Location,
   { condition, hidden }: addBreakpointOptions = {}
 ) {
-  const breakpoint = createBreakpoint(location, { condition, hidden });
+  const breakpoint = createBreakpoint( location, { condition, hidden });
   return ({ dispatch, getState, sourceMaps, client }: ThunkArgs) => {
     recordEvent("add_breakpoint");
 
