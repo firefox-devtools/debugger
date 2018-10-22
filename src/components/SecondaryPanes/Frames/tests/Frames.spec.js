@@ -3,7 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 import React from "react";
-import { shallow } from "enzyme";
+import { mount, shallow } from "enzyme";
 import Frames from "../index.js";
 // eslint-disable-next-line
 import { formatCallStackFrames } from "../../../../selectors/getCallStackFrames";
@@ -89,6 +89,32 @@ describe("Frames", () => {
       expect(getFrames()).toHaveLength(framesNumber);
 
       expect(component).toMatchSnapshot();
+    });
+
+    it("shows the full URL", () => {
+      const frames = [
+        {
+          id: 1,
+          displayName: "renderFoo|",
+          location: {
+            line: 55
+          },
+          source: {
+            url: "http://myfile.com/mahscripts.js"
+          }
+        }
+      ];
+
+      const component = mount(
+        <Frames.WrappedComponent
+          frames={frames}
+          disableFrameTruncate={true}
+          displayFullUrl={true}
+        />
+      );
+      expect(component.text()).toBe(
+        "renderFoo|http://myfile.com/mahscripts.js:55"
+      );
     });
   });
 

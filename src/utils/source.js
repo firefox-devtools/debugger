@@ -130,10 +130,14 @@ export function getRawSourceURL(url: string): string {
 
 function resolveFileURL(
   url: string,
-  transformUrl: transformUrlCallback = initialUrl => initialUrl
+  transformUrl: transformUrlCallback = initialUrl => initialUrl,
+  truncate: boolean = true
 ) {
   url = getRawSourceURL(url || "");
   const name = transformUrl(url);
+  if (!truncate) {
+    return name;
+  }
   return endTruncateStr(name, 50);
 }
 
@@ -220,13 +224,13 @@ export function getDisplayPath(mySource: Source, sources: Source[]) {
  * @memberof utils/source
  * @static
  */
-export function getFileURL(source: Source) {
+export function getFileURL(source: Source, truncate: boolean = true) {
   const { url, id } = source;
   if (!url) {
     return getFormattedSourceId(id);
   }
 
-  return resolveFileURL(url, getUnicodeUrl);
+  return resolveFileURL(url, getUnicodeUrl, truncate);
 }
 
 const contentTypeModeMap = {
