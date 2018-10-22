@@ -9,7 +9,20 @@ function getNthItem(dbg, index) {
   return findElement(dbg, "outlineItem", index);
 }
 
-
+// Tests that the outline functions for original and pretty printed source matches
+add_task(async function () {
+  const dbg = await initDebugger("doc-scripts.html");
+  const {
+    selectors: { getSelectedSource },
+    getState
+  } = dbg;
+  await selectSource(dbg,"simple1", 1);
+  findElementWithSelector(dbg, ".outline-tab").click();
+  const originalSource = getItems(dbg);
+  findElementWithSelector(dbg, ".prettyPrint").click();
+  const prettySource = getItems(dbg);
+  is(originalSource.length, prettySource.length, "Outline functions match");
+});
 // Tests that the editor highlights the correct location when the
 // debugger pauses
 add_task(async function() {
