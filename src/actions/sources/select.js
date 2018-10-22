@@ -83,7 +83,7 @@ export function selectSourceURL(url: string, options: Position = { line: 1 }) {
  */
 export function selectSource(sourceId: string) {
   return async ({ dispatch }: ThunkArgs) => {
-    const location = createLocation({ sourceId });
+    const location = createLocation({ sourceId});
     return await dispatch(selectSpecificLocation(location));
   };
 }
