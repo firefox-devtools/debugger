@@ -144,6 +144,22 @@ export function createBreakpoint(
   return properties;
 }
 
+export function createXHRBreakpoint(
+  path: string,
+  method: string,
+  overrides?: Object = {}
+) {
+  const properties = {
+    path,
+    method,
+    disabled: false,
+    loading: false,
+    text: `URL contains "${path}"`
+  };
+
+  return { ...properties, ...overrides };
+}
+
 function createPendingLocation(location: PendingLocation) {
   const { sourceUrl, line, column } = location;
   return { sourceUrl, line, column };
