@@ -40,7 +40,8 @@ type Props = {
   selectFrame: Function,
   toggleBlackBox: Function,
   toggleFrameworkGrouping: Function,
-  disableFrameTruncate: Function
+  disableFrameTruncate: boolean,
+  displayFullUrl: boolean
 };
 
 type State = {
@@ -113,7 +114,8 @@ class Frames extends Component<Props, State> {
       selectFrame,
       selectedFrame,
       toggleBlackBox,
-      frameworkGroupingOn
+      frameworkGroupingOn,
+      displayFullUrl
     } = this.props;
 
     const framesOrGroups = this.truncateFrames(this.collapseFrames(frames));
@@ -133,6 +135,7 @@ class Frames extends Component<Props, State> {
                 selectedFrame={selectedFrame}
                 toggleBlackBox={toggleBlackBox}
                 key={String(frameOrGroup.id)}
+                displayFullUrl={displayFullUrl}
               />
             ) : (
               <Group
@@ -144,6 +147,7 @@ class Frames extends Component<Props, State> {
                 selectedFrame={selectedFrame}
                 toggleBlackBox={toggleBlackBox}
                 key={frameOrGroup[0].id}
+                displayFullUrl={displayFullUrl}
               />
             )
         )}
@@ -207,6 +211,7 @@ export default connect(
     selectFrame: actions.selectFrame,
     toggleBlackBox: actions.toggleBlackBox,
     toggleFrameworkGrouping: actions.toggleFrameworkGrouping,
-    disableFrameTruncate: actions.disableFrameTruncate
+    disableFrameTruncate: false,
+    displayFullUrl: false
   }
 )(Frames);

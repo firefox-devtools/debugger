@@ -43,7 +43,8 @@ type Props = {
   toggleFrameworkGrouping: Function,
   copyStackTrace: Function,
   toggleBlackBox: Function,
-  frameworkGroupingOn: boolean
+  frameworkGroupingOn: boolean,
+  displayFullUrl: boolean
 };
 
 type State = {
@@ -87,7 +88,8 @@ export default class Group extends Component<Props, State> {
       toggleFrameworkGrouping,
       frameworkGroupingOn,
       toggleBlackBox,
-      copyStackTrace
+      copyStackTrace,
+      displayFullUrl
     } = this.props;
 
     const { expanded } = this.state;
@@ -109,6 +111,7 @@ export default class Group extends Component<Props, State> {
             shouldMapDisplayName={false}
             toggleBlackBox={toggleBlackBox}
             toggleFrameworkGrouping={toggleFrameworkGrouping}
+            displayFullUrl={displayFullUrl}
           />
         ))}
       </div>
