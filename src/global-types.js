@@ -4,7 +4,7 @@
 
 //@flow
 
- declare var L10N: {
+declare var L10N: {
   getStr: string => string,
   getFormatStr: (string, ...any) => string
 };
