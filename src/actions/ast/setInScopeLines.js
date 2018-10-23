@@ -8,16 +8,15 @@ import { getOutOfScopeLocations, getSelectedSource } from "../../selectors";
 import { getSourceLineCount } from "../../utils/source";
 
 import { range, flatMap, uniq, without } from "lodash";
-import type { AstLocation } from "../../workers/parser";
 import type { ThunkArgs } from "../types";
 
-function getOutOfScopeLines(outOfScopeLocations: AstLocation[]) {
+function getOutOfScopeLines(outOfScopeLocations) {
   if (!outOfScopeLocations) {
     return null;
   }
 
   return uniq(
-    flatMap((outOfScopeLocations:any), location =>
+    flatMap(outOfScopeLocations, location =>
       range(location.start.line, location.end.line)
     )
   );
