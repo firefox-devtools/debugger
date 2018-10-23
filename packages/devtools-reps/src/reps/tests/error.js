@@ -11,6 +11,7 @@ const { expectActorAttribute } = require("./test-helpers");
 const { ErrorRep } = REPS;
 const { MODE } = require("../constants");
 const stubs = require("../stubs/error");
+const dom = require("react-dom-factories");
 
 describe("Error - Simple error", () => {
   // Test object = `new Error("Error message")`
@@ -495,5 +496,48 @@ describe("Error - stacktrace location click", () => {
       type: "click",
       stopPropagation: () => {}
     });
+  });
+});
+
+describe("Error - renderStacktrace prop", () => {
+  it("uses renderStacktrace prop when provided", () => {
+    const stub = stubs.get("MultilineStackError");
+
+    const renderedComponent = shallow(
+      ErrorRep.rep({
+        object: stub,
+        renderStacktrace: frames => {
+          return frames.map(frame =>
+            dom.li(
+              { className: "frame" },
+              `Function ${frame.functionName} called from ${frame.filename}:${
+                frame.lineNumber
+              }:${frame.columnNumber}\n`
+            )
+          );
+        }
+      })
+    );
+    expect(renderedComponent).toMatchSnapshot();
+  });
+
+  it("uses renderStacktrace with longString errors too", () => {
+    const stub = stubs.get("longString stack Error - cut-off location");
+    const renderedComponent = shallow(
+      ErrorRep.rep({
+        object: stub,
+        renderStacktrace: frames => {
+          return frames.map(frame =>
+            dom.li(
+              { className: "frame" },
+              `Function ${frame.functionName} called from ${frame.filename}:${
+                frame.lineNumber
+              }:${frame.columnNumber}\n`
+            )
+          );
+        }
+      })
+    );
+    expect(renderedComponent).toMatchSnapshot();
   });
 });

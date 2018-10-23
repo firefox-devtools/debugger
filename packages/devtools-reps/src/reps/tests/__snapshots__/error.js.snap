@@ -712,3 +712,85 @@ exports[`Error - longString stacktrace renders as expected 1`] = `
   </span>
 </span>
 `;
+
+exports[`Error - renderStacktrace prop uses renderStacktrace prop when provided 1`] = `
+<span
+  className="objectBox-stackTrace"
+  data-link-actor-id="server1.conn1.child1/obj1021"
+>
+  Error: "bar"
+  
+
+  <li
+    className="frame"
+  >
+    Function errorBar called from debugger eval code:6:15
+
+  </li>
+  <li
+    className="frame"
+  >
+    Function errorFoo called from debugger eval code:3:3
+
+  </li>
+  <li
+    className="frame"
+  >
+    Function &lt;anonymous&gt; called from debugger eval code:8:1
+
+  </li>
+</span>
+`;
+
+exports[`Error - renderStacktrace prop uses renderStacktrace with longString errors too 1`] = `
+<span
+  className="objectBox-stackTrace"
+  data-link-actor-id="server1.conn1.child1/obj33"
+>
+  InternalError: "too much recursion"
+  
+
+  <li
+    className="frame"
+  >
+    Function execute/AppComponent&lt;/AppComponent.prototype.doStuff called from https://angular-3eqab4.stackblitz.io/tmp/appfiles/src/app/app.component.ts:32:1
+
+  </li>
+  <li
+    className="frame"
+  >
+    Function execute/AppComponent&lt;/AppComponent.prototype.doStuff called from https://angular-3eqab4.stackblitz.io/tmp/appfiles/src/app/app.component.ts:33:21
+
+  </li>
+  <li
+    className="frame"
+  >
+    Function execute/AppComponent&lt;/AppComponent.prototype.doStuff called from https://angular-3eqab4.stackblitz.io/tmp/appfiles/src/app/app.component.ts:33:21
+
+  </li>
+  <li
+    className="frame"
+  >
+    Function execute/AppComponent&lt;/AppComponent.prototype.doStuff called from https://angular-3eqab4.stackblitz.io/tmp/appfiles/src/app/app.component.ts:33:21
+
+  </li>
+  <li
+    className="frame"
+  >
+    Function execute/AppComponent&lt;/AppComponent.prototype.doStuff called from https://angular-3eqab4.stackblitz.io/tmp/appfiles/src/app/app.component.ts:33:21
+
+  </li>
+  <li
+    className="frame"
+  >
+    Function execute/AppComponent&lt;/AppComponent.prototype.doStuff called from https://angular-3eqab4.stackblitz.io/tmp/appfiles/src/app/app.component.ts:33:21
+
+  </li>
+  <li
+    className="frame"
+  >
+    Function execute/AppComponent&lt;/AppComponent.prototype.doStuff called from https://angular-3eqab4.stackblitz.io/tmp/appfiles/src/app/app.component.ts:33:21
+
+  </li>
+</span>
+`;
