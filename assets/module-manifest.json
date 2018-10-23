@@ -22614,7 +22614,10 @@
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-source-map/src/utils/wasmAssetBrowser.js": 3794,
       "../../../packages/devtools-source-map/node_modules/source-map/lib/wasm.js": 3795,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/PrimaryPanes/OutlineFilter.js": 3796,
-      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/PrimaryPanes/OutlineFilter.css": 3797
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/PrimaryPanes/OutlineFilter.css": 3797,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/selectors/breakpoints.js": 3798,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/XHRBreakpoints.js": 3799,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/XHRBreakpoints.css": 3800
     },
     "usedIds": {
       "0": 0,
@@ -26414,7 +26417,10 @@
       "3794": 3794,
       "3795": 3795,
       "3796": 3796,
-      "3797": 3797
+      "3797": 3797,
+      "3798": 3798,
+      "3799": 3799,
+      "3800": 3800
     }
   },
   "chunks": {
@@ -33410,6 +33416,27 @@
         "byBlocks": {},
         "usedIds": {
           "0": 0
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/XHRBreakpoints.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/XHRBreakpoints.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
         }
       }
     }
