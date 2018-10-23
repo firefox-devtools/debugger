@@ -4,7 +4,7 @@
 
  // @flow
 
- export default function remapLocations(breakpoints:any, sourceId:any, sourceMaps:any) {
+ export default function remapLocations(breakpoints: Breakpoint[], sourceId: string, sourceMaps: Object) {
   const sourceBreakpoints = breakpoints.map(async breakpoint => {
     if (breakpoint.location.sourceId !== sourceId) {
       return breakpoint;
