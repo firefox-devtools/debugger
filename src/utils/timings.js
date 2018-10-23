@@ -2,9 +2,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
+// @flow
+
 import { zip } from "lodash";
 
-export function getAsyncTimes(name) {
+export function getAsyncTimes(name: string) {
   return zip(
     window.performance.getEntriesByName(`${name}_start`),
     window.performance.getEntriesByName(`${name}_end`)
