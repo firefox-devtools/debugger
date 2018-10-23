@@ -8,7 +8,7 @@ import classNames from "classnames";
 import Svg from "../../shared/Svg";
 
 import { formatDisplayName } from "../../../utils/pause/frames";
-import { getFilename } from "../../../utils/source";
+import { getFilename, getFileURL } from "../../../utils/source";
 import FrameMenu from "./FrameMenu";
 
 import type { Frame } from "../../../types";
@@ -24,9 +24,9 @@ function FrameTitle({ frame, options }: FrameTitleProps) {
   return <div className="title">{displayName}</div>;
 }
 
-type FrameLocationProps = { frame: LocalFrame };
+type FrameLocationProps = { frame: LocalFrame, displayFullUrl: boolean };
 
-function FrameLocation({ frame }: FrameLocationProps) {
+function FrameLocation({ frame, displayFullUrl = false }: FrameLocationProps) {
   if (!frame.source) {
     return null;
   }
@@ -40,9 +40,16 @@ function FrameLocation({ frame }: FrameLocationProps) {
     );
   }
 
-  const filename = getFilename(frame.source);
+  const { location, source } = frame;
+  const filename = displayFullUrl
+    ? getFileURL(source, false)
+    : getFilename(source);
+  const title = `${getFileURL(source, false)}:${location.line}`;
+
   return (
-    <div className="location">{`${filename}: ${frame.location.line}`}</div>
+    <div className="location" title={title}>{`${filename}:${
+      location.line
+    }`}</div>
   );
 }
 
@@ -57,7 +64,8 @@ type FrameComponentProps = {
   frameworkGroupingOn: boolean,
   hideLocation: boolean,
   shouldMapDisplayName: boolean,
-  toggleBlackBox: Function
+  toggleBlackBox: Function,
+  displayFullUrl: boolean
 };
 
 export default class FrameComponent extends Component<FrameComponentProps> {
@@ -109,7 +117,8 @@ export default class FrameComponent extends Component<FrameComponentProps> {
       frame,
       selectedFrame,
       hideLocation,
-      shouldMapDisplayName
+      shouldMapDisplayName,
+      displayFullUrl
     } = this.props;
 
     const className = classNames("frame", {
@@ -125,7 +134,9 @@ export default class FrameComponent extends Component<FrameComponentProps> {
         tabIndex={0}
       >
         <FrameTitle frame={frame} options={{ shouldMapDisplayName }} />
-        {!hideLocation && <FrameLocation frame={frame} />}
+        {!hideLocation && (
+          <FrameLocation frame={frame} displayFullUrl={displayFullUrl} />
+        )}
       </li>
     );
   }

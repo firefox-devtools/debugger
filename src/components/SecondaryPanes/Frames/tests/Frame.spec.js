@@ -3,7 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 import React from "react";
-import { shallow } from "enzyme";
+import { shallow, mount } from "enzyme";
 import Frame from "../Frame.js";
 
 import FrameMenu from "../FrameMenu";
@@ -65,6 +65,39 @@ describe("Frame", () => {
 
     const { component } = render({ id: 3 }, backboneFrame);
     expect(component).toMatchSnapshot();
+  });
+
+  it("filename only", () => {
+    const frame = {
+      id: 1,
+      source: {
+        url: "https://firefox.com/assets/src/js/foo-view.js"
+      },
+      displayName: "renderFoo|",
+      location: {
+        line: 10
+      }
+    };
+
+    const component = mount(<Frame frame={frame} />);
+    expect(component.text()).toBe("renderFoo|foo-view.js:10");
+  });
+
+  it("full URL", () => {
+    const url = `https://${"a".repeat(100)}.com/assets/src/js/foo-view.js`;
+    const frame = {
+      id: 1,
+      source: {
+        url
+      },
+      displayName: "renderFoo",
+      location: {
+        line: 10
+      }
+    };
+
+    const component = mount(<Frame frame={frame} displayFullUrl={true} />);
+    expect(component.text()).toBe(`renderFoo${url}:10`);
   });
 
   describe("mouse events", () => {
