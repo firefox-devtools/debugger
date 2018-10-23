@@ -5,6 +5,7 @@
 .call-site {
   position: relative;
   border-bottom: 2px solid lightgrey;
+  cursor: pointer;
 }
 
 .call-site::before {
@@ -21,6 +22,7 @@
 .call-site-bp {
   position: relative;
   border-bottom: 2px solid #aed3ef;
+  cursor: pointer;
 }
 
 .call-site-bp::before {
@@ -33,13 +35,20 @@
   height: 12px;
 }
 
-.theme-dark .call-site::before {
-  background-color: var(--blue-60);
-  opacity: 1;
+.theme-dark .call-site {
   border-bottom: none;
 }
 
-.theme-dark .call-site-bp::before {
-  background-color: var(--blue-40);
+.theme-dark .call-site-bp {
   border-bottom: none;
+}
+
+.theme-dark .call-site::before {
+  background-color: var(--blue-60);
+  opacity: 1;
+}
+
+.theme-dark .call-site-bp::before {
+  background-color: var(--blue-50);
+  opacity: 0.5;
 }
