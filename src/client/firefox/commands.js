@@ -279,7 +279,7 @@ function debuggeeCommand(script: Script): ?Promise<void> {
 }
 
 function navigate(url: string): Promise<*> {
-  return tabTarget.activeTab.navigateTo(url);
+  return tabTarget.activeTab.navigateTo({ url });
 }
 
 function reload(): Promise<*> {
