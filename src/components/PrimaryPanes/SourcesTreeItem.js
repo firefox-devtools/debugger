@@ -12,7 +12,10 @@ import { showMenu } from "devtools-contextmenu";
 import SourceIcon from "../shared/SourceIcon";
 import Svg from "../shared/Svg";
 
-import { getGeneratedSourceByURL, getSourcesURL } from "../../selectors";
+import {
+  getGeneratedSourceByURL,
+  getSourcesUrlsInSources
+} from "../../selectors";
 import actions from "../../actions";
 
 import { isOriginal as isOriginalSource } from "../../utils/source";
@@ -216,7 +219,7 @@ function getHasSiblingOfSameName(state, source: ?Source) {
     return false;
   }
 
-  return getSourcesURL(state, source.url).length > 1;
+  return getSourcesUrlsInSources(state, source.url).length > 1;
 }
 
 const mapStateToProps = (state, props) => {
