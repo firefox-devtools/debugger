@@ -4,8 +4,11 @@
 
  // @flow
 
+ import type { Breakpoint } from "../../types";
+ import type { BreakpointsMap } from "../../selectors";
+
  export default function remapLocations(breakpoints: Breakpoint[], sourceId: string, sourceMaps: Object) {
-  const sourceBreakpoints = breakpoints.map(async breakpoint => {
+  const sourceBreakpoints:BreakpointsMap = breakpoints.map(async breakpoint => {
     if (breakpoint.location.sourceId !== sourceId) {
       return breakpoint;
     }
