@@ -11,21 +11,21 @@ function getNthItem(dbg, index) {
 
 // Tests that the length of outline functions for original and pretty printed source matches
 add_task(async function () {
-  const dbg = await initDebugger("doc-minified.html");
+  const dbg = await initDebugger("doc-scripts.html");
   const {
     selectors: { getSelectedSource },
     getState
   } = dbg;
 
-  await selectSource(dbg, "math.min.js");
+  await selectSource(dbg, "simple1");
   findElementWithSelector(dbg, ".outline-tab").click();
   const originalSource = getItems(dbg);
 
   clickElement(dbg, "prettyPrintButton");
-  await waitForSource(dbg, "math.min.js:formatted");
+  await waitForSource(dbg, "simple1:formatted");
   const prettySource = getItems(dbg);
 
-  is(originalSource.length, prettySource.length, "Outline functions match");
+  is(originalSource.length, prettySource.length, "Length of outline functions for both prettyPrint and originalSource same");
 });
 
 // Tests that the editor highlights the correct location when the
