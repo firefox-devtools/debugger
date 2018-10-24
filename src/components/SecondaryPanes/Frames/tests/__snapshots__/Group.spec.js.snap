@@ -32,3 +32,122 @@ exports[`Group displays a group 1`] = `
   </li>
 </div>
 `;
+
+exports[`Group passes the getFrameTitle prop to the Frame components 1`] = `
+<div
+  className="frames-group expanded"
+  onContextMenu={[Function]}
+>
+  <li
+    className="group"
+    key="1"
+    onClick={[Function]}
+    tabIndex={0}
+  >
+    <div
+      className="d-flex align-items-center min-width-0"
+    >
+      <div
+        className="title"
+      >
+        renderFoo
+      </div>
+      <Badge>
+        3
+      </Badge>
+    </div>
+    <FrameLocation
+      frame={
+        Object {
+          "displayName": "renderFoo",
+          "id": 1,
+          "location": Object {
+            "line": 55,
+          },
+          "source": Object {
+            "url": "http://myfile.com/mahscripts.js",
+          },
+        }
+      }
+    />
+  </li>
+  <div
+    className="frames-list"
+  >
+    <Frame
+      copyStackTrace={[MockFunction]}
+      frame={
+        Object {
+          "displayName": "renderFoo",
+          "id": 1,
+          "location": Object {
+            "line": 55,
+          },
+          "source": Object {
+            "url": "http://myfile.com/mahscripts.js",
+          },
+        }
+      }
+      frameworkGroupingOn={true}
+      getFrameTitle={[Function]}
+      hideLocation={true}
+      key="1"
+      selectFrame={[MockFunction]}
+      selectedFrame={Object {}}
+      shouldMapDisplayName={false}
+      toggleBlackBox={[MockFunction]}
+      toggleFrameworkGrouping={[MockFunction]}
+    />
+    <Frame
+      copyStackTrace={[MockFunction]}
+      frame={
+        Object {
+          "displayName": "a",
+          "id": 2,
+          "library": "back",
+          "location": Object {
+            "line": 55,
+          },
+          "source": Object {
+            "url": "http://myfile.com/back.js",
+          },
+        }
+      }
+      frameworkGroupingOn={true}
+      getFrameTitle={[Function]}
+      hideLocation={true}
+      key="2"
+      selectFrame={[MockFunction]}
+      selectedFrame={Object {}}
+      shouldMapDisplayName={false}
+      toggleBlackBox={[MockFunction]}
+      toggleFrameworkGrouping={[MockFunction]}
+    />
+    <Frame
+      copyStackTrace={[MockFunction]}
+      frame={
+        Object {
+          "displayName": "b",
+          "id": 3,
+          "library": "back",
+          "location": Object {
+            "line": 55,
+          },
+          "source": Object {
+            "url": "http://myfile.com/back.js",
+          },
+        }
+      }
+      frameworkGroupingOn={true}
+      getFrameTitle={[Function]}
+      hideLocation={true}
+      key="3"
+      selectFrame={[MockFunction]}
+      selectedFrame={Object {}}
+      shouldMapDisplayName={false}
+      toggleBlackBox={[MockFunction]}
+      toggleFrameworkGrouping={[MockFunction]}
+    />
+  </div>
+</div>
+`;

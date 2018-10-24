@@ -116,6 +116,73 @@ describe("Frames", () => {
         "renderFoo|http://myfile.com/mahscripts.js:55"
       );
     });
+
+    it("passes the getFrameTitle prop to the Frame component", () => {
+      const frames = [
+        {
+          id: 1,
+          displayName: "renderFoo",
+          location: {
+            line: 55
+          },
+          source: {
+            url: "http://myfile.com/mahscripts.js"
+          }
+        }
+      ];
+      const getFrameTitle = () => {};
+      const component = render({ frames, getFrameTitle });
+
+      expect(component.find("FrameComponent").prop("getFrameTitle")).toBe(
+        getFrameTitle
+      );
+      expect(component).toMatchSnapshot();
+    });
+
+    it("passes the getFrameTitle prop to the Group component", () => {
+      const frames = [
+        {
+          id: 1,
+          displayName: "renderFoo",
+          location: {
+            line: 55
+          },
+          source: {
+            url: "http://myfile.com/mahscripts.js"
+          }
+        },
+        {
+          id: 2,
+          library: "back",
+          displayName: "a",
+          location: {
+            line: 55
+          },
+          source: {
+            url: "http://myfile.com/back.js"
+          }
+        },
+        {
+          id: 3,
+          library: "back",
+          displayName: "b",
+          location: {
+            line: 55
+          },
+          source: {
+            url: "http://myfile.com/back.js"
+          }
+        }
+      ];
+      const getFrameTitle = () => {};
+      const component = render({
+        frames,
+        getFrameTitle,
+        frameworkGroupingOn: true
+      });
+
+      expect(component.find("Group").prop("getFrameTitle")).toBe(getFrameTitle);
+    });
   });
 
   describe("Blackboxed Frames", () => {

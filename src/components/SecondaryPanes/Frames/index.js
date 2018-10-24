@@ -41,7 +41,8 @@ type Props = {
   toggleBlackBox: Function,
   toggleFrameworkGrouping: Function,
   disableFrameTruncate: boolean,
-  displayFullUrl: boolean
+  displayFullUrl: boolean,
+  getFrameTitle?: string => string
 };
 
 type State = {
@@ -115,7 +116,8 @@ class Frames extends Component<Props, State> {
       selectedFrame,
       toggleBlackBox,
       frameworkGroupingOn,
-      displayFullUrl
+      displayFullUrl,
+      getFrameTitle
     } = this.props;
 
     const framesOrGroups = this.truncateFrames(this.collapseFrames(frames));
@@ -136,6 +138,7 @@ class Frames extends Component<Props, State> {
                 toggleBlackBox={toggleBlackBox}
                 key={String(frameOrGroup.id)}
                 displayFullUrl={displayFullUrl}
+                getFrameTitle={getFrameTitle}
               />
             ) : (
               <Group
@@ -148,6 +151,7 @@ class Frames extends Component<Props, State> {
                 toggleBlackBox={toggleBlackBox}
                 key={frameOrGroup[0].id}
                 displayFullUrl={displayFullUrl}
+                getFrameTitle={getFrameTitle}
               />
             )
         )}

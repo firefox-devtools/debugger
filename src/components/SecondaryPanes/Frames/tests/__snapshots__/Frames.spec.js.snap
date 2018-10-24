@@ -672,6 +672,39 @@ exports[`Frames Supports different number of frames one frame 1`] = `
 </div>
 `;
 
+exports[`Frames Supports different number of frames passes the getFrameTitle prop to the Frame component 1`] = `
+<div
+  className="pane frames"
+>
+  <ul>
+    <Frame
+      copyStackTrace={[Function]}
+      frame={
+        Object {
+          "displayName": "renderFoo",
+          "id": 1,
+          "location": Object {
+            "line": 55,
+          },
+          "source": Object {
+            "url": "http://myfile.com/mahscripts.js",
+          },
+        }
+      }
+      frameworkGroupingOn={false}
+      getFrameTitle={[Function]}
+      hideLocation={false}
+      key="1"
+      selectFrame={[MockFunction]}
+      selectedFrame={null}
+      shouldMapDisplayName={true}
+      toggleBlackBox={[MockFunction]}
+      toggleFrameworkGrouping={[Function]}
+    />
+  </ul>
+</div>
+`;
+
 exports[`Frames Supports different number of frames toggling the show more button 1`] = `
 <div
   className="pane frames"
