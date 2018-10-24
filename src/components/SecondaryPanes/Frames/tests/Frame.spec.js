@@ -100,6 +100,26 @@ describe("Frame", () => {
     expect(component.text()).toBe(`renderFoo${url}:10`);
   });
 
+  it("getFrameTitle", () => {
+    const url = `https://${"a".repeat(100)}.com/assets/src/js/foo-view.js`;
+    const frame = {
+      id: 1,
+      source: {
+        url
+      },
+      displayName: "renderFoo",
+      location: {
+        line: 10
+      }
+    };
+
+    const component = shallow(
+      <Frame frame={frame} getFrameTitle={x => `Jump to ${x}`} />
+    );
+    expect(component.prop("title")).toBe(`Jump to ${url}:10`);
+    expect(component).toMatchSnapshot();
+  });
+
   describe("mouse events", () => {
     it("calls FrameMenu on right click", () => {
       const { component, props } = render();

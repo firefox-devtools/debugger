@@ -44,7 +44,8 @@ type Props = {
   copyStackTrace: Function,
   toggleBlackBox: Function,
   frameworkGroupingOn: boolean,
-  displayFullUrl: boolean
+  displayFullUrl: boolean,
+  getFrameTitle?: string => string
 };
 
 type State = {
@@ -89,7 +90,8 @@ export default class Group extends Component<Props, State> {
       frameworkGroupingOn,
       toggleBlackBox,
       copyStackTrace,
-      displayFullUrl
+      displayFullUrl,
+      getFrameTitle
     } = this.props;
 
     const { expanded } = this.state;
@@ -112,6 +114,7 @@ export default class Group extends Component<Props, State> {
             toggleBlackBox={toggleBlackBox}
             toggleFrameworkGrouping={toggleFrameworkGrouping}
             displayFullUrl={displayFullUrl}
+            getFrameTitle={getFrameTitle}
           />
         ))}
       </div>
