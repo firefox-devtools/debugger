@@ -74,10 +74,13 @@ function mapDisplayNames(frame, library) {
   );
 }
 
-type formatDisplayNameParams = { shouldMapDisplayName: boolean };
+type formatDisplayNameParams = {
+  shouldMapDisplayName: boolean,
+  maxLength: number
+};
 export function formatDisplayName(
   frame: LocalFrame,
-  { shouldMapDisplayName = true }: formatDisplayNameParams = {}
+  { shouldMapDisplayName = true, maxLength = 25 }: formatDisplayNameParams = {}
 ) {
   let { displayName, originalDisplayName, library } = frame;
   displayName = originalDisplayName || displayName;
@@ -86,7 +89,9 @@ export function formatDisplayName(
   }
 
   displayName = simplifyDisplayName(displayName);
-  return endTruncateStr(displayName, 25);
+  return Number.isInteger(maxLength)
+    ? endTruncateStr(displayName, maxLength)
+    : displayName;
 }
 
 export function formatCopyName(frame: LocalFrame) {
