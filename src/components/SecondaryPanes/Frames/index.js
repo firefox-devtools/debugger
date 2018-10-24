@@ -56,7 +56,7 @@ class Frames extends Component<Props, State> {
   toggleFrameworkGrouping: Function;
   renderToggleButton: Function;
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
@@ -64,7 +64,7 @@ class Frames extends Component<Props, State> {
     };
   }
 
-  shouldComponentUpdate(nextProps, nextState): boolean {
+  shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
     const { frames, selectedFrame, frameworkGroupingOn } = this.props;
     const { showAllFrames } = this.state;
     return (
@@ -81,7 +81,7 @@ class Frames extends Component<Props, State> {
     }));
   };
 
-  collapseFrames(frames) {
+  collapseFrames(frames: Array<Frame>) {
     const { frameworkGroupingOn } = this.props;
     if (!frameworkGroupingOn) {
       return frames;
@@ -90,7 +90,7 @@ class Frames extends Component<Props, State> {
     return collapseFrames(frames);
   }
 
-  truncateFrames(frames) {
+  truncateFrames(frames: Array<Frame>): Array<Frame> {
     const numFramesToShow = this.state.showAllFrames
       ? frames.length
       : NUM_FRAMES_SHOWN;
@@ -215,3 +215,7 @@ export default connect(
     displayFullUrl: false
   }
 )(Frames);
+
+// Export the non-connected component in order to use it outside of the debugger
+// panel (e.g. console, netmonitor, …).
+export { Frames };
