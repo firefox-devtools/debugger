@@ -59,6 +59,30 @@ describe("formatting display names", () => {
     expect(formatDisplayName(frame)).toEqual("...zbazbazbazbazbazbazbazbaz");
   });
 
+  it("truncates function names according to maxLength", () => {
+    const frame = {
+      displayName: "bazbazbazbazbazbazbazbazbazbazbazbazbaz",
+      source: {
+        url: "assets/bar.js"
+      }
+    };
+
+    expect(formatDisplayName(frame, { maxLength: 3 })).toEqual("...baz");
+  });
+
+  it("does not truncate when explicit null maxLength", () => {
+    const frame = {
+      displayName: "bazbazbazbazbazbazbazbazbazbazbazbazbaz",
+      source: {
+        url: "assets/bar.js"
+      }
+    };
+
+    expect(formatDisplayName(frame, { maxLength: null })).toEqual(
+      "bazbazbazbazbazbazbazbazbazbazbazbazbaz"
+    );
+  });
+
   it("returns the original function name when present", () => {
     const frame = {
       originalDisplayName: "originalFn",
