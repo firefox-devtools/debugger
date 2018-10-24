@@ -31,6 +31,54 @@ describe("Group", () => {
     expect(component).toMatchSnapshot();
   });
 
+  it("passes the getFrameTitle prop to the Frame components", () => {
+    const group = [
+      {
+        id: 1,
+        displayName: "renderFoo",
+        location: {
+          line: 55
+        },
+        source: {
+          url: "http://myfile.com/mahscripts.js"
+        }
+      },
+      {
+        id: 2,
+        library: "back",
+        displayName: "a",
+        location: {
+          line: 55
+        },
+        source: {
+          url: "http://myfile.com/back.js"
+        }
+      },
+      {
+        id: 3,
+        library: "back",
+        displayName: "b",
+        location: {
+          line: 55
+        },
+        source: {
+          url: "http://myfile.com/back.js"
+        }
+      }
+    ];
+    const getFrameTitle = () => {};
+    const { component } = render({ group, getFrameTitle });
+
+    component.setState({ expanded: true });
+
+    const frameComponents = component.find("FrameComponent");
+    expect(frameComponents).toHaveLength(3);
+    frameComponents.forEach(node => {
+      expect(node.prop("getFrameTitle")).toBe(getFrameTitle);
+    });
+    expect(component).toMatchSnapshot();
+  });
+
   describe("mouse events", () => {
     it("calls FrameMenu on right click", () => {
       const { component, props } = render();

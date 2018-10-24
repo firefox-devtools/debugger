@@ -44,13 +44,8 @@ function FrameLocation({ frame, displayFullUrl = false }: FrameLocationProps) {
   const filename = displayFullUrl
     ? getFileURL(source, false)
     : getFilename(source);
-  const title = `${getFileURL(source, false)}:${location.line}`;
 
-  return (
-    <div className="location" title={title}>{`${filename}:${
-      location.line
-    }`}</div>
-  );
+  return <div className="location">{`${filename}:${location.line}`}</div>;
 }
 
 FrameLocation.displayName = "FrameLocation";
@@ -65,7 +60,8 @@ type FrameComponentProps = {
   hideLocation: boolean,
   shouldMapDisplayName: boolean,
   toggleBlackBox: Function,
-  displayFullUrl: boolean
+  displayFullUrl: boolean,
+  getFrameTitle?: string => string
 };
 
 export default class FrameComponent extends Component<FrameComponentProps> {
@@ -118,12 +114,20 @@ export default class FrameComponent extends Component<FrameComponentProps> {
       selectedFrame,
       hideLocation,
       shouldMapDisplayName,
-      displayFullUrl
+      displayFullUrl,
+      getFrameTitle
     } = this.props;
 
     const className = classNames("frame", {
       selected: selectedFrame && selectedFrame.id === frame.id
     });
+
+    const title = getFrameTitle
+      ? getFrameTitle(
+          `${getFileURL(frame.source, false)}:${frame.location.line}`
+        )
+      : undefined;
+
     return (
       <li
         key={frame.id}
@@ -132,6 +136,7 @@ export default class FrameComponent extends Component<FrameComponentProps> {
         onKeyUp={e => this.onKeyUp(e, frame, selectedFrame)}
         onContextMenu={e => this.onContextMenu(e)}
         tabIndex={0}
+        title={title}
       >
         <FrameTitle frame={frame} options={{ shouldMapDisplayName }} />
         {!hideLocation && (
