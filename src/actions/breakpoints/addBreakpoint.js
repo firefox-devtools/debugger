@@ -2,6 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
+// @flow
+
 import { isOriginalId } from "devtools-source-map";
 import {
   locationMoved,
@@ -28,18 +30,21 @@ async function addBreakpointPromise(getState, client, sourceMaps, breakpoint) {
   };
 
   const generatedLocation = await getGeneratedLocation(
-    state,
-    source,
-    location,
-    sourceMaps
+    (state: State),
+    (source: Source),
+    (location: Location),
+    (sourceMaps: SourceMaps)
   );
 
-  const generatedSource = getSource(state, generatedLocation.sourceId);
+  const generatedSource = getSource(
+    (state: State),
+    (generatedLocation.sourceId: String)
+  );
 
-  assertLocation(location);
-  assertLocation(generatedLocation);
+  assertLocation((location: Location));
+  assertLocation((generatedLocation: GeneratedLocation));
 
-  if (breakpointExists(state, location)) {
+  if (breakpointExists((state: State), (location: Location))) {
     const newBreakpoint = { ...breakpoint, location, generatedLocation };
     assertBreakpoint(newBreakpoint);
     return { breakpoint: newBreakpoint };
@@ -48,7 +53,7 @@ async function addBreakpointPromise(getState, client, sourceMaps, breakpoint) {
   const { id, hitCount, actualLocation } = await client.setBreakpoint(
     generatedLocation,
     breakpoint.condition,
-    isOriginalId(location.sourceId)
+    isOriginalId((location.sourceId: String))
   );
 
   const newGeneratedLocation = actualLocation || generatedLocation;
@@ -57,10 +62,14 @@ async function addBreakpointPromise(getState, client, sourceMaps, breakpoint) {
   );
 
   const symbols = getSymbols(getState(), source);
-  const astLocation = await getASTLocation(source, symbols, newLocation);
+  const astLocation = await getASTLocation(
+    source,
+    symbols,
+    (newLocation: location)
+  );
 
   const originalText = getTextAtPosition(source, location);
-  const text = getTextAtPosition(generatedSource, actualLocation);
+  const text = getTextAtPosition(generatedSource, (actualLocation: Location));
 
   const newBreakpoint = {
     id,
