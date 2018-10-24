@@ -7,7 +7,8 @@ import {
   getHiddenBreakpointLocation,
   isEvaluatingExpression,
   getSelectedFrame,
-  getSources
+  getSources,
+  getBreakpointsAtLine
 } from "../../selectors";
 
 import { mapFrames } from ".";
@@ -22,6 +23,7 @@ import { shouldStep } from "../../utils/pause";
 import { updateFrameLocation } from "./mapFrames";
 
 import { fetchScopes } from "./fetchScopes";
+import { resume } from "./commands";
 
 import type { Pause, Frame } from "../../types";
 import type { ThunkArgs } from "../types";
@@ -53,6 +55,11 @@ export function paused(pauseInfo: Pause) {
         dispatch(command("stepOver"));
         return;
       }
+    }
+
+    const bps = getBreakpointsAtLine(getState(), topFrame.location.line);
+    if (why.type == "breakpoint" && bps.size === 0) {
+      return resume();
     }
 
     dispatch({
