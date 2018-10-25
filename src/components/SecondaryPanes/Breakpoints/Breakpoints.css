@@ -132,7 +132,7 @@ html .breakpoints-list .breakpoint.paused {
 }
 
 .breakpoints-list .breakpoint .breakpoint-line {
-  font-size: 11px;
+  font-size: 14px;
   color: var(--theme-comment);
   min-width: 16px;
   text-align: right;
@@ -158,8 +158,8 @@ html[dir="rtl"] .breakpoints-list .breakpoint .breakpoint-line {
   flex-grow: 1;
   text-overflow: ellipsis;
   overflow: hidden;
-  padding-top: 2px;
-  font-size: 11px;
+  padding-top: 3px;
+  font-size: 14px;
 }
 
 .breakpoints-list .breakpoint-label,

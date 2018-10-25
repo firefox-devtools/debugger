@@ -73,8 +73,8 @@
   cursor: pointer;
   flex-grow: 1;
   text-overflow: ellipsis;
-  padding-inline-end: 8px;
-  font-size: 11px;
+  padding-inline-end: 3px;
+  font-size: 14px;
 }
 
 .xhr-container .close-btn {

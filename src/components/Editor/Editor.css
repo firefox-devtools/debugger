@@ -172,7 +172,7 @@ html[dir="rtl"] .editor-mount {
 }
 
 .CodeMirror-linenumber {
-  font-size: 11px;
+  font-size: 14px;
   line-height: 14px;
 }
 
@@ -195,7 +195,7 @@ html[dir="rtl"] .editor-mount {
 }
 
 .editor-wrapper .CodeMirror-line {
-  font-size: 11px;
+  font-size: 14px;
 }
 
 .theme-dark .editor-wrapper .CodeMirror-line .cm-comment {

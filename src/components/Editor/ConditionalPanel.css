@@ -16,9 +16,9 @@
 .conditional-breakpoint-panel .prompt {
   font-size: 1.8em;
   color: var(--theme-conditional-breakpoint-color);
-  padding-left: 3px;
-  padding-right: 3px;
-  padding-bottom: 3px;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-bottom: 4px;
   text-align: right;
   width: 30px;
 }
