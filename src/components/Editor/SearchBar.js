@@ -276,6 +276,12 @@ class SearchBar extends Component<Props, State> {
             toggleFileSearchModifier(modVal);
             doSearch(query);
           }}
+          onKeyDown={(e: any) => {
+            if (e.key === "Enter") {
+              toggleFileSearchModifier(modVal);
+              doSearch(query);
+            }
+          }}
           title={tooltip}
         >
           <Svg name={svgName} />
