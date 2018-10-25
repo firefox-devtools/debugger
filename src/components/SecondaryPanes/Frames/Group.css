@@ -6,6 +6,12 @@
 .frames ul .frames-group .group .location {
   font-weight: 500;
   cursor: default;
+  /*
+   * direction:rtl is set in Frames.css to overflow the location text from the
+   * start. Here we need to reset it in order to display the framework icon
+   * after the framework name.
+   */
+  direction: ltr;
 }
 
 .frames ul .frames-group.expanded .group,
