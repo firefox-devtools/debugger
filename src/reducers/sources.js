@@ -431,7 +431,7 @@ function getSourcesByUrlInSources(
   return urls[url].map(id => sources[id]);
 }
 
-export function getSourceInSources(sources: SourcesMap, id: string): Source {
+export function getSourceInSources(sources: SourcesMap, id: string): ?Source {
   return sources[id];
 }
 

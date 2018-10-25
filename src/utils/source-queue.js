@@ -10,7 +10,7 @@ let supportsWasm = false;
 let queuedSources;
 let currentWork;
 
-async function dispatchNewSources(){
+async function dispatchNewSources() {
   const sources = queuedSources;
   queuedSources = [];
 

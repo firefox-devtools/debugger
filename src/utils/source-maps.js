@@ -41,7 +41,11 @@ export async function getMappedLocation(
   sourceMaps: Object,
   location: Location
 ): Promise<Location> {
-  const source: Source = getSource(state, location.sourceId);
+  const source = getSource(state, location.sourceId);
+
+  if (!source) {
+    throw new Error("Unknown source for location");
+  }
 
   if (isOriginalId(location.sourceId)) {
     return getGeneratedLocation(state, source, location, sourceMaps);
