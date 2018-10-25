@@ -35,7 +35,7 @@ type Editor = ?Object;
 
 import "./ProjectSearch.css";
 
-type Match = {
+export type Match = {
   type: "MATCH",
   sourceId: string,
   line: number,
