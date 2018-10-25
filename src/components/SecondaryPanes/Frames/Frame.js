@@ -19,8 +19,8 @@ type FrameTitleProps = {
   options: Object
 };
 
-function FrameTitle({ frame, options }: FrameTitleProps) {
-  const displayName = formatDisplayName(frame, options);
+function FrameTitle({ frame, options = {} }: FrameTitleProps) {
+  const displayName = formatDisplayName(frame, { ...options, maxLength: null });
   return <div className="title">{displayName}</div>;
 }
 

@@ -9,13 +9,16 @@
 }
 
 .frames ul li {
-  padding: 0 10px 0 21px;
+  padding: 7px 10px 7px 21px;
   overflow: hidden;
   display: flex;
   justify-content: space-between;
+  column-gap: 0.5em;
   flex-direction: row;
   align-items: center;
   margin: 0;
+  max-width: 100%;
+  flex-wrap: wrap;
 }
 
 .frames ul li * {
@@ -30,12 +33,15 @@
 
 .frames .location {
   font-weight: normal;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  align-items: center;
   margin: 0;
-  flex-shrink: 0;
+  flex-grow: 1;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  /* Trick to get the ellipsis at the start of the string */
+  text-overflow: ellipsis;
+  direction: rtl;
+  text-align: right;
 }
 
 .theme-light .frames .location {
@@ -50,7 +56,6 @@
 .frames .title {
   text-overflow: ellipsis;
   overflow: hidden;
-  margin: 7px 0.5em 7px 0;
 }
 
 .frames ul li:hover,
@@ -96,9 +101,9 @@
 }
 
 .annotation-logo {
+  display: inline-block;
   width: 12px;
-  margin-left: 3px;
-  line-height: 8px;
+  margin-inline-start: 4px;
 }
 
 :root.theme-dark .annotation-logo svg path {
