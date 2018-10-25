@@ -49,7 +49,7 @@ describe("endTruncateStr()", () => {
     it("returns an elipsis and characters at the end of the string", () => {
       testString = "Mozilla Firefox is my favorite web browser";
 
-      expect(endTruncateStr(testString, testSize)).toBe("...web browser");
+      expect(endTruncateStr(testString, testSize)).toBe("…web browser");
     });
   });
 

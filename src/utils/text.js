@@ -57,7 +57,7 @@ export function truncateMiddleText(
     truncatedText = `${sourceText.substring(
       0,
       Math.round(maxLength / 2) - 2
-    )}...${sourceText.substring(
+    )}…${sourceText.substring(
       sourceText.length - Math.round(maxLength / 2 - 1)
     )}`;
   }

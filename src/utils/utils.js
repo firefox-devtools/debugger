@@ -44,7 +44,7 @@ export function promisify(
  */
 export function endTruncateStr(str: any, size: number) {
   if (str.length > size) {
-    return `...${str.slice(str.length - size)}`;
+    return `…${str.slice(str.length - size)}`;
   }
   return str;
 }
