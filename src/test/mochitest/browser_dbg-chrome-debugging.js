@@ -29,8 +29,8 @@ function initDebuggerClient() {
 }
 
 async function attachThread(client, actor) {
-  let [response, tabClient] = await client.attachTarget(actor);
-  let [response2, threadClient] = await tabClient.attachThread(null);
+  let [response, targetFront] = await client.attachTarget(actor);
+  let [response2, threadClient] = await targetFront.attachThread(null);
   return threadClient;
 }
 
@@ -63,7 +63,7 @@ add_task(async function() {
   const [type] = await gClient.connect();
   is(type, "browser", "Root actor should identify itself as a browser.");
 
-  let response = await gClient.mainRoot.getProcess(0);
+  const response = await gClient.mainRoot.getProcess(0);
   let actor = response.form.actor;
   gThreadClient = await attachThread(gClient, actor);
   gBrowser.selectedTab = BrowserTestUtils.addTab(gBrowser, "about:mozilla");

@@ -13,7 +13,8 @@ import type { SourceScope } from "./getScopes/visitor";
 import type { SymbolDeclarations } from "./getSymbols";
 
 const dispatcher = new WorkerDispatcher();
-export const start = (url: string) => dispatcher.start(url);
+export const start = (url: string, win: any = window) =>
+  dispatcher.start(url, win);
 export const stop = () => dispatcher.stop();
 
 export const findOutOfScopeLocations = async (
