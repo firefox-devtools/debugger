@@ -68,7 +68,7 @@ describe("sources", () => {
           },
           30
         )
-      ).toBe("really-really...long-name.html");
+      ).toBe("really-really…long-name.html");
     });
     it("should first decode the filename and then truncate it", () => {
       expect(
@@ -79,7 +79,7 @@ describe("sources", () => {
           },
           30
         )
-      ).toBe("測測測測測測測測測測測測測...測測測測測測測測測.html");
+      ).toBe("測測測測測測測測測測測測測…測測測測測測測測測.html");
     });
   });
 
@@ -184,7 +184,7 @@ describe("sources", () => {
         )
       ).toBe(undefined);
     });
-    it(`should give us the path for files with same name when both 
+    it(`should give us the path for files with same name when both
       are pretty and different path`, () => {
       expect(
         getDisplayPath(
@@ -237,7 +237,7 @@ describe("sources", () => {
           url: "http://localhost-long.com:7999/increment/hello.html",
           id: ""
         })
-      ).toBe("...ttp://localhost-long.com:7999/increment/hello.html");
+      ).toBe("…ttp://localhost-long.com:7999/increment/hello.html");
     });
     it("should first decode the file URL and then truncate it", () => {
       expect(
@@ -245,7 +245,7 @@ describe("sources", () => {
           url: `http://${encodedUnicode.repeat(39)}.html`,
           id: ""
         })
-      ).toBe(`...ttp://${unicode.repeat(39)}.html`);
+      ).toBe(`…ttp://${unicode.repeat(39)}.html`);
     });
   });
 
