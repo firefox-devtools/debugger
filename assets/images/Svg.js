@@ -15,6 +15,7 @@ const svg = {
   breadcrumb: require("./breadcrumbs-divider.svg"),
   breakpoint: require("./breakpoint.svg"),
   "column-breakpoint": require("./column-breakpoint.svg"),
+  "column-marker": require("./column-marker.svg"),
   "case-match": require("./case-match.svg"),
   choo: require("./choo.svg"),
   close: require("./close.svg"),
