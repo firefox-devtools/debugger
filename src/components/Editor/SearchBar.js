@@ -272,7 +272,7 @@ class SearchBar extends Component<Props, State> {
       return (
         <button
           className={preppedClass}
-          onClick={() => {
+          onMouseDown={() => {
             toggleFileSearchModifier(modVal);
             doSearch(query);
           }}
