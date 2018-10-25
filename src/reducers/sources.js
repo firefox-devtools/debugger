@@ -431,6 +431,15 @@ function getSourcesByUrlInSources(
   return urls[url].map(id => sources[id]);
 }
 
+export function getSourcesUrlsInSources(state: OuterState, url: string) {
+  const urls = getUrls(state);
+  if (!url || !urls[url]) {
+    return [];
+  }
+
+  return [...new Set(Object.keys(urls).filter(Boolean))];
+}
+
 export function getSourceInSources(sources: SourcesMap, id: string): ?Source {
   return sources[id];
 }
