@@ -3,9 +3,13 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // Maybe reuse file search's functions?
-import React from "react";
 
-export function highlightMatches(lineMatch) {
+// @flow
+
+import React from "react";
+import type { Match } from "../components/ProjectSearch";
+
+export function highlightMatches(lineMatch: Match) {
   const { value, column, match } = lineMatch;
   const len = match.length;
 
