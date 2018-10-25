@@ -56,7 +56,7 @@ describe("formatting display names", () => {
       }
     };
 
-    expect(formatDisplayName(frame)).toEqual("...zbazbazbazbazbazbazbazbaz");
+    expect(formatDisplayName(frame)).toEqual("…zbazbazbazbazbazbazbazbaz");
   });
 
   it("truncates function names according to maxLength", () => {
@@ -67,7 +67,7 @@ describe("formatting display names", () => {
       }
     };
 
-    expect(formatDisplayName(frame, { maxLength: 3 })).toEqual("...baz");
+    expect(formatDisplayName(frame, { maxLength: 3 })).toEqual("…baz");
   });
 
   it("does not truncate when explicit null maxLength", () => {
