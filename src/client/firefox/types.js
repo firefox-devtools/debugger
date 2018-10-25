@@ -237,7 +237,7 @@ export type TabTarget = {
   form: { consoleActor: any },
   root: any,
   activeTab: {
-    navigateTo: string => Promise<*>,
+    navigateTo: ({ url: string }) => Promise<*>,
     reload: () => Promise<*>
   },
   destroy: () => void
@@ -271,7 +271,8 @@ export type DebuggerClient = {
 
 export type TabClient = {
   listWorkers: () => Promise<*>,
-  addListener: (string, Function) => void
+  addListener: (string, Function) => void,
+  on: (string, Function) => void
 };
 
 /**
