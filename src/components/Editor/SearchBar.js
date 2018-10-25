@@ -272,9 +272,15 @@ class SearchBar extends Component<Props, State> {
       return (
         <button
           className={preppedClass}
-          onClick={() => {
+          onMouseDown={() => {
             toggleFileSearchModifier(modVal);
             doSearch(query);
+          }}
+          onKeyDown={(e: any) => {
+            if (e.key === "Enter") {
+              toggleFileSearchModifier(modVal);
+              doSearch(query);
+            }
           }}
           title={tooltip}
         >
