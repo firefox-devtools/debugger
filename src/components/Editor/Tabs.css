@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
  :root {
-  --animation-easing-function: cubic-bezier(.07, .95, 0, 1);
+  --animation-easing-function: cubic-bezier(0.07, 0.95, 0, 1);
   --theme-toolbar-selected: rgb(10, 132, 255);
 }
 
