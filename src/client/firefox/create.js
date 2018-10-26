@@ -21,7 +21,10 @@ export function createFrame(frame: FramePacket): ?Frame {
   if (frame.type == "call") {
     const c = frame.callee;
     title =
-      c.name || c.userDisplayName || c.displayName || L10N.getStr("anonymous");
+      c.name ||
+      c.userDisplayName ||
+      c.displayName ||
+      L10N.getStr("anonymousFunction");
   } else {
     title = `(${frame.type})`;
   }
