@@ -1,6 +1,10 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+ :root {
+  --animation-easing-function: cubic-bezier(.07, .95, 0, 1);
+  --theme-toolbar-selected: rgb(10, 132, 255);
+}
 
 .source-header {
   border-bottom: 1px solid var(--theme-splitter-color);
@@ -38,7 +42,8 @@
 }
 
 .source-tab {
-  border-top: 2px solid transparent;
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
   display: inline-flex;
   align-items: center;
   position: relative;
@@ -57,17 +62,11 @@
 }
 
 .source-tab:not(.active):hover {
-  border-top: 2px solid rgba(0, 0, 0, 0.2);
   background-color: var(--theme-toolbar-hover);
-}
-
-.theme-dark .source-tab:hover {
-  border-top: 2px solid var(--tab-line-hover-color);
 }
 
 .source-tab.active {
   color: rgb(0, 96, 223);
-  border-top: 2px solid rgb(10, 132, 255);
   border-bottom-color: transparent;
   border-left: 1px solid var(--theme-splitter-color);
   border-right: 1px solid var(--theme-splitter-color);
@@ -84,10 +83,6 @@
 
 .theme-dark .source-tab.active {
   color: var(--theme-toolbar-selected-color);
-}
-
-.theme-dark .source-tab.active:hover {
-  border-top: 2px solid rgb(10, 132, 255);
 }
 
 .source-tab.active path,
@@ -167,4 +162,16 @@ html[dir="rtl"] img.moreTabs {
 
 .source-tab:hover .close-btn {
   visibility: visible;
+}
+
+.source-tab:not(.active):hover .devtools-tab-line {
+  background: var(--tab-line-hover-color);
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.source-tab.active .devtools-tab-line {
+  background: var(--theme-toolbar-selected);
+  opacity: 1;
+  transform: scaleX(1);
 }
