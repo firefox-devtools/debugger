@@ -94,6 +94,25 @@ describe("formatting display names", () => {
 
     expect(formatDisplayName(frame)).toEqual("originalFn");
   });
+
+  it("returns anonymous when displayName is undefined", () => {
+    const frame = {};
+    expect(formatDisplayName(frame)).toEqual("<anonymous>");
+  });
+
+  it("returns anonymous when displayName is null", () => {
+    const frame = {
+      displayName: null
+    };
+    expect(formatDisplayName(frame)).toEqual("<anonymous>");
+  });
+
+  it("returns anonymous when displayName is an empty string", () => {
+    const frame = {
+      displayName: ""
+    };
+    expect(formatDisplayName(frame)).toEqual("<anonymous>");
+  });
 });
 
 describe("simplifying display names", () => {

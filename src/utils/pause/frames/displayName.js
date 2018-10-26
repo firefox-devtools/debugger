@@ -19,7 +19,7 @@ const annonymousProperty = /([\w\d]+)\(\^\)$/;
 
 export function simplifyDisplayName(displayName: string) {
   // if the display name has a space it has already been mapped
-  if (/\s/.exec(displayName)) {
+  if (!displayName || /\s/.exec(displayName)) {
     return displayName;
   }
 
@@ -82,13 +82,22 @@ export function formatDisplayName(
   frame: LocalFrame,
   { shouldMapDisplayName = true, maxLength = 25 }: formatDisplayNameParams = {}
 ) {
-  let { displayName, originalDisplayName, library } = frame;
-  displayName = originalDisplayName || displayName;
+  let {
+    displayName,
+    originalDisplayName,
+    userDisplayName,
+    name,
+    library
+  } = frame;
+  displayName = originalDisplayName || userDisplayName || displayName || name;
   if (library && shouldMapDisplayName) {
     displayName = mapDisplayNames(frame, library);
   }
 
-  displayName = simplifyDisplayName(displayName);
+  displayName = displayName
+    ? simplifyDisplayName(displayName)
+    : L10N.getStr("anonymousFunction");
+
   return Number.isInteger(maxLength)
     ? endTruncateStr(displayName, maxLength)
     : displayName;

@@ -7,7 +7,7 @@ exports[`PreviewFunction should return a span 1`] = `
   <span
     className="function-name"
   >
-    undefined
+    &lt;anonymous&gt;
   </span>
   <span
     className="paren"
