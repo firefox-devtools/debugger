@@ -17,7 +17,7 @@ const arrayProperty = /\[(.*?)\]$/;
 const functionProperty = /([\w\d]+)[\/\.<]*?$/;
 const annonymousProperty = /([\w\d]+)\(\^\)$/;
 
-export function simplifyDisplayName(displayName: string) {
+export function simplifyDisplayName(displayName: string | void): string | void {
   // if the display name has a space it has already been mapped
   if (!displayName || /\s/.exec(displayName)) {
     return displayName;
@@ -86,23 +86,22 @@ type formatDisplayNameParams = {
 export function formatDisplayName(
   frame: LocalFrame,
   { shouldMapDisplayName = true, maxLength = 25 }: formatDisplayNameParams = {}
-) {
+): string {
   const { library } = frame;
   let displayName = getFrameDisplayName(frame);
   if (library && shouldMapDisplayName) {
     displayName = mapDisplayNames(frame, library);
   }
 
-  displayName = displayName
-    ? simplifyDisplayName(displayName)
-    : L10N.getStr("anonymousFunction");
+  displayName =
+    simplifyDisplayName(displayName) || L10N.getStr("anonymousFunction");
 
   return Number.isInteger(maxLength)
     ? endTruncateStr(displayName, maxLength)
     : displayName;
 }
 
-export function formatCopyName(frame: LocalFrame) {
+export function formatCopyName(frame: LocalFrame): string {
   const displayName = formatDisplayName(frame);
   const fileName = getFilename(frame.source);
   const frameLocation = frame.location.line;
