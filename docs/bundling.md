@@ -13,6 +13,29 @@ It is basically automating the steps :)
 6.  go to firefox and commit the changes with the title `Bug <ID> - Update Debugger Frontend v<relaease #> r=<reviewer>`
 7.  go back to the debugger and commit the `assets-manifest` and push the branch `g push --set-upstream origin -f --no-verify release-<Release Number>`
 
+### Investigating a performance regression
+
+When we notice that a release caused a performance regression in talos, it is important to be able to identify the specific commits that caused the regression. The easiest way to do that is to use try + talos to bisect the commits in the release and find the regression.
+
+1. create a spreadsheet with the commits in the release e.g. [release 91][sheet]
+2. checkout the release commit in firefox and trigger a try run `./mach try -b o -p linux64,win64 -u none -t damp-e10s --rebuild-talos 6`
+3. checkout the prior release commit in firefox and trigger a try run so there is a baseline for comparison
+4. go to the spreadsheet and identify commits that are possible performance regressions
+5. choose a couple of commits in the release that bisect the bisect the release so that when you have talos results you'll have a better idea of when the problem was introduced.
+6. for each candidate commit
+   - checkout the commit in github
+   - run `yarn copy --mc <path to firefox>`
+   - firefox commit the changes
+   - run `try` with talos `./mach try -b o -p linux64,win64 -u none -t damp-e10s --rebuild-talos 6`
+   - add the try url to the sheet in a separate column
+7. when the try runs are complete
+   - go to [try chooser][try] and select a base and new revision. The revision is in the try URLs you saved in the sheet. NOTE:
+     the project should be `try` and you'll need to select _compare specific revision_.
+   - click compare, select the platform you want to compare, and the view the the improvements and regressions for each test.
+
+[sheet]: https://docs.google.com/spreadsheets/d/1yEkT0lk2UVI7tsfZpNH2yo8ajZQsLs6gyW9gGOoaTDk/edit#gid=0
+[try]: https://treeherder.mozilla.org/perf.html#/comparechooser?newProject=try&newRevision=5c850420b5a08ef14d9c52e0f76648168b2d9a88
+
 ### What is in a bundle
 
 The simplest way to see the size of the bundle,
