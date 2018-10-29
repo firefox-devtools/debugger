@@ -92,7 +92,7 @@
   border: 1px solid var(--theme-splitter-color);
   background-color: var(--theme-tab-toolbar-background);
   margin: 0 auto;
-  border-radius:2px;
+  border-radius: 2px;
   font-size: inherit;
   color: inherit;
 }
