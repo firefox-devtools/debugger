@@ -32,7 +32,7 @@ exports[`ObjectInspector - state does not throw when expanding a block node 2`] 
 
 exports[`ObjectInspector - state expanding a getter returning a longString does not throw 1`] = `
 "
-▼ Object
+▼ {…}
 |  ▼ baseVal: \\"data:image/png;base64,initial<<<<\\"
 ▶︎ Proxy { <target>: {…}, <handler>: (3) […] }
 "
@@ -47,7 +47,7 @@ exports[`ObjectInspector - state expands if user selected some text and clicked 
 
 exports[`ObjectInspector - state expands if user selected some text and clicked the arrow 2`] = `
 "
-[ ▼ Object ]
+[ ▼ {…} ]
   |    a: 1
   |    Symbol(): \\"hello\\"
   |  ▶︎ <prototype>: Object { … }
@@ -64,7 +64,7 @@ exports[`ObjectInspector - state has the expected expandedPaths state when click
 
 exports[`ObjectInspector - state has the expected expandedPaths state when clicking nodes 2`] = `
 "
-[ ▼ Object ]
+[ ▼ {…} ]
   |    a: 1
   |    Symbol(): \\"hello\\"
   |  ▶︎ <prototype>: Object { … }
@@ -90,7 +90,7 @@ exports[`ObjectInspector - state has the expected expandedPaths state when click
 
 exports[`ObjectInspector - state has the expected expandedPaths state when clicking nodes 5`] = `
 "
-[ ▼ Object ]
+[ ▼ {…} ]
   |    a: 1
   |    Symbol(): \\"hello\\"
   |  ▶︎ <prototype>: Object { … }
@@ -109,7 +109,7 @@ exports[`ObjectInspector - state has the expected state when expanding a node 1`
 
 exports[`ObjectInspector - state has the expected state when expanding a node 2`] = `
 "
-[ ▼ Object ]
+[ ▼ {…} ]
   |  ▶︎ <prototype>: Object {  }
   ▶︎ Proxy { <target>: {…}, <handler>: (3) […] }
 "
@@ -117,8 +117,8 @@ exports[`ObjectInspector - state has the expected state when expanding a node 2`
 
 exports[`ObjectInspector - state has the expected state when expanding a node 3`] = `
 "
-  ▼ Object
-[ |  ▼ <prototype>: Object ]
+  ▼ {…}
+[ |  ▼ <prototype>: {} ]
   |  |  ▶︎ <prototype>: Object {  }
   ▶︎ Proxy { <target>: {…}, <handler>: (3) […] }
 "

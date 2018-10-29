@@ -285,8 +285,13 @@ class ObjectInspector extends Component<Props> {
       if (depth > 0) {
         repProps.mode = this.props.mode === MODE.LONG ? MODE.SHORT : MODE.TINY;
       }
+
       if (expanded) {
-        repProps.mode = MODE.EXPANDED;
+        if (this.props.autoExpandDepth === 0) {
+          repProps.mode = MODE.TINY;
+        } else {
+          repProps.mode = MODE.EXPANDED;
+        }
       }
 
       if (nodeIsLongString(item)) {

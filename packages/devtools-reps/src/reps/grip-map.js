@@ -44,7 +44,7 @@ function GripMap(props) {
   const title = getTitle(props, object);
   const isEmpty = getLength(object) === 0;
 
-  if (isEmpty || mode === MODE.TINY || mode == MODE.EXPANDED) {
+  if (isEmpty || mode === MODE.TINY || mode === MODE.EXPANDED) {
     return span(config, title);
   }
 
