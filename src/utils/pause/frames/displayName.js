@@ -74,6 +74,11 @@ function mapDisplayNames(frame, library) {
   );
 }
 
+function getFrameDisplayName(frame: LocalFrame): string {
+  const { displayName, originalDisplayName, userDisplayName, name } = frame;
+  return originalDisplayName || userDisplayName || displayName || name;
+}
+
 type formatDisplayNameParams = {
   shouldMapDisplayName: boolean,
   maxLength: number
@@ -82,14 +87,8 @@ export function formatDisplayName(
   frame: LocalFrame,
   { shouldMapDisplayName = true, maxLength = 25 }: formatDisplayNameParams = {}
 ) {
-  let {
-    displayName,
-    originalDisplayName,
-    userDisplayName,
-    name,
-    library
-  } = frame;
-  displayName = originalDisplayName || userDisplayName || displayName || name;
+  const { library } = frame;
+  let displayName = getFrameDisplayName(frame);
   if (library && shouldMapDisplayName) {
     displayName = mapDisplayNames(frame, library);
   }
