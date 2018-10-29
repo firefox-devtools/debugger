@@ -91,7 +91,8 @@
   text-align: center;
   border: 1px solid var(--theme-splitter-color);
   background-color: var(--theme-tab-toolbar-background);
-  width: 100%;
+  margin: 0 auto;
+  border-radius:2px;
   font-size: inherit;
   color: inherit;
 }
