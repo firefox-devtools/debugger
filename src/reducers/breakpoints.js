@@ -135,6 +135,10 @@ function removeXHRBreakpoint(state, action) {
   } = action;
   const { xhrBreakpoints } = state;
 
+  if (action.status === "start") {
+    return state;
+  }
+
   const index = xhrBreakpoints.findIndex(
     bp => bp.path === path && bp.method === method
   );
@@ -145,6 +149,9 @@ function removeXHRBreakpoint(state, action) {
 function updateXHRBreakpoint(state, action) {
   const { breakpoint, index } = action;
   const { xhrBreakpoints } = state;
+
+  console.log("updateXHRBreakpoint", action);
+
   return state.set("xhrBreakpoints", xhrBreakpoints.set(index, breakpoint));
 }
 
