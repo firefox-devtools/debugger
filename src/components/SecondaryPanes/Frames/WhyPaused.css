@@ -5,7 +5,7 @@
 .why-paused {
   background-color: var(--theme-body-background);
   color: var(--theme-body-color);
-  padding: 10px 10px 10px 20px;
+  padding: 7px 10px 7px 20px;
   white-space: normal;
   opacity: 0.6;
   font-size: 12px;
