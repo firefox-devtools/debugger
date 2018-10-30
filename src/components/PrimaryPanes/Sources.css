@@ -186,8 +186,8 @@
 }
 
 .source-outline-tabs .tab.active {
-  border-top: 2px solid rgb(10, 132, 255);
-  color: rgb(0, 96, 223);
+  border-top: 2px solid var(--tab-line-selected-color);
+  color: var(--theme-toolbar-selected-color);
 }
 
 .theme-dark .source-outline-tabs .tab.active {
@@ -195,7 +195,7 @@
 }
 
 .theme-dark .source-outline-tabs .tab.active:hover {
-  border-top: 2px solid rgb(10, 132, 255);
+  border-top: 2px solid var(--tab-line-selected-color);
 }
 
 .source-outline-tabs .tab.active path,
