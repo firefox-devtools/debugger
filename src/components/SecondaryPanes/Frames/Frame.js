@@ -9,6 +9,7 @@ import Svg from "../../shared/Svg";
 
 import { formatDisplayName } from "../../../utils/pause/frames";
 import { getFilename, getFileURL } from "../../../utils/source";
+
 import FrameMenu from "./FrameMenu";
 
 import type { Frame } from "../../../types";

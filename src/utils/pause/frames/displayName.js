@@ -7,6 +7,7 @@
 // eslint-disable-next-line max-len
 import type { LocalFrame } from "../../../components/SecondaryPanes/Frames/types";
 import { getFilename } from "../../source";
+import { getL10n } from "../../l10n";
 
 // Decodes an anonymous naming scheme that
 // spider monkey implements based on "Naming Anonymous JavaScript Functions"
@@ -91,7 +92,9 @@ export function formatDisplayName(
     displayName = mapDisplayNames(frame, library);
   }
 
-  return simplifyDisplayName(displayName) || L10N.getStr("anonymousFunction");
+  return (
+    simplifyDisplayName(displayName) || getL10n().getStr("anonymousFunction")
+  );
 }
 
 export function formatCopyName(frame: LocalFrame): string {

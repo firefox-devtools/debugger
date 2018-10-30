@@ -71,6 +71,7 @@ webpackConfig.plugins.push(new ObjectRestSpreadPlugin());
 if (!isProduction) {
   webpackConfig.module = webpackConfig.module || {};
   webpackConfig.module.rules = webpackConfig.module.rules || [];
+  webpackConfig.externals = [/devtools\/shared\/l10n/];
 } else {
   webpackConfig.output.libraryTarget = "umd";
 

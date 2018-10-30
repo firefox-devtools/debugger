@@ -17,6 +17,7 @@ import renderWhyPaused from "./WhyPaused";
 import actions from "../../../actions";
 import { collapseFrames, formatCopyName } from "../../../utils/pause/frames";
 import { copyToTheClipboard } from "../../../utils/clipboard";
+import { getL10n } from "../../../utils/l10n";
 
 import {
   getFrameworkGroupingState,
@@ -160,9 +161,10 @@ class Frames extends Component<Props, State> {
   }
 
   renderToggleButton(frames: LocalFrame[]) {
+    const l10n = getL10n();
     const buttonMessage = this.state.showAllFrames
-      ? L10N.getStr("callStack.collapse")
-      : L10N.getStr("callStack.expand");
+      ? l10n.getStr("callStack.collapse")
+      : l10n.getStr("callStack.expand");
 
     frames = this.collapseFrames(frames);
     if (frames.length <= NUM_FRAMES_SHOWN) {
@@ -185,7 +187,7 @@ class Frames extends Component<Props, State> {
       return (
         <div className="pane frames">
           <div className="pane-info empty">
-            {L10N.getStr("callStack.notPaused")}
+            {getL10n().getStr("callStack.notPaused")}
           </div>
         </div>
       );
