@@ -23,7 +23,7 @@ type Props = { func: FunctionType };
 
 export default class PreviewFunction extends Component<Props> {
   renderFunctionName(func: FunctionType) {
-    const name = formatDisplayName(func, { maxLength: null });
+    const name = formatDisplayName(func);
     return <span className="function-name">{name}</span>;
   }
 

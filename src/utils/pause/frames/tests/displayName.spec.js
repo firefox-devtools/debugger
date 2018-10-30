@@ -48,7 +48,7 @@ describe("formatting display names", () => {
     expect(formatDisplayName(frame)).toEqual("baz");
   });
 
-  it("truncates long function names", () => {
+  it("does not truncates long function names", () => {
     const frame = {
       displayName: "bazbazbazbazbazbazbazbazbazbazbazbazbaz",
       source: {
@@ -56,29 +56,7 @@ describe("formatting display names", () => {
       }
     };
 
-    expect(formatDisplayName(frame)).toEqual("…zbazbazbazbazbazbazbazbaz");
-  });
-
-  it("truncates function names according to maxLength", () => {
-    const frame = {
-      displayName: "bazbazbazbazbazbazbazbazbazbazbazbazbaz",
-      source: {
-        url: "assets/bar.js"
-      }
-    };
-
-    expect(formatDisplayName(frame, { maxLength: 3 })).toEqual("…baz");
-  });
-
-  it("does not truncate when explicit null maxLength", () => {
-    const frame = {
-      displayName: "bazbazbazbazbazbazbazbazbazbazbazbazbaz",
-      source: {
-        url: "assets/bar.js"
-      }
-    };
-
-    expect(formatDisplayName(frame, { maxLength: null })).toEqual(
+    expect(formatDisplayName(frame)).toEqual(
       "bazbazbazbazbazbazbazbazbazbazbazbazbaz"
     );
   });
