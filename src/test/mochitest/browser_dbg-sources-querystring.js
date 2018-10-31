@@ -30,6 +30,7 @@ add_task(async function() {
   )
 
   await clickElement(dbg, "sourceNode", 3);
+  const activeSourceLabel = getLabel(dbg, 3);
   const tab = findElement(dbg, "activeTab");
-  is(tab.innerText, "simple1.js?x=2", "Tab label is simple1.js?x=2");
+  is(tab.innerText, activeSourceLabel, `Tab label is ${activeSourceLabel}`);
 });
