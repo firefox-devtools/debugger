@@ -38,6 +38,7 @@ exports[`Expressions should always have unique keys 1`] = `
       >
         <CloseButton
           handleClick={[Function]}
+          tooltip="Remove watch expression"
         />
       </div>
     </div>
@@ -76,6 +77,7 @@ exports[`Expressions should always have unique keys 1`] = `
       >
         <CloseButton
           handleClick={[Function]}
+          tooltip="Remove watch expression"
         />
       </div>
     </div>
@@ -148,6 +150,7 @@ exports[`Expressions should render 1`] = `
       >
         <CloseButton
           handleClick={[Function]}
+          tooltip="Remove watch expression"
         />
       </div>
     </div>
@@ -186,6 +189,7 @@ exports[`Expressions should render 1`] = `
       >
         <CloseButton
           handleClick={[Function]}
+          tooltip="Remove watch expression"
         />
       </div>
     </div>
