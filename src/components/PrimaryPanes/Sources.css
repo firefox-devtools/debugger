@@ -146,6 +146,7 @@
 }
 
 .source-outline-tabs {
+  font-size: 12px;
   width: 100%;
   background: var(--theme-body-background);
   border-top: 1px solid var(--theme-splitter-color);
@@ -160,9 +161,9 @@
 
 .source-outline-tabs .tab {
   background-color: var(--theme-toolbar-background);
-  border-bottom: 1px solid transparent;
-  border-color: var(--theme-splitter-color);
-  color: var(--theme-body-color);
+  border-top: 2px solid transparent;
+  border-bottom: 1px solid var(--theme-splitter-color);
+  color: var(--theme-toolbar-color);
   cursor: default;
   display: inline-flex;
   flex: 1;
@@ -170,23 +171,31 @@
   margin-bottom: 0px;
   margin-top: -1px;
   overflow: hidden;
-  padding: 8px 8px 7px 8px;
+  padding: 5px 8px 7px 8px;
   position: relative;
   transition: all 0.25s ease;
 }
 
-.source-outline-tabs .tab:first-child {
-  border-inline-end: 1px solid var(--theme-splitter-color);
+.source-outline-tabs .tab:not(.active):hover {
+  background-color: var(--theme-toolbar-hover);
+  border-top: 2px solid rgba(0, 0, 0, 0.2);
 }
 
-.source-outline-tabs .tab:hover {
-  background-color: var(--theme-toolbar-background-alt);
-  border-color: var(--theme-splitter-color);
+.theme-dark .source-outline-tabs .tab:hover {
+  border-top: 2px solid var(--tab-line-hover-color);
 }
 
 .source-outline-tabs .tab.active {
-  background-color: var(--theme-body-background);
-  border-bottom-color: transparent;
+  border-top: 2px solid var(--tab-line-selected-color);
+  color: var(--theme-toolbar-selected-color);
+}
+
+.theme-dark .source-outline-tabs .tab.active {
+  color: var(--theme-toolbar-selected-color);
+}
+
+.theme-dark .source-outline-tabs .tab.active:hover {
+  border-top: 2px solid var(--tab-line-selected-color);
 }
 
 .source-outline-tabs .tab.active path,
