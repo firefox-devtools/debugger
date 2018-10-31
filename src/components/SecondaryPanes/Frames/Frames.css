@@ -83,12 +83,11 @@
 
 .show-more-container {
   display: flex;
-  height: 28.5667px;
-  padding: 3px 10px;
+  height: 28px;
+  padding: 4px 0;
 }
 
 .show-more {
-  text-align: center;
   border: 1px solid var(--theme-splitter-color);
   background-color: var(--theme-tab-toolbar-background);
   margin: 0 auto;
