@@ -20,7 +20,7 @@ console.log(`Copying Files to ${mc} with params: `, {watch, assets, symlink})
 async function start() {
   if (fs.existsSync(mc)) {
     try {
-      await copyAssets({ assets, mc, watch, symlink})
+      // await copyAssets({ assets, mc, watch, symlink})
       await copyModules.run({ mc, watch })
     } catch (e) {
       console.error(e);

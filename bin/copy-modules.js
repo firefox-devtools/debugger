@@ -21,28 +21,23 @@ feature.setConfig(envConfig);
 
 
 function ignoreFile(file) {
-  // We exclude worker files because they are bundled and we include
-  // worker/index.js files because are required by the debugger app in order
-  // to communicate with the worker.
-  if (file.match(/\/workers/) && !file.match(/index.js/)) {
-    return true;
-  }
-
-  return file.match(/(\/fixtures|__mocks__|\/test|vendors\.js|types\.js|types\/)/);
+  return file.match(/(\/stubs|\/test|\/launchpad)/);
 }
 
 function getFiles() {
-  return glob.sync("./src/**/*.js", {}).filter((file) => !ignoreFile(file));
+  return glob.sync(`${ghRepsPath}/**/*.js`, {}).filter((file) => !ignoreFile(file));
 }
 
-function transformSingleFile(filePath) {
-  const doc = fs.readFileSync(filePath, "utf8");
+function getMcFilePath(filePath) {
+  return path.join(__dirname, '..', mcRepsPath, path.relative(ghRepsPath, filePath));
+}
+
+function transformSingleFile(filePath, doc) {
   const out = babel.transformSync(doc, {
     plugins: [
       "transform-flow-strip-types",
       "syntax-trailing-function-commas",
       "transform-class-properties",
-      "transform-es2015-modules-commonjs",
       "babel-plugin-syntax-object-rest-spread",
        "transform-react-jsx",
       ["./.babel/transform-mc", { filePath }]
@@ -58,10 +53,15 @@ function transpileFile(file) {
       return;
     }
 
-    const filePath = path.join(__dirname, "..", file);
-    const code = transformSingleFile(filePath);
-    shell.mkdir("-p", path.join(mcDebuggerPath, path.dirname(file)));
-    fs.writeFileSync(path.join(mcDebuggerPath, file), code);
+    // const filePath = path.join(__dirname, "..", file);
+    const doc = fs.readFileSync(file, "utf8");
+
+    let code = transformSingleFile(file, doc);
+    code = MOZ_MODULE_TEMPLATE.replace(/__FILE__/, code)
+    const mcFilePath = getMcFilePath(file)
+    shell.mkdir("-p", path.dirname(mcFilePath));
+    fs.writeFileSync(mcFilePath, code);
+    // console.log(code)
   } catch (e) {
     console.log(`Failed to transpile: ${file}`)
     console.error(e);
@@ -71,6 +71,21 @@ function transpileFile(file) {
 function transpileFiles() {
   getFiles().forEach(transpileFile);
 }
+
+const MOZ_MODULE_TEMPLATE = `
+/* -*- indent-tabs-mode: nil; js-indent-level: 2 -*- */
+/* vim: set ft=javascript ts=2 et sw=2 tw=80: */
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+"use strict";
+
+// Make this available to both AMD and CJS environments
+define(function (require, exports, module) {
+__FILE__
+})
+`
 
 const MOZ_BUILD_TEMPLATE = `# vim: set filetype=python:
 # This Source Code Form is subject to the terms of the Mozilla Public
@@ -94,11 +109,13 @@ function createMozBuildFiles() {
   const builds = {};
 
   getFiles().forEach(file => {
-    let dir = path.dirname(file);
+    const mcFile = './'+path.relative(mcPath, getMcFilePath(file));
+    // console.log(mcFile)
+    let dir = path.dirname(mcFile);
     builds[dir] = builds[dir] || { files: [], dirs: [] };
 
     // Add the current file to its parent dir moz.build
-    builds[dir].files.push(path.basename(file));
+    builds[dir].files.push(path.basename(mcFile));
 
     // There should be a moz.build in every folder between the root and this
     // file. Climb up the folder hierarchy and make sure a each folder of the
@@ -114,11 +131,11 @@ function createMozBuildFiles() {
       dir = parentDir;
     }
   });
+  // return;
 
   Object.keys(builds).forEach(build => {
     const { files, dirs } = builds[build];
-
-    const buildPath = path.join(mcDebuggerPath, build);
+    const buildPath = path.join(mcPath, build);
     shell.mkdir("-p", buildPath);
 
     // Files and folders should be alphabetically sorted in moz.build
@@ -136,6 +153,7 @@ function createMozBuildFiles() {
       .replace("__DIRS__", dirStr)
       .replace("__FILES__", fileStr);
 
+    console.log(path.join(buildPath, "moz.build"))
     fs.writeFileSync(path.join(buildPath, "moz.build"), src);
   });
 }
@@ -155,7 +173,7 @@ function watch() {
 function start() {
   console.log("[copy-modules] start");
 
-  console.log("[copy-modules] transpiling debugger modules");
+  console.log("[copy-modules] transpiling reps modules");
   transpileFiles();
 
   console.log("[copy-modules] creating moz.build files");
@@ -173,13 +191,13 @@ const args = minimist(process.argv.slice(1), {
 });
 
 const projectPath = path.resolve(__dirname, "..");
+let ghRepsPath = path.join(projectPath, "packages/devtools-reps/src/")
 let mcPath = args.mc || feature.getValue("firefox.mcPath");
-let mcDebuggerPath = path.join(mcPath, "devtools/client/debugger/new");
+let mcRepsPath = path.join(mcPath, "devtools/client/shared/components/reps");
 let shouldWatch = args.watch;
 
 function run({watch, mc}) {
   shouldWatch = watch
-  mcPath = path.join(mc, "devtools/client/debugger/new");
   start();
 }
 
