@@ -75,21 +75,21 @@ describe("formatting display names", () => {
 
   it("returns anonymous when displayName is undefined", () => {
     const frame = {};
-    expect(formatDisplayName(frame)).toEqual("<anonymous>");
+    expect(formatDisplayName(frame, undefined, L10N)).toEqual("<anonymous>");
   });
 
   it("returns anonymous when displayName is null", () => {
     const frame = {
       displayName: null
     };
-    expect(formatDisplayName(frame)).toEqual("<anonymous>");
+    expect(formatDisplayName(frame, undefined, L10N)).toEqual("<anonymous>");
   });
 
   it("returns anonymous when displayName is an empty string", () => {
     const frame = {
       displayName: ""
     };
-    expect(formatDisplayName(frame)).toEqual("<anonymous>");
+    expect(formatDisplayName(frame, undefined, L10N)).toEqual("<anonymous>");
   });
 });
 

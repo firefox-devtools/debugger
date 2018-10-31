@@ -3,13 +3,13 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { features } from "../utils/prefs";
 import actions from "../actions";
 import A11yIntention from "./A11yIntention";
 import { ShortcutsModal } from "./ShortcutsModal";
+import contextTypes from "../utils/contextTypes";
 
 import {
   getSelectedSource,
@@ -93,7 +93,7 @@ class App extends Component<Props, State> {
   }
 
   getChildContext = () => {
-    return { shortcuts };
+    return { shortcuts, l10n: L10N };
   };
 
   componentDidMount() {
@@ -316,7 +316,7 @@ class App extends Component<Props, State> {
   }
 }
 
-App.childContextTypes = { shortcuts: PropTypes.object };
+App.childContextTypes = contextTypes;
 
 const mapStateToProps = state => ({
   selectedSource: getSelectedSource(state),

@@ -4,6 +4,8 @@
 
 // @flow
 import React, { Component } from "react";
+import contextTypes from "../../../utils/contextTypes";
+
 import classNames from "classnames";
 import Svg from "../../shared/Svg";
 
@@ -16,11 +18,12 @@ import type { LocalFrame } from "./types";
 
 type FrameTitleProps = {
   frame: Frame,
-  options: Object
+  options: Object,
+  l10n: Object
 };
 
-function FrameTitle({ frame, options = {} }: FrameTitleProps) {
-  const displayName = formatDisplayName(frame, options);
+function FrameTitle({ frame, options = {}, l10n }: FrameTitleProps) {
+  const displayName = formatDisplayName(frame, options, l10n);
   return <div className="title">{displayName}</div>;
 }
 
@@ -120,6 +123,7 @@ export default class FrameComponent extends Component<FrameComponentProps> {
       getFrameTitle,
       disableContextMenu
     } = this.props;
+    const { l10n } = this.context;
 
     const className = classNames("frame", {
       selected: selectedFrame && selectedFrame.id === frame.id
@@ -141,7 +145,11 @@ export default class FrameComponent extends Component<FrameComponentProps> {
         tabIndex={0}
         title={title}
       >
-        <FrameTitle frame={frame} options={{ shouldMapDisplayName }} />
+        <FrameTitle
+          frame={frame}
+          options={{ shouldMapDisplayName }}
+          l10n={l10n}
+        />
         {!hideLocation && (
           <FrameLocation frame={frame} displayFullUrl={displayFullUrl} />
         )}
@@ -151,3 +159,4 @@ export default class FrameComponent extends Component<FrameComponentProps> {
 }
 
 FrameComponent.displayName = "Frame";
+FrameComponent.contextTypes = contextTypes;
