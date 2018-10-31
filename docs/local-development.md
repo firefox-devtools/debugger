@@ -358,7 +358,7 @@ practices, but have added our own flavor as well with the help of Flow and Immut
 We type our stores so that we can document the shape of the data and guarantee
 the data coming in and out is well formed.
 
-Lets look at the expressions reducer and see how it is typed:
+Let's look at the expressions reducer and see how it is typed:
 
 ```js
 type ExpressionState = {
@@ -404,7 +404,7 @@ which means our components only render when it's appropriate.
 The one situation where we do not use immutable is when it is too slow to do so.
 We avoid wrapping our pause state in immutable, because it takes too long to serialize the data.
 
-Lets take a look at the Expressions reducer to see how we use Immutable.
+Let's take a look at the Expressions reducer to see how we use Immutable.
 
 ```js
 type ExpressionState = {
@@ -497,7 +497,7 @@ Running all the tests tends to be really slow. Most of the time it is really use
 node_modules/jest/bin/jest.js -o
 ```
 
-This will run all the tests that have not been committed. Basically all the files that are returned by the `git status` command.
+This will run all the tests that have not been committed. Basically, all the files that are returned by the `git status` command.
 
 If the snapshot changes then update it with:
 
