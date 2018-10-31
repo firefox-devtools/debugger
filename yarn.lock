@@ -3395,19 +3395,19 @@ devtools-connection@0.0.13:
   version "0.0.13"
   resolved "https://registry.yarnpkg.com/devtools-connection/-/devtools-connection-0.0.13.tgz#63a87d0b3afcfce2ab6d99d2cf2c0041abbbc036"
 
-devtools-contextmenu@~1.0:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/devtools-contextmenu/-/devtools-contextmenu-1.0.1.tgz#5088029dcef9e62932e19d7d465ab4e20013a7a3"
+devtools-contextmenu@~1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/devtools-contextmenu/-/devtools-contextmenu-1.0.2.tgz#d40c27821b95ad0edd0cd2bf9b4258121bf47923"
   dependencies:
-    devtools-modules "~1.0"
+    devtools-modules "~1"
 
 devtools-environment@^0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/devtools-environment/-/devtools-environment-0.0.5.tgz#0333bf35009fe09c21c315069e6b4d9177a4b8d1"
 
-devtools-launchpad@^0.0.139:
-  version "0.0.139"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.139.tgz#28a10eda27549b7219cb9f92019192350bc31848"
+devtools-launchpad@^0.0.140:
+  version "0.0.140"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.140.tgz#cb5b47a14e515a9e05ea01cd890ee1d5ac89e578"
   dependencies:
     amd-loader "0.0.8"
     autoprefixer "^7.1.2"
@@ -3433,11 +3433,11 @@ devtools-launchpad@^0.0.139:
     debug "^3.1.0"
     devtools-config "^0.0.16"
     devtools-connection "0.0.13"
-    devtools-contextmenu "~1.0"
+    devtools-contextmenu "~1"
     devtools-environment "^0.0.5"
     devtools-license-check "^0.7.0"
     devtools-mc-assets "^0.0.6"
-    devtools-modules "~1.0"
+    devtools-modules "~1"
     devtools-sprintf-js "^1.0.3"
     express "^4.13.4"
     express-static "^1.2.5"
@@ -3524,6 +3524,13 @@ devtools-linters@^0.0.4:
 devtools-mc-assets@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/devtools-mc-assets/-/devtools-mc-assets-0.0.6.tgz#51d935ddc6e929d386549d95ff96e3c2323372f7"
+
+devtools-modules@~1:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/devtools-modules/-/devtools-modules-1.1.0.tgz#57e719367acae4f1d143cc13046ac1ef2b61f8c9"
+  dependencies:
+    devtools-services "0.0.1"
+    punycode "^2.1.0"
 
 devtools-modules@~1.0:
   version "1.0.1"
