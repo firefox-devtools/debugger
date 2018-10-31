@@ -28,4 +28,8 @@ add_task(async function() {
     true,
     "simple1.js?x=1 and simple2.jsx=2 exist"
   )
+
+  await clickElement(dbg, "sourceNode", 3);
+  const tab = findElement(dbg, "activeTab");
+  is(tab.innerText, "simple1.js?x=2", "Tab label is simple1.js?x=2");
 });

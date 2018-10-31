@@ -14,7 +14,7 @@ import Svg from "../shared/Svg";
 
 import {
   getGeneratedSourceByURL,
-  getSourcesUrlsInSources
+  getHasSiblingOfSameName
 } from "../../selectors";
 import actions from "../../actions";
 
@@ -212,14 +212,6 @@ function getHasMatchingGeneratedSource(state, source: ?Source) {
   }
 
   return !!getGeneratedSourceByURL(state, source.url);
-}
-
-function getHasSiblingOfSameName(state, source: ?Source) {
-  if (!source) {
-    return false;
-  }
-
-  return getSourcesUrlsInSources(state, source.url).length > 1;
 }
 
 const mapStateToProps = (state, props) => {
