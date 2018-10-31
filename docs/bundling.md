@@ -15,13 +15,13 @@ It is basically automating the steps :)
 
 ### Investigating a performance regression
 
-When we notice that a release caused a performance regression in talos, it is important to be able to identify the specific commits that caused the regression. The easiest way to do that is to use try + talos to bisect the commits in the release and find the regression.
+When we notice that a release caused a performance regression in talos, it is important to be able to identify the specific commit(s) that caused the regression. The easiest way to do so is to use try + talos to bisect the commits in the release and find the regression.
 
 1. create a spreadsheet with the commits in the release e.g. [release 91][sheet]
-2. checkout the release commit in firefox and trigger a try run `./mach try -b o -p linux64,win64 -u none -t damp-e10s --rebuild-talos 6`
-3. checkout the prior release commit in firefox and trigger a try run so there is a baseline for comparison
-4. go to the spreadsheet and identify commits that are possible performance regressions
-5. choose a couple of commits in the release that bisect the bisect the release so that when you have talos results you'll have a better idea of when the problem was introduced.
+2. go to the spreadsheet and identify commits that are possible performance regressions
+3. checkout the release commit in firefox and trigger a try run `./mach try -b o -p linux64,win64 -u none -t damp-e10s --rebuild-talos 6`
+4. checkout the prior release commit in firefox and trigger a try run so there is a baseline for comparison
+5. choose a couple of commits in the release then bisect the release so that when you have talos results you'll have a better idea of when the problem was introduced.
 6. for each candidate commit
    - checkout the commit in github
    - run `yarn copy --mc <path to firefox>`
@@ -32,6 +32,15 @@ When we notice that a release caused a performance regression in talos, it is im
    - go to [try chooser][try] and select a base and new revision. The revision is in the try URLs you saved in the sheet. NOTE:
      the project should be `try` and you'll need to select _compare specific revision_.
    - click compare, select the platform you want to compare, and the view the the improvements and regressions for each test.
+
+*Note: A handy way to get the commit listing text to copy into the spreadsheet:*
+
+```js
+$$('.commit').map(e => [
+    e.querySelector('.commit-message').innerText, 
+    e.querySelector('.commit-id').href
+]).map(r => r.join('\t'))
+```
 
 [sheet]: https://docs.google.com/spreadsheets/d/1yEkT0lk2UVI7tsfZpNH2yo8ajZQsLs6gyW9gGOoaTDk/edit#gid=0
 [try]: https://treeherder.mozilla.org/perf.html#/comparechooser?newProject=try&newRevision=5c850420b5a08ef14d9c52e0f76648168b2d9a88
