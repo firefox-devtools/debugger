@@ -35,41 +35,25 @@ function getFiles() {
   return glob.sync("./src/**/*.js", {}).filter((file) => !ignoreFile(file));
 }
 
-function transformSingleFile(filePath) {
-  const doc = fs.readFileSync(filePath, "utf8");
-  const out = babel.transformSync(doc, {
-    plugins: [
-      "transform-flow-strip-types",
-      "syntax-trailing-function-commas",
-      "transform-class-properties",
-      "transform-es2015-modules-commonjs",
-      "babel-plugin-syntax-object-rest-spread",
-       "transform-react-jsx",
-      ["./.babel/transform-mc", { filePath }]
-    ]
-  });
-
-  return out.code;
-}
-
-function transpileFile(file) {
+function copyFile(file) {
   try {
     if (ignoreFile(file)) {
       return;
     }
 
     const filePath = path.join(__dirname, "..", file);
-    const code = transformSingleFile(filePath);
+    const code = fs.readFileSync(filePath, "utf8");
+
     shell.mkdir("-p", path.join(mcDebuggerPath, path.dirname(file)));
     fs.writeFileSync(path.join(mcDebuggerPath, file), code);
   } catch (e) {
-    console.log(`Failed to transpile: ${file}`)
+    console.log(`Failed to copy: ${file}`)
     console.error(e);
   }
 }
 
-function transpileFiles() {
-  getFiles().forEach(transpileFile);
+function copyFiles() {
+  getFiles().forEach(copyFile);
 }
 
 const MOZ_BUILD_TEMPLATE = `# vim: set filetype=python:
@@ -81,7 +65,7 @@ DIRS += [
 __DIRS__
 ]
 
-DevToolsModules(
+DebuggerModules(
 __FILES__
 )
 `;
@@ -147,16 +131,15 @@ function watch() {
   watcher
   .on('change', path => {
     console.log(`Updating ${path}`)
-    transpileFile(path)
+    copyFile(path)
   })
-
 }
 
 function start() {
   console.log("[copy-modules] start");
 
-  console.log("[copy-modules] transpiling debugger modules");
-  transpileFiles();
+  console.log("[copy-modules] copying debugger modules");
+  copyFiles();
 
   console.log("[copy-modules] creating moz.build files");
   createMozBuildFiles();
@@ -186,8 +169,5 @@ function run({watch, mc}) {
 if (process.argv[1] == __filename) {
   start();
 } else {
-  module.exports = {
-    run,
-    transformSingleFile
-  }
+  module.exports = { run }
 }
