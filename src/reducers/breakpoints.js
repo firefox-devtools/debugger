@@ -150,8 +150,6 @@ function updateXHRBreakpoint(state, action) {
   const { breakpoint, index } = action;
   const { xhrBreakpoints } = state;
 
-  console.log("updateXHRBreakpoint", action);
-
   return state.set("xhrBreakpoints", xhrBreakpoints.set(index, breakpoint));
 }
 
