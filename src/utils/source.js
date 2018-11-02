@@ -21,7 +21,7 @@ export { isMinified } from "./isMinified";
 import { getURL, getFileExtension } from "./sources-tree";
 import { prefs } from "./prefs";
 
-import type { Source, Location } from "../types";
+import type { Source, Location, JsSource } from "../types";
 import type { SourceMetaDataType } from "../reducers/ast";
 import type { SymbolDeclarations } from "../workers/parser";
 
@@ -393,11 +393,12 @@ export function getTextAtPosition(source: ?Source, location: Location) {
 
   if (source.isWasm) {
     const { line: editorLine } = toEditorPosition(location);
-    const lines = renderWasmText(source.id, source.text);
+    const lines = renderWasmText(source);
     return lines[editorLine];
   }
 
-  const lineText = source.text.split("\n")[line - 1];
+  const text = ((source: any): JsSource).text || "";
+  const lineText = text.split("\n")[line - 1];
   if (!lineText) {
     return "";
   }
