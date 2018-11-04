@@ -27,7 +27,7 @@ add_task(async function() {
     labels.includes("simple1.js?x=1") && labels.includes("simple1.js?x=2"),
     true,
     "simple1.js?x=1 and simple2.jsx=2 exist"
-  )
+  );
 
   await clickElement(dbg, "sourceNode", 3);
   const activeSourceLabel = getLabel(dbg, 3);

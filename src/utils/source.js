@@ -447,3 +447,7 @@ export function isOriginal(source: Source) {
 export function isGenerated(source: Source) {
   return isGeneratedId(source.id);
 }
+
+export function getSourceQueryString(source: ?Source) {
+  return source ? parseURL(source.url).search : null;
+}

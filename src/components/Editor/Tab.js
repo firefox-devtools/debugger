@@ -22,7 +22,8 @@ import {
   getRawSourceURL,
   getTruncatedFileName,
   getDisplayPath,
-  isPretty
+  isPretty,
+  getSourceQueryString
 } from "../../utils/source";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { getTabMenuItems } from "../../utils/tabs";
@@ -35,7 +36,6 @@ import {
 } from "../../selectors";
 
 import classnames from "classnames";
-import { parse } from "../../utils/url";
 
 type SourcesList = List<Source>;
 
@@ -185,8 +185,6 @@ class Tab extends PureComponent<Props> {
     });
 
     const path = getDisplayPath(source, tabSources);
-    const query =
-      source && hasSiblingOfSameName ? parse(source.url).search : null;
 
     return (
       <div
@@ -204,7 +202,7 @@ class Tab extends PureComponent<Props> {
         />
         <div className="filename">
           {getTruncatedFileName(source)}
-          {query}
+          {hasSiblingOfSameName && getSourceQueryString(source)}
           {path && <span>{`../${path}/..`}</span>}
         </div>
         <CloseButton
