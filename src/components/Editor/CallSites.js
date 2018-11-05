@@ -142,17 +142,34 @@ class CallSites extends Component {
       });
     }
   }
+  filterCallSites() {
+    const { callSites, breakpoints } = this.props;
+
+    const breakpointLines = new Set();
+    if (breakpoints._root !== undefined) {
+      for (const key in breakpoints._root.entries) {
+        breakpointLines.add(breakpoints._root.entries[key][1].location.line);
+      }
+    }
+
+    return callSites.filter(({ location }) =>
+      breakpointLines.has(location.start.line)
+    );
+  }
 
   render() {
     const { editor, callSites, selectedSource } = this.props;
     const { showCallSites } = this.state;
+
     let sites;
     if (!callSites) {
       return null;
     }
 
+    const callSitesFiltered = this.filterCallSites();
+
     editor.codeMirror.operation(() => {
-      const childCallSites = callSites.map((callSite, index) => {
+      const childCallSites = callSitesFiltered.map((callSite, index) => {
         const props = {
           key: index,
           callSite,
