@@ -152,44 +152,6 @@ exports[`Breakpoint paused at an original location 1`] = `
 </div>
 `;
 
-exports[`Breakpoint selected source is original 1`] = `
-<div
-  className="breakpoint"
-  onClick={[Function]}
-  onContextMenu={[Function]}
-  onDoubleClick={[Function]}
->
-  <input
-    checked={true}
-    className="breakpoint-checkbox"
-    onChange={[Function]}
-    onClick={[Function]}
-    type="checkbox"
-  />
-  <label
-    className="breakpoint-label cm-s-mozilla"
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "",
-      }
-    }
-  />
-  <div
-    className="breakpoint-line-close"
-  >
-    <div
-      className="breakpoint-line"
-    >
-      5
-    </div>
-    <CloseButton
-      handleClick={[Function]}
-      tooltip="Remove breakpoint"
-    />
-  </div>
-</div>
-`;
-
 exports[`Breakpoint simple 1`] = `
 <div
   className="breakpoint"

@@ -36,31 +36,13 @@ Array [
   Object {
     "breakpoints": Array [
       Object {
-        "astLocation": Object {
-          "name": undefined,
-          "offset": Object {
-            "line": 2,
-            "sourceId": "a",
-            "sourceUrl": "http://localhost:8000/examples/a",
-          },
-        },
         "condition": null,
         "disabled": false,
-        "generatedLocation": Object {
+        "selectedLocation": Object {
           "line": 2,
           "sourceId": "a",
           "sourceUrl": "http://localhost:8000/examples/a",
         },
-        "hidden": false,
-        "hitCount": undefined,
-        "id": "hi",
-        "loading": false,
-        "location": Object {
-          "line": 2,
-          "sourceId": "a",
-          "sourceUrl": "http://localhost:8000/examples/a",
-        },
-        "originalText": "return a",
         "text": "return a",
       },
     ],
@@ -121,31 +103,13 @@ Array [
   Object {
     "breakpoints": Array [
       Object {
-        "astLocation": Object {
-          "name": undefined,
-          "offset": Object {
-            "line": 5,
-            "sourceId": "a",
-            "sourceUrl": "http://localhost:8000/examples/a",
-          },
-        },
         "condition": null,
         "disabled": true,
-        "generatedLocation": Object {
+        "selectedLocation": Object {
           "line": 5,
           "sourceId": "a",
           "sourceUrl": "http://localhost:8000/examples/a",
         },
-        "hidden": false,
-        "hitCount": undefined,
-        "id": "hi",
-        "loading": false,
-        "location": Object {
-          "line": 5,
-          "sourceId": "a",
-          "sourceUrl": "http://localhost:8000/examples/a",
-        },
-        "originalText": "",
         "text": "",
       },
     ],
