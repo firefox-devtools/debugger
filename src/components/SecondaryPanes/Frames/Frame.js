@@ -4,7 +4,7 @@
 
 // @flow
 import React, { Component } from "react";
-import contextTypes from "../../../utils/contextTypes";
+import PropTypes from "prop-types";
 
 import classNames from "classnames";
 import Svg from "../../shared/Svg";
@@ -159,4 +159,4 @@ export default class FrameComponent extends Component<FrameComponentProps> {
 }
 
 FrameComponent.displayName = "Frame";
-FrameComponent.contextTypes = contextTypes;
+FrameComponent.contextTypes = { l10n: PropTypes.object };

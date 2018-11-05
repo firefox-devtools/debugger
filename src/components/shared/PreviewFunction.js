@@ -5,7 +5,7 @@
 // @flow
 
 import React, { Component } from "react";
-import contextTypes from "../../utils/contextTypes";
+import PropTypes from "prop-types";
 
 import { times, zip, flatten } from "lodash";
 
@@ -59,4 +59,4 @@ export default class PreviewFunction extends Component<Props> {
   }
 }
 
-PreviewFunction.contextTypes = contextTypes;
+PreviewFunction.contextTypes = { l10n: PropTypes.object };

@@ -5,11 +5,12 @@
 // @flow
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
+
 import { features } from "../utils/prefs";
 import actions from "../actions";
 import A11yIntention from "./A11yIntention";
 import { ShortcutsModal } from "./ShortcutsModal";
-import contextTypes from "../utils/contextTypes";
 
 import {
   getSelectedSource,
@@ -316,7 +317,10 @@ class App extends Component<Props, State> {
   }
 }
 
-App.childContextTypes = contextTypes;
+App.childContextTypes = {
+  shortcuts: PropTypes.object,
+  l10n: PropTypes.object
+};
 
 const mapStateToProps = state => ({
   selectedSource: getSelectedSource(state),

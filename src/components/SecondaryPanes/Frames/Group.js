@@ -4,7 +4,6 @@
 
 // @flow
 import React, { Component } from "react";
-import contextTypes from "../../../utils/contextTypes";
 import classNames from "classnames";
 import Svg from "../../shared/Svg";
 import {
@@ -160,4 +159,3 @@ export default class Group extends Component<Props, State> {
 }
 
 Group.displayName = "Group";
-Group.contextTypes = contextTypes;

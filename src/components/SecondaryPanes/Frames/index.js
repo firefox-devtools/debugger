@@ -6,7 +6,7 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import contextTypes from "../../../utils/contextTypes";
+import PropTypes from "prop-types";
 
 import type { Frame, Why } from "../../../types";
 
@@ -208,7 +208,7 @@ class Frames extends Component<Props, State> {
   }
 }
 
-Frames.contextTypes = contextTypes;
+Frames.contextTypes = { l10n: PropTypes.object };
 
 const mapStateToProps = state => ({
   frames: getCallStackFrames(state),
