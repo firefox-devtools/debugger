@@ -56,11 +56,9 @@ class BreakpointHeading extends PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state, { source }) => {
-  console.log("State Sources", state.sources);
-  console.log("Source:", source);
-  return { hasSiblingOfSameName: getHasSiblingOfSameName(state, source) };
-};
+const mapStateToProps = (state, { source }) => ({
+  hasSiblingOfSameName: getHasSiblingOfSameName(state, source)
+});
 
 export default connect(
   mapStateToProps,
