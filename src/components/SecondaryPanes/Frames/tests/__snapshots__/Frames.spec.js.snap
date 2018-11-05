@@ -7,6 +7,7 @@ exports[`Frames Blackboxed Frames filters blackboxed frames 1`] = `
   <ul>
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 1,
@@ -36,6 +37,7 @@ exports[`Frames Blackboxed Frames filters blackboxed frames 1`] = `
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 3,
@@ -74,6 +76,7 @@ exports[`Frames Library Frames groups all the Webpack-related frames 1`] = `
   <ul>
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": "1-appFrame",
@@ -144,6 +147,7 @@ exports[`Frames Library Frames toggling framework frames 1`] = `
   <ul>
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 1,
@@ -164,6 +168,7 @@ exports[`Frames Library Frames toggling framework frames 1`] = `
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 2,
@@ -185,6 +190,7 @@ exports[`Frames Library Frames toggling framework frames 1`] = `
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 3,
@@ -206,6 +212,7 @@ exports[`Frames Library Frames toggling framework frames 1`] = `
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 8,
@@ -235,6 +242,7 @@ exports[`Frames Library Frames toggling framework frames 2`] = `
   <ul>
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 1,
@@ -280,6 +288,7 @@ exports[`Frames Library Frames toggling framework frames 2`] = `
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 8,
@@ -309,6 +318,7 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
   <ul>
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 1,
@@ -325,6 +335,7 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 2,
@@ -341,6 +352,7 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 3,
@@ -357,6 +369,7 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 4,
@@ -373,6 +386,7 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 5,
@@ -389,6 +403,7 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 6,
@@ -405,6 +420,7 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 7,
@@ -421,6 +437,7 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 8,
@@ -437,6 +454,7 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 9,
@@ -453,6 +471,7 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 10,
@@ -469,6 +488,7 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 11,
@@ -485,6 +505,7 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 12,
@@ -501,6 +522,7 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 13,
@@ -517,6 +539,7 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 14,
@@ -533,6 +556,7 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 15,
@@ -549,6 +573,7 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 16,
@@ -565,6 +590,7 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 17,
@@ -581,6 +607,7 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 18,
@@ -597,6 +624,7 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 19,
@@ -613,6 +641,7 @@ exports[`Frames Supports different number of frames disable frame truncation 1`]
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 20,
@@ -650,6 +679,7 @@ exports[`Frames Supports different number of frames one frame 1`] = `
   <ul>
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 1,
@@ -679,6 +709,7 @@ exports[`Frames Supports different number of frames passes the getFrameTitle pro
   <ul>
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "displayName": "renderFoo",
@@ -712,6 +743,7 @@ exports[`Frames Supports different number of frames toggling the show more butto
   <ul>
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 1,
@@ -732,6 +764,7 @@ exports[`Frames Supports different number of frames toggling the show more butto
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 2,
@@ -752,6 +785,7 @@ exports[`Frames Supports different number of frames toggling the show more butto
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 3,
@@ -772,6 +806,7 @@ exports[`Frames Supports different number of frames toggling the show more butto
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 4,
@@ -792,6 +827,7 @@ exports[`Frames Supports different number of frames toggling the show more butto
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 5,
@@ -812,6 +848,7 @@ exports[`Frames Supports different number of frames toggling the show more butto
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 6,
@@ -832,6 +869,7 @@ exports[`Frames Supports different number of frames toggling the show more butto
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 7,
@@ -852,6 +890,7 @@ exports[`Frames Supports different number of frames toggling the show more butto
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 8,
@@ -872,6 +911,7 @@ exports[`Frames Supports different number of frames toggling the show more butto
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 9,
@@ -892,6 +932,7 @@ exports[`Frames Supports different number of frames toggling the show more butto
     />
     <Frame
       copyStackTrace={[Function]}
+      disableContextMenu={false}
       frame={
         Object {
           "id": 10,

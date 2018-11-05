@@ -9,7 +9,7 @@ import Frame from "../Frame.js";
 import FrameMenu from "../FrameMenu";
 jest.mock("../FrameMenu", () => jest.fn());
 
-function render(frameToSelect = {}, overrides = {}) {
+function render(frameToSelect = {}, overrides = {}, propsOverrides = {}) {
   const defaultFrame = {
     id: 1,
     source: {
@@ -35,7 +35,8 @@ function render(frameToSelect = {}, overrides = {}) {
     copyStackTrace: jest.fn(),
     contextTypes: {},
     selectFrame,
-    toggleBlackBox
+    toggleBlackBox,
+    ...propsOverrides
   };
   const component = shallow(<Frame {...props} />);
   return { component, props };
@@ -121,6 +122,17 @@ describe("Frame", () => {
   });
 
   describe("mouse events", () => {
+    it("does not call FrameMenu when disableContextMenu is true", () => {
+      const { component } = render(undefined, undefined, {
+        disableContextMenu: true
+      });
+
+      const mockEvent = "mockEvent";
+      component.simulate("contextmenu", mockEvent);
+
+      expect(FrameMenu).toHaveBeenCalledTimes(0);
+    });
+
     it("calls FrameMenu on right click", () => {
       const { component, props } = render();
       const { copyStackTrace, toggleFrameworkGrouping, toggleBlackBox } = props;
