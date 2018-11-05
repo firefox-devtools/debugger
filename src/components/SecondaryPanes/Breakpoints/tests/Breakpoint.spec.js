@@ -6,7 +6,7 @@ import React from "react";
 import { shallow } from "enzyme";
 
 import Breakpoint from "../Breakpoint";
-import { makeSource, makeOriginalSource } from "../../../../utils/test-head";
+import { makeSource } from "../../../../utils/test-head";
 
 describe("Breakpoint", () => {
   it("simple", () => {
@@ -21,32 +21,25 @@ describe("Breakpoint", () => {
     expect(component).toMatchSnapshot();
   });
 
-  it("selected source is original", () => {
-    const { component } = render({
-      source: makeOriginalSource("foo"),
-      selectedSource: makeOriginalSource("foo")
-    });
-    expect(component).toMatchSnapshot();
-  });
-
   it("paused at a generatedLocation", () => {
     const { component } = render({
-      frame: { generatedLocation, location }
+      frame: { selectedLocation: generatedLocation }
     });
     expect(component).toMatchSnapshot();
   });
 
   it("paused at an original location", () => {
     const { component } = render({
-      frame: { location, generatedLocation },
-      selectedSource: makeOriginalSource("foo")
+      frame: { selectedLocation: location },
+      breakpoint: { selectedLocation: location }
     });
+
     expect(component).toMatchSnapshot();
   });
 
   it("paused at a different", () => {
     const { component } = render({
-      frame: { location, generatedLocation: { ...generatedLocation, line: 14 } }
+      frame: { selectedLocation: { ...generatedLocation, line: 14 } }
     });
     expect(component).toMatchSnapshot();
   });
@@ -54,6 +47,8 @@ describe("Breakpoint", () => {
 
 const generatedLocation = { sourceId: "foo", line: 53, column: 73 };
 const location = { sourceId: "foo/original", line: 5, column: 7 };
+const selectedLocation = generatedLocation;
+
 function render(overrides = {}) {
   const props = generateDefaults(overrides);
   const component = shallow(<Breakpoint.WrappedComponent {...props} />);
@@ -65,16 +60,15 @@ function render(overrides = {}) {
 
 function makeBreakpoint(overrides = {}) {
   return {
-    generatedLocation,
-    location,
+    selectedLocation,
     disabled: false,
     ...overrides
   };
 }
 
-function generateDefaults(overrides) {
+function generateDefaults(overrides = { ...overrides, breakpoint: {} }) {
   const source = makeSource("foo");
-  const breakpoint = makeBreakpoint();
+  const breakpoint = makeBreakpoint(overrides.breakpoint);
   const selectedSource = makeSource("foo");
   return {
     source,

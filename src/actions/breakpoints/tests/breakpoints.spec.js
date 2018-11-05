@@ -33,7 +33,9 @@ describe("breakpoints", () => {
     expect(bps.size).toBe(1);
     expect(bp.location).toEqual(loc1);
     expect(getTelemetryEvents("add_breakpoint")).toHaveLength(1);
-    expect(selectors.getBreakpointSources(getState())).toMatchSnapshot();
+
+    const bpSources = selectors.getBreakpointSources(getState());
+    expect(bpSources).toMatchSnapshot();
   });
 
   it("should not show a breakpoint that does not have text", async () => {
