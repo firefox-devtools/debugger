@@ -61,16 +61,18 @@ type FrameComponentProps = {
   shouldMapDisplayName: boolean,
   toggleBlackBox: Function,
   displayFullUrl: boolean,
-  getFrameTitle?: string => string
+  getFrameTitle?: string => string,
+  disableContextMenu: boolean
 };
 
 export default class FrameComponent extends Component<FrameComponentProps> {
   static defaultProps = {
     hideLocation: false,
-    shouldMapDisplayName: true
+    shouldMapDisplayName: true,
+    disableContextMenu: false
   };
 
-  onContextMenu(event: SyntheticKeyboardEvent<HTMLElement>) {
+  onContextMenu(event: SyntheticMouseEvent<HTMLElement>) {
     const {
       frame,
       copyStackTrace,
@@ -87,11 +89,11 @@ export default class FrameComponent extends Component<FrameComponentProps> {
   }
 
   onMouseDown(
-    e: SyntheticKeyboardEvent<HTMLElement>,
+    e: SyntheticMouseEvent<HTMLElement>,
     frame: Frame,
     selectedFrame: Frame
   ) {
-    if (e.which == 3) {
+    if (e.button !== 0) {
       return;
     }
     this.props.selectFrame(frame);
@@ -115,7 +117,8 @@ export default class FrameComponent extends Component<FrameComponentProps> {
       hideLocation,
       shouldMapDisplayName,
       displayFullUrl,
-      getFrameTitle
+      getFrameTitle,
+      disableContextMenu
     } = this.props;
 
     const className = classNames("frame", {
@@ -134,7 +137,7 @@ export default class FrameComponent extends Component<FrameComponentProps> {
         className={className}
         onMouseDown={e => this.onMouseDown(e, frame, selectedFrame)}
         onKeyUp={e => this.onKeyUp(e, frame, selectedFrame)}
-        onContextMenu={e => this.onContextMenu(e)}
+        onContextMenu={disableContextMenu ? null : e => this.onContextMenu(e)}
         tabIndex={0}
         title={title}
       >

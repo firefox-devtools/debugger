@@ -80,6 +80,17 @@ describe("Group", () => {
   });
 
   describe("mouse events", () => {
+    it("does not call FrameMenu when disableContextMenu is true", () => {
+      const { component } = render({
+        disableContextMenu: true
+      });
+
+      const mockEvent = "mockEvent";
+      component.simulate("contextmenu", mockEvent);
+
+      expect(FrameMenu).toHaveBeenCalledTimes(0);
+    });
+
     it("calls FrameMenu on right click", () => {
       const { component, props } = render();
       const { copyStackTrace, toggleFrameworkGrouping, toggleBlackBox } = props;

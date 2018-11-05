@@ -76,6 +76,7 @@ exports[`Group passes the getFrameTitle prop to the Frame components 1`] = `
   >
     <Frame
       copyStackTrace={[MockFunction]}
+      disableContextMenu={false}
       frame={
         Object {
           "displayName": "renderFoo",
@@ -100,6 +101,7 @@ exports[`Group passes the getFrameTitle prop to the Frame components 1`] = `
     />
     <Frame
       copyStackTrace={[MockFunction]}
+      disableContextMenu={false}
       frame={
         Object {
           "displayName": "a",
@@ -125,6 +127,7 @@ exports[`Group passes the getFrameTitle prop to the Frame components 1`] = `
     />
     <Frame
       copyStackTrace={[MockFunction]}
+      disableContextMenu={false}
       frame={
         Object {
           "displayName": "b",
