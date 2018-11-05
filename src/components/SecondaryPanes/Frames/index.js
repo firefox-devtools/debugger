@@ -6,6 +6,7 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 import type { Frame, Why } from "../../../types";
 
@@ -102,7 +103,8 @@ class Frames extends Component<Props, State> {
 
   copyStackTrace = () => {
     const { frames } = this.props;
-    const framesToCopy = frames.map(f => formatCopyName(f)).join("\n");
+    const { l10n } = this.context;
+    const framesToCopy = frames.map(f => formatCopyName(f, l10n)).join("\n");
     copyToTheClipboard(framesToCopy);
   };
 
@@ -164,9 +166,10 @@ class Frames extends Component<Props, State> {
   }
 
   renderToggleButton(frames: LocalFrame[]) {
+    const { l10n } = this.context;
     const buttonMessage = this.state.showAllFrames
-      ? L10N.getStr("callStack.collapse")
-      : L10N.getStr("callStack.expand");
+      ? l10n.getStr("callStack.collapse")
+      : l10n.getStr("callStack.expand");
 
     frames = this.collapseFrames(frames);
     if (frames.length <= NUM_FRAMES_SHOWN) {
@@ -204,6 +207,8 @@ class Frames extends Component<Props, State> {
     );
   }
 }
+
+Frames.contextTypes = { l10n: PropTypes.object };
 
 const mapStateToProps = state => ({
   frames: getCallStackFrames(state),
