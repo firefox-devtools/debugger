@@ -6,30 +6,34 @@ import React from "react";
 import { shallow } from "enzyme";
 import PreviewFunction from "../PreviewFunction";
 
+function render(props) {
+  return shallow(<PreviewFunction {...props} />, { context: { l10n: L10N } });
+}
+
 describe("PreviewFunction", () => {
   it("should return a span", () => {
     const item = {};
-    const returnedSpan = shallow(<PreviewFunction func={item} />);
+    const returnedSpan = render({ func: item });
     expect(returnedSpan).toMatchSnapshot();
     expect(returnedSpan.name()).toEqual("span");
   });
 
   it('should return a span with a class of "function-signature"', () => {
     const item = {};
-    const returnedSpan = shallow(<PreviewFunction func={item} />);
+    const returnedSpan = render({ func: item });
     expect(returnedSpan.hasClass("function-signature")).toBe(true);
   });
 
   it("should return a span with 3 children", () => {
     const item = {};
-    const returnedSpan = shallow(<PreviewFunction func={item} />);
+    const returnedSpan = render({ func: item });
     expect(returnedSpan.children()).toHaveLength(3);
   });
 
   describe("function name", () => {
     it("should be a span", () => {
       const item = {};
-      const returnedSpan = shallow(<PreviewFunction func={item} />);
+      const returnedSpan = render({ func: item });
       expect(
         returnedSpan
           .children()
@@ -40,7 +44,7 @@ describe("PreviewFunction", () => {
 
     it('should have a "function-name" class', () => {
       const item = {};
-      const returnedSpan = shallow(<PreviewFunction func={item} />);
+      const returnedSpan = render({ func: item });
       expect(
         returnedSpan
           .children()
@@ -54,7 +58,7 @@ describe("PreviewFunction", () => {
         userDisplayName: "chuck",
         displayName: "norris"
       };
-      const returnedSpan = shallow(<PreviewFunction func={item} />);
+      const returnedSpan = render({ func: item });
       expect(
         returnedSpan
           .children()
@@ -69,7 +73,7 @@ describe("PreviewFunction", () => {
         displayName: "norris",
         name: "last"
       };
-      const returnedSpan = shallow(<PreviewFunction func={item} />);
+      const returnedSpan = render({ func: item });
       expect(
         returnedSpan
           .children()
@@ -83,7 +87,7 @@ describe("PreviewFunction", () => {
       const item = {
         name: "last"
       };
-      const returnedSpan = shallow(<PreviewFunction func={item} />);
+      const returnedSpan = render({ func: item });
       expect(
         returnedSpan
           .children()
@@ -100,7 +104,7 @@ describe("PreviewFunction", () => {
 
     beforeAll(() => {
       const item = {};
-      const returnedSpan = shallow(<PreviewFunction func={item} />);
+      const returnedSpan = render({ func: item });
       const children = returnedSpan.children();
       leftParen = returnedSpan.childAt(1);
       rightParen = returnedSpan.childAt(children.length - 1);
@@ -128,7 +132,7 @@ describe("PreviewFunction", () => {
       const item = {
         parameterNames: ["one", "two", "three"]
       };
-      returnedSpan = shallow(<PreviewFunction func={item} />);
+      returnedSpan = render({ func: item });
       children = returnedSpan.children();
     });
 
