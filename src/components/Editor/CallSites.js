@@ -115,7 +115,10 @@ class CallSites extends Component {
       });
     }
   }
-  filterCallSites() {
+
+  // Return the call sites that are on the same line as an
+  // existing line breakpoint
+  filterCallSitesByLineNumber() {
     const { callSites, breakpoints } = this.props;
 
     const breakpointLines = new Set(
@@ -135,7 +138,7 @@ class CallSites extends Component {
       return null;
     }
 
-    const callSitesFiltered = this.filterCallSites();
+    const callSitesFiltered = this.filterCallSitesByLineNumber();
 
     editor.codeMirror.operation(() => {
       const childCallSites = callSitesFiltered.map((callSite, index) => {
