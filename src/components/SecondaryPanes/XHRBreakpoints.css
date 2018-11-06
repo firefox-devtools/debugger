@@ -70,7 +70,7 @@
 .xhr-label {
   max-width: calc(100% - var(--breakpoint-expression-right-clear-space));
   display: inline-block;
-  cursor: pointer;
+  cursor: text;
   flex-grow: 1;
   text-overflow: ellipsis;
   padding-inline-end: 8px;
