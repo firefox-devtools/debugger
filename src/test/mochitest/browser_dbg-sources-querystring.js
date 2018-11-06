@@ -29,8 +29,15 @@ add_task(async function() {
     "simple1.js?x=1 and simple2.jsx=2 exist"
   );
 
-  await clickElement(dbg, "sourceNode", 3);
-  const activeSourceLabel = getLabel(dbg, 3);
+  const source = findSource(dbg, "simple1.js?x=1");
+  await selectSource(dbg, source);
   const tab = findElement(dbg, "activeTab");
-  is(tab.innerText, activeSourceLabel, `Tab label is ${activeSourceLabel}`);
+  is(tab.innerText, "simple1.js?x=1", "Tab label is simple1.js?x=1");
+  await addBreakpoint(dbg, "simple1.js?x=1", 6);
+  const breakpointHeading = findElement(dbg, "breakpointItem", 2).innerText;
+  is(
+    breakpointHeading,
+    "simple1.js?x=1",
+    "Breakpoint heading is simple1.js?x=1"
+  );
 });
