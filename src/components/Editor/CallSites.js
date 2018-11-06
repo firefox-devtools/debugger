@@ -44,21 +44,11 @@ class CallSites extends Component {
     selectedLocation: Object
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      showCallSites: false
-    };
-  }
-
   componentDidMount() {
     const { editor } = this.props;
     const codeMirrorWrapper = editor.codeMirror.getWrapperElement();
 
     codeMirrorWrapper.addEventListener("click", e => this.onTokenClick(e));
-    document.body.addEventListener("keydown", this.onKeyDown);
-    document.body.addEventListener("keyup", this.onKeyUp);
   }
 
   componentWillUnmount() {
@@ -66,32 +56,15 @@ class CallSites extends Component {
     const codeMirrorWrapper = editor.codeMirror.getWrapperElement();
 
     codeMirrorWrapper.removeEventListener("click", e => this.onTokenClick(e));
-    document.body.removeEventListener("keydown", this.onKeyDown);
-    document.body.removeEventListener("keyup", this.onKeyUp);
   }
-
-  onKeyUp = e => {
-    if (e.key === "Alt") {
-      e.preventDefault();
-      this.setState({ showCallSites: false });
-    }
-  };
-
-  onKeyDown = e => {
-    if (e.key === "Alt") {
-      e.preventDefault();
-      this.setState({ showCallSites: true });
-    }
-  };
 
   onTokenClick(e) {
     const { target } = e;
     const { editor, selectedLocation } = this.props;
 
     if (
-      (!e.altKey && !target.classList.contains("call-site-bp")) ||
-      (!target.classList.contains("call-site") &&
-        !target.classList.contains("call-site-bp"))
+      !target.classList.contains("call-site") &&
+      !target.classList.contains("call-site-bp")
     ) {
       return;
     }
@@ -145,12 +118,9 @@ class CallSites extends Component {
   filterCallSites() {
     const { callSites, breakpoints } = this.props;
 
-    const breakpointLines = new Set();
-    if (breakpoints._root !== undefined) {
-      for (const key in breakpoints._root.entries) {
-        breakpointLines.add(breakpoints._root.entries[key][1].location.line);
-      }
-    }
+    const breakpointLines = new Set(
+      breakpoints.toIndexedSeq().map(bp => bp.location.line)
+    );
 
     return callSites.filter(({ location }) =>
       breakpointLines.has(location.start.line)
@@ -159,7 +129,6 @@ class CallSites extends Component {
 
   render() {
     const { editor, callSites, selectedSource } = this.props;
-    const { showCallSites } = this.state;
 
     let sites;
     if (!callSites) {
@@ -176,7 +145,7 @@ class CallSites extends Component {
           editor,
           source: selectedSource,
           breakpoint: callSite.breakpoint,
-          showCallSite: showCallSites
+          showCallSite: true
         };
         return <CallSite {...props} />;
       });
