@@ -23,7 +23,7 @@ Object {
   "mode": "javascript",
   "readOnly": true,
   "showAnnotationRuler": true,
-  "styleActiveLine": false,
+  "styleActiveLine": true,
   "theme": "mozilla",
   "value": " ",
 }
@@ -51,7 +51,7 @@ Object {
   "mode": "javascript",
   "readOnly": true,
   "showAnnotationRuler": true,
-  "styleActiveLine": false,
+  "styleActiveLine": true,
   "theme": "mozilla",
   "value": " ",
 }
