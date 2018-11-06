@@ -39,6 +39,8 @@ type State = {
 };
 
 class XHRBreakpoints extends Component<Props, State> {
+  _input: ?HTMLInputElement;
+
   constructor(props: Props) {
     super(props);
 
@@ -49,6 +51,21 @@ class XHRBreakpoints extends Component<Props, State> {
       focused: false,
       editIndex: -1
     };
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const input = this._input;
+
+    if (!input) {
+      return;
+    }
+
+    if (!prevState.editing && this.state.editing) {
+      input.setSelectionRange(0, input.value.length);
+      input.focus();
+    } else if (this.props.showInput && !this.state.focused) {
+      input.focus();
+    }
   }
 
   handleNewSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
@@ -126,6 +143,7 @@ class XHRBreakpoints extends Component<Props, State> {
             onFocus={this.onFocus}
             autoFocus={showInput}
             value={inputValue}
+            ref={c => (this._input = c)}
           />
           <input type="submit" style={{ display: "none" }} />
         </form>
