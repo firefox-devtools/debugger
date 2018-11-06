@@ -21,7 +21,7 @@ export function createEditor() {
     readOnly: true,
     lineNumbers: true,
     theme: "mozilla",
-    styleActiveLine: false,
+    styleActiveLine: true,
     lineWrapping: false,
     matchBrackets: true,
     showAnnotationRuler: true,
