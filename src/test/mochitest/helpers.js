@@ -340,7 +340,9 @@ function assertDebugLine(dbg, line) {
 
   const markedSpans = lineInfo.handle.markedSpans;
   if (markedSpans && markedSpans.length > 0) {
-    const marker = markedSpans[0].marker;
+    const markerIndex = Services.prefs.getBoolPref("devtools.debugger.features.column-breakpoints") ? markedSpans.length - 1 : 0;
+    const marker = markedSpans[markerIndex].marker;
+
     ok(
       marker.className.includes("debug-expression"),
       "expression is highlighted as paused"
