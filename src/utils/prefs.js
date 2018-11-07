@@ -29,6 +29,8 @@ if (isDevelopment()) {
   pref("devtools.debugger.breakpoints-visible", true);
   pref("devtools.debugger.start-panel-collapsed", false);
   pref("devtools.debugger.end-panel-collapsed", false);
+  pref("devtools.debugger.start-panel-size", 300);
+  pref("devtools.debugger.end-panel-size", 300);
   pref("devtools.debugger.tabs", "[]");
   pref("devtools.debugger.tabsBlackBoxed", "[]");
   pref("devtools.debugger.ui.framework-grouping-on", true);
@@ -78,6 +80,8 @@ export const prefs = new PrefsHelper("devtools", {
   xhrBreakpointsVisible: ["Bool", "debugger.xhr-breakpoints-visible"],
   startPanelCollapsed: ["Bool", "debugger.start-panel-collapsed"],
   endPanelCollapsed: ["Bool", "debugger.end-panel-collapsed"],
+  startPanelSize: ["Int", "debugger.start-panel-size"],
+  endPanelSize: ["Int", "debugger.end-panel-size"],
   frameworkGroupingOn: ["Bool", "debugger.ui.framework-grouping-on"],
   tabs: ["Json", "debugger.tabs", []],
   tabsBlackBoxed: ["Json", "debugger.tabsBlackBoxed", []],
