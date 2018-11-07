@@ -134,7 +134,7 @@ class CallSites extends Component {
     const { editor, callSites, selectedSource } = this.props;
 
     let sites;
-    if (!callSites) {
+    if (!callSites || (selectedSource && selectedSource.isPrettyPrinted)) {
       return null;
     }
 
