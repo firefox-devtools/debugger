@@ -10,18 +10,14 @@ exports[`Group displays a group 1`] = `
     onClick={[Function]}
     tabIndex={0}
   >
-    <div
-      className="d-flex align-items-center min-width-0"
+    <span
+      className="title"
     >
-      <div
-        className="title"
-      >
-        foo
-      </div>
-      <Badge>
-        1
-      </Badge>
-    </div>
+      foo
+    </span>
+    <Badge>
+      1
+    </Badge>
     <FrameLocation
       frame={
         Object {
@@ -44,18 +40,14 @@ exports[`Group passes the getFrameTitle prop to the Frame components 1`] = `
     onClick={[Function]}
     tabIndex={0}
   >
-    <div
-      className="d-flex align-items-center min-width-0"
+    <span
+      className="title"
     >
-      <div
-        className="title"
-      >
-        renderFoo
-      </div>
-      <Badge>
-        3
-      </Badge>
-    </div>
+      renderFoo
+    </span>
+    <Badge>
+      3
+    </Badge>
     <FrameLocation
       frame={
         Object {
