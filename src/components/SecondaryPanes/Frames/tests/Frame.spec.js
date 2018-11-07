@@ -74,14 +74,14 @@ describe("Frame", () => {
       source: {
         url: "https://firefox.com/assets/src/js/foo-view.js"
       },
-      displayName: "renderFoo|",
+      displayName: "renderFoo",
       location: {
         line: 10
       }
     };
 
     const component = mount(<Frame frame={frame} />);
-    expect(component.text()).toBe("renderFoo|foo-view.js:10");
+    expect(component.text()).toBe("renderFoo foo-view.js:10");
   });
 
   it("full URL", () => {
@@ -98,7 +98,7 @@ describe("Frame", () => {
     };
 
     const component = mount(<Frame frame={frame} displayFullUrl={true} />);
-    expect(component.text()).toBe(`renderFoo${url}:10`);
+    expect(component.text()).toBe(`renderFoo ${url}:10`);
   });
 
   it("getFrameTitle", () => {

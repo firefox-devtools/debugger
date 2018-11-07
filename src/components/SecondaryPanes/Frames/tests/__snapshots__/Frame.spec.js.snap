@@ -29,6 +29,7 @@ exports[`Frame getFrameTitle 1`] = `
       }
     }
   />
+   
   <FrameLocation
     frame={
       Object {
@@ -77,6 +78,7 @@ exports[`Frame library frame 1`] = `
       }
     }
   />
+   
   <FrameLocation
     frame={
       Object {
@@ -129,6 +131,7 @@ exports[`Frame user frame (not selected) 1`] = `
       }
     }
   />
+   
   <FrameLocation
     frame={
       Object {
@@ -182,6 +185,7 @@ exports[`Frame user frame 1`] = `
       }
     }
   />
+   
   <FrameLocation
     frame={
       Object {
