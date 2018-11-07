@@ -185,6 +185,7 @@ class Tab extends PureComponent<Props> {
     });
 
     const path = getDisplayPath(source, tabSources);
+    const query = hasSiblingOfSameName ? getSourceQueryString(source) : "";
 
     return (
       <div
@@ -194,15 +195,14 @@ class Tab extends PureComponent<Props> {
         // Accommodate middle click to close tab
         onMouseUp={e => e.button === 1 && closeTab(source)}
         onContextMenu={e => this.onTabContextMenu(e, sourceId)}
-        title={getFileURL(source)}
+        title={getFileURL(source, false)}
       >
         <SourceIcon
           source={source}
           shouldHide={icon => ["file", "javascript"].includes(icon)}
         />
         <div className="filename">
-          {getTruncatedFileName(source)}
-          {hasSiblingOfSameName && getSourceQueryString(source)}
+          {getTruncatedFileName(source, query)}
           {path && <span>{`../${path}/..`}</span>}
         </div>
         <CloseButton

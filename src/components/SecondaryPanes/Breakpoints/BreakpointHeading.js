@@ -9,8 +9,8 @@ import actions from "../../../actions";
 import {
   getTruncatedFileName,
   getDisplayPath,
-  getRawSourceURL,
-  getSourceQueryString
+  getSourceQueryString,
+  getFileURL
 } from "../../../utils/source";
 import { getHasSiblingOfSameName } from "../../../selectors";
 
@@ -30,16 +30,12 @@ class BreakpointHeading extends PureComponent<Props> {
     const { sources, source, hasSiblingOfSameName, selectSource } = this.props;
 
     const path = getDisplayPath(source, sources);
-    const querystring = getSourceQueryString(source);
-    const query =
-      hasSiblingOfSameName && querystring ? (
-        <span className="query">{querystring}</span>
-      ) : null;
+    const query = hasSiblingOfSameName ? getSourceQueryString(source) : "";
 
     return (
       <div
         className="breakpoint-heading"
-        title={getRawSourceURL(source.url)}
+        title={getFileURL(source, false)}
         onClick={() => selectSource(source.id)}
       >
         <SourceIcon
@@ -47,8 +43,7 @@ class BreakpointHeading extends PureComponent<Props> {
           shouldHide={icon => ["file", "javascript"].includes(icon)}
         />
         <div className="filename">
-          {getTruncatedFileName(source)}
-          {query}
+          {getTruncatedFileName(source, query)}
           {path && <span>{`../${path}/..`}</span>}
         </div>
       </div>
