@@ -169,7 +169,7 @@ function getCallSites(symbols, breakpoints) {
   // to speed up the lookups. Hopefully we'll fix the
   // inconsistency with column offsets so that we can expect
   // a breakpoint to be added at the beginning of a call expression.
-  const bpLocationMap = keyBy(breakpoints.valueSeq().toJS(), ({ location }) =>
+  const bpLocationMap = keyBy(breakpoints, ({ location }) =>
     locationKey(location)
   );
 

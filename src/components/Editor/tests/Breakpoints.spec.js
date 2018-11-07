@@ -34,18 +34,18 @@ function render(overrides = {}) {
 describe("Breakpoints Component", () => {
   it("should render breakpoints without columns", async () => {
     const sourceId = "server1.conn1.child1/source1";
-    const breakpoints = I.Map({ id1: { location: { sourceId } } });
+    const breakpoints = [{ location: { sourceId } }];
 
     const { component, props } = render({ breakpoints });
-    expect(component.find("Breakpoint")).toHaveLength(props.breakpoints.size);
+    expect(component.find("Breakpoint")).toHaveLength(props.breakpoints.length);
   });
 
   it("should render breakpoints with columns", async () => {
     const sourceId = "server1.conn1.child1/source1";
-    const breakpoints = I.Map({ id1: { location: { column: 2, sourceId } } });
+    const breakpoints = [{ location: { column: 2, sourceId } }];
 
     const { component, props } = render({ breakpoints });
-    expect(component.find("Breakpoint")).toHaveLength(props.breakpoints.size);
+    expect(component.find("Breakpoint")).toHaveLength(props.breakpoints.length);
     expect(component).toMatchSnapshot();
   });
 });

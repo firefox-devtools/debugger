@@ -42,7 +42,7 @@ describe("toggleBreakpointsAtLine", () => {
     await dispatch(actions.toggleBreakpointsAtLine(5));
     await waitForState(
       store,
-      state => selectors.getBreakpoints(state).size == 0
+      state => selectors.getBreakpointCount(state) === 0
     );
   });
 
@@ -65,7 +65,7 @@ describe("toggleBreakpointsAtLine", () => {
 
     await waitForState(
       store,
-      state => selectors.getBreakpoints(state).size == 0
+      state => selectors.getBreakpointCount(state) === 0
     );
   });
 });
