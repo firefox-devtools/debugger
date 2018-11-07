@@ -97,7 +97,7 @@ describe("Frames", () => {
       const frames = [
         {
           id: 1,
-          displayName: "renderFoo|",
+          displayName: "renderFoo",
           location: {
             line: 55
           },
@@ -115,7 +115,7 @@ describe("Frames", () => {
         />
       );
       expect(component.text()).toBe(
-        "renderFoo|http://myfile.com/mahscripts.js:55"
+        "renderFoo http://myfile.com/mahscripts.js:55"
       );
     });
 
