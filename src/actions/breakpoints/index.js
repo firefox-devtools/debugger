@@ -242,7 +242,6 @@ export function setBreakpointCondition(
 
     if (bp.disabled) {
       await dispatch(enableBreakpoint(location));
-      bp.disabled = !bp.disabled;
     }
 
     await client.setBreakpointCondition(
@@ -252,7 +251,7 @@ export function setBreakpointCondition(
       isOriginalId(bp.location.sourceId)
     );
 
-    const newBreakpoint = { ...bp, condition };
+    const newBreakpoint = { ...bp, disabled: false, condition };
 
     assertBreakpoint(newBreakpoint);
 

@@ -290,15 +290,15 @@ export function getBreakpointsLoading(state: OuterState): boolean {
 export function getBreakpointsForSource(
   state: OuterState,
   sourceId: string
-): BreakpointsMap {
+): Breakpoint[] {
   if (!sourceId) {
-    return {};
+    return [];
   }
 
   const isGeneratedSource = isGeneratedId(sourceId);
   const breakpoints = getBreakpointsMap(state);
 
-  const breakpointsForSource = {};
+  const breakpointsForSource = [];
 
   for (const key in breakpoints) {
     const bp = breakpoints[key];
@@ -306,7 +306,7 @@ export function getBreakpointsForSource(
       ? bp.generatedLocation || bp.location
       : bp.location;
     if (location.sourceId === sourceId) {
-      breakpointsForSource[key] = { ...bp };
+      breakpointsForSource.push({ ...bp });
     }
   }
 

@@ -59,8 +59,8 @@ export type Location = {
 };
 
 export type MappedLocation = {
-  location: Location,
-  generatedLocation: Location
+  +location: Location,
+  +generatedLocation: Location
 };
 
 export type Position = {
@@ -93,31 +93,31 @@ export type ASTLocation = {|
  * @memberof types
  * @static
  */
-export type Breakpoint = {
-  id: BreakpointId,
-  location: Location,
-  astLocation: ?ASTLocation,
-  generatedLocation: Location,
-  loading: boolean,
-  disabled: boolean,
-  hidden: boolean,
-  text: string,
-  originalText: string,
-  condition: ?string
-};
+export type Breakpoint = {|
+  +id: BreakpointId,
+  +location: Location,
+  +astLocation: ?ASTLocation,
+  +generatedLocation: Location,
+  +loading: boolean,
+  +disabled: boolean,
+  +hidden: boolean,
+  +text: string,
+  +originalText: string,
+  +condition: ?string
+|};
 
 /**
  * XHR Breakpoint
  * @memberof types
  * @static
  */
-export type XHRBreakpoint = {
+export type XHRBreakpoint = {|
   path: string,
   method: "GET" | "POST" | "DELETE" | "ANY",
   loading: boolean,
   disabled: boolean,
   text: string
-};
+|};
 
 /**
  * Breakpoint Result is the return from an add/modify Breakpoint request

@@ -121,9 +121,7 @@ class CallSites extends Component {
   filterCallSitesByLineNumber() {
     const { callSites, breakpoints } = this.props;
 
-    const breakpointLines = new Set(
-      breakpoints.toIndexedSeq().map(bp => bp.location.line)
-    );
+    const breakpointLines = new Set(breakpoints.map(bp => bp.location.line));
 
     return callSites.filter(({ location }) =>
       breakpointLines.has(location.start.line)

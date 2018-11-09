@@ -12,6 +12,8 @@ import {
   initialBreakpointsState
 } from "../breakpoints";
 
+import { createBreakpoint } from "../../utils/breakpoint";
+
 function initializeStateWith(data) {
   const state = initialBreakpointsState();
   state.breakpoints = data;
@@ -22,55 +24,11 @@ describe("Breakpoints Selectors", () => {
   it("it gets a breakpoint for an original source", () => {
     const sourceId = "server1.conn1.child1/source1/originalSource";
     const matchingBreakpoints = {
-      id1: {
-        id: "id1",
-        location: {
-          sourceId: sourceId,
-          line: 1
-        },
-        generatedLocation: {
-          sourceId: sourceId,
-          line: 1
-        },
-        astLocation: {
-          name: sourceId,
-          offset: {
-            line: 1
-          }
-        },
-        loading: false,
-        disabled: false,
-        hidden: false,
-        text: "string",
-        originalText: "string",
-        condition: null
-      }
+      id1: createBreakpoint({ line: 1, sourceId: sourceId })
     };
 
     const otherBreakpoints = {
-      id2: {
-        id: "id2",
-        location: {
-          sourceId: "not-this-source",
-          line: 2
-        },
-        generatedLocation: {
-          sourceId: "not-this-source",
-          line: 2
-        },
-        astLocation: {
-          name: "not-this-source",
-          offset: {
-            line: 2
-          }
-        },
-        loading: false,
-        disabled: false,
-        hidden: false,
-        text: "",
-        originalText: "",
-        condition: null
-      }
+      id2: createBreakpoint({ line: 1, sourceId: "not-this-source" })
     };
 
     const data = {
@@ -79,64 +37,31 @@ describe("Breakpoints Selectors", () => {
     };
 
     const breakpoints = initializeStateWith(data);
-
     expect(getBreakpointsForSource({ breakpoints }, sourceId)).toEqual(
-      matchingBreakpoints
+      Object.values(matchingBreakpoints)
     );
   });
 
   it("it gets a breakpoint for a generated source", () => {
     const generatedSourceId = "random-source";
     const matchingBreakpoints = {
-      id1: {
-        id: "id1",
-        location: {
-          sourceId: "original-source-id-1",
-          line: 1
+      id1: createBreakpoint(
+        {
+          line: 1,
+          sourceId: "original-source-id-1"
         },
-        generatedLocation: {
-          sourceId: generatedSourceId,
-          line: 1
-        },
-        astLocation: {
-          name: "original-source-id-1",
-          offset: {
-            line: 1
-          }
-        },
-        loading: false,
-        disabled: false,
-        hidden: false,
-        text: "string",
-        originalText: "string",
-        condition: null
-      }
+        { generatedLocation: { line: 1, sourceId: generatedSourceId } }
+      )
     };
 
     const otherBreakpoints = {
-      id2: {
-        id: "id2",
-        location: {
-          sourceId: "original-source-id-2",
-          line: 1
+      id2: createBreakpoint(
+        {
+          line: 1,
+          sourceId: "original-source-id-2"
         },
-        generatedLocation: {
-          sourceId: "not-this-source",
-          line: 1
-        },
-        astLocation: {
-          name: "original-source-id-2",
-          offset: {
-            line: 1
-          }
-        },
-        loading: false,
-        disabled: false,
-        hidden: false,
-        text: "string",
-        originalText: "string",
-        condition: null
-      }
+        { generatedLocation: { line: 1, sourceId: "not-this-source" } }
+      )
     };
 
     const data = {
@@ -147,7 +72,7 @@ describe("Breakpoints Selectors", () => {
     const breakpoints = initializeStateWith(data);
 
     expect(getBreakpointsForSource({ breakpoints }, generatedSourceId)).toEqual(
-      matchingBreakpoints
+      Object.values(matchingBreakpoints)
     );
   });
 });
