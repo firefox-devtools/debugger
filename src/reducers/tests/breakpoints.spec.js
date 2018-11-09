@@ -11,20 +11,24 @@ import {
   getBreakpointsForSource,
   initialBreakpointsState
 } from "../breakpoints";
-import * as I from "immutable";
+
+import { createBreakpoint } from "../../utils/breakpoint";
 
 function initializeStateWith(data) {
-  const mappedData = I.Map(data);
   const state = initialBreakpointsState();
-  return state.set("breakpoints", mappedData);
+  state.breakpoints = data;
+  return state;
 }
 
 describe("Breakpoints Selectors", () => {
   it("it gets a breakpoint for an original source", () => {
     const sourceId = "server1.conn1.child1/source1/originalSource";
-    const matchingBreakpoints = { id1: { location: { sourceId } } };
+    const matchingBreakpoints = {
+      id1: createBreakpoint({ line: 1, sourceId: sourceId })
+    };
+
     const otherBreakpoints = {
-      id2: { location: { sourceId: "not-this-source" } }
+      id2: createBreakpoint({ line: 1, sourceId: "not-this-source" })
     };
 
     const data = {
@@ -33,25 +37,31 @@ describe("Breakpoints Selectors", () => {
     };
 
     const breakpoints = initializeStateWith(data);
-
     expect(getBreakpointsForSource({ breakpoints }, sourceId)).toEqual(
-      I.Map(matchingBreakpoints)
+      Object.values(matchingBreakpoints)
     );
   });
 
   it("it gets a breakpoint for a generated source", () => {
     const generatedSourceId = "random-source";
     const matchingBreakpoints = {
-      id1: {
-        location: { sourceId: "original-source-id-1" },
-        generatedLocation: { sourceId: generatedSourceId }
-      }
+      id1: createBreakpoint(
+        {
+          line: 1,
+          sourceId: "original-source-id-1"
+        },
+        { generatedLocation: { line: 1, sourceId: generatedSourceId } }
+      )
     };
+
     const otherBreakpoints = {
-      id2: {
-        location: { sourceId: "original-source-id-2" },
-        generatedLocation: { sourceId: "not-this-source" }
-      }
+      id2: createBreakpoint(
+        {
+          line: 1,
+          sourceId: "original-source-id-2"
+        },
+        { generatedLocation: { line: 1, sourceId: "not-this-source" } }
+      )
     };
 
     const data = {
@@ -62,7 +72,7 @@ describe("Breakpoints Selectors", () => {
     const breakpoints = initializeStateWith(data);
 
     expect(getBreakpointsForSource({ breakpoints }, generatedSourceId)).toEqual(
-      I.Map(matchingBreakpoints)
+      Object.values(matchingBreakpoints)
     );
   });
 });

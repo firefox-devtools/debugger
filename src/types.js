@@ -52,39 +52,39 @@ export type ActorId = string;
  * @static
  */
 export type Location = {
-  sourceId: SourceId,
-  line: number,
-  column?: number,
-  sourceUrl?: string
+  +sourceId: SourceId,
+  +line: number,
+  +column?: number,
+  +sourceUrl?: string
 };
 
 export type MappedLocation = {
-  location: Location,
-  generatedLocation: Location
+  +location: Location,
+  +generatedLocation: Location
 };
 
 export type Position = {
-  line: number,
-  column?: number
+  +line: number,
+  +column?: number
 };
 
 export type ColumnPosition = {
-  line: number,
-  column: number
+  +line: number,
+  +column: number
 };
 
 export type Range = { end: Position, start: Position };
 export type ColumnRange = { end: ColumnPosition, start: ColumnPosition };
 
 export type PendingLocation = {
-  line: number,
-  column?: number,
-  sourceUrl?: string
+  +line: number,
+  +column?: number,
+  +sourceUrl?: string
 };
 
 export type ASTLocation = {|
-  name: ?string,
-  offset: Position
+  +name: ?string,
+  +offset: Position
 |};
 
 /**
@@ -93,31 +93,31 @@ export type ASTLocation = {|
  * @memberof types
  * @static
  */
-export type Breakpoint = {
-  id: BreakpointId,
-  location: Location,
-  astLocation: ?ASTLocation,
-  generatedLocation: Location,
-  loading: boolean,
-  disabled: boolean,
-  hidden: boolean,
-  text: string,
-  originalText: string,
-  condition: ?string
-};
+export type Breakpoint = {|
+  +id: BreakpointId,
+  +location: Location,
+  +astLocation: ?ASTLocation,
+  +generatedLocation: Location,
+  +loading: boolean,
+  +disabled: boolean,
+  +hidden: boolean,
+  +text: string,
+  +originalText: string,
+  +condition: ?string
+|};
 
 /**
  * XHR Breakpoint
  * @memberof types
  * @static
  */
-export type XHRBreakpoint = {
-  path: string,
-  method: "GET" | "POST" | "DELETE" | "ANY",
-  loading: boolean,
-  disabled: boolean,
-  text: string
-};
+export type XHRBreakpoint = {|
+  +path: string,
+  +method: "GET" | "POST" | "DELETE" | "ANY",
+  +loading: boolean,
+  +disabled: boolean,
+  +text: string
+|};
 
 /**
  * Breakpoint Result is the return from an add/modify Breakpoint request
@@ -137,13 +137,13 @@ export type BreakpointResult = {
  * @static
  */
 export type PendingBreakpoint = {
-  location: PendingLocation,
-  astLocation: ASTLocation,
-  generatedLocation: PendingLocation,
-  loading: boolean,
-  disabled: boolean,
-  text: string,
-  condition: ?string
+  +location: PendingLocation,
+  +astLocation: ASTLocation,
+  +generatedLocation: PendingLocation,
+  +loading: boolean,
+  +disabled: boolean,
+  +text: string,
+  +condition: ?string
 };
 
 /**
