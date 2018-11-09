@@ -24,6 +24,7 @@ import type { Source, SourceId, Location } from "../types";
 import type { PendingSelectedLocation } from "./types";
 import type { Action, DonePromiseAction } from "../actions/types";
 import type { LoadSourceAction } from "../actions/types/SourceAction";
+import { parse } from "../utils/url";
 
 export type SourcesMap = { [string]: Source };
 
@@ -433,11 +434,33 @@ function getSourcesByUrlInSources(
 
 export function getSourcesUrlsInSources(state: OuterState, url: string) {
   const urls = getUrls(state);
+
   if (!url || !urls[url]) {
     return [];
   }
+  return [...new Set(Object.keys(urls).filter(Boolean))].filter(
+    element => parse(element).pathname === parse(url).pathname
+  );
+}
 
-  return [...new Set(Object.keys(urls).filter(Boolean))];
+const usedUrlsSet = new Set();
+export function getQueryString(state: OuterState, source: Source) {
+  if (!source) {
+    return null;
+  }
+  const urls = getSourcesUrlsInSources(state, source.url);
+
+  if (usedUrlsSet.size === urls.size) {
+    usedUrlsSet.clear();
+  }
+  const siblings = urls.filter(url => url !== source.url);
+  siblings.sort();
+
+  const smallestSibling = siblings.find(url => !usedUrlsSet.has(url));
+  if (smallestSibling) {
+    usedUrlsSet.add(smallestSibling);
+  }
+  return parse(smallestSibling).search;
 }
 
 export function getSourceInSources(sources: SourcesMap, id: string): ?Source {
