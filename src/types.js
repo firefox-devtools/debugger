@@ -52,10 +52,10 @@ export type ActorId = string;
  * @static
  */
 export type Location = {
-  sourceId: SourceId,
-  line: number,
-  column?: number,
-  sourceUrl?: string
+  +sourceId: SourceId,
+  +line: number,
+  +column?: number,
+  +sourceUrl?: string
 };
 
 export type MappedLocation = {
@@ -64,27 +64,27 @@ export type MappedLocation = {
 };
 
 export type Position = {
-  line: number,
-  column?: number
+  +line: number,
+  +column?: number
 };
 
 export type ColumnPosition = {
-  line: number,
-  column: number
+  +line: number,
+  +column: number
 };
 
 export type Range = { end: Position, start: Position };
 export type ColumnRange = { end: ColumnPosition, start: ColumnPosition };
 
 export type PendingLocation = {
-  line: number,
-  column?: number,
-  sourceUrl?: string
+  +line: number,
+  +column?: number,
+  +sourceUrl?: string
 };
 
 export type ASTLocation = {|
-  name: ?string,
-  offset: Position
+  +name: ?string,
+  +offset: Position
 |};
 
 /**
@@ -112,11 +112,11 @@ export type Breakpoint = {|
  * @static
  */
 export type XHRBreakpoint = {|
-  path: string,
-  method: "GET" | "POST" | "DELETE" | "ANY",
-  loading: boolean,
-  disabled: boolean,
-  text: string
+  +path: string,
+  +method: "GET" | "POST" | "DELETE" | "ANY",
+  +loading: boolean,
+  +disabled: boolean,
+  +text: string
 |};
 
 /**
@@ -137,13 +137,13 @@ export type BreakpointResult = {
  * @static
  */
 export type PendingBreakpoint = {
-  location: PendingLocation,
-  astLocation: ASTLocation,
-  generatedLocation: PendingLocation,
-  loading: boolean,
-  disabled: boolean,
-  text: string,
-  condition: ?string
+  +location: PendingLocation,
+  +astLocation: ASTLocation,
+  +generatedLocation: PendingLocation,
+  +loading: boolean,
+  +disabled: boolean,
+  +text: string,
+  +condition: ?string
 };
 
 /**
