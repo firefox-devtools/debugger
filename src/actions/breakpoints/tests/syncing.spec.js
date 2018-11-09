@@ -121,8 +121,7 @@ describe("loading the debugger", () => {
     const reloadedSource = makeSource("magic.js");
     await dispatch(actions.newSource(reloadedSource));
 
-    const breakpoints = selectors.getBreakpoints(getState());
-    expect(breakpoints.size).toBe(0);
+    expect(selectors.getBreakpointCount(getState())).toEqual(0);
     // manually sync
     const update = await syncBreakpointPromise(
       getState,
@@ -152,8 +151,7 @@ describe("loading the debugger", () => {
     const reloadedSource = makeSource("magic.js");
     await dispatch(actions.newSource(reloadedSource));
 
-    const breakpoints = selectors.getBreakpoints(getState());
-    expect(breakpoints.size).toBe(0);
+    expect(selectors.getBreakpointCount(getState())).toEqual(0);
     // manually sync
     const update = await syncBreakpointPromise(
       getState,

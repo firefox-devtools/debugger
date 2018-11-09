@@ -28,9 +28,8 @@ describe("breakpoints", () => {
     await dispatch(actions.loadSourceText(makeSource("a")));
     await dispatch(actions.addBreakpoint(loc1));
 
-    const bps = selectors.getBreakpoints(getState());
+    expect(selectors.getBreakpointCount(getState())).toEqual(1);
     const bp = selectors.getBreakpoint(getState(), loc1);
-    expect(bps.size).toBe(1);
     expect(bp.location).toEqual(loc1);
     expect(getTelemetryEvents("add_breakpoint")).toHaveLength(1);
 
@@ -49,9 +48,8 @@ describe("breakpoints", () => {
     await dispatch(actions.loadSourceText(makeSource("a")));
     await dispatch(actions.addBreakpoint(loc1));
 
-    const bps = selectors.getBreakpoints(getState());
+    expect(selectors.getBreakpointCount(getState())).toEqual(1);
     const bp = selectors.getBreakpoint(getState(), loc1);
-    expect(bps.size).toBe(1);
     expect(bp.location).toEqual(loc1);
     expect(selectors.getBreakpointSources(getState())).toMatchSnapshot();
   });
@@ -68,9 +66,8 @@ describe("breakpoints", () => {
     await dispatch(actions.addBreakpoint(loc1));
     await dispatch(actions.disableBreakpoint(loc1));
 
-    const bps = selectors.getBreakpoints(getState());
+    expect(selectors.getBreakpointCount(getState())).toEqual(1);
     const bp = selectors.getBreakpoint(getState(), loc1);
-    expect(bps.size).toBe(1);
     expect(bp.location).toEqual(loc1);
     expect(selectors.getBreakpointSources(getState())).toMatchSnapshot();
   });
@@ -87,14 +84,12 @@ describe("breakpoints", () => {
     await dispatch(actions.loadSourceText(makeSource("a")));
 
     await dispatch(actions.addBreakpoint(loc1));
-    let bps = selectors.getBreakpoints(getState());
+    expect(selectors.getBreakpointCount(getState())).toEqual(1);
     const bp = selectors.getBreakpoint(getState(), loc1);
-    expect(bps.size).toBe(1);
     expect(bp.location).toEqual(loc1);
 
     await dispatch(actions.addBreakpoint(loc1));
-    bps = selectors.getBreakpoints(getState());
-    expect(bps.size).toBe(1);
+    expect(selectors.getBreakpointCount(getState())).toEqual(1);
   });
 
   describe("adding a breakpoint to an invalid location", async () => {
@@ -115,9 +110,8 @@ describe("breakpoints", () => {
 
       await dispatch(actions.addBreakpoint(invalidLocation));
       const state = getState();
-      const bps = selectors.getBreakpoints(state);
+      expect(selectors.getBreakpointCount(state)).toEqual(1);
       const bp = selectors.getBreakpoint(state, correctedLocation);
-      expect(bps.size).toBe(1);
       expect(bp).toMatchSnapshot();
     });
   });
@@ -148,7 +142,7 @@ describe("breakpoints", () => {
 
     await dispatch(actions.removeBreakpoint(loc1));
 
-    expect(selectors.getBreakpoints(getState()).size).toBe(1);
+    expect(selectors.getBreakpointCount(getState())).toEqual(1);
   });
 
   it("should disable a breakpoint", async () => {
@@ -385,7 +379,7 @@ describe("breakpoints", () => {
     await dispatch(actions.addBreakpoint(loc));
     await dispatch(actions.togglePrettyPrint("a.js"));
 
-    const breakpoint = selectors.getBreakpoints(getState()).first();
+    const breakpoint = selectors.getBreakpointsList(getState())[0];
 
     expect(breakpoint.location.sourceUrl.includes("formatted")).toBe(true);
     expect(breakpoint).toMatchSnapshot();

@@ -121,9 +121,7 @@ class CallSites extends Component {
   filterCallSitesByLineNumber() {
     const { callSites, breakpoints } = this.props;
 
-    const breakpointLines = new Set(
-      breakpoints.toIndexedSeq().map(bp => bp.location.line)
-    );
+    const breakpointLines = new Set(breakpoints.map(bp => bp.location.line));
 
     return callSites.filter(({ location }) =>
       breakpointLines.has(location.start.line)
@@ -169,7 +167,7 @@ function getCallSites(symbols, breakpoints) {
   // to speed up the lookups. Hopefully we'll fix the
   // inconsistency with column offsets so that we can expect
   // a breakpoint to be added at the beginning of a call expression.
-  const bpLocationMap = keyBy(breakpoints.valueSeq().toJS(), ({ location }) =>
+  const bpLocationMap = keyBy(breakpoints, ({ location }) =>
     locationKey(location)
   );
 
