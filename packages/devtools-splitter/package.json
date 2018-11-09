@@ -1,0 +1,22 @@
+{
+  "name": "devtools-splitter",
+  "version": "0.0.7",
+  "description": "DevTools Splitter",
+  "main": "index.js",
+  "scripts": {
+    "storybook": "start-storybook -p 9001 -c .storybook",
+    "license-check": "devtools-license-check",
+    "test": "# No tests available"
+  },
+  "author": "Jason Laster",
+  "license": "MPL-2.0",
+  "devDependencies": {
+    "@kadira/storybook": "^2.35.3",
+    "react": "^15.6.2",
+    "react-dom": "^15.6.2"
+  },
+  "dependencies": {
+    "prop-types": "^15.6.0",
+    "react-dom-factories": "^1.0.2"
+  }
+}
