@@ -32,7 +32,6 @@ type Props = {
   focused: boolean,
   expanded: boolean,
   hasMatchingGeneratedSource: boolean,
-  hasSiblingOfSameName: boolean,
   querystring?: string,
   setExpanded: (TreeNode, boolean, boolean) => void,
   focusItem: TreeNode => void,
@@ -210,19 +209,10 @@ function getHasMatchingGeneratedSource(state, source: ?Source) {
   return !!getGeneratedSourceByURL(state, source.url);
 }
 
-// function getHasSiblingOfSameName(state, source: ?Source) {
-//   if (!source) {
-//     return false;
-//   }
-
-//   return getSourcesUrlsInSources(state, source.url).length > 1;
-// }
-
 const mapStateToProps = (state, props) => {
   const { source } = props;
   return {
     hasMatchingGeneratedSource: getHasMatchingGeneratedSource(state, source),
-    // hasSiblingOfSameName: getHasSiblingOfSameName(state, source),
     querystring: getQueryString(state, source)
   };
 };
