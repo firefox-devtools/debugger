@@ -3543,13 +3543,6 @@ devtools-services@0.0.1, devtools-services@^0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/devtools-services/-/devtools-services-0.0.1.tgz#9042600c11d1f4d45cc6ca299588a86fac1fbdd5"
 
-devtools-splitter@^0.0.7:
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/devtools-splitter/-/devtools-splitter-0.0.7.tgz#baf1972781bc6d50eba944b938a38c805b6b16e4"
-  dependencies:
-    prop-types "^15.6.0"
-    react-dom-factories "^1.0.2"
-
 devtools-sprintf-js@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/devtools-sprintf-js/-/devtools-sprintf-js-1.0.3.tgz#c2aa3c39d4047525e60410325c86770620281b87"
