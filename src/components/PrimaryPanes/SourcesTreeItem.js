@@ -176,8 +176,6 @@ class SourceTreeItem extends Component<Props, State> {
       <span className="suffix">{L10N.getStr("sourceFooter.mappedSuffix")}</span>
     ) : null;
 
-    console.log(querystring);
-
     const query = querystring ? (
       <span className="query">{querystring}</span>
     ) : null;
