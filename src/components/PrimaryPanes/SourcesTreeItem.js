@@ -14,7 +14,6 @@ import Svg from "../shared/Svg";
 
 import {
   getGeneratedSourceByURL,
-  // getQueryString,
   getSourcesUrlsInSources
 } from "../../selectors";
 import actions from "../../actions";
