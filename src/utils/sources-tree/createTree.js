@@ -20,18 +20,20 @@ type Params = {
 };
 
 export function sortQueryString(sources: SourcesMap) {
-  for (let index = 0; index < Object.keys(sources).length; ) {
-    const sourcesArray = Object.values(sources);
-    const siblings = getSourcesUrlsInSources(sources, sourcesArray[index]);
-    if (siblings.length > 1) {
-      siblings.sort();
-      siblings.reverse();
-      for (let i = 0; i < siblings.length; i++) {
-        sourcesArray[index + i].url = siblings[i];
+  if (sources) {
+    for (let index = 0; index < Object.keys(sources).length; ) {
+      const sourcesArray = Object.values(sources);
+      const siblings = getSourcesUrlsInSources(sources, sourcesArray[index]);
+      if (siblings.length > 1) {
+        siblings.sort();
+        siblings.reverse();
+        for (let i = 0; i < siblings.length; i++) {
+          sourcesArray[index + i].url = siblings[i];
+        }
+        index += siblings.length;
+      } else {
+        index++;
       }
-      index += siblings.length;
-    } else {
-      index++;
     }
   }
 }

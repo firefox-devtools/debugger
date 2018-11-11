@@ -74,10 +74,12 @@ export function updateTree({
   sourceTree,
   focusedItem
 }: Params) {
+  sortQueryString(prevSources);
+  sortQueryString(newSources);
   const newSet = newSourcesSet(newSources, prevSources);
   const debuggeeHost = getDomain(debuggeeUrl);
+  console.log("break");
 
-  sortQueryString(newSources);
   for (const source of newSet) {
     addToTree(uncollapsedTree, source, debuggeeHost, projectRoot);
   }
