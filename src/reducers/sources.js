@@ -444,7 +444,7 @@ function getSourcesUrlsInSources(state: OuterState, url: string) {
 }
 
 const usedUrlsSet = new Set();
-export function getQueryString(state: OuterState, source: Source) {
+export function getUrlSortedByQueryString(state: OuterState, source: Source) {
   if (!source) {
     return null;
   }
@@ -460,7 +460,11 @@ export function getQueryString(state: OuterState, source: Source) {
   if (smallestSibling) {
     usedUrlsSet.add(smallestSibling);
   }
-  return parse(smallestSibling).search;
+  return smallestSibling;
+}
+
+export function getQueryString(state: OuterState, source: Source) {
+  return parse(getUrlSortedByQueryString(state, source)).search;
 }
 
 export function getSourceInSources(sources: SourcesMap, id: string): ?Source {
