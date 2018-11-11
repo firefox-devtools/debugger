@@ -11,6 +11,7 @@ import { getDomain } from "./treeOrder";
 
 import type { SourcesMap } from "../../reducers/types";
 import type { TreeDirectory } from "./types";
+import { getSourcesUrlsInSources } from "../../selectors";
 
 type Params = {
   sources: SourcesMap,
@@ -18,10 +19,27 @@ type Params = {
   projectRoot: string
 };
 
+export function sortQueryString(sources: SourcesMap) {
+  for (let index = 0; index < Object.keys(sources).length; ) {
+    const sourcesArray = Object.values(sources);
+    const siblings = getSourcesUrlsInSources(sources, sourcesArray[index]);
+    if (siblings.length > 1) {
+      siblings.sort();
+      for (let i = 0; i < siblings.length; i++) {
+        sourcesArray[index + i].url = siblings[i];
+      }
+      index += siblings.length;
+    } else {
+      index++;
+    }
+  }
+}
+
 export function createTree({ sources, debuggeeUrl, projectRoot }: Params) {
   const uncollapsedTree = createDirectoryNode("root", "", []);
   const debuggeeHost = getDomain(debuggeeUrl);
 
+  sortQueryString(sources);
   for (const sourceId in sources) {
     const source = sources[sourceId];
     addToTree(uncollapsedTree, source, debuggeeHost, projectRoot);

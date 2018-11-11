@@ -5,6 +5,7 @@
 // @flow
 
 import { addToTree } from "./addToTree";
+import { sortQueryString } from "./createTree";
 import { collapseTree } from "./collapseTree";
 import { createParentMap, isSource, partIsFile } from "./utils";
 import { difference } from "lodash";
@@ -76,6 +77,7 @@ export function updateTree({
   const newSet = newSourcesSet(newSources, prevSources);
   const debuggeeHost = getDomain(debuggeeUrl);
 
+  sortQueryString(newSources);
   for (const source of newSet) {
     addToTree(uncollapsedTree, source, debuggeeHost, projectRoot);
   }

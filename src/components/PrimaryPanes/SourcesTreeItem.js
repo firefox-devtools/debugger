@@ -12,7 +12,11 @@ import { showMenu } from "devtools-contextmenu";
 import SourceIcon from "../shared/SourceIcon";
 import Svg from "../shared/Svg";
 
-import { getGeneratedSourceByURL, getQueryString } from "../../selectors";
+import {
+  getGeneratedSourceByURL,
+  getQueryString,
+  getSourcesUrlsInSources
+} from "../../selectors";
 import actions from "../../actions";
 
 import { isOriginal as isOriginalSource } from "../../utils/source";
@@ -22,12 +26,14 @@ import { features } from "../../utils/prefs";
 
 import type { TreeNode } from "../../utils/sources-tree/types";
 import type { Source } from "../../types";
+import { parse } from "../../utils/url";
 
 type Props = {
   debuggeeUrl: string,
   projectRoot: string,
   source: ?Source,
   item: TreeNode,
+  siblings: string[],
   depth: number,
   focused: boolean,
   expanded: boolean,
@@ -169,6 +175,7 @@ class SourceTreeItem extends Component<Props, State> {
       depth,
       focused,
       hasMatchingGeneratedSource,
+      siblings,
       querystring
     } = this.props;
 
@@ -176,9 +183,8 @@ class SourceTreeItem extends Component<Props, State> {
       <span className="suffix">{L10N.getStr("sourceFooter.mappedSuffix")}</span>
     ) : null;
 
-    const query = querystring ? (
-      <span className="query">{querystring}</span>
-    ) : null;
+    const query =
+      siblings.length > 1 ? <span className="query">{querystring}</span> : null;
 
     return (
       <div
@@ -209,9 +215,11 @@ function getHasMatchingGeneratedSource(state, source: ?Source) {
 
 const mapStateToProps = (state, props) => {
   const { source } = props;
+  const sources = state.sources.sources;
   return {
     hasMatchingGeneratedSource: getHasMatchingGeneratedSource(state, source),
-    querystring: getQueryString(state, source)
+    querystring: source ? parse(source.url).search : null,
+    siblings: getSourcesUrlsInSources(sources, source)
   };
 };
 

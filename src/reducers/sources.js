@@ -432,40 +432,47 @@ function getSourcesByUrlInSources(
   return urls[url].map(id => sources[id]);
 }
 
-function getSourcesUrlsInSources(state: OuterState, url: string) {
-  const urls = getUrls(state);
+export function getSourcesUrlsInSources(sources: SourcesMap, source: Source) {
+  // const urls = getUrls(state);
 
-  if (!url || !urls[url]) {
-    return [];
-  }
-  return [...new Set(Object.keys(urls).filter(Boolean))].filter(
-    element => parse(element).pathname === parse(url).pathname
-  );
+  // if (!url || !urls[url]) {
+  //   return [];
+  // }
+  // return [...new Set(Object.keys(urls).filter(Boolean))].filter(
+  //   element => parse(element).pathname === parse(url).pathname
+  // );
+  return !sources || !source
+    ? []
+    : [...new Set(Object.values(sources).filter(Boolean))]
+        .map(element => element.url)
+        .filter(
+          element => parse(element).pathname === parse(source.url).pathname
+        );
 }
 
-const usedUrlsSet = new Set();
-export function getUrlSortedByQueryString(state: OuterState, source: Source) {
-  if (!source) {
-    return null;
-  }
-  const urls = getSourcesUrlsInSources(state, source.url);
+// const usedUrlsSet = new Set();
+// export function getUrlSortedByQueryString(sources: SourcesMap, source: Source) {
+//   if (!source) {
+//     return null;
+//   }
+//   const urls = getSourcesUrlsInSources(sources, source);
 
-  if (usedUrlsSet.size === urls.length) {
-    usedUrlsSet.clear();
-  }
-  const siblings = urls.filter(url => url !== source.url);
-  siblings.sort();
+//   if (usedUrlsSet.size === urls.length) {
+//     usedUrlsSet.clear();
+//   }
+//   const siblings = urls.filter(url => url !== source.url);
+//   siblings.sort();
 
-  const smallestSibling = siblings.find(url => !usedUrlsSet.has(url));
-  if (smallestSibling) {
-    usedUrlsSet.add(smallestSibling);
-  }
-  return smallestSibling;
-}
+//   const smallestSibling = siblings.find(url => !usedUrlsSet.has(url));
+//   if (smallestSibling) {
+//     usedUrlsSet.add(smallestSibling);
+//   }
+//   return smallestSibling;
+// }
 
-export function getQueryString(state: OuterState, source: Source) {
-  return parse(getUrlSortedByQueryString(state, source)).search;
-}
+// export function getQueryString(sources: SourcesMap, source: Source) {
+//   return parse(getUrlSortedByQueryString(sources, source)).search;
+// }
 
 export function getSourceInSources(sources: SourcesMap, id: string): ?Source {
   return sources[id];
