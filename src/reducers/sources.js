@@ -432,7 +432,7 @@ function getSourcesByUrlInSources(
   return urls[url].map(id => sources[id]);
 }
 
-export function getSourcesUrlsInSources(state: OuterState, url: string) {
+function getSourcesUrlsInSources(state: OuterState, url: string) {
   const urls = getUrls(state);
 
   if (!url || !urls[url]) {
@@ -450,7 +450,7 @@ export function getQueryString(state: OuterState, source: Source) {
   }
   const urls = getSourcesUrlsInSources(state, source.url);
 
-  if (usedUrlsSet.size === urls.size) {
+  if (usedUrlsSet.size === urls.length) {
     usedUrlsSet.clear();
   }
   const siblings = urls.filter(url => url !== source.url);
