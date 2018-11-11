@@ -22,22 +22,21 @@ import { isOriginal as isOriginalSource } from "../../utils/source";
 import { isDirectory } from "../../utils/sources-tree";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { features } from "../../utils/prefs";
+import { parse } from "../../utils/url";
 
 import type { TreeNode } from "../../utils/sources-tree/types";
 import type { Source } from "../../types";
-import { parse } from "../../utils/url";
 
 type Props = {
   debuggeeUrl: string,
   projectRoot: string,
   source: ?Source,
   item: TreeNode,
-  siblings: string[],
   depth: number,
   focused: boolean,
   expanded: boolean,
   hasMatchingGeneratedSource: boolean,
-  querystring?: string,
+  hasSiblingOfSameName: boolean,
   setExpanded: (TreeNode, boolean, boolean) => void,
   focusItem: TreeNode => void,
   selectItem: TreeNode => void,
@@ -172,18 +171,21 @@ class SourceTreeItem extends Component<Props, State> {
     const {
       item,
       depth,
+      source,
       focused,
       hasMatchingGeneratedSource,
-      siblings,
-      querystring
+      hasSiblingOfSameName
     } = this.props;
 
     const suffix = hasMatchingGeneratedSource ? (
       <span className="suffix">{L10N.getStr("sourceFooter.mappedSuffix")}</span>
     ) : null;
 
+    const querystring = source ? parse(source.url).search : null;
     const query =
-      siblings.length > 1 ? <span className="query">{querystring}</span> : null;
+      hasSiblingOfSameName && querystring ? (
+        <span className="query">{querystring}</span>
+      ) : null;
 
     return (
       <div
@@ -212,13 +214,19 @@ function getHasMatchingGeneratedSource(state, source: ?Source) {
   return !!getGeneratedSourceByURL(state, source.url);
 }
 
+function getHasSiblingOfSameName(state, source: ?Source) {
+  if (!source) {
+    return false;
+  }
+
+  return getSourcesUrlsInSources(state.sources.sources, source).length > 1;
+}
+
 const mapStateToProps = (state, props) => {
   const { source } = props;
-  const sources = state.sources.sources;
   return {
     hasMatchingGeneratedSource: getHasMatchingGeneratedSource(state, source),
-    querystring: source ? parse(source.url).search : null,
-    siblings: getSourcesUrlsInSources(sources, source)
+    hasSiblingOfSameName: getHasSiblingOfSameName(state, source)
   };
 };
 

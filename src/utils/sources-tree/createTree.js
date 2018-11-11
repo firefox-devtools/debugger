@@ -25,6 +25,7 @@ export function sortQueryString(sources: SourcesMap) {
     const siblings = getSourcesUrlsInSources(sources, sourcesArray[index]);
     if (siblings.length > 1) {
       siblings.sort();
+      siblings.reverse();
       for (let i = 0; i < siblings.length; i++) {
         sourcesArray[index + i].url = siblings[i];
       }
