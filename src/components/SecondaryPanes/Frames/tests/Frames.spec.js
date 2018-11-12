@@ -115,7 +115,7 @@ describe("Frames", () => {
         />
       );
       expect(component.text()).toBe(
-        "renderFoo http://myfile.com/mahscripts.js:55"
+        "\trenderFoo http://myfile.com/mahscripts.js:55\n"
       );
     });
 

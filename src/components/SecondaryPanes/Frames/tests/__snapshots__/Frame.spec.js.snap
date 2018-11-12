@@ -10,6 +10,7 @@ exports[`Frame getFrameTitle 1`] = `
   tabIndex={0}
   title="Jump to https://aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.com/assets/src/js/foo-view.js:10"
 >
+  	
   <FrameTitle
     frame={
       Object {
@@ -44,6 +45,8 @@ exports[`Frame getFrameTitle 1`] = `
       }
     }
   />
+  
+
 </li>
 `;
 
@@ -56,6 +59,7 @@ exports[`Frame library frame 1`] = `
   onMouseDown={[Function]}
   tabIndex={0}
 >
+  	
   <FrameTitle
     frame={
       Object {
@@ -96,6 +100,8 @@ exports[`Frame library frame 1`] = `
       }
     }
   />
+  
+
 </li>
 `;
 
@@ -108,6 +114,7 @@ exports[`Frame user frame (not selected) 1`] = `
   onMouseDown={[Function]}
   tabIndex={0}
 >
+  	
   <FrameTitle
     frame={
       Object {
@@ -150,6 +157,8 @@ exports[`Frame user frame (not selected) 1`] = `
       }
     }
   />
+  
+
 </li>
 `;
 
@@ -162,6 +171,7 @@ exports[`Frame user frame 1`] = `
   onMouseDown={[Function]}
   tabIndex={0}
 >
+  	
   <FrameTitle
     frame={
       Object {
@@ -204,5 +214,7 @@ exports[`Frame user frame 1`] = `
       }
     }
   />
+  
+
 </li>
 `;
