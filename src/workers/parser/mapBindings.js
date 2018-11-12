@@ -10,18 +10,48 @@ import { isTopLevel } from "./utils/helpers";
 import generate from "@babel/generator";
 import * as t from "@babel/types";
 
+function getIdentifierName(identifier, bindings) {
+  return bindings.includes(identifier.name)
+    ? identifier
+    : t.memberExpression(t.identifier("self"), identifier);
+}
+
 // translates new bindings `var a = 3` into `self.a = 3`
 // and existing bindings `var a = 3` into `a = 3` for re-assignments
 function globalizeDeclaration(node, bindings) {
-  return node.declarations.map(declaration => {
-    const identifier = bindings.includes(declaration.id.name)
-      ? declaration.id
-      : t.memberExpression(t.identifier("self"), declaration.id);
+  return node.declarations.reduce((body, declaration, i) => {
+    if (t.isPattern(declaration.id)) {
+      const varIdentifier = t.identifier(`__decl${i}__`);
 
-    return t.expressionStatement(
-      t.assignmentExpression("=", identifier, declaration.init)
-    );
-  });
+      body.push(
+        t.variableDeclaration("let", [
+          t.variableDeclarator(varIdentifier, declaration.init)
+        ])
+      );
+
+      for (const property of declaration.id.properties) {
+        const identifier = getIdentifierName(property.value, bindings);
+
+        body.push(
+          t.assignmentExpression(
+            "=",
+            identifier,
+            t.memberExpression(varIdentifier, property.key)
+          )
+        );
+      }
+    } else {
+      const identifier = getIdentifierName(declaration.id, bindings);
+
+      body.push(
+        t.expressionStatement(
+          t.assignmentExpression("=", identifier, declaration.init)
+        )
+      );
+    }
+
+    return body;
+  }, []);
 }
 
 // translates new bindings `a = 3` into `self.a = 3`
@@ -49,8 +79,10 @@ function replaceNode(ancestors, node) {
   }
 }
 
-function hasDestructuring(node) {
-  return node.declarations.some(declaration => t.isPattern(declaration.id));
+function hasNestedDestructuring(node) {
+  return node.declarations.some(declaration =>
+    t.isObjectPattern(declaration.value)
+  );
 }
 
 export default function mapExpressionBindings(
@@ -90,12 +122,13 @@ export default function mapExpressionBindings(
       return;
     }
 
-    if (hasDestructuring(node)) {
+    if (hasNestedDestructuring(node)) {
       shouldUpdate = false;
       return;
     }
 
-    if (!t.isForStatement(parent.node)) {
+    // the isMapped check is to avoid processing the newly added nodes
+    if (!t.isForStatement(parent.node) && !isMapped) {
       const newNodes = globalizeDeclaration(node, bindings);
       isMapped = true;
       replaceNode(ancestors, newNodes);

@@ -4,7 +4,6 @@
 
 // @flow
 
-import template from "@babel/template";
 import generate from "@babel/generator";
 import * as t from "@babel/types";
 
@@ -28,15 +27,20 @@ function wrapExpression(ast) {
     .slice(0, -1)
     .concat(t.returnStatement(lastStatement.expression));
 
-  const newAst = t.arrowFunctionExpression([], t.blockStatement(body), true);
+  const newAst = t.expressionStatement(
+    t.callExpression(
+      t.arrowFunctionExpression([], t.blockStatement(body), true),
+      []
+    )
+  );
+
   return generate(newAst).code;
 }
 
 export default function mapTopLevelAwait(expression: string) {
   const ast = hasTopLevelAwait(expression);
   if (ast) {
-    const func = wrapExpression(ast);
-    return generate(template.ast(`(${func})();`)).code;
+    return wrapExpression(ast);
   }
 
   return expression;
