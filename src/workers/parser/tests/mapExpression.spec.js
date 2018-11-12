@@ -161,6 +161,90 @@ describe("mapExpression", () => {
       }
     },
     {
+      name: "await (destructuring with defaults, bindings)",
+      expression: "const { a = 5, c } = await b();",
+      newExpression: formatAwait(`
+        let __decl0__ = await b();
+
+        a = __decl0__.a === undefined ? 5 : __decl0__.a;
+        return (self.c = __decl0__.c);
+    `),
+      bindings: ["a", "y"],
+      mappings: {},
+      shouldMapExpression: true,
+      expectedMapped: {
+        await: true,
+        bindings: true,
+        originalExpression: false
+      }
+    },
+    {
+      name: "await (nested destructuring, bindings)",
+      expression: "const { a, c: { y } } = await b();",
+      newExpression: formatAwait(`
+        let __decl0__ = await b();
+
+        a = __decl0__.a;
+        return (y = __decl0__.c.y);
+    `),
+      bindings: ["a", "y"],
+      mappings: {},
+      shouldMapExpression: true,
+      expectedMapped: {
+        await: true,
+        bindings: true,
+        originalExpression: false
+      }
+    },
+    {
+      name: "await (nested destructuring with defaults)",
+      expression: "const { a, c: { y = 5 } = {} } = await b();",
+      newExpression: formatAwait(`
+        let __decl0__ = await b();
+
+        self.a = __decl0__.a;
+
+        let __decl0__c__ = __decl0__.c === undefined ? {} : __decl0__.c;
+
+        return (self.y = __decl0__c__.y === undefined ? 5 : __decl0__c__.y);
+    `),
+      bindings: [],
+      mappings: {},
+      shouldMapExpression: true,
+      expectedMapped: {
+        await: true,
+        bindings: true,
+        originalExpression: false
+      }
+    },
+    {
+      name: "await (very nested destructuring with defaults)",
+      expression:
+        "const { a, c: { y: { z = 10, b } = { b: 5 } } } = await b();",
+      newExpression: formatAwait(`
+        let __decl0__ = await b();
+
+        self.a = __decl0__.a;
+
+        let __decl0__y__ =__decl0__.c.y === undefined
+        ? {
+            b: 5
+          }
+        : __decl0__.c.y;
+
+        self.z = __decl0__y__.z === undefined ? 10 : __decl0__y__.z;
+        return (self.b = __decl0__y__.b);
+    `),
+      bindings: [],
+      mappings: {},
+      shouldMapExpression: true,
+      expectedMapped: {
+        await: true,
+        bindings: true,
+        originalExpression: false
+      }
+    },
+    {
       name: "simple",
       expression: "a",
       newExpression: "a",

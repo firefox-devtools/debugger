@@ -16,6 +16,61 @@ function getIdentifierName(identifier, bindings) {
     : t.memberExpression(t.identifier("self"), identifier);
 }
 
+function destructurize(body, bindings, baseObj, property) {
+  let name = property.value;
+  let value = null;
+
+  if (t.isAssignmentPattern(property.value)) {
+    name = property.value.left;
+
+    value = t.conditionalExpression(
+      t.binaryExpression(
+        "===",
+        t.memberExpression(baseObj, property.key),
+        t.identifier("undefined")
+      ),
+      property.value.right,
+      t.memberExpression(baseObj, property.key)
+    );
+  }
+
+  if (t.isIdentifier(name)) {
+    body.push(
+      t.assignmentExpression(
+        "=",
+        getIdentifierName(name, bindings),
+        value === null ? t.memberExpression(baseObj, property.key) : value
+      )
+    );
+  } else if (t.isObjectPattern(name)) {
+    const identifier =
+      value === null
+        ? baseObj
+        : t.identifier(
+            `${baseObj.object ? baseObj.object.name : baseObj.name}${
+              property.key.name
+            }__`
+          );
+
+    if (value !== null) {
+      body.push(
+        t.variableDeclaration("let", [t.variableDeclarator(identifier, value)])
+      );
+    }
+
+    for (const childProperty of name.properties) {
+      destructurize(
+        body,
+        bindings,
+        value === null
+          ? t.memberExpression(identifier, property.key)
+          : identifier,
+        childProperty
+      );
+    }
+  }
+}
+
 // translates new bindings `var a = 3` into `self.a = 3`
 // and existing bindings `var a = 3` into `a = 3` for re-assignments
 function globalizeDeclaration(node, bindings) {
@@ -30,15 +85,7 @@ function globalizeDeclaration(node, bindings) {
       );
 
       for (const property of declaration.id.properties) {
-        const identifier = getIdentifierName(property.value, bindings);
-
-        body.push(
-          t.assignmentExpression(
-            "=",
-            identifier,
-            t.memberExpression(varIdentifier, property.key)
-          )
-        );
+        destructurize(body, bindings, varIdentifier, property);
       }
     } else {
       const identifier = getIdentifierName(declaration.id, bindings);
@@ -79,12 +126,6 @@ function replaceNode(ancestors, node) {
   }
 }
 
-function hasNestedDestructuring(node) {
-  return node.declarations.some(declaration =>
-    t.isObjectPattern(declaration.value)
-  );
-}
-
 export default function mapExpressionBindings(
   expression: string,
   bindings: string[] = []
@@ -94,6 +135,11 @@ export default function mapExpressionBindings(
   let shouldUpdate = true;
 
   t.traverse(ast, (node, ancestors) => {
+    // the isMapped check is to avoid processing the newly added nodes
+    if (isMapped) {
+      return;
+    }
+
     const parent = ancestors[ancestors.length - 1];
 
     if (t.isWithStatement(node)) {
@@ -122,13 +168,7 @@ export default function mapExpressionBindings(
       return;
     }
 
-    if (hasNestedDestructuring(node)) {
-      shouldUpdate = false;
-      return;
-    }
-
-    // the isMapped check is to avoid processing the newly added nodes
-    if (!t.isForStatement(parent.node) && !isMapped) {
+    if (!t.isForStatement(parent.node)) {
       const newNodes = globalizeDeclaration(node, bindings);
       isMapped = true;
       replaceNode(ancestors, newNodes);
