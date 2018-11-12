@@ -133,10 +133,10 @@ export default function mapExpressionBindings(
   const ast = parseScript(expression, { allowAwaitOutsideFunction: true });
   let isMapped = false;
   let shouldUpdate = true;
+  const processedNodes = new WeakSet();
 
   t.traverse(ast, (node, ancestors) => {
-    // the isMapped check is to avoid processing the newly added nodes
-    if (isMapped) {
+    if (processedNodes.has(node)) {
       return;
     }
 
@@ -172,6 +172,9 @@ export default function mapExpressionBindings(
       const newNodes = globalizeDeclaration(node, bindings);
       isMapped = true;
       replaceNode(ancestors, newNodes);
+      for (const processNode of newNodes) {
+        processedNodes.add(processNode);
+      }
     }
   });
 
