@@ -140,6 +140,9 @@ export default class FrameComponent extends Component<FrameComponentProps> {
         )
       : undefined;
 
+    const tabChar = "\t";
+    const newLineChar = "\n";
+
     return (
       <li
         key={frame.id}
@@ -150,6 +153,7 @@ export default class FrameComponent extends Component<FrameComponentProps> {
         tabIndex={0}
         title={title}
       >
+        {tabChar}
         <FrameTitle
           frame={frame}
           options={{ shouldMapDisplayName }}
@@ -159,6 +163,7 @@ export default class FrameComponent extends Component<FrameComponentProps> {
         {!hideLocation && (
           <FrameLocation frame={frame} displayFullUrl={displayFullUrl} />
         )}
+        {newLineChar}
       </li>
     );
   }
