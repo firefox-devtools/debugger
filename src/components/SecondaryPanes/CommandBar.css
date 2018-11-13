@@ -81,7 +81,7 @@ img.skipPausing {
 }
 
 .command-bar img.shortcuts {
-  mask: url(/mc/help.svg) no-repeat;
+  mask: url(/images/help.svg) no-repeat;
   mask-size: contain;
 }
 

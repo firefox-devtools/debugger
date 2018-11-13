@@ -48,7 +48,8 @@
 }
 
 .split-box.vert > .splitter {
-  min-width: var(--devtools-vertical-splitter-min-width);
+  min-width: calc(var(--devtools-splitter-inline-start-width) +
+    var(--devtools-splitter-inline-end-width) + 1px);
 
   border-left-width: var(--devtools-splitter-inline-start-width);
   border-right-width: var(--devtools-splitter-inline-end-width);
@@ -60,11 +61,8 @@
 }
 
 .split-box.horz > .splitter {
-  /* Emphasize the horizontal splitter width and color */
-  min-height: var(--devtools-emphasized-horizontal-splitter-min-height);
-
-  background-color: var(--theme-emphasized-splitter-color);
-
+  min-height: calc(var(--devtools-splitter-top-width) +
+    var(--devtools-splitter-bottom-width) + 1px);
   border-top-width: var(--devtools-splitter-top-width);
   border-bottom-width: var(--devtools-splitter-bottom-width);
 
@@ -72,11 +70,6 @@
   margin-bottom: calc(-1 * var(--devtools-splitter-bottom-width));
 
   cursor: ns-resize;
-}
-
-/* Emphasized splitter has the hover style. */
-.split-box.horz > .splitter:hover {
-  background-color: var(--theme-emphasized-splitter-color-hover);
 }
 
 .split-box.disabled {
