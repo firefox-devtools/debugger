@@ -47,15 +47,23 @@ class CallSites extends Component {
   componentDidMount() {
     const { editor } = this.props;
     const codeMirrorWrapper = editor.codeMirror.getWrapperElement();
+    const scroller = editor.codeMirror.getScrollerElement();
 
     codeMirrorWrapper.addEventListener("click", e => this.onTokenClick(e));
+    scroller.addEventListener("scroll", e => this.onScoll());
   }
 
   componentWillUnmount() {
     const { editor } = this.props;
     const codeMirrorWrapper = editor.codeMirror.getWrapperElement();
+    const scroller = editor.codeMirror.getScrollerElement();
 
     codeMirrorWrapper.removeEventListener("click", e => this.onTokenClick(e));
+    scroller.removeEventListener("scroll", e => this.onScoll());
+  }
+
+  onScoll(e) {
+    this.setState({ state: this.state });
   }
 
   onTokenClick(e) {
@@ -116,17 +124,57 @@ class CallSites extends Component {
     }
   }
 
+  isVisible(codeMirror: any, top: number, left: number) {
+    function withinBounds(x, min, max) {
+      return x >= min && x <= max;
+    }
+
+    const scrollArea = codeMirror.getScrollInfo();
+    const charWidth = codeMirror.defaultCharWidth();
+    const fontHeight = codeMirror.defaultTextHeight();
+    const { scrollTop, scrollLeft } = codeMirror.doc;
+
+    const inXView = withinBounds(
+      left,
+      scrollLeft,
+      scrollLeft + (scrollArea.clientWidth - 30) - charWidth
+    );
+
+    const inYView = withinBounds(
+      top,
+      scrollTop,
+      scrollTop + scrollArea.clientHeight - fontHeight
+    );
+
+    return inXView && inYView;
+  }
+
+  callSiteIsVisible(codeMirror: any, line: number, column: number) {
+    const { top, left } = codeMirror.charCoords(
+      { line: line, ch: column },
+      "local"
+    );
+
+    return this.isVisible(codeMirror, top, left);
+  }
+
   // Return the call sites that are on the same line as an
   // existing line breakpoint
   filterCallSitesByLineNumber() {
-    const { callSites, breakpoints } = this.props;
+    const { callSites, breakpoints, editor } = this.props;
 
     const breakpointLines = new Set(
       breakpoints.toIndexedSeq().map(bp => bp.location.line)
     );
 
-    return callSites.filter(({ location }) =>
-      breakpointLines.has(location.start.line)
+    return callSites.filter(
+      ({ location }) =>
+        breakpointLines.has(location.start.line) &&
+        this.callSiteIsVisible(
+          editor.codeMirror,
+          location.start.line,
+          location.start.column
+        )
     );
   }
 
