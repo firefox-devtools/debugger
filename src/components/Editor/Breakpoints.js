@@ -5,6 +5,7 @@
 // @flow
 import { connect } from "react-redux";
 import React, { Component } from "react";
+import { uniq, isEqual } from "lodash";
 
 import Breakpoint from "./Breakpoint";
 
@@ -20,9 +21,24 @@ type Props = {
   editor: Object
 };
 
+function breakpointLinesMatch(oldBreakpoints, newBreakpoints) {
+  function getBreakpointLines(bps) {
+    return uniq(bps.map(bp => bp.location.line).filter(Boolean));
+  }
+
+  return isEqual(
+    getBreakpointLines(oldBreakpoints.breakpoints),
+    getBreakpointLines(newBreakpoints.breakpoints)
+  );
+}
+
 class Breakpoints extends Component<Props> {
   shouldComponentUpdate(nextProps: Props) {
     if (nextProps.selectedSource && !isLoaded(nextProps.selectedSource)) {
+      return false;
+    }
+
+    if (breakpointLinesMatch(this.props, nextProps)) {
       return false;
     }
 
