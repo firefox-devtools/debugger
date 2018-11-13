@@ -37,9 +37,14 @@ describe("Breakpoints Selectors", () => {
     };
 
     const breakpoints = initializeStateWith(data);
-    expect(getBreakpointsForSource({ breakpoints }, sourceId)).toEqual(
-      Object.values(matchingBreakpoints)
+    const allBreakpoints = Object.values(matchingBreakpoints);
+    const sourceBreakpoints = getBreakpointsForSource(
+      { breakpoints },
+      sourceId
     );
+
+    expect(sourceBreakpoints).toEqual(allBreakpoints);
+    expect(sourceBreakpoints[0] === allBreakpoints[0]).toBe(true);
   });
 
   it("it gets a breakpoint for a generated source", () => {
@@ -71,8 +76,12 @@ describe("Breakpoints Selectors", () => {
 
     const breakpoints = initializeStateWith(data);
 
-    expect(getBreakpointsForSource({ breakpoints }, generatedSourceId)).toEqual(
-      Object.values(matchingBreakpoints)
+    const allBreakpoints = Object.values(matchingBreakpoints);
+    const sourceBreakpoints = getBreakpointsForSource(
+      { breakpoints },
+      generatedSourceId
     );
+
+    expect(sourceBreakpoints).toEqual(allBreakpoints);
   });
 });
