@@ -296,21 +296,13 @@ export function getBreakpointsForSource(
   }
 
   const isGeneratedSource = isGeneratedId(sourceId);
-  const breakpoints = getBreakpointsMap(state);
-
-  const breakpointsForSource = [];
-
-  for (const key in breakpoints) {
-    const bp = breakpoints[key];
+  const breakpoints = getBreakpointsList(state);
+  return breakpoints.filter(bp => {
     const location = isGeneratedSource
       ? bp.generatedLocation || bp.location
       : bp.location;
-    if (location.sourceId === sourceId) {
-      breakpointsForSource.push({ ...bp });
-    }
-  }
-
-  return breakpointsForSource;
+    return location.sourceId === sourceId;
+  });
 }
 
 export function getBreakpointForLine(
