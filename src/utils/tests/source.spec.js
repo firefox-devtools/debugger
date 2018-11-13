@@ -66,6 +66,7 @@ describe("sources", () => {
             url: "really-really-really-really-really-really-long-name.html",
             id: ""
           },
+          "",
           30
         )
       ).toBe("really-really…long-name.html");
@@ -77,6 +78,7 @@ describe("sources", () => {
             url: `${encodedUnicode.repeat(30)}.html`,
             id: ""
           },
+          "",
           30
         )
       ).toBe("測測測測測測測測測測測測測…測測測測測測測測測.html");
