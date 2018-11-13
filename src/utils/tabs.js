@@ -22,7 +22,7 @@ export function getHiddenTabs(
   sourceTabs: SourcesList,
   sourceTabEls: Array<any>
 ) {
-  sourceTabEls = [].slice.call(sourceTabEls);
+  sourceTabEls = [...sourceTabEls];
   function getTopOffset() {
     const topOffsets = sourceTabEls.map(t => t.getBoundingClientRect().top);
     return Math.min(...topOffsets);
