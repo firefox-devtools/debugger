@@ -16,57 +16,15 @@ function getIdentifierName(identifier, bindings) {
     : t.memberExpression(t.identifier("self"), identifier);
 }
 
-function destructurize(body, bindings, baseObj, property) {
-  let name = property.value;
-  let value = null;
-
-  if (t.isAssignmentPattern(property.value)) {
-    name = property.value.left;
-
-    value = t.conditionalExpression(
-      t.binaryExpression(
-        "===",
-        t.memberExpression(baseObj, property.key),
-        t.identifier("undefined")
-      ),
-      property.value.right,
-      t.memberExpression(baseObj, property.key)
-    );
-  }
-
-  if (t.isIdentifier(name)) {
-    body.push(
-      t.assignmentExpression(
-        "=",
-        getIdentifierName(name, bindings),
-        value === null ? t.memberExpression(baseObj, property.key) : value
-      )
-    );
-  } else if (t.isObjectPattern(name)) {
-    const identifier =
-      value === null
-        ? baseObj
-        : t.identifier(
-            `${baseObj.object ? baseObj.object.name : baseObj.name}${
-              property.key.name
-            }__`
-          );
-
-    if (value !== null) {
-      body.push(
-        t.variableDeclaration("let", [t.variableDeclarator(identifier, value)])
-      );
-    }
-
-    for (const childProperty of name.properties) {
-      destructurize(
-        body,
-        bindings,
-        value === null
-          ? t.memberExpression(identifier, property.key)
-          : identifier,
-        childProperty
-      );
+export function globalizeObjectDestructuring(node, bindings) {
+  for (const property of node.properties) {
+    if (t.isIdentifier(property.value)) {
+      property.value = getIdentifierName(property.value, bindings);
+    } else if (
+      t.isAssignmentPattern(property.value) &&
+      t.isIdentifier(property.value.left)
+    ) {
+      property.value.left = getIdentifierName(property.value.left, bindings);
     }
   }
 }
@@ -74,31 +32,27 @@ function destructurize(body, bindings, baseObj, property) {
 // translates new bindings `var a = 3` into `self.a = 3`
 // and existing bindings `var a = 3` into `a = 3` for re-assignments
 function globalizeDeclaration(node, bindings) {
-  return node.declarations.reduce((body, declaration, i) => {
+  return node.declarations.map(declaration => {
     if (t.isPattern(declaration.id)) {
-      const varIdentifier = t.identifier(`__decl${i}__`);
-
-      body.push(
-        t.variableDeclaration("let", [
-          t.variableDeclarator(varIdentifier, declaration.init)
-        ])
-      );
-
-      for (const property of declaration.id.properties) {
-        destructurize(body, bindings, varIdentifier, property);
-      }
-    } else {
-      const identifier = getIdentifierName(declaration.id, bindings);
-
-      body.push(
-        t.expressionStatement(
-          t.assignmentExpression("=", identifier, declaration.init)
-        )
+      return t.expressionStatement(
+        t.assignmentExpression("=", declaration.id, declaration.init)
       );
     }
 
-    return body;
-  }, []);
+    const identifier = getIdentifierName(declaration.id, bindings);
+
+    return t.expressionStatement(
+      t.assignmentExpression("=", identifier, declaration.init)
+    );
+  });
+}
+
+function globalizeArrayDestructuring(node, bindings) {
+  for (const [i, element] of node.elements.entries()) {
+    if (t.isIdentifier(element)) {
+      node.elements[i] = getIdentifierName(element, bindings);
+    }
+  }
 }
 
 // translates new bindings `a = 3` into `self.a = 3`
@@ -133,13 +87,8 @@ export default function mapExpressionBindings(
   const ast = parseScript(expression, { allowAwaitOutsideFunction: true });
   let isMapped = false;
   let shouldUpdate = true;
-  const processedNodes = new WeakSet();
 
   t.traverse(ast, (node, ancestors) => {
-    if (processedNodes.has(node)) {
-      return;
-    }
-
     const parent = ancestors[ancestors.length - 1];
 
     if (t.isWithStatement(node)) {
@@ -158,10 +107,19 @@ export default function mapExpressionBindings(
         return replaceNode(ancestors, newNode);
       }
 
-      if (t.isPattern(node.left)) {
-        shouldUpdate = false;
-        return;
-      }
+      return;
+    }
+
+    if (t.isObjectPattern(node)) {
+      globalizeObjectDestructuring(node, bindings);
+      isMapped = true;
+      return;
+    }
+
+    if (t.isArrayPattern(node)) {
+      globalizeArrayDestructuring(node, bindings);
+      isMapped = true;
+      return;
     }
 
     if (!t.isVariableDeclaration(node)) {
@@ -172,9 +130,6 @@ export default function mapExpressionBindings(
       const newNodes = globalizeDeclaration(node, bindings);
       isMapped = true;
       replaceNode(ancestors, newNodes);
-      for (const processNode of newNodes) {
-        processedNodes.add(processNode);
-      }
     }
   });
 

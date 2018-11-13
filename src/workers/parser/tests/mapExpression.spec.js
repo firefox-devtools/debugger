@@ -102,11 +102,35 @@ describe("mapExpression", () => {
     {
       name: "await (destructuring)",
       expression: "const { a, c: y } = await b()",
-      newExpression: formatAwait(`let __decl0__ = await b();
-
-      self.a = __decl0__.a;
-      return (self.y = __decl0__.c);
-    `),
+      newExpression: formatAwait(
+        "return ({ a: self.a, c: self.y } = await b())"
+      ),
+      bindings: [],
+      mappings: {},
+      shouldMapExpression: true,
+      expectedMapped: {
+        await: true,
+        bindings: true,
+        originalExpression: false
+      }
+    },
+    {
+      name: "await (array destructuring)",
+      expression: "const [a, y] = await b();",
+      newExpression: formatAwait("return ([self.a, self.y] = await b())"),
+      bindings: [],
+      mappings: {},
+      shouldMapExpression: true,
+      expectedMapped: {
+        await: true,
+        bindings: true,
+        originalExpression: false
+      }
+    },
+    {
+      name: "await (mixed destructuring)",
+      expression: "const [{ a }] = await b();",
+      newExpression: formatAwait("return ([{ a: self.a }] = await b())"),
       bindings: [],
       mappings: {},
       shouldMapExpression: true,
@@ -120,15 +144,9 @@ describe("mapExpression", () => {
       name: "await (destructuring, multiple statements)",
       expression: "const { a, c: y } = await b(), { x } = await y()",
       newExpression: formatAwait(`
-        let __decl0__ = await b();
-
-        self.a = __decl0__.a;
-        self.y = __decl0__.c;
-
-        let __decl1__ = await y();
-    
-        return (self.x = __decl1__.x);
-    `),
+        ({ a: self.a, c: self.y } = await b())
+        return ({ x: self.x } = await y());
+      `),
       bindings: [],
       mappings: {},
       shouldMapExpression: true,
@@ -140,17 +158,8 @@ describe("mapExpression", () => {
     },
     {
       name: "await (destructuring, bindings)",
-      expression: "const { a, c: y } = await b(), { x } = await y()",
-      newExpression: formatAwait(`
-        let __decl0__ = await b();
-
-        a = __decl0__.a;
-        y = __decl0__.c;
-
-        let __decl1__ = await y();
-    
-        return (self.x = __decl1__.x);
-    `),
+      expression: "const { a, c: y } = await b();",
+      newExpression: formatAwait("return ({ a, c: y } = await b())"),
       bindings: ["a", "y"],
       mappings: {},
       shouldMapExpression: true,
@@ -161,15 +170,64 @@ describe("mapExpression", () => {
       }
     },
     {
-      name: "await (destructuring with defaults, bindings)",
-      expression: "const { a = 5, c } = await b();",
-      newExpression: formatAwait(`
-        let __decl0__ = await b();
-
-        a = __decl0__.a === undefined ? 5 : __decl0__.a;
-        return (self.c = __decl0__.c);
-    `),
+      name: "await (array destructuring, bindings)",
+      expression: "const [a, y] = await b();",
+      newExpression: formatAwait("return ([a, y] = await b())"),
       bindings: ["a", "y"],
+      mappings: {},
+      shouldMapExpression: true,
+      expectedMapped: {
+        await: true,
+        bindings: true,
+        originalExpression: false
+      }
+    },
+    {
+      name: "await (mixed destructuring, bindings)",
+      expression: "const [{ a }] = await b();",
+      newExpression: formatAwait("return ([{ a }] = await b())"),
+      bindings: ["a"],
+      mappings: {},
+      shouldMapExpression: true,
+      expectedMapped: {
+        await: true,
+        bindings: true,
+        originalExpression: false
+      }
+    },
+    {
+      name: "await (destructuring with defaults, bindings)",
+      expression: "const { c, a = 5 } = await b();",
+      newExpression: formatAwait("return ({ c: self.c, a = 5 } = await b())"),
+      bindings: ["a", "y"],
+      mappings: {},
+      shouldMapExpression: true,
+      expectedMapped: {
+        await: true,
+        bindings: true,
+        originalExpression: false
+      }
+    },
+    {
+      name: "await (array destructuring with defaults, bindings)",
+      expression: "const [a, y = 10] = await b();",
+      newExpression: formatAwait("return ([a, y = 10] = await b())"),
+      bindings: ["a", "y"],
+      mappings: {},
+      shouldMapExpression: true,
+      expectedMapped: {
+        await: true,
+        bindings: true,
+        originalExpression: false
+      }
+    },
+    {
+      name: "await (mixed destructuring with defaults, bindings)",
+      expression: "const [{ c = 5 }, a = 5] = await b();",
+      newExpression: formatAwait(
+        "return ([ { c: self.c = 5 }, a = 5] = await b())"
+      ),
+      bindings: ["a"],
       mappings: {},
       shouldMapExpression: true,
       expectedMapped: {
@@ -182,10 +240,10 @@ describe("mapExpression", () => {
       name: "await (nested destructuring, bindings)",
       expression: "const { a, c: { y } } = await b();",
       newExpression: formatAwait(`
-        let __decl0__ = await b();
-
-        a = __decl0__.a;
-        return (y = __decl0__.c.y);
+       return ({
+          a,
+          c: { y }
+        } = await b());
     `),
       bindings: ["a", "y"],
       mappings: {},
@@ -199,14 +257,10 @@ describe("mapExpression", () => {
     {
       name: "await (nested destructuring with defaults)",
       expression: "const { a, c: { y = 5 } = {} } = await b();",
-      newExpression: formatAwait(`
-        let __decl0__ = await b();
-
-        self.a = __decl0__.a;
-
-        let __decl0__c__ = __decl0__.c === undefined ? {} : __decl0__.c;
-
-        return (self.y = __decl0__c__.y === undefined ? 5 : __decl0__c__.y);
+      newExpression: formatAwait(`return ({
+        a: self.a,
+        c: { y: self.y = 5 } = {},
+      } = await b());
     `),
       bindings: [],
       mappings: {},
@@ -222,18 +276,14 @@ describe("mapExpression", () => {
       expression:
         "const { a, c: { y: { z = 10, b } = { b: 5 } } } = await b();",
       newExpression: formatAwait(`
-        let __decl0__ = await b();
-
-        self.a = __decl0__.a;
-
-        let __decl0__y__ =__decl0__.c.y === undefined
-        ? {
-            b: 5
+        return ({
+          a: self.a,
+          c: {
+            y: { z: self.z = 10, b: self.b } = {
+              b: 5
+            }
           }
-        : __decl0__.c.y;
-
-        self.z = __decl0__y__.z === undefined ? 10 : __decl0__y__.z;
-        return (self.b = __decl0__y__.b);
+        } = await b());
     `),
       bindings: [],
       mappings: {},
@@ -288,8 +338,7 @@ describe("mapExpression", () => {
     {
       name: "declaration + destructuring",
       expression: "var { a } = { a: 3 };",
-      newExpression: `let __decl0__ = {\n a: 3 \n}
-      self.a = __decl0__.a;`,
+      newExpression: "({ a: self.a } = {\n a: 3 \n})",
       bindings: [],
       mappings: {},
       shouldMapExpression: true,
@@ -315,8 +364,7 @@ describe("mapExpression", () => {
     {
       name: "bindings + destructuring",
       expression: "var { a } = { a: 3 };",
-      newExpression: `let __decl0__ = { \n a: 3 \n }
-      a = __decl0__.a`,
+      newExpression: "({ a } = { \n a: 3 \n })",
       bindings: ["a"],
       mappings: {},
       shouldMapExpression: true,
@@ -342,8 +390,7 @@ describe("mapExpression", () => {
     {
       name: "bindings + mappings + destructuring",
       expression: "var { a } = { a: 4 }",
-      newExpression: `let __decl0__ = {\n a: 4 \n};
-      self.a = __decl0__.a;`,
+      newExpression: "({ a: self.a } = {\n a: 4 \n})",
       bindings: ["_a"],
       mappings: { a: "_a" },
       shouldMapExpression: true,
