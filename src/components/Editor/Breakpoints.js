@@ -23,7 +23,7 @@ type Props = {
 
 function breakpointLinesMatch(oldBreakpoints, newBreakpoints) {
   function getBreakpointLines(bps) {
-    return uniq(bps.map(bp => bp.location.line).filter(Boolean));
+    return uniq(bps.map(bp => bp.location.line).filter(Boolean)).sort();
   }
 
   return isEqual(
