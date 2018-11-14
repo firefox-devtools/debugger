@@ -412,19 +412,6 @@ describe("mapExpression", () => {
         bindings: false,
         originalExpression: false
       }
-    },
-    {
-      name: "bindings + destructuring without mappings",
-      expression: "({ a } = { a: 4 })",
-      newExpression: "({ a } = {\n a: 4 \n})",
-      bindings: [],
-      mappings: { a: "_a" },
-      shouldMapExpression: false,
-      expectedMapped: {
-        await: false,
-        bindings: false,
-        originalExpression: false
-      }
     }
   ]);
 });

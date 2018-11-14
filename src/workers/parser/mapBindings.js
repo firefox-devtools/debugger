@@ -10,49 +10,58 @@ import { isTopLevel } from "./utils/helpers";
 import generate from "@babel/generator";
 import * as t from "@babel/types";
 
-function getIdentifierName(identifier, bindings) {
-  return bindings.includes(identifier.name)
-    ? identifier
-    : t.memberExpression(t.identifier("self"), identifier);
-}
-
-export function globalizeObjectDestructuring(node, bindings) {
-  for (const property of node.properties) {
-    if (t.isIdentifier(property.value)) {
-      property.value = getIdentifierName(property.value, bindings);
-    } else if (
-      t.isAssignmentPattern(property.value) &&
-      t.isIdentifier(property.value.left)
-    ) {
-      property.value.left = getIdentifierName(property.value.left, bindings);
+function getAssignmentTarget(node, bindings) {
+  if (t.isObjectPattern(node)) {
+    for (const property of node.properties) {
+      if (t.isIdentifier(property.value)) {
+        property.value = getAssignmentTarget(property.value, bindings);
+      } else {
+        getAssignmentTarget(property.value, bindings);
+      }
     }
+
+    return node;
   }
+
+  if (t.isArrayPattern(node)) {
+    for (const [i, element] of node.elements.entries()) {
+      node.elements[i] = getAssignmentTarget(element, bindings);
+    }
+
+    return node;
+  }
+
+  if (t.isAssignmentPattern(node)) {
+    if (t.isIdentifier(node.left)) {
+      node.left = getAssignmentTarget(node.left, bindings);
+    } else if (t.isObjectPattern(node.left)) {
+      return getAssignmentTarget(node.left, bindings);
+    }
+
+    return node;
+  }
+
+  if (t.isIdentifier(node)) {
+    return bindings.includes(node.name)
+      ? node
+      : t.memberExpression(t.identifier("self"), node);
+  }
+
+  return node;
 }
 
 // translates new bindings `var a = 3` into `self.a = 3`
 // and existing bindings `var a = 3` into `a = 3` for re-assignments
 function globalizeDeclaration(node, bindings) {
-  return node.declarations.map(declaration => {
-    if (t.isPattern(declaration.id)) {
-      return t.expressionStatement(
-        t.assignmentExpression("=", declaration.id, declaration.init)
-      );
-    }
-
-    const identifier = getIdentifierName(declaration.id, bindings);
-
-    return t.expressionStatement(
-      t.assignmentExpression("=", identifier, declaration.init)
-    );
-  });
-}
-
-function globalizeArrayDestructuring(node, bindings) {
-  for (const [i, element] of node.elements.entries()) {
-    if (t.isIdentifier(element)) {
-      node.elements[i] = getIdentifierName(element, bindings);
-    }
-  }
+  return node.declarations.map(declaration =>
+    t.expressionStatement(
+      t.assignmentExpression(
+        "=",
+        getAssignmentTarget(declaration.id, bindings),
+        declaration.init
+      )
+    )
+  );
 }
 
 // translates new bindings `a = 3` into `self.a = 3`
@@ -107,18 +116,6 @@ export default function mapExpressionBindings(
         return replaceNode(ancestors, newNode);
       }
 
-      return;
-    }
-
-    if (t.isObjectPattern(node)) {
-      globalizeObjectDestructuring(node, bindings);
-      isMapped = true;
-      return;
-    }
-
-    if (t.isArrayPattern(node)) {
-      globalizeArrayDestructuring(node, bindings);
-      isMapped = true;
       return;
     }
 
