@@ -375,6 +375,32 @@ describe("mapExpression", () => {
       }
     },
     {
+      name: "bindings + destructuring + rest",
+      expression: "var { a, ...foo } = {}",
+      newExpression: "({ a, ...self.foo } = {})",
+      bindings: ["a"],
+      mappings: {},
+      shouldMapExpression: true,
+      expectedMapped: {
+        await: false,
+        bindings: true,
+        originalExpression: false
+      }
+    },
+    {
+      name: "bindings + array destructuring + rest",
+      expression: "var [a, ...foo] = []",
+      newExpression: "([a, ...self.foo] = [])",
+      bindings: ["a"],
+      mappings: {},
+      shouldMapExpression: true,
+      expectedMapped: {
+        await: false,
+        bindings: true,
+        originalExpression: false
+      }
+    },
+    {
       name: "bindings + mappings",
       expression: "a = 3;",
       newExpression: "self.a = 3",

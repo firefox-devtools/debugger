@@ -13,10 +13,10 @@ import * as t from "@babel/types";
 function getAssignmentTarget(node, bindings) {
   if (t.isObjectPattern(node)) {
     for (const property of node.properties) {
-      if (t.isIdentifier(property.value)) {
-        property.value = getAssignmentTarget(property.value, bindings);
+      if (t.isRestElement(property)) {
+        property.argument = getAssignmentTarget(property.argument, bindings);
       } else {
-        getAssignmentTarget(property.value, bindings);
+        property.value = getAssignmentTarget(property.value, bindings);
       }
     }
 
@@ -32,11 +32,13 @@ function getAssignmentTarget(node, bindings) {
   }
 
   if (t.isAssignmentPattern(node)) {
-    if (t.isIdentifier(node.left)) {
-      node.left = getAssignmentTarget(node.left, bindings);
-    } else if (t.isObjectPattern(node.left)) {
-      return getAssignmentTarget(node.left, bindings);
-    }
+    node.left = getAssignmentTarget(node.left, bindings);
+
+    return node;
+  }
+
+  if (t.isRestElement(node)) {
+    node.argument = getAssignmentTarget(node.argument, bindings);
 
     return node;
   }
@@ -67,12 +69,11 @@ function globalizeDeclaration(node, bindings) {
 // translates new bindings `a = 3` into `self.a = 3`
 // and keeps assignments the same for existing bindings.
 function globalizeAssignment(node, bindings) {
-  if (bindings.includes(node.left.name)) {
-    return node;
-  }
-
-  const identifier = t.memberExpression(t.identifier("self"), node.left);
-  return t.assignmentExpression(node.operator, identifier, node.right);
+  return t.assignmentExpression(
+    node.operator,
+    getAssignmentTarget(node.left, bindings),
+    node.right
+  );
 }
 
 function replaceNode(ancestors, node) {
@@ -93,7 +94,11 @@ export default function mapExpressionBindings(
   expression: string,
   bindings: string[] = []
 ): string {
-  const ast = parseScript(expression, { allowAwaitOutsideFunction: true });
+  const ast = parseScript(expression, {
+    allowAwaitOutsideFunction: true,
+    plugins: ["objectRestSpread"]
+  });
+
   let isMapped = false;
   let shouldUpdate = true;
 
@@ -110,7 +115,7 @@ export default function mapExpressionBindings(
     }
 
     if (t.isAssignmentExpression(node)) {
-      if (t.isIdentifier(node.left)) {
+      if (t.isIdentifier(node.left) || t.isPattern(node.left)) {
         const newNode = globalizeAssignment(node, bindings);
         isMapped = true;
         return replaceNode(ancestors, newNode);

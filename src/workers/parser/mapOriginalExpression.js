@@ -40,7 +40,11 @@ export default function mapOriginalExpression(
     [string]: string | null
   }
 ): string {
-  const ast = parseScript(expression, { allowAwaitOutsideFunction: true });
+  const ast = parseScript(expression, {
+    allowAwaitOutsideFunction: true,
+    plugins: ["objectRestSpread"]
+  });
+
   const scopes = buildScopeList(ast, "");
   let shouldUpdate = false;
 
