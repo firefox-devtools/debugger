@@ -1,5 +1,6 @@
 .DS_Store
 /assets/build
+/assets/module-manifest.json
 node_modules
 configs/local.json
 npm-debug.log
