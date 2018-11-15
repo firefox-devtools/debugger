@@ -48,6 +48,40 @@ describe("mapExpressionBindings", () => {
       name: "assignments with +=",
       expression: "a += 2;",
       newExpression: "self.a += 2;"
+    },
+    {
+      name: "destructuring (objects)",
+      expression: "const { a } = {}; ",
+      newExpression: "({ a: self.a } = {})"
+    },
+    {
+      name: "destructuring (arrays)",
+      expression: " var [a, ...foo] = [];",
+      newExpression: "([self.a, ...self.foo] = [])"
+    },
+    {
+      name: "destructuring (declarations)",
+      expression: "var {d,e} = {}, {f} = {}; ",
+      newExpression: `({ d: self.d, e: self.e } = {});
+        ({ f: self.f } = {})
+      `
+    },
+    {
+      name: "destructuring & declaration",
+      expression: "const { a } = {}; var b = 3",
+      newExpression: `({ a: self.a } = {});
+        self.b = 3
+      `
+    },
+    {
+      name: "destructuring assignment",
+      expression: "[a] = [3]",
+      newExpression: "[self.a] = [3]"
+    },
+    {
+      name: "destructuring assignment (declarations)",
+      expression: "[a] = [3]; var b = 4",
+      newExpression: "[self.a] = [3];\n self.b = 4"
     }
   ]);
 
@@ -83,32 +117,8 @@ describe("mapExpressionBindings", () => {
       expression: "{ var g = 5; }"
     },
     {
-      name: "destructuring assignment",
-      expression: "[a] = [3]"
-    },
-    {
-      name: "destructuring assignment (declarations)",
-      expression: "[a] = [3]; var b = 4"
-    },
-    {
       name: "for loops bindings",
       expression: "for (let foo = 4; false;){}"
-    },
-    {
-      name: "destructuring (objects)",
-      expression: "const { a } = {}; "
-    },
-    {
-      name: "destructuring (arrays)",
-      expression: " var [a, ...foo] = []; "
-    },
-    {
-      name: "destructuring (declarations)",
-      expression: "var {d,e} = {}, {f} = {}; "
-    },
-    {
-      name: "destructuring & declaration",
-      expression: "const { a } = {}; var b = 3"
     }
   ]);
 

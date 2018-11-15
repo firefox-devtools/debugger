@@ -5,7 +5,7 @@
 // @flow
 
 import type { ColumnPosition } from "../../types";
-import { parseScript } from "./utils/ast";
+import { parseScript, parseConsoleScript } from "./utils/ast";
 import { buildScopeList } from "./getScopes";
 import generate from "@babel/generator";
 import * as t from "@babel/types";
@@ -40,7 +40,7 @@ export default function mapOriginalExpression(
     [string]: string | null
   }
 ): string {
-  const ast = parseScript(expression, { allowAwaitOutsideFunction: true });
+  const ast = parseConsoleScript(expression);
   const scopes = buildScopeList(ast, "");
   let shouldUpdate = false;
 

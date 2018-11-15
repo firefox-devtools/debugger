@@ -4,15 +4,14 @@
 
 // @flow
 
-import template from "@babel/template";
 import generate from "@babel/generator";
 import * as t from "@babel/types";
 
-import { parse, hasNode } from "./utils/ast";
+import { parseConsoleScript, hasNode } from "./utils/ast";
 import { isTopLevel } from "./utils/helpers";
 
 function hasTopLevelAwait(expression: string) {
-  const ast = parse(expression, { allowAwaitOutsideFunction: true });
+  const ast = parseConsoleScript(expression);
   const hasAwait = hasNode(
     ast,
     (node, ancestors, b) => t.isAwaitExpression(node) && isTopLevel(ancestors)
@@ -28,15 +27,20 @@ function wrapExpression(ast) {
     .slice(0, -1)
     .concat(t.returnStatement(lastStatement.expression));
 
-  const newAst = t.arrowFunctionExpression([], t.blockStatement(body), true);
+  const newAst = t.expressionStatement(
+    t.callExpression(
+      t.arrowFunctionExpression([], t.blockStatement(body), true),
+      []
+    )
+  );
+
   return generate(newAst).code;
 }
 
 export default function mapTopLevelAwait(expression: string) {
   const ast = hasTopLevelAwait(expression);
   if (ast) {
-    const func = wrapExpression(ast);
-    return generate(template.ast(`(${func})();`)).code;
+    return wrapExpression(ast);
   }
 
   return expression;
