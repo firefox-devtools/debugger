@@ -7,14 +7,11 @@
 import generate from "@babel/generator";
 import * as t from "@babel/types";
 
-import { parse, hasNode } from "./utils/ast";
+import { parseConsoleScript, hasNode } from "./utils/ast";
 import { isTopLevel } from "./utils/helpers";
 
 function hasTopLevelAwait(expression: string) {
-  const ast = parse(expression, {
-    allowAwaitOutsideFunction: true,
-    plugins: ["objectRestSpread"]
-  });
+  const ast = parseConsoleScript(expression);
   const hasAwait = hasNode(
     ast,
     (node, ancestors, b) => t.isAwaitExpression(node) && isTopLevel(ancestors)

@@ -4,7 +4,7 @@
 
 // @flow
 
-import { parseScript } from "./utils/ast";
+import { parseConsoleScript } from "./utils/ast";
 import { isTopLevel } from "./utils/helpers";
 
 import generate from "@babel/generator";
@@ -94,10 +94,7 @@ export default function mapExpressionBindings(
   expression: string,
   bindings: string[] = []
 ): string {
-  const ast = parseScript(expression, {
-    allowAwaitOutsideFunction: true,
-    plugins: ["objectRestSpread"]
-  });
+  const ast = parseConsoleScript(expression);
 
   let isMapped = false;
   let shouldUpdate = true;
