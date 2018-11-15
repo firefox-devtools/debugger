@@ -43,9 +43,6 @@ export async function updateSymbolLocations(
     )
   );
 
-  symbols.callExpressions = mappedCallExpressions;
-
-  console.log(mappedCallExpressions);
-
-  Promise.resolve(symbols);
+  const newSymbols = { ...symbols, callExpressions: mappedCallExpressions };
+  return Promise.resolve(newSymbols);
 }
