@@ -16,11 +16,12 @@ function updateSymbolLocation(
   source: Source,
   sourceMaps: any
 ) {
-  site.location.start.sourceId = source.id;
   return sourceMaps
-    .getGeneratedLocation(site.location.start, source)
+    .getGeneratedLocation(
+      { ...site.location.start, sourceId: source.id },
+      source
+    )
     .then(loc => {
-      // site.generatedLocation = { line: loc.line, column: loc.column };
       return {
         ...site,
         generatedLocation: { line: loc.line, column: loc.column }
@@ -44,5 +45,6 @@ export async function updateSymbolLocations(
   );
 
   const newSymbols = { ...symbols, callExpressions: mappedCallExpressions };
+
   return Promise.resolve(newSymbols);
 }
