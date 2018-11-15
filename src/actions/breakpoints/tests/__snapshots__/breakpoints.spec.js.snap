@@ -38,6 +38,7 @@ Array [
       Object {
         "condition": null,
         "disabled": false,
+        "id": "hi",
         "selectedLocation": Object {
           "line": 2,
           "sourceId": "a",
@@ -105,6 +106,7 @@ Array [
       Object {
         "condition": null,
         "disabled": true,
+        "id": "hi",
         "selectedLocation": Object {
           "line": 5,
           "sourceId": "a",
