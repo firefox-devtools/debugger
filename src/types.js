@@ -383,3 +383,11 @@ export type Worker = {
   type: number,
   url: string
 };
+
+/**
+ * Cursor info
+ */
+ export type CursorInfo = {
+   line: number,
+   column: number
+ }

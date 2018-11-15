@@ -11,7 +11,8 @@ import actions from "../../actions";
 import {
   getSelectedSource,
   getPrettySource,
-  getPaneCollapse
+  getPaneCollapse,
+  getCurrentCursorInfo
 } from "../../selectors";
 
 import {
@@ -26,7 +27,7 @@ import { shouldShowFooter, shouldShowPrettyPrint } from "../../utils/editor";
 
 import { PaneToggleButton } from "../shared/Button";
 
-import type { Source } from "../../types";
+import type { Source, CursorInfo } from "../../types";
 
 import "./Footer.css";
 
@@ -37,6 +38,7 @@ type Props = {
   horizontal: boolean,
   togglePrettyPrint: string => void,
   toggleBlackBox: Object => void,
+  cursorInfo: CursorInfo,
   jumpToMappedLocation: (Source: any) => void,
   togglePaneCollapse: () => void
 };
@@ -174,6 +176,21 @@ class SourceFooter extends PureComponent<Props> {
     );
   }
 
+  renderCursorInfo() {
+    const { cursorInfo } = this.props;
+
+    if (!cursorInfo.line || !cursorInfo.column) {
+      return null;
+    }
+
+    const info = L10N.getStr("sourceFooter.currentCursorInfo", cursorInfo.line, cursorInfo.column);
+    return (
+      <span className="cursor-info">
+        {info}
+      </span>
+    );
+  }
+
   render() {
     const { selectedSource, horizontal } = this.props;
 
@@ -184,6 +201,7 @@ class SourceFooter extends PureComponent<Props> {
     return (
       <div className="source-footer">
         {this.renderCommands()}
+        {this.renderCursorInfo()}
         {this.renderSourceSummary()}
         {this.renderToggleButton()}
       </div>
@@ -199,7 +217,8 @@ const mapStateToProps = state => {
     selectedSource,
     mappedSource: getGeneratedSource(state, selectedSource),
     prettySource: getPrettySource(state, selectedId),
-    endPanelCollapsed: getPaneCollapse(state, "end")
+    endPanelCollapsed: getPaneCollapse(state, "end"),
+    cursorInfo: getCurrentCursorInfo(state)
   };
 };
 
