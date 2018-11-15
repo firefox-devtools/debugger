@@ -18,14 +18,13 @@ import { updateTab } from "./tabs";
 import { PROMISE } from "./utils/middleware/promise";
 
 import { setInScopeLines } from "./ast/setInScopeLines";
+import { updateSymbolLocations } from "./utils/symbols.js";
 import {
   getSymbols,
   findOutOfScopeLocations,
   getFramework,
   getPausePoints,
-  type AstPosition,
-  type SymbolDeclaration,
-  type SymbolDeclarations
+  type AstPosition
 } from "../workers/parser";
 
 import { features } from "../utils/prefs";
@@ -69,11 +68,14 @@ export function setSymbols(sourceId: SourceId) {
     await dispatch({
       type: "SET_SYMBOLS",
       sourceId,
-      // symbols: symbols
       [PROMISE]: (async function() {
         const symbols = await getSymbols(sourceId);
-        // return updateSymbolLocations(symbols, sourceMaps);
-        await updateSymbolLocations(symbols, source, sourceMaps);
+        const mappedSymbols = updateSymbolLocations(
+          symbols,
+          source,
+          sourceMaps
+        );
+        return mappedSymbols;
       })()
     });
 
@@ -154,40 +156,4 @@ export function setPausePoints(sourceId: SourceId) {
       }: Action)
     );
   };
-}
-
-function updateSymbolLocation(
-  site: SymbolDeclaration,
-  source: any,
-  sourceMaps: any
-) {
-  if ("generatedLocation" in site) {
-    return Promise.resolve(site);
-  }
-
-  // sourceMaps.getGeneratedLocation requires a sourceId on the start
-  site.location.start.sourceId = source.id;
-  return sourceMaps
-    .getGeneratedLocation(site.location.start, source)
-    .then(loc => {
-      site.generatedLocation = { line: loc.line, column: loc.column };
-    });
-}
-
-async function updateSymbolLocations(
-  symbols: SymbolDeclarations,
-  source: any, // TODO!
-  sourceMaps: any
-): Promise<SymbolDeclarations> {
-  if (!symbols || !symbols.callExpressions) {
-    return Promise.resolve(symbols);
-  }
-
-  await Promise.all(
-    symbols.callExpressions.map(site =>
-      updateSymbolLocation(site, source, sourceMaps)
-    )
-  );
-
-  Promise.resolve(symbols);
 }
