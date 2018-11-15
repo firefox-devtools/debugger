@@ -145,14 +145,14 @@ function getFunctionSignature(
   }
 
   if (t.isMemberExpression(path)) {
-    if (!path || !path.node.object.name) {
+    if (!path || !t.isIdentifier(path.node.object)) {
       return signature;
     }
     return `${path.node.object.name}.${signature}`;
   }
 
   if (t.isAssignmentExpression(path)) {
-    if (!path || !path.node.left.name) {
+    if (!path || !t.isIdentifier(path.node.left)) {
       return signature;
     }
     return `${path.node.left.name}.${signature}`;
@@ -166,7 +166,7 @@ function getFunctionSignature(
   }
 
   if (path && (t.isVariableDeclarator(path) || t.isClassDeclaration(path))) {
-    if (!path.node.id.name) {
+    if (!t.isIdentifier(path.node.id)) {
       return signature;
     }
     return `${path.node.id.name}.${signature}`;
