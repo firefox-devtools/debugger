@@ -15,16 +15,19 @@ import {
 import { mapFrames, fetchExtra } from "./pause";
 import { updateTab } from "./tabs";
 
+import { PROMISE } from "./utils/middleware/promise";
+
 import { setInScopeLines } from "./ast/setInScopeLines";
 import {
   getSymbols,
   findOutOfScopeLocations,
   getFramework,
   getPausePoints,
-  type AstPosition
+  type AstPosition,
+  type SymbolDeclaration,
+  type SymbolDeclarations
 } from "../workers/parser";
 
-import { PROMISE } from "./utils/middleware/promise";
 import { features } from "../utils/prefs";
 import { isLoaded, isGenerated } from "../utils/source";
 
@@ -56,7 +59,7 @@ export function setSourceMetaData(sourceId: SourceId) {
 }
 
 export function setSymbols(sourceId: SourceId) {
-  return async ({ dispatch, getState }: ThunkArgs) => {
+  return async ({ dispatch, getState, sourceMaps }: ThunkArgs) => {
     const source = getSourceFromId(getState(), sourceId);
 
     if (source.isWasm || hasSymbols(getState(), source) || !isLoaded(source)) {
@@ -66,7 +69,12 @@ export function setSymbols(sourceId: SourceId) {
     await dispatch({
       type: "SET_SYMBOLS",
       sourceId,
-      [PROMISE]: getSymbols(sourceId)
+      // symbols: symbols
+      [PROMISE]: (async function() {
+        const symbols = await getSymbols(sourceId);
+        // return updateSymbolLocations(symbols, sourceMaps);
+        await updateSymbolLocations(symbols, source, sourceMaps);
+      })()
     });
 
     if (isPaused(getState())) {
@@ -146,4 +154,40 @@ export function setPausePoints(sourceId: SourceId) {
       }: Action)
     );
   };
+}
+
+function updateSymbolLocation(
+  site: SymbolDeclaration,
+  source: any,
+  sourceMaps: any
+) {
+  if ("generatedLocation" in site) {
+    return Promise.resolve(site);
+  }
+
+  // sourceMaps.getGeneratedLocation requires a sourceId on the start
+  site.location.start.sourceId = source.id;
+  return sourceMaps
+    .getGeneratedLocation(site.location.start, source)
+    .then(loc => {
+      site.generatedLocation = { line: loc.line, column: loc.column };
+    });
+}
+
+async function updateSymbolLocations(
+  symbols: SymbolDeclarations,
+  source: any, // TODO!
+  sourceMaps: any
+): Promise<SymbolDeclarations> {
+  if (!symbols || !symbols.callExpressions) {
+    return Promise.resolve(symbols);
+  }
+
+  await Promise.all(
+    symbols.callExpressions.map(site =>
+      updateSymbolLocation(site, source, sourceMaps)
+    )
+  );
+
+  Promise.resolve(symbols);
 }

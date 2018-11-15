@@ -5,7 +5,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { range, keyBy, isEqualWith } from "lodash";
+import { range, keyBy, isEqualWith, uniq } from "lodash";
 
 import CallSite from "./CallSite";
 
@@ -132,7 +132,7 @@ class CallSites extends Component {
     const { editor, callSites, selectedSource } = this.props;
 
     let sites;
-    if (!callSites || (selectedSource && selectedSource.isPrettyPrinted)) {
+    if (!callSites || hasConflictingGeneratedPosition(callSites)) {
       return null;
     }
 
@@ -154,6 +154,10 @@ class CallSites extends Component {
     });
     return sites;
   }
+}
+
+function hasConflictingGeneratedPosition(callSites) {
+  return uniq(callSites.map(site => site.generatedLocation.line)).length > 0;
 }
 
 function getCallSites(symbols, breakpoints) {
