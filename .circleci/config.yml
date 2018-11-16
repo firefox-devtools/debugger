@@ -15,7 +15,7 @@ jobs:
       NVM_DIR: ~/.nvm
 
     docker:
-    - image: node:8.9.4
+    - image: node:10.13.0
       command: /sbin/init
     # machine: true
     steps:
