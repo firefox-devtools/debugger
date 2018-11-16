@@ -5,7 +5,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { range, keyBy, isEqualWith, uniqBy } from "lodash";
+import { range, keyBy, isEqualWith, uniqBy, groupBy, flatten } from "lodash";
 
 import CallSite from "./CallSite";
 
@@ -121,24 +121,30 @@ class CallSites extends Component {
   filterCallSitesByLineNumber() {
     const { callSites, breakpoints } = this.props;
 
-    const breakpointLines = new Set(breakpoints.map(bp => bp.location.line));
+    // Get unique lines from breakpoints so we can filter out unwated call sites
+    const uniqueBreakpointLines = new Set(
+      breakpoints.map(bp => bp.location.line)
+    );
 
-    // Find all callsites that have a breakpoint set on their start line
-    const callSitesForBreakpointLines = callSites
-      .filter(({ location }) => breakpointLines.has(location.start.line))
-      // Filter by only lines with multiple column breakpoints
-      .filter(({ location }, index, arr) => {
-        return (
-          arr.filter(site => site.location.start.line === location.start.line)
-            .length > 1
+    // Get call sites based on activated breakpoint lines
+    const callSitesInRange = callSites.filter(({ location }) =>
+      uniqueBreakpointLines.has(location.start.line)
+    );
+
+    // Group call sites by line
+    const callSitesByLineObj = groupBy(callSitesInRange, "location.start.line");
+
+    // Per group, ensure all call sites are unique
+    return flatten(
+      Object.values(callSitesByLineObj).map(arr => {
+        const uniques = uniqBy(
+          arr,
+          site =>
+            `${site.generatedLocation.line}:${site.generatedLocation.column}`
         );
-      });
-
-    // Prevent problematic line-based mappings from being shown multiple times
-    // Allows the first
-    return uniqBy(
-      callSitesForBreakpointLines,
-      site => `${site.generatedLocation.line}:${site.generatedLocation.column}`
+        // Only return call sites for a line when more than 1 is found
+        return uniques.length > 1 ? uniques : [];
+      })
     );
   }
 
