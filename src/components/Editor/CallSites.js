@@ -9,6 +9,8 @@ import { range, keyBy, isEqualWith } from "lodash";
 
 import CallSite from "./CallSite";
 
+import { prefs } from "../../utils/prefs";
+
 import {
   getSelectedSource,
   getSymbols,
@@ -20,8 +22,6 @@ import { getTokenLocation } from "../../utils/editor";
 import { isWasm } from "../../utils/wasm";
 
 import actions from "../../actions";
-
-const MAX_COLUMN_BREAKPOINT_COLUMN = 300;
 
 function getCallSiteAtLocation(callSites, location) {
   return callSites.find(callSite =>
@@ -127,7 +127,7 @@ class CallSites extends Component {
 
     return callSites.filter(
       ({ location }) =>
-        location.start.column < MAX_COLUMN_BREAKPOINT_COLUMN &&
+        location.start.column < prefs.columnBreakpointsMaxCharacters &&
         breakpointLines.has(location.start.line)
     );
   }

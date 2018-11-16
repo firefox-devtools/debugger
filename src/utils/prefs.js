@@ -21,6 +21,7 @@ if (isDevelopment()) {
   pref("devtools.debugger.pause-on-caught-exceptions", false);
   pref("devtools.debugger.ignore-caught-exceptions", true);
   pref("devtools.debugger.call-stack-visible", true);
+  pref("devtools.debugger.column-breakpoints-max-characters", 300);
   pref("devtools.debugger.scopes-visible", true);
   pref("devtools.debugger.component-visible", true);
   pref("devtools.debugger.workers-visible", true);
@@ -74,6 +75,10 @@ export const prefs = new PrefsHelper("devtools", {
   callStackVisible: ["Bool", "debugger.call-stack-visible"],
   scopesVisible: ["Bool", "debugger.scopes-visible"],
   componentVisible: ["Bool", "debugger.component-visible"],
+  columnBreakpointsMaxCharacters: [
+    "Int",
+    "debugger.column-breakpoints-max-characters"
+  ],
   workersVisible: ["Bool", "debugger.workers-visible"],
   breakpointsVisible: ["Bool", "debugger.breakpoints-visible"],
   expressionsVisible: ["Bool", "debugger.expressions-visible"],

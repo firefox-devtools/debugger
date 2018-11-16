@@ -47,6 +47,7 @@ pref("devtools.debugger.file-search-whole-word", false);
 pref("devtools.debugger.file-search-regex-match", false);
 pref("devtools.debugger.project-directory-root", "");
 pref("devtools.debugger.skip-pausing", false);
+pref("devtools.debugger.column-breakpoints-max-characters", 300);
 
 pref("devtools.debugger.features.wasm", true);
 pref("devtools.debugger.features.shortcuts", true);
