@@ -5,7 +5,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { range, keyBy, isEqualWith, uniq } from "lodash";
+import { range, keyBy, isEqualWith, uniqBy } from "lodash";
 
 import CallSite from "./CallSite";
 
@@ -123,8 +123,16 @@ class CallSites extends Component {
 
     const breakpointLines = new Set(breakpoints.map(bp => bp.location.line));
 
-    return callSites.filter(({ location }) =>
+    // Find all callsites that have a breakpoint set on their start line
+    const callSitesForBreakpointLines = callSites.filter(({ location }) =>
       breakpointLines.has(location.start.line)
+    );
+
+    // Prevent problematic line-based mappings from being shown multiple times
+    // Allows the first
+    return uniqBy(
+      callSitesForBreakpointLines,
+      site => `${site.generatedLocation.line}:${site.generatedLocation.column}`
     );
   }
 
@@ -132,7 +140,7 @@ class CallSites extends Component {
     const { editor, callSites, selectedSource } = this.props;
 
     let sites;
-    if (!callSites || hasConflictingGeneratedPosition(callSites)) {
+    if (!callSites) {
       return null;
     }
 
@@ -154,10 +162,6 @@ class CallSites extends Component {
     });
     return sites;
   }
-}
-
-function hasConflictingGeneratedPosition(callSites) {
-  return uniq(callSites.map(site => site.generatedLocation.line)).length > 0;
 }
 
 function getCallSites(symbols, breakpoints) {
