@@ -21,6 +21,8 @@ import { isWasm } from "../../utils/wasm";
 
 import actions from "../../actions";
 
+const MAX_COLUMN_BREAKPOINT_COLUMN = 300;
+
 function getCallSiteAtLocation(callSites, location) {
   return callSites.find(callSite =>
     isEqualWith(callSite.location, location, (cloc, loc) => {
@@ -123,8 +125,10 @@ class CallSites extends Component {
 
     const breakpointLines = new Set(breakpoints.map(bp => bp.location.line));
 
-    return callSites.filter(({ location }) =>
-      breakpointLines.has(location.start.line)
+    return callSites.filter(
+      ({ location }) =>
+        location.start.column < MAX_COLUMN_BREAKPOINT_COLUMN &&
+        breakpointLines.has(location.start.line)
     );
   }
 
