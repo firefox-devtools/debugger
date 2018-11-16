@@ -2,22 +2,25 @@
 
 exports[`ObjectInspector - getters & setters renders getters and setters as expected 1`] = `
 "
-▼ x: Getter & Setter
-|  ▶︎ <get>: function x()
-|  ▶︎ <set>: function x()
+▼ root
+|    x: Getter & Setter
+|  ▶︎ <get x()>: function x()
+|  ▶︎ <set x()>: function x()
 "
 `;
 
 exports[`ObjectInspector - getters & setters renders getters as expected 1`] = `
 "
-▼ x: Getter
-|  ▶︎ <get>: function x()
+▼ root
+|    x: Getter
+|  ▶︎ <get x()>: function x()
 "
 `;
 
 exports[`ObjectInspector - getters & setters renders setters as expected 1`] = `
 "
-▼ x: Setter
-|  ▶︎ <set>: function x()
+▼ root
+|    x: Setter
+|  ▶︎ <set x()>: function x()
 "
 `;
