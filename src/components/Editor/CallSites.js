@@ -124,9 +124,15 @@ class CallSites extends Component {
     const breakpointLines = new Set(breakpoints.map(bp => bp.location.line));
 
     // Find all callsites that have a breakpoint set on their start line
-    const callSitesForBreakpointLines = callSites.filter(({ location }) =>
-      breakpointLines.has(location.start.line)
-    );
+    const callSitesForBreakpointLines = callSites
+      .filter(({ location }) => breakpointLines.has(location.start.line))
+      // Filter by only lines with multiple column breakpoints
+      .filter(({ location }, index, arr) => {
+        return (
+          arr.filter(site => site.location.start.line === location.start.line)
+            .length > 1
+        );
+      });
 
     // Prevent problematic line-based mappings from being shown multiple times
     // Allows the first
@@ -145,6 +151,11 @@ class CallSites extends Component {
     }
 
     const callSitesFiltered = this.filterCallSitesByLineNumber();
+
+    // Only display column breakpoints if there are more than one
+    if (callSitesFiltered.length < 2) {
+      return null;
+    }
 
     editor.codeMirror.operation(() => {
       const childCallSites = callSitesFiltered.map((callSite, index) => {
