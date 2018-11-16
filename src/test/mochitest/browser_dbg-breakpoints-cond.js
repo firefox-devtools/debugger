@@ -82,11 +82,12 @@ add_task(async function() {
   is(bp.condition, "1", "breakpoint is created with the condition");
   assertEditorBreakpoint(dbg, 5, true);
 
+  const bpCondition = waitForDispatch(dbg, "SET_BREAKPOINT_CONDITION");
   //right click breakpoint in breakpoints list
   rightClickElement(dbg, "breakpointItem", 3)
   // select "remove condition";
-  selectMenuItem(dbg, 9);
-  await waitForDispatch(dbg, "SET_BREAKPOINT_CONDITION");
+  selectMenuItem(dbg, 8);
+  await bpCondition;
   bp = findBreakpoint(dbg, "simple2", 5);
   is(bp.condition, undefined, "breakpoint condition removed");
 });
