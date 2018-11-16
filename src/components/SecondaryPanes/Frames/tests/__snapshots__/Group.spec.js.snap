@@ -9,6 +9,7 @@ exports[`Group displays a group 1`] = `
     className="group"
     onClick={[Function]}
     tabIndex={0}
+    title="Show Back frames"
   >
     <span
       className="title"
@@ -22,6 +23,7 @@ exports[`Group displays a group 1`] = `
       frame={
         Object {
           "displayName": "foo",
+          "library": "Back",
         }
       }
     />
@@ -39,6 +41,7 @@ exports[`Group passes the getFrameTitle prop to the Frame components 1`] = `
     key="1"
     onClick={[Function]}
     tabIndex={0}
+    title="Collapse Back frames"
   >
     <span
       className="title"
@@ -53,6 +56,7 @@ exports[`Group passes the getFrameTitle prop to the Frame components 1`] = `
         Object {
           "displayName": "renderFoo",
           "id": 1,
+          "library": "Back",
           "location": Object {
             "line": 55,
           },
@@ -73,6 +77,7 @@ exports[`Group passes the getFrameTitle prop to the Frame components 1`] = `
         Object {
           "displayName": "renderFoo",
           "id": 1,
+          "library": "Back",
           "location": Object {
             "line": 55,
           },
@@ -98,7 +103,7 @@ exports[`Group passes the getFrameTitle prop to the Frame components 1`] = `
         Object {
           "displayName": "a",
           "id": 2,
-          "library": "back",
+          "library": "Back",
           "location": Object {
             "line": 55,
           },
@@ -124,7 +129,7 @@ exports[`Group passes the getFrameTitle prop to the Frame components 1`] = `
         Object {
           "displayName": "b",
           "id": 3,
-          "library": "back",
+          "library": "Back",
           "location": Object {
             "line": 55,
           },
