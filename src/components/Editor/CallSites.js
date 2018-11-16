@@ -149,10 +149,9 @@ class CallSites extends Component {
   }
 
   render() {
-    const { editor, callSites, selectedSource } = this.props;
+    const { editor, callSites, selectedSource, breakpoints } = this.props;
 
-    let sites;
-    if (!callSites) {
+    if (!callSites || breakpoints.length === 0) {
       return null;
     }
 
@@ -163,6 +162,7 @@ class CallSites extends Component {
       return null;
     }
 
+    let sites;
     editor.codeMirror.operation(() => {
       const childCallSites = callSitesFiltered.map((callSite, index) => {
         const props = {
