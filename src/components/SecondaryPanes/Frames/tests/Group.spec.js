@@ -11,7 +11,7 @@ jest.mock("../FrameMenu", () => jest.fn());
 
 function render(overrides = {}) {
   const defaultProps = {
-    group: [{ displayName: "foo" }],
+    group: [{ displayName: "foo", library: "Back" }],
     selectedFrame: {},
     frameworkGroupingOn: true,
     toggleFrameworkGrouping: jest.fn(),
@@ -21,7 +21,9 @@ function render(overrides = {}) {
   };
 
   const props = { ...defaultProps, ...overrides };
-  const component = shallow(<Group {...props} />);
+  const component = shallow(<Group {...props} />, {
+    context: { l10n: L10N }
+  });
   return { component, props };
 }
 
@@ -35,6 +37,7 @@ describe("Group", () => {
     const group = [
       {
         id: 1,
+        library: "Back",
         displayName: "renderFoo",
         location: {
           line: 55
@@ -45,7 +48,7 @@ describe("Group", () => {
       },
       {
         id: 2,
-        library: "back",
+        library: "Back",
         displayName: "a",
         location: {
           line: 55
@@ -56,7 +59,7 @@ describe("Group", () => {
       },
       {
         id: 3,
-        library: "back",
+        library: "Back",
         displayName: "b",
         location: {
           line: 55
