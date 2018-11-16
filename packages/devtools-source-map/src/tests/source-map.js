@@ -27,7 +27,7 @@ describe("source maps", () => {
     test("source with a url", async () => {
       const urls = await setupBundleFixture("bundle");
       expect(urls).toEqual([
-        "webpack:///webpack/bootstrap 4ef8c7ec7c1df790781e",
+        "webpack:///webpack/bootstrap%204ef8c7ec7c1df790781e",
         "webpack:///entry.js",
         "webpack:///times2.js",
         "webpack:///output.js",
