@@ -18,7 +18,7 @@ import { updateTab } from "./tabs";
 import { PROMISE } from "./utils/middleware/promise";
 
 import { setInScopeLines } from "./ast/setInScopeLines";
-import { updateSymbolLocations } from "./utils/symbols.js";
+import { updateSymbolLocations } from "./utils/symbols";
 import {
   getSymbols,
   findOutOfScopeLocations,
