@@ -19,6 +19,7 @@ import {
 } from "../utils/source";
 import { originalToGeneratedId } from "devtools-source-map";
 import { prefs } from "../utils/prefs";
+import { parse as parseURL } from "../utils/url";
 
 import type { Source, SourceId, SourceLocation } from "../types";
 import type { PendingSelectedLocation } from "./types";
@@ -451,7 +452,9 @@ export function getHasSiblingOfSameName(state: OuterState, source: ?Source) {
     return false;
   }
 
-  return getSourcesUrlsInSources(state, source.url).length > 1;
+  const urls = getSourcesUrlsInSources(state, source.url);
+  const { origin, pathname } = parseURL(source.url);
+  return urls.filter(url => url.includes(`${origin}${pathname}`)).length > 1;
 }
 
 export function getSourceInSources(sources: SourcesMap, id: string): ?Source {

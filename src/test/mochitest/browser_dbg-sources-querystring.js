@@ -39,6 +39,14 @@ add_task(async function() {
     "Breakpoint heading is simple1.js?x=1"
   );
 
+  // pretty print the source and check the tab text
+  clickElement(dbg, "prettyPrintButton");
+  await waitForSource(dbg, "simple1.js?x=1:formatted");
+  const prettyTab = findElement(dbg, "activeTab");
+  is(prettyTab.innerText, "simple1.js?x=1", "Tab label is simple1.js?x=1");
+  ok(prettyTab.querySelector("img.prettyPrint"));
+
+  // assert quick open works with queries
   pressKey(dbg, "quickOpen");
   type(dbg, "simple1.js?x");
   ok(findElement(dbg, "resultItems")[0].innerText.includes("simple.js?x=1"));
