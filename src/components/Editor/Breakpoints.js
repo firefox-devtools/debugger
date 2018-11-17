@@ -21,14 +21,14 @@ type Props = {
   editor: Object
 };
 
-function breakpointLinesMatch(oldBreakpoints, newBreakpoints) {
-  function getBreakpointLines(bps) {
-    return uniq(bps.map(bp => bp.location.line).filter(Boolean)).sort();
-  }
+function getBreakpointLines(bps) {
+  return uniq(bps.map(bp => bp.location.line).filter(Boolean)).sort();
+}
 
+function breakpointLinesMatch(oldBreakpoints, newBreakpoints) {
   return isEqual(
-    getBreakpointLines(oldBreakpoints.breakpoints),
-    getBreakpointLines(newBreakpoints.breakpoints)
+    getBreakpointLines(oldBreakpoints),
+    getBreakpointLines(newBreakpoints)
   );
 }
 
@@ -38,7 +38,7 @@ class Breakpoints extends Component<Props> {
       return false;
     }
 
-    if (breakpointLinesMatch(this.props, nextProps)) {
+    if (breakpointLinesMatch(this.props.breakpoints, nextProps.breakpoints)) {
       return false;
     }
 
