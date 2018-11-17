@@ -157,11 +157,6 @@ class CallSites extends Component {
 
     const callSitesFiltered = this.filterCallSitesByLineNumber();
 
-    // Only display column breakpoints if there are more than one
-    if (callSitesFiltered.length < 2) {
-      return null;
-    }
-
     let sites;
     editor.codeMirror.operation(() => {
       const childCallSites = callSitesFiltered.map((callSite, index) => {
