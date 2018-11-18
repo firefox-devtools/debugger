@@ -43,6 +43,10 @@ type State = {
   hiddenTabs: SourcesList
 };
 
+function getEditorContainer(win) {
+  return win.document.querySelector(".editor-pane");
+}
+
 class Tabs extends PureComponent<Props, State> {
   onTabContextMenu: Function;
   showContextMenu: Function;
@@ -65,6 +69,10 @@ class Tabs extends PureComponent<Props, State> {
     this.onResize = debounce(() => {
       this.updateHiddenTabs();
     });
+
+    this.onResizeEnd = debounce(() => {
+      this.updateHiddenTabs();``
+    })
   }
 
   componentDidUpdate(prevProps) {
@@ -76,10 +84,12 @@ class Tabs extends PureComponent<Props, State> {
   componentDidMount() {
     window.requestIdleCallback(this.updateHiddenTabs);
     window.addEventListener("resize", this.onResize);
+    getEditorContainer(window).addEventListener("resize", this.onResize);
   }
 
   componentWillUnmount() {
     window.removeEventListener("resize", this.onResize);
+    getEditorContainer(window).removeEventListener("resize", this.onResize);
   }
 
   /*
