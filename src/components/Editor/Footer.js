@@ -14,7 +14,6 @@ import {
   getPaneCollapse
 } from "../../selectors";
 
-import { features } from "../../utils/prefs";
 import {
   isPretty,
   isLoaded,
