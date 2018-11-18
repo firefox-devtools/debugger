@@ -39,7 +39,6 @@ type Props = {
   togglePrettyPrint: string => void,
   toggleBlackBox: Object => void,
   jumpToMappedLocation: (Source: any) => void,
-  recordCoverage: () => void,
   togglePaneCollapse: () => void
 };
 
@@ -122,25 +121,6 @@ class SourceFooter extends PureComponent<Props> {
     );
   }
 
-  coverageButton() {
-    const { recordCoverage } = this.props;
-
-    if (!features.codeCoverage) {
-      return;
-    }
-
-    return (
-      <button
-        className="coverage action"
-        title={L10N.getStr("sourceFooter.codeCoverage")}
-        onClick={() => recordCoverage()}
-        aria-label={L10N.getStr("sourceFooter.codeCoverage")}
-      >
-        C
-      </button>
-    );
-  }
-
   renderToggleButton() {
     if (this.props.horizontal) {
       return;
@@ -162,7 +142,6 @@ class SourceFooter extends PureComponent<Props> {
         {this.prettyPrintButton()}
         {this.blackBoxButton()}
         {this.blackBoxSummary()}
-        {this.coverageButton()}
       </div>
     );
   }
@@ -231,7 +210,6 @@ export default connect(
     togglePrettyPrint: actions.togglePrettyPrint,
     toggleBlackBox: actions.toggleBlackBox,
     jumpToMappedLocation: actions.jumpToMappedLocation,
-    recordCoverage: actions.recordCoverage,
     togglePaneCollapse: actions.togglePaneCollapse
   }
 )(SourceFooter);
