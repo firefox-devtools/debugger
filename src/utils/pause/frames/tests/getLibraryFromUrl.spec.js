@@ -145,7 +145,7 @@ describe("getLibraryFromUrl", () => {
         }
       ];
 
-      expect(getLibraryFromUrl(frame, callstack)).toEqual(null);
+      expect(getLibraryFromUrl(frame, callstack)).toEqual("Angular");
     });
   });
 });
