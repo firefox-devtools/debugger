@@ -9,55 +9,69 @@ const gripArrayStubs = require("../../../reps/stubs/grip-array");
 const gripMapEntryStubs = require("../../../reps/stubs/grip-map-entry");
 const gripStubs = require("../../../reps/stubs/grip");
 
-const { createNode, getChildren, getValue } = require("../../utils/node");
+const {
+  createNode,
+  getChildren,
+  getValue,
+  makeNodesForProperties
+} = require("../../utils/node");
+
+function createRootNodeWithAccessorProperty(accessorStub) {
+  const node = { name: "root", path: "rootpath" };
+  const nodes = makeNodesForProperties(
+    {
+      ownProperties: {
+        x: accessorStub
+      }
+    },
+    node
+  );
+  node.contents = nodes;
+
+  return createNode(node);
+}
 
 describe("getChildren", () => {
   it("accessors - getter", () => {
-    const nodes = getChildren({
-      item: createNode({
-        name: "root",
-        path: "rootpath",
-        contents: accessorStubs.get("getter")
-      })
+    const children = getChildren({
+      item: createRootNodeWithAccessorProperty(accessorStubs.get("getter"))
     });
 
-    const names = nodes.map(n => n.name);
-    const paths = nodes.map(n => n.path.toString());
+    const names = children.map(n => n.name);
+    const paths = children.map(n => n.path.toString());
 
-    expect(names).toEqual(["<get>"]);
-    expect(paths).toEqual(["Symbol(rootpath/<get>)"]);
+    expect(names).toEqual(["x", "<get x()>"]);
+    expect(paths).toEqual(["Symbol(rootpath/x)", "Symbol(rootpath/<get x()>)"]);
   });
 
   it("accessors - setter", () => {
-    const nodes = getChildren({
-      item: createNode({
-        name: "root",
-        path: "rootpath",
-        contents: accessorStubs.get("setter")
-      })
+    const children = getChildren({
+      item: createRootNodeWithAccessorProperty(accessorStubs.get("setter"))
     });
 
-    const names = nodes.map(n => n.name);
-    const paths = nodes.map(n => n.path.toString());
+    const names = children.map(n => n.name);
+    const paths = children.map(n => n.path.toString());
 
-    expect(names).toEqual(["<set>"]);
-    expect(paths).toEqual(["Symbol(rootpath/<set>)"]);
+    expect(names).toEqual(["x", "<set x()>"]);
+    expect(paths).toEqual(["Symbol(rootpath/x)", "Symbol(rootpath/<set x()>)"]);
   });
 
   it("accessors - getter & setter", () => {
-    const nodes = getChildren({
-      item: createNode({
-        name: "root",
-        path: "rootpath",
-        contents: accessorStubs.get("getter setter")
-      })
+    const children = getChildren({
+      item: createRootNodeWithAccessorProperty(
+        accessorStubs.get("getter setter")
+      )
     });
 
-    const names = nodes.map(n => n.name);
-    const paths = nodes.map(n => n.path.toString());
+    const names = children.map(n => n.name);
+    const paths = children.map(n => n.path.toString());
 
-    expect(names).toEqual(["<get>", "<set>"]);
-    expect(paths).toEqual(["Symbol(rootpath/<get>)", "Symbol(rootpath/<set>)"]);
+    expect(names).toEqual(["x", "<get x()>", "<set x()>"]);
+    expect(paths).toEqual([
+      "Symbol(rootpath/x)",
+      "Symbol(rootpath/<get x()>)",
+      "Symbol(rootpath/<set x()>)"
+    ]);
   });
 
   it("returns the expected nodes for Proxy", () => {
@@ -201,10 +215,10 @@ describe("getChildren", () => {
 
   it("adds children to cache on a node with accessors", () => {
     const cachedNodes = new Map();
-    const node = createNode({
-      name: "root",
-      contents: accessorStubs.get("getter setter")
-    });
+    const node = createRootNodeWithAccessorProperty(
+      accessorStubs.get("getter setter")
+    );
+
     const children = getChildren({
       cachedNodes,
       item: node

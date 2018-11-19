@@ -422,36 +422,6 @@ function getNodeSetter(item: Node): ?Object {
   return item && item.contents ? item.contents.set : undefined;
 }
 
-function makeNodesForAccessors(item: Node): Array<Node> {
-  const accessors = [];
-
-  const getter = getNodeGetter(item);
-  if (getter && getter.type !== "undefined") {
-    accessors.push(
-      createNode({
-        parent: item,
-        name: "<get>",
-        contents: { value: getter },
-        type: NODE_TYPES.GET
-      })
-    );
-  }
-
-  const setter = getNodeSetter(item);
-  if (setter && setter.type !== "undefined") {
-    accessors.push(
-      createNode({
-        parent: item,
-        name: "<set>",
-        contents: { value: setter },
-        type: NODE_TYPES.SET
-      })
-    );
-  }
-
-  return accessors;
-}
-
 function sortProperties(properties: Array<any>): Array<any> {
   return properties.sort((a, b) => {
     // Sort numbers in ascending order and sort strings lexicographically
@@ -613,6 +583,18 @@ function makeNodesForProperties(
     nodes.push(makeNodesForEntries(parent));
   }
 
+  // Add accessor nodes if needed
+  for (const name of propertiesNames) {
+    const property = allProperties[name];
+    if (property.get && property.get.type !== "undefined") {
+      nodes.push(createGetterNode({ parent, property, name }));
+    }
+
+    if (property.set && property.set.type !== "undefined") {
+      nodes.push(createSetterNode({ parent, property, name }));
+    }
+  }
+
   // Add the prototype if it exists and is not null
   if (prototype && prototype.type !== "null") {
     nodes.push(makeNodeForPrototype(objProps, parent));
@@ -691,6 +673,24 @@ function createNode(options: {
   };
 }
 
+function createGetterNode({ parent, property, name }) {
+  return createNode({
+    parent,
+    name: `<get ${name}()>`,
+    contents: { value: property.get },
+    type: NODE_TYPES.GET
+  });
+}
+
+function createSetterNode({ parent, property, name }) {
+  return createNode({
+    parent,
+    name: `<set ${name}()>`,
+    contents: { value: property.set },
+    type: NODE_TYPES.SET
+  });
+}
+
 function getSymbolDescriptor(symbol: Symbol | string): string {
   return symbol.toString().replace(/^(Symbol\()(.*)(\))$/, "$2");
 }
@@ -734,10 +734,6 @@ function getChildren(options: {
   // properties that we need to go and fetch.
   if (nodeHasChildren(item)) {
     return addToCache(item.contents);
-  }
-
-  if (nodeHasAccessors(item)) {
-    return addToCache(makeNodesForAccessors(item));
   }
 
   if (nodeIsMapEntry(item)) {
@@ -837,6 +833,8 @@ function getClosestNonBucketNode(item: Node): Node | null {
 
 module.exports = {
   createNode,
+  createGetterNode,
+  createSetterNode,
   getActor,
   getChildren,
   getClosestGripNode,

@@ -359,6 +359,8 @@ class ObjectInspector extends Component<Props> {
           !expanded &&
           (nodeIsDefaultProperties(item) ||
             nodeIsPrototype(item) ||
+            nodeIsGetter(item) ||
+            nodeIsSetter(item) ||
             (dimTopLevelWindow === true && nodeIsWindow(item) && depth === 0)),
         block: nodeIsBlock(item)
       }),
@@ -460,7 +462,9 @@ class ObjectInspector extends Component<Props> {
       autoExpandDepth,
 
       isExpanded: item => expandedPaths && expandedPaths.has(item.path),
-      isExpandable: item => nodeIsPrimitive(item) === false,
+      // TODO: We don't want property with getters to be expandable until we
+      // do have a mechanism to invoke the getter (See #6140).
+      isExpandable: item => !nodeIsPrimitive(item) && !nodeHasAccessors(item),
       focused: this.focusedItem,
 
       getRoots: this.getRoots,
