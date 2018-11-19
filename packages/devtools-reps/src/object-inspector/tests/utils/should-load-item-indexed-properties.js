@@ -5,6 +5,8 @@
 const Utils = require("../../utils");
 const {
   createNode,
+  createGetterNode,
+  createSetterNode,
   getChildren,
   makeNodesForEntries,
   nodeIsDefaultProperties
@@ -225,22 +227,20 @@ describe("shouldLoadItemIndexedProperties", () => {
   });
 
   it("returns true for an accessor <get> node", () => {
-    const accessorNode = createNode({
+    const getNode = createGetterNode({
       name: "root",
-      contents: accessorStubs.get("getter")
+      property: accessorStubs.get("getter")
     });
-    const [getNode] = getChildren({ item: accessorNode });
-    expect(getNode.name).toBe("<get>");
+    expect(getNode.name).toBe("<get root()>");
     expect(shouldLoadItemIndexedProperties(getNode)).toBeTruthy();
   });
 
   it("returns true for an accessor <set> node", () => {
-    const accessorNode = createNode({
+    const setNode = createSetterNode({
       name: "root",
-      contents: accessorStubs.get("setter")
+      property: accessorStubs.get("setter")
     });
-    const [setNode] = getChildren({ item: accessorNode });
-    expect(setNode.name).toBe("<set>");
+    expect(setNode.name).toBe("<set root()>");
     expect(shouldLoadItemIndexedProperties(setNode)).toBeTruthy();
   });
 

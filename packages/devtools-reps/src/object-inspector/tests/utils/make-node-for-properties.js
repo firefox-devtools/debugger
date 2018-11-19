@@ -83,11 +83,21 @@ describe("makeNodesForProperties", () => {
     const names = nodes.map(n => n.name);
     const paths = nodes.map(n => n.path.toString());
 
-    expect(names).toEqual(["bar", "baz", "foo", "<prototype>"]);
+    expect(names).toEqual([
+      "bar",
+      "baz",
+      "foo",
+      "<get bar()>",
+      "<set baz()>",
+      "<prototype>"
+    ]);
+
     expect(paths).toEqual([
       "Symbol(root/bar)",
       "Symbol(root/baz)",
       "Symbol(root/foo)",
+      "Symbol(root/<get bar()>)",
+      "Symbol(root/<set baz()>)",
       "Symbol(root/<prototype>)"
     ]);
   });
