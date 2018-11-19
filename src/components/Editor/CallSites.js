@@ -64,8 +64,6 @@ class CallSites extends Component {
 
     codeMirrorWrapper.addEventListener("click", e => this.onTokenClick(e));
     editor.codeMirror.on("scroll", this.onEditorScroll);
-
-    console.log("componentDidMount!", Date.now());
   }
 
   componentWillUnmount() {
@@ -83,7 +81,6 @@ class CallSites extends Component {
   }
 
   onEditorScroll = debounce(e => {
-    const viewport = this.getEditorViewport();
     this.setState(this.getEditorViewport());
   }, 200);
 
@@ -179,17 +176,12 @@ class CallSites extends Component {
   }
 
   filterCallSitesByViewport(callSites) {
-    // console.warn("Checking the following callSites: ", callSites.length);
-
     return callSites.filter(({ location }) => {
       const result =
         location.start.line >= this.state.start.line &&
         location.start.line <= this.state.end.line &&
         location.start.column >= this.state.start.column &&
         location.start.column <= this.state.end.column;
-
-      // console.log(JSON.stringify(location), result, JSON.stringify(this.state));
-
       return result;
     });
   }
