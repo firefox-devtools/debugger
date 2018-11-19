@@ -3,7 +3,7 @@ dist: precise
 language: python
   - "3.6"
 
-node_js: "10"
+node_js: "9"
 
 cache:
   - pip

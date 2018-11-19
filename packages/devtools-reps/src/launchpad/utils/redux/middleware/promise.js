@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-const { executeSoon, filterByKey } = require("../../utils");
+const { defer, executeSoon, filterByKey } = require("../../utils");
 
 const PROMISE = (exports.PROMISE = "@@dispatch/promise");
 let seqIdVal = 1;
@@ -29,28 +29,32 @@ function promiseMiddleware({ dispatch, getState }) {
     dispatch(Object.assign({}, action, { status: "start" }));
 
     // Return the promise so action creators can still compose if they want to.
-    return Promise.resolve(promiseInst)
-      .finally(() => new Promise(resolve => executeSoon(resolve)))
-      .then(
-        value => {
+    const deferred = defer();
+    promiseInst.then(
+      value => {
+        executeSoon(() => {
           dispatch(
             Object.assign({}, action, {
               status: "done",
               value: value
             })
           );
-          return value;
-        },
-        error => {
+          deferred.resolve(value);
+        });
+      },
+      error => {
+        executeSoon(() => {
           dispatch(
             Object.assign({}, action, {
               status: "error",
               error: error.message || error
             })
           );
-          return Promise.reject(error);
-        }
-      );
+          deferred.reject(error);
+        });
+      }
+    );
+    return deferred.promise;
   };
 }
 
