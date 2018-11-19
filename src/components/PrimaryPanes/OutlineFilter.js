@@ -35,6 +35,8 @@ export default class OutlineFilter extends Component<Props, State> {
       // also bound to the ESC key
       e.preventDefault();
       this.props.updateFilter("");
+    } else if (e.key === "Enter") {
+      e.preventDefault();
     }
   };
 
