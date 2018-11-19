@@ -5,7 +5,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { range, keyBy, isEqualWith, uniqBy, groupBy, flatten } from "lodash";
+import {
+  range,
+  keyBy,
+  isEqualWith,
+  uniqBy,
+  groupBy,
+  flatten,
+  debounce
+} from "lodash";
 
 import CallSite from "./CallSite";
 
@@ -44,11 +52,20 @@ class CallSites extends Component {
     selectedLocation: Object
   };
 
+  constructor(props) {
+    super(props);
+
+    this.state = this.getEditorViewport();
+  }
+
   componentDidMount() {
     const { editor } = this.props;
     const codeMirrorWrapper = editor.codeMirror.getWrapperElement();
 
     codeMirrorWrapper.addEventListener("click", e => this.onTokenClick(e));
+    editor.codeMirror.on("scroll", this.onEditorScroll);
+
+    console.log("componentDidMount!", Date.now());
   }
 
   componentWillUnmount() {
@@ -56,6 +73,51 @@ class CallSites extends Component {
     const codeMirrorWrapper = editor.codeMirror.getWrapperElement();
 
     codeMirrorWrapper.removeEventListener("click", e => this.onTokenClick(e));
+    editor.codeMirror.off("scroll", this.onEditorScroll);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.selectedSource != this.props.selectedSource) {
+      this.setState(this.getEditorViewport());
+    }
+  }
+
+  onEditorScroll = debounce(e => {
+    const viewport = this.getEditorViewport();
+    this.setState(this.getEditorViewport());
+  }, 200);
+
+  getEditorViewport() {
+    const { editor } = this.props;
+
+    // Get scroll position
+    const charWidth = editor.codeMirror.defaultCharWidth();
+    const scrollArea = editor.codeMirror.getScrollInfo();
+    const { scrollLeft } = editor.codeMirror.doc;
+    const rect = editor.codeMirror.getWrapperElement().getBoundingClientRect();
+    const topVisibleLine = editor.codeMirror.lineAtHeight(rect.top, "window");
+    const bottomVisibleLine = editor.codeMirror.lineAtHeight(
+      rect.bottom,
+      "window"
+    );
+
+    // Update state which should trigger appropriate re-renders
+    const leftColumn = Math.floor(scrollLeft > 0 ? scrollLeft / charWidth : 0);
+    const rightPosition = scrollLeft + (scrollArea.clientWidth - 30);
+    const rightCharacter = Math.floor(
+      rightPosition > 0 ? rightPosition / charWidth : 0
+    );
+
+    return {
+      start: {
+        line: topVisibleLine,
+        column: leftColumn
+      },
+      end: {
+        line: bottomVisibleLine,
+        column: rightCharacter
+      }
+    };
   }
 
   onTokenClick(e) {
@@ -116,6 +178,22 @@ class CallSites extends Component {
     }
   }
 
+  filterCallSitesByViewport(callSites) {
+    // console.warn("Checking the following callSites: ", callSites.length);
+
+    return callSites.filter(({ location }) => {
+      const result =
+        location.start.line >= this.state.start.line &&
+        location.start.line <= this.state.end.line &&
+        location.start.column >= this.state.start.column &&
+        location.start.column <= this.state.end.column;
+
+      // console.log(JSON.stringify(location), result, JSON.stringify(this.state));
+
+      return result;
+    });
+  }
+
   // Return the call sites that are on the same line as an
   // existing line breakpoint
   filterCallSitesByLineNumber() {
@@ -155,11 +233,17 @@ class CallSites extends Component {
       return null;
     }
 
-    const callSitesFiltered = this.filterCallSitesByLineNumber();
+    // Filter by desired line numbers
+    const callSitesFilteredByLine = this.filterCallSitesByLineNumber();
+
+    // Additionally filter on viewport
+    const callSitesInViewport = this.filterCallSitesByViewport(
+      callSitesFilteredByLine
+    );
 
     let sites;
     editor.codeMirror.operation(() => {
-      const childCallSites = callSitesFiltered.map((callSite, index) => {
+      const childCallSites = callSitesInViewport.map((callSite, index) => {
         const props = {
           key: index,
           callSite,
