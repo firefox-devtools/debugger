@@ -15,6 +15,7 @@ import {
   isComputedExpression,
   getObjectExpressionValue,
   getVariableNames,
+  getPatternIdentifiers,
   getComments,
   getSpecifiers,
   getCode
@@ -235,7 +236,12 @@ function extractSymbol(path: SimplePath, symbols) {
     });
   }
 
-  if (t.isIdentifier(path) && !t.isGenericTypeAnnotation(path.parent)) {
+  if (
+    t.isIdentifier(path) &&
+    !t.isGenericTypeAnnotation(path.parent) &&
+    !t.isObjectProperty(path.parent) &&
+    !t.isArrayPattern(path.parent)
+  ) {
     let { start, end } = path.node.loc;
 
     // We want to include function params, but exclude the function name
@@ -275,30 +281,11 @@ function extractSymbol(path: SimplePath, symbols) {
   if (t.isVariableDeclarator(path)) {
     const nodeId = path.node.id;
 
-    if (t.isArrayPattern(nodeId)) {
-      return;
-    }
-
-    const properties =
-      nodeId.properties && t.objectPattern(nodeId.properties)
-        ? nodeId.properties
-        : [
-            {
-              value: { name: nodeId.name },
-              loc: path.node.loc
-            }
-          ];
-
-    properties.forEach(function(property) {
-      const { start, end } = property.loc;
-      symbols.identifiers.push({
-        name: property.value.name,
-        expression: property.value.name,
-        location: { start, end }
-      });
-    });
+    const ids = getPatternIdentifiers(nodeId);
+    symbols.identifiers = [...symbols.identifiers, ...ids];
   }
 }
+
 /* eslint-enable complexity */
 
 function extractSymbols(sourceId): SymbolDeclarations {

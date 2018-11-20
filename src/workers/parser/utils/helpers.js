@@ -166,16 +166,20 @@ export function getVariables(dec: Node) {
       return [];
     }
 
-    // NOTE: it's possible that an element is empty
+    // NOTE: it's possible that an element is empty or has several variables
     // e.g. const [, a] = arr
-    return dec.id.elements.filter(element => element).map(element => {
-      return {
-        name: t.isAssignmentPattern(element)
-          ? element.left.name
-          : element.name || element.argument.name,
-        location: element.loc
-      };
-    });
+    // e.g. const [{a, b }] = 2
+    return dec.id.elements
+      .filter(element => element)
+      .map(element => {
+        return {
+          name: t.isAssignmentPattern(element)
+            ? element.left.name
+            : element.name || (element.argument && element.argument.name),
+          location: element.loc
+        };
+      })
+      .filter(({ name }) => name);
   }
 
   return [
@@ -184,6 +188,36 @@ export function getVariables(dec: Node) {
       location: dec.loc
     }
   ];
+}
+
+export function getPatternIdentifiers(pattern: Node) {
+  let items = [];
+  if (t.isObjectPattern(pattern)) {
+    items = pattern.properties.map(({ value }) => value);
+  }
+
+  if (t.isArrayPattern(pattern)) {
+    items = pattern.elements;
+  }
+
+  return getIdentifiers(items);
+}
+
+function getIdentifiers(items) {
+  let ids = [];
+  items.forEach(function(item) {
+    if (t.isObjectPattern(item) || t.isArrayPattern(item)) {
+      ids = ids.concat(getPatternIdentifiers(item));
+    } else if (t.isIdentifier(item)) {
+      const { start, end } = item.loc;
+      ids.push({
+        name: item.name,
+        expression: item.name,
+        location: { start, end }
+      });
+    }
+  });
+  return ids;
 }
 
 // Top Level checks the number of "body" nodes in the ancestor chain
