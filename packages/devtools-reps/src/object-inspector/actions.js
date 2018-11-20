@@ -39,7 +39,7 @@ function nodeCollapse(node: Node) {
  * symbols for a given node. If we do, it will call the appropriate ObjectClient
  * functions.
  */
-function nodeLoadProperties(node: Node, actor, evaluation) {
+function nodeLoadProperties(node: Node, actor) {
   return async ({ dispatch, client, getState }: ThunkArg) => {
     const state = getState();
     const loadedProperties = getLoadedProperties(state);

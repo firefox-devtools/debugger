@@ -42,7 +42,7 @@ function loadItemProperties(
   createObjectClient: CreateObjectClient,
   createLongStringClient: CreateLongStringClient,
   loadedProperties: LoadedProperties,
-  evaluations: Evaluations
+  evaluations: Evaluations = new Map()
 ): Promise<GripProperties> {
   // If the node was evaluated, we replace the item content with the grip
   // returned by the evaluation.
