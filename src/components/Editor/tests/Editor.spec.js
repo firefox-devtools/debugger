@@ -10,6 +10,7 @@ import { getDocument } from "../../../utils/editor/source-documents";
 function generateDefaults(overrides) {
   return {
     toggleBreakpoint: jest.fn(),
+    updateViewport: jest.fn(),
     toggleDisabledBreakpoint: jest.fn(),
     addOrToggleDisabledBreakpoint: jest.fn(),
     ...overrides
