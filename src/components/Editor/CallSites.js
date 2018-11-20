@@ -101,9 +101,7 @@ class CallSites extends Component {
     // Update state which should trigger appropriate re-renders
     const leftColumn = Math.floor(scrollLeft > 0 ? scrollLeft / charWidth : 0);
     const rightPosition = scrollLeft + (scrollArea.clientWidth - 30);
-    const rightCharacter = Math.floor(
-      rightPosition > 0 ? rightPosition / charWidth : 0
-    );
+    const rightCharacter = Math.floor(rightPosition / charWidth);
 
     return {
       start: {
@@ -233,11 +231,20 @@ class CallSites extends Component {
       callSitesFilteredByLine
     );
 
+    console.log(
+      "callSitesInViewport: ",
+      callSitesInViewport.length,
+      JSON.stringify(this.state),
+      JSON.stringify(callSitesInViewport)
+    );
+
     let sites;
     editor.codeMirror.operation(() => {
-      const childCallSites = callSitesInViewport.map((callSite, index) => {
+      const childCallSites = callSitesInViewport.map(callSite => {
         const props = {
-          key: index,
+          key: `${callSite.location.start.line}:${
+            callSite.location.start.column
+          }`,
           callSite,
           editor,
           source: selectedSource,
