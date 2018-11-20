@@ -24,7 +24,7 @@ import {
   getBreakpointsForSource
 } from "../../selectors";
 
-import { getTokenLocation } from "../../utils/editor";
+import { getTokenLocation, getLocationsInViewport } from "../../utils/editor";
 import { isWasm } from "../../utils/wasm";
 
 import actions from "../../actions";
@@ -55,7 +55,7 @@ class CallSites extends Component {
   constructor(props) {
     super(props);
 
-    this.state = this.getEditorViewport();
+    this.state = getLocationsInViewport(props.editor);
   }
 
   componentDidMount() {
@@ -76,44 +76,13 @@ class CallSites extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.selectedSource != this.props.selectedSource) {
-      this.setState(this.getEditorViewport());
+      this.setState(getLocationsInViewport(this.props.editor));
     }
   }
 
   onEditorScroll = debounce(e => {
-    this.setState(this.getEditorViewport());
+    this.setState(getLocationsInViewport(this.props.editor));
   }, 200);
-
-  getEditorViewport() {
-    const { editor } = this.props;
-
-    // Get scroll position
-    const charWidth = editor.codeMirror.defaultCharWidth();
-    const scrollArea = editor.codeMirror.getScrollInfo();
-    const { scrollLeft } = editor.codeMirror.doc;
-    const rect = editor.codeMirror.getWrapperElement().getBoundingClientRect();
-    const topVisibleLine = editor.codeMirror.lineAtHeight(rect.top, "window");
-    const bottomVisibleLine = editor.codeMirror.lineAtHeight(
-      rect.bottom,
-      "window"
-    );
-
-    // Update state which should trigger appropriate re-renders
-    const leftColumn = Math.floor(scrollLeft > 0 ? scrollLeft / charWidth : 0);
-    const rightPosition = scrollLeft + (scrollArea.clientWidth - 30);
-    const rightCharacter = Math.floor(rightPosition / charWidth);
-
-    return {
-      start: {
-        line: topVisibleLine,
-        column: leftColumn
-      },
-      end: {
-        line: bottomVisibleLine,
-        column: rightCharacter
-      }
-    };
-  }
 
   onTokenClick(e) {
     const { target } = e;
@@ -229,13 +198,6 @@ class CallSites extends Component {
     // Additionally filter on viewport
     const callSitesInViewport = this.filterCallSitesByViewport(
       callSitesFilteredByLine
-    );
-
-    console.log(
-      "callSitesInViewport: ",
-      callSitesInViewport.length,
-      JSON.stringify(this.state),
-      JSON.stringify(callSitesInViewport)
     );
 
     let sites;
