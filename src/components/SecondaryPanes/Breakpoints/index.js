@@ -7,6 +7,7 @@
 import React, { Component } from "react";
 import classnames from "classnames";
 import { connect } from "react-redux";
+import { sortBy } from "lodash";
 
 import ExceptionOption from "./ExceptionOption";
 
@@ -79,6 +80,15 @@ class Breakpoints extends Component<Props> {
     return [
       ...breakpointSources.map(({ source, breakpoints, i }) => {
         const path = getDisplayPath(source, sources);
+        const sortedBreakpoints = sortBy(
+          breakpoints,
+          ({ selectedLocation }) => [
+            selectedLocation.line,
+            (selectedLocation.column || 0).toString().length,
+            selectedLocation.column || 0
+          ]
+        );
+
         return [
           <BreakpointHeading
             source={source}
@@ -86,7 +96,7 @@ class Breakpoints extends Component<Props> {
             path={path}
             key={source.url}
           />,
-          ...breakpoints.map(breakpoint => (
+          ...sortedBreakpoints.map(breakpoint => (
             <Breakpoint
               breakpoint={breakpoint}
               source={source}
