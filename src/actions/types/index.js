@@ -129,11 +129,6 @@ export type QuickOpenAction =
   | {| +type: "OPEN_QUICK_OPEN", +query?: string |}
   | {| +type: "CLOSE_QUICK_OPEN" |};
 
-export type CoverageAction = {|
-  +type: "RECORD_COVERAGE",
-  +value: { coverage: Object }
-|};
-
 export type DebugeeAction = {|
   +type: "SET_WORKERS",
   +workers: {
@@ -169,6 +164,5 @@ export type Action =
   | QuickOpenAction
   | FileTextSearchAction
   | ProjectTextSearchAction
-  | CoverageAction
   | DebugeeAction
   | ReplayAction;
