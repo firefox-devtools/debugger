@@ -30,6 +30,7 @@ const {
   getActor,
   getParent,
   getValue,
+  getClosestGripNode,
   nodeHasAccessors,
   nodeHasProperties,
   nodeIsBlock,
@@ -47,8 +48,11 @@ const {
   nodeIsUnscopedBinding,
   nodeIsWindow,
   nodeIsLongString,
-  nodeHasFullText
+  nodeHasFullText,
+  nodeHasGetter,
+  nodeHasSetter
 } = Utils.node;
+const { isLongString } = require("../reps/string");
 
 import type { CachedNodes, Node, NodeContents, Props } from "./types";
 
@@ -94,9 +98,11 @@ class ObjectInspector extends Component<Props> {
 
     self.getItemChildren = this.getItemChildren.bind(this);
     self.renderTreeItem = this.renderTreeItem.bind(this);
-    self.setExpanded = this.setExpanded.bind(this);
+    self.isNodeExpandable = this.isNodeExpandable.bind(this);
+    self.setNodeExpanded = this.setNodeExpanded.bind(this);
     self.focusItem = this.focusItem.bind(this);
     self.getRoots = this.getRoots.bind(this);
+    self.getNodeKey = this.getNodeKey.bind(this);
   }
 
   componentWillMount() {
@@ -120,10 +126,11 @@ class ObjectInspector extends Component<Props> {
   }
 
   shouldComponentUpdate(nextProps: Props) {
-    const { expandedPaths, loadedProperties } = this.props;
+    const { expandedPaths, loadedProperties, evaluations } = this.props;
 
     // We should update if:
     // - there are new loaded properties
+    // - OR there are new evaluations
     // - OR the expanded paths number changed, and all of them have properties
     //      loaded
     // - OR the expanded paths number did not changed, but old and new sets
@@ -131,6 +138,7 @@ class ObjectInspector extends Component<Props> {
     // - OR the focused node changed.
     return (
       loadedProperties.size !== nextProps.loadedProperties.size ||
+      evaluations.size !== nextProps.evaluations.size ||
       (expandedPaths.size !== nextProps.expandedPaths.size &&
         [...nextProps.expandedPaths].every(path =>
           nextProps.loadedProperties.has(path)
@@ -150,10 +158,11 @@ class ObjectInspector extends Component<Props> {
   cachedNodes: CachedNodes;
 
   getItemChildren(item: Node): Array<Node> | NodeContents | null {
-    const { loadedProperties } = this.props;
+    const { loadedProperties, evaluations } = this.props;
     const { cachedNodes } = this;
 
     return getChildren({
+      evaluations,
       loadedProperties,
       cachedNodes,
       item
@@ -165,13 +174,45 @@ class ObjectInspector extends Component<Props> {
   }
 
   getNodeKey(item: Node): string {
-    return item.path && typeof item.path.toString === "function"
-      ? item.path.toString()
-      : JSON.stringify(item);
+    let key =
+      item.path && typeof item.path.toString === "function"
+        ? item.path.toString()
+        : JSON.stringify(item);
+
+    const { evaluations } = this.props;
+    const evaluation = evaluations && evaluations.get(item.path);
+    if (evaluation) {
+      key = `${key}-${evaluation.timestamp}`;
+    }
+    return key;
   }
 
-  setExpanded(item: Node, expand: boolean) {
+  isNodeExpandable(item: Node): boolean {
     if (nodeIsPrimitive(item)) {
+      return false;
+    }
+
+    // A setter-only node shouldn't be expandable
+    if (nodeHasSetter(item) && !nodeHasGetter(item)) {
+      return false;
+    }
+
+    const { evaluations } = this.props;
+    const evaluation = evaluations && evaluations.get(item.path);
+    // A getter node should only be expandable if it was evaluated and the
+    // resulting node would be expandable.
+    if (
+      nodeHasGetter(item) &&
+      (!evaluation || !this.isNodeExpandable({ contents: evaluation }))
+    ) {
+      return false;
+    }
+
+    return true;
+  }
+
+  setNodeExpanded(item: Node, expand: boolean) {
+    if (!this.isNodeExpandable(item)) {
       return;
     }
 
@@ -281,6 +322,8 @@ class ObjectInspector extends Component<Props> {
       nodeIsLongString(item) ||
       isPrimitive
     ) {
+      const { evaluations } = this.props;
+      const evaluation = evaluations && evaluations.get(item.path);
       const repProps = { ...this.props };
       if (depth > 0) {
         repProps.mode = this.props.mode === MODE.LONG ? MODE.SHORT : MODE.TINY;
@@ -289,10 +332,28 @@ class ObjectInspector extends Component<Props> {
         repProps.mode = MODE.TINY;
       }
 
-      if (nodeIsLongString(item)) {
+      if (
+        nodeIsLongString(item) ||
+        (evaluation && isLongString(evaluation.getterValue))
+      ) {
         repProps.member = {
-          open: nodeHasFullText(item) && expanded
+          open:
+            expanded &&
+            (nodeHasFullText(item) || nodeHasFullText({ contents: evaluation }))
         };
+      }
+
+      if (nodeHasGetter(item)) {
+        const parentNode = getParent(item);
+        const parentGripNode = parentNode && getClosestGripNode(parentNode);
+        const parentGrip = parentGripNode && getValue(parentGripNode);
+        if (parentGrip) {
+          Object.assign(repProps, {
+            onInvokeGetterButtonClick: () =>
+              this.props.invokeGetter(item, parentGrip, item.name),
+            evaluation
+          });
+        }
       }
 
       return {
@@ -335,7 +396,7 @@ class ObjectInspector extends Component<Props> {
                 depth,
                 focused,
                 expanded,
-                setExpanded: this.setExpanded
+                setExpanded: this.setNodeExpanded
               });
             }
           : undefined
@@ -462,9 +523,7 @@ class ObjectInspector extends Component<Props> {
       autoExpandDepth,
 
       isExpanded: item => expandedPaths && expandedPaths.has(item.path),
-      // TODO: We don't want property with getters to be expandable until we
-      // do have a mechanism to invoke the getter (See #6140).
-      isExpandable: item => !nodeIsPrimitive(item) && !nodeHasAccessors(item),
+      isExpandable: this.isNodeExpandable,
       focused: this.focusedItem,
 
       getRoots: this.getRoots,
@@ -472,8 +531,8 @@ class ObjectInspector extends Component<Props> {
       getChildren: this.getItemChildren,
       getKey: this.getNodeKey,
 
-      onExpand: item => this.setExpanded(item, true),
-      onCollapse: item => this.setExpanded(item, false),
+      onExpand: item => this.setNodeExpanded(item, true),
+      onCollapse: item => this.setNodeExpanded(item, false),
       onFocus: focusable ? this.focusItem : null,
 
       renderItem: this.renderTreeItem
@@ -485,7 +544,8 @@ function mapStateToProps(state, props) {
   return {
     actors: selectors.getActors(state),
     expandedPaths: selectors.getExpandedPaths(state),
-    loadedProperties: selectors.getLoadedProperties(state)
+    loadedProperties: selectors.getLoadedProperties(state),
+    evaluations: selectors.getEvaluations(state)
   };
 }
 

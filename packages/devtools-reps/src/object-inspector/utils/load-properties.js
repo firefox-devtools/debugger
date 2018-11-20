@@ -33,6 +33,7 @@ import type {
   CreateObjectClient,
   GripProperties,
   LoadedProperties,
+  Evaluations,
   Node
 } from "../types";
 
@@ -40,8 +41,16 @@ function loadItemProperties(
   item: Node,
   createObjectClient: CreateObjectClient,
   createLongStringClient: CreateLongStringClient,
-  loadedProperties: LoadedProperties
+  loadedProperties: LoadedProperties,
+  evaluations: Evaluations
 ): Promise<GripProperties> {
+  // If the node was evaluated, we replace the item content with the grip
+  // returned by the evaluation.
+  const evaluation = evaluations.get(item.path);
+  if (evaluation) {
+    item = { ...item, contents: evaluation };
+  }
+
   const gripItem = getClosestGripNode(item);
   const value = getValue(gripItem);
 

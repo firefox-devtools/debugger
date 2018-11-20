@@ -7,7 +7,7 @@
 import type { GripProperties, Node, Props, ReduxAction } from "./types";
 
 const { loadItemProperties } = require("./utils/load-properties");
-const { getLoadedProperties, getActors } = require("./reducer");
+const { getLoadedProperties, getActors, getEvaluations } = require("./reducer");
 
 type Dispatch = ReduxAction => void;
 
@@ -39,19 +39,23 @@ function nodeCollapse(node: Node) {
  * symbols for a given node. If we do, it will call the appropriate ObjectClient
  * functions.
  */
-function nodeLoadProperties(node: Node, actor) {
+function nodeLoadProperties(node: Node, actor, evaluation) {
   return async ({ dispatch, client, getState }: ThunkArg) => {
-    const loadedProperties = getLoadedProperties(getState());
+    const state = getState();
+    const loadedProperties = getLoadedProperties(state);
     if (loadedProperties.has(node.path)) {
       return;
     }
+
+    const evaluations = getEvaluations(state);
 
     try {
       const properties = await loadItemProperties(
         node,
         client.createObjectClient,
         client.createLongStringClient,
-        loadedProperties
+        loadedProperties,
+        evaluations
       );
 
       dispatch(nodePropertiesLoaded(node, actor, properties));
@@ -103,8 +107,27 @@ function releaseActors(state, client) {
   }
 }
 
+function invokeGetter(node: Node, grip: object, getterName: string) {
+  return async ({ dispatch, client, getState }: ThunkArg) => {
+    try {
+      const objectClient = client.createObjectClient(grip);
+      const result = await objectClient.getPropertyValue(getterName);
+      dispatch({
+        type: "GETTER_INVOKED",
+        data: {
+          node,
+          result
+        }
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  };
+}
+
 module.exports = {
   closeObjectInspector,
+  invokeGetter,
   nodeExpand,
   nodeCollapse,
   nodeLoadProperties,

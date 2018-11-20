@@ -236,8 +236,18 @@ function nodeHasFullText(item: Node): boolean {
   return nodeIsLongString(item) && value.hasOwnProperty("fullText");
 }
 
+function nodeHasGetter(item: Node): boolean {
+  const getter = getNodeGetter(item);
+  return getter && getter.type !== "undefined";
+}
+
+function nodeHasSetter(item: Node): boolean {
+  const setter = getNodeSetter(item);
+  return setter && setter.type !== "undefined";
+}
+
 function nodeHasAccessors(item: Node): boolean {
-  return !!getNodeGetter(item) || !!getNodeSetter(item);
+  return nodeHasGetter(item) || nodeHasSetter(item);
 }
 
 function nodeSupportsNumericalBucketing(item: Node): boolean {
@@ -703,13 +713,27 @@ function setNodeChildren(node: Node, children: Array<Node>): Node {
 function getChildren(options: {
   cachedNodes: CachedNodes,
   loadedProperties: LoadedProperties,
+  evaluations: Evaluations,
   item: Node
 }): Array<Node> {
-  const { cachedNodes, loadedProperties = new Map(), item } = options;
+  const {
+    cachedNodes,
+    loadedProperties = new Map(),
+    evaluations = new Map()
+  } = options;
+
+  let { item } = options;
 
   const key = item.path;
   if (cachedNodes && cachedNodes.has(key)) {
     return cachedNodes.get(key);
+  }
+
+  // If the node was evaluated, we replace the item content with the grip
+  // returned by the evaluation.
+  const evaluation = evaluations.get(key);
+  if (evaluation) {
+    item = { ...item, contents: evaluation };
   }
 
   const loadedProps = loadedProperties.get(key);
@@ -851,6 +875,8 @@ module.exports = {
   nodeHasChildren,
   nodeHasEntries,
   nodeHasProperties,
+  nodeHasGetter,
+  nodeHasSetter,
   nodeIsBlock,
   nodeIsBucket,
   nodeIsDefaultProperties,

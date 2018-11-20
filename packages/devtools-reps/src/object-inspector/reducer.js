@@ -9,6 +9,7 @@ function initialState() {
   return {
     expandedPaths: new Set(),
     loadedProperties: new Map(),
+    evaluations: new Map(),
     actors: new Set()
   };
 }
@@ -49,6 +50,21 @@ function reducer(
     return cloneState();
   }
 
+  if (type === "GETTER_INVOKED") {
+    return cloneState({
+      actors: data.actor
+        ? new Set(state.actors || []).add(data.result.from)
+        : state.actors,
+      evaluations: new Map(state.evaluations).set(data.node.path, {
+        timestamp: Date.now(),
+        getterValue:
+          data.result &&
+          data.result.value &&
+          (data.result.value.return || data.result.value.throw)
+      })
+    });
+  }
+
   return state;
 }
 
@@ -76,10 +92,15 @@ function getLoadedPropertyKeys(state) {
   return [...getLoadedProperties(state).keys()];
 }
 
+function getEvaluations(state) {
+  return getObjectInspectorState(state).evaluations;
+}
+
 const selectors = {
-  getExpandedPaths,
-  getExpandedPathKeys,
   getActors,
+  getEvaluations,
+  getExpandedPathKeys,
+  getExpandedPaths,
   getLoadedProperties,
   getLoadedPropertyKeys
 };
