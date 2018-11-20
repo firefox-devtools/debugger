@@ -64,9 +64,12 @@ function formatObjectInspector(wrapper: Object) {
         .hasClass("block")
         ? "☲ "
         : "";
-      const text = `${indentStr}${arrowStr}${icon}${getSanitizedNodeText(
-        node
-      )}`;
+      let text = `${indentStr}${arrowStr}${icon}${getSanitizedNodeText(node)}`;
+
+      if (node.find("button.invoke-getter").exists()) {
+        text = `${text}(>>)`;
+      }
+
       if (!hasFocusedNode) {
         return text;
       }

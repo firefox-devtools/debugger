@@ -22,7 +22,7 @@ function generateDefaults(overrides) {
   };
 }
 
-function mount(stub) {
+function mount(stub, propsOverride = {}) {
   const client = { createObjectClient: grip => ObjectClient(grip) };
 
   const root = { path: "root", name: "root" };
@@ -38,7 +38,7 @@ function mount(stub) {
 
   return mountObjectInspector({
     client,
-    props: generateDefaults({ roots: [root] })
+    props: generateDefaults({ roots: [root], ...propsOverride })
   });
 }
 
@@ -61,6 +61,39 @@ describe("ObjectInspector - getters & setters", () => {
 
   it("renders getters and setters as expected", async () => {
     const { store, wrapper } = mount(accessorStubs.get("getter setter"));
+    await waitForLoadedProperties(store, ["root"]);
+    wrapper.update();
+
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
+  });
+
+  it("onInvokeGetterButtonClick + getter", async () => {
+    const onInvokeGetterButtonClick = jest.fn();
+    const { store, wrapper } = mount(accessorStubs.get("getter"), {
+      onInvokeGetterButtonClick
+    });
+    await waitForLoadedProperties(store, ["root"]);
+    wrapper.update();
+
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
+  });
+
+  it("onInvokeGetterButtonClick + setter", async () => {
+    const onInvokeGetterButtonClick = jest.fn();
+    const { store, wrapper } = mount(accessorStubs.get("setter"), {
+      onInvokeGetterButtonClick
+    });
+    await waitForLoadedProperties(store, ["root"]);
+    wrapper.update();
+
+    expect(formatObjectInspector(wrapper)).toMatchSnapshot();
+  });
+
+  it("onInvokeGetterButtonClick + getter & setter", async () => {
+    const onInvokeGetterButtonClick = jest.fn();
+    const { store, wrapper } = mount(accessorStubs.get("getter setter"), {
+      onInvokeGetterButtonClick
+    });
     await waitForLoadedProperties(store, ["root"]);
     wrapper.update();
 

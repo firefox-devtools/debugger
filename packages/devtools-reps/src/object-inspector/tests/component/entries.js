@@ -63,7 +63,8 @@ describe("ObjectInspector - entries", () => {
       },
       {
         initialState: {
-          loadedProperties: new Map([["root", mapStubs.get("properties")]])
+          loadedProperties: new Map([["root", mapStubs.get("properties")]]),
+          evaluations: new Map()
         }
       }
     );
@@ -101,7 +102,8 @@ describe("ObjectInspector - entries", () => {
         initialState: {
           loadedProperties: new Map([
             ["root", { ownProperties: stub.preview.entries }]
-          ])
+          ]),
+          evaluations: new Map()
         }
       }
     );

@@ -211,7 +211,8 @@ describe("ObjectInspector - renders", () => {
                   )
                 }
               ]
-            ])
+            ]),
+            evaluations: new Map()
           }
         }
       );

@@ -82,7 +82,8 @@ describe("ObjectInspector - state", () => {
         initialState: {
           loadedProperties: new Map([
             ["root-1", gripPropertiesStubs.get("proto-properties-symbols")]
-          ])
+          ]),
+          evaluations: new Map()
         }
       }
     );
@@ -249,7 +250,8 @@ describe("ObjectInspector - state", () => {
         initialState: {
           loadedProperties: new Map([
             ["root-1", gripPropertiesStubs.get("proto-properties-symbols")]
-          ])
+          ]),
+          evaluations: new Map()
         }
       }
     );
@@ -322,7 +324,8 @@ describe("ObjectInspector - state", () => {
         initialState: {
           loadedProperties: new Map([
             ["root-1", gripPropertiesStubs.get("proto-properties-symbols")]
-          ])
+          ]),
+          evaluations: new Map()
         }
       }
     );
@@ -377,7 +380,8 @@ describe("ObjectInspector - state", () => {
         initialState: {
           loadedProperties: new Map([
             ["root-1", gripPropertiesStubs.get("longs-string-safe-getter")]
-          ])
+          ]),
+          evaluations: new Map()
         }
       }
     );
