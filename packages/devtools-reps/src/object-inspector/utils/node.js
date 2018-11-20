@@ -236,8 +236,18 @@ function nodeHasFullText(item: Node): boolean {
   return nodeIsLongString(item) && value.hasOwnProperty("fullText");
 }
 
+function nodeHasGetter(item: Node): boolean {
+  const getter = getNodeGetter(item);
+  return getter && getter.type !== "undefined";
+}
+
+function nodeHasSetter(item: Node): boolean {
+  const setter = getNodeSetter(item);
+  return setter && setter.type !== "undefined";
+}
+
 function nodeHasAccessors(item: Node): boolean {
-  return !!getNodeGetter(item) || !!getNodeSetter(item);
+  return nodeHasGetter(item) || nodeHasSetter(item);
 }
 
 function nodeSupportsNumericalBucketing(item: Node): boolean {
@@ -705,7 +715,7 @@ function getChildren(options: {
   loadedProperties: LoadedProperties,
   item: Node
 }): Array<Node> {
-  const { cachedNodes, loadedProperties = new Map(), item } = options;
+  const { cachedNodes, item, loadedProperties = new Map() } = options;
 
   const key = item.path;
   if (cachedNodes && cachedNodes.has(key)) {
@@ -851,6 +861,8 @@ module.exports = {
   nodeHasChildren,
   nodeHasEntries,
   nodeHasProperties,
+  nodeHasGetter,
+  nodeHasSetter,
   nodeIsBlock,
   nodeIsBucket,
   nodeIsDefaultProperties,

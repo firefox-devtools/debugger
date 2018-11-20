@@ -62,7 +62,8 @@ describe("ObjectInspector - properties", () => {
           objectInspector: {
             loadedProperties: new Map([
               ["root", { ownProperties: stub.preview.ownProperties }]
-            ])
+            ]),
+            evaluations: new Map()
           }
         }
       }

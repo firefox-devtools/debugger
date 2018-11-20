@@ -35,7 +35,10 @@ const {
   nodeIsUnscopedBinding,
   nodeIsWindow,
   nodeIsLongString,
-  nodeHasFullText
+  nodeHasFullText,
+  nodeHasGetter,
+  getParent,
+  getClosestGripNode
 } = Utils.node;
 
 type Props = {
@@ -47,6 +50,7 @@ type Props = {
   setExpanded: (item: Node, expanded: boolean) => void,
   mode: Mode,
   dimTopLevelWindow: boolean,
+  invokeGetter: () => void,
   onDoubleClick: ?(
     item: Node,
     options: {
@@ -161,6 +165,18 @@ class ObjectInspectorItem extends Component<Props> {
         repProps.member = {
           open: nodeHasFullText(item) && expanded
         };
+      }
+
+      if (nodeHasGetter(item)) {
+        const parentNode = getParent(item);
+        const parentGripNode = parentNode && getClosestGripNode(parentNode);
+        const parentGrip = parentGripNode && getValue(parentGripNode);
+        if (parentGrip) {
+          Object.assign(repProps, {
+            onInvokeGetterButtonClick: () =>
+              this.props.invokeGetter(item, parentGrip, item.name)
+          });
+        }
       }
 
       return {
