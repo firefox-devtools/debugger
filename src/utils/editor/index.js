@@ -170,7 +170,6 @@ export function getLocationsInViewport(_editor: any) {
     "window"
   );
 
-  // Update state which should trigger appropriate re-renders
   const leftColumn = Math.floor(scrollLeft > 0 ? scrollLeft / charWidth : 0);
   const rightPosition = scrollLeft + (scrollArea.clientWidth - 30);
   const rightCharacter = Math.floor(rightPosition / charWidth);
