@@ -384,10 +384,7 @@ export type Worker = {
   url: string
 };
 
-/**
- * Cursor info
- */
- export type CursorInfo = {
-   line: number,
-   column: number
- }
+export type CursorPosition = {
+  line: number,
+  ch: number
+};

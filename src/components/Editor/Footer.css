@@ -83,7 +83,7 @@
 
 .source-footer .blackbox-summary,
 .source-footer .mapped-source,
-.source-footer .cursor-info {
+.source-footer .cursor-position {
   color: var(--theme-body-color);
   padding-left: 2.5px;
 }
@@ -94,6 +94,6 @@
   text-overflow: ellipsis;
 }
 
-.source-footer .cursor-info {
+.source-footer .cursor-position {
   padding: 5px;
 }

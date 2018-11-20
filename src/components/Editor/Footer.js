@@ -11,8 +11,7 @@ import actions from "../../actions";
 import {
   getSelectedSource,
   getPrettySource,
-  getPaneCollapse,
-  getCurrentCursorInfo
+  getPaneCollapse
 } from "../../selectors";
 
 import {
@@ -27,7 +26,7 @@ import { shouldShowFooter, shouldShowPrettyPrint } from "../../utils/editor";
 
 import { PaneToggleButton } from "../shared/Button";
 
-import type { Source, CursorInfo } from "../../types";
+import type { Source, CursorPosition } from "../../types";
 
 import "./Footer.css";
 
@@ -38,12 +37,31 @@ type Props = {
   horizontal: boolean,
   togglePrettyPrint: string => void,
   toggleBlackBox: Object => void,
-  cursorInfo: CursorInfo,
   jumpToMappedLocation: (Source: any) => void,
   togglePaneCollapse: () => void
 };
 
-class SourceFooter extends PureComponent<Props> {
+type State = {
+  cursorPosition: CursorPosition
+};
+
+class SourceFooter extends PureComponent<Props, State> {
+  constructor() {
+    super();
+
+    this.state = { cursorPosition: { line: 0, ch: 0 } };
+  }
+
+  componentDidMount() {
+    const { editor } = this.props;
+    editor.codeMirror.on("cursorActivity", this.onCursorChange);
+  }
+
+  componentDidUnMount() {
+    const { editor } = this.props;
+    editor.codeMirror.off("cursorActivity", this.onCursorChange);
+  }
+
   prettyPrintButton() {
     const { selectedSource, togglePrettyPrint } = this.props;
 
@@ -176,19 +194,19 @@ class SourceFooter extends PureComponent<Props> {
     );
   }
 
-  renderCursorInfo() {
-    const { cursorInfo } = this.props;
+  onCursorChange = event => {
+    this.setState({ cursorPosition: event.doc.getCursor() });
+  };
 
-    if (!cursorInfo.line || !cursorInfo.column) {
-      return null;
-    }
+  renderCursorPosition() {
+    const { cursorPosition } = this.state;
 
-    const info = L10N.getStr("sourceFooter.currentCursorInfo", cursorInfo.line, cursorInfo.column);
-    return (
-      <span className="cursor-info">
-        {info}
-      </span>
+    const info = L10N.getStr(
+      "sourceFooter.currentCursorposition",
+      cursorPosition.line,
+      cursorPosition.ch
     );
+    return <span className="cursor-position">{info}</span>;
   }
 
   render() {
@@ -201,7 +219,7 @@ class SourceFooter extends PureComponent<Props> {
     return (
       <div className="source-footer">
         {this.renderCommands()}
-        {this.renderCursorInfo()}
+        {this.renderCursorPosition()}
         {this.renderSourceSummary()}
         {this.renderToggleButton()}
       </div>
@@ -217,8 +235,7 @@ const mapStateToProps = state => {
     selectedSource,
     mappedSource: getGeneratedSource(state, selectedSource),
     prettySource: getPrettySource(state, selectedId),
-    endPanelCollapsed: getPaneCollapse(state, "end"),
-    cursorInfo: getCurrentCursorInfo(state)
+    endPanelCollapsed: getPaneCollapse(state, "end")
   };
 };
 
