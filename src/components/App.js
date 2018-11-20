@@ -245,7 +245,7 @@ class App extends Component<Props, State> {
   triggerEditorPaneResize() {
     const editorPane = window.document.querySelector(".editor-pane");
     if (editorPane) {
-      editorPane.dispatchEvent(new Event("resize"));
+      editorPane.dispatchEvent(new Event("resizeend"));
     }
   }
 
