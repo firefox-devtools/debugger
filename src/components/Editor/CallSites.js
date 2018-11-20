@@ -5,7 +5,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { range, keyBy, isEqualWith, uniqBy, groupBy, flatten } from "lodash";
+import {
+  range,
+  keyBy,
+  isEqualWith,
+  uniqBy,
+  groupBy,
+  flatten,
+  debounce
+} from "lodash";
 
 import CallSite from "./CallSite";
 
@@ -16,7 +24,7 @@ import {
   getBreakpointsForSource
 } from "../../selectors";
 
-import { getTokenLocation } from "../../utils/editor";
+import { getTokenLocation, getLocationsInViewport } from "../../utils/editor";
 import { isWasm } from "../../utils/wasm";
 
 import actions from "../../actions";
@@ -44,11 +52,18 @@ class CallSites extends Component {
     selectedLocation: Object
   };
 
+  constructor(props) {
+    super(props);
+
+    this.state = getLocationsInViewport(props.editor);
+  }
+
   componentDidMount() {
     const { editor } = this.props;
     const codeMirrorWrapper = editor.codeMirror.getWrapperElement();
 
     codeMirrorWrapper.addEventListener("click", e => this.onTokenClick(e));
+    editor.codeMirror.on("scroll", this.onEditorScroll);
   }
 
   componentWillUnmount() {
@@ -56,7 +71,18 @@ class CallSites extends Component {
     const codeMirrorWrapper = editor.codeMirror.getWrapperElement();
 
     codeMirrorWrapper.removeEventListener("click", e => this.onTokenClick(e));
+    editor.codeMirror.off("scroll", this.onEditorScroll);
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.selectedSource != this.props.selectedSource) {
+      this.setState(getLocationsInViewport(this.props.editor));
+    }
+  }
+
+  onEditorScroll = debounce(e => {
+    this.setState(getLocationsInViewport(this.props.editor));
+  }, 200);
 
   onTokenClick(e) {
     const { target } = e;
@@ -116,6 +142,17 @@ class CallSites extends Component {
     }
   }
 
+  filterCallSitesByViewport(callSites) {
+    return callSites.filter(({ location }) => {
+      const result =
+        location.start.line >= this.state.start.line &&
+        location.start.line <= this.state.end.line &&
+        location.start.column >= this.state.start.column &&
+        location.start.column <= this.state.end.column;
+      return result;
+    });
+  }
+
   // Return the call sites that are on the same line as an
   // existing line breakpoint
   filterCallSitesByLineNumber() {
@@ -155,13 +192,21 @@ class CallSites extends Component {
       return null;
     }
 
-    const callSitesFiltered = this.filterCallSitesByLineNumber();
+    // Filter by desired line numbers
+    const callSitesFilteredByLine = this.filterCallSitesByLineNumber();
+
+    // Additionally filter on viewport
+    const callSitesInViewport = this.filterCallSitesByViewport(
+      callSitesFilteredByLine
+    );
 
     let sites;
     editor.codeMirror.operation(() => {
-      const childCallSites = callSitesFiltered.map((callSite, index) => {
+      const childCallSites = callSitesInViewport.map(callSite => {
         const props = {
-          key: index,
+          key: `${callSite.location.start.line}:${
+            callSite.location.start.column
+          }`,
           callSite,
           editor,
           source: selectedSource,
