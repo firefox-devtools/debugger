@@ -45,7 +45,7 @@ function findBreakpoint(dbg, url, line) {
 }
 
 add_task(async function() {
-  const dbg = await initDebugger("doc-scripts.html");
+  const dbg = await initDebugger("doc-scripts.html", "simple2");
 
   // Create two breakpoints
   await selectSource(dbg, "simple2");
