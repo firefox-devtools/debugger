@@ -109,11 +109,6 @@ html[dir="rtl"] .editor-mount {
   background: var(--theme-selection-background-hover);
 }
 
-.coverage-on .CodeMirror-code :not(.hit-marker) .CodeMirror-line,
-.coverage-on .CodeMirror-code :not(.hit-marker) .CodeMirror-gutter-wrapper {
-  opacity: 0.5;
-}
-
 .editor.new-breakpoint svg {
   fill: var(--theme-selection-background);
   width: 60px;
