@@ -19,18 +19,47 @@ Accessor.propTypes = {
 };
 
 function Accessor(props) {
-  const { object } = props;
+  const { object, evaluation, onInvokeGetterButtonClick } = props;
+
+  if (evaluation) {
+    const { Rep, Grip } = require("./rep");
+    return span(
+      {
+        className: "objectBox objectBox-accessor objectTitle"
+      },
+      Rep({
+        ...props,
+        object: evaluation.getterValue,
+        mode: props.mode || MODE.TINY,
+        defaultRep: Grip
+      })
+    );
+  }
+
+  if (hasGetter(object) && onInvokeGetterButtonClick) {
+    return dom.button({
+      className: "invoke-getter",
+      title: "Invoke getter",
+      onClick: event => {
+        onInvokeGetterButtonClick();
+        event.stopPropagation();
+      }
+    });
+  }
 
   const accessors = [];
   if (hasGetter(object)) {
     accessors.push("Getter");
   }
+
   if (hasSetter(object)) {
     accessors.push("Setter");
   }
-  const title = accessors.join(" & ");
 
-  return span({ className: "objectBox objectBox-accessor objectTitle" }, title);
+  return span(
+    { className: "objectBox objectBox-accessor objectTitle" },
+    accessors.join(" & ")
+  );
 }
 
 function hasGetter(object) {
