@@ -37,6 +37,7 @@ import type {
 
 import type { Location, Source } from "../types";
 import type { QuickOpenType } from "../reducers/quick-open";
+import type { Tab } from "../reducers/tabs";
 
 import "./QuickOpenModal.css";
 
@@ -48,7 +49,7 @@ type Props = {
   searchType: QuickOpenType,
   symbols: FormattedSymbolDeclarations,
   symbolsLoading: boolean,
-  tabs: string[],
+  tabs: Tab[],
   shortcutsModalEnabled: boolean,
   selectSpecificLocation: Location => void,
   setQuickOpenQuery: (query: string) => void,
@@ -154,8 +155,10 @@ export class QuickOpenModal extends Component<Props, State> {
   showTopSources = () => {
     const { tabs, sources } = this.props;
     if (tabs.length > 0) {
+      const tabUrls = tabs.map((tab: Tab) => tab.url);
+
       this.setState({
-        results: sources.filter(source => tabs.includes(source.url))
+        results: sources.filter(source => tabUrls.includes(source.url))
       });
     } else {
       this.setState({ results: sources.slice(0, 100) });
