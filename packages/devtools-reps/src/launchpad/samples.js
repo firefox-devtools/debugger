@@ -82,7 +82,50 @@ const samples = {
 
   number: ["1", "-1", "-3.14", "0", "-0", "Infinity", "-Infinity", "NaN"],
 
-  object: ["x = {a: 2}"],
+  object: [
+    "x = {a: 2}",
+    `
+Object.create(null, Object.getOwnPropertyDescriptors({
+  get myStringGetter() {
+    return "hello"
+  },
+  get myNumberGetter() {
+    return 123;
+  },
+  get myUndefinedGetter() {
+    return undefined;
+  },
+  get myNullGetter() {
+    return null;
+  },
+  get myObjectGetter() {
+    return {foo: "bar"}
+  },
+  get myArrayGetter() {
+    return Array.from({length: 100000}, (_, i) => i)
+  },
+  get myMapGetter() {
+    return new Map([["foo", {bar: "baz"}]])
+  },
+  get mySetGetter() {
+    return new Set([1, {bar: "baz"}]);
+  },
+  get myProxyGetter() {
+    var handler = { get: function(target, name) {
+      return name in target ? target[name] : 37; }
+    };
+    return new Proxy({a: 1}, handler);
+  },
+  get myThrowingGetter() {
+    return a.b.c.d.e.f;
+  },
+  get myLongStringGetter() {
+    return "ab ".repeat(1e5)
+  },
+  set mySetterOnly(x) {}
+}))
+`
+  ],
 
   promise: [
     "Promise.resolve([1, 2, 3])",
