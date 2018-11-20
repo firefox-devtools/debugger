@@ -439,7 +439,6 @@ export function getSourcesUrlsInSources(
   if (!url || !urls[url]) {
     return [];
   }
-
   const plainUrl = url.split("?")[0];
 
   return Object.keys(urls)
