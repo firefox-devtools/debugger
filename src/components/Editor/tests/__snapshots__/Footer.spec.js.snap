@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SourceFooter Component default case should render 1`] = `
+<div
+  className="source-footer"
+>
+  <div
+    className="commands"
+  />
+  <span
+    className="cursor-position"
+  >
+    (1, 1)
+  </span>
+  <PaneToggleButton
+    collapsed={true}
+    horizontal={false}
+    position="end"
+  />
+</div>
+`;
+
+exports[`SourceFooter Component move cursor should render new cursor position 1`] = `
+<div
+  className="source-footer"
+>
+  <div
+    className="commands"
+  />
+  <span
+    className="cursor-position"
+  >
+    (1, 1)
+  </span>
+  <PaneToggleButton
+    collapsed={true}
+    horizontal={false}
+    position="end"
+  />
+</div>
+`;

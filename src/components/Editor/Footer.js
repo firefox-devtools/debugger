@@ -49,7 +49,7 @@ class SourceFooter extends PureComponent<Props, State> {
   constructor() {
     super();
 
-    this.state = { cursorPosition: { line: 0, ch: 0 } };
+    this.state = { cursorPosition: { line: 1, ch: 1 } };
   }
 
   componentDidMount() {
@@ -195,16 +195,17 @@ class SourceFooter extends PureComponent<Props, State> {
   }
 
   onCursorChange = event => {
+    console.log(event.doc.getCursor());
     this.setState({ cursorPosition: event.doc.getCursor() });
   };
 
   renderCursorPosition() {
     const { cursorPosition } = this.state;
 
-    const info = L10N.getStr(
-      "sourceFooter.currentCursorposition",
-      cursorPosition.line,
-      cursorPosition.ch
+    const info = L10N.getFormatStr(
+      "sourceFooter.currentCursorPosition",
+      cursorPosition.line + 1,
+      cursorPosition.ch + 1
     );
     return <span className="cursor-position">{info}</span>;
   }
