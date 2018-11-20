@@ -242,6 +242,8 @@ class App extends Component<Props, State> {
     }));
   }
 
+  // Important so that the tabs chevron updates appropriately when
+  // the user resizes the left or right columns
   triggerEditorPaneResize() {
     const editorPane = window.document.querySelector(".editor-pane");
     if (editorPane) {
