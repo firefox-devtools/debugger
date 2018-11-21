@@ -54,7 +54,9 @@ describe("SourceFooter Component", () => {
 
   describe("move cursor", () => {
     it("should render new cursor position", () => {
-      const { component } = render({}, { line: 5, ch: 10 });
+      const { component } = render();
+      component.setState({ cursorPosition: { line: 5, ch: 10 } });
+
       expect(component).toMatchSnapshot();
     });
   });

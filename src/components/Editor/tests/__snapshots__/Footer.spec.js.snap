@@ -10,7 +10,7 @@ exports[`SourceFooter Component default case should render 1`] = `
   <span
     className="cursor-position"
   >
-    (1, 1)
+    (2, 2)
   </span>
   <PaneToggleButton
     collapsed={true}
@@ -30,7 +30,7 @@ exports[`SourceFooter Component move cursor should render new cursor position 1`
   <span
     className="cursor-position"
   >
-    (1, 1)
+    (6, 11)
   </span>
   <PaneToggleButton
     collapsed={true}
