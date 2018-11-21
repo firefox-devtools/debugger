@@ -40,4 +40,8 @@ add_task(async function() {
     "simple1.js?x=1",
     "Breakpoint heading is simple1.js?x=1"
   );
+
+  pressKey(dbg, "quickOpen");
+  type(dbg, "simple1.js?x");
+  ok(findElement(dbg, "resultItems")[0].innerText.includes("simple.js?x=1"));
 });
