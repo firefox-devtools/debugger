@@ -3,6 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 import { isOriginalId } from "devtools-source-map";
+
 import {
   locationMoved,
   breakpointExists,
@@ -16,6 +17,8 @@ import { getSource, getSymbols, getBreakpoint } from "../../selectors";
 import { getGeneratedLocation } from "../../utils/source-maps";
 import { getTextAtPosition } from "../../utils/source";
 import { recordEvent } from "../../utils/telemetry";
+
+import { getPausePoints } from "../../workers/parser";
 
 async function addBreakpointPromise(getState, client, sourceMaps, breakpoint) {
   const state = getState();
@@ -142,9 +145,22 @@ export function addBreakpoint(
   location: Location,
   { condition, hidden }: addBreakpointOptions = {}
 ) {
-  const breakpoint = createBreakpoint(location, { condition, hidden });
-  return ({ dispatch, getState, sourceMaps, client }: ThunkArgs) => {
+  return async ({ dispatch, getState, sourceMaps, client }: ThunkArgs) => {
     recordEvent("add_breakpoint");
+
+    if (location.column === undefined) {
+      const pausePoints = await getPausePoints(location.sourceId);
+      const pausePointsAtLine = pausePoints[location.line];
+
+      const column = pausePointsAtLine
+        ? Object.keys(pausePointsAtLine).find(
+            col => pausePointsAtLine[col].break === true
+          )
+        : 0;
+      location = { ...location, column };
+    }
+
+    const breakpoint = createBreakpoint(location, { condition, hidden });
 
     return dispatch({
       type: "ADD_BREAKPOINT",
