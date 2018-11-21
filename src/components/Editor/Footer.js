@@ -195,7 +195,6 @@ class SourceFooter extends PureComponent<Props, State> {
   }
 
   onCursorChange = event => {
-    console.log(event.doc.getCursor());
     this.setState({ cursorPosition: event.doc.getCursor() });
   };
 
