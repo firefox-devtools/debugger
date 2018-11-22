@@ -108,6 +108,6 @@
   margin-inline-start: 4px;
 }
 
-:root.theme-dark .annotation-logo svg path {
+:root.theme-dark .annotation-logo:not(.angular) svg path {
   fill: var(--theme-highlight-blue);
 }
