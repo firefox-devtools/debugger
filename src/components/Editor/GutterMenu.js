@@ -25,6 +25,7 @@ type Props = {
 export function gutterMenu({
   breakpoint,
   line,
+  column,
   event,
   isPaused,
   toggleBreakpoint,
@@ -72,7 +73,7 @@ export function gutterMenu({
     accesskey: L10N.getStr("shortcuts.toggleBreakpoint.accesskey"),
     disabled: false,
     click: () => {
-      toggleBreakpoint(line);
+      toggleBreakpoint(line, column);
       if (isCbPanelOpen) {
         closeConditionalPanel();
       }
@@ -84,7 +85,7 @@ export function gutterMenu({
   const conditionalBreakpoint = {
     accesskey: L10N.getStr("editor.addConditionalBreakpoint.accesskey"),
     disabled: false,
-    click: () => openConditionalPanel(line),
+    click: () => openConditionalPanel(line, column),
     accelerator: L10N.getStr("toggleCondPanel.key"),
     ...(breakpoint && breakpoint.condition
       ? gutterItems.editConditional
@@ -97,7 +98,7 @@ export function gutterMenu({
     const continueToHereItem = {
       accesskey: L10N.getStr("editor.continueToHere.accesskey"),
       disabled: false,
-      click: () => continueToHere(line),
+      click: () => continueToHere(line, column),
       ...gutterItems.continueToHere
     };
     items.push(continueToHereItem);
@@ -107,7 +108,7 @@ export function gutterMenu({
     const disableBreakpoint = {
       accesskey: L10N.getStr("editor.disableBreakpoint.accesskey"),
       disabled: false,
-      click: () => toggleDisabledBreakpoint(line),
+      click: () => toggleDisabledBreakpoint(line, column),
       ...(breakpoint.disabled
         ? gutterItems.enableBreakpoint
         : gutterItems.disableBreakpoint)
@@ -139,16 +140,36 @@ class GutterContextMenuComponent extends Component {
     const { contextMenu, ...props } = nextProps;
     const { event } = contextMenu;
     const sourceId = props.selectedSource ? props.selectedSource.id : "";
-    const line = lineAtHeight(props.editor, sourceId, event);
+
+    const classMatch = event.target.className.match(/cl-([0-9]+)-([0-9]+)/);
+    let line = 0;
+    let column = undefined;
+    if (classMatch) {
+      line = classMatch[1];
+      column = classMatch[2];
+    } else {
+      line = lineAtHeight(props.editor, sourceId, event);
+    }
+
     const breakpoint = nextProps.breakpoints.find(
-      bp => bp.location.line === line
+      bp => bp.location.line === line && bp.location.column === column
+    );
+
+    window.BREAKS = nextProps.breakpoints;
+
+    console.log(
+      "showMenu event is: ",
+      line,
+      column,
+      breakpoint,
+      nextProps.breakpoints
     );
 
     if (props.emptyLines && props.emptyLines.includes(line)) {
       return;
     }
 
-    gutterMenu({ event, sourceId, line, breakpoint, ...props });
+    gutterMenu({ event, sourceId, line, column, breakpoint, ...props });
   }
 
   render() {

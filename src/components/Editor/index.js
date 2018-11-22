@@ -322,7 +322,11 @@ class Editor extends PureComponent<Props, State> {
 
     const { setContextMenu } = this.props;
     const target: Element = (event.target: any);
-    if (target.classList.contains("CodeMirror-linenumber")) {
+    if (
+      target.classList.contains("CodeMirror-linenumber") ||
+      target.classList.contains("call-site") ||
+      target.classList.contains("call-site-bp")
+    ) {
       return setContextMenu("Gutter", event);
     }
 

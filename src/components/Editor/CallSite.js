@@ -32,9 +32,11 @@ export default class CallSite extends Component<Props> {
 
   addCallSite = (nextProps: ?Props) => {
     const { editor, callSite, breakpoint, source } = nextProps || this.props;
-    const className = !breakpoint ? "call-site" : "call-site-bp";
-    const sourceId = source.id;
-    const editorRange = toEditorRange(sourceId, callSite.location);
+    let className = breakpoint ? "call-site-bp" : "call-site";
+    className = `${className} cl-${callSite.location.start.line}-${
+      callSite.location.start.column
+    }`;
+    const editorRange = toEditorRange(source.id, callSite.location);
     this.marker = markText(editor, className, editorRange);
   };
 

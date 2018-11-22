@@ -155,14 +155,17 @@ export function clearHighlightLineRange() {
   };
 }
 
-export function openConditionalPanel(line: ?number) {
+export function openConditionalPanel(line: ?number, column: ?number) {
+  console.log("openConditionalPanel", line, column);
+
   if (!line) {
     return;
   }
 
   return {
     type: "OPEN_CONDITIONAL_PANEL",
-    line
+    line,
+    column
   };
 }
 

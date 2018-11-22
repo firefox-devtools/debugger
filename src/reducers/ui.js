@@ -37,7 +37,10 @@ export type UIState = {
     end?: number,
     sourceId?: number
   },
-  conditionalPanelLine: null | number
+  conditionalPanelLine: {
+    location: number,
+    column: number
+  } | null
 };
 
 export const createUIState = makeRecord(
@@ -106,7 +109,11 @@ function update(
       return state.set("highlightedLineRange", {});
 
     case "OPEN_CONDITIONAL_PANEL":
-      return state.set("conditionalPanelLine", action.line);
+      console.warn("OPEN_CONDITIONAL_PANEL", action.line, action.column);
+      return state.set("conditionalPanelLine", {
+        line: action.line,
+        column: action.column
+      });
 
     case "CLOSE_CONDITIONAL_PANEL":
       return state.set("conditionalPanelLine", null);
@@ -172,7 +179,8 @@ export function getHighlightedLineRange(state: OuterState) {
   return state.ui.get("highlightedLineRange");
 }
 
-export function getConditionalPanelLine(state: OuterState): null | number {
+export function getConditionalPanelLine(state: OuterState): any {
+  // null | number {
   return state.ui.get("conditionalPanelLine");
 }
 
