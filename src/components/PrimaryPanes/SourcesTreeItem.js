@@ -25,6 +25,7 @@ import {
 import { isDirectory } from "../../utils/sources-tree";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { features } from "../../utils/prefs";
+import { toggleBlackBox } from "../../actions/sources/blackbox";
 
 import type { TreeNode } from "../../utils/sources-tree/types";
 import type { Source } from "../../types";
@@ -100,14 +101,20 @@ class SourceTreeItem extends Component<Props, State> {
     const setDirectoryRootKey = L10N.getStr("setDirectoryRoot.accesskey");
     const removeDirectoryRootLabel = L10N.getStr("removeDirectoryRoot.label");
 
+    const blackboxKey = L10N.getStr("sourceFooter.blackbox.accesskey");
+    const blackboxLabel = L10N.getStr("sourceFooter.blackbox");
+    const unblackboxLabel = L10N.getStr("sourceFooter.unblackbox");
+
     event.stopPropagation();
     event.preventDefault();
 
     const menuOptions = [];
 
+    //not sure if this is the right place to put it, but I think I should have the blackbox source option on non directory items
     if (!isDirectory(item)) {
       // Flow requires some extra handling to ensure the value of contents.
       const { contents } = item;
+      const toggleBlackBoxLabel = contents.isBlackBoxed? unblackboxLabel: blackboxLabel;
 
       if (!Array.isArray(contents)) {
         const copySourceUri2 = {
@@ -118,7 +125,16 @@ class SourceTreeItem extends Component<Props, State> {
           click: () => copyToTheClipboard(contents.url)
         };
 
+        const blackBoxMenuItem = {
+          id: "node-menu-blackbox",
+          label: toggleBlackBoxLabel,
+          accesskey: blackboxKey,
+          disabled: false,
+          click: () => toggleBlackBox(contents)
+        };
+        
         menuOptions.push(copySourceUri2);
+        menuOptions.push(blackBoxMenuItem);
       }
     }
 
