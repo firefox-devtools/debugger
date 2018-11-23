@@ -110,11 +110,14 @@ class SourceTreeItem extends Component<Props, State> {
 
     const menuOptions = [];
 
-    //not sure if this is the right place to put it, but I think I should have the blackbox source option on non directory items
+    // not sure if this is the right place to put it, but I think I should have
+    // the blackbox source option on non directory items
     if (!isDirectory(item)) {
       // Flow requires some extra handling to ensure the value of contents.
       const { contents } = item;
-      const toggleBlackBoxLabel = contents.isBlackBoxed? unblackboxLabel: blackboxLabel;
+      const toggleBlackBoxLabel = contents.isBlackBoxed
+        ? unblackboxLabel
+        : blackboxLabel;
 
       if (!Array.isArray(contents)) {
         const copySourceUri2 = {
@@ -132,7 +135,7 @@ class SourceTreeItem extends Component<Props, State> {
           disabled: false,
           click: () => toggleBlackBox(contents)
         };
-        
+
         menuOptions.push(copySourceUri2);
         menuOptions.push(blackBoxMenuItem);
       }
