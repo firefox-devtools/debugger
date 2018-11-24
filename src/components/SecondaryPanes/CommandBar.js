@@ -47,8 +47,8 @@ const KEYS = {
   Linux: {
     resume: "F8",
     stepOver: "F10",
-    stepIn: "Ctrl+F11",
-    stepOut: "Ctrl+Shift+F11"
+    stepIn: "F11",
+    stepOut: "Shift+F11"
   }
 };
 
