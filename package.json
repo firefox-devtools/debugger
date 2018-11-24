@@ -143,7 +143,7 @@
     "mochii": "^0.0.32",
     "mock-require": "^3.0.0",
     "node-emoji": "^1.8.1",
-    "npm-run-all": "^4.0.2",
+    "npm-run-all": "^4.1.4",
     "prettier": "^1.12.1",
     "pretty-quick": "^1.4.1",
     "remark-cli": "^6.0.0",
