@@ -42,7 +42,8 @@ export type ClassDeclaration = SymbolDeclaration & {
 export type FunctionDeclaration = SymbolDeclaration & {
   parameterNames: string[],
   klass: string | null,
-  identifier: Object
+  identifier: Object,
+  index: ?number
 };
 
 export type CallDeclaration = SymbolDeclaration & {
@@ -124,12 +125,16 @@ function getFunctionParameterNames(path: SimplePath): string[] {
 /* eslint-disable complexity */
 function extractSymbol(path: SimplePath, symbols) {
   if (isFunction(path)) {
+    const name = getFunctionName(path.node, path.parent);
     symbols.functions.push({
-      name: getFunctionName(path.node, path.parent),
+      name,
       klass: inferClassName(path),
       location: path.node.loc,
       parameterNames: getFunctionParameterNames(path),
-      identifier: path.node.id
+      identifier: path.node.id,
+      // indicates the occurence of the particular function in the file
+      // e.g { name: foo, ... index: 4 } => this is the 4th foo function in the file
+      index: symbols.functions.filter(f => f.name === name).length
     });
   }
 

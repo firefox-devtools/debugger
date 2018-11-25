@@ -31,8 +31,9 @@ function summarize(symbol) {
   const name = symbol.name == undefined ? "" : symbol.name;
   const names = symbol.specifiers ? symbol.specifiers.join(", ") : "";
   const values = symbol.values ? symbol.values.join(", ") : "";
+  const index = symbol.index ? symbol.index : "";
 
-  return `${loc} ${expression} ${name}${params} ${klass} ${names} ${values}`.trim(); // eslint-disable-line max-len
+  return `${loc} ${expression} ${name}${params} ${klass} ${names} ${values} ${index}`.trim(); // eslint-disable-line max-len
 }
 const bools = ["hasJsx", "hasTypes", "loading"];
 function formatBool(name, symbols) {
