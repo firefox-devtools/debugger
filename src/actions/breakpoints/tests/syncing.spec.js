@@ -53,7 +53,7 @@ const clientBreakpoint = {
     sourceUrl: "http://localhost:8000/gen.js",
     sourceId: "gen.js",
     line: 3,
-    column: undefined
+    column: 0
   }
 };
 
@@ -68,7 +68,7 @@ const sourceMaps = {
     sourceId: "magic.js",
     sourceUrl: "http://localhost:8000/magic.js",
     line: 3,
-    column: undefined
+    column: 0
   }),
   getOriginalURLs: () => {},
   isOriginalId: () => true,
@@ -81,13 +81,13 @@ function pendingBreakpoint(overrides) {
       sourceId: "magic.js",
       sourceUrl: "http://localhost:8000/magic.js",
       line: 3,
-      column: undefined
+      column: 0
     },
     generatedLocation: {
       sourceId: "gen.js",
       sourceUrl: "http://localhost:8000/gen.js",
       line: 3,
-      column: undefined
+      column: 0
     },
     astLocation: {
       name: undefined,
@@ -107,7 +107,7 @@ function newGeneratedLocation(line) {
     sourceUrl: "http://localhost:8000/gen.js",
     sourceId: "gen.js",
     line,
-    column: undefined
+    column: 0
   };
 }
 
@@ -185,7 +185,7 @@ describe("reloading debuggee", () => {
       sourceId: "magic.js",
       sourceUrl: "http://localhost:8000/magic.js",
       line: 3,
-      column: undefined
+      column: 0
     };
     await dispatch(actions.newSource(reloadedSource));
     await dispatch(actions.addBreakpoint(loc1));
@@ -253,7 +253,7 @@ describe("reloading debuggee", () => {
       actions.addBreakpoint({
         sourceId: reloadedSource.id,
         line: 3,
-        column: undefined
+        column: 0
       })
     );
 
@@ -261,7 +261,7 @@ describe("reloading debuggee", () => {
       actions.disableBreakpoint({
         sourceId: reloadedSource.id,
         line: 3,
-        column: undefined
+        column: 0
       })
     );
 

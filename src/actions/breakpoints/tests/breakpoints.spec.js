@@ -21,6 +21,7 @@ describe("breakpoints", () => {
     const loc1 = {
       sourceId: "a",
       line: 2,
+      column: 0,
       sourceUrl: "http://localhost:8000/examples/a"
     };
 
@@ -42,6 +43,7 @@ describe("breakpoints", () => {
     const loc1 = {
       sourceId: "a",
       line: 5,
+      column: 0,
       sourceUrl: "http://localhost:8000/examples/a"
     };
     await dispatch(actions.newSource(makeSource("a")));
@@ -59,6 +61,7 @@ describe("breakpoints", () => {
     const loc1 = {
       sourceId: "a",
       line: 5,
+      column: 0,
       sourceUrl: "http://localhost:8000/examples/a"
     };
     await dispatch(actions.newSource(makeSource("a")));
@@ -77,6 +80,7 @@ describe("breakpoints", () => {
     const loc1 = {
       sourceId: "a",
       line: 5,
+      column: 0,
       sourceUrl: "http://localhost:8000/examples/a"
     };
 

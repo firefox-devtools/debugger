@@ -12,13 +12,13 @@ Object {
     "condition": null,
     "disabled": false,
     "generatedLocation": Object {
-      "column": undefined,
+      "column": 0,
       "line": 5,
       "sourceUrl": "http://localhost:8000/examples/bar.js",
     },
     "hidden": false,
     "location": Object {
-      "column": undefined,
+      "column": 0,
       "line": 5,
       "sourceUrl": "http://localhost:8000/examples/bar.js",
     },
@@ -31,6 +31,7 @@ Object {
   "astLocation": Object {
     "name": undefined,
     "offset": Object {
+      "column": 0,
       "line": 7,
       "sourceId": "foo.js",
       "sourceUrl": "http://localhost:8000/examples/foo.js",
@@ -39,12 +40,12 @@ Object {
   "condition": null,
   "disabled": false,
   "generatedLocation": Object {
-    "column": undefined,
+    "column": 0,
     "line": 7,
     "sourceUrl": "http://localhost:8000/examples/foo.js",
   },
   "location": Object {
-    "column": undefined,
+    "column": 0,
     "line": 7,
     "sourceUrl": "http://localhost:8000/examples/foo.js",
   },
@@ -56,6 +57,7 @@ Object {
   "astLocation": Object {
     "name": undefined,
     "offset": Object {
+      "column": 0,
       "line": 5,
       "sourceId": "foo.js",
       "sourceUrl": "http://localhost:8000/examples/foo.js",
@@ -64,12 +66,12 @@ Object {
   "condition": null,
   "disabled": false,
   "generatedLocation": Object {
-    "column": undefined,
+    "column": 0,
     "line": 5,
     "sourceUrl": "http://localhost:8000/examples/foo.js",
   },
   "location": Object {
-    "column": undefined,
+    "column": 0,
     "line": 5,
     "sourceUrl": "http://localhost:8000/examples/foo.js",
   },
@@ -81,6 +83,7 @@ Object {
   "astLocation": Object {
     "name": undefined,
     "offset": Object {
+      "column": 0,
       "line": 5,
       "sourceId": "foo",
       "sourceUrl": "http://localhost:8000/examples/foo",
@@ -89,12 +92,12 @@ Object {
   "condition": null,
   "disabled": false,
   "generatedLocation": Object {
-    "column": undefined,
+    "column": 0,
     "line": 5,
     "sourceUrl": "http://localhost:8000/examples/foo",
   },
   "location": Object {
-    "column": undefined,
+    "column": 0,
     "line": 5,
     "sourceUrl": "http://localhost:8000/examples/foo",
   },
@@ -106,6 +109,7 @@ Object {
   "astLocation": Object {
     "name": undefined,
     "offset": Object {
+      "column": 0,
       "line": 5,
       "sourceId": "foo2",
       "sourceUrl": "http://localhost:8000/examples/foo2",
@@ -114,12 +118,12 @@ Object {
   "condition": null,
   "disabled": false,
   "generatedLocation": Object {
-    "column": undefined,
+    "column": 0,
     "line": 5,
     "sourceUrl": "http://localhost:8000/examples/foo2",
   },
   "location": Object {
-    "column": undefined,
+    "column": 0,
     "line": 5,
     "sourceUrl": "http://localhost:8000/examples/foo2",
   },

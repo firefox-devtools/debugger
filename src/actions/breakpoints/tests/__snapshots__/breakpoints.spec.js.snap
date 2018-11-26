@@ -5,6 +5,7 @@ Object {
   "astLocation": Object {
     "name": undefined,
     "offset": Object {
+      "column": 0,
       "line": 7,
       "sourceId": "a",
       "sourceUrl": "http://localhost:8000/examples/a",
@@ -13,6 +14,7 @@ Object {
   "condition": null,
   "disabled": false,
   "generatedLocation": Object {
+    "column": 0,
     "line": 7,
     "sourceId": "a",
     "sourceUrl": "http://localhost:8000/examples/a",
@@ -21,6 +23,7 @@ Object {
   "id": "a:5:",
   "loading": false,
   "location": Object {
+    "column": 0,
     "line": 7,
     "sourceId": "a",
     "sourceUrl": "http://localhost:8000/examples/a",
@@ -39,6 +42,7 @@ Array [
         "disabled": false,
         "id": "hi",
         "selectedLocation": Object {
+          "column": 0,
           "line": 2,
           "sourceId": "a",
           "sourceUrl": "http://localhost:8000/examples/a",
@@ -71,6 +75,7 @@ Object {
   "astLocation": Object {
     "name": undefined,
     "offset": Object {
+      "column": "0",
       "line": 1,
       "sourceId": "a.js",
       "sourceUrl": "http://localhost:8000/examples/a.js",
@@ -79,6 +84,7 @@ Object {
   "condition": null,
   "disabled": false,
   "generatedLocation": Object {
+    "column": "0",
     "line": 1,
     "sourceId": "a.js",
     "sourceUrl": "http://localhost:8000/examples/a.js",
@@ -106,6 +112,7 @@ Array [
         "disabled": true,
         "id": "hi",
         "selectedLocation": Object {
+          "column": 0,
           "line": 5,
           "sourceId": "a",
           "sourceUrl": "http://localhost:8000/examples/a",

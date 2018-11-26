@@ -8,12 +8,12 @@ export function mockPendingBreakpoint(overrides = {}) {
     location: {
       sourceUrl: sourceUrl || "http://localhost:8000/examples/bar.js",
       line: line || 5,
-      column: column || undefined
+      column: column || 0
     },
     generatedLocation: {
       sourceUrl: sourceUrl || "http://localhost:8000/examples/bar.js",
       line: line || 5,
-      column: column || undefined
+      column: column || 0
     },
     astLocation: {
       name: undefined,
@@ -27,7 +27,7 @@ export function mockPendingBreakpoint(overrides = {}) {
   };
 }
 
-export function generateBreakpoint(filename, line = 5, column) {
+export function generateBreakpoint(filename, line = 5, column = 0) {
   return {
     location: {
       sourceUrl: `http://localhost:8000/examples/${filename}`,
