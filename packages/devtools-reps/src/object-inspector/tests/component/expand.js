@@ -261,7 +261,7 @@ describe("ObjectInspector - state", () => {
     getSelection().setMockSelection("test");
 
     const root1 = nodes.at(0);
-    root1.find("img.arrow").simulate("click");
+    root1.find(".arrow").simulate("click");
     expect(getExpandedPaths(store.getState()).has("root-1")).toBeTruthy();
     expect(formatObjectInspector(wrapper)).toMatchSnapshot();
 
