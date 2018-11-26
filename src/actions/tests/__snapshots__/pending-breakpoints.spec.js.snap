@@ -2,7 +2,7 @@
 
 exports[`initializing when pending breakpoints exist in prefs syncs pending breakpoints 1`] = `
 Object {
-  "http://localhost:8000/examples/bar.js:5:": Object {
+  "http://localhost:8000/examples/bar.js:5:0": Object {
     "astLocation": Object {
       "name": undefined,
       "offset": Object {

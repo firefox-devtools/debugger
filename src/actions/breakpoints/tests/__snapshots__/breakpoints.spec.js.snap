@@ -20,7 +20,7 @@ Object {
     "sourceUrl": "http://localhost:8000/examples/a",
   },
   "hidden": false,
-  "id": "a:5:",
+  "id": "a:5:0",
   "loading": false,
   "location": Object {
     "column": 0,
