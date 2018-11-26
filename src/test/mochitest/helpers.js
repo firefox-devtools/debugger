@@ -708,7 +708,7 @@ async function navigate(dbg, url, ...sources) {
  * @return {Promise}
  * @static
  */
-function addBreakpoint(dbg, source, line, column) {
+function addBreakpoint(dbg, source, line, column = 0) {
   source = findSource(dbg, source);
   const sourceId = source.id;
   dbg.actions.addBreakpoint({ sourceId, line, column });
@@ -722,7 +722,7 @@ function disableBreakpoint(dbg, source, line, column) {
   return waitForDispatch(dbg, "DISABLE_BREAKPOINT");
 }
 
-async function loadAndAddBreakpoint(dbg, filename, line, column) {
+async function loadAndAddBreakpoint(dbg, filename, line, column = 0) {
   const {
     selectors: { getBreakpoint, getBreakpointCount, getBreakpointsMap },
     getState
