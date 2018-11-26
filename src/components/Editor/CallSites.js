@@ -192,6 +192,10 @@ class CallSites extends Component {
       return null;
     }
 
+    if (!selectedSource || selectedSource.isBlackBoxed) {
+      return null;
+    }
+
     // Filter by desired line numbers
     const callSitesFilteredByLine = this.filterCallSitesByLineNumber();
 
