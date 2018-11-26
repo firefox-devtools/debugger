@@ -132,8 +132,9 @@ function extractSymbol(path: SimplePath, symbols) {
       location: path.node.loc,
       parameterNames: getFunctionParameterNames(path),
       identifier: path.node.id,
-      // indicates the occurence of the particular function in the file
-      // e.g { name: foo, ... index: 4 } => 4th foo function in the file
+      // indicates the occurence of the function in a file
+      // e.g { name: foo, ... index: 4 } is the 4th foo function
+      // in the file
       index: symbols.functions.filter(f => f.name === name).length
     });
   }
