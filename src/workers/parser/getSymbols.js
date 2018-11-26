@@ -133,7 +133,7 @@ function extractSymbol(path: SimplePath, symbols) {
       parameterNames: getFunctionParameterNames(path),
       identifier: path.node.id,
       // indicates the occurence of the particular function in the file
-      // e.g { name: foo, ... index: 4 } => this is the 4th foo function in the file
+      // e.g { name: foo, ... index: 4 } => 4th foo function in the file
       index: symbols.functions.filter(f => f.name === name).length
     });
   }
