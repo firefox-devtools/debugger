@@ -4,7 +4,7 @@
 
 // @flow
 
-import type { Source } from "../../types";
+import type { Source, Range } from "../../types";
 
 import type {
   ActiveSearchType,
@@ -75,4 +75,8 @@ export type UIAction =
     |}
   | {|
       +type: "CLOSE_PROJECT_SEARCH"
+    |}
+  | {|
+      +type: "SET_VIEWPORT",
+      +viewport: Range
     |};

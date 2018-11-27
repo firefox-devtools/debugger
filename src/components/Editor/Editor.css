@@ -197,7 +197,8 @@ html[dir="rtl"] .editor-mount {
   color: var(--theme-comment);
 }
 
-.debug-expression {
+.debug-expression,
+.new-debug-line .call-site {
   background-color: var(--debug-expression-background);
 }
 
