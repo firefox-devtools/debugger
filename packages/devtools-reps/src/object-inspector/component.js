@@ -182,7 +182,7 @@ class ObjectInspector extends Component<Props> {
     const { evaluations } = this.props;
     const evaluation = evaluations.get(item.path);
     if (evaluation) {
-      key = `${key}-${evaluation.timestamp}`;
+      key = `${key}-evaluated`;
     }
     return key;
   }

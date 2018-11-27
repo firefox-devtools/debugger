@@ -56,7 +56,6 @@ function reducer(
         ? new Set(state.actors || []).add(data.result.from)
         : state.actors,
       evaluations: new Map(state.evaluations).set(data.node.path, {
-        timestamp: Date.now(),
         getterValue:
           data.result &&
           data.result.value &&
