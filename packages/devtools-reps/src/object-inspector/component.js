@@ -180,7 +180,7 @@ class ObjectInspector extends Component<Props> {
         : JSON.stringify(item);
 
     const { evaluations } = this.props;
-    const evaluation = evaluations && evaluations.get(item.path);
+    const evaluation = evaluations.get(item.path);
     if (evaluation) {
       key = `${key}-${evaluation.timestamp}`;
     }
@@ -198,7 +198,7 @@ class ObjectInspector extends Component<Props> {
     }
 
     const { evaluations } = this.props;
-    const evaluation = evaluations && evaluations.get(item.path);
+    const evaluation = evaluations.get(item.path);
     // A getter node should only be expandable if it was evaluated and the
     // resulting node would be expandable.
     if (
@@ -323,7 +323,7 @@ class ObjectInspector extends Component<Props> {
       isPrimitive
     ) {
       const { evaluations } = this.props;
-      const evaluation = evaluations && evaluations.get(item.path);
+      const evaluation = evaluations.get(item.path);
       const repProps = { ...this.props };
       if (depth > 0) {
         repProps.mode = this.props.mode === MODE.LONG ? MODE.SHORT : MODE.TINY;

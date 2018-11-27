@@ -40,7 +40,12 @@ function mount(props, { initialState }) {
   const obj = mountObjectInspector({
     client,
     props: generateDefaults(props),
-    initialState: { objectInspector: initialState }
+    initialState: {
+      objectInspector: {
+        ...initialState,
+        evaluations: new Map()
+      }
+    }
   });
 
   return { ...obj, enumEntries };
@@ -63,8 +68,7 @@ describe("ObjectInspector - entries", () => {
       },
       {
         initialState: {
-          loadedProperties: new Map([["root", mapStubs.get("properties")]]),
-          evaluations: new Map()
+          loadedProperties: new Map([["root", mapStubs.get("properties")]])
         }
       }
     );
@@ -102,8 +106,7 @@ describe("ObjectInspector - entries", () => {
         initialState: {
           loadedProperties: new Map([
             ["root", { ownProperties: stub.preview.entries }]
-          ]),
-          evaluations: new Map()
+          ])
         }
       }
     );
