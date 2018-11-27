@@ -84,7 +84,9 @@ export function gutterMenu({
   const conditionalBreakpoint = {
     accesskey: L10N.getStr("editor.addConditionalBreakpoint.accesskey"),
     disabled: false,
-    click: () => openConditionalPanel(line),
+    // Leaving column undefined so pause points can be detected
+    click: () =>
+      openConditionalPanel(breakpoint ? breakpoint.location : { line }),
     accelerator: L10N.getStr("toggleCondPanel.key"),
     ...(breakpoint && breakpoint.condition
       ? gutterItems.editConditional

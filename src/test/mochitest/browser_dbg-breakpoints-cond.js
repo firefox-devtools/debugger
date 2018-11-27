@@ -1,13 +1,15 @@
 /* Any copyright is dedicated to the Public Domain.
  * http://creativecommons.org/publicdomain/zero/1.0/ */
 
-function findBreakpoint(dbg, url, line, column = 0) {
+// Default column is 2 because the pause point on the same line is 2
+function findBreakpoint(dbg, url, line, column = 2) {
   const {
     selectors: { getBreakpoint },
     getState
   } = dbg;
   const source = findSource(dbg, url);
-  return getBreakpoint(getState(), { sourceId: source.id, line, column });
+  const location = { sourceId: source.id, line, column };
+  return getBreakpoint(getState(), location);
 }
 
 function getLineEl(dbg, line) {
@@ -57,42 +59,24 @@ add_task(async function() {
   await setConditionalBreakpoint(dbg, 5, "1");
   await waitForDispatch(dbg, "ADD_BREAKPOINT");
 
-
-//debugger;
-console.log("gets here 1")
-
-  let bp = findBreakpoint(dbg, "simple2", 5, 2);
-
-  console.log("gets here 2")
+  let bp = findBreakpoint(dbg, "simple2", 5);
 
   is(bp.condition, "1", "breakpoint is created with the condition");
   assertEditorBreakpoint(dbg, 5, true);
 
-  console.log("gets here 3")
-
   await setConditionalBreakpoint(dbg, 5, "2");
-
-  console.log("gets here 3.5")
 
   await waitForDispatch(dbg, "SET_BREAKPOINT_CONDITION");
 
-  console.log("gets here 4")
-  
-  //debugger;
-
-  bp = findBreakpoint(dbg, "simple2", 5, 2);
+  bp = findBreakpoint(dbg, "simple2", 5);
   is(bp.condition, "12", "breakpoint is created with the condition");
   assertEditorBreakpoint(dbg, 5, true);
 
-  console.log("gets here 5")
-
   clickElement(dbg, "gutter", 5);
   await waitForDispatch(dbg, "REMOVE_BREAKPOINT");
-  bp = findBreakpoint(dbg, "simple2", 5, 2);
+  bp = findBreakpoint(dbg, "simple2", 5);
   is(bp, null, "breakpoint was removed");
   assertEditorBreakpoint(dbg, 5, false);
-
-  console.log("gets here 6")
 
   // Adding a condition to a breakpoint
   clickElement(dbg, "gutter", 5);
@@ -100,9 +84,7 @@ console.log("gets here 1")
   await setConditionalBreakpoint(dbg, 5, "1");
   await waitForDispatch(dbg, "SET_BREAKPOINT_CONDITION");
 
-  console.log("gets here 7")
-
-  bp = findBreakpoint(dbg, "simple2", 5, 2);
+  bp = findBreakpoint(dbg, "simple2", 5);
   is(bp.condition, "1", "breakpoint is created with the condition");
   assertEditorBreakpoint(dbg, 5, true);
 
@@ -112,6 +94,6 @@ console.log("gets here 1")
   // select "remove condition";
   selectMenuItem(dbg, 8);
   await bpCondition;
-  bp = findBreakpoint(dbg, "simple2", 5, 2);
+  bp = findBreakpoint(dbg, "simple2", 5);
   is(bp.condition, undefined, "breakpoint condition removed");
 });

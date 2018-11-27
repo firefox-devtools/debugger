@@ -60,7 +60,7 @@ export type UIAction =
     |}
   | {|
       +type: "OPEN_CONDITIONAL_PANEL",
-      +line: number
+      +location: Object
     |}
   | {|
       +type: "CLOSE_CONDITIONAL_PANEL"

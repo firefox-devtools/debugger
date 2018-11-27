@@ -41,6 +41,7 @@ export function locationMoved(location: Location, newLocation: Location) {
 
 export function makeLocationId(location: Location) {
   const { sourceId, line, column } = location;
+
   const columnString = column || 0;
   return `${sourceId}:${line}:${columnString}`;
 }
@@ -55,7 +56,6 @@ export function makePendingLocationId(location: Location) {
   const { sourceUrl, line, column } = location;
   const sourceUrlString = sourceUrl || "";
   const columnString = column || 0;
-
   return `${sourceUrlString}:${line}:${columnString}`;
 }
 

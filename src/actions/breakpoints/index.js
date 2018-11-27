@@ -232,7 +232,9 @@ export function setBreakpointCondition(
 ) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const bp = getBreakpoint(getState(), location);
+
     if (!bp) {
+      console.log("setBreakpointCondition: no bp: ", location);
       return dispatch(addBreakpoint(location, { condition }));
     }
 

@@ -715,7 +715,7 @@ function addBreakpoint(dbg, source, line, column = 0) {
   return waitForDispatch(dbg, "ADD_BREAKPOINT");
 }
 
-function disableBreakpoint(dbg, source, line, column) {
+function disableBreakpoint(dbg, source, line, column = 0) {
   source = findSource(dbg, source);
   const sourceId = source.id;
   dbg.actions.disableBreakpoint({ sourceId, line, column });

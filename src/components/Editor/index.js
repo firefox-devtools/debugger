@@ -20,7 +20,7 @@ import {
   getActiveSearch,
   getSelectedLocation,
   getSelectedSource,
-  getConditionalPanelLine,
+  getConditionalPanelLocation,
   getSymbols
 } from "../../selectors";
 
@@ -81,11 +81,11 @@ export type Props = {
   horizontal: boolean,
   startPanelSize: number,
   endPanelSize: number,
-  conditionalPanelLine: number,
+  conditionalPanelLocation: Object,
   symbols: SymbolDeclarations,
 
   // Actions
-  openConditionalPanel: (?number) => void,
+  openConditionalPanel: (?Object) => void,
   closeConditionalPanel: void => void,
   setContextMenu: (string, any) => void,
   continueToHere: (?number) => void,
@@ -256,7 +256,7 @@ class Editor extends PureComponent<Props, State> {
   onToggleBreakpoint = (key, e: KeyboardEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    const { selectedSource, conditionalPanelLine } = this.props;
+    const { selectedSource, conditionalPanelLocation } = this.props;
 
     if (!selectedSource) {
       return;
@@ -266,7 +266,7 @@ class Editor extends PureComponent<Props, State> {
 
     if (e.shiftKey) {
       this.toggleConditionalPanel(line);
-    } else if (!conditionalPanelLine) {
+    } else if (!conditionalPanelLocation) {
       this.props.toggleBreakpoint(line);
     } else {
       this.toggleConditionalPanel(line);
@@ -343,7 +343,7 @@ class Editor extends PureComponent<Props, State> {
   ) => {
     const {
       selectedSource,
-      conditionalPanelLine,
+      conditionalPanelLocation,
       closeConditionalPanel,
       addOrToggleDisabledBreakpoint,
       toggleBreakpointsAtLine,
@@ -360,7 +360,7 @@ class Editor extends PureComponent<Props, State> {
       return;
     }
 
-    if (conditionalPanelLine) {
+    if (conditionalPanelLocation) {
       return closeConditionalPanel();
     }
 
@@ -402,16 +402,16 @@ class Editor extends PureComponent<Props, State> {
 
   toggleConditionalPanel = line => {
     const {
-      conditionalPanelLine,
+      conditionalPanelLocation,
       closeConditionalPanel,
       openConditionalPanel
     } = this.props;
 
-    if (conditionalPanelLine) {
+    if (conditionalPanelLocation) {
       return closeConditionalPanel();
     }
 
-    return openConditionalPanel(line);
+    return openConditionalPanel(conditionalPanelLocation);
   };
 
   closeConditionalPanel = () => {
@@ -599,7 +599,7 @@ const mapStateToProps = state => {
     selectedLocation: getSelectedLocation(state),
     selectedSource,
     searchOn: getActiveSearch(state) === "file",
-    conditionalPanelLine: getConditionalPanelLine(state),
+    conditionalPanelLocation: getConditionalPanelLocation(state),
     symbols: getSymbols(state, selectedSource)
   };
 };

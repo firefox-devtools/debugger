@@ -157,6 +157,7 @@ export function addBreakpoint(
             col => pausePointsAtLine[col].break === true
           )
         : 0;
+
       location = { ...location, column };
     }
 
