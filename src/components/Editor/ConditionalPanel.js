@@ -16,11 +16,13 @@ import {
   getConditionalPanelLocation
 } from "../../selectors";
 
+import type { Location } from "../../types";
+
 type Props = {
   breakpoint: ?Object,
   selectedLocation: Object,
   setBreakpointCondition: Function,
-  location: Object | null,
+  location: Location | null,
   editor: Object,
   openConditionalPanel: () => void,
   closeConditionalPanel: () => void
@@ -128,7 +130,7 @@ export class ConditionalPanel extends PureComponent<Props> {
     const { selectedLocation, location, editor } = props;
     const sourceId = selectedLocation ? selectedLocation.sourceId : "";
 
-    const editorLine = toEditorLine(sourceId, location.line);
+    const editorLine = toEditorLine(sourceId, location ? location.line : 0);
     this.cbPanel = editor.codeMirror.addLineWidget(
       editorLine,
       this.renderConditionalPanel(props),

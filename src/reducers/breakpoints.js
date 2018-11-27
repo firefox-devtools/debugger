@@ -309,16 +309,16 @@ export function getBreakpointsForSource(
 export function getBreakpointForLine(
   state: OuterState,
   sourceId: string,
-  location: Object | null
+  location: Location | null
 ): ?Breakpoint {
   if (!sourceId || !location) {
     return undefined;
   }
+  const { line, column } = location;
   const breakpoints = getBreakpointsList(state);
   return breakpoints.find(
     breakpoint =>
-      breakpoint.location.line === location.line &&
-      breakpoint.location.column === location.column
+      line === breakpoint.location.line && column === breakpoint.location.column
   );
 }
 
