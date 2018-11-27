@@ -20,7 +20,7 @@ type Props = {
   source: Object,
   enabled: boolean,
   toggleBreakpoint: (number, number) => void,
-  columnBreakpoint: ColumnBreakpoint
+  columnBreakpoint: ColumnBreakpointType
 };
 
 const breakpointImg = document.createElement("div");
