@@ -277,6 +277,22 @@ button.jump-definition {
 }
 
 /******************************************************************************/
+/* Invoke getter button */
+
+button.invoke-getter {
+  mask: url(/images/input.svg) no-repeat;
+  display: inline-block;
+  background-color: var(--comment-node-color);
+  height: 12px;
+  vertical-align:bottom;
+  border:none;
+}
+
+.invoke-getter:hover {
+  background-color: var(--theme-highlight-blue);
+}
+
+/******************************************************************************/
 /* "more…" ellipsis */
 .more-ellipsis {
   color: var(--comment-node-color);
