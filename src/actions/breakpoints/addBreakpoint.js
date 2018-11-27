@@ -12,7 +12,12 @@ import {
   assertLocation
 } from "../../utils/breakpoint";
 import { PROMISE } from "../utils/middleware/promise";
-import { getSource, getSymbols, getBreakpoint } from "../../selectors";
+import {
+  getSource,
+  getSymbols,
+  getBreakpoint,
+  getPausePoints
+} from "../../selectors";
 import { getGeneratedLocation } from "../../utils/source-maps";
 import { getTextAtPosition } from "../../utils/source";
 import { recordEvent } from "../../utils/telemetry";
@@ -142,9 +147,23 @@ export function addBreakpoint(
   location: Location,
   { condition, hidden }: addBreakpointOptions = {}
 ) {
-  const breakpoint = createBreakpoint(location, { condition, hidden });
-  return ({ dispatch, getState, sourceMaps, client }: ThunkArgs) => {
+  return async ({ dispatch, getState, sourceMaps, client }: ThunkArgs) => {
     recordEvent("add_breakpoint");
+
+    if (location.column === undefined) {
+      const pausePoints = getPausePoints(getState(), location.sourceId);
+
+      if (pausePoints) {
+        const pausesAtLine = pausePoints[location.line];
+
+        const column = pausesAtLine
+          ? Object.keys(pausesAtLine).find(col => pausesAtLine[col].break)
+          : undefined;
+        location = { ...location, column };
+      }
+    }
+
+    const breakpoint = createBreakpoint(location, { condition, hidden });
 
     return dispatch({
       type: "ADD_BREAKPOINT",
