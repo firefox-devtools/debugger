@@ -4,7 +4,7 @@
 
 .call-site {
   position: relative;
-  border-bottom: 2px solid lightgrey;
+  display: inline;
   cursor: pointer;
 }
 
@@ -19,20 +19,8 @@
   height: 12px;
 }
 
-.call-site-bp {
-  position: relative;
-  border-bottom: 2px solid #aed3ef;
-  cursor: pointer;
-}
-
-.call-site-bp::before {
-  content: "";
-  mask: url(/images/column-marker.svg) no-repeat 100% 100%;
-  mask-size: contain;
-  display: inline-block;
-  background-color: var(--blue-55);
-  width: 9px;
-  height: 12px;
+.call-site.active::before {
+  opacity: 1;
 }
 
 .theme-dark .call-site {

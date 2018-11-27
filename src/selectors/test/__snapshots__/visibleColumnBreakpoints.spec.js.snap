@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`visible column breakpoints simple 1`] = `
+Array [
+  Object {
+    "enabled": true,
+    "location": Object {
+      "column": 1,
+      "line": 1,
+    },
+  },
+  Object {
+    "enabled": false,
+    "location": Object {
+      "column": 5,
+      "line": 1,
+    },
+  },
+]
+`;
