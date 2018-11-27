@@ -25,7 +25,6 @@ import {
 import { isDirectory } from "../../utils/sources-tree";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { features } from "../../utils/prefs";
-import { toggleBlackBox } from "../../actions/sources/blackbox";
 
 import type { TreeNode } from "../../utils/sources-tree/types";
 import type { Source } from "../../types";
@@ -44,7 +43,8 @@ type Props = {
   focusItem: TreeNode => void,
   selectItem: TreeNode => void,
   clearProjectDirectoryRoot: () => void,
-  setProjectDirectoryRoot: string => void
+  setProjectDirectoryRoot: string => void,
+  toggleBlackBox: Object => void
 };
 
 type State = {};
@@ -133,7 +133,7 @@ class SourceTreeItem extends Component<Props, State> {
           label: toggleBlackBoxLabel,
           accesskey: blackboxKey,
           disabled: false,
-          click: () => toggleBlackBox(contents)
+          click: () => this.props.toggleBlackBox(contents)
         };
 
         menuOptions.push(copySourceUri2);
@@ -247,6 +247,7 @@ export default connect(
   mapStateToProps,
   {
     setProjectDirectoryRoot: actions.setProjectDirectoryRoot,
-    clearProjectDirectoryRoot: actions.clearProjectDirectoryRoot
+    clearProjectDirectoryRoot: actions.clearProjectDirectoryRoot,
+    toggleBlackBox: actions.toggleBlackBox
   }
 )(SourceTreeItem);
