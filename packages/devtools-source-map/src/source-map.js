@@ -195,6 +195,19 @@ async function getGeneratedLocation(
       column: location.column == null ? 0 : location.column,
       bias: SourceMapConsumer.LEAST_UPPER_BOUND
     });
+
+    if (map.originalPositionFor(match).line !== location.line) {
+      const previousMatch = map.generatedPositionFor({
+        source: originalSource.url,
+        line: location.line,
+        column: location.column == null ? 0 : location.column,
+        bias: SourceMapConsumer.GREATEST_LOWER_BOUND
+      });
+
+      if (map.originalPositionFor(previousMatch).line === location.line) {
+        match = previousMatch;
+      }
+    }
   }
 
   return {
