@@ -121,8 +121,8 @@ function compressPausePoints(pausePoints) {
   for (const line in pausePoints) {
     compressed[line] = {};
     for (const col in pausePoints[line]) {
-      const point = pausePoints[line][col];
-      compressed[line][col] = (point.break ? 1 : 0) | (point.step ? 2 : 0);
+      const { types } = pausePoints[line][col];
+      compressed[line][col] = (types.break ? 1 : 0) | (types.step ? 2 : 0);
     }
   }
 
