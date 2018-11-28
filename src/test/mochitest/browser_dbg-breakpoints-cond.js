@@ -1,13 +1,15 @@
 /* Any copyright is dedicated to the Public Domain.
  * http://creativecommons.org/publicdomain/zero/1.0/ */
 
-function findBreakpoint(dbg, url, line) {
+// Default column is 2 because the pause point on the same line is 2
+function findBreakpoint(dbg, url, line, column = 2) {
   const {
     selectors: { getBreakpoint },
     getState
   } = dbg;
   const source = findSource(dbg, url);
-  return getBreakpoint(getState(), { sourceId: source.id, line });
+  const location = { sourceId: source.id, line, column };
+  return getBreakpoint(getState(), location);
 }
 
 function getLineEl(dbg, line) {

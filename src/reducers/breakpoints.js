@@ -308,13 +308,17 @@ export function getBreakpointsForSource(
 export function getBreakpointForLine(
   state: OuterState,
   sourceId: string,
-  line: number | null
+  location: Location | null
 ): ?Breakpoint {
-  if (!sourceId) {
+  if (!sourceId || !location) {
     return undefined;
   }
+  const { line, column } = location;
   const breakpoints = getBreakpointsList(state);
-  return breakpoints.find(breakpoint => breakpoint.location.line === line);
+  return breakpoints.find(
+    breakpoint =>
+      line === breakpoint.location.line && column === breakpoint.location.column
+  );
 }
 
 export function getHiddenBreakpoint(state: OuterState): ?Breakpoint {

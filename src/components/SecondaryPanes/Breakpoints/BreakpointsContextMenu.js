@@ -169,7 +169,7 @@ export default function showContextMenu(props) {
     accesskey: addConditionKey,
     click: () => {
       selectSpecificLocation(breakpoint.selectedLocation);
-      openConditionalPanel(breakpoint.selectedLocation.line);
+      openConditionalPanel(breakpoint.selectedLocation);
     }
   };
 
@@ -179,7 +179,7 @@ export default function showContextMenu(props) {
     accesskey: editConditionKey,
     click: () => {
       selectSpecificLocation(breakpoint.selectedLocation);
-      openConditionalPanel(breakpoint.selectedLocation.line);
+      openConditionalPanel(breakpoint.selectedLocation);
     }
   };
 
