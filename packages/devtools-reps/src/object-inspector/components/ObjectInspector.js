@@ -7,9 +7,9 @@
 const { Component, createFactory, createElement } = require("react");
 const dom = require("react-dom-factories");
 const { connect } = require("react-redux");
-const actions = require("./actions");
+const actions = require("../actions");
 
-const selectors = require("./reducer");
+const selectors = require("../reducer");
 
 import Services from "devtools-services";
 const { appinfo } = Services;
@@ -17,12 +17,12 @@ const isMacOS = appinfo.OS === "Darwin";
 
 import Components from "devtools-components";
 const Tree = createFactory(Components.Tree);
-require("./index.css");
+require("./ObjectInspector.css");
 
 const classnames = require("classnames");
-const { MODE } = require("../reps/constants");
+const { MODE } = require("../../reps/constants");
 
-const Utils = require("./utils");
+const Utils = require("../utils");
 const { renderRep, shouldRenderRootsInReps } = Utils;
 
 const {
@@ -50,7 +50,7 @@ const {
   nodeHasFullText
 } = Utils.node;
 
-import type { CachedNodes, Node, NodeContents, Props } from "./types";
+import type { CachedNodes, Node, NodeContents, Props } from "../types";
 
 type DefaultProps = {
   autoExpandAll: boolean,
