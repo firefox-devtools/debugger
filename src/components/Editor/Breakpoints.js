@@ -20,18 +20,10 @@ type Props = {
 };
 
 class Breakpoints extends Component<Props> {
-  shouldComponentUpdate(nextProps: Props) {
-    if (nextProps.selectedSource && !isLoaded(nextProps.selectedSource)) {
-      return false;
-    }
-
-    return true;
-  }
-
   render() {
     const { breakpoints, selectedSource, editor } = this.props;
 
-    if (!selectedSource || !breakpoints || selectedSource.isBlackBoxed) {
+    if (!breakpoints || selectedSource.isBlackBoxed) {
       return null;
     }
 
