@@ -4,7 +4,7 @@
 
 // @flow
 
-import type { Source, Range } from "../../types";
+import type { Source, PartialRange } from "../../types";
 
 import type {
   ActiveSearchType,
@@ -78,5 +78,5 @@ export type UIAction =
     |}
   | {|
       +type: "SET_VIEWPORT",
-      +viewport: Range
+      +viewport: PartialRange
     |};
