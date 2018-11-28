@@ -35,18 +35,6 @@ function enableBreakpoints(dbg, count) {
   return enabled;
 }
 
-function findBreakpoint(dbg, url, line) {
-  const {
-    selectors: { getBreakpoint },
-    getState
-  } = dbg;
-  const source = findSource(dbg, url);
-  const { column } = dbg.selectors.getFirstPausePointLocation(
-    dbg.store.getState(), { sourceId: source.id, line }
-  );
-  return getBreakpoint(getState(), { sourceId: source.id, line, column });
-}
-
 add_task(async function() {
   const dbg = await initDebugger("doc-scripts.html", "simple2");
 
