@@ -496,10 +496,12 @@ function clearDebuggerPreferences() {
  * @return {Promise} dbg
  * @static
  */
-async function initDebugger(url) {
+async function initDebugger(url, ...sources) {
   clearDebuggerPreferences();
   const toolbox = await openNewTabAndToolbox(EXAMPLE_URL + url, "jsdebugger");
-  return createDebuggerContext(toolbox);
+  const dbg = createDebuggerContext(toolbox);
+  await waitForSources(dbg, ...sources)
+  return dbg;
 }
 
 async function initPane(url, pane) {

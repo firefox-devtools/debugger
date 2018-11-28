@@ -8,7 +8,7 @@ function openFirstBreakpointContextMenu(dbg){
 
 // Tests to see if we can trigger a breakpoint action via the context menu
 add_task(async function() {
-  const dbg = await initDebugger("doc-scripts.html");
+  const dbg = await initDebugger("doc-scripts.html", "simple2");
   await selectSource(dbg, "simple2");
   await waitForSelectedSource(dbg, "simple2");
 
