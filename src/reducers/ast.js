@@ -207,6 +207,32 @@ export function getPausePoints(
   return state.ast.pausePoints.get(sourceId);
 }
 
+export function getFirstPausePointLocation(
+  state: OuterState,
+  location: ?Location
+): ?Location {
+  if (!location) {
+    return;
+  }
+
+  const pausePoints = getPausePoints(state, location.sourceId);
+  if (!pausePoints) {
+    return location;
+  }
+
+  const pausesAtLine = pausePoints[String(location.line)];
+  if (pausesAtLine) {
+    const column = Object.keys(pausesAtLine).find(
+      col => pausesAtLine[col].break
+    );
+    if (column !== undefined) {
+      return { ...location, column: Number(column) };
+    }
+  }
+
+  return location;
+}
+
 export function getPausePoint(
   state: OuterState,
   location: ?Location

@@ -16,7 +16,7 @@ import {
   getSource,
   getSymbols,
   getBreakpoint,
-  getPausePoints
+  getFirstPausePointLocation
 } from "../../selectors";
 import { getGeneratedLocation } from "../../utils/source-maps";
 import { getTextAtPosition } from "../../utils/source";
@@ -151,16 +151,11 @@ export function addBreakpoint(
     recordEvent("add_breakpoint");
 
     if (location.column === undefined) {
-      const pausePoints = getPausePoints(getState(), location.sourceId);
-
-      if (pausePoints) {
-        const pausesAtLine = pausePoints[location.line];
-
-        const column = pausesAtLine
-          ? Object.keys(pausesAtLine).find(col => pausesAtLine[col].break)
-          : undefined;
-        location = { ...location, column };
-      }
+      const pausePointLocation = getFirstPausePointLocation(
+        getState(),
+        location
+      );
+      location = pausePointLocation;
     }
 
     const breakpoint = createBreakpoint(location, { condition, hidden });
