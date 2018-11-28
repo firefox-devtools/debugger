@@ -7,7 +7,7 @@
 import { xor, range } from "lodash";
 import { convertToList } from "./pause/pausePoints";
 
-import type { Location, ColumnPosition } from "../types";
+import type { SourceLocation, ColumnPosition } from "../types";
 import type { Symbols } from "../reducers/ast";
 
 import type {
@@ -75,7 +75,7 @@ export function containsPosition(a: AstLocation, b: AstPosition) {
   return startsBefore && endsAfter;
 }
 
-function findClosestofSymbol(declarations: any[], location: Location) {
+function findClosestofSymbol(declarations: any[], location: SourceLocation) {
   if (!declarations) {
     return null;
   }
@@ -111,7 +111,7 @@ function findClosestofSymbol(declarations: any[], location: Location) {
 
 export function findClosestFunction(
   symbols: ?Symbols,
-  location: Location
+  location: SourceLocation
 ): FunctionDeclaration | null {
   if (!symbols || symbols.loading) {
     return null;
@@ -122,7 +122,7 @@ export function findClosestFunction(
 
 export function findClosestClass(
   symbols: Symbols,
-  location: Location
+  location: SourceLocation
 ): ClassDeclaration | null {
   if (!symbols || symbols.loading) {
     return null;

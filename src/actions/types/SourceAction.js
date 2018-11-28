@@ -4,7 +4,7 @@
 
 // @flow
 
-import type { Source, Location } from "../../types";
+import type { Source, SourceLocation } from "../../types";
 import type { PromiseAction } from "../utils/middleware/promise";
 
 export type LoadSourceAction = PromiseAction<
@@ -31,7 +31,7 @@ export type SourceAction =
   | {|
       +type: "SET_SELECTED_LOCATION",
       +source: Source,
-      +location?: Location
+      +location?: SourceLocation
     |}
   | {|
       +type: "SET_PENDING_SELECTED_LOCATION",

@@ -51,7 +51,7 @@ export type ActorId = string;
  * @memberof types
  * @static
  */
-export type Location = {
+export type SourceLocation = {
   +sourceId: SourceId,
   +line: number,
   +column?: number,
@@ -59,8 +59,8 @@ export type Location = {
 };
 
 export type MappedLocation = {
-  +location: Location,
-  +generatedLocation: Location
+  +location: SourceLocation,
+  +generatedLocation: SourceLocation
 };
 
 export type Position = {
@@ -95,9 +95,9 @@ export type ASTLocation = {|
  */
 export type Breakpoint = {|
   +id: BreakpointId,
-  +location: Location,
+  +location: SourceLocation,
   +astLocation: ?ASTLocation,
-  +generatedLocation: Location,
+  +generatedLocation: SourceLocation,
   +loading: boolean,
   +disabled: boolean,
   +hidden: boolean,
@@ -127,7 +127,7 @@ export type XHRBreakpoint = {|
  */
 export type BreakpointResult = {
   id: ActorId,
-  actualLocation: Location
+  actualLocation: SourceLocation
 };
 
 /**
@@ -162,8 +162,8 @@ export type FrameId = string;
 export type Frame = {
   id: FrameId,
   displayName: string,
-  location: Location,
-  generatedLocation: Location,
+  location: SourceLocation,
+  generatedLocation: SourceLocation,
   source?: Source,
   scope: Scope,
   // FIXME Define this type more clearly
@@ -372,7 +372,7 @@ export type Scope = {|
     actor: ActorId,
     class: string,
     displayName: string,
-    location: Location,
+    location: SourceLocation,
     parameterNames: string[]
   },
   type: string

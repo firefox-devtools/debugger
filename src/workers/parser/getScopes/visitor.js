@@ -5,7 +5,7 @@
 // @flow
 
 import isEmpty from "lodash/isEmpty";
-import type { SourceId, Location } from "../../../types";
+import type { SourceId, SourceLocation } from "../../../types";
 import * as t from "@babel/types";
 import type {
   Node,
@@ -65,20 +65,20 @@ export type BindingLocation = BindingDeclarationLocation | BindingRefLocation;
 
 export type BindingRefLocation = {
   type: "ref",
-  start: Location,
-  end: Location,
+  start: SourceLocation,
+  end: SourceLocation,
   meta?: BindingMetaValue | null
 };
 export type BindingDeclarationLocation = {
   type: BindingDeclarationType,
 
-  start: Location,
-  end: Location,
+  start: SourceLocation,
+  end: SourceLocation,
 
   // The overall location of the declaration that this binding is part of.
   declaration: {
-    start: Location,
-    end: Location
+    start: SourceLocation,
+    end: SourceLocation
   },
 
   // If this declaration was an import, include the name of the imported
@@ -95,20 +95,20 @@ export type BindingData = {
 export type BindingMetaValue =
   | {
       type: "inherit",
-      start: Location,
-      end: Location,
+      start: SourceLocation,
+      end: SourceLocation,
       parent: BindingMetaValue | null
     }
   | {
       type: "call",
-      start: Location,
-      end: Location,
+      start: SourceLocation,
+      end: SourceLocation,
       parent: BindingMetaValue | null
     }
   | {
       type: "member",
-      start: Location,
-      end: Location,
+      start: SourceLocation,
+      end: SourceLocation,
       property: string,
       parent: BindingMetaValue | null
     };
@@ -120,8 +120,8 @@ export type ScopeBindingList = {
 export type SourceScope = {
   type: "object" | "function" | "block",
   displayName: string,
-  start: Location,
-  end: Location,
+  start: SourceLocation,
+  end: SourceLocation,
   bindings: ScopeBindingList
 };
 
@@ -231,8 +231,8 @@ function createTempScope(
   displayName: string,
   parent: TempScope | null,
   loc: {
-    start: Location,
-    end: Location
+    start: SourceLocation,
+    end: SourceLocation
   }
 ): TempScope {
   const result = {
@@ -253,8 +253,8 @@ function pushTempScope(
   type: "object" | "function" | "function-body" | "block" | "module",
   displayName: string,
   loc: {
-    start: Location,
-    end: Location
+    start: SourceLocation,
+    end: SourceLocation
   }
 ): TempScope {
   const scope = createTempScope(type, displayName, state.scope, loc);
@@ -284,7 +284,7 @@ function getVarScope(scope: TempScope): TempScope {
 function fromBabelLocation(
   location: BabelLocation,
   sourceId: SourceId
-): Location {
+): SourceLocation {
   return {
     sourceId,
     line: location.line,

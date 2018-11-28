@@ -25,12 +25,12 @@ import type {
   Breakpoint as BreakpointType,
   Frame,
   Source,
-  Location
+  SourceLocation
 } from "../../../types";
 
 type FormattedFrame = {
   ...Frame,
-  selectedLocation: Location
+  selectedLocation: SourceLocation
 };
 
 import {

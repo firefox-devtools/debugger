@@ -28,7 +28,7 @@ import ManagedTree from "./shared/ManagedTree";
 import SearchInput from "./shared/SearchInput";
 
 import type { List } from "immutable";
-import type { Location } from "../types";
+import type { SourceLocation } from "../types";
 import type { ActiveSearchType } from "../reducers/types";
 import type { StatusType } from "../reducers/project-text-search";
 type Editor = ?Object;
@@ -68,7 +68,7 @@ type Props = {
   closeProjectSearch: () => void,
   searchSources: (query: string) => void,
   clearSearch: () => void,
-  selectSpecificLocation: (location: Location, tabIndex?: string) => void,
+  selectSpecificLocation: (location: SourceLocation, tabIndex?: string) => void,
   setActiveSearch: (activeSearch?: ActiveSearchType) => void,
   doSearchForHighlight: (
     query: string,
