@@ -74,7 +74,7 @@ export type ColumnPosition = {
 };
 
 export type PartialRange = { end: PartialPosition, start: PartialPosition };
-export type ColumnRange = { end: ColumnPosition, start: ColumnPosition };
+export type Range = { end: ColumnPosition, start: ColumnPosition };
 
 export type PendingLocation = {
   +line: number,
