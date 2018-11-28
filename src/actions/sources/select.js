@@ -34,7 +34,7 @@ import {
   getSelectedSource
 } from "../../selectors";
 
-import type { SourceLocation, Position, Source } from "../../types";
+import type { SourceLocation, PartialPosition, Source } from "../../types";
 import type { ThunkArgs } from "../types";
 
 export const setSelectedLocation = (
@@ -67,7 +67,10 @@ export const clearSelectedLocation = () => ({
  * @memberof actions/sources
  * @static
  */
-export function selectSourceURL(url: string, options: Position = { line: 1 }) {
+export function selectSourceURL(
+  url: string,
+  options: PartialPosition = { line: 1 }
+) {
   return async ({ dispatch, getState, sourceMaps }: ThunkArgs) => {
     const source = getSourceByURL(getState(), url);
     if (!source) {

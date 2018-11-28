@@ -63,7 +63,7 @@ export type MappedLocation = {
   +generatedLocation: SourceLocation
 };
 
-export type Position = {
+export type PartialPosition = {
   +line: number,
   +column?: number
 };
@@ -73,7 +73,7 @@ export type ColumnPosition = {
   +column: number
 };
 
-export type Range = { end: Position, start: Position };
+export type Range = { end: PartialPosition, start: PartialPosition };
 export type ColumnRange = { end: ColumnPosition, start: ColumnPosition };
 
 export type PendingLocation = {
@@ -84,7 +84,7 @@ export type PendingLocation = {
 
 export type ASTLocation = {|
   +name: ?string,
-  +offset: Position
+  +offset: PartialPosition
 |};
 
 /**
