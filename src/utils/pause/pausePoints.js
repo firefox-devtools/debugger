@@ -22,8 +22,8 @@ function insertStrtAt(string, index, newString) {
 export function convertToList(pausePoints: PausePoints): PausePoint[] {
   const list = [];
   for (const line in pausePoints) {
-    for (const column in pausePoints[line]) {
-      const point = pausePoints[line][column];
+    for (const column in pausePoints[Number(line)]) {
+      const point = pausePoints[Number(line)][Number(column)];
       list.push({
         location: { line: parseInt(line, 10), column: parseInt(column, 10) },
         types: point

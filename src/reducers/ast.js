@@ -209,21 +209,17 @@ export function getPausePoints(
 
 export function getFirstPausePointLocation(
   state: OuterState,
-  location: ?Location
-): ?Location {
-  if (!location) {
-    return;
-  }
-
+  location: Location
+): Location {
   const pausePoints = getPausePoints(state, location.sourceId);
   if (!pausePoints) {
     return location;
   }
 
-  const pausesAtLine = pausePoints[String(location.line)];
+  const pausesAtLine = pausePoints[location.line];
   if (pausesAtLine) {
     const column = Object.keys(pausesAtLine).find(
-      col => pausesAtLine[col].break
+      col => pausesAtLine[Number(col)].break
     );
     if (column !== undefined) {
       return { ...location, column: Number(column) };
@@ -247,9 +243,9 @@ export function getPausePoint(
     return;
   }
 
-  const linePoints = pausePoints[String(line)];
+  const linePoints = pausePoints[line];
   if (linePoints && column) {
-    return linePoints[String(column)];
+    return linePoints[column];
   }
 }
 

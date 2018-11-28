@@ -119,10 +119,11 @@ export function setOutOfScopeLocations() {
 function compressPausePoints(pausePoints) {
   const compressed = {};
   for (const line in pausePoints) {
-    compressed[line] = {};
-    for (const col in pausePoints[line]) {
-      const point = pausePoints[line][col];
-      compressed[line][col] = (point.break ? 1 : 0) | (point.step ? 2 : 0);
+    compressed[Number(line)] = {};
+    for (const col in pausePoints[Number(line)]) {
+      const point = pausePoints[Number(line)][Number(col)];
+      compressed[Number(line)][Number(col)] =
+        (point.break ? 1 : 0) | (point.step ? 2 : 0);
     }
   }
 
