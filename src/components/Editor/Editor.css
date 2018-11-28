@@ -52,10 +52,18 @@ html[dir="rtl"] .editor-mount {
 
 .theme-light {
   --gutter-hover-background-color: #dde1e4;
+  --breakpoint-fill: var(--blue-50);
+  --breakpoint-stroke: var(--blue-60);
+  --breakpoint-fill-disabled: var(--blue-50);
+  --breakpoint-stroke-disabled: var(--blue-40);
 }
 
 .theme-dark {
   --gutter-hover-background-color: #414141;
+  --breakpoint-fill: var(--blue-55);
+  --breakpoint-stroke: var(--blue-40);
+  --breakpoint-fill-disabled: var(--blue-50);
+  --breakpoint-stroke-disabled: var(--blue-60);
 }
 
 :not(.empty-line):not(.new-breakpoint)
@@ -110,7 +118,8 @@ html[dir="rtl"] .editor-mount {
 }
 
 .editor.new-breakpoint svg {
-  fill: var(--theme-selection-background);
+  fill: var(--breakpoint-fill);
+  stroke: var(--breakpoint-stroke);
   width: 60px;
   height: 14px;
   position: absolute;
@@ -142,7 +151,9 @@ html[dir="rtl"] .editor-mount {
 }
 
 .editor.new-breakpoint.breakpoint-disabled svg {
-  opacity: 0.3;
+  fill: var(--breakpoint-fill-disabled);
+  stroke: var(--breakpoint-stroke-disabled);
+  fill-opacity: 0.5;
 }
 
 .editor.column-breakpoint svg {
