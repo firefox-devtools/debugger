@@ -7,7 +7,7 @@
 import { xor, range } from "lodash";
 import { convertToList } from "./pause/pausePoints";
 
-import type { SourceLocation, ColumnPosition } from "../types";
+import type { SourceLocation, Position } from "../types";
 import type { Symbols } from "../reducers/ast";
 
 import type {
@@ -18,10 +18,7 @@ import type {
   ClassDeclaration
 } from "../workers/parser";
 
-export function findBestMatchExpression(
-  symbols: Symbols,
-  tokenPos: ColumnPosition
-) {
+export function findBestMatchExpression(symbols: Symbols, tokenPos: Position) {
   if (symbols.loading) {
     return null;
   }

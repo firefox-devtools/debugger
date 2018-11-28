@@ -68,13 +68,13 @@ export type PartialPosition = {
   +column?: number
 };
 
-export type ColumnPosition = {
+export type Position = {
   +line: number,
   +column: number
 };
 
 export type PartialRange = { end: PartialPosition, start: PartialPosition };
-export type Range = { end: ColumnPosition, start: ColumnPosition };
+export type Range = { end: Position, start: Position };
 
 export type PendingLocation = {
   +line: number,
