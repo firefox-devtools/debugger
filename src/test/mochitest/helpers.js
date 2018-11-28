@@ -1035,7 +1035,8 @@ const selectors = {
     disableOthers: "#node-menu-disable-others",
     enableOthers: "#node-menu-enable-others",
     remove: "#node-menu-delete-self",
-    removeOthers: "#node-menu-delete-other"
+    removeOthers: "#node-menu-delete-other",
+    removeCondition: "#node-menu-remove-condition"
   },
   scopes: ".scopes-list",
   scopeNode: i => `.scopes-list .tree-node:nth-child(${i}) .object-label`,

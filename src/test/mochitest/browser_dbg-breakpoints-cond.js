@@ -93,7 +93,7 @@ add_task(async function() {
   //right click breakpoint in breakpoints list
   rightClickElement(dbg, "breakpointItem", 3)
   // select "remove condition";
-  selectContextMenuItem(dbg, "#node-menu-remove-condition");
+  selectContextMenuItem(dbg, selectors.breakpointContextMenu.removeCondition);
   await bpCondition;
   bp = findBreakpoint(dbg, "simple2", 5);
   is(bp.condition, undefined, "breakpoint condition removed");
