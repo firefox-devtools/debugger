@@ -41,7 +41,10 @@ function findBreakpoint(dbg, url, line) {
     getState
   } = dbg;
   const source = findSource(dbg, url);
-  return getBreakpoint(getState(), { sourceId: source.id, line });
+  const { column } = dbg.selectors.getFirstPausePointLocation(
+    dbg.store.getState(), { sourceId: source.id, line }
+  );
+  return getBreakpoint(getState(), { sourceId: source.id, line, column });
 }
 
 add_task(async function() {
