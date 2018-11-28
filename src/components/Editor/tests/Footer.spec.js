@@ -31,7 +31,7 @@ function generateDefaults(overrides) {
   };
 }
 
-function render(overrides = {}, position = { line: 0, ch: 0 }) {
+function render(overrides = {}, position = { line: 0, column: 0 }) {
   const clear = jest.fn();
   const props = generateDefaults(overrides);
 
@@ -55,7 +55,7 @@ describe("SourceFooter Component", () => {
   describe("move cursor", () => {
     it("should render new cursor position", () => {
       const { component } = render();
-      component.setState({ cursorPosition: { line: 5, ch: 10 } });
+      component.setState({ cursorPosition: { line: 5, column: 10 } });
 
       expect(component).toMatchSnapshot();
     });

@@ -26,14 +26,20 @@ import { shouldShowFooter, shouldShowPrettyPrint } from "../../utils/editor";
 
 import { PaneToggleButton } from "../shared/Button";
 
-import type { Source, CursorPosition } from "../../types";
+import type { Source } from "../../types";
 
 import "./Footer.css";
+
+type CursorPosition = {
+  line: number,
+  column: number
+};
 
 type Props = {
   selectedSource: Source,
   mappedSource: Source,
   endPanelCollapsed: boolean,
+  editor: Object,
   horizontal: boolean,
   togglePrettyPrint: string => void,
   toggleBlackBox: Object => void,
@@ -49,7 +55,7 @@ class SourceFooter extends PureComponent<Props, State> {
   constructor() {
     super();
 
-    this.state = { cursorPosition: { line: 1, ch: 1 } };
+    this.state = { cursorPosition: { line: 1, column: 1 } };
   }
 
   componentDidMount() {
@@ -195,18 +201,19 @@ class SourceFooter extends PureComponent<Props, State> {
   }
 
   onCursorChange = event => {
-    this.setState({ cursorPosition: event.doc.getCursor() });
+    const { line, ch } = event.doc.getCursor();
+    this.setState({ cursorPosition: { line, column: ch } });
   };
 
   renderCursorPosition() {
     const { cursorPosition } = this.state;
 
-    const info = L10N.getFormatStr(
+    const text = L10N.getFormatStr(
       "sourceFooter.currentCursorPosition",
       cursorPosition.line + 1,
-      cursorPosition.ch + 1
+      cursorPosition.column + 1
     );
-    return <span className="cursor-position">{info}</span>;
+    return <span className="cursor-position">{text}</span>;
   }
 
   render() {
