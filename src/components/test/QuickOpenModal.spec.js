@@ -108,18 +108,6 @@ describe("QuickOpenModal", () => {
       );
       expect(wrapper).toMatchSnapshot();
     });
-    it("loads with variable type search", () => {
-      const { wrapper } = generateModal(
-        {
-          enabled: true,
-          query: "",
-          searchType: "variables",
-          symbolsLoading: true
-        },
-        "shallow"
-      );
-      expect(wrapper).toMatchSnapshot();
-    });
   });
 
   test("Ensure anonymous functions do not render in QuickOpenModal", () => {
@@ -473,44 +461,6 @@ describe("QuickOpenModal", () => {
       expect(props.setQuickOpenQuery).not.toHaveBeenCalled();
     });
 
-    it("on Enter with results, handle variables result with location", () => {
-      const { wrapper, props } = generateModal(
-        {
-          enabled: true,
-          query: "@test",
-          searchType: "variables",
-          symbols: {
-            functions: [],
-            variables: {}
-          }
-        },
-        "shallow"
-      );
-      const id = "test_id";
-      const location = {
-        start: {
-          line: 7
-        },
-        end: {
-          line: 8
-        }
-      };
-      wrapper.setState(() => ({
-        results: [{}, { id, location }],
-        selectedIndex: 1
-      }));
-      const event = {
-        key: "Enter"
-      };
-      wrapper.find("SearchInput").simulate("keydown", event);
-      expect(props.selectSpecificLocation).toHaveBeenCalledWith({
-        column: undefined,
-        line: 7,
-        sourceId: ""
-      });
-      expect(props.setQuickOpenQuery).not.toHaveBeenCalled();
-    });
-
     it("on Enter with results, handle gotoSource search", () => {
       const { wrapper, props } = generateModal(
         {
@@ -641,96 +591,6 @@ describe("QuickOpenModal", () => {
         sourceId: sourceId,
         start: 1
       });
-    });
-
-    it("on ArrowDown, traverse down with variables", () => {
-      const sourceId = "sourceId";
-      const { wrapper, props } = generateModal(
-        {
-          enabled: true,
-          query: "test",
-          searchType: "variables",
-          selectedSource: { id: sourceId },
-          symbols: {
-            functions: [],
-            variables: {}
-          }
-        },
-        "shallow"
-      );
-      const event = {
-        preventDefault: jest.fn(),
-        key: "ArrowDown"
-      };
-      function getLocation(start) {
-        return {
-          start: {
-            line: start
-          }
-        };
-      }
-      wrapper.setState(() => ({
-        results: [
-          { id: "0", location: getLocation(9) },
-          { id: "1", location: getLocation(10) },
-          { id: "2", location: getLocation(11) }
-        ],
-        selectedIndex: 1
-      }));
-      wrapper.find("SearchInput").simulate("keydown", event);
-      expect(event.preventDefault).toHaveBeenCalled();
-      expect(wrapper.state().selectedIndex).toEqual(2);
-      expect(props.selectSpecificLocation).toHaveBeenCalledWith({
-        column: undefined,
-        line: 11,
-        sourceId: "sourceId"
-      });
-      expect(props.highlightLineRange).not.toHaveBeenCalled();
-    });
-
-    it("on ArrowDown, traverse down to variable with no location", () => {
-      const sourceId = "sourceId";
-      const { wrapper, props } = generateModal(
-        {
-          enabled: true,
-          query: "test",
-          searchType: "variables",
-          selectedSource: { id: sourceId },
-          symbols: {
-            functions: [],
-            variables: {}
-          }
-        },
-        "shallow"
-      );
-      const event = {
-        preventDefault: jest.fn(),
-        key: "ArrowDown"
-      };
-      function getLocation(start) {
-        return {
-          start: {
-            line: start
-          }
-        };
-      }
-      wrapper.setState(() => ({
-        results: [
-          { id: "0", location: getLocation(9) },
-          { id: "1", location: getLocation(10) },
-          { id: "2" }
-        ],
-        selectedIndex: 1
-      }));
-      wrapper.find("SearchInput").simulate("keydown", event);
-      expect(event.preventDefault).toHaveBeenCalled();
-      expect(wrapper.state().selectedIndex).toEqual(2);
-      expect(props.selectSpecificLocation).toHaveBeenCalledWith({
-        column: undefined,
-        line: 0,
-        sourceId: "sourceId"
-      });
-      expect(props.highlightLineRange).not.toHaveBeenCalled();
     });
 
     it("on ArrowDown, traverse down with no results", () => {
