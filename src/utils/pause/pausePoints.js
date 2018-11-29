@@ -6,10 +6,10 @@
 import { reverse } from "lodash";
 
 import type { PausePoints } from "../../workers/parser";
-import type { ColumnPosition } from "../../types";
+import type { Position } from "../../types";
 
 type PausePoint = {
-  location: ColumnPosition,
+  location: Position,
   types: { break: boolean, step: boolean }
 };
 

@@ -4,7 +4,7 @@
 
 // @flow
 
-import type { ColumnPosition } from "../../types";
+import type { Position } from "../../types";
 import { parseScript, parseConsoleScript } from "./utils/ast";
 import { buildScopeList } from "./getScopes";
 import generate from "@babel/generator";
@@ -30,7 +30,7 @@ function getFirstExpression(ast) {
   return statements[0].expression;
 }
 
-function locationKey(start: ColumnPosition): string {
+function locationKey(start: Position): string {
   return `${start.line}:${start.column}`;
 }
 

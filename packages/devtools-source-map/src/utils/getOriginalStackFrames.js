@@ -4,17 +4,17 @@
 
 // @flow
 
-import type { Location } from "debugger-html";
+import type { SourceLocation } from "debugger-html";
 
 const { getWasmXScopes } = require("./wasmXScopes");
 
 // Returns expanded stack frames details based on the generated location.
 // The function return null if not information was found.
 async function getOriginalStackFrames(
-  generatedLocation: Location
+  generatedLocation: SourceLocation
 ): Promise<?Array<{
   displayName: string,
-  location?: Location
+  location?: SourceLocation
 }>> {
   const wasmXScopes = await getWasmXScopes(generatedLocation.sourceId);
   if (!wasmXScopes) {

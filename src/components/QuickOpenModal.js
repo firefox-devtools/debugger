@@ -35,7 +35,7 @@ import type {
   QuickOpenResult
 } from "../utils/quick-open";
 
-import type { Location, Source } from "../types";
+import type { SourceLocation, Source } from "../types";
 import type { QuickOpenType } from "../reducers/quick-open";
 import type { Tab } from "../reducers/tabs";
 
@@ -51,7 +51,7 @@ type Props = {
   symbolsLoading: boolean,
   tabs: Tab[],
   shortcutsModalEnabled: boolean,
-  selectSpecificLocation: Location => void,
+  selectSpecificLocation: SourceLocation => void,
   setQuickOpenQuery: (query: string) => void,
   highlightLineRange: ({ start: number, end: number }) => void,
   closeQuickOpen: () => void,
