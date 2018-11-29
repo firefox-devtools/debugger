@@ -130,21 +130,5 @@ Object {
   "loading": false,
   "memberExpressions": Array [],
   "objectProperties": Array [],
-  "variables": Array [
-    Object {
-      "location": Object {
-        "end": Object {
-          "column": 17,
-          "line": 1,
-        },
-        "identifierName": "boo",
-        "start": Object {
-          "column": 14,
-          "line": 1,
-        },
-      },
-      "name": "boo",
-    },
-  ],
 }
 `;
