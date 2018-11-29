@@ -9,8 +9,9 @@
 .call-site svg {
   display: inline;
   cursor: pointer;
-  width: 9px;
   height: 12px;
+  width: 9px;
+  vertical-align: top;
 }
 
 .call-site.active svg {

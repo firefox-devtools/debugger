@@ -26,12 +26,12 @@ type Props = {
 };
 
 const breakpointImg = document.createElement("div");
+ReactDOM.render(<Svg name={"column-marker"} />, breakpointImg);
 function makeBookmark(isActive, { onClick }) {
   const bp = breakpointImg.cloneNode(true);
   const className = isActive ? "active" : "disabled";
   bp.className = classnames("call-site", className);
   bp.onclick = onClick;
-  ReactDOM.render(<Svg name={"column-marker"} />, bp);
   return bp;
 }
 
