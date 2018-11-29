@@ -14,6 +14,7 @@ const prefsSchemaVersion = "1.0.5";
 const pref = Services.pref;
 
 if (isDevelopment()) {
+  pref("devtools.debugger.logging", false);
   pref("devtools.debugger.alphabetize-outline", false);
   pref("devtools.debugger.auto-pretty-print", false);
   pref("devtools.source-map.client-service.enabled", true);
@@ -64,6 +65,7 @@ if (isDevelopment()) {
 }
 
 export const prefs = new PrefsHelper("devtools", {
+  logging: ["Bool", "debugger.alphabetize-outline"],
   alphabetizeOutline: ["Bool", "debugger.alphabetize-outline"],
   autoPrettyPrint: ["Bool", "debugger.auto-pretty-print"],
   clientSourceMapsEnabled: ["Bool", "source-map.client-service.enabled"],
