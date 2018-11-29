@@ -161,6 +161,7 @@ class XScope {
         displayName: i.name || "",
         location: {
           line: i.line || 0,
+          column: 0,
           sourceId
         }
       };

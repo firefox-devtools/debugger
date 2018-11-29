@@ -252,7 +252,7 @@ export class QuickOpenModal extends Component<Props, State> {
       selectSpecificLocation({
         sourceId,
         line: location.line,
-        column: location.column
+        column: typeof location.column === "number" ? location.column : 0
       });
       this.closeModal();
     }

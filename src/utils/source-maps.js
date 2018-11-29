@@ -33,7 +33,12 @@ export async function getGeneratedLocation(
   return {
     line,
     sourceId,
-    column: column === 0 ? undefined : column,
+    // If the input location didn't have a column number, and we got back
+    // the start of the line, we consider the result to also not have a column.
+    // This is so that we can preserve our current behavior of having
+    // breakpoints with optional columns, while allowing operations on
+    // locations unrelated to breakpoints to always have a column.
+    column: location.column === undefined && column === 0 ? undefined : column,
     sourceUrl: generatedSource.url
   };
 }

@@ -129,7 +129,10 @@ function checkSelectedSource(sourceId: string) {
           sourceId: source.id,
           line:
             typeof pendingLocation.line === "number" ? pendingLocation.line : 0,
-          column: pendingLocation.column
+          column:
+            typeof pendingLocation.column === "number"
+              ? pendingLocation.column
+              : 0
         })
       );
     }

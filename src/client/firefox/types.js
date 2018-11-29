@@ -73,7 +73,7 @@ export type FramePacket = {
   depth?: number,
   oldest?: boolean,
   type: "pause" | "call",
-  where: ActualLocation
+  where: FrameLocation
 };
 
 /**
@@ -137,6 +137,12 @@ export type PausedPacket = {
 export type ResumedPacket = {
   from: ActorId,
   type: string
+};
+
+export type FrameLocation = {
+  source: SourcePayload,
+  line: number,
+  column: number
 };
 
 /**

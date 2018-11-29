@@ -112,7 +112,7 @@ add_task(async function() {
 
   info("Testing goto line:column");
   assertLine(dbg, 0);
-  assertColumn(dbg, null);
+  assertColumn(dbg, 0);
   quickOpen(dbg, ":7:12");
   pressKey(dbg, "Enter");
   assertLine(dbg, 7);

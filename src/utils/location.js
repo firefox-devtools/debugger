@@ -22,7 +22,7 @@ export function createLocation({
   return {
     sourceId,
     line: line || 0,
-    column,
+    column: column || 0,
     sourceUrl: sourceUrl || ""
   };
 }

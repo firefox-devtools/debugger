@@ -424,7 +424,7 @@ describe("QuickOpenModal", () => {
       };
       wrapper.find("SearchInput").simulate("keydown", event);
       expect(props.selectSpecificLocation).toHaveBeenCalledWith({
-        column: undefined,
+        column: 0,
         sourceId: id,
         line: 0
       });
@@ -454,7 +454,7 @@ describe("QuickOpenModal", () => {
       };
       wrapper.find("SearchInput").simulate("keydown", event);
       expect(props.selectSpecificLocation).toHaveBeenCalledWith({
-        column: undefined,
+        column: 0,
         line: 0,
         sourceId: ""
       });
