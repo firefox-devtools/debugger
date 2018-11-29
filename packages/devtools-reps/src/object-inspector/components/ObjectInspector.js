@@ -6,8 +6,8 @@
 
 const { Component, createFactory, createElement } = require("react");
 const { connect } = require("react-redux");
-const actions = require("../actions");
 
+const actions = require("../actions");
 const selectors = require("../reducer");
 
 import Components from "devtools-components";
@@ -21,15 +21,16 @@ const classnames = require("classnames");
 const Utils = require("../utils");
 const { renderRep, shouldRenderRootsInReps } = Utils;
 const {
-  getChildrenWithEvaluations,
   getActor,
+  getNodeKey,
   getParent,
   nodeIsPrimitive,
   nodeHasGetter,
-  nodeHasSetter
+  nodeHasSetter,
+  nodeHasGetterValue
 } = Utils.node;
 
-import type { CachedNodes, Props } from "../types";
+import type { Props } from "../types";
 
 type DefaultProps = {
   autoExpandAll: boolean,
@@ -67,73 +68,62 @@ class ObjectInspector extends Component<Props> {
   static defaultProps: DefaultProps;
   constructor(props: Props) {
     super();
-    this.cachedNodes = new Map();
 
     const self: any = this;
 
-    self.getItemChildren = this.getItemChildren.bind(this);
     self.isNodeExpandable = this.isNodeExpandable.bind(this);
     self.setExpanded = this.setExpanded.bind(this);
     self.focusItem = this.focusItem.bind(this);
     self.getRoots = this.getRoots.bind(this);
-    self.getNodeKey = this.getNodeKey.bind(this);
+    self.getNodeStringKey = this.getNodeStringKey.bind(this);
   }
 
   componentWillMount() {
     this.roots = this.props.roots;
     this.focusedItem = this.props.focusedItem;
+
+    this.props.rootsChanged({ newRoots: this.roots });
   }
 
   componentWillUpdate(nextProps) {
-    this.removeOutdatedNodesFromCache(nextProps);
-
     if (this.roots !== nextProps.roots) {
+      console.info(
+        "componentWillUpdate - roots changes",
+        this.roots,
+        nextProps.roots
+      );
       // Since the roots changed, we assume the properties did as well,
       // so we need to cleanup the component internal state.
       this.roots = nextProps.roots;
       this.focusedItem = nextProps.focusedItem;
-      if (this.props.rootsChanged) {
-        this.props.rootsChanged();
-      }
-      return;
-    }
-  }
-
-  removeOutdatedNodesFromCache(nextProps) {
-    // When the roots changes, we can wipe out everything.
-    if (this.roots !== nextProps.roots) {
-      this.cachedNodes.clear();
-      return;
-    }
-
-    // If there are new evaluations, we want to remove the existing cached
-    // nodes from the cache.
-    if (nextProps.evaluations > this.props.evaluations) {
-      for (const key of nextProps.evaluations.keys()) {
-        if (!this.props.evaluations.has(key)) {
-          this.cachedNodes.delete(key);
-        }
-      }
+      this.props.rootsChanged({
+        oldRoots: this.props.roots,
+        nextRoots: this.roots
+      });
     }
   }
 
   shouldComponentUpdate(nextProps: Props) {
-    const { expandedPaths, loadedProperties, evaluations } = this.props;
+    const { expandedPaths, loadedProperties, nodes, evaluations } = this.props;
 
     // We should update if:
-    // - there are new loaded properties
-    // - OR there are new evaluations
-    // - OR the expanded paths number changed, and all of them have properties
+    // - there are new nodes
+    // - there are new evaluations
+    // - OR there are less expanded nodes
+    // - OR there are more expanded nodes, and all of them have properties
     //      loaded
     // - OR the expanded paths number did not changed, but old and new sets
     //      differ
     // - OR the focused node changed.
+    // - OR the roots changed.
     return (
-      loadedProperties.size !== nextProps.loadedProperties.size ||
+      nodes.size !== nextProps.nodes.size ||
       evaluations.size !== nextProps.evaluations.size ||
-      (expandedPaths.size !== nextProps.expandedPaths.size &&
+      loadedProperties.length !== nextProps.loadedProperties.length ||
+      expandedPaths.size > nextProps.expandedPaths.size ||
+      (expandedPaths.size < nextProps.expandedPaths.size &&
         [...nextProps.expandedPaths].every(path =>
-          nextProps.loadedProperties.has(path)
+          nextProps.loadedProperties.includes(path)
         )) ||
       (expandedPaths.size === nextProps.expandedPaths.size &&
         [...nextProps.expandedPaths].some(key => !expandedPaths.has(key))) ||
@@ -143,40 +133,33 @@ class ObjectInspector extends Component<Props> {
   }
 
   componentWillUnmount() {
-    this.props.closeObjectInspector();
+    this.props.rootsChanged({ oldRoots: this.props.roots });
   }
 
   props: Props;
-  cachedNodes: CachedNodes;
-
-  getItemChildren(item: Node): Array<Node> | NodeContents | null {
-    const { loadedProperties, evaluations } = this.props;
-    const { cachedNodes } = this;
-
-    return getChildrenWithEvaluations({
-      evaluations,
-      loadedProperties,
-      cachedNodes,
-      item
-    });
-  }
 
   getRoots(): Array<Node> {
-    return this.props.roots;
+    return this.roots;
   }
 
-  getNodeKey(item: Node): string {
-    return item.path && typeof item.path.toString === "function"
-      ? item.path.toString()
-      : JSON.stringify(item);
+  getNodeStringKey(item: Node): string {
+    const key = getNodeKey(item);
+    if (key && typeof key.toString === "function") {
+      return key.toString();
+    }
+
+    return JSON.stringify(item);
   }
 
   isNodeExpandable(item: Node): boolean {
-    if (nodeIsPrimitive(item)) {
+    if (
+      !nodeHasGetterValue(item) &&
+      (nodeHasSetter(item) || nodeHasGetter(item))
+    ) {
       return false;
     }
 
-    if (nodeHasSetter(item) || nodeHasGetter(item)) {
+    if (nodeIsPrimitive(item)) {
       return false;
     }
 
@@ -188,15 +171,10 @@ class ObjectInspector extends Component<Props> {
       return;
     }
 
-    const {
-      nodeExpand,
-      nodeCollapse,
-      recordTelemetryEvent,
-      roots
-    } = this.props;
+    const { nodeExpand, nodeCollapse, recordTelemetryEvent } = this.props;
 
     if (expand === true) {
-      const actor = getActor(item, roots);
+      const actor = getActor(item, this.roots);
       nodeExpand(item, actor);
       if (recordTelemetryEvent) {
         recordTelemetryEvent("object_expanded");
@@ -226,7 +204,9 @@ class ObjectInspector extends Component<Props> {
       focusable = true,
       disableWrap = false,
       expandedPaths,
-      inline
+      inline,
+      getNodeChildren,
+      evaluations
     } = this.props;
 
     return Tree({
@@ -245,9 +225,8 @@ class ObjectInspector extends Component<Props> {
 
       getRoots: this.getRoots,
       getParent,
-      getChildren: this.getItemChildren,
-      getKey: this.getNodeKey,
-
+      getChildren: getNodeChildren,
+      getKey: this.getNodeStringKey,
       onExpand: item => this.setExpanded(item, true),
       onCollapse: item => this.setExpanded(item, false),
       onFocus: focusable ? this.focusItem : null,
@@ -260,17 +239,21 @@ class ObjectInspector extends Component<Props> {
           focused,
           arrow,
           expanded,
-          setExpanded: this.setExpanded
+          setExpanded: this.setExpanded,
+          evaluation: evaluations.get(getNodeKey(item))
         })
     });
   }
 }
 
 function mapStateToProps(state, props) {
+  const { roots } = props;
   return {
-    expandedPaths: selectors.getExpandedPaths(state),
-    loadedProperties: selectors.getLoadedProperties(state),
-    evaluations: selectors.getEvaluations(state)
+    expandedPaths: selectors.getExpandedPathsFromRoots(state, roots),
+    evaluations: selectors.getEvaluationsFromRoots(state, roots),
+    loadedProperties: selectors.getLoadedPropertyKeysFromRoots(state, roots),
+    getNodeChildren: node => selectors.getNodeChildren(state, node),
+    nodes: selectors.getNodesFromRoots(state, roots)
   };
 }
 

@@ -4,10 +4,13 @@
 
 // @flow
 
-import type { GripProperties, Node, Props, ReduxAction } from "./types";
+import type { GripProperties, Node, ReduxAction } from "./types";
 
 const { loadItemProperties } = require("./utils/load-properties");
-const { getLoadedProperties, getActors } = require("./reducer");
+const {
+  getLoadedPropertiesFromRoots,
+  getActorsFromRoots
+} = require("./reducer");
 
 type Dispatch = ReduxAction => void;
 
@@ -42,7 +45,7 @@ function nodeCollapse(node: Node) {
 function nodeLoadProperties(node: Node, actor) {
   return async ({ dispatch, client, getState }: ThunkArg) => {
     const state = getState();
-    const loadedProperties = getLoadedProperties(state);
+    const loadedProperties = getLoadedPropertiesFromRoots(state);
     if (loadedProperties.has(node.path)) {
       return;
     }
@@ -73,35 +76,37 @@ function nodePropertiesLoaded(
   };
 }
 
-function closeObjectInspector() {
-  return async ({ getState, client }: ThunkArg) => {
-    releaseActors(getState(), client);
-  };
-}
-
 /*
  * This action is dispatched when the `roots` prop, provided by a consumer of
  * the ObjectInspector (inspector, console, …), is modified. It will clean the
  * internal state properties (expandedPaths, loadedProperties, …) and release
  * the actors consumed with the previous roots.
- * It takes a props argument which reflects what is passed by the upper-level
- * consumer.
  */
-function rootsChanged(props: Props) {
+function rootsChanged(options: { oldRoots?: Array, newRoots?: Array }) {
+  const { oldRoots, newRoots } = options;
   return async ({ dispatch, client, getState }: ThunkArg) => {
-    releaseActors(getState(), client);
+    if (oldRoots) {
+      releaseActors(getState(), client, oldRoots);
+    }
+
     dispatch({
       type: "ROOTS_CHANGED",
-      data: props
+      data: { oldRoots, newRoots }
     });
   };
 }
 
-function releaseActors(state, client) {
-  const actors = getActors(state);
-  for (const actor of actors) {
+function releaseActors(state, client, roots) {
+  const actors = getActorsFromRoots(state, roots);
+  if (!actors) {
+    return;
+  }
+
+  for (const actor of actors.values()) {
+    console.log("release actor", actor);
     client.releaseActor(actor);
   }
+  return actors;
 }
 
 function invokeGetter(node: Node, grip: object, getterName: string) {
@@ -123,7 +128,6 @@ function invokeGetter(node: Node, grip: object, getterName: string) {
 }
 
 module.exports = {
-  closeObjectInspector,
   invokeGetter,
   nodeExpand,
   nodeCollapse,

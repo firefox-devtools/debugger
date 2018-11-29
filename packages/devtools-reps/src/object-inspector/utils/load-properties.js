@@ -15,7 +15,6 @@ const {
   getClosestGripNode,
   getClosestNonBucketNode,
   getValue,
-  nodeHasAccessors,
   nodeHasAllEntriesInPreview,
   nodeHasProperties,
   nodeIsBucket,
@@ -171,7 +170,6 @@ function shouldLoadItemPrototype(
     !nodeIsMapEntry(item) &&
     !nodeIsEntries(item) &&
     !nodeIsDefaultProperties(item) &&
-    !nodeHasAccessors(item) &&
     !nodeIsPrimitive(item) &&
     !nodeIsLongString(item)
   );
@@ -190,7 +188,6 @@ function shouldLoadItemSymbols(
     !nodeIsMapEntry(item) &&
     !nodeIsEntries(item) &&
     !nodeIsDefaultProperties(item) &&
-    !nodeHasAccessors(item) &&
     !nodeIsPrimitive(item) &&
     !nodeIsLongString(item) &&
     !nodeIsProxy(item)

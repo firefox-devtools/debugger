@@ -166,7 +166,7 @@ function nodeIsPrimitive(item: Node): boolean {
     !nodeHasProperties(item) &&
     !nodeIsEntries(item) &&
     !nodeIsMapEntry(item) &&
-    !nodeHasAccessors(item) &&
+    !(nodeHasAccessors(item) && !nodeHasGetterValue(item)) &&
     !nodeIsBucket(item) &&
     !nodeIsLongString(item)
   );
@@ -613,21 +613,6 @@ function makeNodesForProperties(
   return nodes;
 }
 
-function setNodeFullText(loadedProps: GripProperties, node: Node): Node {
-  if (nodeHasFullText(node) || !nodeIsLongString(node)) {
-    return node;
-  }
-
-  const { fullText } = loadedProps;
-  if (nodeHasValue(node)) {
-    node.contents.value.fullText = fullText;
-  } else if (nodeHasGetterValue(node)) {
-    node.contents.getterValue.fullText = fullText;
-  }
-
-  return node;
-}
-
 function makeNodeForPrototype(objProps: GripProperties, parent: Node): ?Node {
   const { prototype } = objProps || {};
 
@@ -747,61 +732,38 @@ function getChildrenWithEvaluations(options: {
 }
 
 function getChildren(options: {
-  cachedNodes: CachedNodes,
   loadedProperties: LoadedProperties,
   item: Node
 }): Array<Node> {
-  const { cachedNodes, item, loadedProperties = new Map() } = options;
+  const { loadedProperties = new Map(), item } = options;
 
-  const key = item.path;
-  if (cachedNodes && cachedNodes.has(key)) {
-    return cachedNodes.get(key);
-  }
-
+  const key = getNodeKey(item);
   const loadedProps = loadedProperties.get(key);
   const hasLoadedProps = loadedProperties.has(key);
-
-  // Because we are dynamically creating the tree as the user
-  // expands it (not precalculated tree structure), we cache child
-  // arrays. This not only helps performance, but is necessary
-  // because the expanded state depends on instances of nodes
-  // being the same across renders. If we didn't do this, each
-  // node would be a new instance every render.
-  // If the node needs properties, we only add children to
-  // the cache if the properties are loaded.
-  const addToCache = (children: Array<Node>) => {
-    if (cachedNodes) {
-      cachedNodes.set(item.path, children);
-    }
-    return children;
-  };
 
   // Nodes can either have children already, or be an object with
   // properties that we need to go and fetch.
   if (nodeHasChildren(item)) {
-    return addToCache(item.contents);
+    return item.contents;
   }
 
   if (nodeIsMapEntry(item)) {
-    return addToCache(makeNodesForMapEntry(item));
+    return makeNodesForMapEntry(item);
   }
 
   if (nodeIsProxy(item)) {
-    return addToCache(makeNodesForProxyProperties(item));
+    return makeNodesForProxyProperties(item);
   }
 
-  if (nodeIsLongString(item) && hasLoadedProps) {
-    // Set longString object's fullText to fetched one.
-    return addToCache(setNodeFullText(loadedProps, item));
+  if (nodeIsLongString(item)) {
+    return [];
   }
 
   if (nodeNeedsNumericalBuckets(item) && hasLoadedProps) {
     // Even if we have numerical buckets, we should have loaded non indexed
     // properties.
     const bucketNodes = makeNumericalBuckets(item);
-    return addToCache(
-      bucketNodes.concat(makeNodesForProperties(loadedProps, item))
-    );
+    return bucketNodes.concat(makeNodesForProperties(loadedProps, item));
   }
 
   if (!nodeIsEntries(item) && !nodeIsBucket(item) && !nodeHasProperties(item)) {
@@ -812,7 +774,7 @@ function getChildren(options: {
     return [];
   }
 
-  return addToCache(makeNodesForProperties(loadedProps, item));
+  return makeNodesForProperties(loadedProps, item);
 }
 
 function getParent(item: Node): Node | null {
@@ -895,6 +857,10 @@ function getNonPrototypeParentGripValue(item: Node | null): Node | null {
   return getValue(parentGripNode);
 }
 
+function getNodeKey(item: Node): Symbol {
+  return item.path;
+}
+
 module.exports = {
   createNode,
   createGetterNode,
@@ -906,6 +872,7 @@ module.exports = {
   getClosestNonBucketNode,
   getParent,
   getNonPrototypeParentGripValue,
+  getNodeKey,
   getNumericalPropertiesCount,
   getValue,
   makeNodesForEntries,
@@ -919,6 +886,8 @@ module.exports = {
   nodeHasProperties,
   nodeHasGetter,
   nodeHasSetter,
+  nodeHasGetterValue,
+  nodeHasValue,
   nodeIsBlock,
   nodeIsBucket,
   nodeIsDefaultProperties,

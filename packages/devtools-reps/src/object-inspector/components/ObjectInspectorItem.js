@@ -6,6 +6,10 @@
 
 const { Component } = require("react");
 const dom = require("react-dom-factories");
+const { connect } = require("react-redux");
+
+const actions = require("../actions");
+const selectors = require("../reducer");
 
 import Services from "devtools-services";
 const { appinfo } = Services;
@@ -49,6 +53,7 @@ type Props = {
   setExpanded: (item: Node, expanded: boolean) => void,
   mode: Mode,
   dimTopLevelWindow: boolean,
+  evaluation: any,
   invokeGetter: () => void,
   onDoubleClick: ?(
     item: Node,
@@ -168,7 +173,7 @@ class ObjectInspectorItem extends Component<Props> {
 
       if (nodeHasGetter(item)) {
         const parentGrip = getNonPrototypeParentGripValue(item);
-        if (parentGrip) {
+        if (parentGrip /* && !evaluation*/) {
           Object.assign(repProps, {
             onInvokeGetterButtonClick: () =>
               this.props.invokeGetter(item, parentGrip, item.name)

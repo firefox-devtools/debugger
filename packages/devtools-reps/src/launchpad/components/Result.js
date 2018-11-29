@@ -49,9 +49,10 @@ class Result extends Component {
   }
 
   renderRepInAllModes({ object }) {
-    return Object.keys(MODE).map(modeKey =>
-      this.renderRep({ object, modeKey })
-    );
+    return this.renderRep({ object, modeKey: "LONG" });
+    // return Object.keys(MODE).map(modeKey =>
+    //   this.renderRep({ object, modeKey })
+    // );
   }
 
   renderRep({ object, modeKey }) {
@@ -72,6 +73,7 @@ class Result extends Component {
             }
           }
         ],
+        focusable: false,
         autoExpandDepth: 0,
         mode: MODE[modeKey],
         // The following properties are optional function props called by the
