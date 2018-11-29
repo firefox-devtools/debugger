@@ -35,12 +35,12 @@ declare module "debugger-html" {
    * @memberof types
    * @static
    */
-  declare type SourceLocation = {
+  declare type SourceLocation = {|
     sourceId: SourceId,
     line: number,
     column?: number,
     sourceUrl?: string
-  };
+  |};
 
   /**
    * Breakpoint
