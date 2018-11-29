@@ -259,7 +259,9 @@ describe("initializing with disabled pending breakpoints in prefs", () => {
       return bps && Object.values(bps).length > 0;
     });
 
-    const bp = selectors.getBreakpointForLine(getState(), "bar.js", 5);
+    const bp = selectors.getBreakpointForLine(getState(), "bar.js", {
+      line: 5
+    });
     expect(bp.location.sourceId).toEqual("bar.js");
     expect(bp.disabled).toEqual(true);
   });
