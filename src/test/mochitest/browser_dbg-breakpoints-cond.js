@@ -1,7 +1,6 @@
 /* Any copyright is dedicated to the Public Domain.
  * http://creativecommons.org/publicdomain/zero/1.0/ */
 
-// Default column is 2 because the pause point on the same line is 2
 function findBreakpoint(dbg, url, line, column = 0) {
   const {
     selectors: { getBreakpoint },
@@ -66,7 +65,6 @@ add_task(async function() {
   await setConditionalBreakpoint(dbg, 5, "1");
   await waitForDispatch(dbg, "ADD_BREAKPOINT");
   
-  //debugger;
   let bp = findBreakpoint(dbg, "simple2", 5);
   is(bp.condition, "1", "breakpoint is created with the condition");
   assertEditorBreakpoint(dbg, 5, true);
