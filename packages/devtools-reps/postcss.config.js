@@ -5,24 +5,21 @@
 const mapUrl = require("postcss-url-mapper");
 const MC_PATH = "resource://devtools/client/shared/components/reps/images/";
 const EXPRESS_PATH = "/devtools-reps/images/";
+const IMAGES = ["open-inspector.svg", "jump-definition.svg", "input.svg"];
+
 
 function mapUrlProduction(url, type) {
-  const newUrl = url
-    .replace("/images/open-inspector.svg", MC_PATH + "open-inspector.svg")
-    .replace("/images/jump-definition.svg", MC_PATH + "jump-definition.svg");
-
-  return newUrl;
+  for (const img of IMAGES) {
+    url = url.replace(`/images/${img}`, `${MC_PATH}${img}`);
+  }
+  return url;
 }
 
 function mapUrlDevelopment(url) {
-  const newUrl = url
-    .replace("/images/open-inspector.svg", EXPRESS_PATH + "open-inspector.svg")
-    .replace(
-      "/images/jump-definition.svg",
-      EXPRESS_PATH + "jump-definition.svg"
-    );
-
-  return newUrl;
+  for (const img of IMAGES) {
+    url = url.replace(`/images/${img}`, `${EXPRESS_PATH}${img}`);
+  }
+  return url;
 }
 
 module.exports = ({ file, options, env }) => {

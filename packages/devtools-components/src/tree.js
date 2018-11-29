@@ -34,7 +34,7 @@ class ArrowExpander extends Component {
     if (expanded) {
       classNames.push("expanded");
     }
-    return dom.img({
+    return dom.button({
       className: classNames.join(" ")
     });
   }

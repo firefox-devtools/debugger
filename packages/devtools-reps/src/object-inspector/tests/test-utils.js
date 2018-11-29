@@ -11,7 +11,19 @@ const { createFactory } = React;
 
 const { Provider } = require("react-redux");
 const { combineReducers } = require("redux");
-const configureStore = require("../store");
+
+const { thunk } = require("../../shared/redux/middleware/thunk");
+const {
+  waitUntilService
+} = require("../../shared/redux/middleware/waitUntilService");
+
+/**
+ * Redux store utils
+ * @module utils/create-store
+ */
+
+import { createStore, applyMiddleware } from "redux";
+
 const objectInspector = require("../index");
 const {
   getLoadedProperties,
@@ -48,9 +60,9 @@ function formatObjectInspector(wrapper: Object) {
     .find(".tree-node")
     .map(node => {
       const indentStr = "|  ".repeat((node.prop("aria-level") || 1) - 1);
-      // Need to target img.arrow or Enzyme will also match the ArrowExpander
+      // Need to target .arrow or Enzyme will also match the ArrowExpander
       // component.
-      const arrow = node.find("img.arrow");
+      const arrow = node.find(".arrow");
       let arrowStr = "  ";
       if (arrow.exists()) {
         arrowStr = arrow.hasClass("expanded") ? "▼ " : "▶︎ ";
@@ -191,12 +203,17 @@ function storeHasExactExpandedPaths(store: Store, expectedKeys: Array<string>) {
   );
 }
 
-function createStore(client: any, initialState: any = {}) {
+function createOiStore(client: any, initialState: any = {}) {
   const reducers = { objectInspector: objectInspector.reducer.default };
-  return configureStore.default({
+  return configureStore({
     thunkArgs: args => ({ ...args, client })
   })(combineReducers(reducers), initialState);
 }
+
+const configureStore = (opts: ReduxStoreOptions = {}) => {
+  const middleware = [thunk(opts.thunkArgs), waitUntilService];
+  return applyMiddleware(...middleware)(createStore);
+};
 
 function mountObjectInspector({ props, client, initialState = {} }) {
   if (initialState.objectInspector) {
@@ -207,7 +224,7 @@ function mountObjectInspector({ props, client, initialState = {} }) {
       ...initialState.objectInspector
     };
   }
-  const store = createStore(client, initialState);
+  const store = createOiStore(client, initialState);
   const wrapper = mount(
     createFactory(Provider)({ store }, ObjectInspector(props))
   );
@@ -229,5 +246,5 @@ module.exports = {
   waitForDispatch,
   waitForLoadedProperties,
   mountObjectInspector,
-  createStore
+  createStore: createOiStore
 };

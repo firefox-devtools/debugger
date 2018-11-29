@@ -88,7 +88,7 @@ describe("QuickOpenModal", () => {
         enabled: true,
         query: "",
         sources: [{ url: "mozilla.com" }],
-        tabs: ["mozilla.com"]
+        tabs: [{ url: "mozilla.com" }]
       },
       "shallow"
     );
