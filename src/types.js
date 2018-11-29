@@ -51,12 +51,12 @@ export type ActorId = string;
  * @memberof types
  * @static
  */
-export type SourceLocation = {
+export type SourceLocation = {|
   +sourceId: SourceId,
   +line: number,
   +column?: number,
   +sourceUrl?: string
-};
+|};
 
 export type MappedLocation = {
   +location: SourceLocation,

@@ -150,7 +150,11 @@ export class ProjectSearch extends Component<Props, State> {
   isProjectSearchEnabled = () => this.props.activeSearch === "project";
 
   selectMatchItem = (matchItem: Match) => {
-    this.props.selectSpecificLocation({ ...matchItem });
+    this.props.selectSpecificLocation({
+      sourceId: matchItem.sourceId,
+      line: matchItem.line,
+      column: matchItem.column
+    });
     this.props.doSearchForHighlight(
       this.state.inputValue,
       getEditor(),
