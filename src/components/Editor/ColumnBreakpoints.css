@@ -3,40 +3,35 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 .call-site {
-  position: relative;
+  display: inline;
+}
+
+.call-site svg {
   display: inline;
   cursor: pointer;
-}
-
-.call-site::before {
-  content: "";
-  mask: url(/images/column-marker.svg) no-repeat 100% 100%;
-  mask-size: contain;
-  display: inline-block;
-  background-color: var(--blue-55);
-  opacity: 0.5;
-  width: 9px;
   height: 12px;
+  width: 9px;
+  vertical-align: top;
 }
 
-.call-site.active::before {
-  opacity: 1;
+.call-site.active svg {
+  fill: var(--blue-50);
+  stroke: var(--blue-60);
 }
 
-.theme-dark .call-site {
-  border-bottom: none;
+.call-site.disabled svg {
+  fill: var(--blue-50);
+  stroke: var(--blue-40);
+  fill-opacity: 0.5;
 }
 
-.theme-dark .call-site-bp {
-  border-bottom: none;
+.theme-dark .call-site.active svg {
+  fill: var(--blue-55);
+  stroke: var(--blue-40);
 }
 
-.theme-dark .call-site::before {
-  background-color: var(--blue-60);
-  opacity: 1;
-}
-
-.theme-dark .call-site-bp::before {
-  background-color: var(--blue-50);
-  opacity: 0.5;
+.theme-dark .call-site.disabled svg {
+  fill: var(--blue-50);
+  stroke: var(--blue-60);
+  fill-opacity: 0.5;
 }
