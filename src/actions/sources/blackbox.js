@@ -19,23 +19,45 @@ import type { ThunkArgs } from "../types";
 
 export function toggleBlackBox(source: Source) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    const { isBlackBoxed, id } = source;
+    const { isBlackBoxed } = source;
 
     if (!isBlackBoxed) {
       recordEvent("blackbox");
     }
 
-    let promise;
-    if (features.originalBlackbox && isOriginalId(id)) {
-      promise = Promise.resolve({ isBlackBoxed: !isBlackBoxed });
-    } else {
-      promise = client.blackBox(id, isBlackBoxed);
+    const startLocation = await sourceMaps.getGeneratedLocation(
+      { sourceId: source.id, line: 1, column: 0 },
+      source
+    );
+
+    const lines = (await sourceMaps.getOriginalSourceText(source)).text.split(
+      "\n"
+    );
+
+    let endLocation = { line: null };
+    let attempt = 0;
+    while (endLocation.line === null) {
+      const line = lines.length - attempt;
+      const column = lines[line - 1].length - 1;
+      console.log(line, column);
+      endLocation = await sourceMaps.getGeneratedLocation(
+        {
+          sourceId: source.id,
+          line,
+          column: column < 0 ? 0 : column
+        },
+        source
+      );
+      attempt++;
     }
 
     return dispatch({
       type: "BLACKBOX",
       source,
-      [PROMISE]: promise
+      [PROMISE]: client.blackBox(startLocation.sourceId, isBlackBoxed, {
+        start: startLocation,
+        end: endLocation
+      })
     });
   };
 }
