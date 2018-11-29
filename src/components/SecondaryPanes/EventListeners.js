@@ -10,7 +10,7 @@ import { getEventListeners, getBreakpoint } from "../../selectors";
 import { CloseButton } from "../shared/Button";
 import "./EventListeners.css";
 
-import type { Breakpoint, Location, SourceId } from "../../types";
+import type { Breakpoint, SourceLocation, SourceId } from "../../types";
 
 type Listener = {
   selector: string,
@@ -24,9 +24,9 @@ type Props = {
   listeners: Array<Listener>,
   selectLocation: ({ sourceId: SourceId, line: number }) => void,
   addBreakpoint: ({ sourceId: SourceId, line: number }) => void,
-  enableBreakpoint: Location => void,
-  disableBreakpoint: Location => void,
-  removeBreakpoint: Location => void
+  enableBreakpoint: SourceLocation => void,
+  disableBreakpoint: SourceLocation => void,
+  removeBreakpoint: SourceLocation => void
 };
 
 class EventListeners extends Component<Props> {

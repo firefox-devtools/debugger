@@ -46,7 +46,13 @@ const testResults = List([
   }
 ]);
 
-const testMatch = { match: "match1", value: "some thing match1", column: 30 };
+const testMatch = {
+  match: "match1",
+  value: "some thing match1",
+  sourceId: "some-target/source42",
+  line: 3,
+  column: 30
+};
 
 function render(overrides = {}, mounted = false) {
   const props = {
@@ -189,7 +195,11 @@ describe("ProjectSearch", () => {
     );
     component.instance().focusedItem = { match: testMatch };
     shortcuts.dispatch("Enter");
-    expect(selectSpecificLocation).toHaveBeenCalledWith(testMatch);
+    expect(selectSpecificLocation).toHaveBeenCalledWith({
+      sourceId: "some-target/source42",
+      line: 3,
+      column: 30
+    });
   });
 
   it("onEnterPress shortcut setExpanded", () => {

@@ -9,10 +9,10 @@ import { getViewport } from "../selectors";
 import { getVisibleBreakpoints } from "./visibleBreakpoints";
 import { getVisiblePausePoints } from "./visiblePausePoints";
 
-import type { Location } from "../types";
+import type { SourceLocation } from "../types";
 
 export type ColumnBreakpoint = {|
-  +location: Location,
+  +location: SourceLocation,
   +enabled: boolean
 |};
 
