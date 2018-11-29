@@ -12,7 +12,7 @@
 import makeRecord from "../utils/makeRecord";
 import { prefs } from "../utils/prefs";
 
-import type { Source, PartialRange, Location } from "../types";
+import type { Source, PartialRange, SourceLocation } from "../types";
 
 import type { Action, panelPositionType } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
@@ -40,7 +40,7 @@ export type UIState = {
     end?: number,
     sourceId?: number
   },
-  conditionalPanelLocation: null | Location
+  conditionalPanelLocation: null | SourceLocation
 };
 
 export const createUIState = makeRecord(
@@ -182,7 +182,7 @@ export function getHighlightedLineRange(state: OuterState) {
 
 export function getConditionalPanelLocation(
   state: OuterState
-): null | Location {
+): null | SourceLocation {
   return state.ui.get("conditionalPanelLocation");
 }
 

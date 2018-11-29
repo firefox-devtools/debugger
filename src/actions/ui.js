@@ -17,6 +17,7 @@ import type { ThunkArgs, panelPositionType } from "./types";
 import { getEditor, getLocationsInViewport } from "../utils/editor";
 import { searchContents } from "./file-search";
 
+import type { SourceLocation } from "../types";
 import type {
   ActiveSearchType,
   OrientationType,
@@ -155,7 +156,7 @@ export function clearHighlightLineRange() {
   };
 }
 
-export function openConditionalPanel(location: ?Location) {
+export function openConditionalPanel(location: ?SourceLocation) {
   if (!location) {
     return;
   }

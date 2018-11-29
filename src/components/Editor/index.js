@@ -81,11 +81,11 @@ export type Props = {
   horizontal: boolean,
   startPanelSize: number,
   endPanelSize: number,
-  conditionalPanelLocation: Location,
+  conditionalPanelLocation: SourceLocation,
   symbols: SymbolDeclarations,
 
   // Actions
-  openConditionalPanel: (?Location) => void,
+  openConditionalPanel: (?SourceLocation) => void,
   closeConditionalPanel: void => void,
   setContextMenu: (string, any) => void,
   continueToHere: (?number) => void,

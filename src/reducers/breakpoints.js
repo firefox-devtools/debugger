@@ -314,7 +314,7 @@ export function getBreakpointsForSource(
 export function getBreakpointForLine(
   state: OuterState,
   sourceId: string,
-  location: Location | null
+  location: SourceLocation | null
 ): ?Breakpoint {
   if (!sourceId || !location) {
     return undefined;

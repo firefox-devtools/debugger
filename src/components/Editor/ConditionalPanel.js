@@ -16,13 +16,13 @@ import {
   getConditionalPanelLocation
 } from "../../selectors";
 
-import type { Location } from "../../types";
+import type { SourceLocation } from "../../types";
 
 type Props = {
   breakpoint: ?Object,
   selectedLocation: Object,
   setBreakpointCondition: Function,
-  location: Location | null,
+  location: SourceLocation | null,
   editor: Object,
   openConditionalPanel: () => void,
   closeConditionalPanel: () => void
