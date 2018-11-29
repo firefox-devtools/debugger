@@ -36,7 +36,7 @@ import type { Breakpoint, SourceLocation, XHRBreakpoint } from "../../types";
 
 import { recordEvent } from "../../utils/telemetry";
 
-type addBreakpointOptions = {
+export type addBreakpointOptions = {
   condition?: string,
   hidden?: boolean
 };
