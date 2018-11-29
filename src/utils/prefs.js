@@ -51,7 +51,6 @@ if (isDevelopment()) {
   pref("devtools.debugger.features.root", true);
   pref("devtools.debugger.features.map-scopes", true);
   pref("devtools.debugger.features.remove-command-bar-options", true);
-  pref("devtools.debugger.features.event-listeners", false);
   pref("devtools.debugger.features.code-folding", false);
   pref("devtools.debugger.features.outline", true);
   pref("devtools.debugger.features.column-breakpoints", true);
@@ -106,7 +105,6 @@ export const features = new PrefsHelper("devtools.debugger.features", {
   mapScopes: ["Bool", "map-scopes"],
   removeCommandBarOptions: ["Bool", "remove-command-bar-options"],
   workers: ["Bool", "workers"],
-  eventListeners: ["Bool", "event-listeners"],
   outline: ["Bool", "outline"],
   codeFolding: ["Bool", "code-folding"],
   pausePoints: ["Bool", "pause-points"],
