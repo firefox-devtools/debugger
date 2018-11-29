@@ -246,22 +246,6 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
                 </div>
               </div>
             </SearchInput>
-            <ResultList
-              expanded={false}
-              items={Array []}
-              key="results"
-              role="listbox"
-              selectItem={[Function]}
-              selected={0}
-              size="small"
-            >
-              <ul
-                aria-live="polite"
-                className="result-list small"
-                id="result-list"
-                role="listbox"
-              />
-            </ResultList>
           </div>
         </div>
       </Modal>

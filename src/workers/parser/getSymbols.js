@@ -9,12 +9,10 @@ import * as t from "@babel/types";
 import createSimplePath from "./utils/simple-path";
 import { traverseAst } from "./utils/ast";
 import {
-  isVariable,
   isFunction,
   isObjectShorthand,
   isComputedExpression,
   getObjectExpressionValue,
-  getVariableNames,
   getPatternIdentifiers,
   getComments,
   getSpecifiers,
@@ -71,7 +69,6 @@ export type ImportDeclaration = {
 export type SymbolDeclarations = {|
   classes: Array<ClassDeclaration>,
   functions: Array<FunctionDeclaration>,
-  variables: Array<SymbolDeclaration>,
   memberExpressions: Array<MemberDeclaration>,
   callExpressions: Array<CallDeclaration>,
   objectProperties: Array<IdentifierDeclaration>,
@@ -127,10 +124,6 @@ function getFunctionParameterNames(path: SimplePath): string[] {
 
 /* eslint-disable complexity */
 function extractSymbol(path: SimplePath, symbols) {
-  if (isVariable(path)) {
-    symbols.variables.push(...getVariableNames(path));
-  }
-
   if (isFunction(path)) {
     symbols.functions.push({
       name: getFunctionName(path.node, path.parent),
@@ -291,7 +284,6 @@ function extractSymbol(path: SimplePath, symbols) {
 function extractSymbols(sourceId): SymbolDeclarations {
   const symbols = {
     functions: [],
-    variables: [],
     callExpressions: [],
     memberExpressions: [],
     objectProperties: [],
