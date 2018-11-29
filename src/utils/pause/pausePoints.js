@@ -23,11 +23,8 @@ export function convertToList(pausePoints: PausePoints): PausePoint[] {
   const list = [];
   for (const line in pausePoints) {
     for (const column in pausePoints[line]) {
-      const point = pausePoints[line][column];
-      list.push({
-        location: { line: parseInt(line, 10), column: parseInt(column, 10) },
-        types: point
-      });
+      const { location, types } = pausePoints[line][column];
+      list.push({ location, types });
     }
   }
   return list;
