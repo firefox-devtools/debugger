@@ -12,6 +12,8 @@
 import * as I from "immutable";
 
 import { isGeneratedId } from "devtools-source-map";
+import { isEqual } from "lodash";
+
 import { makeLocationId } from "../utils/breakpoint";
 
 import type { XHRBreakpoint, Breakpoint, SourceLocation } from "../types";
@@ -251,6 +253,10 @@ function removeBreakpoint(state, action): BreakpointsState {
   return unsetBreakpoint(state, id);
 }
 
+function isMatchingLocation(location1, location2) {
+  return isEqual(location1, location2);
+}
+
 // Selectors
 // TODO: these functions should be moved out of the reducer
 
@@ -313,11 +319,10 @@ export function getBreakpointForLine(
   if (!sourceId || !location) {
     return undefined;
   }
-  const { line, column } = location;
+
   const breakpoints = getBreakpointsList(state);
-  return breakpoints.find(
-    breakpoint =>
-      line === breakpoint.location.line && column === breakpoint.location.column
+  return breakpoints.find(breakpoint =>
+    isMatchingLocation(location, breakpoint.location)
   );
 }
 

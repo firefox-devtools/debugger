@@ -40,7 +40,7 @@ export type UIState = {
     end?: number,
     sourceId?: number
   },
-  conditionalPanelLocation: null | Object
+  conditionalPanelLocation: null | Location
 };
 
 export const createUIState = makeRecord(
