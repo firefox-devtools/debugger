@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 // @flow
 
 declare module "debugger-html" {
@@ -31,7 +35,7 @@ declare module "debugger-html" {
    * @memberof types
    * @static
    */
-  declare type Location = {
+  declare type SourceLocation = {
     sourceId: SourceId,
     line: number,
     column?: number,
@@ -46,7 +50,7 @@ declare module "debugger-html" {
    */
   declare type Breakpoint = {
     id: BreakpointId,
-    location: Location,
+    location: SourceLocation,
     loading: boolean,
     disabled: boolean,
     text: string,
@@ -61,7 +65,7 @@ declare module "debugger-html" {
    */
   declare type BreakpointResult = {
     id: ActorId,
-    actualLocation: Location
+    actualLocation: SourceLocation
   };
 
   /**
@@ -95,7 +99,7 @@ declare module "debugger-html" {
   declare type Frame = {
     id: FrameId,
     displayName: string,
-    location: Location,
+    location: SourceLocation,
     source?: Source,
     scope: Scope,
     // FIXME Define this type more clearly
@@ -190,10 +194,10 @@ declare module "debugger-html" {
    */
   declare type SourceScope = {
     type: string,
-    start: Location,
-    end: Location,
+    start: SourceLocation,
+    end: SourceLocation,
     bindings: {
-      [name: string]: Location[]
+      [name: string]: SourceLocation[]
     }
   };
 
@@ -240,7 +244,7 @@ declare module "debugger-html" {
       actor: ActorId,
       class: string,
       displayName: string,
-      location: Location,
+      location: SourceLocation,
       // FIXME Define this type more clearly
       parameterNames: Array<Object>
     },

@@ -5,7 +5,7 @@
 // @flow
 /* eslint camelcase: 0*/
 
-import type { Location, SourceId } from "debugger-html";
+import type { SourceLocation, SourceId } from "debugger-html";
 
 const { getSourceMap } = require("./sourceMapRequests");
 const { generatedToOriginalId } = require("./index");
@@ -137,10 +137,10 @@ class XScope {
   }
 
   search(
-    generatedLocation: Location
+    generatedLocation: SourceLocation
   ): Array<{
     displayName: string,
-    location?: Location
+    location?: SourceLocation
   }> {
     const { code_section_offset, debug_info, sources, idIndex } = this.xScope;
     const pc = generatedLocation.line - (code_section_offset || 0);

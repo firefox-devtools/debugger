@@ -29,7 +29,7 @@ const {
 } = require("./utils");
 const { clearWasmXScopes } = require("./utils/wasmXScopes");
 
-import type { Location, Source, SourceId } from "debugger-html";
+import type { SourceLocation, Source, SourceId } from "debugger-html";
 
 async function getOriginalURLs(generatedSource: Source) {
   const map = await fetchSourceMap(generatedSource);
@@ -98,7 +98,7 @@ async function getOriginalRanges(sourceId: SourceId, url: string) {
  * are mapped from the original range containing the location.
  */
 async function getGeneratedRanges(
-  location: Location,
+  location: SourceLocation,
   originalSource: Source
 ): Promise<
   Array<{
@@ -158,9 +158,9 @@ async function getGeneratedRanges(
 }
 
 async function getGeneratedLocation(
-  location: Location,
+  location: SourceLocation,
   originalSource: Source
-): Promise<Location> {
+): Promise<SourceLocation> {
   if (!isOriginalId(location.sourceId)) {
     return location;
   }
@@ -205,9 +205,9 @@ async function getGeneratedLocation(
 }
 
 async function getAllGeneratedLocations(
-  location: Location,
+  location: SourceLocation,
   originalSource: Source
-): Promise<Array<Location>> {
+): Promise<Array<SourceLocation>> {
   if (!isOriginalId(location.sourceId)) {
     return [];
   }
@@ -235,9 +235,9 @@ type locationOptions = {
   search?: "LEAST_UPPER_BOUND" | "GREATEST_LOWER_BOUND"
 };
 async function getOriginalLocation(
-  location: Location,
+  location: SourceLocation,
   { search }: locationOptions = {}
-): Promise<Location> {
+): Promise<SourceLocation> {
   if (!isGeneratedId(location.sourceId)) {
     return location;
   }
@@ -306,7 +306,7 @@ async function getOriginalSourceText(originalSource: Source) {
   };
 }
 
-async function hasMappedSource(location: Location): Promise<boolean> {
+async function hasMappedSource(location: SourceLocation): Promise<boolean> {
   if (isOriginalId(location.sourceId)) {
     return true;
   }
