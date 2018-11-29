@@ -12,7 +12,7 @@
 import makeRecord from "../utils/makeRecord";
 import { prefs } from "../utils/prefs";
 
-import type { Source, PartialRange } from "../types";
+import type { Source, PartialRange, Location } from "../types";
 
 import type { Action, panelPositionType } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
@@ -180,7 +180,9 @@ export function getHighlightedLineRange(state: OuterState) {
   return state.ui.get("highlightedLineRange");
 }
 
-export function getConditionalPanelLocation(state: OuterState): null | Object {
+export function getConditionalPanelLocation(
+  state: OuterState
+): null | Location {
   return state.ui.get("conditionalPanelLocation");
 }
 

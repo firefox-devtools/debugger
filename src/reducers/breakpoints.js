@@ -320,9 +320,11 @@ export function getBreakpointForLine(
     return undefined;
   }
 
+  const loc = { ...location };
+
   const breakpoints = getBreakpointsList(state);
   return breakpoints.find(breakpoint =>
-    isMatchingLocation(location, breakpoint.location)
+    isMatchingLocation(loc, breakpoint.location)
   );
 }
 
