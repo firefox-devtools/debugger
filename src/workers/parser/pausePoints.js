@@ -170,17 +170,19 @@ function hasPoint(state, { line, column }) {
 
 function addPoint(
   state,
-  { line, column },
+  location,
   types: boolean | { break?: boolean, step?: boolean }
 ) {
   if (typeof types === "boolean") {
     types = { step: types, break: types };
   }
 
+  const { line, column } = location;
+
   if (!state[line]) {
     state[line] = {};
   }
-  state[line][column] = types;
+  state[line][column] = { types, location };
   return state;
 }
 
