@@ -1031,8 +1031,10 @@ const selectors = {
   breakpointItem: i => `.breakpoints-list div:nth-of-type(${i})`,
   breakpointItems: `.breakpoints-list .breakpoint`,
   breakpointContextMenu: {
+    disableSelf: "#node-menu-disable-self",
     disableAll: "#node-menu-disable-all",
     disableOthers: "#node-menu-disable-others",
+    enableSelf: "#node-menu-enable-self",
     enableOthers: "#node-menu-enable-others",
     remove: "#node-menu-delete-self",
     removeOthers: "#node-menu-delete-other",
