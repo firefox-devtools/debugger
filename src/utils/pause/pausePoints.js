@@ -23,8 +23,7 @@ export function convertToList(pausePoints: PausePoints): PausePoint[] {
   const list = [];
   for (const line in pausePoints) {
     for (const column in pausePoints[line]) {
-      const { location, types } = pausePoints[line][column];
-      list.push({ location, types });
+      list.push(pausePoints[line][column]);
     }
   }
   return list;
@@ -41,4 +40,17 @@ export function formatPausePoints(text: string, pausePoints: PausePoints) {
   });
 
   return lines.join("\n");
+}
+
+export async function mapPausePoints(pausePoints, iteratee) {
+  const results = await Promise.all(convertToList(pausePoints).map(iteratee));
+
+  for (const line in pausePoints) {
+    const linePoints = pausePoints[line];
+    for (const column in linePoints) {
+      linePoints[column] = results.shift();
+    }
+  }
+
+  return pausePoints;
 }
