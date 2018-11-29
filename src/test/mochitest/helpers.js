@@ -1030,6 +1030,14 @@ const selectors = {
   scopesHeader: ".scopes-pane ._header",
   breakpointItem: i => `.breakpoints-list div:nth-of-type(${i})`,
   breakpointItems: `.breakpoints-list .breakpoint`,
+  breakpointContextMenu: {
+    disableAll: "#node-menu-disable-all",
+    disableOthers: "#node-menu-disable-others",
+    enableOthers: "#node-menu-enable-others",
+    remove: "#node-menu-delete-self",
+    removeOthers: "#node-menu-delete-other",
+    removeCondition: "#node-menu-remove-condition"
+  },
   scopes: ".scopes-list",
   scopeNode: i => `.scopes-list .tree-node:nth-child(${i}) .object-label`,
   scopeValue: i =>
@@ -1037,6 +1045,10 @@ const selectors = {
   frame: i => `.frames ul li:nth-child(${i})`,
   frames: ".frames ul li",
   gutter: i => `.CodeMirror-code *:nth-child(${i}) .CodeMirror-linenumber`,
+  gutterContextMenu: {
+    addConditionalBreakpoint: "#node-menu-add-conditional-breakpoint",
+    editBreakpoint: "#node-menu-edit-conditional-breakpoint"
+  },
   menuitem: i => `menupopup menuitem:nth-child(${i})`,
   pauseOnExceptions: ".pause-exceptions",
   breakpoint: ".CodeMirror-code > .new-breakpoint",
@@ -1147,14 +1159,14 @@ function rightClickElement(dbg, elementName, ...args) {
   );
 }
 
-function selectMenuItem(dbg, index) {
+function selectContextMenuItem(dbg, selector) {
   // the context menu is in the toolbox window
   const doc = dbg.toolbox.win.document;
 
   // there are several context menus, we want the one with the menu-api
   const popup = doc.querySelector('menupopup[menu-api="true"]');
 
-  const item = popup.querySelector(`menuitem:nth-child(${index})`);
+  const item = popup.querySelector(selector);
   return EventUtils.synthesizeMouseAtCenter(item, {}, dbg.toolbox.win);
 }
 
