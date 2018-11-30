@@ -24,8 +24,7 @@ import getFunctionName from "./utils/getFunctionName";
 
 import type { SimplePath, Node, TraversalAncestors } from "./utils/simple-path";
 
-type AstPosition = { line: number, column: number };
-type AstLocation = { end: AstPosition, start: AstPosition };
+import type { AstPosition, AstLocation } from "./types";
 
 export type SymbolDeclaration = {
   name: string,
