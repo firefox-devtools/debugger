@@ -221,10 +221,30 @@ export function getPausePoint(
     return;
   }
 
-  const linePoints = pausePoints[String(line)];
+  const linePoints = pausePoints[line];
   if (linePoints && column) {
-    return linePoints[String(column)];
+    return linePoints[column];
   }
+}
+
+export function getFirstPausePointLocation(
+  state: OuterState,
+  location: SourceLocation
+): SourceLocation {
+  const pausePoints = getPausePoints(state, location.sourceId);
+  if (!pausePoints) {
+    return location;
+  }
+  const pausesAtLine = pausePoints[location.line];
+  if (pausesAtLine) {
+    const column = Object.keys(pausesAtLine).find(
+      col => pausesAtLine[Number(col)].types.break
+    );
+    if (column !== undefined) {
+      return { ...location, column: Number(column) };
+    }
+  }
+  return location;
 }
 
 export function hasPausePoints(state: OuterState, sourceId: string): boolean {
