@@ -63,7 +63,7 @@ class SourceFooter extends PureComponent<Props, State> {
     editor.codeMirror.on("cursorActivity", this.onCursorChange);
   }
 
-  componentDidUnMount() {
+  componentWillUnmount() {
     const { editor } = this.props;
     editor.codeMirror.off("cursorActivity", this.onCursorChange);
   }
