@@ -162,7 +162,6 @@ export function addBreakpoint(
 
     if (location.column === undefined) {
       location = getFirstPausePointLocation(getState(), location);
-      console.log("addBreakpoint; undefined column! first is;", location);
     }
 
     const breakpoint = createBreakpoint(location, { condition, hidden });

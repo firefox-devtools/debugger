@@ -231,17 +231,18 @@ export function getFirstPausePointLocation(
   state: OuterState,
   location: SourceLocation
 ): SourceLocation {
+  const { sourceId } = location;
   const pausePoints = getPausePoints(state, location.sourceId);
   if (!pausePoints) {
     return location;
   }
+
   const pausesAtLine = pausePoints[String(location.line)];
   if (pausesAtLine) {
-    const column = Object.keys(pausesAtLine).find(
-      col => pausesAtLine[col].types.break
-    );
-    if (column !== undefined) {
-      return { ...location, column: Number(column) };
+    const values: PausePoint[] = (Object.values(pausesAtLine): any);
+    const firstPausePoint = values.find(pausePoint => pausePoint.types.break);
+    if (firstPausePoint) {
+      return { ...firstPausePoint.location, sourceId };
     }
   }
   return location;
