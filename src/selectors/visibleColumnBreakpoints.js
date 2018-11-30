@@ -14,7 +14,8 @@ import type { SourceLocation } from "../types";
 
 export type ColumnBreakpoint = {|
   +location: SourceLocation,
-  +enabled: boolean
+  +enabled: boolean,
+  +condition: ?string
 |};
 
 function contains(location, range) {
@@ -101,10 +102,20 @@ export function getColumnBreakpoints(pausePoints, breakpoints, viewport) {
     ({ location: { line } }) => lineCount[line] > 1
   );
 
-  return columnBreakpoints.map(({ location }) => ({
-    location,
-    enabled: isEnabled(location, breakpointMap)
-  }));
+  return columnBreakpoints.map(({ location }) => {
+    const foundBreakpoint = breakpoints.find(breakpoint => {
+      return (
+        breakpoint.location.line === location.line &&
+        breakpoint.location.column === location.column
+      );
+    });
+
+    return {
+      location,
+      enabled: isEnabled(location, breakpointMap),
+      condition: foundBreakpoint ? foundBreakpoint.condition : ""
+    };
+  });
 }
 
 export const visibleColumnBreakpoints = createSelector(
