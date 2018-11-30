@@ -311,7 +311,7 @@ export function getBreakpointsForSource(
   });
 }
 
-export function getBreakpointForLine(
+export function getBreakpointForLocation(
   state: OuterState,
   sourceId: string,
   location: SourceLocation | null

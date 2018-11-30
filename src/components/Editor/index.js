@@ -535,7 +535,7 @@ class Editor extends PureComponent<Props, State> {
   }
 
   renderItems() {
-    const { horizontal, selectedSource } = this.props;
+    const { horizontal, selectedSource, conditionalPanelLocation } = this.props;
     const { editor } = this.state;
 
     if (!editor || !selectedSource) {
@@ -553,7 +553,7 @@ class Editor extends PureComponent<Props, State> {
         <HighlightLines editor={editor} />
         <EditorMenu editor={editor} />
         <GutterMenu editor={editor} />
-        <ConditionalPanel editor={editor} />
+        {conditionalPanelLocation ? <ConditionalPanel editor={editor} /> : null}
         {features.columnBreakpoints ? (
           <ColumnBreakpoints editor={editor} />
         ) : null}

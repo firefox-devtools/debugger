@@ -12,7 +12,7 @@ import actions from "../../actions";
 
 import {
   getSelectedLocation,
-  getBreakpointForLine,
+  getBreakpointForLocation,
   getConditionalPanelLocation
 } from "../../selectors";
 
@@ -22,7 +22,7 @@ type Props = {
   breakpoint: ?Object,
   selectedLocation: Object,
   setBreakpointCondition: Function,
-  location: SourceLocation | null,
+  location: SourceLocation,
   editor: Object,
   openConditionalPanel: () => void,
   closeConditionalPanel: () => void
@@ -91,9 +91,7 @@ export class ConditionalPanel extends PureComponent<Props> {
   };
 
   componentWillMount() {
-    if (this.props.location) {
-      return this.renderToWidget(this.props);
-    }
+    return this.renderToWidget(this.props);
   }
 
   componentWillUpdate(nextProps: Props) {
@@ -116,11 +114,7 @@ export class ConditionalPanel extends PureComponent<Props> {
 
   renderToWidget(props: Props) {
     if (this.cbPanel) {
-      if (
-        this.props.location &&
-        props.location &&
-        this.props.location.line == props.location.line
-      ) {
+      if (this.props.location.line == props.location.line) {
         return props.closeConditionalPanel();
       }
       this.clearConditionalPanel();
@@ -196,7 +190,7 @@ const mapStateToProps = state => {
 
   return {
     selectedLocation,
-    breakpoint: getBreakpointForLine(
+    breakpoint: getBreakpointForLocation(
       state,
       selectedLocation.sourceId,
       location
