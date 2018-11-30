@@ -80,6 +80,11 @@ export type CachedNodes = Map<Path, Array<Node>>;
 
 export type LoadedProperties = Map<Path, GripProperties>;
 
+export type Evaluations = Map<
+  Path,
+  { getterValue: GripProperties, evaluation: number }
+>;
+
 export type Mode = MODE.TINY | MODE.SHORT | MODE.LONG;
 
 const { MODE } = require("../reps/constants");
@@ -128,6 +133,7 @@ export type Props = {
   expandedPaths: Set<Path>,
   focusedItem: ?Node,
   loadedProperties: LoadedProperties,
+  evaluations: Evaluations,
   loading: Map<Path, Array<Promise<GripProperties>>>
 };
 
