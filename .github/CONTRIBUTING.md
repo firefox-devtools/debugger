@@ -255,9 +255,9 @@ debugger.html community team members help shepherd the community.
 They are here to help mentor new comers, review pull requests, and facilitate issue discussions.
 They are a fantastic resource and genuinely friendly human beings.
 
-| Hubert | Jaideep | Wellington | Irfan | Martin | Lukas | Anshul |
-| ---------- | ------ | ----- | ---- | ----   |   ---- | ---- |
-| ![][bomsy] <br /> [@bomsy][@bomsy] | ![][jbhoosreddy] <br /> [@jbhoosreddy][@jbhoosreddy] | ![][wldcordeiro] <br />[@wldcordeiro][@wldcordeiro] | ![][irfanhudda] <br />[@irfanhudda][@irfanhudda] | ![][nyrosmith] <br />[@nyrosmith][@nyrosmith] | ![][lukaszsobek] <br />[@lukaszsobek][@lukaszsobek] | ![][anshulmalik] <br />[@anshulmalik][@anshulmalik] |
+| Hubert | Anshul | Tyler | Jaideep | Wellington | Irfan | Martin | Lukas | 
+| ---------- | ------ | ----- | ---- | ----   |   ---- | ---- |---- |
+| ![][bomsy] <br /> [@bomsy][@bomsy] | ![][anshulmalik] <br />[@anshulmalik][@anshulmalik] | ![][wenincode] <br />[@wenincode][@wenincode] | ![][jbhoosreddy] <br /> [@jbhoosreddy][@jbhoosreddy] | ![][wldcordeiro] <br />[@wldcordeiro][@wldcordeiro] | ![][irfanhudda] <br />[@irfanhudda][@irfanhudda] | ![][nyrosmith] <br />[@nyrosmith][@nyrosmith] | ![][lukaszsobek] <br />[@lukaszsobek][@lukaszsobek]  |
 
 ### Joining Mozilla
 
@@ -286,6 +286,7 @@ Mozilla has and continues to hire many people from within the Open Source Softwa
 [@nyrosmith]:https://github.com/nyrosmith
 [@lukaszsobek]:https://github.com/lukaszsobek
 [@anshulmalik]:https://github.com/anshulmalik
+[@wenincode]:https://github.com/wenincode
 
 [jasonlaster]:https://avatars.githubusercontent.com/jasonlaster?size=56
 [bomsy]:https://avatars.githubusercontent.com/bomsy?size=56
@@ -299,6 +300,7 @@ Mozilla has and continues to hire many people from within the Open Source Softwa
 [nyrosmith]:https://avatars.githubusercontent.com/nyrosmith?size=56
 [anshulmalik]:https://avatars.githubusercontent.com/anshulmalik?size=56
 [lukaszsobek]:https://avatars.githubusercontent.com/lukaszsobek?size=56
+[wenincode]:https://avatars.githubusercontent.com/wenincode?size=56
 
 [mozilla]:https://www.mozilla.org/
 [mozilla-firefox]:https://www.mozilla.org/firefox/
