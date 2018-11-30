@@ -3,6 +3,7 @@
 exports[`visible column breakpoints duplicate generated locations 1`] = `
 Array [
   Object {
+    "condition": undefined,
     "enabled": true,
     "location": Object {
       "column": 1,
@@ -10,6 +11,7 @@ Array [
     },
   },
   Object {
+    "condition": "",
     "enabled": false,
     "location": Object {
       "column": 3,
@@ -22,6 +24,7 @@ Array [
 exports[`visible column breakpoints ignores single breakpoints 1`] = `
 Array [
   Object {
+    "condition": undefined,
     "enabled": true,
     "location": Object {
       "column": 1,
@@ -29,6 +32,7 @@ Array [
     },
   },
   Object {
+    "condition": "",
     "enabled": false,
     "location": Object {
       "column": 3,
@@ -41,6 +45,7 @@ Array [
 exports[`visible column breakpoints only shows visible breakpoints 1`] = `
 Array [
   Object {
+    "condition": undefined,
     "enabled": true,
     "location": Object {
       "column": 1,
@@ -48,6 +53,7 @@ Array [
     },
   },
   Object {
+    "condition": "",
     "enabled": false,
     "location": Object {
       "column": 3,
@@ -60,6 +66,7 @@ Array [
 exports[`visible column breakpoints simple 1`] = `
 Array [
   Object {
+    "condition": undefined,
     "enabled": true,
     "location": Object {
       "column": 1,
@@ -67,6 +74,7 @@ Array [
     },
   },
   Object {
+    "condition": "",
     "enabled": false,
     "location": Object {
       "column": 5,
