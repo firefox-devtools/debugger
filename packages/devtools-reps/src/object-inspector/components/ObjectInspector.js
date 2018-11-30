@@ -21,7 +21,7 @@ const classnames = require("classnames");
 const Utils = require("../utils");
 const { renderRep, shouldRenderRootsInReps } = Utils;
 const {
-  getChildren,
+  getChildrenWithEvaluations,
   getActor,
   getParent,
   nodeIsPrimitive,
@@ -76,7 +76,6 @@ class ObjectInspector extends Component<Props> {
     self.setExpanded = this.setExpanded.bind(this);
     self.focusItem = this.focusItem.bind(this);
     self.getRoots = this.getRoots.bind(this);
-    self.getEvaluatedItem = this.getEvaluatedItem.bind(this);
     self.getNodeKey = this.getNodeKey.bind(this);
   }
 
@@ -151,39 +150,19 @@ class ObjectInspector extends Component<Props> {
   cachedNodes: CachedNodes;
 
   getItemChildren(item: Node): Array<Node> | NodeContents | null {
-    const { loadedProperties } = this.props;
+    const { loadedProperties, evaluations } = this.props;
     const { cachedNodes } = this;
 
-    const children = getChildren({
+    return getChildrenWithEvaluations({
+      evaluations,
       loadedProperties,
       cachedNodes,
       item
     });
-    if (Array.isArray(children)) {
-      return children.map(i => this.getEvaluatedItem(i));
-    }
-
-    if (children) {
-      return this.getEvaluatedItem(children);
-    }
-
-    return [];
   }
 
   getRoots(): Array<Node> {
     return this.props.roots;
-  }
-
-  getEvaluatedItem(item: Node): Node {
-    const { evaluations } = this.props;
-    if (!evaluations.has(item.path)) {
-      return item;
-    }
-
-    return {
-      ...item,
-      contents: evaluations.get(item.path)
-    };
   }
 
   getNodeKey(item: Node): string {
@@ -276,7 +255,7 @@ class ObjectInspector extends Component<Props> {
       renderItem: (item, depth, focused, arrow, expanded) =>
         ObjectInspectorItem({
           ...this.props,
-          item: this.getEvaluatedItem(item),
+          item,
           depth,
           focused,
           arrow,

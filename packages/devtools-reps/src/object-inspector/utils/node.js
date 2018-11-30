@@ -710,6 +710,42 @@ function setNodeChildren(node: Node, children: Array<Node>): Node {
   return node;
 }
 
+function getEvaluatedItem(item: Node, evaluations: Evaluations): Node {
+  if (!evaluations.has(item.path)) {
+    return item;
+  }
+
+  return {
+    ...item,
+    contents: evaluations.get(item.path)
+  };
+}
+
+function getChildrenWithEvaluations(options: {
+  cachedNodes: CachedNodes,
+  loadedProperties: LoadedProperties,
+  item: Node,
+  evaluations: Evaluations
+}): Array<Node> {
+  const { item, loadedProperties, cachedNodes, evaluations } = options;
+
+  const children = getChildren({
+    loadedProperties,
+    cachedNodes,
+    item
+  });
+
+  if (Array.isArray(children)) {
+    return children.map(i => getEvaluatedItem(i, evaluations));
+  }
+
+  if (children) {
+    return getEvaluatedItem(children, evaluations);
+  }
+
+  return [];
+}
+
 function getChildren(options: {
   cachedNodes: CachedNodes,
   loadedProperties: LoadedProperties,
@@ -863,6 +899,7 @@ module.exports = {
   createSetterNode,
   getActor,
   getChildren,
+  getChildrenWithEvaluations,
   getClosestGripNode,
   getClosestNonBucketNode,
   getParent,
