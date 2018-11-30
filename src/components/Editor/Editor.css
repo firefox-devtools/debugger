@@ -146,8 +146,9 @@ html[dir="rtl"] .editor-mount {
   right: -16px;
 }
 
-.new-breakpoint.has-condition svg {
+.new-breakpoint.has-condition .CodeMirror-gutter-wrapper svg {
   fill: var(--theme-graphs-yellow);
+  stroke: var(--theme-graphs-orange);
 }
 
 .editor.new-breakpoint.breakpoint-disabled svg {
