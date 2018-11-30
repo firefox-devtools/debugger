@@ -86,12 +86,11 @@ class ObjectInspector extends Component<Props> {
   }
 
   componentWillUpdate(nextProps) {
+    this.removeOutdatedNodesFromCache(nextProps);
+
     if (this.roots !== nextProps.roots) {
       // Since the roots changed, we assume the properties did as well,
       // so we need to cleanup the component internal state.
-
-      // We can clear the cachedNodes to avoid bugs and memory leaks.
-      this.cachedNodes.clear();
       this.roots = nextProps.roots;
       this.focusedItem = nextProps.focusedItem;
       if (this.props.rootsChanged) {
@@ -99,10 +98,18 @@ class ObjectInspector extends Component<Props> {
       }
       return;
     }
+  }
 
-    // if there are new evaluations, we want to remove the existing cached
+  removeOutdatedNodesFromCache(nextProps) {
+    // When the roots changes, we can wipe out everything.
+    if (this.roots !== nextProps.roots) {
+      this.cachedNodes.clear();
+      return;
+    }
+
+    // If there are new evaluations, we want to remove the existing cached
     // nodes from the cache.
-    if (nextProps.evaluations.size > this.props.evaluations.size) {
+    if (nextProps.evaluations > this.props.evaluations) {
       for (const key of nextProps.evaluations.keys()) {
         if (!this.props.evaluations.has(key)) {
           this.cachedNodes.delete(key);
