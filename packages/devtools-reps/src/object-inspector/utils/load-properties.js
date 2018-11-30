@@ -33,7 +33,6 @@ import type {
   CreateObjectClient,
   GripProperties,
   LoadedProperties,
-  Evaluations,
   Node
 } from "../types";
 
