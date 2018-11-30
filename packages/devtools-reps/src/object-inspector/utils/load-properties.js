@@ -41,16 +41,8 @@ function loadItemProperties(
   item: Node,
   createObjectClient: CreateObjectClient,
   createLongStringClient: CreateLongStringClient,
-  loadedProperties: LoadedProperties,
-  evaluations: Evaluations = new Map()
+  loadedProperties: LoadedProperties
 ): Promise<GripProperties> {
-  // If the node was evaluated, we replace the item content with the grip
-  // returned by the evaluation.
-  const evaluation = evaluations.get(item.path);
-  if (evaluation) {
-    item = { ...item, contents: evaluation };
-  }
-
   const gripItem = getClosestGripNode(item);
   const value = getValue(gripItem);
 

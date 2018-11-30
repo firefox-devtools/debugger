@@ -7,7 +7,7 @@
 import type { GripProperties, Node, Props, ReduxAction } from "./types";
 
 const { loadItemProperties } = require("./utils/load-properties");
-const { getLoadedProperties, getActors, getEvaluations } = require("./reducer");
+const { getLoadedProperties, getActors } = require("./reducer");
 
 type Dispatch = ReduxAction => void;
 
@@ -47,15 +47,12 @@ function nodeLoadProperties(node: Node, actor) {
       return;
     }
 
-    const evaluations = getEvaluations(state);
-
     try {
       const properties = await loadItemProperties(
         node,
         client.createObjectClient,
         client.createLongStringClient,
-        loadedProperties,
-        evaluations
+        loadedProperties
       );
 
       dispatch(nodePropertiesLoaded(node, actor, properties));
