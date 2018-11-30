@@ -70,7 +70,12 @@ function mount(props, { initialState } = {}) {
   return mountObjectInspector({
     client,
     props: generateDefaults(props),
-    initialState: { objectInspector: initialState }
+    initialState: {
+      objectInspector: {
+        ...initialState,
+        evaluations: new Map()
+      }
+    }
   });
 }
 

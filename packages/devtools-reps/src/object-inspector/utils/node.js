@@ -236,8 +236,18 @@ function nodeHasFullText(item: Node): boolean {
   return nodeIsLongString(item) && value.hasOwnProperty("fullText");
 }
 
+function nodeHasGetter(item: Node): boolean {
+  const getter = getNodeGetter(item);
+  return getter && getter.type !== "undefined";
+}
+
+function nodeHasSetter(item: Node): boolean {
+  const setter = getNodeSetter(item);
+  return setter && setter.type !== "undefined";
+}
+
 function nodeHasAccessors(item: Node): boolean {
-  return !!getNodeGetter(item) || !!getNodeSetter(item);
+  return nodeHasGetter(item) || nodeHasSetter(item);
 }
 
 function nodeSupportsNumericalBucketing(item: Node): boolean {
@@ -700,12 +710,48 @@ function setNodeChildren(node: Node, children: Array<Node>): Node {
   return node;
 }
 
+function getEvaluatedItem(item: Node, evaluations: Evaluations): Node {
+  if (!evaluations.has(item.path)) {
+    return item;
+  }
+
+  return {
+    ...item,
+    contents: evaluations.get(item.path)
+  };
+}
+
+function getChildrenWithEvaluations(options: {
+  cachedNodes: CachedNodes,
+  loadedProperties: LoadedProperties,
+  item: Node,
+  evaluations: Evaluations
+}): Array<Node> {
+  const { item, loadedProperties, cachedNodes, evaluations } = options;
+
+  const children = getChildren({
+    loadedProperties,
+    cachedNodes,
+    item
+  });
+
+  if (Array.isArray(children)) {
+    return children.map(i => getEvaluatedItem(i, evaluations));
+  }
+
+  if (children) {
+    return getEvaluatedItem(children, evaluations);
+  }
+
+  return [];
+}
+
 function getChildren(options: {
   cachedNodes: CachedNodes,
   loadedProperties: LoadedProperties,
   item: Node
 }): Array<Node> {
-  const { cachedNodes, loadedProperties = new Map(), item } = options;
+  const { cachedNodes, item, loadedProperties = new Map() } = options;
 
   const key = item.path;
   if (cachedNodes && cachedNodes.has(key)) {
@@ -831,15 +877,33 @@ function getClosestNonBucketNode(item: Node): Node | null {
   return getClosestNonBucketNode(parent);
 }
 
+function getParentGripValue(
+  item: Node
+): RdpGrip | ObjectInspectorItemContentsValue | null {
+  const parentNode = getParent(item);
+  if (!parentNode) {
+    return null;
+  }
+
+  const parentGripNode = getClosestGripNode(parentNode);
+  if (!parentGripNode) {
+    return null;
+  }
+
+  return getValue(parentGripNode);
+}
+
 module.exports = {
   createNode,
   createGetterNode,
   createSetterNode,
   getActor,
   getChildren,
+  getChildrenWithEvaluations,
   getClosestGripNode,
   getClosestNonBucketNode,
   getParent,
+  getParentGripValue,
   getNumericalPropertiesCount,
   getValue,
   makeNodesForEntries,
@@ -851,6 +915,8 @@ module.exports = {
   nodeHasChildren,
   nodeHasEntries,
   nodeHasProperties,
+  nodeHasGetter,
+  nodeHasSetter,
   nodeIsBlock,
   nodeIsBucket,
   nodeIsDefaultProperties,

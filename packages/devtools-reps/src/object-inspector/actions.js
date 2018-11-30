@@ -41,7 +41,8 @@ function nodeCollapse(node: Node) {
  */
 function nodeLoadProperties(node: Node, actor) {
   return async ({ dispatch, client, getState }: ThunkArg) => {
-    const loadedProperties = getLoadedProperties(getState());
+    const state = getState();
+    const loadedProperties = getLoadedProperties(state);
     if (loadedProperties.has(node.path)) {
       return;
     }
@@ -103,8 +104,27 @@ function releaseActors(state, client) {
   }
 }
 
+function invokeGetter(node: Node, grip: object, getterName: string) {
+  return async ({ dispatch, client, getState }: ThunkArg) => {
+    try {
+      const objectClient = client.createObjectClient(grip);
+      const result = await objectClient.getPropertyValue(getterName);
+      dispatch({
+        type: "GETTER_INVOKED",
+        data: {
+          node,
+          result
+        }
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  };
+}
+
 module.exports = {
   closeObjectInspector,
+  invokeGetter,
   nodeExpand,
   nodeCollapse,
   nodeLoadProperties,

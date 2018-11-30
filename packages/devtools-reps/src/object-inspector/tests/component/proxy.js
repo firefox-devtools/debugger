@@ -57,7 +57,8 @@ describe("ObjectInspector - Proxy", () => {
           objectInspector: {
             // Have the prototype already loaded so the component does not call
             // enumProperties for the root's properties.
-            loadedProperties: new Map([["root", { prototype: {} }]])
+            loadedProperties: new Map([["root", { prototype: {} }]]),
+            evaluations: new Map()
           }
         }
       }
@@ -77,7 +78,8 @@ describe("ObjectInspector - Proxy", () => {
           objectInspector: {
             // Have the prototype already loaded so the component does not call
             // enumProperties for the root's properties.
-            loadedProperties: new Map([["root", { prototype: {} }]])
+            loadedProperties: new Map([["root", { prototype: {} }]]),
+            evaluations: new Map()
           }
         }
       }
