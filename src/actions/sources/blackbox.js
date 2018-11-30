@@ -14,6 +14,12 @@ import { recordEvent } from "../../utils/telemetry";
 import { features } from "../../utils/prefs";
 
 import { PROMISE } from "../utils/middleware/promise";
+import {
+  getFileGeneratedRange,
+  isOriginalId,
+  originalToGeneratedId
+} from "devtools-source-map";
+
 import type { Source } from "../../types";
 import type { ThunkArgs } from "../types";
 
@@ -25,39 +31,20 @@ export function toggleBlackBox(source: Source) {
       recordEvent("blackbox");
     }
 
-    const startLocation = await sourceMaps.getGeneratedLocation(
-      { sourceId: source.id, line: 1, column: 0 },
-      source
-    );
-
-    const lines = (await sourceMaps.getOriginalSourceText(source)).text.split(
-      "\n"
-    );
-
-    let endLocation = { line: null };
-    let attempt = 0;
-    while (endLocation.line === null) {
-      const line = lines.length - attempt;
-      const column = lines[line - 1].length - 1;
-      console.log(line, column);
-      endLocation = await sourceMaps.getGeneratedLocation(
-        {
-          sourceId: source.id,
-          line,
-          column: column < 0 ? 0 : column
-        },
-        source
-      );
-      attempt++;
+    if (isOriginalId(source.id)) {
+      const generatedId = originalToGeneratedId(source.id);
+      const range = await getFileGeneratedRange(source);
+      return dispatch({
+        type: "BLACKBOX",
+        source,
+        [PROMISE]: client.blackBox(generatedId, isBlackBoxed, range)
+      });
     }
 
     return dispatch({
       type: "BLACKBOX",
       source,
-      [PROMISE]: client.blackBox(startLocation.sourceId, isBlackBoxed, {
-        start: startLocation,
-        end: endLocation
-      })
+      [PROMISE]: client.blackBox(source.id)
     });
   };
 }
