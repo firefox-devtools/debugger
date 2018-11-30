@@ -11,7 +11,6 @@ import { toEditorLine } from "../../utils/editor";
 import actions from "../../actions";
 
 import {
-  getSelectedLocation,
   getBreakpointForLocation,
   getConditionalPanelLocation
 } from "../../selectors";
@@ -20,7 +19,6 @@ import type { SourceLocation } from "../../types";
 
 type Props = {
   breakpoint: ?Object,
-  selectedLocation: Object,
   setBreakpointCondition: Function,
   location: SourceLocation,
   editor: Object,
@@ -62,11 +60,8 @@ export class ConditionalPanel extends PureComponent<Props> {
   };
 
   setBreakpoint(condition: string) {
-    const { selectedLocation, location } = this.props;
-    const { line, column } = location;
-    const sourceId = selectedLocation ? selectedLocation.sourceId : "";
-    const loc = { sourceId, line, column };
-    return this.props.setBreakpointCondition(loc, { condition });
+    const { location } = this.props;
+    return this.props.setBreakpointCondition(location, { condition });
   }
 
   clearConditionalPanel() {
@@ -110,10 +105,9 @@ export class ConditionalPanel extends PureComponent<Props> {
       this.clearConditionalPanel();
     }
 
-    const { selectedLocation, location, editor } = props;
-    const sourceId = selectedLocation ? selectedLocation.sourceId : "";
+    const { location, editor } = props;
 
-    const editorLine = toEditorLine(sourceId, location ? location.line : 0);
+    const editorLine = toEditorLine(location.sourceId, location.line || 0);
     this.cbPanel = editor.codeMirror.addLineWidget(
       editorLine,
       this.renderConditionalPanel(props),
@@ -176,10 +170,8 @@ export class ConditionalPanel extends PureComponent<Props> {
 
 const mapStateToProps = state => {
   const location = getConditionalPanelLocation(state);
-  const selectedLocation = getSelectedLocation(state);
 
   return {
-    selectedLocation,
     breakpoint: getBreakpointForLocation(state, location),
     location
   };
