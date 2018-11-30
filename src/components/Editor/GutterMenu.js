@@ -32,7 +32,8 @@ export function gutterMenu({
   toggleDisabledBreakpoint,
   isCbPanelOpen,
   closeConditionalPanel,
-  continueToHere
+  continueToHere,
+  sourceId
 }) {
   event.stopPropagation();
   event.preventDefault();
@@ -86,7 +87,9 @@ export function gutterMenu({
     disabled: false,
     // Leaving column undefined so pause points can be detected
     click: () =>
-      openConditionalPanel(breakpoint ? breakpoint.location : { line }),
+      openConditionalPanel(
+        breakpoint ? breakpoint.location : { line, sourceId }
+      ),
     accelerator: L10N.getStr("toggleCondPanel.key"),
     ...(breakpoint && breakpoint.condition
       ? gutterItems.editConditional
