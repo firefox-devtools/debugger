@@ -22,8 +22,8 @@ function insertStrtAt(string, index, newString) {
 export function convertToList(pausePoints: PausePoints): PausePoint[] {
   const list = [];
   for (const line in pausePoints) {
-    for (const column in pausePoints[Number(line)]) {
-      list.push(pausePoints[Number(line)][Number(column)]);
+    for (const column in pausePoints[line]) {
+      list.push(pausePoints[line][column]);
     }
   }
   return list;
@@ -50,7 +50,7 @@ export async function mapPausePoints<T>(
 
   const newPausePoints = {};
   for (const line in pausePoints) {
-    const linePoints = pausePoints[Number(line)];
+    const linePoints = pausePoints[line];
     const newLinePoints = (newPausePoints[line] = {});
     for (const column in linePoints) {
       newLinePoints[column] = results.shift();

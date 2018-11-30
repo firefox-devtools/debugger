@@ -221,9 +221,9 @@ export function getPausePoint(
     return;
   }
 
-  const linePoints = pausePoints[line];
+  const linePoints = pausePoints[String(line)];
   if (linePoints && column) {
-    return linePoints[column];
+    return linePoints[String(column)];
   }
 }
 
@@ -235,10 +235,10 @@ export function getFirstPausePointLocation(
   if (!pausePoints) {
     return location;
   }
-  const pausesAtLine = pausePoints[location.line];
+  const pausesAtLine = pausePoints[String(location.line)];
   if (pausesAtLine) {
     const column = Object.keys(pausesAtLine).find(
-      col => pausesAtLine[Number(col)].types.break
+      col => pausesAtLine[col].types.break
     );
     if (column !== undefined) {
       return { ...location, column: Number(column) };
