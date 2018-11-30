@@ -14,7 +14,8 @@ import Svg from "../shared/Svg";
 
 import {
   getGeneratedSourceByURL,
-  getHasSiblingOfSameName
+  getHasSiblingOfSameName,
+  getSourceFromId
 } from "../../selectors";
 import actions from "../../actions";
 
@@ -22,7 +23,7 @@ import {
   isOriginal as isOriginalSource,
   getSourceQueryString
 } from "../../utils/source";
-import { isDirectory } from "../../utils/sources-tree";
+import { isDirectory, createSourceNode } from "../../utils/sources-tree";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { features } from "../../utils/prefs";
 
@@ -236,11 +237,16 @@ function getHasMatchingGeneratedSource(state, source: ?Source) {
 }
 
 const mapStateToProps = (state, props) => {
-  const { source } = props;
-  return {
+  const { source, item } = props;
+  let newProps = {
     hasMatchingGeneratedSource: getHasMatchingGeneratedSource(state, source),
     hasSiblingOfSameName: getHasSiblingOfSameName(state, source)
   };
+  if (source) {
+    const { name, path } = item;
+    newProps["item"] = createSourceNode(name, path, getSourceFromId(state, source.id));
+  }
+  return newProps;
 };
 
 export default connect(
