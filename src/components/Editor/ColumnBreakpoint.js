@@ -41,12 +41,17 @@ export default class CallSite extends PureComponent<Props> {
 
   addCallSite = (nextProps: ?Props) => {
     const { columnBreakpoint, source } = nextProps || this.props;
-    const sourceId = source.id;
     const { line, column } = columnBreakpoint.location;
     const widget = makeBookmark(columnBreakpoint.enabled, {
       onClick: this.toggleBreakpoint
     });
+    const sourceId = source.id;
     const doc = getDocument(sourceId);
+
+    if (!doc) {
+      return;
+    }
+
     this.bookmark = doc.setBookmark({ line: line - 1, ch: column }, { widget });
   };
 
