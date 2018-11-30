@@ -10,14 +10,11 @@ import { buildScopeList } from "./getScopes";
 import generate from "@babel/generator";
 import * as t from "@babel/types";
 
-// NOTE: this will only work
-// if we are replacing an original identifier or an object property
+// NOTE: this will only work if we are replacing an original identifier
 function replaceNode(ancestors, node) {
   const ancestor = ancestors[ancestors.length - 1];
 
-  if (t.isObjectProperty(ancestor.node)) {
-    ancestor.node.value = node;
-  } else if (typeof ancestor.index === "number") {
+  if (typeof ancestor.index === "number") {
     ancestor.node[ancestor.key][ancestor.index] = node;
   } else {
     ancestor.node[ancestor.key] = node;
@@ -93,6 +90,13 @@ export default function mapOriginalExpression(
 
   t.traverse(ast, (node, ancestors) => {
     if (!t.isIdentifier(node) && !t.isThisExpression(node)) {
+      return;
+    }
+
+    const ancestor = ancestors[ancestors.length - 1];
+    // Shorthand properties can have a key and value with `node.loc.start` value
+    // and we only want to replace the value.
+    if (t.isObjectProperty(ancestor.node) && ancestor.key !== "value") {
       return;
     }
 
