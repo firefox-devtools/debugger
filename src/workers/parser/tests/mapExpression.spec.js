@@ -438,6 +438,19 @@ describe("mapExpression", () => {
         bindings: false,
         originalExpression: false
       }
+    },
+    {
+      name: "object destructuring + bindings without mappings",
+      expression: "({ a } = {});",
+      newExpression: "({ a: _a } = {})",
+      bindings: [],
+      mappings: { a: "_a" },
+      shouldMapExpression: false,
+      expectedMapped: {
+        await: false,
+        bindings: false,
+        originalExpression: true
+      }
     }
   ]);
 });

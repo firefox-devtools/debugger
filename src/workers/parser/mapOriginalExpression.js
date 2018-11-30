@@ -10,11 +10,14 @@ import { buildScopeList } from "./getScopes";
 import generate from "@babel/generator";
 import * as t from "@babel/types";
 
-// NOTE: this will only work if we are replacing an original identifier
+// NOTE: this will only work
+// if we are replacing an original identifier or an object property
 function replaceNode(ancestors, node) {
   const ancestor = ancestors[ancestors.length - 1];
 
-  if (typeof ancestor.index === "number") {
+  if (t.isObjectProperty(ancestor.node)) {
+    ancestor.node.value = node;
+  } else if (typeof ancestor.index === "number") {
     ancestor.node[ancestor.key][ancestor.index] = node;
   } else {
     ancestor.node[ancestor.key] = node;

@@ -3,6 +3,12 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 import mapOriginalExpression from "../mapOriginalExpression";
+import { format } from "prettier";
+
+const formatOutput = output =>
+  format(output, {
+    parser: "babylon"
+  });
 
 describe("mapOriginalExpression", () => {
   it("simple", () => {
@@ -43,6 +49,30 @@ describe("mapOriginalExpression", () => {
       c: "_c"
     });
     expect(generatedExpression).toEqual("a + b");
+  });
+
+  it("object destructuring", () => {
+    const generatedExpression = mapOriginalExpression("({ a } = { a: 4 })", {
+      a: "_mod.foo"
+    });
+
+    expect(formatOutput(generatedExpression)).toEqual(
+      formatOutput("({ a: _mod.foo } = {\n a: 4 \n})")
+    );
+  });
+
+  it("nested object destructuring", () => {
+    const generatedExpression = mapOriginalExpression(
+      "({ a: { b, c } } = { a: 4 })",
+      {
+        a: "_mod.foo",
+        b: "_mod.bar"
+      }
+    );
+
+    expect(formatOutput(generatedExpression)).toEqual(
+      formatOutput("({ a: { b: _mod.bar, c } } = {\n a: 4 \n})")
+    );
   });
 
   it("shadowed bindings", () => {
