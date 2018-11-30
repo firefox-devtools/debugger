@@ -313,10 +313,9 @@ export function getBreakpointsForSource(
 
 export function getBreakpointForLocation(
   state: OuterState,
-  sourceId: string,
   location: SourceLocation | null
 ): ?Breakpoint {
-  if (!sourceId || !location) {
+  if (!location || !location.sourceId) {
     return undefined;
   }
 

@@ -63,10 +63,6 @@ export class ConditionalPanel extends PureComponent<Props> {
 
   setBreakpoint(condition: string) {
     const { selectedLocation, location } = this.props;
-    if (!location) {
-      return;
-    }
-
     const { line, column } = location;
     const sourceId = selectedLocation ? selectedLocation.sourceId : "";
     const loc = { sourceId, line, column };
@@ -94,10 +90,7 @@ export class ConditionalPanel extends PureComponent<Props> {
     return this.renderToWidget(this.props);
   }
 
-  componentWillUpdate(nextProps: Props) {
-    if (nextProps.location) {
-      return this.renderToWidget(nextProps);
-    }
+  componentWillUpdate() {
     return this.clearConditionalPanel();
   }
 
@@ -114,9 +107,6 @@ export class ConditionalPanel extends PureComponent<Props> {
 
   renderToWidget(props: Props) {
     if (this.cbPanel) {
-      if (this.props.location.line == props.location.line) {
-        return props.closeConditionalPanel();
-      }
       this.clearConditionalPanel();
     }
 
@@ -190,11 +180,7 @@ const mapStateToProps = state => {
 
   return {
     selectedLocation,
-    breakpoint: getBreakpointForLocation(
-      state,
-      selectedLocation.sourceId,
-      location
-    ),
+    breakpoint: getBreakpointForLocation(state, location),
     location
   };
 };
