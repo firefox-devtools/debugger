@@ -37,8 +37,7 @@ const {
   nodeIsLongString,
   nodeHasFullText,
   nodeHasGetter,
-  getParent,
-  getClosestGripNode
+  getParentGripValue
 } = Utils.node;
 
 type Props = {
@@ -168,9 +167,7 @@ class ObjectInspectorItem extends Component<Props> {
       }
 
       if (nodeHasGetter(item)) {
-        const parentNode = getParent(item);
-        const parentGripNode = parentNode && getClosestGripNode(parentNode);
-        const parentGrip = parentGripNode && getValue(parentGripNode);
+        const parentGrip = getParentGripValue(item);
         if (parentGrip) {
           Object.assign(repProps, {
             onInvokeGetterButtonClick: () =>
