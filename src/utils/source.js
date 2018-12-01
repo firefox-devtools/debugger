@@ -461,6 +461,9 @@ export function isGenerated(source: Source) {
 }
 
 export function getSourceQueryString(source: ?Source) {
-  const query = source ? parseURL(source.url).search : "";
-  return query.replace(/:formatted$/, "");
+  if (!source) {
+    return;
+  }
+
+  return parseURL(getRawSourceURL(source.url)).search;
 }
