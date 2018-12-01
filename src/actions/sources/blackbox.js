@@ -32,8 +32,8 @@ export function toggleBlackBox(source: Source) {
     }
 
     if (isOriginalId(source.id)) {
-      const generatedId = originalToGeneratedId(source.id);
       const range = await getFileGeneratedRange(source);
+      const generatedId = originalToGeneratedId(source.id);
       return dispatch({
         type: "BLACKBOX",
         source,

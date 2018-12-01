@@ -35,8 +35,8 @@ self.onmessage = workerHandler({
   getAllGeneratedLocations,
   getOriginalLocation,
   getOriginalSourceText,
-  getFileGeneratedRange,
   getOriginalStackFrames,
+  getFileGeneratedRange,
   hasMappedSource,
   applySourceMap,
   clearSourceMaps

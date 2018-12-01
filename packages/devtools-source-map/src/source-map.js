@@ -308,36 +308,25 @@ async function getOriginalSourceText(originalSource: Source) {
 
 async function getFileGeneratedRange(originalSource: Source) {
   assert(isOriginalId(originalSource.id), "Source is not an original source");
-  const sourceText = originalSource.text;
-  if (!sourceText) {
-    return null;
+
+  const map = await getSourceMap(originalToGeneratedId(originalSource.id));
+  if (!map) {
+    return;
   }
 
-  const start = await getGeneratedLocation(
-    { sourceId: originalSource.id, line: 1, column: 0 },
-    originalSource
-  );
+  const start = map.generatedPositionFor({
+    source: originalSource.url,
+    line: 1,
+    column: 0,
+    bias: SourceMapConsumer.LEAST_UPPER_BOUND
+  });
 
-  const lines = sourceText.split("\n");
-
-  const endRanges = await getGeneratedRanges(
-    {
-      sourceId: originalSource.id,
-      line: lines.length,
-      column: lines[lines.length - 1].length
-    },
-    originalSource
-  );
-
-  if (!endRanges || endRanges.length === 0) {
-    // not sure what to do here
-    return null;
-  }
-
-  const end = {
-    line: endRanges[endRanges.length - 1].line,
-    column: endRanges[endRanges.length - 1].columnEnd
-  };
+  const end = map.generatedPositionFor({
+    source: originalSource.url,
+    line: Number.MAX_SAFE_INTEGER,
+    column: Number.MAX_SAFE_INTEGER,
+    bias: SourceMapConsumer.GREATEST_LOWER_BOUND
+  });
 
   return {
     start,
