@@ -4121,18 +4121,9 @@ eslint-plugin-jest@^21.15.1:
   version "21.18.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-21.18.0.tgz#d7305969a9c1902f895468791d968fcf08b5c0b7"
 
-eslint-plugin-mozilla@0.2.3:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-mozilla/-/eslint-plugin-mozilla-0.2.3.tgz#4deb85afb52f3622444c59420e005dc3ef44851b"
-  dependencies:
-    escope "^3.6.0"
-    espree "^3.2.0"
-    estraverse "^4.2.0"
-    sax "^1.1.4"
-
-eslint-plugin-mozilla@^0.16.1:
-  version "0.16.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-mozilla/-/eslint-plugin-mozilla-0.16.1.tgz#9254fb9c0357fdab09972482700026bd1f986dd8"
+eslint-plugin-mozilla@0.16.3:
+  version "0.16.3"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-mozilla/-/eslint-plugin-mozilla-0.16.3.tgz#4b7be010d629043b434dc35c0cd8efcd3f33432c"
   dependencies:
     htmlparser2 "3.9.2"
     ini-parser "0.0.2"
@@ -4258,7 +4249,7 @@ eslint@^4.2.0, eslint@^4.7.2:
     table "4.0.2"
     text-table "~0.2.0"
 
-espree@^3.2.0, espree@^3.4.0, espree@^3.5.4:
+espree@^3.4.0, espree@^3.5.4:
   version "3.5.4"
   resolved "https://registry.yarnpkg.com/espree/-/espree-3.5.4.tgz#b0f447187c8a8bed944b815a660bddf5deb5d1a7"
   dependencies:
@@ -10801,7 +10792,7 @@ sane@^2.0.0:
   optionalDependencies:
     fsevents "^1.2.3"
 
-sax@1.2.4, sax@>=0.6.0, sax@^1.1.4, sax@^1.2.4, sax@~1.2.1:
+sax@1.2.4, sax@>=0.6.0, sax@^1.2.4, sax@~1.2.1:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
 
