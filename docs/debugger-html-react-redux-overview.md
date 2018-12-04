@@ -62,7 +62,7 @@ actual DOM will be rendered.
 # Components
 
 
-debbuger.html uses React [Components](https://github.com/devtools-html/debugger.html/tree/master/src/components) to render portions of the
+debugger.html uses React [Components](https://github.com/devtools-html/debugger.html/tree/master/src/components) to render portions of the
 application. Each component’s source code is located under the
 src/components folder. In this section we will cover how the
 presentation pieces fit together; later we will discuss
