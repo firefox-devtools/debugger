@@ -11,7 +11,7 @@ Array [
     },
   },
   Object {
-    "condition": "",
+    "condition": null,
     "enabled": false,
     "location": Object {
       "column": 3,
@@ -32,7 +32,7 @@ Array [
     },
   },
   Object {
-    "condition": "",
+    "condition": null,
     "enabled": false,
     "location": Object {
       "column": 3,
@@ -53,7 +53,7 @@ Array [
     },
   },
   Object {
-    "condition": "",
+    "condition": null,
     "enabled": false,
     "location": Object {
       "column": 3,
@@ -74,7 +74,7 @@ Array [
     },
   },
   Object {
-    "condition": "",
+    "condition": null,
     "enabled": false,
     "location": Object {
       "column": 5,
