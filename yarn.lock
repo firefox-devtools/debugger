@@ -3886,9 +3886,9 @@ enzyme-adapter-utils@^1.3.0:
     object.assign "^4.1.0"
     prop-types "^15.6.0"
 
-enzyme-to-json@3.3.4, enzyme-to-json@^3.3.1:
-  version "3.3.4"
-  resolved "https://registry.yarnpkg.com/enzyme-to-json/-/enzyme-to-json-3.3.4.tgz#67c6040e931182f183418af2eb9f4323258aa77f"
+enzyme-to-json@3.3.5:
+  version "3.3.5"
+  resolved "https://registry.yarnpkg.com/enzyme-to-json/-/enzyme-to-json-3.3.5.tgz#f8eb82bd3d5941c9d8bc6fd9140030777d17d0af"
   dependencies:
     lodash "^4.17.4"
 
@@ -12426,9 +12426,9 @@ warning@^3.0.0:
   dependencies:
     loose-envify "^1.0.0"
 
-wasmparser@^0.6.2:
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/wasmparser/-/wasmparser-0.6.2.tgz#3c6344b0fbe85b3ab284c98839041bf902ba782b"
+wasmparser@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/wasmparser/-/wasmparser-0.7.0.tgz#00662784c220ec55cd656c6261057a0c25de361b"
   dependencies:
     "@types/node" "^7.0.52"
 
