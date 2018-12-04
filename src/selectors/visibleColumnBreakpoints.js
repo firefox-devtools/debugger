@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-import { groupBy, hasIn, sortedUniqBy } from "lodash";
+import { groupBy, get, sortedUniqBy } from "lodash";
 import { createSelector } from "reselect";
 
 import { getViewport } from "../selectors";
@@ -36,9 +36,9 @@ function groupBreakpoints(breakpoints) {
   return map;
 }
 
-function isEnabled(location, breakpointMap) {
+function findBreakpoint(location, breakpointMap) {
   const { line, column } = location;
-  return hasIn(breakpointMap, [line, column]);
+  return get(breakpointMap, [line, column]);
 }
 
 function getLineCount(columnBreakpoints) {
@@ -103,16 +103,11 @@ export function getColumnBreakpoints(pausePoints, breakpoints, viewport) {
   );
 
   return columnBreakpoints.map(({ location }) => {
-    const foundBreakpoint = breakpoints.find(breakpoint => {
-      return (
-        breakpoint.location.line === location.line &&
-        breakpoint.location.column === location.column
-      );
-    });
+    const foundBreakpoint = findBreakpoint(location, breakpointMap);
 
     return {
       location,
-      enabled: isEnabled(location, breakpointMap),
+      enabled: !!foundBreakpoint,
       condition: foundBreakpoint ? foundBreakpoint.condition : ""
     };
   });
