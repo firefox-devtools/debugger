@@ -4,7 +4,7 @@
 
 // @flow
 
-import type { Source, PartialRange } from "../../types";
+import type { Source, PartialRange, SourceLocation } from "../../types";
 
 import type {
   ActiveSearchType,
@@ -60,7 +60,7 @@ export type UIAction =
     |}
   | {|
       +type: "OPEN_CONDITIONAL_PANEL",
-      +line: number
+      +location: SourceLocation
     |}
   | {|
       +type: "CLOSE_CONDITIONAL_PANEL"

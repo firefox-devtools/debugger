@@ -14,7 +14,7 @@ describe("breakpoint sorting", () => {
     ]);
 
     expect(sorted[0].selectedLocation.line).toBe(2);
-    expect(sorted[0].selectedLocation.column).toBe(0);
+    expect(sorted[0].selectedLocation.column).toBe(undefined);
     expect(sorted[1].selectedLocation.line).toBe(2);
     expect(sorted[1].selectedLocation.column).toBe(7);
     expect(sorted[2].selectedLocation.line).toBe(9);
