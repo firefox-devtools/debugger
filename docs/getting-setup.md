@@ -98,38 +98,6 @@ Navigate to `about:config` and accept any warning message. Then search for the f
 
 Close firefox and re-open it with the `firefox-bin` command.
 
-#### Firefox GCLI
-
-1. Open Firefox
-2. Press <kbd>shift</kbd>+<kbd>F2</kbd> to open GCLI
-3. Type `listen 6080` into GCLI
-
-NOTE: This assumes that you've already set the other preferences in
-`about:config`.
-
-#### Firefox using WebSocket transport
-
-The default, traditional way to connect to Firefox uses a custom TCP protocol.
-However, Firefox also now supports connecting via WebSockets as well.  To use
-this mode:
-
-##### 1. Create a `configs/local.json` file in your `debugger.html` clone with:
-```
-{
-  "firefox": {
-    "webSocketConnection": true,
-    "webSocketHost": "localhost:6080"
-  }
-}
-```
-##### 2. Enable WebSocket mode when opening the server socket
-  * With the Firefox CLI approach, add the `ws:` prefix to the port:
-  ```bash
-  /Applications/Firefox.app/Contents/MacOS/firefox-bin --start-debugger-server ws:6080 -P development
-  ```
-  * With the GCLI approach, enter `listen 6080 websocket`
-
-
 ### Starting Chrome
 
 There are two ways to run chrome. Here's the easy way to run chrome
