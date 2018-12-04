@@ -38,7 +38,11 @@ function groupBreakpoints(breakpoints) {
 
 function findBreakpoint(location, breakpointMap) {
   const { line, column } = location;
-  return get(breakpointMap, [line, column]);
+  const breakpoints = get(breakpointMap, [line, column]);
+
+  if (breakpoints) {
+    return breakpoints[0];
+  }
 }
 
 function getLineCount(columnBreakpoints) {
@@ -103,12 +107,13 @@ export function getColumnBreakpoints(pausePoints, breakpoints, viewport) {
   );
 
   return columnBreakpoints.map(({ location }) => {
+    // Find the breakpoint so if we know it's enabled and has condition
     const foundBreakpoint = findBreakpoint(location, breakpointMap);
 
     return {
       location,
       enabled: !!foundBreakpoint,
-      condition: foundBreakpoint ? foundBreakpoint.condition : ""
+      condition: foundBreakpoint ? foundBreakpoint.condition : null
     };
   });
 }
