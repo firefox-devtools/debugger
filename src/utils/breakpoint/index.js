@@ -186,10 +186,17 @@ export function createPendingBreakpoint(bp: Breakpoint) {
   };
 }
 
-export function sortBreakpoints(breakpoints: FormattedBreakpoint[]) {
+export function sortFormattedBreakpoints(breakpoints: FormattedBreakpoint[]) {
+  return _sortBreakpoints(breakpoints, "selectedLocation");
+}
+
+export function sortBreakpoints(breakpoints: Breakpoint[]) {
+  return _sortBreakpoints(breakpoints);
+}
+
+function _sortBreakpoints(breakpoints: Array<Object>, property = "location") {
   return sortBy(breakpoints, [
-    "selectedLocation.line",
-    ({ selectedLocation }) =>
-      selectedLocation.column === undefined || selectedLocation.column
+    "${property}.line",
+    bp => bp[property].column === undefined || bp[property].column
   ]);
 }
