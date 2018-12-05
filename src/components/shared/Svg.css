@@ -200,3 +200,20 @@ html[dir="rtl"] .arrow svg,
 .source-icon svg {
   fill: var(--theme-comment);
 }
+
+img.arrow,button.arrow {
+  mask: url(/images/arrow.svg) no-repeat;
+  mask-size: 100%;
+  width: 9px;
+  height: 9px;
+}
+
+html[dir="rtl"] .tree-node img.arrow,
+html[dir="rtl"] .tree-node button.arrow {
+  transform: rotate(90deg);
+}
+
+.tree-node img.arrow.expanded,
+.tree-node button.arrow.expanded {
+  transform: rotate(0deg);
+}
