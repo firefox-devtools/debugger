@@ -201,7 +201,7 @@ html[dir="rtl"] .arrow svg,
   fill: var(--theme-comment);
 }
 
-img.arrow,button.arrow {
+img.arrow, button.arrow {
   mask: url(/images/arrow.svg) no-repeat;
   mask-size: 100%;
   width: 9px;

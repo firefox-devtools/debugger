@@ -5,6 +5,7 @@
 // @flow
 import React, { cloneElement, Component } from "react";
 import Svg from "./Svg";
+import classnames from "classnames";
 
 import "./Accordion.css";
 
