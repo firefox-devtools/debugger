@@ -94,7 +94,8 @@ export type Props = {
   addOrToggleDisabledBreakpoint: number => void,
   jumpToMappedLocation: any => void,
   traverseResults: (boolean, Object) => void,
-  updateViewport: void => void
+  updateViewport: void => void,
+  closeTab: Source => void
 };
 
 type State = {
@@ -204,10 +205,20 @@ class Editor extends PureComponent<Props, State> {
       L10N.getStr("toggleCondPanel.key"),
       this.onToggleConditionalPanel
     );
+    shortcuts.on(L10N.getStr("sourceTabs.closeTab.key"), this.onClosePress);
     shortcuts.on("Esc", this.onEscape);
     shortcuts.on(searchAgainPrevKey, this.onSearchAgain);
     shortcuts.on(searchAgainKey, this.onSearchAgain);
   }
+
+  onClosePress = (key, e: KeyboardEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const { selectedSource } = this.props;
+    if (selectedSource) {
+      this.props.closeTab(selectedSource);
+    }
+  };
 
   componentWillUnmount() {
     if (this.state.editor) {
@@ -220,6 +231,7 @@ class Editor extends PureComponent<Props, State> {
       "sourceSearch.search.againPrev.key2"
     );
     const shortcuts = this.context.shortcuts;
+    shortcuts.off(L10N.getStr("sourceTabs.closeTab.key"));
     shortcuts.off(L10N.getStr("toggleBreakpoint.key"));
     shortcuts.off(L10N.getStr("toggleCondPanel.key"));
     shortcuts.off(searchAgainPrevKey);
@@ -626,6 +638,7 @@ export default connect(
     addOrToggleDisabledBreakpoint: actions.addOrToggleDisabledBreakpoint,
     jumpToMappedLocation: actions.jumpToMappedLocation,
     traverseResults: actions.traverseResults,
-    updateViewport: actions.updateViewport
+    updateViewport: actions.updateViewport,
+    closeTab: actions.closeTab
   }
 )(Editor);
