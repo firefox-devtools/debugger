@@ -13,6 +13,7 @@
   font-weight: 300;
   cursor: default;
   min-height: 24px;
+  white-space: normal;
 }
 
 .why-paused > div {
