@@ -212,10 +212,10 @@ class Editor extends PureComponent<Props, State> {
   }
 
   onClosePress = (key, e: KeyboardEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
     const { selectedSource } = this.props;
     if (selectedSource) {
+      e.preventDefault();
+      e.stopPropagation();
       this.props.closeTab(selectedSource);
     }
   };
