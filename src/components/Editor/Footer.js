@@ -73,7 +73,7 @@ class SourceFooter extends PureComponent<Props, State> {
 
     if (isLoading(selectedSource) && selectedSource.isPrettyPrinted) {
       return (
-        <div className="loader">
+        <div className="loader" key="pretty-loader">
           <Svg name="loader" />
         </div>
       );
@@ -140,7 +140,7 @@ class SourceFooter extends PureComponent<Props, State> {
     }
 
     return (
-      <span className="blackbox-summary">
+      <span className="blackbox-summary" key="blackbox-summary">
         {L10N.getStr("sourceFooter.blackboxed")}
       </span>
     );
@@ -154,6 +154,7 @@ class SourceFooter extends PureComponent<Props, State> {
     return (
       <PaneToggleButton
         position="end"
+        key="toggle"
         collapsed={!this.props.endPanelCollapsed}
         horizontal={this.props.horizontal}
         handleClick={this.props.togglePaneCollapse}
@@ -162,13 +163,13 @@ class SourceFooter extends PureComponent<Props, State> {
   }
 
   renderCommands() {
-    return (
-      <div className="commands">
-        {this.prettyPrintButton()}
-        {this.blackBoxButton()}
-        {this.blackBoxSummary()}
-      </div>
-    );
+    const commands = [
+      this.prettyPrintButton(),
+      this.blackBoxButton(),
+      this.blackBoxSummary()
+    ].filter(Boolean);
+
+    return commands.length ? <div className="commands">{commands}</div> : null;
   }
 
   renderSourceSummary() {
@@ -226,9 +227,9 @@ class SourceFooter extends PureComponent<Props, State> {
     return (
       <div className="source-footer">
         {this.renderCommands()}
-        {this.renderCursorPosition()}
         {this.renderSourceSummary()}
         {this.renderToggleButton()}
+        {this.renderCursorPosition()}
       </div>
     );
   }
