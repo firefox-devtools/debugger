@@ -210,7 +210,7 @@ html[dir="rtl"] .editor-mount {
 }
 
 .debug-expression,
-.new-debug-line .call-site {
+.new-debug-line .column-breakpoint {
   background-color: var(--debug-expression-background);
 }
 
