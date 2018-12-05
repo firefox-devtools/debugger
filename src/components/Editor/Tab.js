@@ -89,9 +89,9 @@ class Tab extends PureComponent<Props> {
       {
         item: {
           ...tabMenuItems.closeOtherTabs,
-          click: () => closeTabs(otherTabURLs)
-        },
-        hidden: () => tabSources.size === 1
+          click: () => closeTabs(otherTabURLs),
+          disabled: () => tabSources.length === 1
+        }
       },
       {
         item: {
@@ -99,11 +99,11 @@ class Tab extends PureComponent<Props> {
           click: () => {
             const tabIndex = tabSources.findIndex(t => t.id == tab);
             closeTabs(tabURLs.filter((t, i) => i > tabIndex));
-          }
-        },
-        hidden: () =>
-          tabSources.size === 1 ||
-          tabSources.some((t, i) => t === tab && tabSources.size - 1 === i)
+          },
+          disabled: () =>
+            tabSources.length === 1 ||
+            tabSources.some((t, i) => t === tab && tabSources.length - 1 === i)
+        }
       },
       {
         item: { ...tabMenuItems.closeAllTabs, click: () => closeTabs(tabURLs) }
