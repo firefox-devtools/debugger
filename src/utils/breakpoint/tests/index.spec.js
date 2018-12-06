@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-import { sortFormattedBreakpoints } from "../index";
+import { sortBreakpoints, sortFormattedBreakpoints } from "../index";
 
 describe("breakpoint sorting", () => {
   it("sortFormattedBreakpoints should sort by line number and column ", () => {
@@ -22,7 +22,7 @@ describe("breakpoint sorting", () => {
   });
 
   it("sortBreakpoints should sort by line number and column ", () => {
-    const sorted = sortFormattedBreakpoints([
+    const sorted = sortBreakpoints([
       { location: { line: 100, column: 2 } },
       { location: { line: 9, column: 2 } },
       { location: { line: 2, column: undefined } },
