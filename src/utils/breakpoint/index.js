@@ -196,14 +196,10 @@ export function sortBreakpoints(breakpoints: Breakpoint[]) {
 
 function _sortBreakpoints(breakpoints: Array<Object>, property: string) {
   return sortBy(breakpoints, [
-    "${property}.line",
+    // Priority: line number, undefined column, column number
+    `${property}.line`,
     bp => {
-      // Priority: line number, undefined column, column number
-      return (
-        bp[property].line ||
-        bp[property].column === undefined ||
-        bp[property].column
-      );
+      return bp[property].column === undefined || bp[property].column;
     }
   ]);
 }
