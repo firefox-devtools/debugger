@@ -16,6 +16,7 @@
   user-select: none;
   height: var(--editor-footer-height);
   box-sizing: border-box;
+  justify-content: space-between;
 }
 
 .source-footer .commands {
@@ -96,4 +97,5 @@
 
 .source-footer .cursor-position {
   padding: 5px;
+  white-space: nowrap;
 }
