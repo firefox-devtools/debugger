@@ -197,6 +197,9 @@ export function sortBreakpoints(breakpoints: Breakpoint[]) {
 function _sortBreakpoints(breakpoints: Array<Object>, property = "location") {
   return sortBy(breakpoints, [
     "${property}.line",
-    bp => bp[property].column === undefined || bp[property].column
+    bp =>
+      bp[property].line ||
+      bp[property].column === undefined ||
+      bp[property].column
   ]);
 }

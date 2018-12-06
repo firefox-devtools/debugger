@@ -5,12 +5,10 @@
 // @flow
 import { connect } from "react-redux";
 import React, { Component } from "react";
-import { uniqBy } from "lodash";
-
 import Breakpoint from "./Breakpoint";
 
-import { getSelectedSource, getVisibleBreakpoints } from "../../selectors";
-import { makeLocationId, sortBreakpoints } from "../../utils/breakpoint";
+import { getSelectedSource, getFirstVisibleBreakpoints } from "../../selectors";
+import { makeLocationId } from "../../utils/breakpoint";
 import { isLoaded } from "../../utils/source";
 
 import type { Breakpoint as BreakpointType, Source } from "../../types";
@@ -54,14 +52,7 @@ class Breakpoints extends Component<Props> {
   }
 }
 
-export default connect(state => {
-  const breakpoints = uniqBy(
-    sortBreakpoints(getVisibleBreakpoints(state)),
-    bp => bp.location.line
-  );
-
-  return {
-    breakpoints,
-    selectedSource: getSelectedSource(state)
-  };
-})(Breakpoints);
+export default connect(state => ({
+  breakpoints: getFirstVisibleBreakpoints(state),
+  selectedSource: getSelectedSource(state)
+}))(Breakpoints);
