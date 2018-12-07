@@ -16,9 +16,8 @@ exports[`Accordion basic render 1`] = `
       onKeyDown={[Function]}
       tabIndex="0"
     >
-      <Svg
-        className="expanded"
-        name="arrow"
+      <button
+        className="arrow expanded"
       />
       Test Accordion Item 1
     </h2>
@@ -39,9 +38,8 @@ exports[`Accordion basic render 1`] = `
       onKeyDown={[Function]}
       tabIndex="0"
     >
-      <Svg
-        className=""
-        name="arrow"
+      <button
+        className="arrow"
       />
       Test Accordion Item 2
       <div
@@ -63,9 +61,8 @@ exports[`Accordion basic render 1`] = `
       onKeyDown={[Function]}
       tabIndex="0"
     >
-      <Svg
-        className="expanded"
-        name="arrow"
+      <button
+        className="arrow expanded"
       />
       Test Accordion Item 3
     </h2>
