@@ -70,6 +70,10 @@ html[dir="rtl"] .editor-mount {
   opacity: 0.5;
 }
 
+.theme-dark .empty-line .CodeMirror-linenumber {
+  opacity: 0.6;
+}
+
 :not(.empty-line):not(.new-breakpoint)
   > .CodeMirror-gutter-wrapper:hover
   > .CodeMirror-linenumber {
