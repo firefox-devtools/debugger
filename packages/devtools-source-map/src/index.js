@@ -30,9 +30,9 @@ const getAllGeneratedLocations = dispatcher.task("getAllGeneratedLocations", {
   queue: true
 });
 const getOriginalLocation = dispatcher.task("getOriginalLocation");
+const getFileGeneratedRange = dispatcher.task("getFileGeneratedRange");
 const getLocationScopes = dispatcher.task("getLocationScopes");
 const getOriginalSourceText = dispatcher.task("getOriginalSourceText");
-const getFileGeneratedRange = dispatcher.task("getFileGeneratedRange");
 const applySourceMap = dispatcher.task("applySourceMap");
 const clearSourceMaps = dispatcher.task("clearSourceMaps");
 const hasMappedSource = dispatcher.task("hasMappedSource");
@@ -50,9 +50,9 @@ module.exports = {
   getGeneratedLocation,
   getAllGeneratedLocations,
   getOriginalLocation,
+  getFileGeneratedRange,
   getLocationScopes,
   getOriginalSourceText,
-  getFileGeneratedRange,
   applySourceMap,
   clearSourceMaps,
   getOriginalStackFrames,

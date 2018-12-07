@@ -14,11 +14,7 @@ import { recordEvent } from "../../utils/telemetry";
 import { features } from "../../utils/prefs";
 
 import { PROMISE } from "../utils/middleware/promise";
-import {
-  getFileGeneratedRange,
-  isOriginalId,
-  originalToGeneratedId
-} from "devtools-source-map";
+import { isOriginalId, originalToGeneratedId } from "devtools-source-map";
 
 import type { Source } from "../../types";
 import type { ThunkArgs } from "../types";
@@ -32,7 +28,7 @@ export function toggleBlackBox(source: Source) {
     }
 
     if (isOriginalId(source.id)) {
-      const range = await getFileGeneratedRange(source);
+      const range = await sourceMaps.getFileGeneratedRange(source);
       const generatedId = originalToGeneratedId(source.id);
       return dispatch({
         type: "BLACKBOX",

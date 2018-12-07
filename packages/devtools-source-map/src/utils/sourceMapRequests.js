@@ -16,20 +16,8 @@ function setSourceMap(generatedId, request) {
   sourceMapRequests.set(generatedId, request);
 }
 
-async function getSourceMapUnrwapped(
-  generatedSourceId: string
-): ?SourceMapConsumer {
-  const request = sourceMapRequests.get(generatedSourceId);
-  if (!request) {
-    return;
-  }
-
-  return await request;
-}
-
 module.exports = {
   clearSourceMaps,
   getSourceMap,
-  getSourceMapUnrwapped,
   setSourceMap
 };
