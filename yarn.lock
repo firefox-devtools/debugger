@@ -4077,9 +4077,9 @@ eslint-plugin-file-header@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/eslint-plugin-file-header/-/eslint-plugin-file-header-0.0.1.tgz#8de79de79c9ab35ac212db8e977e5003803b8bfb"
 
-eslint-plugin-flowtype@^2.36.0:
-  version "2.50.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-flowtype/-/eslint-plugin-flowtype-2.50.0.tgz#953e262fa9b5d0fa76e178604892cf60dfb916da"
+eslint-plugin-flowtype@^3.0.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-flowtype/-/eslint-plugin-flowtype-3.2.0.tgz#824364ed5940a404b91326fdb5a313a2a74760df"
   dependencies:
     lodash "^4.17.10"
 
