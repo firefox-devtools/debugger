@@ -22,3 +22,7 @@
   font-style: italic;
   color: var(--theme-comment);
 }
+
+.theme-dark .outline-filter-input.focused {
+  border: 1px solid var(--blue-50);
+}
