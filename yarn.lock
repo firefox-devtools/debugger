@@ -3405,6 +3405,10 @@ devtools-environment@^0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/devtools-environment/-/devtools-environment-0.0.5.tgz#0333bf35009fe09c21c315069e6b4d9177a4b8d1"
 
+devtools-environment@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/devtools-environment/-/devtools-environment-0.0.6.tgz#11584f5b1ead784c2356d8da647a630fed591a4e"
+
 devtools-launchpad@^0.0.141:
   version "0.0.141"
   resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.141.tgz#2e71266bdafe6aff55777badde90fd9b88dcd23c"
@@ -12426,9 +12430,9 @@ warning@^3.0.0:
   dependencies:
     loose-envify "^1.0.0"
 
-wasmparser@^0.6.2:
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/wasmparser/-/wasmparser-0.6.2.tgz#3c6344b0fbe85b3ab284c98839041bf902ba782b"
+wasmparser@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/wasmparser/-/wasmparser-0.7.0.tgz#00662784c220ec55cd656c6261057a0c25de361b"
   dependencies:
     "@types/node" "^7.0.52"
 
