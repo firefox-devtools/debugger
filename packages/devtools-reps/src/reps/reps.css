@@ -243,7 +243,7 @@
 
 button.open-accessibility-inspector,
 button.open-inspector {
-  mask: url("chrome://devtools/skin/images/vview-open-inspector.png") no-repeat;
+  mask: url("/images/open-inspector.svg") no-repeat;
   display: inline-block;
   background-color: var(--comment-node-color);
   height: 16px;
