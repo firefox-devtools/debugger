@@ -22,7 +22,7 @@
     "@storybook/react": "^3.3.14",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-preset-react": "^6.24.1",
-    "devtools-license-check": "^0.5.1",
+    "devtools-license-check": "^0.7.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^3.12.0",
