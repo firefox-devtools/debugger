@@ -6,6 +6,7 @@
   padding: 15px;
   column-width: 250px;
   cursor: default;
+  user-select: none;
 }
 
 .shortcuts-content h2 {
