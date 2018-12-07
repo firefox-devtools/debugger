@@ -3383,10 +3383,6 @@ detective@^4.0.0, detective@^4.3.1:
     acorn "^5.2.1"
     defined "^1.0.0"
 
-devtools-config@^0.0.15:
-  version "0.0.15"
-  resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.15.tgz#1fbe75be3f4dc1159603927fc1dfa64d1d9f1202"
-
 devtools-config@^0.0.16:
   version "0.0.16"
   resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.16.tgz#e7251788422f42a16aa1372b6adbebfcb7a74994"
@@ -12426,9 +12422,9 @@ warning@^3.0.0:
   dependencies:
     loose-envify "^1.0.0"
 
-wasmparser@^0.6.2:
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/wasmparser/-/wasmparser-0.6.2.tgz#3c6344b0fbe85b3ab284c98839041bf902ba782b"
+wasmparser@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/wasmparser/-/wasmparser-0.7.0.tgz#00662784c220ec55cd656c6261057a0c25de361b"
   dependencies:
     "@types/node" "^7.0.52"
 

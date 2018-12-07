@@ -37,7 +37,7 @@
     "babel-plugin-syntax-object-rest-spread": "^6.13.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-preset-react": "^6.24.1",
-    "devtools-config": "^0.0.15",
+    "devtools-config": "^0.0.16",
     "devtools-launchpad": "^0.0.141",
     "devtools-license-check": "^0.5.1",
     "devtools-modules": "~1.0",
