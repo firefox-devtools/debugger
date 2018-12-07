@@ -136,7 +136,7 @@ export function createBreakpoint(
   const defaultASTLocation = {
     name: undefined,
     offset: location,
-    index: undefined
+    index: 0
   };
   const properties = {
     id,

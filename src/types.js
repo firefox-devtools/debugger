@@ -85,7 +85,7 @@ export type PendingLocation = {
 export type ASTLocation = {|
   +name: ?string,
   +offset: PartialPosition,
-  +index: ?number
+  +index: number
 |};
 
 /**

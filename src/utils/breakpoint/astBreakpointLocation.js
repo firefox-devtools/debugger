@@ -16,7 +16,7 @@ export function getASTLocation(
   location: SourceLocation
 ): ASTLocation {
   if (source.isWasm || !symbols || symbols.loading) {
-    return { name: undefined, offset: location, index: undefined };
+    return { name: undefined, offset: location, index: 0 };
   }
 
   const scope = findClosestFunction(symbols, location);
@@ -30,13 +30,13 @@ export function getASTLocation(
       index: scope.index
     };
   }
-  return { name: undefined, offset: location, index: undefined };
+  return { name: undefined, offset: location, index: 0 };
 }
 
 export async function findScopeByName(
   source: Source,
   name: ?string,
-  index: ?number
+  index: number
 ) {
   const symbols = await getSymbols(source.id);
   const functions = symbols.functions;

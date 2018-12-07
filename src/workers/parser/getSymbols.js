@@ -43,7 +43,7 @@ export type FunctionDeclaration = SymbolDeclaration & {
   parameterNames: string[],
   klass: string | null,
   identifier: Object,
-  index: ?number
+  index: number
 };
 
 export type CallDeclaration = SymbolDeclaration & {
