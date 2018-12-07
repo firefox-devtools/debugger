@@ -3401,6 +3401,10 @@ devtools-environment@^0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/devtools-environment/-/devtools-environment-0.0.5.tgz#0333bf35009fe09c21c315069e6b4d9177a4b8d1"
 
+devtools-environment@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/devtools-environment/-/devtools-environment-0.0.6.tgz#11584f5b1ead784c2356d8da647a630fed591a4e"
+
 devtools-launchpad@^0.0.141:
   version "0.0.141"
   resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.141.tgz#2e71266bdafe6aff55777badde90fd9b88dcd23c"
