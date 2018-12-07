@@ -40,9 +40,3 @@ add_task(async function() {
 
   ok(true, "blackbox works")
 });
-
-function wait(ms) {
-  return new Promise(resolve => {
-    setTimeout(resolve, ms);
-  })
-}

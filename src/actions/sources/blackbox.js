@@ -40,7 +40,7 @@ export function toggleBlackBox(source: Source) {
     return dispatch({
       type: "BLACKBOX",
       source,
-      [PROMISE]: client.blackBox(source.id)
+      [PROMISE]: client.blackBox(source.id, isBlackBoxed)
     });
   };
 }
