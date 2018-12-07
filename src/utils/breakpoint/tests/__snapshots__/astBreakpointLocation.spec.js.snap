@@ -2,7 +2,7 @@
 
 exports[`ast invalid location returns name for an anon fn in global scope as undefined 1`] = `
 Object {
-  "index": undefined,
+  "index": 0,
   "name": undefined,
   "offset": Object {
     "column": 0,
@@ -13,7 +13,7 @@ Object {
 
 exports[`ast invalid location returns the scope name for global scope as undefined 1`] = `
 Object {
-  "index": undefined,
+  "index": 0,
   "name": undefined,
   "offset": Object {
     "column": 0,

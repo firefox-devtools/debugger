@@ -30,7 +30,7 @@ Object {
 exports[`invalid breakpoint location a corrected corresponding pending breakpoint is added 1`] = `
 Object {
   "astLocation": Object {
-    "index": undefined,
+    "index": 0,
     "name": undefined,
     "offset": Object {
       "line": 7,
@@ -56,7 +56,7 @@ Object {
 exports[`when adding breakpoints a corresponding pending breakpoint should be added 1`] = `
 Object {
   "astLocation": Object {
-    "index": undefined,
+    "index": 0,
     "name": undefined,
     "offset": Object {
       "line": 5,
@@ -82,7 +82,7 @@ Object {
 exports[`when adding breakpoints adding and deleting breakpoints add a corresponding pendingBreakpoint for each addition 1`] = `
 Object {
   "astLocation": Object {
-    "index": undefined,
+    "index": 0,
     "name": undefined,
     "offset": Object {
       "line": 5,
@@ -108,7 +108,7 @@ Object {
 exports[`when adding breakpoints adding and deleting breakpoints add a corresponding pendingBreakpoint for each addition 2`] = `
 Object {
   "astLocation": Object {
-    "index": undefined,
+    "index": 0,
     "name": undefined,
     "offset": Object {
       "line": 5,
