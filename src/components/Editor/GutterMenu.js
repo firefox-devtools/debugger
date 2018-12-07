@@ -25,6 +25,7 @@ type Props = {
 export function gutterMenu({
   breakpoint,
   line,
+  column,
   event,
   isPaused,
   toggleBreakpoint,
@@ -73,7 +74,7 @@ export function gutterMenu({
     accesskey: L10N.getStr("shortcuts.toggleBreakpoint.accesskey"),
     disabled: false,
     click: () => {
-      toggleBreakpoint(line);
+      toggleBreakpoint(line, column);
       if (isCbPanelOpen) {
         closeConditionalPanel();
       }
@@ -88,7 +89,7 @@ export function gutterMenu({
     // Leaving column undefined so pause points can be detected
     click: () =>
       openConditionalPanel(
-        breakpoint ? breakpoint.location : { line, sourceId }
+        breakpoint ? breakpoint.location : { line, column, sourceId }
       ),
     accelerator: L10N.getStr("toggleCondPanel.key"),
     ...(breakpoint && breakpoint.condition
@@ -102,7 +103,7 @@ export function gutterMenu({
     const continueToHereItem = {
       accesskey: L10N.getStr("editor.continueToHere.accesskey"),
       disabled: false,
-      click: () => continueToHere(line),
+      click: () => continueToHere(line, column),
       ...gutterItems.continueToHere
     };
     items.push(continueToHereItem);
@@ -112,7 +113,7 @@ export function gutterMenu({
     const disableBreakpoint = {
       accesskey: L10N.getStr("editor.disableBreakpoint.accesskey"),
       disabled: false,
-      click: () => toggleDisabledBreakpoint(line),
+      click: () => toggleDisabledBreakpoint(line, column),
       ...(breakpoint.disabled
         ? gutterItems.enableBreakpoint
         : gutterItems.disableBreakpoint)
@@ -139,17 +140,39 @@ class GutterContextMenuComponent extends Component {
   showMenu(nextProps) {
     const { contextMenu, ...props } = nextProps;
     const { event } = contextMenu;
+
     const sourceId = props.selectedSource ? props.selectedSource.id : "";
     const line = lineAtHeight(props.editor, sourceId, event);
-    const breakpoint = nextProps.breakpoints.find(
+
+    let breakpoint = nextProps.breakpoints.find(
       bp => bp.location.line === line
     );
+
+    // Detect a column breakpoint
+    const coords = props.editor.codeMirror.coordsChar({
+      left: event.x,
+      top: event.y
+    });
+
+    let column = null;
+    if (coords.ch) {
+      breakpoint = null;
+      column = coords.ch;
+
+      const breakpointSearch = nextProps.breakpoints.find(
+        bp => bp.location.line === line && bp.location.column === coords.ch
+      );
+
+      if (breakpointSearch) {
+        breakpoint = breakpointSearch;
+      }
+    }
 
     if (props.emptyLines && props.emptyLines.includes(line)) {
       return;
     }
 
-    gutterMenu({ event, sourceId, line, breakpoint, ...props });
+    gutterMenu({ event, sourceId, line, column, breakpoint, ...props });
   }
 
   render() {
