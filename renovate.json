@@ -1,6 +1,8 @@
 {
+  "separateMajorMinor": false,
   "extends": [
-    "config:base"
+    "config:base",
+    ":preserveSemverRanges"
   ],
   "statusCheckVerify": true,
   "ignoreDeps": [
