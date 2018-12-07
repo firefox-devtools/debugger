@@ -143,30 +143,15 @@ class GutterContextMenuComponent extends Component {
 
     const sourceId = props.selectedSource ? props.selectedSource.id : "";
     const line = lineAtHeight(props.editor, sourceId, event);
+    const column =
+      props.editor.codeMirror.coordsChar({
+        left: event.x,
+        top: event.y
+      }).ch || undefined;
 
-    let breakpoint = nextProps.breakpoints.find(
-      bp => bp.location.line === line
+    const breakpoint = nextProps.breakpoints.find(
+      bp => bp.location.line === line && bp.location.column === column
     );
-
-    // Detect a column breakpoint
-    const coords = props.editor.codeMirror.coordsChar({
-      left: event.x,
-      top: event.y
-    });
-
-    let column = null;
-    if (coords.ch) {
-      breakpoint = null;
-      column = coords.ch;
-
-      const breakpointSearch = nextProps.breakpoints.find(
-        bp => bp.location.line === line && bp.location.column === coords.ch
-      );
-
-      if (breakpointSearch) {
-        breakpoint = breakpointSearch;
-      }
-    }
 
     if (props.emptyLines && props.emptyLines.includes(line)) {
       return;
