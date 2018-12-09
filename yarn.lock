@@ -4992,12 +4992,6 @@ github-slugger@1.2.0, github-slugger@^1.0.0, github-slugger@^1.1.1:
   dependencies:
     emoji-regex ">=6.0.0 <=6.1.1"
 
-github-url-to-object@^4.0.0:
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/github-url-to-object/-/github-url-to-object-4.0.4.tgz#a9797b7026e18d53b50b07f45b7e169b55fd90ee"
-  dependencies:
-    is-url "^1.1.0"
-
 glamor@^2.20.40:
   version "2.20.40"
   resolved "https://registry.yarnpkg.com/glamor/-/glamor-2.20.40.tgz#f606660357b7cf18dface731ad1a2cfa93817f05"
@@ -6234,10 +6228,6 @@ is-unc-path@^1.0.0:
   resolved "https://registry.yarnpkg.com/is-unc-path/-/is-unc-path-1.0.0.tgz#d731e8898ed090a12c352ad2eaed5095ad322c9d"
   dependencies:
     unc-path-regex "^0.1.2"
-
-is-url@^1.1.0:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/is-url/-/is-url-1.2.4.tgz#04a4df46d28c4cff3d73d01ff06abeb318a1aa52"
 
 is-utf8@^0.2.0, is-utf8@^0.2.1:
   version "0.2.1"
@@ -10374,18 +10364,6 @@ remark-toc@^5.0.0:
   dependencies:
     mdast-util-toc "^2.0.0"
     remark-slug "^5.0.0"
-
-remark-validate-links@^6.1.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/remark-validate-links/-/remark-validate-links-6.1.0.tgz#8b0348c9056f144737a5373b2da8aff183fe1b85"
-  dependencies:
-    github-url-to-object "^4.0.0"
-    mdast-util-definitions "^1.0.0"
-    propose "0.0.5"
-    remark-slug "^4.2.1"
-    unist-util-visit "^1.0.0"
-    urljoin "^0.1.5"
-    xtend "^4.0.1"
 
 remark-validate-links@^7.0.0:
   version "7.0.0"
