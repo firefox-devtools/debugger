@@ -39,7 +39,7 @@ DebuggerPanel.prototype = {
         openElementInInspector: async function(grip) {
           await this.toolbox.initInspector();
           const onSelectInspector = this.toolbox.selectTool("inspector");
-          const onGripNodeToFront = this.toolbox.highlighterUtils.gripToNodeFront(grip);
+          const onGripNodeToFront = this.toolbox.walker.gripToNodeFront(grip);
           const [
             front,
             inspector,

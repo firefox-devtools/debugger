@@ -1382,3 +1382,28 @@ async function assertNodeIsFocused(dbg, index) {
   const node = findElement(dbg, "sourceNode", index);
   ok(node.classList.contains("focused"), `node ${index} is focused`);
 }
+
+async function addExpression(dbg, input) {
+  info("Adding an expression");
+
+  const plusIcon = findElementWithSelector(dbg, expressionSelectors.plusIcon);
+  if (plusIcon) {
+    plusIcon.click();
+  }
+  findElementWithSelector(dbg, expressionSelectors.input).focus();
+  type(dbg, input);
+  pressKey(dbg, "Enter");
+
+  await waitForDispatch(dbg, "EVALUATE_EXPRESSION");
+}
+
+async function editExpression(dbg, input) {
+  info("Updating the expression");
+  dblClickElement(dbg, "expressionNode", 1);
+  // Position cursor reliably at the end of the text.
+  pressKey(dbg, "End");
+  type(dbg, input);
+  const evaluated = waitForDispatch(dbg, "EVALUATE_EXPRESSIONS");
+  pressKey(dbg, "Enter");
+  await evaluated;
+}
