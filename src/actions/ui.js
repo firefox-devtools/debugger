@@ -156,14 +156,15 @@ export function clearHighlightLineRange() {
   };
 }
 
-export function openConditionalPanel(location: ?SourceLocation) {
+export function openConditionalPanel(location: ?SourceLocation, log = false) {
   if (!location) {
     return;
   }
 
   return {
     type: "OPEN_CONDITIONAL_PANEL",
-    location
+    location,
+    log
   };
 }
 
