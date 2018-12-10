@@ -14,6 +14,8 @@ const nodeConstants = require("../shared/dom-node-constants");
 const dom = require("react-dom-factories");
 const { span } = dom;
 
+const maxAttributeLength = 50;
+
 /**
  * Renders DOM element node.
  */
@@ -144,7 +146,12 @@ function getElements(grip, mode) {
       {},
       span({ className: "attrName" }, name),
       span({ className: "attrEqual" }, "="),
-      StringRep({ className: "attrValue", object: value })
+      StringRep({
+        className: "attrValue",
+        object: value,
+        cropLimit: maxAttributeLength,
+        title: value.length > maxAttributeLength ? value : null
+      })
     );
 
     return arr.concat([" ", attribute]);
