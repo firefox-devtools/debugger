@@ -249,15 +249,11 @@ Our goal is to work with the community to build a universal JS debugger for mode
 | ---------- | ------ | ------ | ------ | ---- |
 | ![][jasonlaster] <br/> [@jasonlaster][@jasonlaster] | ![][digitarald] <br/> [@digitarald][@digitarald] | ![][codehag] <br/> [@codehag][@codehag]  | ![][violasong] <br/> [@violasong][@violasong] | ![][darkwing] <br />[@darkwing][@darkwing] |
 
-### Team Members
+### Community Team Members
 
-debugger.html community team members help shepherd the community.
-They are here to help mentor new comers, review pull requests, and facilitate issue discussions.
-They are a fantastic resource and genuinely friendly human beings.
+Our Community Team is group of contributors who care deeply about the debugger.html project, the health of the community, and the success of everyone who gets involved.  To learn more about our community team,  the role they play, and how to get ingolved please [check out our Community Team page]().
 
-| Hubert | Anshul | Tyler | Jaideep | Wellington | Irfan | Martin | Lukas | 
-| ---------- | ------ | ----- | ---- | ----   |   ---- | ---- |---- |
-| ![][bomsy] <br /> [@bomsy][@bomsy] | ![][anshulmalik] <br />[@anshulmalik][@anshulmalik] | ![][wenincode] <br />[@wenincode][@wenincode] | ![][jbhoosreddy] <br /> [@jbhoosreddy][@jbhoosreddy] | ![][wldcordeiro] <br />[@wldcordeiro][@wldcordeiro] | ![][irfanhudda] <br />[@irfanhudda][@irfanhudda] | ![][nyrosmith] <br />[@nyrosmith][@nyrosmith] | ![][lukaszsobek] <br />[@lukaszsobek][@lukaszsobek]  |
+**Feeling stuck, or have questions?  Find us on Slack in the #community-team channel!**
 
 ### Joining Mozilla
 
