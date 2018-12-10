@@ -1053,9 +1053,10 @@ const selectors = {
   frame: i => `.frames ul li:nth-child(${i})`,
   frames: ".frames ul li",
   gutter: i => `.CodeMirror-code *:nth-child(${i}) .CodeMirror-linenumber`,
+  // These work for bobth the breakpoint listing and gutter marker
   gutterContextMenu: {
-    addConditionalBreakpoint: "#node-menu-add-conditional-breakpoint",
-    editBreakpoint: "#node-menu-edit-conditional-breakpoint"
+    addConditionalBreakpoint: "#node-menu-add-condition, #node-menu-add-conditional-breakpoint",
+    editBreakpoint: "#node-menu-edit-condition, #node-menu-edit-conditional-breakpoint"
   },
   menuitem: i => `menupopup menuitem:nth-child(${i})`,
   pauseOnExceptions: ".pause-exceptions",
@@ -1160,6 +1161,7 @@ function dblClickElement(dbg, elementName, ...args) {
 function rightClickElement(dbg, elementName, ...args) {
   const selector = getSelector(elementName, ...args);
   const doc = dbg.win.document;
+
   return EventUtils.synthesizeMouseAtCenter(
     doc.querySelector(selector),
     { type: "contextmenu" },
