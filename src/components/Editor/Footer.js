@@ -210,7 +210,7 @@ class SourceFooter extends PureComponent<Props, State> {
     const { cursorPosition } = this.state;
 
     const text = L10N.getFormatStr(
-      "sourceFooter.currentCursorPosition.label",
+      "sourceFooter.currentCursorPosition",
       cursorPosition.line + 1,
       cursorPosition.column + 1
     );
