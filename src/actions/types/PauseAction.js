@@ -102,7 +102,8 @@ export type PauseAction =
     >
   | {|
       +type: "MAP_FRAMES",
-      +frames: Frame[]
+      +frames: Frame[],
+      +selectedFrameId: string
     |}
   | {|
       +type: "ADD_EXTRA",
