@@ -25,6 +25,8 @@ import {
   getPendingBreakpointsForSource
 } from "../../selectors";
 
+import { prefs } from "../../utils/prefs";
+
 import type { Source, SourceId } from "../../types";
 import type { Action, ThunkArgs } from "../types";
 
@@ -46,7 +48,7 @@ function createOriginalSource(
 
 function loadSourceMaps(sources) {
   return async function({ dispatch, sourceMaps }: ThunkArgs) {
-    if (!sourceMaps) {
+    if (!prefs.clientSourceMapsEnabled) {
       return;
     }
 
@@ -123,7 +125,12 @@ function checkSelectedSource(sourceId: string) {
       }
 
       await dispatch(
-        selectLocation({ ...pendingLocation, sourceId: source.id })
+        selectLocation({
+          sourceId: source.id,
+          line:
+            typeof pendingLocation.line === "number" ? pendingLocation.line : 0,
+          column: pendingLocation.column
+        })
       );
     }
   };

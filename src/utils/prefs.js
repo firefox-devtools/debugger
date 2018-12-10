@@ -14,6 +14,7 @@ const prefsSchemaVersion = "1.0.5";
 const pref = Services.pref;
 
 if (isDevelopment()) {
+  pref("devtools.debugger.logging", false);
   pref("devtools.debugger.alphabetize-outline", false);
   pref("devtools.debugger.auto-pretty-print", false);
   pref("devtools.source-map.client-service.enabled", true);
@@ -50,7 +51,6 @@ if (isDevelopment()) {
   pref("devtools.debugger.features.root", true);
   pref("devtools.debugger.features.map-scopes", true);
   pref("devtools.debugger.features.remove-command-bar-options", true);
-  pref("devtools.debugger.features.event-listeners", false);
   pref("devtools.debugger.features.code-folding", false);
   pref("devtools.debugger.features.outline", true);
   pref("devtools.debugger.features.column-breakpoints", true);
@@ -61,9 +61,11 @@ if (isDevelopment()) {
   pref("devtools.debugger.features.map-expression-bindings", true);
   pref("devtools.debugger.features.map-await-expression", true);
   pref("devtools.debugger.features.xhr-breakpoints", true);
+  pref("devtools.debugger.features.origial-blackbox", false);
 }
 
 export const prefs = new PrefsHelper("devtools", {
+  logging: ["Bool", "debugger.alphabetize-outline"],
   alphabetizeOutline: ["Bool", "debugger.alphabetize-outline"],
   autoPrettyPrint: ["Bool", "debugger.auto-pretty-print"],
   clientSourceMapsEnabled: ["Bool", "source-map.client-service.enabled"],
@@ -104,7 +106,6 @@ export const features = new PrefsHelper("devtools.debugger.features", {
   mapScopes: ["Bool", "map-scopes"],
   removeCommandBarOptions: ["Bool", "remove-command-bar-options"],
   workers: ["Bool", "workers"],
-  eventListeners: ["Bool", "event-listeners"],
   outline: ["Bool", "outline"],
   codeFolding: ["Bool", "code-folding"],
   pausePoints: ["Bool", "pause-points"],
@@ -113,7 +114,8 @@ export const features = new PrefsHelper("devtools.debugger.features", {
   mapExpressionBindings: ["Bool", "map-expression-bindings"],
   mapAwaitExpression: ["Bool", "map-await-expression"],
   componentPane: ["Bool", "component-pane"],
-  xhrBreakpoints: ["Bool", "xhr-breakpoints"]
+  xhrBreakpoints: ["Bool", "xhr-breakpoints"],
+  originalBlackbox: ["Bool", "origial-blackbox"]
 });
 
 export const asyncStore = asyncStoreHelper("debugger", {

@@ -19,7 +19,8 @@ import {
   isLoaded,
   getFilename,
   isOriginal,
-  isLoading
+  isLoading,
+  shouldBlackbox
 } from "../../utils/source";
 import { getGeneratedSource } from "../../reducers/sources";
 import { shouldShowFooter, shouldShowPrettyPrint } from "../../utils/editor";
@@ -30,10 +31,16 @@ import type { Source } from "../../types";
 
 import "./Footer.css";
 
+type CursorPosition = {
+  line: number,
+  column: number
+};
+
 type Props = {
   selectedSource: Source,
   mappedSource: Source,
   endPanelCollapsed: boolean,
+  editor: Object,
   horizontal: boolean,
   togglePrettyPrint: string => void,
   toggleBlackBox: Object => void,
@@ -41,13 +48,33 @@ type Props = {
   togglePaneCollapse: () => void
 };
 
-class SourceFooter extends PureComponent<Props> {
+type State = {
+  cursorPosition: CursorPosition
+};
+
+class SourceFooter extends PureComponent<Props, State> {
+  constructor() {
+    super();
+
+    this.state = { cursorPosition: { line: 1, column: 1 } };
+  }
+
+  componentDidMount() {
+    const { editor } = this.props;
+    editor.codeMirror.on("cursorActivity", this.onCursorChange);
+  }
+
+  componentWillUnmount() {
+    const { editor } = this.props;
+    editor.codeMirror.off("cursorActivity", this.onCursorChange);
+  }
+
   prettyPrintButton() {
     const { selectedSource, togglePrettyPrint } = this.props;
 
     if (isLoading(selectedSource) && selectedSource.isPrettyPrinted) {
       return (
-        <div className="loader">
+        <div className="loader" key="pretty-loader">
           <Svg name="loader" />
         </div>
       );
@@ -81,7 +108,7 @@ class SourceFooter extends PureComponent<Props> {
     const { selectedSource, toggleBlackBox } = this.props;
     const sourceLoaded = selectedSource && isLoaded(selectedSource);
 
-    if (!sourceLoaded || selectedSource.isPrettyPrinted) {
+    if (!shouldBlackbox(selectedSource)) {
       return;
     }
 
@@ -114,7 +141,7 @@ class SourceFooter extends PureComponent<Props> {
     }
 
     return (
-      <span className="blackbox-summary">
+      <span className="blackbox-summary" key="blackbox-summary">
         {L10N.getStr("sourceFooter.blackboxed")}
       </span>
     );
@@ -128,6 +155,7 @@ class SourceFooter extends PureComponent<Props> {
     return (
       <PaneToggleButton
         position="end"
+        key="toggle"
         collapsed={!this.props.endPanelCollapsed}
         horizontal={this.props.horizontal}
         handleClick={this.props.togglePaneCollapse}
@@ -136,13 +164,13 @@ class SourceFooter extends PureComponent<Props> {
   }
 
   renderCommands() {
-    return (
-      <div className="commands">
-        {this.prettyPrintButton()}
-        {this.blackBoxButton()}
-        {this.blackBoxSummary()}
-      </div>
-    );
+    const commands = [
+      this.prettyPrintButton(),
+      this.blackBoxButton(),
+      this.blackBoxSummary()
+    ].filter(Boolean);
+
+    return commands.length ? <div className="commands">{commands}</div> : null;
   }
 
   renderSourceSummary() {
@@ -174,6 +202,31 @@ class SourceFooter extends PureComponent<Props> {
     );
   }
 
+  onCursorChange = event => {
+    const { line, ch } = event.doc.getCursor();
+    this.setState({ cursorPosition: { line, column: ch } });
+  };
+
+  renderCursorPosition() {
+    const { cursorPosition } = this.state;
+
+    const text = L10N.getFormatStr(
+      "sourceFooter.currentCursorPosition",
+      cursorPosition.line + 1,
+      cursorPosition.column + 1
+    );
+    const title = L10N.getFormatStr(
+      "sourceFooter.currentCursorPosition.tooltip",
+      cursorPosition.line + 1,
+      cursorPosition.column + 1
+    );
+    return (
+      <span className="cursor-position" title={title}>
+        {text}
+      </span>
+    );
+  }
+
   render() {
     const { selectedSource, horizontal } = this.props;
 
@@ -186,6 +239,7 @@ class SourceFooter extends PureComponent<Props> {
         {this.renderCommands()}
         {this.renderSourceSummary()}
         {this.renderToggleButton()}
+        {this.renderCursorPosition()}
       </div>
     );
   }

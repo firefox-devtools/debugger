@@ -40,7 +40,12 @@ function mount(props, { initialState }) {
   const obj = mountObjectInspector({
     client,
     props: generateDefaults(props),
-    initialState: { objectInspector: initialState }
+    initialState: {
+      objectInspector: {
+        ...initialState,
+        evaluations: new Map()
+      }
+    }
   });
 
   return { ...obj, enumEntries };

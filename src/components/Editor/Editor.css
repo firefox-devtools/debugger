@@ -66,6 +66,14 @@ html[dir="rtl"] .editor-mount {
   --breakpoint-stroke-disabled: var(--blue-60);
 }
 
+.theme-light .cm-s-mozilla .empty-line .CodeMirror-linenumber {
+  color: var(--grey-40);
+}
+
+.theme-dark .cm-s-mozilla .empty-line .CodeMirror-linenumber {
+  color: var(--grey-60);
+}
+
 :not(.empty-line):not(.new-breakpoint)
   > .CodeMirror-gutter-wrapper:hover
   > .CodeMirror-linenumber {
@@ -146,8 +154,9 @@ html[dir="rtl"] .editor-mount {
   right: -16px;
 }
 
-.new-breakpoint.has-condition svg {
+.new-breakpoint.has-condition .CodeMirror-gutter-wrapper svg {
   fill: var(--theme-graphs-yellow);
+  stroke: var(--theme-graphs-orange);
 }
 
 .editor.new-breakpoint.breakpoint-disabled svg {
@@ -209,7 +218,7 @@ html[dir="rtl"] .editor-mount {
 }
 
 .debug-expression,
-.new-debug-line .call-site {
+.new-debug-line .column-breakpoint {
   background-color: var(--debug-expression-background);
 }
 
@@ -239,7 +248,7 @@ debug-expression-error {
   display: none;
 }
 
-.highlight-line .CodeMirror-line {
+.debugger:not(.can-rewind) .highlight-line .CodeMirror-line {
   animation: fade-highlight-out 1.5s normal forwards;
 }
 

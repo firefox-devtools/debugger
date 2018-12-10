@@ -25,12 +25,12 @@ import type {
   Breakpoint as BreakpointType,
   Frame,
   Source,
-  Location
+  SourceLocation
 } from "../../../types";
 
 type FormattedFrame = {
   ...Frame,
-  selectedLocation: Location
+  selectedLocation: SourceLocation
 };
 
 import {
@@ -52,6 +52,7 @@ type Props = {
   setBreakpointCondition: typeof actions.setBreakpointCondition,
   toggleAllBreakpoints: typeof actions.toggleAllBreakpoints,
   toggleBreakpoints: typeof actions.toggleBreakpoints,
+  toggleDisabledBreakpoint: typeof actions.toggleDisabledBreakpoint,
   openConditionalPanel: typeof actions.openConditionalPanel,
   selectSpecificLocation: typeof actions.selectSpecificLocation
 };
@@ -64,7 +65,7 @@ class Breakpoint extends PureComponent<Props> {
   onDoubleClick = () => {
     const { breakpoint, openConditionalPanel } = this.props;
     if (breakpoint.condition) {
-      openConditionalPanel(breakpoint.selectedLocation.line);
+      openConditionalPanel(breakpoint.selectedLocation);
     }
   };
 
@@ -205,6 +206,7 @@ export default connect(
     setBreakpointCondition: actions.setBreakpointCondition,
     toggleAllBreakpoints: actions.toggleAllBreakpoints,
     toggleBreakpoints: actions.toggleBreakpoints,
+    toggleDisabledBreakpoint: actions.toggleDisabledBreakpoint,
     openConditionalPanel: actions.openConditionalPanel
   }
 )(Breakpoint);

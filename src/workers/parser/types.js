@@ -4,8 +4,14 @@
 
 // @flow
 
-export type AstPosition = { line: number, column: number };
-export type AstLocation = { end: AstPosition, start: AstPosition };
+export type AstPosition = { +line: number, +column: number };
+export type AstLocation = { +end: AstPosition, +start: AstPosition };
 
-export type PausePoint = { break: boolean, step: boolean };
-export type PausePoints = { [line: string]: { [column: string]: PausePoint } };
+export type PausePoint = {|
+  types: { break: boolean, step: boolean },
+  location: AstPosition,
+  generatedLocation: AstPosition
+|};
+export type PausePoints = {
+  [line: string]: { [column: string]: PausePoint }
+};

@@ -246,22 +246,6 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
                 </div>
               </div>
             </SearchInput>
-            <ResultList
-              expanded={false}
-              items={Array []}
-              key="results"
-              role="listbox"
-              selectItem={[Function]}
-              selected={0}
-              size="small"
-            >
-              <ul
-                aria-live="polite"
-                className="result-list small"
-                id="result-list"
-                role="listbox"
-              />
-            </ResultList>
           </div>
         </div>
       </Modal>
@@ -1197,38 +1181,6 @@ exports[`QuickOpenModal showErrorEmoji true when no count + query 1`] = `
 `;
 
 exports[`QuickOpenModal shows loading loads with function type search 1`] = `
-<Slide
-  handleClose={[Function]}
-  in={true}
->
-  <SearchInput
-    count={0}
-    expanded={false}
-    handleClose={[Function]}
-    hasPrefix={true}
-    onChange={[Function]}
-    onKeyDown={[Function]}
-    placeholder="Go to file…"
-    query=""
-    selectedItemId=""
-    showClose={false}
-    showErrorEmoji={false}
-    size=""
-    summaryMsg="Loading…"
-  />
-  <ResultList
-    expanded={false}
-    items={Array []}
-    key="results"
-    role="listbox"
-    selectItem={[Function]}
-    selected={0}
-    size="small"
-  />
-</Slide>
-`;
-
-exports[`QuickOpenModal shows loading loads with variable type search 1`] = `
 <Slide
   handleClose={[Function]}
   in={true}

@@ -4,12 +4,12 @@
 
 // @flow
 
-import type { Breakpoint, Location, XHRBreakpoint } from "../../types";
+import type { Breakpoint, SourceLocation, XHRBreakpoint } from "../../types";
 
 import type { PromiseAction } from "../utils/middleware/promise";
 
 type AddBreakpointResult = {
-  previousLocation: Location,
+  previousLocation: SourceLocation,
   breakpoint: Breakpoint
 };
 
@@ -67,7 +67,7 @@ export type BreakpointAction =
   | {|
       +type: "SYNC_BREAKPOINT",
       +breakpoint: ?Breakpoint,
-      +previousLocation: Location
+      +previousLocation: SourceLocation
     |}
   | PromiseAction<
       {|

@@ -19,9 +19,9 @@ import { renderWasmText } from "./wasm";
 import { toEditorPosition } from "./editor";
 export { isMinified } from "./isMinified";
 import { getURL, getFileExtension } from "./sources-tree";
-import { prefs } from "./prefs";
+import { prefs, features } from "./prefs";
 
-import type { Source, Location, JsSource } from "../types";
+import type { Source, SourceLocation, JsSource } from "../types";
 import type { SourceMetaDataType } from "../reducers/ast";
 import type { SymbolDeclarations } from "../workers/parser";
 
@@ -55,14 +55,29 @@ function trimUrlQuery(url: string): string {
   return url.slice(0, q);
 }
 
+export function shouldBlackbox(source: ?Source) {
+  if (!source) {
+    return false;
+  }
+
+  if (!isLoaded(source) || !source.url) {
+    return false;
+  }
+
+  if (isOriginalId(source.id) && !features.originalBlackbox) {
+    return false;
+  }
+
+  return true;
+}
+
 export function shouldPrettyPrint(source: Source) {
   if (
     !source ||
     isPretty(source) ||
     !isJavaScript(source) ||
     isOriginal(source) ||
-    source.sourceMapURL ||
-    !prefs.clientSourceMapsEnabled
+    (prefs.clientSourceMapsEnabled && source.sourceMapURL)
   ) {
     return false;
   }
@@ -387,7 +402,7 @@ export function isLoading(source: Source) {
   return source.loadedState === "loading";
 }
 
-export function getTextAtPosition(source: ?Source, location: Location) {
+export function getTextAtPosition(source: ?Source, location: SourceLocation) {
   if (!source || !source.text) {
     return "";
   }
@@ -421,16 +436,16 @@ export function getSourceClassnames(
     return defaultClassName;
   }
 
-  if (sourceMetaData && sourceMetaData.framework) {
-    return sourceMetaData.framework.toLowerCase();
-  }
-
   if (isPretty(source)) {
     return "prettyPrint";
   }
 
   if (source.isBlackBoxed) {
     return "blackBox";
+  }
+
+  if (sourceMetaData && sourceMetaData.framework) {
+    return sourceMetaData.framework.toLowerCase();
   }
 
   return sourceTypes[getFileExtension(source)] || defaultClassName;
@@ -462,5 +477,9 @@ export function isGenerated(source: Source) {
 }
 
 export function getSourceQueryString(source: ?Source) {
-  return source ? parseURL(source.url).search : "";
+  if (!source) {
+    return;
+  }
+
+  return parseURL(getRawSourceURL(source.url)).search;
 }

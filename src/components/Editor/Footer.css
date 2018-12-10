@@ -16,6 +16,7 @@
   user-select: none;
   height: var(--editor-footer-height);
   box-sizing: border-box;
+  justify-content: space-between;
 }
 
 .source-footer .commands {
@@ -82,7 +83,8 @@
 }
 
 .source-footer .blackbox-summary,
-.source-footer .mapped-source {
+.source-footer .mapped-source,
+.source-footer .cursor-position {
   color: var(--theme-body-color);
   padding-left: 2.5px;
 }
@@ -91,4 +93,9 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.source-footer .cursor-position {
+  padding: 5px;
+  white-space: nowrap;
 }

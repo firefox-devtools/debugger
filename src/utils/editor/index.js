@@ -18,7 +18,7 @@ import { isWasm, lineToWasmOffset, wasmOffsetToLine } from "../wasm";
 
 import type { AstLocation } from "../../workers/parser";
 import type { EditorPosition, EditorRange } from "../editor/types";
-import type { Location } from "../../types";
+import type { SourceLocation } from "../../types";
 type Editor = Object;
 
 let editor: ?Editor;
@@ -96,7 +96,7 @@ export function toEditorLine(sourceId: string, lineOrOffset: number): number {
   return lineOrOffset ? lineOrOffset - 1 : 1;
 }
 
-export function toEditorPosition(location: Location): EditorPosition {
+export function toEditorPosition(location: SourceLocation): EditorPosition {
   return {
     line: toEditorLine(location.sourceId, location.line),
     column: isWasm(location.sourceId) || !location.column ? 0 : location.column
@@ -158,17 +158,14 @@ function isVisible(codeMirror: any, top: number, left: number) {
   return inXView && inYView;
 }
 
-export function getLocationsInViewport(_editor: any) {
+export function getLocationsInViewport({ codeMirror }: Object) {
   // Get scroll position
-  const charWidth = _editor.codeMirror.defaultCharWidth();
-  const scrollArea = _editor.codeMirror.getScrollInfo();
-  const { scrollLeft } = _editor.codeMirror.doc;
-  const rect = _editor.codeMirror.getWrapperElement().getBoundingClientRect();
-  const topVisibleLine = _editor.codeMirror.lineAtHeight(rect.top, "window");
-  const bottomVisibleLine = _editor.codeMirror.lineAtHeight(
-    rect.bottom,
-    "window"
-  );
+  const charWidth = codeMirror.defaultCharWidth();
+  const scrollArea = codeMirror.getScrollInfo();
+  const { scrollLeft } = codeMirror.doc;
+  const rect = codeMirror.getWrapperElement().getBoundingClientRect();
+  const topVisibleLine = codeMirror.lineAtHeight(rect.top, "window");
+  const bottomVisibleLine = codeMirror.lineAtHeight(rect.bottom, "window");
 
   const leftColumn = Math.floor(scrollLeft > 0 ? scrollLeft / charWidth : 0);
   const rightPosition = scrollLeft + (scrollArea.clientWidth - 30);
@@ -186,25 +183,29 @@ export function getLocationsInViewport(_editor: any) {
   };
 }
 
-export function markText(_editor: any, className, { start, end }: EditorRange) {
-  return _editor.codeMirror.markText(
+export function markText(
+  { codeMirror }: Object,
+  className,
+  { start, end }: EditorRange
+) {
+  return codeMirror.markText(
     { ch: start.column, line: start.line },
     { ch: end.column, line: end.line },
     { className }
   );
 }
 
-export function lineAtHeight(_editor, sourceId, event) {
-  const _editorLine = _editor.codeMirror.lineAtHeight(event.clientY);
+export function lineAtHeight({ codeMirror }, sourceId, event) {
+  const _editorLine = codeMirror.lineAtHeight(event.clientY);
   return toSourceLine(sourceId, _editorLine);
 }
 
 export function getSourceLocationFromMouseEvent(
-  _editor: Object,
-  selectedLocation: Location,
+  { codeMirror }: Object,
+  selectedLocation: SourceLocation,
   e: MouseEvent
 ) {
-  const { line, ch } = _editor.codeMirror.coordsChar({
+  const { line, ch } = codeMirror.coordsChar({
     left: e.clientX,
     top: e.clientY
   });
@@ -216,26 +217,30 @@ export function getSourceLocationFromMouseEvent(
   };
 }
 
-export function forEachLine(codeMirror, iter) {
+export function forEachLine(codeMirror: Object, iter) {
   codeMirror.operation(() => {
     codeMirror.doc.iter(0, codeMirror.lineCount(), iter);
   });
 }
 
-export function removeLineClass(codeMirror, line, className) {
+export function removeLineClass(
+  codeMirror: Object,
+  line: number,
+  className: string
+) {
   codeMirror.removeLineClass(line, "line", className);
 }
 
-export function clearLineClass(codeMirror, className) {
+export function clearLineClass(codeMirror: Object, className: string) {
   forEachLine(codeMirror, line => {
     removeLineClass(codeMirror, line, className);
   });
 }
 
-export function getTextForLine(codeMirror, line) {
+export function getTextForLine(codeMirror: Object, line: number): string {
   return codeMirror.getLine(line - 1).trim();
 }
 
-export function getCursorLine(codeMirror): number {
+export function getCursorLine(codeMirror: Object): number {
   return codeMirror.getCursor().line;
 }

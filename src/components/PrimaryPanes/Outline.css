@@ -106,3 +106,8 @@
   background: var(--theme-highlight-blue);
   color: #ffffff;
 }
+
+.theme-dark .outline-footer button.active {
+  background: var(--theme-selection-background);
+  color: #ffffff;
+}

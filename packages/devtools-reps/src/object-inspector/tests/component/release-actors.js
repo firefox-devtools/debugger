@@ -45,7 +45,12 @@ function mount(props, { initialState } = {}) {
   return mountObjectInspector({
     client,
     props: generateDefaults(props),
-    initialState
+    initialState: {
+      objectInspector: {
+        ...initialState,
+        evaluations: new Map()
+      }
+    }
   });
 }
 
@@ -55,7 +60,7 @@ describe("release actors", () => {
       {},
       {
         initialState: {
-          objectInspector: { actors: new Set(["actor 1", "actor 2"]) }
+          actors: new Set(["actor 1", "actor 2"])
         }
       }
     );
@@ -74,7 +79,7 @@ describe("release actors", () => {
       },
       {
         initialState: {
-          objectInspector: { actors: new Set(["actor 3", "actor 4"]) }
+          actors: new Set(["actor 3", "actor 4"])
         }
       }
     );

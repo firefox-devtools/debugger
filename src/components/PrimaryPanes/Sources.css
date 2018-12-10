@@ -236,12 +236,6 @@
   background-color: white;
 }
 
-.tree:not(.object-inspector)
-  .tree-node[data-expandable="false"]
-  .tree-indent:last-of-type {
-  margin-inline-end: 4px;
-}
-
 /*
   Custom root styles
 */
@@ -268,4 +262,8 @@
   .tree
   > .tree-node[data-expandable="false"][aria-level="0"] {
   padding-inline-start: 4px;
+}
+
+.sources-list .tree-node[data-expandable="false"] .tree-indent:last-of-type {
+  margin-inline-end: 0;
 }

@@ -21,11 +21,12 @@ const classnames = require("classnames");
 const Utils = require("../utils");
 const { renderRep, shouldRenderRootsInReps } = Utils;
 const {
-  getChildren,
+  getChildrenWithEvaluations,
   getActor,
   getParent,
-  nodeHasAccessors,
-  nodeIsPrimitive
+  nodeIsPrimitive,
+  nodeHasGetter,
+  nodeHasSetter
 } = Utils.node;
 
 import type { CachedNodes, Props } from "../types";
@@ -71,9 +72,11 @@ class ObjectInspector extends Component<Props> {
     const self: any = this;
 
     self.getItemChildren = this.getItemChildren.bind(this);
+    self.isNodeExpandable = this.isNodeExpandable.bind(this);
     self.setExpanded = this.setExpanded.bind(this);
     self.focusItem = this.focusItem.bind(this);
     self.getRoots = this.getRoots.bind(this);
+    self.getNodeKey = this.getNodeKey.bind(this);
   }
 
   componentWillMount() {
@@ -82,25 +85,44 @@ class ObjectInspector extends Component<Props> {
   }
 
   componentWillUpdate(nextProps) {
+    this.removeOutdatedNodesFromCache(nextProps);
+
     if (this.roots !== nextProps.roots) {
       // Since the roots changed, we assume the properties did as well,
       // so we need to cleanup the component internal state.
-
-      // We can clear the cachedNodes to avoid bugs and memory leaks.
-      this.cachedNodes.clear();
       this.roots = nextProps.roots;
       this.focusedItem = nextProps.focusedItem;
       if (this.props.rootsChanged) {
         this.props.rootsChanged();
       }
+      return;
+    }
+  }
+
+  removeOutdatedNodesFromCache(nextProps) {
+    // When the roots changes, we can wipe out everything.
+    if (this.roots !== nextProps.roots) {
+      this.cachedNodes.clear();
+      return;
+    }
+
+    // If there are new evaluations, we want to remove the existing cached
+    // nodes from the cache.
+    if (nextProps.evaluations > this.props.evaluations) {
+      for (const key of nextProps.evaluations.keys()) {
+        if (!this.props.evaluations.has(key)) {
+          this.cachedNodes.delete(key);
+        }
+      }
     }
   }
 
   shouldComponentUpdate(nextProps: Props) {
-    const { expandedPaths, loadedProperties } = this.props;
+    const { expandedPaths, loadedProperties, evaluations } = this.props;
 
     // We should update if:
     // - there are new loaded properties
+    // - OR there are new evaluations
     // - OR the expanded paths number changed, and all of them have properties
     //      loaded
     // - OR the expanded paths number did not changed, but old and new sets
@@ -108,6 +130,7 @@ class ObjectInspector extends Component<Props> {
     // - OR the focused node changed.
     return (
       loadedProperties.size !== nextProps.loadedProperties.size ||
+      evaluations.size !== nextProps.evaluations.size ||
       (expandedPaths.size !== nextProps.expandedPaths.size &&
         [...nextProps.expandedPaths].every(path =>
           nextProps.loadedProperties.has(path)
@@ -127,10 +150,11 @@ class ObjectInspector extends Component<Props> {
   cachedNodes: CachedNodes;
 
   getItemChildren(item: Node): Array<Node> | NodeContents | null {
-    const { loadedProperties } = this.props;
+    const { loadedProperties, evaluations } = this.props;
     const { cachedNodes } = this;
 
-    return getChildren({
+    return getChildrenWithEvaluations({
+      evaluations,
       loadedProperties,
       cachedNodes,
       item
@@ -147,8 +171,20 @@ class ObjectInspector extends Component<Props> {
       : JSON.stringify(item);
   }
 
-  setExpanded(item: Node, expand: boolean) {
+  isNodeExpandable(item: Node): boolean {
     if (nodeIsPrimitive(item)) {
+      return false;
+    }
+
+    if (nodeHasSetter(item) || nodeHasGetter(item)) {
+      return false;
+    }
+
+    return true;
+  }
+
+  setExpanded(item: Node, expand: boolean) {
+    if (!this.isNodeExpandable(item)) {
       return;
     }
 
@@ -204,9 +240,7 @@ class ObjectInspector extends Component<Props> {
       autoExpandDepth,
 
       isExpanded: item => expandedPaths && expandedPaths.has(item.path),
-      // TODO: We don't want property with getters to be expandable until we
-      // do have a mechanism to invoke the getter (See #6140).
-      isExpandable: item => !nodeIsPrimitive(item) && !nodeHasAccessors(item),
+      isExpandable: this.isNodeExpandable,
       focused: this.focusedItem,
 
       getRoots: this.getRoots,
@@ -220,12 +254,12 @@ class ObjectInspector extends Component<Props> {
 
       renderItem: (item, depth, focused, arrow, expanded) =>
         ObjectInspectorItem({
+          ...this.props,
           item,
           depth,
           focused,
           arrow,
           expanded,
-          ...this.props,
           setExpanded: this.setExpanded
         })
     });
@@ -235,7 +269,8 @@ class ObjectInspector extends Component<Props> {
 function mapStateToProps(state, props) {
   return {
     expandedPaths: selectors.getExpandedPaths(state),
-    loadedProperties: selectors.getLoadedProperties(state)
+    loadedProperties: selectors.getLoadedProperties(state),
+    evaluations: selectors.getEvaluations(state)
   };
 }
 

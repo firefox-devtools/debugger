@@ -128,7 +128,7 @@ function getFunctionName(grip, props = {}) {
   return cropString(name, 100);
 }
 
-const objectProperty = /([\w\d]+)$/;
+const objectProperty = /([\w\d\$]+)$/;
 const arrayProperty = /\[(.*?)\]$/;
 const functionProperty = /([\w\d]+)[\/\.<]*?$/;
 const annonymousProperty = /([\w\d]+)\(\^\)$/;

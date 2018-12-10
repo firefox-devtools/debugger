@@ -259,7 +259,12 @@ describe("initializing with disabled pending breakpoints in prefs", () => {
       return bps && Object.values(bps).length > 0;
     });
 
-    const bp = selectors.getBreakpointForLine(getState(), "bar.js", 5);
+    const bp = selectors.getBreakpointForLocation(getState(), {
+      line: 5,
+      column: undefined,
+      sourceUrl: "http://localhost:8000/examples/bar.js",
+      sourceId: "bar.js"
+    });
     expect(bp.location.sourceId).toEqual("bar.js");
     expect(bp.disabled).toEqual(true);
   });
