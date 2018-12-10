@@ -9,11 +9,6 @@
  * 4. expanding properties when not paused
  */
 
-const expressionSelectors = {
-  plusIcon: ".watch-expressions-pane button.plus",
-  input: "input.input-expression"
-};
-
 function getLabel(dbg, index) {
   return findElement(dbg, "expressionNode", index).innerText;
 }

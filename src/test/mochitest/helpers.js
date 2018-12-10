@@ -1032,6 +1032,7 @@ const selectors = {
     `.expressions-list .expression-container:nth-child(${i}) .close`,
   expressionInput: ".expressions-list  input.input-expression",
   expressionNodes: ".expressions-list .tree-node",
+  expressionPlus: ".watch-expressions-pane button.plus",
   scopesHeader: ".scopes-pane ._header",
   breakpointItem: i => `.breakpoints-list div:nth-of-type(${i})`,
   breakpointItems: `.breakpoints-list .breakpoint`,
@@ -1386,11 +1387,11 @@ async function assertNodeIsFocused(dbg, index) {
 async function addExpression(dbg, input) {
   info("Adding an expression");
 
-  const plusIcon = findElementWithSelector(dbg, expressionSelectors.plusIcon);
+  const plusIcon = findElementWithSelector(dbg, selectors.expressionPlus);
   if (plusIcon) {
     plusIcon.click();
   }
-  findElementWithSelector(dbg, expressionSelectors.input).focus();
+  findElementWithSelector(dbg, selectors.expressionInput).focus();
   type(dbg, input);
   pressKey(dbg, "Enter");
 
