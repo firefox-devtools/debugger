@@ -33,7 +33,7 @@ StringRep.propTypes = {
   object: PropTypes.object.isRequired,
   openLink: PropTypes.func,
   className: PropTypes.string,
-  title: PropTypes.title
+  title: PropTypes.string
 };
 
 function StringRep(props) {
