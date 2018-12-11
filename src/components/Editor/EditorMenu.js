@@ -15,6 +15,9 @@ import {
   toSourceLine
 } from "../../utils/editor";
 import { isPretty, getRawSourceURL, shouldBlackbox } from "../../utils/source";
+import { downloadDataFile } from "../../utils/utils";
+import { parse } from "../../utils/url";
+import { basename } from "../../utils/path";
 import {
   getContextMenu,
   getPrettySource,
@@ -93,6 +96,8 @@ function getMenuItems(
   const revealInTreeLabel = L10N.getStr("sourceTabs.revealInTree");
   const watchExpressionKey = L10N.getStr("expressions.accesskey");
   const watchExpressionLabel = L10N.getStr("expressions.label");
+  const downloadGeneratedKey = L10N.getStr("downloadGeneratedFile.accesskey");
+  const downloadGeneratedLabel = L10N.getStr("downloadGeneratedFile");
 
   // menu items
 
@@ -179,6 +184,17 @@ function getMenuItems(
     click: () => evaluateInConsole(selectionText)
   };
 
+  const downloadFileItem = {
+    id: "node-menu-download-file",
+    label: downloadGeneratedLabel,
+    accesskey: downloadGeneratedKey,
+    click: () => {
+      const generatedFileUrl = parse(selectedSource.url);
+      const generatedFileName = basename(generatedFileUrl.pathname);
+      downloadDataFile(selectedSource.text, generatedFileName);
+    }
+  };
+
   // construct menu
   const menuItems = [
     copyToClipboardItem,
@@ -195,6 +211,10 @@ function getMenuItems(
   // TODO: Find a new way to only add this for mapped sources?
   if (isTextSelected) {
     menuItems.push(watchExpressionItem, evaluateInConsoleItem);
+  }
+
+  if (!isOriginal) {
+    menuItems.push(downloadFileItem);
   }
 
   return menuItems;
