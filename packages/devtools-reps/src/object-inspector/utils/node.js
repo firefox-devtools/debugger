@@ -877,6 +877,24 @@ function getClosestNonBucketNode(item: Node): Node | null {
   return getClosestNonBucketNode(parent);
 }
 
+function getNonPrototypeParentGripValue(item: Node | null): Node | null {
+  const parentNode = getParent(item);
+  if (!parentNode) {
+    return null;
+  }
+
+  const parentGripNode = getClosestGripNode(parentNode);
+  if (!parentGripNode) {
+    return null;
+  }
+
+  if (getType(parentGripNode) === NODE_TYPES.PROTOTYPE) {
+    return getNonPrototypeParentGripValue(parentGripNode);
+  }
+
+  return getValue(parentGripNode);
+}
+
 function getParentGripValue(
   item: Node
 ): RdpGrip | ObjectInspectorItemContentsValue | null {
@@ -904,6 +922,7 @@ module.exports = {
   getClosestNonBucketNode,
   getParent,
   getParentGripValue,
+  getNonPrototypeParentGripValue,
   getNumericalPropertiesCount,
   getValue,
   makeNodesForEntries,
