@@ -28,6 +28,7 @@
 
 .toggle-button.start {
   margin-inline-start: 0px;
+  min-width: 29px;
 }
 
 html:not([dir="rtl"]) .toggle-button.end svg,
