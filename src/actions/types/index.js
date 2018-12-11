@@ -32,7 +32,8 @@ export type ThunkArgs = {
   client: any,
   sourceMaps: any,
   openLink: (url: string) => void,
-  openWorkerToolbox: (worker: Worker) => void
+  openWorkerToolbox: (worker: Worker) => void,
+  openElementInInspector: (grip: Object) => void
 };
 
 export type Thunk = ThunkArgs => any;
