@@ -18,6 +18,8 @@ exports[`Expressions should always have unique keys 1`] = `
         createObjectClient={[Function]}
         disableWrap={true}
         focusable={false}
+        onDOMNodeClick={[Function]}
+        onInspectIconClick={[Function]}
         roots={
           Array [
             Object {
@@ -57,6 +59,8 @@ exports[`Expressions should always have unique keys 1`] = `
         createObjectClient={[Function]}
         disableWrap={true}
         focusable={false}
+        onDOMNodeClick={[Function]}
+        onInspectIconClick={[Function]}
         roots={
           Array [
             Object {
@@ -130,6 +134,8 @@ exports[`Expressions should render 1`] = `
         createObjectClient={[Function]}
         disableWrap={true}
         focusable={false}
+        onDOMNodeClick={[Function]}
+        onInspectIconClick={[Function]}
         roots={
           Array [
             Object {
@@ -169,6 +175,8 @@ exports[`Expressions should render 1`] = `
         createObjectClient={[Function]}
         disableWrap={true}
         focusable={false}
+        onDOMNodeClick={[Function]}
+        onInspectIconClick={[Function]}
         roots={
           Array [
             Object {
