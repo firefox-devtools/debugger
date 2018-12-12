@@ -408,20 +408,23 @@ describe("ElementNode - Element with longString attribute", () => {
   });
 });
 
-describe("ElementNode - Element attribute title values", () => {
+describe("ElementNode - Element attribute cropping", () => {
   it("renders no title attribute for short attribute", () => {
-    const stub = stubs.get("LotsOfAttributes");
-
+    const stub = stubs.get("NodeWithSpacesInClassName");
     const renderedComponent = shallow(
       ElementNode.rep({
         object: stub
       })
     );
-
-    expect(renderedComponent.prop("id")).toEqual("lots-of-attributes");
+    expect(
+      renderedComponent
+        .first()
+        .find("span.attrValue")
+        .prop("title")
+    ).toBe(undefined);
   });
 
-  it("renders partial value as title attribute for long attribute", () => {
+  it("renders partial value for long attribute", () => {
     const stub = stubs.get("NodeWithLongAttribute");
 
     const renderedComponent = shallow(
@@ -430,12 +433,18 @@ describe("ElementNode - Element attribute title values", () => {
       })
     );
 
-    expect(renderedComponent.prop("title")).toEqual(
-      `${"a".repeat(MAX_ATTRIBUTE_LENGTH)}${ELLIPSIS}`
+    expect(renderedComponent.text()).toEqual(
+      '<p data-test="aaaaaaaaaaaaaaaaaaaaaaaa…aaaaaaaaaaaaaaaaaaaaaaa">'
     );
+    expect(
+      renderedComponent
+        .first()
+        .find("span.attrValue")
+        .prop("title")
+    ).toBe("a".repeat(100));
   });
 
-  it("renders partial value as title attribute for LongString", () => {
+  it("renders partial attribute for LongString", () => {
     const stub = stubs.get("NodeWithLongStringAttribute");
 
     const renderedComponent = shallow(
@@ -444,9 +453,15 @@ describe("ElementNode - Element attribute title values", () => {
       })
     );
 
-    expect(renderedComponent.prop("title")).toEqual(
-      `${"a".repeat(MAX_ATTRIBUTE_LENGTH)}${ELLIPSIS}`
+    expect(renderedComponent.text()).toEqual(
+      '<div data-test="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa…">'
     );
+    expect(
+      renderedComponent
+        .first()
+        .find("span.attrValue")
+        .prop("title")
+    ).toBe("a".repeat(1000));
   });
 });
 

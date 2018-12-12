@@ -183,7 +183,7 @@ function supportsObject(object, noGrip = false) {
 
 // Exports from this module
 module.exports = {
-  rep: wrapRender(Element, Node),
+  rep: wrapRender(ElementNode),
   supportsObject,
   MAX_ATTRIBUTE_LENGTH
 };
