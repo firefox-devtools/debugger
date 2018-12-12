@@ -13,10 +13,10 @@
     ]
   ],
   "plugins": [
-    "transform-object-rest-spread",
     "transform-flow-strip-types",
-    "syntax-trailing-function-commas",
     "transform-class-properties",
+    "syntax-trailing-function-commas",
+    "syntax-object-rest-spread",
     [
       "module-resolver",
       {
