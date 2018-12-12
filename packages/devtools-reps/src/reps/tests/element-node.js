@@ -7,6 +7,7 @@ const { mount, shallow } = require("enzyme");
 const { JSDOM } = require("jsdom");
 const { REPS, getRep } = require("../rep");
 const { MODE } = require("../constants");
+const { MAX_ATTRIBUTE_LENGTH } = require("../element-node");
 const { ElementNode } = REPS;
 const {
   expectActorAttribute,
@@ -391,7 +392,7 @@ describe("ElementNode - Element with longString attribute", () => {
     );
 
     expect(renderedComponent.text()).toEqual(
-      `<div data-test="${"a".repeat(1000)}${ELLIPSIS}">`
+      `<div data-test="${"a".repeat(MAX_ATTRIBUTE_LENGTH)}${ELLIPSIS}">`
     );
   });
 
@@ -404,6 +405,48 @@ describe("ElementNode - Element with longString attribute", () => {
     );
 
     expect(renderedComponent.text()).toEqual("div");
+  });
+});
+
+describe("ElementNode - Element attribute title values", () => {
+  it("renders no title attribute for short attribute", () => {
+    const stub = stubs.get("LotsOfAttributes");
+
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        object: stub
+      })
+    );
+
+    expect(renderedComponent.prop("id")).toEqual("lots-of-attributes");
+  });
+
+  it("renders partial value as title attribute for long attribute", () => {
+    const stub = stubs.get("NodeWithLongAttribute");
+
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        object: stub
+      })
+    );
+
+    expect(renderedComponent.prop("title")).toEqual(
+      `${"a".repeat(MAX_ATTRIBUTE_LENGTH)}${ELLIPSIS}`
+    );
+  });
+
+  it("renders partial value as title attribute for LongString", () => {
+    const stub = stubs.get("NodeWithLongStringAttribute");
+
+    const renderedComponent = shallow(
+      ElementNode.rep({
+        object: stub
+      })
+    );
+
+    expect(renderedComponent.prop("title")).toEqual(
+      `${"a".repeat(MAX_ATTRIBUTE_LENGTH)}${ELLIPSIS}`
+    );
   });
 });
 

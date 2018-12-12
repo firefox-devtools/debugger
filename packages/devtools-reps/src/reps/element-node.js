@@ -7,14 +7,14 @@ const PropTypes = require("prop-types");
 
 // Utils
 const { isGrip, wrapRender } = require("./rep-utils");
-const { rep: StringRep } = require("./string");
+const { rep: StringRep, isLongString } = require("./string");
 const { MODE } = require("./constants");
 const nodeConstants = require("../shared/dom-node-constants");
 
 const dom = require("react-dom-factories");
 const { span } = dom;
 
-const maxAttributeLength = 50;
+const MAX_ATTRIBUTE_LENGTH = 50;
 
 /**
  * Renders DOM element node.
@@ -142,6 +142,12 @@ function getElements(grip, mode) {
   }
   const attributeElements = attributeKeys.reduce((arr, name, i, keys) => {
     const value = attributes[name];
+
+    let title = isLongString(value) ? value.initial : value;
+    if (title.length < MAX_ATTRIBUTE_LENGTH) {
+      title = null;
+    }
+
     const attribute = span(
       {},
       span({ className: "attrName" }, name),
@@ -149,8 +155,8 @@ function getElements(grip, mode) {
       StringRep({
         className: "attrValue",
         object: value,
-        cropLimit: maxAttributeLength,
-        title: value.length > maxAttributeLength ? value : null
+        cropLimit: MAX_ATTRIBUTE_LENGTH,
+        title
       })
     );
 
@@ -177,6 +183,7 @@ function supportsObject(object, noGrip = false) {
 
 // Exports from this module
 module.exports = {
-  rep: wrapRender(ElementNode),
-  supportsObject
+  rep: wrapRender(Element, Node),
+  supportsObject,
+  MAX_ATTRIBUTE_LENGTH
 };
