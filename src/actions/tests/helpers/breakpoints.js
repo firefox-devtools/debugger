@@ -20,7 +20,7 @@ export function mockPendingBreakpoint(overrides = {}) {
       offset: {
         line: line || 5
       },
-      index: undefined
+      index: 0
     },
     condition: condition || null,
     disabled: disabled || false,
