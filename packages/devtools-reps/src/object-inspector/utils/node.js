@@ -895,22 +895,6 @@ function getNonPrototypeParentGripValue(item: Node | null): Node | null {
   return getValue(parentGripNode);
 }
 
-function getParentGripValue(
-  item: Node
-): RdpGrip | ObjectInspectorItemContentsValue | null {
-  const parentNode = getParent(item);
-  if (!parentNode) {
-    return null;
-  }
-
-  const parentGripNode = getClosestGripNode(parentNode);
-  if (!parentGripNode) {
-    return null;
-  }
-
-  return getValue(parentGripNode);
-}
-
 module.exports = {
   createNode,
   createGetterNode,
@@ -921,7 +905,6 @@ module.exports = {
   getClosestGripNode,
   getClosestNonBucketNode,
   getParent,
-  getParentGripValue,
   getNonPrototypeParentGripValue,
   getNumericalPropertiesCount,
   getValue,
