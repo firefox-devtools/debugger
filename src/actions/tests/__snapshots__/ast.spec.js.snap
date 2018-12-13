@@ -76,6 +76,7 @@ Object {
         "start": 9,
         "type": "Identifier",
       },
+      "index": 0,
       "klass": null,
       "location": Object {
         "end": Object {
