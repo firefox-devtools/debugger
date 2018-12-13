@@ -5,13 +5,12 @@
 // @flow
 import { reverse } from "lodash";
 
-import type { PausePoints } from "../../workers/parser";
+import type {
+  PausePoints,
+  PausePoint,
+  PausePointsMap
+} from "../../reducers/types";
 import type { Position } from "../../types";
-
-type PausePoint = {
-  location: Position,
-  types: { break: boolean, step: boolean }
-};
 
 function insertStrtAt(string, index, newString) {
   const start = string.slice(0, index);
@@ -19,7 +18,7 @@ function insertStrtAt(string, index, newString) {
   return `${start}${newString}${end}`;
 }
 
-export function convertToList(pausePoints: PausePoints): PausePoint[] {
+export function convertToList(pausePoints: PausePointsMap): PausePoints {
   const list = [];
   for (const line in pausePoints) {
     for (const column in pausePoints[line]) {
@@ -30,7 +29,7 @@ export function convertToList(pausePoints: PausePoints): PausePoint[] {
 }
 
 export function formatPausePoints(text: string, pausePoints: PausePoints) {
-  const nodes = reverse(convertToList(pausePoints));
+  const nodes = reverse(pausePoints);
   const lines = text.split("\n");
   nodes.forEach((node, index) => {
     const { line, column } = node.location;
@@ -40,23 +39,4 @@ export function formatPausePoints(text: string, pausePoints: PausePoints) {
   });
 
   return lines.join("\n");
-}
-
-export async function mapPausePoints<T>(
-  pausePoints: PausePoints,
-  iteratee: PausePoint => T
-) {
-  const results = await Promise.all(convertToList(pausePoints).map(iteratee));
-  let index = 0;
-
-  const newPausePoints = {};
-  for (const line in pausePoints) {
-    const linePoints = pausePoints[line];
-    const newLinePoints = (newPausePoints[line] = {});
-    for (const column in linePoints) {
-      newLinePoints[column] = results[index++];
-    }
-  }
-
-  return newPausePoints;
 }

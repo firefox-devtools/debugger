@@ -4,13 +4,8 @@
 
 // @flow
 
-import type { SourceMetaDataType } from "../../reducers/ast.js";
-import type {
-  SymbolDeclarations,
-  AstLocation,
-  PausePoints
-} from "../../workers/parser";
-
+import type { SymbolDeclarations, AstLocation } from "../../workers/parser";
+import type { PausePoints, SourceMetaDataType } from "../../reducers/types";
 import type { PromiseAction } from "../utils/middleware/promise";
 
 export type ASTAction =

@@ -4,7 +4,10 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 import cases from "jest-in-case";
-import { formatPausePoints } from "../../../utils/pause/pausePoints";
+import {
+  formatPausePoints,
+  convertToList
+} from "../../../utils/pause/pausePoints";
 
 import { getPausePoints } from "../pausePoints";
 import { getSource, getOriginalSource } from "./helpers";
@@ -18,7 +21,7 @@ cases(
       : getSource(file, type);
 
     setSource(source);
-    const nodes = getPausePoints(source.id);
+    const nodes = convertToList(getPausePoints(source.id));
     // console.log(formatPausePoints(source.text, nodes));
     expect(formatPausePoints(source.text, nodes)).toMatchSnapshot();
   },
