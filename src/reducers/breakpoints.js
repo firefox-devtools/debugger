@@ -140,7 +140,7 @@ function removeXHRBreakpoint(state, action) {
 
   return {
     ...state,
-    xhrBreakpoints: xhrBreakpoints.filter(bp => bp !== breakpoint)
+    xhrBreakpoints: xhrBreakpoints.filter(bp => !isEqual(bp, breakpoint))
   };
 }
 
