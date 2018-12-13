@@ -2,6 +2,7 @@
 
 exports[`ast invalid location returns name for an anon fn in global scope as undefined 1`] = `
 Object {
+  "index": 0,
   "name": undefined,
   "offset": Object {
     "column": 0,
@@ -12,6 +13,7 @@ Object {
 
 exports[`ast invalid location returns the scope name for global scope as undefined 1`] = `
 Object {
+  "index": 0,
   "name": undefined,
   "offset": Object {
     "column": 0,
@@ -22,6 +24,7 @@ Object {
 
 exports[`ast valid location returns name for a nested anon fn as the parent func 1`] = `
 Object {
+  "index": 0,
   "name": "outer",
   "offset": Object {
     "column": undefined,
@@ -32,6 +35,7 @@ Object {
 
 exports[`ast valid location returns name for a nested named fn 1`] = `
 Object {
+  "index": 0,
   "name": "inner",
   "offset": Object {
     "column": undefined,
@@ -42,6 +46,7 @@ Object {
 
 exports[`ast valid location returns name for an anon fn with a named variable 1`] = `
 Object {
+  "index": 0,
   "name": "globalDeclaration",
   "offset": Object {
     "column": undefined,
@@ -52,6 +57,7 @@ Object {
 
 exports[`ast valid location returns the scope and offset 1`] = `
 Object {
+  "index": 0,
   "name": "math",
   "offset": Object {
     "column": undefined,
