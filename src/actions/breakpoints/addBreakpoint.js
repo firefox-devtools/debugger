@@ -23,6 +23,7 @@ import {
 import { getGeneratedLocation } from "../../utils/source-maps";
 import { getTextAtPosition } from "../../utils/source";
 import { recordEvent } from "../../utils/telemetry";
+import { features } from "../../utils/prefs";
 
 import type { SourceLocation } from "../../types";
 import type { ThunkArgs } from "../types";
@@ -160,7 +161,7 @@ export function addBreakpoint(
   return async ({ dispatch, getState, sourceMaps, client }: ThunkArgs) => {
     recordEvent("add_breakpoint");
 
-    if (location.column === undefined) {
+    if (features.columnBreakpoints && location.column === undefined) {
       location = getFirstPausePointLocation(getState(), location);
     }
 
