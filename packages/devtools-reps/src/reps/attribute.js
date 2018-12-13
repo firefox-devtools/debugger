@@ -29,7 +29,7 @@ function Attribute(props) {
     },
     span({ className: "attrName" }, getTitle(object)),
     span({ className: "attrEqual" }, "="),
-    StringRep({ className: "attrValue", object: value })
+    StringRep({ className: "attrValue", object: value, title: value })
   );
 }
 
