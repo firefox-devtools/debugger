@@ -206,6 +206,22 @@ stubs.set("SvgNodeInXHTML", {
   }
 });
 
+stubs.set("NodeWithLongAttribute", {
+  type: "object",
+  actor: "server1.conn1.child1/obj32",
+  class: "HTMLParagraphElement",
+  ownPropertyLength: 0,
+  preview: {
+    kind: "DOMNode",
+    nodeType: 1,
+    nodeName: "p",
+    attributes: {
+      "data-test": "a".repeat(100)
+    },
+    attributesLength: 1
+  }
+});
+
 const initialText = "a".repeat(1000);
 stubs.set("NodeWithLongStringAttribute", {
   type: "object",
