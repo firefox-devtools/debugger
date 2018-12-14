@@ -1,16 +1,6 @@
 /* Any copyright is dedicated to the Public Domain.
  * http://creativecommons.org/publicdomain/zero/1.0/ */
 
-function findBreakpoint(dbg, url, line, column = 0) {
-  const {
-    selectors: { getBreakpoint },
-    getState
-  } = dbg;
-  const source = findSource(dbg, url);
-  const location = { sourceId: source.id, line, column };
-  return getBreakpoint(getState(), location);
-}
-
 function getLineEl(dbg, line) {
   const lines = dbg.win.document.querySelectorAll(".CodeMirror-code > div");
   return lines[line - 1];

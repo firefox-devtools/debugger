@@ -728,6 +728,18 @@ function disableBreakpoint(dbg, source, line, column) {
   return waitForDispatch(dbg, "DISABLE_BREAKPOINT");
 }
 
+function findBreakpoint(dbg, url, line) {
+  const {
+    selectors: { getBreakpoint },
+    getState
+  } = dbg;
+  const source = findSource(dbg, url);
+  const { column } = dbg.selectors.getFirstPausePointLocation(
+    dbg.store.getState(), { sourceId: source.id, line }
+  );
+  return getBreakpoint(getState(), { sourceId: source.id, line, column });
+}
+
 async function loadAndAddBreakpoint(dbg, filename, line, column) {
   const {
     selectors: { getBreakpoint, getBreakpointCount, getBreakpointsMap },
