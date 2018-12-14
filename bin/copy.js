@@ -50,7 +50,7 @@ async function copy({assets, mc, watch, symlink}) {
 
 async function start() {
   console.log(`Copying Files to ${mc} with params: `, {watch, assets, symlink})
-  return copy()
+  return copy({watch, assets, mc, symlink})
 }
 
 function missingFilesErrorMessage() {
