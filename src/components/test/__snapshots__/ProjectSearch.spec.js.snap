@@ -190,6 +190,7 @@ exports[`ProjectSearch found search results 1`] = `
         getPath={[Function]}
         getRoots={[Function]}
         itemHeight={24}
+        minChildrenToExpand={100}
         renderItem={[Function]}
       >
         <div
@@ -206,6 +207,7 @@ exports[`ProjectSearch found search results 1`] = `
             getRoots={[Function]}
             isExpanded={[Function]}
             itemHeight={24}
+            minChildrenToExpand={100}
             onCollapse={[Function]}
             onExpand={[Function]}
             onFocus={[Function]}
