@@ -42,6 +42,11 @@
   width: 22px;
 }
 
+.search-field i.loader {
+  padding-top: 4px;
+  margin-right: 8px;
+}
+
 .search-field input {
   border: none;
   line-height: 30px;
