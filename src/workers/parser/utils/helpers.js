@@ -7,6 +7,7 @@
 import * as t from "@babel/types";
 import type { Node } from "@babel/types";
 import type { SimplePath } from "./simple-path";
+import type { AstLocation } from "../types";
 import generate from "@babel/generator";
 
 export function isFunction(node: Node) {
@@ -50,7 +51,7 @@ export function getObjectExpressionValue(node: Node) {
     return value.name;
   }
 
-  if (t.isCallExpression(value)) {
+  if (t.isCallExpression(value) || t.isFunctionExpression(value)) {
     return "";
   }
   const code = generate(value).code;
@@ -175,4 +176,56 @@ function getIdentifiers(items) {
 // if the node is top-level, then it shoul only have one body.
 export function isTopLevel(ancestors: Node[]) {
   return ancestors.filter(ancestor => ancestor.key == "body").length == 1;
+}
+
+export function nodeHasSameLocation(a: Node, b: Node) {
+  return sameLocation(a.location, b.location);
+}
+
+export function sameLocation(a: AstLocation, b: AstLocation) {
+  return (
+    a.start.line == b.start.line &&
+    a.start.column == b.start.column &&
+    a.end.line == b.end.line &&
+    a.end.column == b.end.column
+  );
+}
+
+export function getFunctionParameterNames(path: SimplePath): string[] {
+  if (path.node.params != null) {
+    return path.node.params.map(param => {
+      if (param.type !== "AssignmentPattern") {
+        return param.name;
+      }
+
+      // Parameter with default value
+      if (
+        param.left.type === "Identifier" &&
+        param.right.type === "Identifier"
+      ) {
+        return `${param.left.name} = ${param.right.name}`;
+      } else if (
+        param.left.type === "Identifier" &&
+        param.right.type === "StringLiteral"
+      ) {
+        return `${param.left.name} = ${param.right.value}`;
+      } else if (
+        param.left.type === "Identifier" &&
+        param.right.type === "ObjectExpression"
+      ) {
+        return `${param.left.name} = {}`;
+      } else if (
+        param.left.type === "Identifier" &&
+        param.right.type === "ArrayExpression"
+      ) {
+        return `${param.left.name} = []`;
+      } else if (
+        param.left.type === "Identifier" &&
+        param.right.type === "NullLiteral"
+      ) {
+        return `${param.left.name} = null`;
+      }
+    });
+  }
+  return [];
 }
