@@ -80,6 +80,30 @@ describe("Tree", () => {
     expect(mountTree()).toBeTruthy();
   });
 
+  it("Don't auto expand root with very large number of children", () => {
+    const children = [];
+    for (let first = 97; first < 123; first++) {
+      for (let second = 65; second < 70; second++) {
+        children.push(String.fromCodePoint(first, second));
+      }
+    }
+    // N has a lot of children, so it won't be automatically expanded
+    const wrapper = mountTree({
+      autoExpandDepth: 2,
+      minChildrenToExpand: 50,
+      getChildren: item => {
+        if (item === "N") {
+          return children;
+        }
+
+        return TEST_TREE.children[item] || [];
+      }
+    });
+
+    const ids = getTreeNodes(wrapper).map(node => node.prop("id"));
+    expect(ids).toHaveLength(12);
+  });
+
   it("is accessible", () => {
     const wrapper = mountTree({
       expanded: new Set("ABCDEFGHIJMN".split(""))
@@ -702,6 +726,7 @@ function getSanitizedNodeText(node) {
 // M
 // `-- N
 //     `-- O
+
 var TEST_TREE = {
   children: {
     A: ["B", "C", "D"],
