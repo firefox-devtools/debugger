@@ -143,12 +143,7 @@ class GutterContextMenuComponent extends Component {
 
     const sourceId = props.selectedSource ? props.selectedSource.id : "";
     const line = lineAtHeight(props.editor, sourceId, event);
-
-    if (props.emptyLines && props.emptyLines.includes(line)) {
-      return;
-    }
-
-    let column = props.editor.codeMirror.coordsChar({
+    const column = props.editor.codeMirror.coordsChar({
       left: event.x,
       top: event.y
     }).ch;
@@ -156,10 +151,8 @@ class GutterContextMenuComponent extends Component {
       bp => bp.location.line === line && bp.location.column === column
     );
 
-    // Allow getFirstVisiblePausePoint to find the best first breakpoint
-    // position by not providing an explicit column number
-    if (!breakpoint && column === 0) {
-      column = undefined;
+    if (props.emptyLines && props.emptyLines.includes(line)) {
+      return;
     }
 
     gutterMenu({ event, sourceId, line, column, breakpoint, ...props });

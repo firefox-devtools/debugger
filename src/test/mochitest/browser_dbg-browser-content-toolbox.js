@@ -31,6 +31,15 @@ async function enableBreakpoint(dbg, index) {
   await enabled;
 }
 
+function findBreakpoint(dbg, url, line) {
+  const {
+    selectors: { getBreakpoint },
+    getState
+  } = dbg;
+  const source = findSource(dbg, url);
+  return getBreakpoint(getState(), { sourceId: source.id, line });
+}
+
 add_task(async function() {
   clearDebuggerPreferences();
 
