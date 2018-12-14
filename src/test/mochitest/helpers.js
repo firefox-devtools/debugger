@@ -734,9 +734,14 @@ function findBreakpoint(dbg, url, line) {
     getState
   } = dbg;
   const source = findSource(dbg, url);
-  const { column } = dbg.selectors.getFirstPausePointLocation(
-    dbg.store.getState(), { sourceId: source.id, line }
-  );
+  let column;
+  if(
+    Services.prefs.getBoolPref("devtools.debugger.features.column-breakpoints")
+    ) {
+    column = dbg.selectors.getFirstPausePointLocation(
+      dbg.store.getState(), { sourceId: source.id, line }
+    ).column;
+  }
   return getBreakpoint(getState(), { sourceId: source.id, line, column });
 }
 
