@@ -91,7 +91,7 @@ export function setOutOfScopeLocations() {
     if (location.line && source && !source.isWasm && isPaused(getState())) {
       locations = await parser.findOutOfScopeLocations(
         source.id,
-        ((location: any): AstPosition)
+        ((location: any): parser.AstPosition)
       );
     }
 
