@@ -56,15 +56,17 @@ export function setSymbols(sourceId: SourceId) {
   return async ({ dispatch, getState, sourceMaps }: ThunkArgs) => {
     const source = getSourceFromId(getState(), sourceId);
 
-    if (source.isWasm || !isLoaded(source) || getSymbols(getState(), source)) {
+    if (source.isWasm && !isLoaded(source)) {
       return;
     }
 
-    await dispatch({
-      type: "SET_SYMBOLS",
-      sourceId,
-      [PROMISE]: parser.getSymbols(sourceId)
-    });
+    if (!getSymbols(getState(), source)) {
+      await dispatch({
+        type: "SET_SYMBOLS",
+        sourceId,
+        [PROMISE]: parser.getSymbols(sourceId)
+      });
+    }
 
     if (isPaused(getState())) {
       await dispatch(fetchExtra());
