@@ -204,6 +204,10 @@
   overflow: auto;
 }
 
+.sources-list {
+  contain: layout size;
+}
+
 .sources-list .managed-tree .tree .node img.blackBox {
   mask: url(/images/blackBox.svg) no-repeat;
   mask-size: 100%;
