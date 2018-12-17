@@ -73,17 +73,16 @@ async function copyCommits() {
   }
 
   function getMessage(sha) {
-    return exec(`git log --format=%B -n 1 ${sha}`).split("\n")[0]
+    const msg = exec(`git log --format=%B -n 1 ${sha}`).split("\n")[0]
+    return message.replace('__message__', msg);
   }
 
   function getCommitsAfter(sha) {
     return exec(`git rev-list --reverse ${sha}^..HEAD`).trim().split("\n");
   }
 
-  function commitChanges({msg}) {
-    console.log(`git commit -m "${prefix} ${msg}"`)
-    const commitMessage = message.replace('__message__', msg)
-    exec(`git add devtools; git commit -m "${prefix} ${commitMessage}"`)
+  function commitChanges(message) {
+    exec(`git add devtools; git commit -m "${message}"`)
   }
 
   const commits = getCommitsAfter(sha)
@@ -92,10 +91,11 @@ async function copyCommits() {
     console.log(`Copying ${message}`)
     exec(`git checkout ${commit}`);
 
-    await copy({mc});
+    await copy({mc, assets: true});
     shell.cd(mc);
-    commitChanges({message});
+    commitChanges(message);
     shell.cd(`-`);
+    exec(`git checkout .`)
   }
 }
 
