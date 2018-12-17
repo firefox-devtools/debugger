@@ -89,8 +89,9 @@
   margin-right: 5px;
 }
 
-.sources-list .tree .focused img.arrow {
-  background-color: white;
+.sources-list .tree .focused img:not(.vue):not(.angular),
+.sources-list .managed-tree .tree .node.focused img.blackBox {
+  background: #ffffff;
 }
 
 .sources-list .tree .label .suffix {
@@ -220,20 +221,12 @@
   margin-top: 2px;
 }
 
-.sources-list .managed-tree .tree .node.focused img {
-  background-color: white;
-}
-
 .theme-dark .sources-list .managed-tree .tree .node:not(.focused) img.blackBox {
   background-color: var(--theme-comment);
 }
 
 .theme-dark .sources-list .managed-tree .tree .node img.blackBox {
   background-color: var(--theme-body-color);
-}
-
-.theme-dark .sources-list .managed-tree .tree .node.focused img.blackBox {
-  background-color: white;
 }
 
 /*
