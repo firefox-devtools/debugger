@@ -5,8 +5,16 @@
 // @flow
 
 import React from "react";
+import classnames from "classnames";
+
+import "./AccessibleImage.css";
 
 const AccessibleImage = (props: Object) => {
+  props = {
+    ...props,
+    className: classnames("img", props.className),
+    alt: props.alt || props.title || ""
+  };
   return <span {...props} />;
 };
 
