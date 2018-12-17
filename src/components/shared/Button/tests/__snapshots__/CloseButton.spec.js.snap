@@ -5,7 +5,7 @@ exports[`CloseButton renders with tooltip 1`] = `
   className="close-btn"
   title="testTooltip"
 >
-  <img
+  <AccessibleImage
     className="close"
   />
 </button>
