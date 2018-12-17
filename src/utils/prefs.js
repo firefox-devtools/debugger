@@ -106,6 +106,7 @@ export const features = new PrefsHelper("devtools.debugger.features", {
   mapScopes: ["Bool", "map-scopes"],
   removeCommandBarOptions: ["Bool", "remove-command-bar-options"],
   workers: ["Bool", "workers"],
+  windowlessWorkers: ["Bool", "windowless-workers"],
   outline: ["Bool", "outline"],
   codeFolding: ["Bool", "code-folding"],
   pausePoints: ["Bool", "pause-points"],
