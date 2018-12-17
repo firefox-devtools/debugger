@@ -66,15 +66,15 @@ export function setSymbols(sourceId: SourceId) {
         sourceId,
         [PROMISE]: parser.getSymbols(sourceId)
       });
+
+      await dispatch(setPausePoints(sourceId));
+      await dispatch(setSourceMetaData(sourceId));
     }
 
     if (isPaused(getState())) {
       await dispatch(fetchExtra());
       await dispatch(mapFrames());
     }
-
-    await dispatch(setPausePoints(sourceId));
-    await dispatch(setSourceMetaData(sourceId));
   };
 }
 
