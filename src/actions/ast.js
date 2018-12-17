@@ -67,7 +67,6 @@ export function setSymbols(sourceId: SourceId) {
         [PROMISE]: parser.getSymbols(sourceId)
       });
 
-      await dispatch(setPausePoints(sourceId));
       await dispatch(setSourceMetaData(sourceId));
     }
 
@@ -75,6 +74,8 @@ export function setSymbols(sourceId: SourceId) {
       await dispatch(fetchExtra());
       await dispatch(mapFrames());
     }
+
+    await dispatch(setPausePoints(sourceId));
   };
 }
 
