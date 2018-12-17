@@ -64,7 +64,6 @@
   overflow-x: auto;
   overflow-y: auto;
   height: 100%;
-  padding: 4px 0;
 }
 
 .sources-list {
@@ -78,6 +77,10 @@
   display: flex;
   overflow-x: hidden;
   overflow-y: auto;
+}
+
+.sources-list .managed-tree .tree-node:first-child {
+  margin-top: 4px;
 }
 
 .sources-list .managed-tree .tree .node {
