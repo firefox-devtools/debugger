@@ -28,10 +28,8 @@ import ManagedTree from "./shared/ManagedTree";
 import SearchInput from "./shared/SearchInput";
 
 import type { List } from "immutable";
-import type { SourceLocation } from "../types";
 import type { ActiveSearchType } from "../reducers/types";
 import type { StatusType } from "../reducers/project-text-search";
-type Editor = ?Object;
 
 import "./ProjectSearch.css";
 
@@ -65,17 +63,12 @@ type Props = {
   results: List<Result>,
   status: StatusType,
   activeSearch: ActiveSearchType,
-  closeProjectSearch: () => void,
-  searchSources: (query: string) => void,
-  clearSearch: () => void,
-  selectSpecificLocation: (location: SourceLocation, tabIndex?: string) => void,
-  setActiveSearch: (activeSearch?: ActiveSearchType) => void,
-  doSearchForHighlight: (
-    query: string,
-    editor: Editor,
-    line: number,
-    column: number
-  ) => void
+  closeProjectSearch: typeof actions.closeProjectSearch,
+  searchSources: typeof actions.searchSources,
+  clearSearch: typeof actions.clearSearch,
+  selectSpecificLocation: typeof actions.selectSpecificLocation,
+  setActiveSearch: typeof actions.setActiveSearch,
+  doSearchForHighlight: typeof actions.doSearchForHighlight
 };
 
 function getFilePath(item: Item, index?: number) {
@@ -329,7 +322,10 @@ export class ProjectSearch extends Component<Props, State> {
         onBlur={() => this.setState({ inputFocused: false })}
         onKeyDown={this.onKeyDown}
         onHistoryScroll={this.onHistoryScroll}
-        handleClose={this.props.closeProjectSearch}
+        handleClose={
+          // TODO - This function doesn't quite match the signature.
+          (this.props.closeProjectSearch: any)
+        }
         ref="searchInput"
       />
     );
