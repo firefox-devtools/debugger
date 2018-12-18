@@ -92,6 +92,11 @@
   margin-right: 5px;
 }
 
+.sources-list .tree .focused img:not(.vue):not(.angular),
+.sources-list .managed-tree .tree .node.focused img.blackBox {
+  background: #ffffff;
+}
+
 .sources-list .tree .label .suffix {
   font-style: italic;
   font-size: 0.9em;
