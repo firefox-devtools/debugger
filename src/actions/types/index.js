@@ -166,4 +166,5 @@ export type Action =
   | FileTextSearchAction
   | ProjectTextSearchAction
   | DebugeeAction
-  | ReplayAction;
+  | ReplayAction
+  | SourceTreeAction;
