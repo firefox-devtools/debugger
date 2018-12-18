@@ -25,7 +25,7 @@
   margin-top: 0;
 }
 
-.close-btn:hover img.close {
+.close-btn:hover .img.close {
   background-color: white;
 }
 
@@ -37,7 +37,7 @@
   background-color: var(--theme-selection-background);
 }
 
-.close-btn:focus img.close {
+.close-btn:focus .img.close {
   background-color: white;
 }
 
