@@ -44,8 +44,7 @@ export type ASTAction =
         result: any,
         location: AstLocation,
         tokenPos: any,
-        cursorPos: any,
-        extra: any
+        cursorPos: any
       }
     >
   | {|

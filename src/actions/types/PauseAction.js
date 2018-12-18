@@ -117,11 +117,6 @@ export type PauseAction =
       +frames: Frame[],
       +selectedFrameId: string
     |}
-  | {|
-      +type: "ADD_EXTRA",
-      +thread: string,
-      +extra: any
-    |}
   | PromiseAction<
       {|
         +type: "ADD_SCOPES",
