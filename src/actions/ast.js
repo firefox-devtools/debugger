@@ -56,19 +56,15 @@ export function setSymbols(sourceId: SourceId) {
   return async ({ dispatch, getState, sourceMaps }: ThunkArgs) => {
     const source = getSourceFromId(getState(), sourceId);
 
-    if (source.isWasm && !isLoaded(source)) {
+    if (source.isWasm || getSymbols(getState(), source) || !isLoaded(source)) {
       return;
     }
 
-    if (!getSymbols(getState(), source)) {
-      await dispatch({
-        type: "SET_SYMBOLS",
-        sourceId,
-        [PROMISE]: parser.getSymbols(sourceId)
-      });
-
-      await dispatch(setSourceMetaData(sourceId));
-    }
+    await dispatch({
+      type: "SET_SYMBOLS",
+      sourceId,
+      [PROMISE]: parser.getSymbols(sourceId)
+    });
 
     if (isPaused(getState())) {
       await dispatch(fetchExtra());
@@ -76,6 +72,7 @@ export function setSymbols(sourceId: SourceId) {
     }
 
     await dispatch(setPausePoints(sourceId));
+    await dispatch(setSourceMetaData(sourceId));
   };
 }
 

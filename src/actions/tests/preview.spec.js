@@ -32,7 +32,8 @@ const immutableList = {
   }
 };
 
-describe("setPreview", () => {
+// previewing react components and immutable values is deprecated
+xdescribe("setPreview", () => {
   let dispatch = undefined;
   let getState = undefined;
 
