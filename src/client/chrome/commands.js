@@ -112,6 +112,14 @@ function navigate(url: string) {
   return pageAgent.navigate({ url });
 }
 
+function getBreakpointByLocation(location: SourceLocation) {}
+
+function setPausePoints() {}
+
+function getFrameScopes() {}
+function evaluateInFrame() {}
+function evaluateExpressions() {}
+
 const clientCommands = {
   resume,
   stepIn,
@@ -125,7 +133,12 @@ const clientCommands = {
   evaluate,
   debuggeeCommand,
   navigate,
-  getProperties
+  getProperties,
+  getBreakpointByLocation,
+  setPausePoints,
+  getFrameScopes,
+  evaluateInFrame,
+  evaluateExpressions
 };
 
 export { setupCommands, clientCommands };
