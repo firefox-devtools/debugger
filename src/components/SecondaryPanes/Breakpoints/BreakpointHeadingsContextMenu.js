@@ -12,7 +12,6 @@ import type { Breakpoint, Source } from "../../../types";
 type Props = {
   source: Source,
   breakpointsForSource: Breakpoint[],
-  getBreakpointsForSource: typeof actions.getBreakpointsForSource,
   disableBreakpointsInSource: typeof actions.disableBreakpointsInSource,
   enableBreakpointsInSource: typeof actions.enableBreakpointsInSource,
   removeBreakpointsInSource: typeof actions.removeBreakpointsInSource,

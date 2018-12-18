@@ -27,7 +27,6 @@ type Props = {
   source: Source,
   hasSiblingOfSameName: boolean,
   breakpointsForSource: Breakpoint[],
-  getBreakpointsForSource: typeof actions.getBreakpointsForSource,
   disableBreakpointsInSource: typeof actions.disableBreakpointsInSource,
   enableBreakpointsInSource: typeof actions.enableBreakpointsInSource,
   removeBreakpointsInSource: typeof actions.removeBreakpointsInSource,
