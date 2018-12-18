@@ -76,6 +76,7 @@ function createPauseInfo(
   frameOpts = {}
 ) {
   return {
+    thread: "FakeThread",
     frames: [
       makeFrame(
         { id: mockFrameId, sourceId: frameLocation.sourceId },

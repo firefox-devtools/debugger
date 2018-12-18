@@ -12,14 +12,17 @@ import type { PromiseAction } from "../utils/middleware/promise";
 export type PauseAction =
   | {|
       +type: "BREAK_ON_NEXT",
+      +thread: string,
       +value: boolean
     |}
   | {|
       +type: "RESUME",
+      +thread: string,
       +value: void
     |}
   | {|
       +type: "PAUSED",
+      +thread: string,
       +why: Why,
       +scopes: Scope,
       +frames: Frame[],
@@ -28,28 +31,34 @@ export type PauseAction =
     |}
   | {|
       +type: "PAUSE_ON_EXCEPTIONS",
+      +thread: string,
       +shouldPauseOnExceptions: boolean,
       +shouldPauseOnCaughtExceptions: boolean
     |}
   | PromiseAction<{|
       +type: "COMMAND",
+      +thread: string,
       +command: Command
     |}>
   | {|
       +type: "SELECT_FRAME",
+      +thread: string,
       +frame: Frame
     |}
   | {|
       +type: "SELECT_COMPONENT",
+      +thread: string,
       +componentIndex: number
     |}
   | {|
       +type: "SET_POPUP_OBJECT_PROPERTIES",
+      +thread: string,
       +objectId: string,
       +properties: Object
     |}
   | {|
       +type: "ADD_EXPRESSION",
+      +thread: string,
       +id: number,
       +input: string,
       +value: string,
@@ -58,6 +67,7 @@ export type PauseAction =
   | PromiseAction<
       {|
         +type: "EVALUATE_EXPRESSION",
+        +thread: string,
         +input: string
       |},
       Object
@@ -91,6 +101,7 @@ export type PauseAction =
   | PromiseAction<
       {|
         +type: "MAP_SCOPES",
+        +thread: string,
         +frame: Frame
       |},
       {
@@ -102,21 +113,25 @@ export type PauseAction =
     >
   | {|
       +type: "MAP_FRAMES",
+      +thread: string,
       +frames: Frame[],
       +selectedFrameId: string
     |}
   | {|
       +type: "ADD_EXTRA",
+      +thread: string,
       +extra: any
     |}
   | PromiseAction<
       {|
         +type: "ADD_SCOPES",
+        +thread: string,
         +frame: Frame
       |},
       Scope
     >
   | {|
       +type: "TOGGLE_SKIP_PAUSING",
+      +thread: string,
       skipPausing: boolean
     |};

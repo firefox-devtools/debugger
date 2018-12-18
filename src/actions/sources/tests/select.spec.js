@@ -36,6 +36,7 @@ describe("sources", () => {
     await dispatch(actions.newSource(makeSource("foo1")));
     await dispatch(
       actions.paused({
+        thread: "FakeThread",
         why: { type: "debuggerStatement" },
         frames: [makeFrame({ id: "1", sourceId: "foo1" })]
       })

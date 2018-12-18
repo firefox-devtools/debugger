@@ -59,6 +59,7 @@ xdescribe("setPreview", () => {
     await dispatch(actions.setSymbols(fileName));
     await dispatch(
       actions.paused({
+        thread: "FakeThread",
         why: { type: "resumeLimit" },
         frames: [
           { id: "frame1", location: { sourceId: fileName, line: 5, column: 1 } }

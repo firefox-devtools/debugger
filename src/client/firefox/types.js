@@ -265,6 +265,7 @@ export type DebuggerClient = {
   },
   connect: () => Promise<*>,
   request: (packet: Object) => Promise<*>,
+  attachConsole: (actor: String, listeners: Array<*>) => Promise<*>,
   createObjectClient: (grip: Grip) => {},
   release: (actor: String) => {}
 };
@@ -313,6 +314,7 @@ export type FunctionGrip = {|
  */
 export type SourceClient = {
   source: () => Source,
+  actor: string,
   setBreakpoint: ({
     line: number,
     column: ?number,
@@ -365,7 +367,8 @@ export type ThreadClient = {
   getLastPausePacket: () => ?PausedPacket,
   _parent: TabClient,
   actor: ActorId,
-  request: (payload: Object) => Promise<*>
+  request: (payload: Object) => Promise<*>,
+  url: string
 };
 
 /**

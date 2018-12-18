@@ -19,3 +19,7 @@
 .worker-list .worker:hover {
   background-color: var(--search-overlays-semitransparent);
 }
+
+.worker-list .worker.selected {
+  background-color: var(--tab-line-selected-color);
+}
