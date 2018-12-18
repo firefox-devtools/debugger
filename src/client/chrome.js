@@ -8,7 +8,10 @@ import { setupCommands, clientCommands } from "./chrome/commands";
 import { setupEvents, clientEvents, pageEvents } from "./chrome/events";
 
 export async function onConnect(connection: any, actions: Object): Object {
-  const { tabConnection, connTarget: { type } } = connection;
+  const {
+    tabConnection,
+    connTarget: { type }
+  } = connection;
   const { Debugger, Runtime, Page } = tabConnection;
 
   Debugger.enable();

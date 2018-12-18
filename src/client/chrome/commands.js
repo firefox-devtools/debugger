@@ -10,7 +10,7 @@ import {
   createLoadedObject
 } from "./create";
 
-import type { Location } from "../../types";
+import type { SourceLocation } from "../../types";
 import type { ServerLocation, Agents } from "./types";
 
 type setBreakpointResponseType = {
@@ -68,7 +68,7 @@ function sourceContents(sourceId: string) {
     }));
 }
 
-async function setBreakpoint(location: Location, condition: string) {
+async function setBreakpoint(location: SourceLocation, condition: string) {
   const {
     breakpointId,
     serverLocation

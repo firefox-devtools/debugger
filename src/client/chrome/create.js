@@ -4,10 +4,12 @@
 
 // @flow
 
-import type { Location, LoadedObject } from "../../types";
+import type { SourceLocation, LoadedObject } from "../../types";
 import type { ServerLocation } from "./types";
 
-export function fromServerLocation(serverLocation?: ServerLocation): ?Location {
+export function fromServerLocation(
+  serverLocation?: ServerLocation
+): ?SourceLocation {
   if (serverLocation) {
     return {
       sourceId: serverLocation.scriptId,
@@ -18,7 +20,7 @@ export function fromServerLocation(serverLocation?: ServerLocation): ?Location {
   }
 }
 
-export function toServerLocation(location: Location): ServerLocation {
+export function toServerLocation(location: SourceLocation): ServerLocation {
   return {
     scriptId: location.sourceId,
     lineNumber: location.line - 1
