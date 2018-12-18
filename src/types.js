@@ -238,6 +238,7 @@ export type LoadedObject = {
  * @static
  */
 export type Pause = {
+  thread: string,
   frame: Frame,
   frames: Frame[],
   why: Why,
@@ -294,6 +295,7 @@ export type Grip = {
 type BaseSource = {|
   +id: string,
   +url: string,
+  +thread: string,
   +sourceMapURL?: string,
   +isBlackBoxed: boolean,
   +isPrettyPrinted: boolean,

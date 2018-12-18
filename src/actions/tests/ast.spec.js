@@ -166,6 +166,7 @@ describe("ast", () => {
 
       await dispatch(
         actions.paused({
+          thread: "FakeThread",
           why: { type: "debuggerStatement" },
           frames: [makeFrame({ id: "1", sourceId: "scopes.js" })]
         })
