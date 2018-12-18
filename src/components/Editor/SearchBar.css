@@ -68,7 +68,7 @@
   border-radius: 3px;
 }
 
-.search-bottom-bar .search-modifiers button.close-btn.big img {
+.search-bottom-bar .search-modifiers button.close-btn.big .img {
   width: 12px;
   height: 12px;
 }

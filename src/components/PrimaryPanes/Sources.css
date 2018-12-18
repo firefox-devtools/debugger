@@ -88,7 +88,7 @@
   width: 100%;
 }
 
-.sources-list .tree img.arrow {
+.sources-list .tree .img.arrow {
   margin-right: 5px;
 }
 
@@ -102,7 +102,7 @@
   color: inherit;
 }
 
-.sources-list .tree img.arrow.expanded {
+.sources-list .tree .img.arrow.expanded {
   transform: rotate(0deg);
 }
 
@@ -207,7 +207,7 @@
   overflow: auto;
 }
 
-.sources-list .managed-tree .tree .node img.blackBox {
+.sources-list .managed-tree .tree .node .img.blackBox {
   mask: url(/images/blackBox.svg) no-repeat;
   mask-size: 100%;
   background-color: var(--theme-highlight-blue);
@@ -219,11 +219,11 @@
   margin-top: 2px;
 }
 
-.theme-dark .sources-list .managed-tree .tree .node:not(.focused) img.blackBox {
+.theme-dark .sources-list .managed-tree .tree .node:not(.focused) .img.blackBox {
   background-color: var(--theme-comment);
 }
 
-.theme-dark .sources-list .managed-tree .tree .node img.blackBox {
+.theme-dark .sources-list .managed-tree .tree .node .img.blackBox {
   background-color: var(--theme-body-color);
 }
 

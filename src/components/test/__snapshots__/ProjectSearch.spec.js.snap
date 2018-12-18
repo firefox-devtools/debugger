@@ -175,9 +175,13 @@ exports[`ProjectSearch found search results 1`] = `
                   className="close-btn big"
                   onClick={[MockFunction]}
                 >
-                  <img
+                  <AccessibleImage
                     className="close"
-                  />
+                  >
+                    <span
+                      className="img close"
+                    />
+                  </AccessibleImage>
                 </button>
               </CloseButton>
             </div>
@@ -302,9 +306,13 @@ exports[`ProjectSearch found search results 1`] = `
                         />
                       </InlineSVG>
                     </Svg>
-                    <img
+                    <AccessibleImage
                       className="file"
-                    />
+                    >
+                      <span
+                        className="img file"
+                      />
+                    </AccessibleImage>
                     <span
                       className="file-path"
                     />
@@ -568,9 +576,13 @@ exports[`ProjectSearch found search results 1`] = `
                         />
                       </InlineSVG>
                     </Svg>
-                    <img
+                    <AccessibleImage
                       className="file"
-                    />
+                    >
+                      <span
+                        className="img file"
+                      />
+                    </AccessibleImage>
                     <span
                       className="file-path"
                     />

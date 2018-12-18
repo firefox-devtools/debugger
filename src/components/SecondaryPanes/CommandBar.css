@@ -19,59 +19,59 @@ html[dir="rtl"] .command-bar {
   background-color: var(--theme-toolbar-background);
 }
 
-img.pause,
-img.stepOver,
-img.stepIn,
-img.stepOut,
-img.resume,
-img.rewind,
-img.reverseStepOver,
-img.reverseStepIn,
-img.reverseStepOut,
-img.replay-previous,
-img.replay-next,
-img.resume,
-img.shortcuts,
-img.skipPausing {
+.img.pause,
+.img.stepOver,
+.img.stepIn,
+.img.stepOut,
+.img.resume,
+.img.rewind,
+.img.reverseStepOver,
+.img.reverseStepIn,
+.img.reverseStepOut,
+.img.replay-previous,
+.img.replay-next,
+.img.resume,
+.img.shortcuts,
+.img.skipPausing {
   background-color: var(--theme-body-color);
 }
 
-.command-bar img.pause {
+.command-bar .img.pause {
   mask: url(/images/pause.svg) no-repeat;
 }
 
-.command-bar img.stepOver {
+.command-bar .img.stepOver {
   mask: url(/images/stepOver.svg) no-repeat;
 }
 
-.command-bar img.stepIn {
+.command-bar .img.stepIn {
   mask: url(/images/stepIn.svg) no-repeat;
 }
 
-.command-bar img.stepOut {
+.command-bar .img.stepOut {
   mask: url(/images/stepOut.svg) no-repeat;
 }
 
-.command-bar img.resume {
+.command-bar .img.resume {
   mask: url(/images/resume.svg) no-repeat;
 }
 
-.command-bar img.rewind {
+.command-bar .img.rewind {
   mask: url(/images/resume.svg) no-repeat;
   transform: scaleX(-1);
 }
 
-.command-bar img.reverseStepOver {
+.command-bar .img.reverseStepOver {
   mask: url(/images/stepOver.svg) no-repeat;
   transform: scaleX(-1);
 }
 
-.command-bar img.reverseStepIn {
+.command-bar .img.reverseStepIn {
   mask: url(/images/stepIn.svg) no-repeat;
   transform: scaleX(-1);
 }
 
-.command-bar img.reverseStepOut {
+.command-bar .img.reverseStepOut {
   mask: url(/images/stepOut.svg) no-repeat;
   transform: scaleX(-1);
 }
@@ -80,7 +80,7 @@ img.skipPausing {
   flex-grow: 1;
 }
 
-.command-bar img.shortcuts {
+.command-bar .img.shortcuts {
   mask: url(/images/help.svg) no-repeat;
   mask-size: contain;
 }
