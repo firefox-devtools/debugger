@@ -238,9 +238,12 @@ export type TabTarget = {
   root: any,
   activeTab: {
     navigateTo: ({ url: string }) => Promise<*>,
+    listWorkers: () => Promise<*>,
     reload: () => Promise<*>
   },
-  destroy: () => void
+  destroy: () => void,
+  isBrowsingContext: bool,
+  isContentProcess: bool,
 };
 
 /**
