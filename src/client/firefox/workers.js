@@ -4,7 +4,6 @@
 
 // @flow
 
-import Services from "devtools-services";
 import { addThreadEventListeners } from "./events";
 import type { TabTarget } from "./types";
 

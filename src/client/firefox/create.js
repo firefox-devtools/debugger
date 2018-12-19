@@ -10,8 +10,7 @@ import type {
   PausedPacket,
   FramesResponse,
   FramePacket,
-  SourcePayload,
-  ThreadClient
+  SourcePayload
 } from "./types";
 
 import { clientCommands } from "./commands";

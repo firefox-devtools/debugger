@@ -242,8 +242,8 @@ export type TabTarget = {
     reload: () => Promise<*>
   },
   destroy: () => void,
-  isBrowsingContext: bool,
-  isContentProcess: bool,
+  isBrowsingContext: boolean,
+  isContentProcess: boolean
 };
 
 /**
