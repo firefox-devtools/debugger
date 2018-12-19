@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`project text search should clear all the search results 1`] = `
-Immutable.List [
+Array [
   Object {
     "filepath": "http://localhost:8000/examples/foo1",
     "matches": Array [
@@ -10,6 +10,7 @@ Immutable.List [
         "line": 1,
         "match": "foo",
         "sourceId": "foo1",
+        "type": "MATCH",
         "value": "function foo1() {",
       },
       Object {
@@ -17,6 +18,7 @@ Immutable.List [
         "line": 2,
         "match": "foo",
         "sourceId": "foo1",
+        "type": "MATCH",
         "value": "  const foo = 5; return foo;",
       },
       Object {
@@ -24,18 +26,20 @@ Immutable.List [
         "line": 2,
         "match": "foo",
         "sourceId": "foo1",
+        "type": "MATCH",
         "value": "  const foo = 5; return foo;",
       },
     ],
     "sourceId": "foo1",
+    "type": "RESULT",
   },
 ]
 `;
 
-exports[`project text search should clear all the search results 2`] = `Immutable.List []`;
+exports[`project text search should clear all the search results 2`] = `Array []`;
 
 exports[`project text search should close project search 1`] = `
-Immutable.List [
+Array [
   Object {
     "filepath": "http://localhost:8000/examples/foo1",
     "matches": Array [
@@ -44,6 +48,7 @@ Immutable.List [
         "line": 1,
         "match": "foo",
         "sourceId": "foo1",
+        "type": "MATCH",
         "value": "function foo1() {",
       },
       Object {
@@ -51,6 +56,7 @@ Immutable.List [
         "line": 2,
         "match": "foo",
         "sourceId": "foo1",
+        "type": "MATCH",
         "value": "  const foo = 5; return foo;",
       },
       Object {
@@ -58,18 +64,20 @@ Immutable.List [
         "line": 2,
         "match": "foo",
         "sourceId": "foo1",
+        "type": "MATCH",
         "value": "  const foo = 5; return foo;",
       },
     ],
     "sourceId": "foo1",
+    "type": "RESULT",
   },
 ]
 `;
 
-exports[`project text search should close project search 2`] = `Immutable.List []`;
+exports[`project text search should close project search 2`] = `Array []`;
 
 exports[`project text search should ignore sources with minified versions 1`] = `
-Immutable.List [
+Array [
   Object {
     "filepath": "http://localhost:8000/examples/bar:formatted",
     "matches": Array [
@@ -78,16 +86,18 @@ Immutable.List [
         "line": 1,
         "match": "bla",
         "sourceId": "bar:formatted",
+        "type": "MATCH",
         "value": "function bla(x, y) {",
       },
     ],
     "sourceId": "bar:formatted",
+    "type": "RESULT",
   },
 ]
 `;
 
 exports[`project text search should search a specific source 1`] = `
-Immutable.List [
+Array [
   Object {
     "filepath": "http://localhost:8000/examples/bar",
     "matches": Array [
@@ -96,16 +106,18 @@ Immutable.List [
         "line": 1,
         "match": "bla",
         "sourceId": "bar",
+        "type": "MATCH",
         "value": "function bla(x, y) {",
       },
     ],
     "sourceId": "bar",
+    "type": "RESULT",
   },
 ]
 `;
 
 exports[`project text search should search all the loaded sources based on the query 1`] = `
-Immutable.List [
+Array [
   Object {
     "filepath": "http://localhost:8000/examples/foo1",
     "matches": Array [
@@ -114,6 +126,7 @@ Immutable.List [
         "line": 1,
         "match": "foo",
         "sourceId": "foo1",
+        "type": "MATCH",
         "value": "function foo1() {",
       },
       Object {
@@ -121,6 +134,7 @@ Immutable.List [
         "line": 2,
         "match": "foo",
         "sourceId": "foo1",
+        "type": "MATCH",
         "value": "  const foo = 5; return foo;",
       },
       Object {
@@ -128,10 +142,12 @@ Immutable.List [
         "line": 2,
         "match": "foo",
         "sourceId": "foo1",
+        "type": "MATCH",
         "value": "  const foo = 5; return foo;",
       },
     ],
     "sourceId": "foo1",
+    "type": "RESULT",
   },
   Object {
     "filepath": "http://localhost:8000/examples/foo2",
@@ -141,10 +157,12 @@ Immutable.List [
         "line": 1,
         "match": "foo",
         "sourceId": "foo2",
+        "type": "MATCH",
         "value": "function foo2(x, y) {",
       },
     ],
     "sourceId": "foo2",
+    "type": "RESULT",
   },
 ]
 `;
