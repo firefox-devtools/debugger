@@ -185,7 +185,6 @@ exports[`ProjectSearch found search results 1`] = `
       <ManagedTree
         autoExpandAll={true}
         autoExpandDepth={1}
-        autoExpandNodeChildrenLimit={100}
         getChildren={[Function]}
         getParent={[Function]}
         getPath={[Function]}
@@ -199,7 +198,6 @@ exports[`ProjectSearch found search results 1`] = `
           <Tree
             autoExpandAll={true}
             autoExpandDepth={1}
-            autoExpandNodeChildrenLimit={100}
             focused={null}
             getChildren={[Function]}
             getKey={[Function]}
