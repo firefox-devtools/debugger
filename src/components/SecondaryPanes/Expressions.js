@@ -26,8 +26,6 @@ import type { Expression } from "../../types";
 
 import "./Expressions.css";
 
-import * as parser from "../../workers/parser";
-
 const { ObjectInspector } = objectInspector;
 
 type State = {
@@ -163,15 +161,10 @@ class Expressions extends Component<Props, State> {
     }
   };
 
-  hideInput = async () => {
+  hideInput = () => {
     this.setState({ focused: false });
     this.props.onExpressionAdded();
-
-    const expressionError = await parser.hasSyntaxError(this.state.inputValue);
-
-    if (expressionError !== false) {
-      this.clear();
-    }
+    this.props.clearExpressionError();
   };
 
   onFocus = () => {
