@@ -128,7 +128,7 @@ describe("project text search", () => {
     const results = getTextSearchResults(getState());
 
     expect(results).toMatchSnapshot();
-    expect(results.size).toEqual(1);
+    expect(results).toHaveLength(1);
   });
 
   it("should clear all the search results", async () => {
@@ -168,7 +168,7 @@ describe("project text search", () => {
     const results = getTextSearchResults(getState());
 
     expect(results).toMatchSnapshot();
-    expect(results.size).toEqual(0);
+    expect(results).toHaveLength(0);
     const status = getTextSearchStatus(getState());
     expect(status).toEqual("INITIAL");
   });

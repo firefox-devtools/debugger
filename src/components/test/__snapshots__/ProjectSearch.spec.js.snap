@@ -47,26 +47,30 @@ exports[`ProjectSearch found search results 1`] = `
   doSearchForHighlight={[MockFunction]}
   query="match"
   results={
-    Immutable.List [
+    Array [
       Object {
         "filepath": "testFilePath1",
         "matches": Array [
           Object {
             "column": 30,
             "match": "match1",
+            "type": "MATCH",
             "value": "some thing match1",
           },
           Object {
             "column": 60,
             "match": "match2",
+            "type": "MATCH",
             "value": "some thing match2",
           },
           Object {
             "column": 90,
             "match": "match3",
+            "type": "MATCH",
             "value": "some thing match3",
           },
         ],
+        "type": "RESULT",
       },
       Object {
         "filepath": "testFilePath2",
@@ -74,14 +78,17 @@ exports[`ProjectSearch found search results 1`] = `
           Object {
             "column": 80,
             "match": "match4",
+            "type": "MATCH",
             "value": "some thing match4",
           },
           Object {
             "column": 40,
             "match": "match5",
+            "type": "MATCH",
             "value": "some thing match5",
           },
         ],
+        "type": "RESULT",
       },
     ]
   }
