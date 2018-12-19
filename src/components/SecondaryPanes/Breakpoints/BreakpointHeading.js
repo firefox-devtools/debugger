@@ -73,7 +73,6 @@ export default connect(
   mapStateToProps,
   {
     selectSource: actions.selectSource,
-    enableBreakpoint: actions.enableBreakpoint,
     enableBreakpointsInSource: actions.enableBreakpointsInSource,
     disableBreakpointsInSource: actions.disableBreakpointsInSource,
     removeBreakpointsInSource: actions.removeBreakpointsInSource
