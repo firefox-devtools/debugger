@@ -45,4 +45,10 @@ export type { ActiveSearchType, OrientationType } from "./ui";
 export type { BreakpointsMap, XHRBreakpointsList } from "./breakpoints";
 export type { WorkersList } from "./debuggee";
 export type { Command } from "./pause";
-export type { SourceMetaDataMap } from "./ast";
+export type {
+  SourceMetaDataMap,
+  SourceMetaDataType,
+  PausePoints,
+  PausePointsMap,
+  PausePoint
+} from "./ast";

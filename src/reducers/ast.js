@@ -13,15 +13,10 @@ import * as I from "immutable";
 import makeRecord from "../utils/makeRecord";
 import { findEmptyLines } from "../utils/ast";
 
-import type {
-  AstLocation,
-  SymbolDeclarations,
-  PausePoints,
-  PausePoint
-} from "../workers/parser";
+import type { AstLocation, SymbolDeclarations } from "../workers/parser";
 
 import type { Map } from "immutable";
-import type { SourceLocation, Source } from "../types";
+import type { SourceLocation, Source, Position } from "../types";
 import type { Action, DonePromiseAction } from "../actions/types";
 import type { Record } from "../utils/makeRecord";
 
@@ -36,7 +31,18 @@ export type SourceMetaDataType = {
 };
 
 export type SourceMetaDataMap = Map<string, SourceMetaDataType>;
-export type PausePointsMap = Map<string, PausePoints>;
+
+export type PausePoint = {
+  location: Position,
+  generatedLocation: SourceLocation,
+  types: { break: boolean, step: boolean }
+};
+
+export type PausePointsMap = {
+  [line: string]: { [column: string]: PausePoint }
+};
+export type PausePoints = PausePoint[];
+export type PausePointsState = Map<string, PausePoint[]>;
 
 export type Preview =
   | {| updating: true |}
@@ -56,7 +62,7 @@ export type ASTState = {
   outOfScopeLocations: ?Array<AstLocation>,
   inScopeLines: ?Array<Number>,
   preview: Preview,
-  pausePoints: PausePointsMap,
+  pausePoints: PausePointsState,
   sourceMetaData: SourceMetaDataMap
 };
 
@@ -218,9 +224,11 @@ export function getPausePoint(
     return;
   }
 
-  const linePoints = pausePoints[String(line)];
-  if (linePoints && column) {
-    return linePoints[String(column)];
+  for (const point of pausePoints) {
+    const { location: pointLocation } = point;
+    if (pointLocation.line == line && pointLocation.column == column) {
+      return point;
+    }
   }
 }
 
@@ -234,7 +242,7 @@ export function getFirstPausePointLocation(
     return location;
   }
 
-  const pausesAtLine = pausePoints[String(location.line)];
+  const pausesAtLine = pausePoints[location.line];
   if (pausesAtLine) {
     const values: PausePoint[] = (Object.values(pausesAtLine): any);
     const firstPausePoint = values.find(pausePoint => pausePoint.types.break);
