@@ -226,8 +226,8 @@ export function getPausePoint(
   }
 
   for (const point of pausePoints) {
-    const { location } = point;
-    if (location.line == line && location.column == column) {
+    const { location: pointLocation } = point;
+    if (pointLocation.line == line && pointLocation.column == column) {
       return point;
     }
   }
@@ -243,7 +243,7 @@ export function getFirstPausePointLocation(
     return location;
   }
 
-  const pausesAtLine = pausePoints[String(location.line)];
+  const pausesAtLine = pausePoints[location.line];
   if (pausesAtLine) {
     const values: PausePoint[] = (Object.values(pausesAtLine): any);
     const firstPausePoint = values.find(pausePoint => pausePoint.types.break);

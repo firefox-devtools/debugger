@@ -5,12 +5,7 @@
 // @flow
 import { reverse } from "lodash";
 
-import type {
-  PausePoints,
-  PausePoint,
-  PausePointsMap
-} from "../../reducers/types";
-import type { Position } from "../../types";
+import type { PausePoints, PausePointsMap } from "../../reducers/types";
 
 function insertStrtAt(string, index, newString) {
   const start = string.slice(0, index);
