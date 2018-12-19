@@ -312,7 +312,7 @@ class Tree extends Component {
       // root item.
       autoExpandAll: PropTypes.bool,
 
-      // Auto expand a node only if number of it's children
+       // Auto expand a node only if number of its children
       // are less than autoExpandNodeChildrenLimit
       autoExpandNodeChildrenLimit: PropTypes.number,
 
