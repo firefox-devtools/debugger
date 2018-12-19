@@ -22,7 +22,6 @@ cases(
 
     setSource(source);
     const nodes = convertToList(getPausePoints(source.id));
-    // console.log(formatPausePoints(source.text, nodes));
     expect(formatPausePoints(source.text, nodes)).toMatchSnapshot();
   },
   [
