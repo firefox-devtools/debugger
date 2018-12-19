@@ -6,14 +6,14 @@ Array [
     "column": 11,
     "line": 2,
     "match": "foo",
-    "sourceId": "bar.js",
+    "tc": 11,
     "value": "  function foo() {",
   },
   Object {
     "column": 4,
     "line": 3,
     "match": "foo",
-    "sourceId": "bar.js",
+    "tc": 4,
     "value": "    foo();",
   },
 ]

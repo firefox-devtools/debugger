@@ -4,32 +4,65 @@
 
 // Maybe reuse file search's functions?
 
+import getMatches from "./get-matches";
+
 export function findSourceMatches(source, queryText) {
-  const { id, loadedState, text } = source;
+  const { loadedState, text } = source;
   if (loadedState != "loaded" || !text || queryText == "") {
     return [];
   }
 
+  const modifiers = {
+    caseSensitive: false,
+    regexMatch: false,
+    wholeWord: false
+  };
+
   const lines = text.split("\n");
-  let result = undefined;
-  const query = new RegExp(queryText, "g");
 
-  const matches = lines
-    .map((_text, line) => {
-      const indices = [];
+  return getMatches(queryText, text, modifiers).map(({ line, ch }) => {
+    const { value, c } = truncateLine(lines[line], ch);
+    return {
+      line: line + 1,
+      column: ch,
+      tc: c,
+      match: queryText,
+      value
+    };
+  });
+}
 
-      while ((result = query.exec(_text))) {
-        indices.push({
-          sourceId: id,
-          line: line + 1,
-          column: result.index,
-          match: result[0],
-          value: _text
-        });
-      }
-      return indices;
-    })
-    .filter(_matches => _matches.length > 0);
+const startRegex = /([ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])/g;
+const endRegex = new RegExp(
+  [
+    "([ !@#$%^&*()_+-=[]{};':\"\\|,.<>/?])",
+    '[^ !@#$%^&*()_+-=[]{};\':"\\|,.<>/?]*$"/'
+  ].join("")
+);
 
-  return [].concat(...matches);
+function truncateLine(text, column) {
+  if (text.length < 100) {
+    return {
+      c: column,
+      value: text
+    };
+  }
+  const offset = Math.max(column - Math.floor(Math.random() * 10 + 30), 0);
+  const truncStr = text.slice(offset, column + 400);
+  let start = truncStr.search(startRegex);
+  let end = truncStr.search(endRegex);
+  if (start > column) {
+    start = -1;
+  }
+  if (end === -1) {
+    end = text.length;
+  } else if (end < column) {
+    end = truncStr.length;
+  }
+  const value = truncStr.slice(start + 1, end);
+
+  return {
+    c: column - start - offset - 1,
+    value
+  };
 }

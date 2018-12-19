@@ -9,6 +9,7 @@ describe("project search - highlightMatches", () => {
     const lineMatch = {
       value: "This is a sample sentence",
       column: 17,
+      tc: 17,
       match: "sentence"
     };
     expect(highlightMatches(lineMatch)).toMatchSnapshot();
