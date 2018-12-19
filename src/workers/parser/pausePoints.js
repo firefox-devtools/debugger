@@ -10,7 +10,7 @@ import isEqual from "lodash/isEqual";
 
 import type { BabelNode } from "@babel/types";
 import type { SimplePath } from "./utils/simple-path";
-import type { PausePoints } from "./types";
+import type { PausePointsMap } from "./types";
 
 const isForStatement = node =>
   t.isForStatement(node) || t.isForOfStatement(node);
@@ -70,7 +70,7 @@ function isFirstCall(node, parentNode, grandParentNode) {
   return children.find(child => isCall(child)) === node;
 }
 
-export function getPausePoints(sourceId: string): PausePoints {
+export function getPausePoints(sourceId: string): PausePointsMap {
   const state = {};
   traverseAst(sourceId, { enter: onEnter }, state);
   return state;

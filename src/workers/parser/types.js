@@ -12,6 +12,7 @@ export type PausePoint = {|
   location: AstPosition,
   generatedLocation: AstPosition
 |};
-export type PausePoints = {
+
+export type PausePointsMap = {
   [line: string]: { [column: string]: PausePoint }
 };
