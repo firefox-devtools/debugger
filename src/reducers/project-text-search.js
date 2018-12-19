@@ -10,16 +10,12 @@
  * @module reducers/project-text-search
  */
 
-import * as I from "immutable";
-
 import type { Action } from "../actions/types";
-import type { Record } from "../utils/makeRecord";
-import type { List } from "immutable";
 
 export type Search = {
-  id: string,
-  filepath: string,
-  matches: I.List<any>
+  +sourceId: string,
+  +filepath: string,
+  +matches: any[]
 };
 export type StatusType = "INITIAL" | "FETCHING" | "DONE" | "ERROR";
 export const statusType = {
@@ -29,12 +25,11 @@ export const statusType = {
   error: "ERROR"
 };
 
-export type ResultRecord = Record<Search>;
-export type ResultList = List<ResultRecord>;
+export type ResultList = Search[];
 export type ProjectTextSearchState = {
-  query: string,
-  results: ResultList,
-  status: string
+  +query: string,
+  +results: ResultList,
+  +status: string
 };
 
 export function initialProjectTextSearchState(): ProjectTextSearchState {
