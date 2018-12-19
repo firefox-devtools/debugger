@@ -25,16 +25,9 @@ exports[`ShortcutsModal renders when enabled 1`] = `
           <span>
             <span
               className="keystroke"
-              key="Ctrl"
+              key="Ctrl+B"
             >
-              Ctrl
-            </span>
-             + 
-            <span
-              className="keystroke"
-              key="B"
-            >
-              B
+              Ctrl+B
             </span>
           </span>
         </li>
@@ -45,23 +38,9 @@ exports[`ShortcutsModal renders when enabled 1`] = `
           <span>
             <span
               className="keystroke"
-              key="Ctrl"
+              key="Ctrl+Shift+B"
             >
-              Ctrl
-            </span>
-             + 
-            <span
-              className="keystroke"
-              key="Shift"
-            >
-              Shift
-            </span>
-             + 
-            <span
-              className="keystroke"
-              key="B"
-            >
-              B
+              Ctrl+Shift+B
             </span>
           </span>
         </li>
@@ -122,16 +101,9 @@ exports[`ShortcutsModal renders when enabled 1`] = `
           <span>
             <span
               className="keystroke"
-              key="Shift"
+              key="Shift+F11"
             >
-              Shift
-            </span>
-             + 
-            <span
-              className="keystroke"
-              key="F11"
-            >
-              F11
+              Shift+F11
             </span>
           </span>
         </li>
@@ -153,16 +125,9 @@ exports[`ShortcutsModal renders when enabled 1`] = `
           <span>
             <span
               className="keystroke"
-              key="Ctrl"
+              key="Ctrl+P"
             >
-              Ctrl
-            </span>
-             + 
-            <span
-              className="keystroke"
-              key="P"
-            >
-              P
+              Ctrl+P
             </span>
           </span>
         </li>
@@ -173,16 +138,9 @@ exports[`ShortcutsModal renders when enabled 1`] = `
           <span>
             <span
               className="keystroke"
-              key="Ctrl"
+              key="Ctrl+G"
             >
-              Ctrl
-            </span>
-             + 
-            <span
-              className="keystroke"
-              key="G"
-            >
-              G
+              Ctrl+G
             </span>
           </span>
         </li>
@@ -193,23 +151,9 @@ exports[`ShortcutsModal renders when enabled 1`] = `
           <span>
             <span
               className="keystroke"
-              key="Ctrl"
+              key="Ctrl+Shift+F"
             >
-              Ctrl
-            </span>
-             + 
-            <span
-              className="keystroke"
-              key="Shift"
-            >
-              Shift
-            </span>
-             + 
-            <span
-              className="keystroke"
-              key="F"
-            >
-              F
+              Ctrl+Shift+F
             </span>
           </span>
         </li>
@@ -220,23 +164,9 @@ exports[`ShortcutsModal renders when enabled 1`] = `
           <span>
             <span
               className="keystroke"
-              key="Ctrl"
+              key="Ctrl+Shift+O"
             >
-              Ctrl
-            </span>
-             + 
-            <span
-              className="keystroke"
-              key="Shift"
-            >
-              Shift
-            </span>
-             + 
-            <span
-              className="keystroke"
-              key="O"
-            >
-              O
+              Ctrl+Shift+O
             </span>
           </span>
         </li>
@@ -247,16 +177,9 @@ exports[`ShortcutsModal renders when enabled 1`] = `
           <span>
             <span
               className="keystroke"
-              key="Ctrl"
+              key="Ctrl+;"
             >
-              Ctrl
-            </span>
-             + 
-            <span
-              className="keystroke"
-              key=";"
-            >
-              ;
+              Ctrl+;
             </span>
           </span>
         </li>
