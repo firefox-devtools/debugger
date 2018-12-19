@@ -185,12 +185,12 @@ exports[`ProjectSearch found search results 1`] = `
       <ManagedTree
         autoExpandAll={true}
         autoExpandDepth={1}
+        autoExpandNodeChildrenLimit={100}
         getChildren={[Function]}
         getParent={[Function]}
         getPath={[Function]}
         getRoots={[Function]}
         itemHeight={24}
-        minChildrenToExpand={100}
         renderItem={[Function]}
       >
         <div
@@ -199,6 +199,7 @@ exports[`ProjectSearch found search results 1`] = `
           <Tree
             autoExpandAll={true}
             autoExpandDepth={1}
+            autoExpandNodeChildrenLimit={100}
             focused={null}
             getChildren={[Function]}
             getKey={[Function]}
@@ -207,7 +208,6 @@ exports[`ProjectSearch found search results 1`] = `
             getRoots={[Function]}
             isExpanded={[Function]}
             itemHeight={24}
-            minChildrenToExpand={100}
             onCollapse={[Function]}
             onExpand={[Function]}
             onFocus={[Function]}

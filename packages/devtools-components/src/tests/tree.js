@@ -81,16 +81,14 @@ describe("Tree", () => {
   });
 
   it("Don't auto expand root with very large number of children", () => {
-    const children = [];
-    for (let first = 97; first < 123; first++) {
-      for (let second = 65; second < 70; second++) {
-        children.push(String.fromCodePoint(first, second));
-      }
-    }
+    const children = Array.from(
+      { length: 51 },
+      (_, i) => `should-not-be-visible-${i + 1}`
+    );
     // N has a lot of children, so it won't be automatically expanded
     const wrapper = mountTree({
       autoExpandDepth: 2,
-      minChildrenToExpand: 50,
+      autoExpandNodeChildrenLimit: 50,
       getChildren: item => {
         if (item === "N") {
           return children;
@@ -99,9 +97,8 @@ describe("Tree", () => {
         return TEST_TREE.children[item] || [];
       }
     });
-
     const ids = getTreeNodes(wrapper).map(node => node.prop("id"));
-    expect(ids).toHaveLength(12);
+    expect(ids).toMatchSnapshot();
   });
 
   it("is accessible", () => {

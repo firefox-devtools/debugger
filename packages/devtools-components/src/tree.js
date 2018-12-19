@@ -312,8 +312,9 @@ class Tree extends Component {
       // root item.
       autoExpandAll: PropTypes.bool,
 
-      // Auto expand only if a nodes' children are less than minChildrenToExpand
-      minChildrenToExpand: PropTypes.number,
+      // Auto expand a node only if number of it's children
+      // are less than autoExpandNodeChildrenLimit
+      autoExpandNodeChildrenLimit: PropTypes.number,
 
       // Note: the two properties below are mutually exclusive. Only one of the
       // label properties is necessary.
@@ -410,7 +411,7 @@ class Tree extends Component {
   }
 
   _autoExpand() {
-    const { autoExpandDepth, minChildrenToExpand } = this.props;
+    const { autoExpandDepth, autoExpandNodeChildrenLimit } = this.props;
     if (!autoExpandDepth) {
       return;
     }
@@ -424,7 +425,10 @@ class Tree extends Component {
       }
 
       const children = this.props.getChildren(item);
-      if (minChildrenToExpand && children.length > minChildrenToExpand) {
+      if (
+        autoExpandNodeChildrenLimit &&
+        children.length > autoExpandNodeChildrenLimit
+      ) {
         return;
       }
 
