@@ -83,12 +83,7 @@ function findBreakpointSources(
   return sortBy(breakpointSources, (source: Source) => getFilename(source));
 }
 
-export const getBreakpointSources: Selector<
-  Array<{
-    source: Source,
-    breakpoints: FormattedBreakpoint[]
-  }>
-> = createSelector(
+export const getBreakpointSources: Selector<BreakpointSources> = createSelector(
   getBreakpointsList,
   getSources,
   getSelectedSource,

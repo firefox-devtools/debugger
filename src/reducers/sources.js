@@ -345,7 +345,14 @@ export function getSourcesByURL(state: OuterState, url: string): Source[] {
   return getSourcesByUrlInSources(getSources(state), getUrls(state), url);
 }
 
-export function getGeneratedSource(state: OuterState, source: Source): Source {
+export function getGeneratedSource(
+  state: OuterState,
+  source: ?Source
+): ?Source {
+  if (!source) {
+    return null;
+  }
+
   if (isGenerated(source)) {
     return source;
   }
@@ -357,7 +364,11 @@ export function getPendingSelectedLocation(state: OuterState) {
   return state.sources.pendingSelectedLocation;
 }
 
-export function getPrettySource(state: OuterState, id: string) {
+export function getPrettySource(state: OuterState, id: ?string) {
+  if (!id) {
+    return;
+  }
+
   const source = getSource(state, id);
   if (!source) {
     return;

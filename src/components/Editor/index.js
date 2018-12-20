@@ -629,7 +629,7 @@ const mapStateToProps = state => {
     selectedSource,
     searchOn: getActiveSearch(state) === "file",
     conditionalPanelLocation: getConditionalPanelLocation(state),
-    symbols: selectedSource ? getSymbols(state, selectedSource) : null
+    symbols: getSymbols(state, selectedSource)
   };
 };
 
