@@ -485,10 +485,10 @@ yarn run test:all
 
 #### Unit Tests
 
-* `yarn test` - Run tests headlessly
-* These are the basic unit tests which must always pass
-* `yarn run mocha-server` - Run tests in the browser once you open `http://localhost:8003`
-* This runs tests in the browser and is useful for fixing errors in the karma tests
+* `yarn test` or `jest` - runs the jest unit tests
+* `jest -u` - will update the jest fixtures
+* `jest --watch` - will run the tests every time a file changes
+
 
 ##### Testing Components
 
