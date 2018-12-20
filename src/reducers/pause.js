@@ -564,7 +564,7 @@ export function getSkipPausing(state: OuterState) {
 
 // NOTE: currently only used for chrome
 export function getChromeScopes(state: OuterState) {
-  const frame: ChromeFrame = (getSelectedFrame(state): any);
+  const frame: ?ChromeFrame = (getSelectedFrame(state): any);
   return frame ? frame.scopeChain : undefined;
 }
 
