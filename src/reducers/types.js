@@ -34,6 +34,8 @@ export type State = {
   ui: Record<UIState>
 };
 
+export type Selector<T> = State => T;
+
 export type PendingSelectedLocation = {
   url: string,
   line?: number,

@@ -5,7 +5,7 @@
 // @flow
 
 import { isGeneratedId } from "devtools-source-map";
-import { createSelector } from "../utils/createSelector";
+import { createSelector } from "reselect";
 import { uniqBy } from "lodash";
 
 import { getBreakpointsList } from "../reducers/breakpoints";
@@ -15,6 +15,7 @@ import memoize from "../utils/memoize";
 import { sortBreakpoints } from "../utils/breakpoint";
 
 import type { Breakpoint, Source } from "../types";
+import type { Selector } from "../reducers/types";
 
 function getLocation(breakpoint, isGeneratedSource) {
   return isGeneratedSource
@@ -47,7 +48,7 @@ function isVisible(breakpoint, selectedSource) {
 /*
  * Finds the breakpoints, which appear in the selected source.
  */
-export const getVisibleBreakpoints = createSelector(
+export const getVisibleBreakpoints: Selector<?(Breakpoint[])> = createSelector(
   getSelectedSource,
   getBreakpointsList,
   (selectedSource: Source, breakpoints: Breakpoint[]) => {
@@ -64,13 +65,13 @@ export const getVisibleBreakpoints = createSelector(
 /*
  * Finds the first breakpoint per line, which appear in the selected source.
  */
-export const getFirstVisibleBreakpoints = createSelector(
+export const getFirstVisibleBreakpoints: Selector<?(Breakpoint[])> = createSelector(
   getVisibleBreakpoints,
   breakpoints => {
     if (!breakpoints) {
       return null;
     }
 
-    return uniqBy(sortBreakpoints(breakpoints), bp => bp.location.line);
+    return (uniqBy(sortBreakpoints(breakpoints), bp => bp.location.line): any);
   }
 );

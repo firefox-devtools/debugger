@@ -5,7 +5,7 @@
 // @flow
 
 import { sortBy, uniq } from "lodash";
-import { createSelector } from "../utils/createSelector";
+import { createSelector } from "reselect";
 import {
   getSources,
   getBreakpointsList,
@@ -20,7 +20,7 @@ import type {
   BreakpointId,
   SourceLocation
 } from "../types";
-import type { SourcesMap } from "../reducers/types";
+import type { Selector, SourcesMap } from "../reducers/types";
 
 export type BreakpointSources = Array<{
   source: Source,
@@ -84,7 +84,12 @@ function findBreakpointSources(
   return sortBy(breakpointSources, (source: Source) => getFilename(source));
 }
 
-export const getBreakpointSources = createSelector(
+export const getBreakpointSources: Selector<
+  Array<{
+    source: Source,
+    breakpoints: FormattedBreakpoint[]
+  }>
+> = createSelector(
   getBreakpointsList,
   getSources,
   getSelectedSource,
