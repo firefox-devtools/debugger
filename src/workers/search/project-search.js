@@ -7,7 +7,7 @@
 import getMatches from "./get-matches";
 
 export function findSourceMatches(source, queryText) {
-  const { loadedState, text } = source;
+  const { id, loadedState, text } = source;
   if (loadedState != "loaded" || !text || queryText == "") {
     return [];
   }
@@ -21,18 +21,21 @@ export function findSourceMatches(source, queryText) {
   const lines = text.split("\n");
 
   return getMatches(queryText, text, modifiers).map(({ line, ch }) => {
-    const { value, c } = truncateLine(lines[line], ch);
+    const { value, matchIndex } = truncateLine(lines[line], ch);
     return {
+      sourceId: id,
       line: line + 1,
       column: ch,
-      tc: c,
+      matchIndex,
       match: queryText,
       value
     };
   });
 }
 
+// This is used to find start of a word, so that cropped string look nice
 const startRegex = /([ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])/g;
+// Similarly, find
 const endRegex = new RegExp(
   [
     "([ !@#$%^&*()_+-=[]{};':\"\\|,.<>/?])",
@@ -43,26 +46,30 @@ const endRegex = new RegExp(
 function truncateLine(text, column) {
   if (text.length < 100) {
     return {
-      c: column,
+      matchIndex: column,
       value: text
     };
   }
-  const offset = Math.max(column - Math.floor(Math.random() * 10 + 30), 0);
+
+  // Initially take 40 chars left to the match
+  const offset = Math.max(column - 40, 0);
+  // 400 characters should be enough to figure out the context of the match
   const truncStr = text.slice(offset, column + 400);
   let start = truncStr.search(startRegex);
   let end = truncStr.search(endRegex);
+
   if (start > column) {
+    // No word separator found before the match, so we take all characters
+    // before the match
     start = -1;
   }
-  if (end === -1) {
-    end = text.length;
-  } else if (end < column) {
+  if (end < column) {
     end = truncStr.length;
   }
   const value = truncStr.slice(start + 1, end);
 
   return {
-    c: column - start - offset - 1,
+    matchIndex: column - start - offset - 1,
     value
   };
 }

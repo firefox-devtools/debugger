@@ -39,7 +39,7 @@ export type Match = {
   sourceId: string,
   line: number,
   column: number,
-  tc: number,
+  matchIndex: number,
   match: string,
   value: string,
   text: string
