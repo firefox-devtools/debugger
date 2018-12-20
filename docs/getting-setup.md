@@ -2,55 +2,63 @@
 
 ![][debugger-intro-gif]
 
-:construction_worker: If something goes wrong, checkout our [most common issues][common-issues] and find us in [Slack][slack]!
-
-### Step 1. Installing the Debugger
-
-First, we'll clone the debugger locally, then we'll install its
-dependencies with [Yarn]. If you don't have Yarn, you can install it [here][yarn-install].
-
-Also, before you start, it's helpful to make sure you have node 7.
-We recommend, [nvm] for updating the latest node.
+### Step 1. Install Yarn
 
 ```bash
-git clone https://github.com/devtools-html/debugger.html.git
+npm i -g yarn
+```
+*Why Yarn and not NPM?*  
+NPM installs the latest versions. We use [Yarn][yarn] because we want to make sure everyone is using the same libraries.   
+
+### Step 2. Install dependencies
+
+```bash
+git clone git@github.com:devtools-html/debugger.html.git
 cd debugger.html
 yarn install
 ```
 
+*What should I do if I get an error?*  
+Yarn is still new, please comment on this [issue][yarn-issue] if you see anything weird.
 
+### Step 3. Open Firefox
 
-*Why Yarn and not NPM?*
-
-We like [Yarn] because it makes sure everyone is using the same library versions.
-
-### Step 2. Start the Debugger
-
-Next, we'll start the debugger and run it [locally][dev-server].
+In this step, we'll open Firefox. [Chrome](#starting-chrome) and [Node](#starting-node) are also available in the Appendix. It's not required, but it's generally nice to close other browsers first.
 
 ```bash
+yarn run firefox
+```
+
+After Firefox is open, it's nice to go to a page you want to debug. A good sample website is [TodoMVC](http://todomvc.com/examples/vanillajs/).
+
+*Why am I opening Firefox from the terminal?*  
+The firefox command opens firefox with special permissions that enable remote debugging.
+
+*What should I see?*  
+Here's a [screenshot][done-screenshot]  
+
+*What should I do if this doesn't work?*  
+You can either try to run it [manually](#starting-firefox) or comment on the [issue](https://github.com/devtools-html/debugger.html/issues/1341).
+
+### Step 4. Start the Debugger
+
+Now that Firefox is open, lets start the development server. In a new terminal tab, run these commands:
+
+```bash
+cd debugger.html
 yarn start
 ```
 
-Open `http://localhost:8000` in any browser and launch
-Firefox or Chrome. You should now be able to select a
-tab to debug.
+*What does this do?*  
+This command starts a development server.
 
-| Launchpad | Tabs |
-| -- | -- |
-| ![pad2-screenshot] | ![launchpad-screenshot] |
+### Step 5. Open the Debugger
 
-Congratulations! You're now up and running. :sweat_smile:
-
-*What should I do if I get an error?*
-
-Ask in our [Slack][slack] channel or file an [issue][yarn-run-firefox-fails] here.
-
-Here is a list of some of the [most common issues][common-issues]
+Go to `localhost:8000` in any browser to view the Debugger. If everything worked successfully, you should see this [screenshot](https://cloud.githubusercontent.com/assets/254562/20439428/7498808a-ad89-11e6-895d-d6db320c5009.png)
 
 ### Next Steps
 
-Try this [first activity][first-activity] if you want to start debugging the debugger! :clap:
+Go [here](./debugging-the-debugger.md) if you want to start debugging the debugger!
 
 ## Appendix
 
@@ -59,14 +67,12 @@ Try this [first activity][first-activity] if you want to start debugging the deb
 This setup is for people on the DevTools team and DevTools wizards.
 
 ```bash
-curl -o- -L https://yarnpkg.com/install.sh | bash -s
+npm i -g yarn
 git clone git@github.com:devtools-html/debugger.html.git
 cd debugger.html
 yarn install
-
 # close firefox if it's already running
 /Applications/Firefox.app/Contents/MacOS/firefox-bin --start-debugger-server 6080 -P development
-
 # create a new terminal tab
 cd debugger.html
 yarn start
@@ -74,19 +80,18 @@ yarn start
 
 ### Starting Firefox
 
-If you're looking for an alternative to `yarn run firefox`, you have several
-alternatives.
+If you're looking for an alternative to `yarn run firefox`, you have one option: cli.
 
-#### Firefox CLI
+**Firefox CLI**
 
-##### 1. Run `firefox-bin` from the command line
+1. Run `firefox-bin` from the command line
 ```bash
 /Applications/Firefox.app/Contents/MacOS/firefox-bin --start-debugger-server 6080 -P development
 ```
 
 You'll be shown a prompt to create a new "development" profile. The development profile is where your remote development user settings will be kept. *It's a good thing :)*
 
-##### 2. Go to `about:config` and set these preferences
+1. Go to `about:config` and set these configs
 
 Navigate to `about:config` and accept any warning message. Then search for the following preferences and double click them to toggle their values to the following. [example](http://g.recordit.co/3VsHIooZ9q.gif)
 
@@ -94,9 +99,9 @@ Navigate to `about:config` and accept any warning message. Then search for the f
 * `devtools.chrome.enabled` to `true`
 * `devtools.debugger.prompt-connection` to `false`
 
-##### 3. Restart Firefox
+1. Restart Firefox
 
-Close firefox and re-open it with the `firefox-bin` command.
+Close Firefox and re-open it with the `firefox-bin` command.
 
 ### Starting Chrome
 
@@ -112,19 +117,19 @@ Here's the slightly harder way.
  /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222 --no-first-run --user-data-dir=/tmp/chrome-dev-profile
 ```
 
-Note that the [script](https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/bin/chrome-driver.js) just automates the command :)
-
 ### Starting Node
 
 It's easy to start Node in a mode where DevTools will find it:
 
-* `--inspect-brk` - tells node to open a debugger server and pause on the first statement
+* *--inspect* - tells node to open a debugger server
+* *--inspect=9223* - tells node to open a debugger server on 9223 instead of 9229.
+* *--debug-brk* - tells node to pause on the first statement
 
 ```bash
-node --inspect-brk ./node_modules/.bin/webpack
+node --inspect --debug-brk ./node_modules/.bin/webpack
 ```
 
-**Note** *./node_modules/.bin/webpack* could be anything. We're often debugging webpack these days so it's often appropriate :unamused:
+**Note** *./node_modules/.bin/webpack* could be anything. We're often debugging webpack these days so it's often appropriate :/
 
 **Note:** Currently Node.js debugging is limited in some ways, there isn't support for seeing variables or the console, but you can manage breakpoints and navigate code execution (pause, step-in, step-over, etc.) in the debugger across various sources.
 
@@ -137,31 +142,14 @@ If you find any issues on these two platforms comment on these issues:
 * [linux][linux-issue]
 
 **Firefox windows command**
-
-```bash
-"C:\Program Files (x86)\Mozilla Firefox\firefox.exe" -start-debugger-server 6080 -P development
+```
+C:\Program Files (x86)\Mozilla Firefox\firefox.exe -start-debugger-server 6080 -P development
 ```
 
-### Debugger examples
-
-Starting Firefox or Chrome following the previous steps opens the browser on [the online debugger examples][debugger-examples].
-
-If you want to hack the debugger even with being offline, you might want to get [the repo containing those examples][debugger-examples] to run them locally.
-
 [debugger-intro-gif]:http://g.recordit.co/WjHZaXKifZ.gif
-[debugger-examples]:https://devtools-html.github.io/debugger-examples/
-[debugger-examples-repo]:https://github.com/devtools-html/debugger-examples
-[yarn-run-firefox-fails]:https://github.com/devtools-html/debugger.html/issues/1341
+[done-screenshot]:https://cloud.githubusercontent.com/assets/254562/20439409/55e3994a-ad89-11e6-8e76-55e18c7c0d75.png
+
 [linux-issue]:https://github.com/devtools-html/debugger.html/issues/1082
 [windows-issue]:https://github.com/devtools-html/debugger.html/issues/1248
 [yarn-issue]:https://github.com/devtools-html/debugger.html/issues/1216
-[yarn-update]:https://github.com/devtools-html/debugger.html/pull/1483
-[Yarn]:https://yarnpkg.com
-[yarn-install]:https://yarnpkg.com/en/docs/install
-[dev-server]:https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/README.md#dev-server
-[first-activity]: ./debugging-the-debugger.md
-[common-issues]: ./most-common-issues.md
-[slack]:https://devtools-html-slack.herokuapp.com/
-[launchpad-screenshot]:https://cloud.githubusercontent.com/assets/2134/22162697/913777b2-df04-11e6-9150-f6ad676c31ef.png
-[nvm]:https://github.com/creationix/nvm
-[pad2-screenshot]: https://shipusercontent.com/1b41eb3d0f4630ed9197c737cb6e3cb4/Screen%20Shot%202017-11-08%20at%2010.08.51%20AM.png
+[yarn]:https://yarnpkg.com
