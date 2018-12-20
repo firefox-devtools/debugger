@@ -53,7 +53,7 @@ export function waitForMs(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-export function downloadDataFile(data: string, fileName: string) {
+export function downloadFile(data: string, fileName: string) {
   const { body } = document;
   if (!body) {
     return;

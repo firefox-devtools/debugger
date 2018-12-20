@@ -14,10 +14,13 @@ import {
   getSourceLocationFromMouseEvent,
   toSourceLine
 } from "../../utils/editor";
-import { isPretty, getRawSourceURL, shouldBlackbox } from "../../utils/source";
-import { downloadDataFile } from "../../utils/utils";
-import { parse } from "../../utils/url";
-import { basename } from "../../utils/path";
+import {
+  isPretty,
+  getRawSourceURL,
+  getFilename,
+  shouldBlackbox
+} from "../../utils/source";
+import { downloadFile } from "../../utils/utils";
 import {
   getContextMenu,
   getPrettySource,
@@ -96,8 +99,8 @@ function getMenuItems(
   const revealInTreeLabel = L10N.getStr("sourceTabs.revealInTree");
   const watchExpressionKey = L10N.getStr("expressions.accesskey");
   const watchExpressionLabel = L10N.getStr("expressions.label");
-  const downloadGeneratedKey = L10N.getStr("downloadGeneratedFile.accesskey");
-  const downloadGeneratedLabel = L10N.getStr("downloadGeneratedFile.label");
+  const downloadKey = L10N.getStr("downloadFile.accesskey");
+  const downloadLabel = L10N.getStr("downloadFile.label");
 
   // menu items
 
@@ -186,13 +189,9 @@ function getMenuItems(
 
   const downloadFileItem = {
     id: "node-menu-download-file",
-    label: downloadGeneratedLabel,
-    accesskey: downloadGeneratedKey,
-    click: () => {
-      const generatedFileUrl = parse(selectedSource.url);
-      const generatedFileName = basename(generatedFileUrl.pathname);
-      downloadDataFile(selectedSource.text, generatedFileName);
-    }
+    label: downloadLabel,
+    accesskey: downloadKey,
+    click: () => downloadFile(selectedSource.text, getFilename(selectedSource))
   };
 
   // construct menu
@@ -213,9 +212,7 @@ function getMenuItems(
     menuItems.push(watchExpressionItem, evaluateInConsoleItem);
   }
 
-  if (!isOriginal) {
-    menuItems.push(downloadFileItem);
-  }
+  menuItems.push(downloadFileItem);
 
   return menuItems;
 }
