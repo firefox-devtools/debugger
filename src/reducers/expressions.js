@@ -165,8 +165,6 @@ function deleteExpression(state: Record<ExpressionState>, input: string) {
   return newState;
 }
 
-// type OuterState = { expressions: Record<ExpressionState> };
-
 const getExpressionsWrapper = state => state.expressions;
 
 export const getExpressions: Selector<List<Expression>> = createSelector(
