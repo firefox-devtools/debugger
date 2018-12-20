@@ -1,5 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Tree Don't auto expand root with very large number of children 1`] = `
+Array [
+  "key-A",
+  "key-B",
+  "key-E",
+  "key-F",
+  "key-G",
+  "key-C",
+  "key-H",
+  "key-I",
+  "key-D",
+  "key-J",
+  "key-M",
+  "key-N",
+]
+`;
+
 exports[`Tree ignores key strokes when pressing modifiers 1`] = `
 "
 ▼ A

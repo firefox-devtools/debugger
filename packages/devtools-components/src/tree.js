@@ -312,6 +312,10 @@ class Tree extends Component {
       // root item.
       autoExpandAll: PropTypes.bool,
 
+      // Auto expand a node only if number of its children
+      // are less than autoExpandNodeChildrenLimit
+      autoExpandNodeChildrenLimit: PropTypes.number,
+
       // Note: the two properties below are mutually exclusive. Only one of the
       // label properties is necessary.
       // ID of an element whose textual content serves as an accessible label
@@ -407,7 +411,8 @@ class Tree extends Component {
   }
 
   _autoExpand() {
-    if (!this.props.autoExpandDepth) {
+    const { autoExpandDepth, autoExpandNodeChildrenLimit } = this.props;
+    if (!autoExpandDepth) {
       return;
     }
 
@@ -415,9 +420,14 @@ class Tree extends Component {
     // not use the usual DFS infrastructure because we don't want to ignore
     // collapsed nodes.
     const autoExpand = (item, currentDepth) => {
+      if (currentDepth >= autoExpandDepth || this.state.seen.has(item)) {
+        return;
+      }
+
+      const children = this.props.getChildren(item);
       if (
-        currentDepth >= this.props.autoExpandDepth ||
-        this.state.seen.has(item)
+        autoExpandNodeChildrenLimit &&
+        children.length > autoExpandNodeChildrenLimit
       ) {
         return;
       }
@@ -425,7 +435,6 @@ class Tree extends Component {
       this.props.onExpand(item);
       this.state.seen.add(item);
 
-      const children = this.props.getChildren(item);
       const length = children.length;
       for (let i = 0; i < length; i++) {
         autoExpand(children[i], currentDepth + 1);
