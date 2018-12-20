@@ -5,13 +5,10 @@
 ### Step 1. Install Yarn
 
 ```bash
-npm i -g yarn@0.16.1
+npm i -g yarn
 ```
 *Why Yarn and not NPM?*  
 NPM installs the latest versions. We use [Yarn][yarn] because we want to make sure everyone is using the same libraries.   
-
-*Why Yarn 0.16.1?*  
-Yarn is a new tool and it occasionally breaks.
 
 ### Step 2. Install dependencies
 
@@ -104,15 +101,7 @@ Navigate to `about:config` and accept any warning message. Then search for the f
 
 1. Restart Firefox
 
-Close firefox and re-open it with the `firefox-bin` command.
-
-**Firefox GCLI**
-
-* open Firefox
-* *shift-F2* Open GCLI
-* *listen 6080* - start listening on 6080
-
-NOTE: this assumes that you've set the other appropriate `about:configs`
+Close Firefox and re-open it with the `firefox-bin` command.
 
 ### Starting Chrome
 
