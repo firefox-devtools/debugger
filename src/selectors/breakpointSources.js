@@ -37,7 +37,7 @@ export type FormattedBreakpoint = {|
 
 function formatBreakpoint(
   breakpoint: Breakpoint,
-  selectedSource: Source
+  selectedSource: ?Source
 ): FormattedBreakpoint {
   const { id, condition, disabled } = breakpoint;
 
@@ -55,7 +55,7 @@ function formatBreakpoint(
 
 function getBreakpointsForSource(
   source: Source,
-  selectedSource: Source,
+  selectedSource: ?Source,
   breakpoints: Breakpoint[]
 ) {
   return breakpoints
@@ -72,7 +72,6 @@ function getBreakpointsForSource(
 
 function findBreakpointSources(
   sources: SourcesMap,
-  selectedSource: Source,
   breakpoints: Breakpoint[]
 ): Source[] {
   const sourceIds: string[] = uniq(breakpoints.map(bp => bp.location.sourceId));
@@ -93,8 +92,8 @@ export const getBreakpointSources: Selector<
   getBreakpointsList,
   getSources,
   getSelectedSource,
-  (breakpoints: Breakpoint[], sources: SourcesMap, selectedSource: Source) =>
-    findBreakpointSources(sources, selectedSource, breakpoints)
+  (breakpoints: Breakpoint[], sources: SourcesMap, selectedSource: ?Source) =>
+    findBreakpointSources(sources, breakpoints)
       .map(source => ({
         source,
         breakpoints: getBreakpointsForSource(
