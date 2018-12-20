@@ -2,7 +2,7 @@
  * http://creativecommons.org/publicdomain/zero/1.0/ */
 
 function getColumnBreakpointElements(dbg) {
-  return dbg.win.document.querySelectorAll(".column-breakpoint");
+  return findAllElementsWithSelector(dbg, ".column-breakpoint");
 }
 
 async function assertConditionalBreakpointIsFocused(dbg) {
@@ -13,6 +13,10 @@ async function assertConditionalBreakpointIsFocused(dbg) {
 function waitForElementFocus(dbg, el) {
   const doc = dbg.win.document;
   return waitFor(() => doc.activeElement == el && doc.hasFocus());
+}
+
+function hasCondition(marker) {
+  return marker.classList.contains("has-condition");
 }
 
 async function setConditionalBreakpoint(dbg, index, condition) {
@@ -42,6 +46,7 @@ function removeBreakpointViaContext(dbg, index) {
 // Test enabling and disabling a breakpoint using the check boxes
 add_task(async function() {
   const dbg = await initDebugger("doc-scripts.html", "simple1");
+  await pushPref("devtools.debugger.features.column-breakpoints", true);
 
   await selectSource(dbg, "simple1");
 
@@ -84,22 +89,18 @@ add_task(async function() {
   removeBreakpointViaContext(dbg, 3);
 
   // Ensure that there's still a marker on line 15
-  await waitForElementWithSelector(dbg, ".CodeMirror-code > .new-breakpoint.has-condition");
+  await waitForState(dbg, state => dbg.selectors.getBreakpointCount(state) == 2);
+  await waitForElementWithSelector(dbg, ".column-breakpoint.has-condition");
   columnBreakpointMarkers = getColumnBreakpointElements(dbg);
-  ok(columnBreakpointMarkers[0].classList.contains("has-condition"), "First column breakpoint has conditional style");
+  ok(hasCondition(columnBreakpointMarkers[0]), "First column breakpoint has conditional style");
 
   // Remove the breakpoint from 15:8
   removeBreakpointViaContext(dbg, 3);
 
   // Ensure there's still a marker and it has no condition
-  await waitForElementWithSelector(dbg, ".CodeMirror-code > .new-breakpoint");
+  await waitForState(dbg, state => dbg.selectors.getBreakpointCount(state) == 1);
+  await waitForElementWithSelector(dbg, ".column-breakpoint");
 
-  await waitForState(dbg, state => {
-    columnBreakpointMarkers = getColumnBreakpointElements(dbg);
-    const result = columnBreakpointMarkers[0].classList.contains("has-condition") === false;
-    if (result) {
-      ok(result, "First column breakpoint has no conditional style");
-      return result;
-    }
-  });
+  // Ensure the first column breakpoint has no conditional style
+  await waitFor(() => !hasCondition(getColumnBreakpointElements(dbg)[0]));
 });

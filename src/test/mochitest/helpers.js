@@ -1118,6 +1118,10 @@ function findElementWithSelector(dbg, selector) {
 
 function findAllElements(dbg, elementName, ...args) {
   const selector = getSelector(elementName, ...args);
+  return findAllElementsWithSelector(dbg, selector)
+}
+
+function findAllElementsWithSelector(dbg, selector) {
   return dbg.win.document.querySelectorAll(selector);
 }
 
