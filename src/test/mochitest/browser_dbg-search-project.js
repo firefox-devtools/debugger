@@ -24,7 +24,11 @@ async function selectResult(dbg) {
   return select;
 }
 
-function getResultsCount(dbg) {
+function getExpandedResultsCount(dbg) {
+  return findAllElements(dbg, "projectSerchExpandedResults").length;
+}
+
+function getResultsFiles(dbg) {
   const matches = dbg.selectors
     .getTextSearchResults(dbg.getState())
     .map(file => file.matches);
@@ -46,7 +50,7 @@ add_task(async function() {
   type(dbg, "first");
   pressKey(dbg, "Enter");
 
-  await waitForState(dbg, () => getResultsCount(dbg) === 1);
+  await waitForState(dbg, () => getResultsFiles(dbg) === 1);
 
   await selectResult(dbg);
 
@@ -61,11 +65,14 @@ add_task(async function() {
   await openProjectSearch(dbg);
   type(dbg, "we");
   pressKey(dbg, "Enter");
-  await waitForState(
-    dbg,
-    state => state.projectTextSearch.status === "FETCHING"
-  );
   await waitForState(dbg, state => state.projectTextSearch.status === "DONE");
+
+  is(getExpandedResultsCount(dbg), 15);
+
   const collapsedNodes = findAllElements(dbg, "projectSearchCollapsed");
   is(collapsedNodes.length, 1);
+
+  collapsedNodes[0].click();
+
+  is(getExpandedResultsCount(dbg), 155);
 });

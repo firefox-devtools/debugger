@@ -1110,7 +1110,8 @@ const selectors = {
   conditionalPanelInput: ".conditional-breakpoint-panel input",
   searchField: ".search-field",
   blackbox: ".action.black-box",
-  projectSearchCollapsed: ".project-text-search .arrow:not(.expanded)"
+  projectSearchCollapsed: ".project-text-search .arrow:not(.expanded)",
+  projectSerchExpandedResults: ".project-text-search .result",
 };
 
 function getSelector(elementName, ...args) {
