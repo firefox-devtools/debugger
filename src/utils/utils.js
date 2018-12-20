@@ -54,13 +54,18 @@ export function waitForMs(ms: number): Promise<void> {
 }
 
 export function downloadDataFile(data: string, fileName: string) {
+  const { body } = document;
+  if (!body) {
+    return;
+  }
+
   const a = document.createElement("a");
-  document.body.appendChild(a);
-  a.style = "display: none";
-  const blob = new Blob([data], { type: "text/javascript" });
-  const url = window.URL.createObjectURL(blob);
-  a.href = url;
-  a.download = fileName;
+  body.appendChild(a);
+  a.className = "download-anchor";
+  a.href = window.URL.createObjectURL(
+    new Blob([data], { type: "text/javascript" })
+  );
+  a.setAttribute("download", fileName);
   a.click();
-  document.body.removeChild(a);
+  body.removeChild(a);
 }

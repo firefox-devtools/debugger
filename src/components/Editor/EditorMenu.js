@@ -97,7 +97,7 @@ function getMenuItems(
   const watchExpressionKey = L10N.getStr("expressions.accesskey");
   const watchExpressionLabel = L10N.getStr("expressions.label");
   const downloadGeneratedKey = L10N.getStr("downloadGeneratedFile.accesskey");
-  const downloadGeneratedLabel = L10N.getStr("downloadGeneratedFile");
+  const downloadGeneratedLabel = L10N.getStr("downloadGeneratedFile.label");
 
   // menu items
 

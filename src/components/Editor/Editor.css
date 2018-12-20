@@ -281,3 +281,7 @@ debug-expression-error {
 .visible {
   visibility: visible;
 }
+
+.download-anchor {
+  display: none;
+}
