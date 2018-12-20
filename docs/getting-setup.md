@@ -29,7 +29,7 @@ In this step, we'll open Firefox. [Chrome](#starting-chrome) and [Node](#startin
 yarn run firefox
 ```
 
-After Firefox is open, it's nice to go to a page you want to debug. I recommend, TodoMVC http://todomvc.com/examples/vanillajs/.
+After Firefox is open, it's nice to go to a page you want to debug. A good sample website is [TodoMVC](http://todomvc.com/examples/vanillajs/).
 
 *Why am I opening Firefox from the terminal?*  
 The firefox command opens firefox with special permissions that enable remote debugging.
@@ -50,7 +50,7 @@ yarn start
 ```
 
 *What does this do?*  
-This command starts a [development server](../packages/devtools-local-toolbox/README.md).
+This command starts a development server.
 
 ### Step 5. Open the Debugger
 
@@ -67,7 +67,7 @@ Go [here](./debugging-the-debugger.md) if you want to start debugging the debugg
 This setup is for people on the DevTools team and DevTools wizards.
 
 ```bash
-npm i -g yarn@0.16.1
+npm i -g yarn
 git clone git@github.com:devtools-html/debugger.html.git
 cd debugger.html
 yarn install
@@ -80,7 +80,7 @@ yarn start
 
 ### Starting Firefox
 
-If you're looking for an alternative to `yarn run firefox`, you have two options: cli, gcli.
+If you're looking for an alternative to `yarn run firefox`, you have one option: cli.
 
 **Firefox CLI**
 
@@ -116,8 +116,6 @@ Here's the slightly harder way.
 ```bash
  /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222 --no-first-run --user-data-dir=/tmp/chrome-dev-profile
 ```
-
-Note that the [script](../bin/chrome-driver) just automates the command :)
 
 ### Starting Node
 
