@@ -10,8 +10,8 @@ describe("source tree", () => {
     const { dispatch, getState } = createStore();
     const expandedState = new Set(["foo", "bar"]);
 
-    expect(getExpandedState(getState())).toEqual(null);
-    dispatch(actions.setExpandedState(expandedState));
-    expect(getExpandedState(getState())).toEqual(expandedState);
+    expect(getExpandedState(getState())).toEqual(undefined);
+    dispatch(actions.setExpandedState("FakeThread", expandedState));
+    expect(getExpandedState(getState(), "FakeThread")).toEqual(expandedState);
   });
 });
