@@ -75,6 +75,10 @@
   display: flex;
 }
 
+.sources-list .managed-tree .tree {
+  overflow: visible;
+}
+
 .sources-list .managed-tree .tree .node {
   padding: 0 10px 0 3px;
   width: 100%;
