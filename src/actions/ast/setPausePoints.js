@@ -7,8 +7,9 @@
 import { getSourceFromId } from "../../selectors";
 import * as parser from "../../workers/parser";
 import { isGenerated } from "../../utils/source";
-import { mapPausePoints } from "../../utils/pause/pausePoints";
+import { convertToList } from "../../utils/pause/pausePoints";
 import { features } from "../../utils/prefs";
+import { getGeneratedLocation } from "../../utils/source-maps";
 
 import type { SourceId } from "../../types";
 import type { ThunkArgs, Action } from "../types";
@@ -26,16 +27,25 @@ function compressPausePoints(pausePoints) {
   return compressed;
 }
 
-async function mapLocations(pausePoints, source, sourceMaps) {
+async function mapLocations(pausePoints, state, source, sourceMaps) {
+  const pausePointList = convertToList(pausePoints);
   const sourceId = source.id;
-  return mapPausePoints(pausePoints, async ({ types, location }) => {
-    const generatedLocation = await sourceMaps.getGeneratedLocation(
-      { ...location, sourceId },
-      source
-    );
 
-    return { types, location, generatedLocation };
-  });
+  return Promise.all(
+    pausePointList.map(async ({ types, location }) => {
+      const generatedLocation = await getGeneratedLocation(
+        state,
+        source,
+        {
+          ...location,
+          sourceId
+        },
+        sourceMaps
+      );
+
+      return { types, location, generatedLocation };
+    })
+  );
 }
 export function setPausePoints(sourceId: SourceId) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
@@ -49,12 +59,18 @@ export function setPausePoints(sourceId: SourceId) {
     }
 
     let pausePoints = await parser.getPausePoints(sourceId);
-    pausePoints = await mapLocations(pausePoints, source, sourceMaps);
 
     if (isGenerated(source)) {
       const compressed = compressPausePoints(pausePoints);
       await client.setPausePoints(sourceId, compressed);
     }
+
+    pausePoints = await mapLocations(
+      pausePoints,
+      getState(),
+      source,
+      sourceMaps
+    );
 
     dispatch(
       ({

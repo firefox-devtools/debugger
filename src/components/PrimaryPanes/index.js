@@ -5,7 +5,7 @@
 // @flow
 
 import React, { Component } from "react";
-import { connect } from "react-redux";
+import { connect } from "../../utils/connect";
 import { Tab, Tabs, TabList, TabPanels } from "react-aria-components/src/tabs";
 import { formatKeyShortcut } from "../../utils/text";
 import actions from "../../actions";
@@ -22,19 +22,20 @@ import Outline from "./Outline";
 import SourcesTree from "./SourcesTree";
 
 import type { SourcesMap } from "../../reducers/types";
+import type { SelectedPrimaryPaneTabType } from "../../selectors";
 
 type State = {
   alphabetizeOutline: boolean
 };
 
 type Props = {
-  selectedTab: string,
+  selectedTab: SelectedPrimaryPaneTabType,
   sources: SourcesMap,
   horizontal: boolean,
   sourceSearchOn: boolean,
-  setPrimaryPaneTab: string => void,
-  setActiveSearch: string => void,
-  closeActiveSearch: () => void
+  setPrimaryPaneTab: typeof actions.setPrimaryPaneTab,
+  setActiveSearch: typeof actions.setActiveSearch,
+  closeActiveSearch: typeof actions.closeActiveSearch
 };
 
 class PrimaryPanes extends Component<Props, State> {
@@ -46,7 +47,7 @@ class PrimaryPanes extends Component<Props, State> {
     };
   }
 
-  showPane = (selectedPane: string) => {
+  showPane = (selectedPane: SelectedPrimaryPaneTabType) => {
     this.props.setPrimaryPaneTab(selectedPane);
   };
 

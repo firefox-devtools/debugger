@@ -3,6 +3,7 @@
 exports[`breakpoints adding a breakpoint to an invalid location adds only one breakpoint with a corrected location 1`] = `
 Object {
   "astLocation": Object {
+    "index": 0,
     "name": undefined,
     "offset": Object {
       "line": 7,
@@ -69,6 +70,7 @@ exports[`breakpoints should not show a breakpoint that does not have text 1`] = 
 exports[`breakpoints should remap breakpoints on pretty print 1`] = `
 Object {
   "astLocation": Object {
+    "index": 0,
     "name": undefined,
     "offset": Object {
       "line": 1,

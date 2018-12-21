@@ -7,7 +7,7 @@
 import PropTypes from "prop-types";
 import React, { PureComponent } from "react";
 import ReactDOM from "react-dom";
-import { connect } from "react-redux";
+import { connect } from "../../utils/connect";
 import classnames from "classnames";
 import { debounce } from "lodash";
 
@@ -85,17 +85,17 @@ export type Props = {
   symbols: SymbolDeclarations,
 
   // Actions
-  openConditionalPanel: (?SourceLocation) => void,
-  closeConditionalPanel: void => void,
-  setContextMenu: (string, any) => void,
-  continueToHere: number => void,
-  toggleBreakpoint: number => void,
-  toggleBreakpointsAtLine: number => void,
-  addOrToggleDisabledBreakpoint: number => void,
-  jumpToMappedLocation: any => void,
-  traverseResults: (boolean, Object) => void,
-  updateViewport: void => void,
-  closeTab: Source => void
+  openConditionalPanel: typeof actions.openConditionalPanel,
+  closeConditionalPanel: typeof actions.closeConditionalPanel,
+  setContextMenu: typeof actions.setContextMenu,
+  continueToHere: typeof actions.continueToHere,
+  toggleBreakpoint: typeof actions.toggleBreakpoint,
+  toggleBreakpointsAtLine: typeof actions.toggleBreakpointsAtLine,
+  addOrToggleDisabledBreakpoint: typeof actions.addOrToggleDisabledBreakpoint,
+  jumpToMappedLocation: typeof actions.jumpToMappedLocation,
+  traverseResults: typeof actions.traverseResults,
+  updateViewport: typeof actions.updateViewport,
+  closeTab: typeof actions.closeTab
 };
 
 type State = {
@@ -350,7 +350,11 @@ class Editor extends PureComponent<Props, State> {
 
     const { setContextMenu } = this.props;
     const target: Element = (event.target: any);
-    if (target.classList.contains("CodeMirror-linenumber")) {
+
+    if (
+      target.classList.contains("CodeMirror-linenumber") ||
+      target.getAttribute("id") === "columnmarker"
+    ) {
       return setContextMenu("Gutter", event);
     }
 

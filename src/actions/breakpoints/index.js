@@ -17,7 +17,8 @@ import {
   getXHRBreakpoints,
   getSelectedSource,
   getBreakpointAtLocation,
-  getBreakpointsAtLine
+  getBreakpointsAtLine,
+  getBreakpointsForSource
 } from "../../selectors";
 import { assertBreakpoint, createXHRBreakpoint } from "../../utils/breakpoint";
 import {
@@ -32,7 +33,12 @@ import { isEmptyLineInSource } from "../../reducers/ast";
 // this will need to be changed so that addCLientBreakpoint is removed
 
 import type { ThunkArgs, Action } from "../types";
-import type { Breakpoint, SourceLocation, XHRBreakpoint } from "../../types";
+import type {
+  Breakpoint,
+  Source,
+  SourceLocation,
+  XHRBreakpoint
+} from "../../types";
 
 import { recordEvent } from "../../utils/telemetry";
 
@@ -101,6 +107,40 @@ export function disableBreakpoint(location: SourceLocation) {
         breakpoint: newBreakpoint
       }: Action)
     );
+  };
+}
+
+/**
+ * Disable all breakpoints in a source
+ *
+ * @memberof actions/breakpoints
+ * @static
+ */
+export function disableBreakpointsInSource(source: Source) {
+  return async ({ dispatch, getState, client }: ThunkArgs) => {
+    const breakpoints = getBreakpointsForSource(getState(), source.id);
+    for (const breakpoint of breakpoints) {
+      if (!breakpoint.disabled) {
+        dispatch(disableBreakpoint(breakpoint.generatedLocation));
+      }
+    }
+  };
+}
+
+/**
+ * Enable all breakpoints in a source
+ *
+ * @memberof actions/breakpoints
+ * @static
+ */
+export function enableBreakpointsInSource(source: Source) {
+  return async ({ dispatch, getState, client }: ThunkArgs) => {
+    const breakpoints = getBreakpointsForSource(getState(), source.id);
+    for (const breakpoint of breakpoints) {
+      if (breakpoint.disabled) {
+        dispatch(enableBreakpoint(breakpoint.generatedLocation));
+      }
+    }
   };
 }
 
@@ -193,6 +233,21 @@ export function removeBreakpoints(breakpoints: Breakpoint[]) {
     return Promise.all(
       breakpoints.map(bp => dispatch(removeBreakpoint(bp.location)))
     );
+  };
+}
+
+/**
+ * Removes all breakpoints in a source
+ *
+ * @memberof actions/breakpoints
+ * @static
+ */
+export function removeBreakpointsInSource(source: Source) {
+  return async ({ dispatch, getState, client }: ThunkArgs) => {
+    const breakpoints = getBreakpointsForSource(getState(), source.id);
+    for (const breakpoint of breakpoints) {
+      dispatch(removeBreakpoint(breakpoint.generatedLocation));
+    }
   };
 }
 
@@ -375,10 +430,10 @@ export function toggleDisabledBreakpoint(line: number, column?: number) {
   };
 }
 
-export function enableXHRBreakpoint(index: number, bp: XHRBreakpoint) {
+export function enableXHRBreakpoint(index: number, bp?: XHRBreakpoint) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
     const xhrBreakpoints = getXHRBreakpoints(getState());
-    const breakpoint = bp || xhrBreakpoints.get(index);
+    const breakpoint = bp || xhrBreakpoints[index];
     const enabledBreakpoint = {
       ...breakpoint,
       disabled: false
@@ -393,10 +448,10 @@ export function enableXHRBreakpoint(index: number, bp: XHRBreakpoint) {
   };
 }
 
-export function disableXHRBreakpoint(index: number, bp: XHRBreakpoint) {
+export function disableXHRBreakpoint(index: number, bp?: XHRBreakpoint) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
     const xhrBreakpoints = getXHRBreakpoints(getState());
-    const breakpoint = bp || xhrBreakpoints.get(index);
+    const breakpoint = bp || xhrBreakpoints[index];
     const disabledBreakpoint = {
       ...breakpoint,
       disabled: true
@@ -418,7 +473,7 @@ export function updateXHRBreakpoint(
 ) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
     const xhrBreakpoints = getXHRBreakpoints(getState());
-    const breakpoint = xhrBreakpoints.get(index);
+    const breakpoint = xhrBreakpoints[index];
 
     const updatedBreakpoint = {
       ...breakpoint,
@@ -446,7 +501,7 @@ export function togglePauseOnAny() {
       return dispatch(setXHRBreakpoint("", "ANY"));
     }
 
-    const bp = xhrBreakpoints.get(index);
+    const bp = xhrBreakpoints[index];
     if (bp.disabled) {
       return dispatch(enableXHRBreakpoint(index, bp));
     }
@@ -470,7 +525,7 @@ export function setXHRBreakpoint(path: string, method: string) {
 export function removeXHRBreakpoint(index: number) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
     const xhrBreakpoints = getXHRBreakpoints(getState());
-    const breakpoint = xhrBreakpoints.get(index);
+    const breakpoint = xhrBreakpoints[index];
     return dispatch({
       type: "REMOVE_XHR_BREAKPOINT",
       breakpoint,

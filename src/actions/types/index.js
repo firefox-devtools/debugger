@@ -32,7 +32,8 @@ export type ThunkArgs = {
   client: any,
   sourceMaps: any,
   openLink: (url: string) => void,
-  openWorkerToolbox: (worker: Worker) => void
+  openWorkerToolbox: (worker: Worker) => void,
+  openElementInInspector: (grip: Object) => void
 };
 
 export type Thunk = ThunkArgs => any;
@@ -81,7 +82,7 @@ type ReplayAction =
     |};
 
 type NavigateAction =
-  | {| +type: "CONNECT", +url: string, +canRewind: boolean |}
+  | {| +type: "CONNECT", +thread: string, +url: string, +canRewind: boolean |}
   | {| +type: "NAVIGATE", +url: string |};
 
 export type SourceTreeAction = {|
@@ -129,12 +130,17 @@ export type QuickOpenAction =
   | {| +type: "OPEN_QUICK_OPEN", +query?: string |}
   | {| +type: "CLOSE_QUICK_OPEN" |};
 
-export type DebugeeAction = {|
-  +type: "SET_WORKERS",
-  +workers: {
-    workers: Object[]
-  }
-|};
+export type DebugeeAction =
+  | {|
+      +type: "SET_WORKERS",
+      +workers: {
+        workers: Object[]
+      }
+    |}
+  | {|
+      +type: "SELECT_THREAD",
+      +thread: string
+    |};
 
 export type {
   StartPromiseAction,
@@ -165,4 +171,5 @@ export type Action =
   | FileTextSearchAction
   | ProjectTextSearchAction
   | DebugeeAction
-  | ReplayAction;
+  | ReplayAction
+  | SourceTreeAction;

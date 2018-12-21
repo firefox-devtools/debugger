@@ -84,7 +84,8 @@ export type PendingLocation = {
 
 export type ASTLocation = {|
   +name: ?string,
-  +offset: PartialPosition
+  +offset: PartialPosition,
+  +index: number
 |};
 
 /**
@@ -173,6 +174,14 @@ export type Frame = {
   originalDisplayName?: string
 };
 
+export type ChromeFrame = {
+  id: FrameId,
+  displayName: string,
+  scopeChain: any,
+  generatedLocation: SourceLocation,
+  location: ?SourceLocation
+};
+
 /**
  * ContextMenuItem
  *
@@ -237,6 +246,7 @@ export type LoadedObject = {
  * @static
  */
 export type Pause = {
+  thread: string,
   frame: Frame,
   frames: Frame[],
   why: Why,
@@ -293,6 +303,7 @@ export type Grip = {
 type BaseSource = {|
   +id: string,
   +url: string,
+  +thread: string,
   +sourceMapURL?: string,
   +isBlackBoxed: boolean,
   +isPrettyPrinted: boolean,

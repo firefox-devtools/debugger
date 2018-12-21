@@ -4,7 +4,7 @@
 
 // @flow
 import React, { PureComponent } from "react";
-import { connect } from "react-redux";
+import { connect } from "../../utils/connect";
 import actions from "../../actions";
 import { createObjectClient } from "../../client/firefox";
 
@@ -19,7 +19,8 @@ import {
 import { getScopes } from "../../utils/pause/scopes";
 
 import { objectInspector } from "devtools-reps";
-import type { Pause, Why } from "../../types";
+
+import type { Why } from "../../types";
 import type { NamedValue } from "../../utils/pause/scopes/types";
 
 import "./Scopes.css";
@@ -27,13 +28,14 @@ import "./Scopes.css";
 const { ObjectInspector } = objectInspector;
 
 type Props = {
-  isPaused: Pause,
+  isPaused: boolean,
   selectedFrame: Object,
   generatedFrameScopes: Object,
   originalFrameScopes: Object | null,
   isLoading: boolean,
   why: Why,
-  openLink: string => void
+  openLink: typeof actions.openLink,
+  openElementInInspector: typeof actions.openElementInInspectorCommand
 };
 
 type State = {
@@ -96,7 +98,12 @@ class Scopes extends PureComponent<Props, State> {
   }
 
   render() {
-    const { isPaused, isLoading, openLink } = this.props;
+    const {
+      isPaused,
+      isLoading,
+      openLink,
+      openElementInInspector
+    } = this.props;
     const { originalScopes, generatedScopes, showOriginal } = this.state;
 
     const scopes = (showOriginal && originalScopes) || generatedScopes;
@@ -113,6 +120,8 @@ class Scopes extends PureComponent<Props, State> {
             dimTopLevelWindow={true}
             openLink={openLink}
             createObjectClient={grip => createObjectClient(grip)}
+            onDOMNodeClick={grip => openElementInInspector(grip)}
+            onInspectIconClick={grip => openElementInInspector(grip)}
           />
           {originalScopes ? (
             <div className="scope-type-toggle">
@@ -184,6 +193,7 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   {
-    openLink: actions.openLink
+    openLink: actions.openLink,
+    openElementInInspector: actions.openElementInInspectorCommand
   }
 )(Scopes);

@@ -24,7 +24,7 @@ function ignoreFile(file) {
   // We exclude worker files because they are bundled and we include
   // worker/index.js files because are required by the debugger app in order
   // to communicate with the worker.
-  if (file.match(/\/workers/) && !file.match(/index.js/)) {
+  if (file.match(/\/workers/) && !file.match(/workers.js/) && !file.match(/index.js/)) {
     return true;
   }
 

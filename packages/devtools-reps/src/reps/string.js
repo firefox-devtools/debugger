@@ -32,7 +32,8 @@ StringRep.propTypes = {
   member: PropTypes.object,
   object: PropTypes.object.isRequired,
   openLink: PropTypes.func,
-  className: PropTypes.string
+  className: PropTypes.string,
+  title: PropTypes.string
 };
 
 function StringRep(props) {
@@ -44,7 +45,8 @@ function StringRep(props) {
     useQuotes = true,
     escapeWhitespace = true,
     member,
-    openLink
+    openLink,
+    title
   } = props;
 
   let text = object;
@@ -79,7 +81,8 @@ function StringRep(props) {
   const config = getElementConfig({
     className,
     style,
-    actor: object.actor
+    actor: object.actor,
+    title
   });
 
   if (!isLong) {
@@ -127,12 +130,16 @@ function formatText(opts, text) {
 }
 
 function getElementConfig(opts) {
-  const { className, style, actor } = opts;
+  const { className, style, actor, title } = opts;
 
   const config = {};
 
   if (actor) {
     config["data-link-actor-id"] = actor;
+  }
+
+  if (title) {
+    config.title = title;
   }
 
   const classNames = ["objectBox", "objectBox-string"];

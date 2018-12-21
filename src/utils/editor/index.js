@@ -18,7 +18,7 @@ import { isWasm, lineToWasmOffset, wasmOffsetToLine } from "../wasm";
 
 import type { AstLocation } from "../../workers/parser";
 import type { EditorPosition, EditorRange } from "../editor/types";
-import type { SourceLocation } from "../../types";
+import type { SearchModifiers, Source, SourceLocation } from "../../types";
 type Editor = Object;
 
 let editor: ?Editor;
@@ -58,25 +58,27 @@ export function endOperation() {
   codeMirror.endOperation();
 }
 
-export function shouldShowPrettyPrint(selectedSource) {
-  if (!selectedSource) {
-    return false;
-  }
-
-  return shouldPrettyPrint(selectedSource);
+export function shouldShowPrettyPrint(source: Source) {
+  return shouldPrettyPrint(source);
 }
 
-export function shouldShowFooter(selectedSource, horizontal) {
+export function shouldShowFooter(source: ?Source, horizontal: boolean) {
   if (!horizontal) {
     return true;
   }
-  if (!selectedSource) {
+  if (!source) {
     return false;
   }
-  return shouldShowPrettyPrint(selectedSource) || isOriginal(selectedSource);
+  return shouldShowPrettyPrint(source) || isOriginal(source);
 }
 
-export function traverseResults(e, ctx, query, dir, modifiers) {
+export function traverseResults(
+  e: Event,
+  ctx: any,
+  query: string,
+  dir: string,
+  modifiers: SearchModifiers
+) {
   e.stopPropagation();
   e.preventDefault();
 
@@ -185,7 +187,7 @@ export function getLocationsInViewport({ codeMirror }: Object) {
 
 export function markText(
   { codeMirror }: Object,
-  className,
+  className: String,
   { start, end }: EditorRange
 ) {
   return codeMirror.markText(
@@ -195,7 +197,11 @@ export function markText(
   );
 }
 
-export function lineAtHeight({ codeMirror }, sourceId, event) {
+export function lineAtHeight(
+  { codeMirror }: Object,
+  sourceId: string,
+  event: MouseEvent
+) {
   const _editorLine = codeMirror.lineAtHeight(event.clientY);
   return toSourceLine(sourceId, _editorLine);
 }
@@ -217,7 +223,7 @@ export function getSourceLocationFromMouseEvent(
   };
 }
 
-export function forEachLine(codeMirror: Object, iter) {
+export function forEachLine(codeMirror: Object, iter: Function) {
   codeMirror.operation(() => {
     codeMirror.doc.iter(0, codeMirror.lineCount(), iter);
   });

@@ -14,6 +14,7 @@ const {
   getSelectedSource,
   getSourceByURL
 } = selectors;
+import sourceQueue from "../../../utils/source-queue";
 
 // eslint-disable-next-line max-len
 import { sourceThreadClient as threadClient } from "../../tests/helpers/threadClient.js";
@@ -66,7 +67,7 @@ describe("sources - new sources", () => {
   });
 
   // eslint-disable-next-line
-  it("should no attempt to fetch original sources if it's missing a source map url", async () => {
+  it("should not attempt to fetch original sources if it's missing a source map url", async () => {
     const getOriginalURLs = jest.fn();
     const { dispatch } = createStore(threadClient, {}, { getOriginalURLs });
 
@@ -78,5 +79,50 @@ describe("sources - new sources", () => {
     const store = createStore(threadClient, {}, null);
     await store.dispatch(actions.newSource(makeSource("base.js")));
     expect(getSourceCount(store.getState())).toEqual(1);
+  });
+
+  // eslint-disable-next-line
+  it("should process new sources immediately, without waiting for source maps to be fetched first", async () => {
+    const { dispatch, getState } = createStore(
+      threadClient,
+      {},
+      {
+        getOriginalURLs: async () => new Promise(_ => {})
+      }
+    );
+    const baseSource = makeSource("base.js", { sourceMapURL: "base.js.map" });
+    await dispatch(actions.newSource(baseSource));
+    expect(getSourceCount(getState())).toEqual(1);
+    const base = getSource(getState(), "base.js");
+    expect(base.id).toEqual("base.js");
+  });
+
+  // eslint-disable-next-line
+  it("shouldn't let one slow loading source map delay all the other source maps", async () => {
+    const { dispatch, getState } = createStore(
+      threadClient,
+      {},
+      {
+        getOriginalURLs: async source => {
+          if (source.id == "foo.js") {
+            // simulate a hang loading foo.js.map
+            return new Promise(_ => {});
+          }
+
+          return [source.id.replace(".js", ".cljs")];
+        },
+        getGeneratedLocation: location => location
+      }
+    );
+    const fooSource = makeSource("foo.js", { sourceMapURL: "foo.js.map" });
+    const barSource = makeSource("bar.js", { sourceMapURL: "bar.js.map" });
+    const bazzSource = makeSource("bazz.js", { sourceMapURL: "bazz.js.map" });
+    await dispatch(actions.newSources([fooSource, barSource, bazzSource]));
+    await sourceQueue.flush();
+    expect(getSourceCount(getState())).toEqual(5);
+    const barCljs = getSourceByURL(getState(), "bar.cljs", true);
+    expect(barCljs.url).toEqual("bar.cljs");
+    const bazzCljs = getSourceByURL(getState(), "bazz.cljs", true);
+    expect(bazzCljs.url).toEqual("bazz.cljs");
   });
 });

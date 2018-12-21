@@ -11,6 +11,7 @@ const {
   getAllGeneratedLocations,
   getOriginalLocation,
   getOriginalSourceText,
+  getFileGeneratedRange,
   hasMappedSource,
   clearSourceMaps,
   applySourceMap
@@ -35,6 +36,7 @@ self.onmessage = workerHandler({
   getOriginalLocation,
   getOriginalSourceText,
   getOriginalStackFrames,
+  getFileGeneratedRange,
   hasMappedSource,
   applySourceMap,
   clearSourceMaps

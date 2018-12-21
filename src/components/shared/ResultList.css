@@ -70,7 +70,7 @@
   mask-position: 2px 4px;
 }
 
-.result-list li img.result-item-icon {
+.result-list li .img.result-item-icon {
   width: 16px;
   height: 16px;
 }

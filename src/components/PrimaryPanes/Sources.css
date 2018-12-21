@@ -64,7 +64,6 @@
   overflow-x: auto;
   overflow-y: auto;
   height: 100%;
-  padding: 4px 0;
 }
 
 .sources-list {
@@ -80,17 +79,22 @@
   overflow-y: auto;
 }
 
+.sources-list .managed-tree .tree-node:first-child {
+  margin-top: 4px;
+}
+
 .sources-list .managed-tree .tree .node {
   padding: 0 10px 0 3px;
   width: 100%;
 }
 
-.sources-list .tree img.arrow {
+.sources-list .tree .img.arrow {
   margin-right: 5px;
 }
 
-.sources-list .tree .focused img.arrow {
-  background-color: white;
+.sources-list .tree .focused .img:not(.vue):not(.angular),
+.sources-list .managed-tree .tree .node.focused .img.blackBox {
+  background: #ffffff;
 }
 
 .sources-list .tree .label .suffix {
@@ -103,7 +107,7 @@
   color: inherit;
 }
 
-.sources-list .tree img.arrow.expanded {
+.sources-list .tree .img.arrow.expanded {
   transform: rotate(0deg);
 }
 
@@ -208,7 +212,7 @@
   overflow: auto;
 }
 
-.sources-list .managed-tree .tree .node img.blackBox {
+.sources-list .managed-tree .tree .node .img.blackBox {
   mask: url(/images/blackBox.svg) no-repeat;
   mask-size: 100%;
   background-color: var(--theme-highlight-blue);
@@ -220,20 +224,8 @@
   margin-top: 2px;
 }
 
-.sources-list .managed-tree .tree .node.focused img {
-  background-color: white;
-}
-
-.theme-dark .sources-list .managed-tree .tree .node:not(.focused) img.blackBox {
-  background-color: var(--theme-comment);
-}
-
-.theme-dark .sources-list .managed-tree .tree .node img.blackBox {
+.theme-dark .sources-list .managed-tree .tree .node .img.blackBox {
   background-color: var(--theme-body-color);
-}
-
-.theme-dark .sources-list .managed-tree .tree .node.focused img.blackBox {
-  background-color: white;
 }
 
 /*

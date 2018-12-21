@@ -6,15 +6,19 @@
 
 import { createSelector } from "reselect";
 
-import type { BreakpointsState } from "../reducers/breakpoints";
+import type {
+  BreakpointsState,
+  XHRBreakpointsList
+} from "../reducers/breakpoints";
+import type { Selector } from "../reducers/types";
 
 type OuterState = { breakpoints: BreakpointsState };
 
-export function getXHRBreakpoints(state: OuterState) {
+export function getXHRBreakpoints(state: OuterState): XHRBreakpointsList {
   return state.breakpoints.xhrBreakpoints;
 }
 
-export const shouldPauseOnAnyXHR = createSelector(
+export const shouldPauseOnAnyXHR: Selector<boolean> = createSelector(
   getXHRBreakpoints,
   xhrBreakpoints => {
     const emptyBp = xhrBreakpoints.find(({ path }) => path.length === 0);

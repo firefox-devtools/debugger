@@ -7,7 +7,6 @@ Array [
     "line": 2,
     "match": "foo",
     "sourceId": "bar.js",
-    "text": "  function foo() {",
     "value": "  function foo() {",
   },
   Object {
@@ -15,7 +14,6 @@ Array [
     "line": 3,
     "match": "foo",
     "sourceId": "bar.js",
-    "text": "    foo();",
     "value": "    foo();",
   },
 ]

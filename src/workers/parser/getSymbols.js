@@ -16,7 +16,9 @@ import {
   getPatternIdentifiers,
   getComments,
   getSpecifiers,
-  getCode
+  getCode,
+  nodeHasSameLocation,
+  getFunctionParameterNames
 } from "./utils/helpers";
 
 import { inferClassName } from "./utils/inferClassName";
@@ -42,7 +44,8 @@ export type ClassDeclaration = SymbolDeclaration & {
 export type FunctionDeclaration = SymbolDeclaration & {
   parameterNames: string[],
   klass: string | null,
-  identifier: Object
+  identifier: Object,
+  index: number
 };
 
 export type CallDeclaration = SymbolDeclaration & {
@@ -82,54 +85,31 @@ export type SymbolDeclarations = {|
 
 let symbolDeclarations: Map<string, SymbolDeclarations> = new Map();
 
-function getFunctionParameterNames(path: SimplePath): string[] {
-  if (path.node.params != null) {
-    return path.node.params.map(param => {
-      if (param.type !== "AssignmentPattern") {
-        return param.name;
-      }
-
-      // Parameter with default value
-      if (
-        param.left.type === "Identifier" &&
-        param.right.type === "Identifier"
-      ) {
-        return `${param.left.name} = ${param.right.name}`;
-      } else if (
-        param.left.type === "Identifier" &&
-        param.right.type === "StringLiteral"
-      ) {
-        return `${param.left.name} = ${param.right.value}`;
-      } else if (
-        param.left.type === "Identifier" &&
-        param.right.type === "ObjectExpression"
-      ) {
-        return `${param.left.name} = {}`;
-      } else if (
-        param.left.type === "Identifier" &&
-        param.right.type === "ArrayExpression"
-      ) {
-        return `${param.left.name} = []`;
-      } else if (
-        param.left.type === "Identifier" &&
-        param.right.type === "NullLiteral"
-      ) {
-        return `${param.left.name} = null`;
-      }
-    });
+function getUniqueIdentifiers(identifiers) {
+  const newIdentifiers = [];
+  for (const newId of identifiers) {
+    if (!newIdentifiers.find(id => nodeHasSameLocation(id, newId))) {
+      newIdentifiers.push(newId);
+    }
   }
-  return [];
+
+  return newIdentifiers;
 }
 
 /* eslint-disable complexity */
 function extractSymbol(path: SimplePath, symbols) {
   if (isFunction(path)) {
+    const name = getFunctionName(path.node, path.parent);
     symbols.functions.push({
-      name: getFunctionName(path.node, path.parent),
+      name,
       klass: inferClassName(path),
       location: path.node.loc,
       parameterNames: getFunctionParameterNames(path),
-      identifier: path.node.id
+      identifier: path.node.id,
+      // indicates the occurence of the function in a file
+      // e.g { name: foo, ... index: 4 } is the 4th foo function
+      // in the file
+      index: symbols.functions.filter(f => f.name === name).length
     });
   }
 
@@ -228,12 +208,7 @@ function extractSymbol(path: SimplePath, symbols) {
     });
   }
 
-  if (
-    t.isIdentifier(path) &&
-    !t.isGenericTypeAnnotation(path.parent) &&
-    !t.isObjectProperty(path.parent) &&
-    !t.isArrayPattern(path.parent)
-  ) {
+  if (t.isIdentifier(path) && !t.isGenericTypeAnnotation(path.parent)) {
     let { start, end } = path.node.loc;
 
     // We want to include function params, but exclude the function name
@@ -311,6 +286,7 @@ function extractSymbols(sourceId): SymbolDeclarations {
 
   // comments are extracted separately from the AST
   symbols.comments = getComments(ast);
+  symbols.identifiers = getUniqueIdentifiers(symbols.identifiers);
 
   return symbols;
 }

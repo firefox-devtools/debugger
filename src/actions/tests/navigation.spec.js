@@ -45,14 +45,14 @@ describe("navigation", () => {
     await dispatch(actions.searchSources(mockQuery));
 
     let results = getTextSearchResults(getState());
-    expect(results.size).toEqual(1);
+    expect(results).toHaveLength(1);
     expect(selectors.getTextSearchQuery(getState())).toEqual("foo");
     expect(getTextSearchStatus(getState())).toEqual("DONE");
 
     await dispatch(actions.willNavigate("will-navigate"));
 
     results = getTextSearchResults(getState());
-    expect(results.size).toEqual(0);
+    expect(results).toHaveLength(0);
     expect(getTextSearchQuery(getState())).toEqual("");
     expect(getTextSearchStatus(getState())).toEqual("INITIAL");
   });

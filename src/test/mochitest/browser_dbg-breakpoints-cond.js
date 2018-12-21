@@ -1,16 +1,6 @@
 /* Any copyright is dedicated to the Public Domain.
  * http://creativecommons.org/publicdomain/zero/1.0/ */
 
-function findBreakpoint(dbg, url, line, column = 0) {
-  const {
-    selectors: { getBreakpoint },
-    getState
-  } = dbg;
-  const source = findSource(dbg, url);
-  const location = { sourceId: source.id, line, column };
-  return getBreakpoint(getState(), location);
-}
-
 function getLineEl(dbg, line) {
   const lines = dbg.win.document.querySelectorAll(".CodeMirror-code > div");
   return lines[line - 1];
@@ -72,7 +62,7 @@ add_task(async function() {
   await setConditionalBreakpoint(dbg, 5, "2");
   await waitForDispatch(dbg, "SET_BREAKPOINT_CONDITION");
   bp = findBreakpoint(dbg, "simple2", 5);
-  is(bp.condition, "12", "breakpoint is created with the condition");
+  is(bp.condition, "2", "breakpoint is created with the condition");
   assertEditorBreakpoint(dbg, 5, true);
 
   clickElement(dbg, "gutter", 5);

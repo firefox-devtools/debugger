@@ -236,7 +236,7 @@ Object {
     <i
       className="no-arrow"
     />
-    <img
+    <AccessibleImage
       className="domain"
     />
     <span
@@ -353,7 +353,7 @@ Object {
           <i
             className="no-arrow"
           />
-          <img
+          <AccessibleImage
             className="domain"
           />
           <span
@@ -420,10 +420,10 @@ Object {
     onClick={[Function]}
     onContextMenu={[Function]}
   >
-    <img
+    <AccessibleImage
       className="arrow"
     />
-    <img
+    <AccessibleImage
       className="domain debuggee"
     />
     <span
@@ -515,10 +515,10 @@ Object {
           onClick={[Function]}
           onContextMenu={[Function]}
         >
-          <img
+          <AccessibleImage
             className="arrow"
           />
-          <img
+          <AccessibleImage
             className="domain debuggee"
           />
           <span
@@ -574,10 +574,10 @@ Object {
     onClick={[Function]}
     onContextMenu={[Function]}
   >
-    <img
+    <AccessibleImage
       className="arrow"
     />
-    <img
+    <AccessibleImage
       className="domain debuggee"
     />
     <span
@@ -671,10 +671,10 @@ Object {
           onClick={[Function]}
           onContextMenu={[Function]}
         >
-          <img
+          <AccessibleImage
             className="arrow"
           />
-          <img
+          <AccessibleImage
             className="domain debuggee"
           />
           <span
@@ -731,10 +731,10 @@ Object {
     onClick={[Function]}
     onContextMenu={[Function]}
   >
-    <img
+    <AccessibleImage
       className="arrow expanded"
     />
-    <img
+    <AccessibleImage
       className="folder"
     />
     <span
@@ -804,10 +804,10 @@ Object {
           onClick={[Function]}
           onContextMenu={[Function]}
         >
-          <img
+          <AccessibleImage
             className="arrow expanded"
           />
-          <img
+          <AccessibleImage
             className="folder"
           />
           <span
@@ -853,7 +853,7 @@ Object {
     onClick={[Function]}
     onContextMenu={[Function]}
   >
-    <img
+    <AccessibleImage
       className="arrow"
     />
     <Svg
@@ -946,7 +946,7 @@ Object {
           onClick={[Function]}
           onContextMenu={[Function]}
         >
-          <img
+          <AccessibleImage
             className="arrow"
           />
           <Svg
@@ -1004,10 +1004,10 @@ Object {
     onClick={[Function]}
     onContextMenu={[Function]}
   >
-    <img
+    <AccessibleImage
       className="arrow"
     />
-    <img
+    <AccessibleImage
       className="folder"
     />
     <span
@@ -1073,10 +1073,10 @@ Object {
           onClick={[Function]}
           onContextMenu={[Function]}
         >
-          <img
+          <AccessibleImage
             className="arrow"
           />
-          <img
+          <AccessibleImage
             className="folder"
           />
           <span
@@ -1120,10 +1120,10 @@ Object {
     onClick={[Function]}
     onContextMenu={[Function]}
   >
-    <img
+    <AccessibleImage
       className="arrow expanded"
     />
-    <img
+    <AccessibleImage
       className="folder"
     />
     <span
@@ -1193,10 +1193,10 @@ Object {
           onClick={[Function]}
           onContextMenu={[Function]}
         >
-          <img
+          <AccessibleImage
             className="arrow expanded"
           />
-          <img
+          <AccessibleImage
             className="folder"
           />
           <span
@@ -1242,10 +1242,10 @@ Object {
     onClick={[Function]}
     onContextMenu={[Function]}
   >
-    <img
+    <AccessibleImage
       className="arrow"
     />
-    <img
+    <AccessibleImage
       className="extension"
     />
     <span
@@ -1337,10 +1337,10 @@ Object {
           onClick={[Function]}
           onContextMenu={[Function]}
         >
-          <img
+          <AccessibleImage
             className="arrow"
           />
-          <img
+          <AccessibleImage
             className="extension"
           />
           <span
@@ -1396,7 +1396,7 @@ Object {
     onClick={[Function]}
     onContextMenu={[Function]}
   >
-    <img
+    <AccessibleImage
       className="arrow"
     />
     <Svg
@@ -1489,7 +1489,7 @@ Object {
           onClick={[Function]}
           onContextMenu={[Function]}
         >
-          <img
+          <AccessibleImage
             className="arrow"
           />
           <Svg

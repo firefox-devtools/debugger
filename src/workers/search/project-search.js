@@ -24,8 +24,7 @@ export function findSourceMatches(source, queryText) {
           line: line + 1,
           column: result.index,
           match: result[0],
-          value: _text,
-          text: result.input
+          value: _text
         });
       }
       return indices;

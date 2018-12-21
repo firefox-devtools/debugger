@@ -4,7 +4,6 @@
 
 import React from "react";
 import { mount, shallow } from "enzyme";
-import { List } from "immutable";
 import { ProjectSearch } from "../ProjectSearch";
 import { statusType } from "../../reducers/project-text-search";
 
@@ -28,23 +27,40 @@ const shortcuts = {
 
 const context = { shortcuts };
 
-const testResults = List([
+const testResults = [
   {
     filepath: "testFilePath1",
+    type: "RESULT",
     matches: [
-      { match: "match1", value: "some thing match1", column: 30 },
-      { match: "match2", value: "some thing match2", column: 60 },
-      { match: "match3", value: "some thing match3", column: 90 }
+      {
+        match: "match1",
+        value: "some thing match1",
+        column: 30,
+        type: "MATCH"
+      },
+      {
+        match: "match2",
+        value: "some thing match2",
+        column: 60,
+        type: "MATCH"
+      },
+      { match: "match3", value: "some thing match3", column: 90, type: "MATCH" }
     ]
   },
   {
     filepath: "testFilePath2",
+    type: "RESULT",
     matches: [
-      { match: "match4", value: "some thing match4", column: 80 },
-      { match: "match5", value: "some thing match5", column: 40 }
+      {
+        match: "match4",
+        value: "some thing match4",
+        column: 80,
+        type: "MATCH"
+      },
+      { match: "match5", value: "some thing match5", column: 40, type: "MATCH" }
     ]
   }
-]);
+];
 
 const testMatch = {
   match: "match1",
@@ -58,7 +74,7 @@ function render(overrides = {}, mounted = false) {
   const props = {
     status: "DONE",
     sources: {},
-    results: List([]),
+    results: [],
     query: "foo",
     activeSearch: "project",
     closeProjectSearch: jest.fn(),

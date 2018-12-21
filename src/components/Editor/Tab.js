@@ -5,7 +5,7 @@
 // @flow
 
 import React, { PureComponent } from "react";
-import { connect } from "react-redux";
+import { connect } from "../../utils/connect";
 
 import { showMenu, buildMenu } from "devtools-contextmenu";
 
@@ -18,13 +18,14 @@ import type { Source } from "../../types";
 import actions from "../../actions";
 
 import {
+  getDisplayPath,
   getFileURL,
   getRawSourceURL,
+  getSourceQueryString,
   getTruncatedFileName,
-  getDisplayPath,
-  isPretty,
-  getSourceQueryString
+  isPretty
 } from "../../utils/source";
+import { shouldShowPrettyPrint } from "../../utils/editor";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { getTabMenuItems } from "../../utils/tabs";
 
@@ -34,6 +35,7 @@ import {
   getSourcesForTabs,
   getHasSiblingOfSameName
 } from "../../selectors";
+import type { ActiveSearchType } from "../../selectors";
 
 import classnames from "classnames";
 
@@ -43,13 +45,13 @@ type Props = {
   tabSources: SourcesList,
   selectedSource: Source,
   source: Source,
-  activeSearch: string,
-  selectSource: string => void,
-  closeTab: Source => void,
-  closeTabs: (List<string>) => void,
-  togglePrettyPrint: string => void,
-  showSource: string => void,
-  hasSiblingOfSameName: boolean
+  activeSearch: ActiveSearchType,
+  hasSiblingOfSameName: boolean,
+  selectSource: typeof actions.selectSource,
+  closeTab: typeof actions.closeTab,
+  closeTabs: typeof actions.closeTabs,
+  togglePrettyPrint: typeof actions.togglePrettyPrint,
+  showSource: typeof actions.showSource
 };
 
 class Tab extends PureComponent<Props> {
@@ -65,7 +67,8 @@ class Tab extends PureComponent<Props> {
       tabSources,
       showSource,
       togglePrettyPrint,
-      selectedSource
+      selectedSource,
+      source
     } = this.props;
 
     const tabCount = tabSources.length;
@@ -78,7 +81,6 @@ class Tab extends PureComponent<Props> {
       return;
     }
 
-    const isPrettySource = isPretty(sourceTab);
     const tabMenuItems = getTabMenuItems();
     const items = [
       {
@@ -91,7 +93,7 @@ class Tab extends PureComponent<Props> {
         item: {
           ...tabMenuItems.closeOtherTabs,
           click: () => closeTabs(otherTabURLs),
-          disabled: () => tabCount === 1
+          disabled: otherTabURLs.length === 0
         }
       },
       {
@@ -101,7 +103,7 @@ class Tab extends PureComponent<Props> {
             const tabIndex = tabSources.findIndex(t => t.id == tab);
             closeTabs(tabURLs.filter((t, i) => i > tabIndex));
           },
-          disabled: () =>
+          disabled:
             tabCount === 1 ||
             tabSources.some((t, i) => t === tab && tabCount - 1 === i)
         }
@@ -133,14 +135,13 @@ class Tab extends PureComponent<Props> {
       }
     ];
 
-    if (!isPrettySource) {
-      items.push({
-        item: {
-          ...tabMenuItems.prettyPrint,
-          click: () => togglePrettyPrint(tab)
-        }
-      });
-    }
+    items.push({
+      item: {
+        ...tabMenuItems.prettyPrint,
+        click: () => togglePrettyPrint(tab),
+        disabled: !shouldShowPrettyPrint(source)
+      }
+    });
 
     showMenu(e, buildMenu(items));
   }

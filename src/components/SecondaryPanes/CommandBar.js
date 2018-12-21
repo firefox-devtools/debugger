@@ -8,7 +8,7 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 
-import { connect } from "react-redux";
+import { connect } from "../../utils/connect";
 import classnames from "classnames";
 import { features } from "../../utils/prefs";
 import {
@@ -20,6 +20,7 @@ import {
 import { formatKeyShortcut } from "../../utils/text";
 import actions from "../../actions";
 import { debugBtn } from "../shared/Button/CommandBarButton";
+import AccessibleImage from "../shared/AccessibleImage";
 import "./CommandBar.css";
 
 import { appinfo } from "devtools-services";
@@ -78,17 +79,17 @@ type Props = {
   horizontal: boolean,
   canRewind: boolean,
   skipPausing: boolean,
-  resume: () => void,
-  stepIn: () => void,
-  stepOut: () => void,
-  stepOver: () => void,
-  breakOnNext: () => void,
-  rewind: () => void,
-  reverseStepIn: () => void,
-  reverseStepOut: () => void,
-  reverseStepOver: () => void,
-  pauseOnExceptions: (boolean, boolean) => void,
-  toggleSkipPausing: () => void
+  resume: typeof actions.resume,
+  stepIn: typeof actions.stepIn,
+  stepOut: typeof actions.stepOut,
+  stepOver: typeof actions.stepOver,
+  breakOnNext: typeof actions.breakOnNext,
+  rewind: typeof actions.rewind,
+  reverseStepIn: typeof actions.reverseStepIn,
+  reverseStepOut: typeof actions.reverseStepOut,
+  reverseStepOver: typeof actions.reverseStepOver,
+  pauseOnExceptions: typeof actions.pauseOnExceptions,
+  toggleSkipPausing: typeof actions.toggleSkipPausing
 };
 
 class CommandBar extends Component<Props> {
@@ -270,10 +271,10 @@ class CommandBar extends Component<Props> {
             active: skipPausing
           }
         )}
-        title={L10N.getStr("skipPausingTooltip")}
+        title={L10N.getStr("skipPausingTooltip.label")}
         onClick={toggleSkipPausing}
       >
-        <img className="skipPausing" />
+        <AccessibleImage className="skipPausing" />
       </button>
     );
   }

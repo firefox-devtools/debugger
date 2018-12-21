@@ -7,7 +7,7 @@
 // Dependencies
 import React, { Component } from "react";
 import classnames from "classnames";
-import { connect } from "react-redux";
+import { connect } from "../../utils/connect";
 
 // Selectors
 import {
@@ -58,9 +58,9 @@ type Props = {
   debuggeeUrl: string,
   projectRoot: string,
   expanded: Set<string> | null,
-  selectSource: string => mixed,
-  setExpandedState: (Set<string>) => mixed,
-  clearProjectDirectoryRoot: () => void
+  selectSource: typeof actions.selectSource,
+  setExpandedState: typeof actions.setExpandedState,
+  clearProjectDirectoryRoot: typeof actions.clearProjectDirectoryRoot
 };
 
 type State = {

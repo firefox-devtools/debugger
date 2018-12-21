@@ -67,7 +67,6 @@ We strive to make the Debugger as development friendly as possible. If you have 
 |       [Testing]        |       unit and integration test tips        |
 |       [Linting]        |          css, js, markdown linting          |
 |       [Configs]        |    how to use debugger settings locally     |
-|    [Hot Reloading]     |      steps for enabling hot reloading       |
 
 ### Documentation
 
@@ -121,7 +120,6 @@ Say hello in [Slack][slack] or in the [#devtools-html][irc-devtools-html] channe
 [docs]: https://devtools-html.github.io/debugger.html/docs/
 [weekly-updates]: https://devtools-html.github.io/debugger.html/docs/updates
 [configs]: ./docs/local-development.md#configs
-[hot reloading]: ./docs/local-development.md#hot-reloading-fire
 [themes]: ./docs/local-development.md#themes
 [internationalization]: ./docs/local-development.md#internationalization
 [prefs]: ./docs/local-development.md#prefs

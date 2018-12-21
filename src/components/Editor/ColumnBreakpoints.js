@@ -3,12 +3,12 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 import React, { Component } from "react";
-import { connect } from "react-redux";
 
 import ColumnBreakpoint from "./ColumnBreakpoint";
 import "./ColumnBreakpoints.css";
 
 import { getSelectedSource, visibleColumnBreakpoints } from "../../selectors";
+import { connect } from "../../utils/connect";
 import { makeLocationId } from "../../utils/breakpoint";
 import actions from "../../actions";
 
@@ -20,7 +20,8 @@ class ColumnBreakpoints extends Component {
   props: {
     editor: Object,
     selectedSource: Source,
-    columnBreakpoints: ColumnBreakpointType[]
+    columnBreakpoints: ColumnBreakpointType[],
+    toggleBreakpoint: (number, ?number) => void
   };
 
   render() {

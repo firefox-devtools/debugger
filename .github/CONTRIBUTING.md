@@ -141,7 +141,6 @@ Here are pointers to the DevTools general coding style and formatting guidelines
 Go to [local Development](../docs/local-development.md) to learn about:
 
 * [Configs](../docs/local-development.md#configs)
-* [Hot Reloading](../docs/local-development.md#hot-reloading-fire)
 * [Themes](../docs/local-development.md#themes)
 * [Internationalization](../docs/local-development.md#internationalization)
 * [Prefs](../docs/local-development.md#prefs)

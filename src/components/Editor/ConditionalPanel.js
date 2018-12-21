@@ -5,7 +5,7 @@
 // @flow
 import React, { PureComponent } from "react";
 import ReactDOM from "react-dom";
-import { connect } from "react-redux";
+import { connect } from "../../utils/connect";
 import "./ConditionalPanel.css";
 import { toEditorLine } from "../../utils/editor";
 import actions from "../../actions";
@@ -22,8 +22,8 @@ type Props = {
   setBreakpointCondition: Function,
   location: SourceLocation,
   editor: Object,
-  openConditionalPanel: () => void,
-  closeConditionalPanel: () => void
+  openConditionalPanel: typeof actions.openConditionalPanel,
+  closeConditionalPanel: typeof actions.closeConditionalPanel
 };
 
 export class ConditionalPanel extends PureComponent<Props> {

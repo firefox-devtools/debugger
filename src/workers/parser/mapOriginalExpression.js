@@ -93,6 +93,13 @@ export default function mapOriginalExpression(
       return;
     }
 
+    const ancestor = ancestors[ancestors.length - 1];
+    // Shorthand properties can have a key and value with `node.loc.start` value
+    // and we only want to replace the value.
+    if (t.isObjectProperty(ancestor.node) && ancestor.key !== "value") {
+      return;
+    }
+
     const replacement = replacements.get(locationKey(node.loc.start));
     if (replacement) {
       replaceNode(ancestors, t.cloneNode(replacement));

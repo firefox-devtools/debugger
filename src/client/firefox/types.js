@@ -238,9 +238,12 @@ export type TabTarget = {
   root: any,
   activeTab: {
     navigateTo: ({ url: string }) => Promise<*>,
+    listWorkers: () => Promise<*>,
     reload: () => Promise<*>
   },
-  destroy: () => void
+  destroy: () => void,
+  isBrowsingContext: boolean,
+  isContentProcess: boolean
 };
 
 /**
@@ -265,6 +268,7 @@ export type DebuggerClient = {
   },
   connect: () => Promise<*>,
   request: (packet: Object) => Promise<*>,
+  attachConsole: (actor: String, listeners: Array<*>) => Promise<*>,
   createObjectClient: (grip: Grip) => {},
   release: (actor: String) => {}
 };
@@ -313,6 +317,7 @@ export type FunctionGrip = {|
  */
 export type SourceClient = {
   source: () => Source,
+  actor: string,
   setBreakpoint: ({
     line: number,
     column: ?number,
@@ -321,8 +326,8 @@ export type SourceClient = {
   }) => Promise<BreakpointResponse>,
   prettyPrint: number => Promise<*>,
   disablePrettyPrint: () => Promise<*>,
-  blackBox: () => Promise<*>,
-  unblackBox: () => Promise<*>
+  blackBox: (range?: Range) => Promise<*>,
+  unblackBox: (range?: Range) => Promise<*>
 };
 
 /**
@@ -365,7 +370,8 @@ export type ThreadClient = {
   getLastPausePacket: () => ?PausedPacket,
   _parent: TabClient,
   actor: ActorId,
-  request: (payload: Object) => Promise<*>
+  request: (payload: Object) => Promise<*>,
+  url: string
 };
 
 /**

@@ -15,6 +15,7 @@ exports[`ProjectSearch found no search results 1`] = `
         expanded={false}
         handleClose={[MockFunction]}
         hasPrefix={false}
+        isLoading={false}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -46,26 +47,30 @@ exports[`ProjectSearch found search results 1`] = `
   doSearchForHighlight={[MockFunction]}
   query="match"
   results={
-    Immutable.List [
+    Array [
       Object {
         "filepath": "testFilePath1",
         "matches": Array [
           Object {
             "column": 30,
             "match": "match1",
+            "type": "MATCH",
             "value": "some thing match1",
           },
           Object {
             "column": 60,
             "match": "match2",
+            "type": "MATCH",
             "value": "some thing match2",
           },
           Object {
             "column": 90,
             "match": "match3",
+            "type": "MATCH",
             "value": "some thing match3",
           },
         ],
+        "type": "RESULT",
       },
       Object {
         "filepath": "testFilePath2",
@@ -73,14 +78,17 @@ exports[`ProjectSearch found search results 1`] = `
           Object {
             "column": 80,
             "match": "match4",
+            "type": "MATCH",
             "value": "some thing match4",
           },
           Object {
             "column": 40,
             "match": "match5",
+            "type": "MATCH",
             "value": "some thing match5",
           },
         ],
+        "type": "RESULT",
       },
     ]
   }
@@ -104,6 +112,7 @@ exports[`ProjectSearch found search results 1`] = `
           expanded={false}
           handleClose={[MockFunction]}
           hasPrefix={false}
+          isLoading={false}
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
@@ -173,9 +182,13 @@ exports[`ProjectSearch found search results 1`] = `
                   className="close-btn big"
                   onClick={[MockFunction]}
                 >
-                  <img
+                  <AccessibleImage
                     className="close"
-                  />
+                  >
+                    <span
+                      className="img close"
+                    />
+                  </AccessibleImage>
                 </button>
               </CloseButton>
             </div>
@@ -300,9 +313,13 @@ exports[`ProjectSearch found search results 1`] = `
                         />
                       </InlineSVG>
                     </Svg>
-                    <img
+                    <AccessibleImage
                       className="file"
-                    />
+                    >
+                      <span
+                        className="img file"
+                      />
+                    </AccessibleImage>
                     <span
                       className="file-path"
                     />
@@ -566,9 +583,13 @@ exports[`ProjectSearch found search results 1`] = `
                         />
                       </InlineSVG>
                     </Svg>
-                    <img
+                    <AccessibleImage
                       className="file"
-                    />
+                    >
+                      <span
+                        className="img file"
+                      />
+                    </AccessibleImage>
                     <span
                       className="file-path"
                     />
@@ -730,6 +751,7 @@ exports[`ProjectSearch should display loading message while search is in progres
         expanded={false}
         handleClose={[MockFunction]}
         hasPrefix={false}
+        isLoading={true}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -768,6 +790,7 @@ exports[`ProjectSearch showErrorEmoji false if not done & no results 1`] = `
         expanded={false}
         handleClose={[MockFunction]}
         hasPrefix={false}
+        isLoading={true}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -806,6 +829,7 @@ exports[`ProjectSearch showErrorEmoji false if not done & results 1`] = `
         expanded={false}
         handleClose={[MockFunction]}
         hasPrefix={false}
+        isLoading={true}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -844,6 +868,7 @@ exports[`ProjectSearch turns off shortcuts on unmount 1`] = `
         expanded={false}
         handleClose={[MockFunction]}
         hasPrefix={false}
+        isLoading={false}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
@@ -877,6 +902,7 @@ exports[`ProjectSearch where <Enter> has not been pressed 1`] = `
         expanded={false}
         handleClose={[MockFunction]}
         hasPrefix={false}
+        isLoading={false}
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}

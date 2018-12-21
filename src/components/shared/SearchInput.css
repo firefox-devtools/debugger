@@ -42,6 +42,11 @@
   width: 22px;
 }
 
+.search-field i.loader {
+  padding-top: 4px;
+  margin-right: 8px;
+}
+
 .search-field input {
   border: none;
   line-height: 30px;
@@ -136,4 +141,17 @@
 
 .search-field .search-nav-buttons .nav-btn path {
   fill: var(--theme-comment);
+}
+
+.search-field i.loader svg {
+  animation: rotate 0.5s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

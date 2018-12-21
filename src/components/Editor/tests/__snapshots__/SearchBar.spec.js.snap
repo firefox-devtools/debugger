@@ -9,6 +9,7 @@ exports[`SearchBar should render 1`] = `
     handleNext={[Function]}
     handlePrev={[Function]}
     hasPrefix={false}
+    isLoading={false}
     onBlur={[Function]}
     onChange={[Function]}
     onFocus={[Function]}
@@ -29,6 +30,9 @@ exports[`SearchBar should render 1`] = `
     <div
       className="search-modifiers"
     >
+      <span
+        className="pipe-divider"
+      />
       <span
         className="search-type-name"
       >
@@ -78,6 +82,7 @@ exports[`showErrorEmoji false if no query + no results 1`] = `
     handleNext={[Function]}
     handlePrev={[Function]}
     hasPrefix={false}
+    isLoading={false}
     onBlur={[Function]}
     onChange={[Function]}
     onFocus={[Function]}
@@ -98,6 +103,9 @@ exports[`showErrorEmoji false if no query + no results 1`] = `
     <div
       className="search-modifiers"
     >
+      <span
+        className="pipe-divider"
+      />
       <span
         className="search-type-name"
       >
@@ -145,6 +153,7 @@ exports[`showErrorEmoji false if query + results 1`] = `
     handleNext={[Function]}
     handlePrev={[Function]}
     hasPrefix={false}
+    isLoading={false}
     onBlur={[Function]}
     onChange={[Function]}
     onFocus={[Function]}
@@ -165,6 +174,9 @@ exports[`showErrorEmoji false if query + results 1`] = `
     <div
       className="search-modifiers"
     >
+      <span
+        className="pipe-divider"
+      />
       <span
         className="search-type-name"
       >
@@ -212,6 +224,7 @@ exports[`showErrorEmoji true if query + no results 1`] = `
     handleNext={[Function]}
     handlePrev={[Function]}
     hasPrefix={false}
+    isLoading={false}
     onBlur={[Function]}
     onChange={[Function]}
     onFocus={[Function]}
@@ -232,6 +245,9 @@ exports[`showErrorEmoji true if query + no results 1`] = `
     <div
       className="search-modifiers"
     >
+      <span
+        className="pipe-divider"
+      />
       <span
         className="search-type-name"
       >

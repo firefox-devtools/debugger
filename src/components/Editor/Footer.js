@@ -4,7 +4,7 @@
 
 // @flow
 import React, { PureComponent } from "react";
-import { connect } from "react-redux";
+import { connect } from "../../utils/connect";
 import classnames from "classnames";
 import Svg from "../shared/Svg";
 import actions from "../../actions";
@@ -26,6 +26,7 @@ import { getGeneratedSource } from "../../reducers/sources";
 import { shouldShowFooter, shouldShowPrettyPrint } from "../../utils/editor";
 
 import { PaneToggleButton } from "../shared/Button";
+import AccessibleImage from "../shared/AccessibleImage";
 
 import type { Source } from "../../types";
 
@@ -42,10 +43,10 @@ type Props = {
   endPanelCollapsed: boolean,
   editor: Object,
   horizontal: boolean,
-  togglePrettyPrint: string => void,
-  toggleBlackBox: Object => void,
-  jumpToMappedLocation: (Source: any) => void,
-  togglePaneCollapse: () => void
+  togglePrettyPrint: typeof actions.togglePrettyPrint,
+  toggleBlackBox: typeof actions.toggleBlackBox,
+  jumpToMappedLocation: typeof actions.jumpToMappedLocation,
+  togglePaneCollapse: typeof actions.togglePaneCollapse
 };
 
 type State = {
@@ -99,7 +100,7 @@ class SourceFooter extends PureComponent<Props, State> {
         title={tooltip}
         aria-label={tooltip}
       >
-        <img className={type} />
+        <AccessibleImage className={type} />
       </button>
     );
   }
@@ -128,7 +129,7 @@ class SourceFooter extends PureComponent<Props, State> {
         title={tooltip}
         aria-label={tooltip}
       >
-        <img className="blackBox" />
+        <AccessibleImage className="blackBox" />
       </button>
     );
   }
@@ -247,12 +248,14 @@ class SourceFooter extends PureComponent<Props, State> {
 
 const mapStateToProps = state => {
   const selectedSource = getSelectedSource(state);
-  const selectedId = selectedSource.id;
 
   return {
     selectedSource,
     mappedSource: getGeneratedSource(state, selectedSource),
-    prettySource: getPrettySource(state, selectedId),
+    prettySource: getPrettySource(
+      state,
+      selectedSource ? selectedSource.id : null
+    ),
     endPanelCollapsed: getPaneCollapse(state, "end")
   };
 };

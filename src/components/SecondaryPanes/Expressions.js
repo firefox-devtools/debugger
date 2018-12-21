@@ -4,7 +4,7 @@
 
 // @flow
 import React, { Component } from "react";
-import { connect } from "react-redux";
+import { connect } from "../../utils/connect";
 import classnames from "classnames";
 import { features } from "../../utils/prefs";
 import { objectInspector } from "devtools-reps";
@@ -40,15 +40,16 @@ type Props = {
   expressionError: boolean,
   showInput: boolean,
   autocompleteMatches: string[],
-  autocomplete: (input: string, cursor: number) => Promise<any>,
-  clearAutocomplete: () => void,
   onExpressionAdded: () => void,
-  addExpression: (input: string) => void,
-  clearExpressionError: () => void,
-  evaluateExpressions: () => void,
-  updateExpression: (input: string, expression: Expression) => void,
-  deleteExpression: (expression: Expression) => void,
-  openLink: (url: string) => void
+  autocomplete: typeof actions.autocomplete,
+  clearAutocomplete: typeof actions.clearAutocomplete,
+  addExpression: typeof actions.addExpression,
+  clearExpressionError: typeof actions.clearExpressionError,
+  evaluateExpressions: typeof actions.evaluateExpressions,
+  updateExpression: typeof actions.updateExpression,
+  deleteExpression: typeof actions.deleteExpression,
+  openLink: typeof actions.openLink,
+  openElementInInspector: typeof actions.openElementInInspectorCommand
 };
 
 class Expressions extends Component<Props, State> {
@@ -163,6 +164,7 @@ class Expressions extends Component<Props, State> {
   hideInput = () => {
     this.setState({ focused: false });
     this.props.onExpressionAdded();
+    this.props.clearExpressionError();
   };
 
   onFocus = () => {
@@ -206,7 +208,7 @@ class Expressions extends Component<Props, State> {
   };
 
   renderExpression = (expression: Expression, index: number) => {
-    const { expressionError, openLink } = this.props;
+    const { expressionError, openLink, openElementInInspector } = this.props;
     const { editing, editIndex } = this.state;
     const { input, updating } = expression;
     const isEditingExpr = editing && editIndex === index;
@@ -243,6 +245,8 @@ class Expressions extends Component<Props, State> {
             focusable={false}
             openLink={openLink}
             createObjectClient={grip => createObjectClient(grip)}
+            onDOMNodeClick={grip => openElementInInspector(grip)}
+            onInspectIconClick={grip => openElementInInspector(grip)}
           />
           <div className="expression-container__close-btn">
             <CloseButton
@@ -368,12 +372,12 @@ export default connect(
   {
     autocomplete: actions.autocomplete,
     clearAutocomplete: actions.clearAutocomplete,
-    onExpressionAdded: actions.onExpressionAdded,
     addExpression: actions.addExpression,
     clearExpressionError: actions.clearExpressionError,
     evaluateExpressions: actions.evaluateExpressions,
     updateExpression: actions.updateExpression,
     deleteExpression: actions.deleteExpression,
-    openLink: actions.openLink
+    openLink: actions.openLink,
+    openElementInInspector: actions.openElementInInspectorCommand
   }
 )(Expressions);

@@ -107,7 +107,7 @@
   margin-inline-end: 0;
 }
 
-.source-tab img.prettyPrint,
+.source-tab .img.prettyPrint,
 .source-tab .source-icon.blackBox {
   height: 12px;
   width: 12px;
@@ -118,7 +118,7 @@
   fill: var(--theme-textbox-box-shadow);
 }
 
-.source-tab img.react {
+.source-tab .img.react {
   mask: url(/images/react.svg) no-repeat;
   mask-size: 100%;
   height: 14px;
@@ -145,7 +145,7 @@ img.moreTabs {
   margin-left: 6px;
 }
 
-html[dir="rtl"] img.moreTabs {
+html[dir="rtl"] .img.moreTabs {
   transform: rotate(180deg);
   margin-right: 6px;
 }

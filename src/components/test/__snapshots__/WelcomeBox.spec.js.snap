@@ -19,7 +19,7 @@ exports[`WelomeBox renders with default values 1`] = `
         <span
           className="shortcutKey"
         >
-          Ctrl P
+          Ctrl+P
         </span>
         <span
           className="shortcutLabel"
@@ -36,7 +36,7 @@ exports[`WelomeBox renders with default values 1`] = `
         <span
           className="shortcutKey"
         >
-          Ctrl Shift F
+          Ctrl+Shift+F
         </span>
         <span
           className="shortcutLabel"
@@ -53,7 +53,7 @@ exports[`WelomeBox renders with default values 1`] = `
         <span
           className="shortcutKey"
         >
-          Ctrl /
+          Ctrl+/
         </span>
         <span
           className="shortcutLabel"

@@ -5,7 +5,7 @@
 import { actions, selectors, createStore } from "../../utils/test-head";
 
 const mockThreadClient = {
-  evaluateInFrame: (script, frameId) =>
+  evaluateInFrame: (script, { frameId }) =>
     new Promise((resolve, reject) => {
       if (!frameId) {
         resolve("bla");
@@ -13,7 +13,7 @@ const mockThreadClient = {
         resolve("boo");
       }
     }),
-  evaluateExpressions: (inputs, frameId) =>
+  evaluateExpressions: (inputs, { frameId }) =>
     Promise.all(
       inputs.map(
         input =>
@@ -151,6 +151,7 @@ async function createFrames(dispatch) {
 
   await dispatch(
     actions.paused({
+      thread: "UnknownThread",
       frames: [frame],
       why: { type: "just because" }
     })
