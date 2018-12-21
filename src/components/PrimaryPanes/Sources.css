@@ -62,6 +62,7 @@
   display: flex;
   flex: 1;
   height: 100%;
+  padding-bottom: 4px;
 }
 
 .sources-list {

@@ -17,10 +17,6 @@
   align-content: start;
 
   line-height: 1.4em;
-
-  padding-inline-start: 0;
-  padding: 4px 0 0 0;
-  margin: 0;
 }
 
 .managed-tree .tree button {
