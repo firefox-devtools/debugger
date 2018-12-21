@@ -274,6 +274,7 @@ export class ProjectSearch extends Component<Props, State> {
           getParent={item => null}
           getPath={getFilePath}
           renderItem={this.renderItem}
+          onFocus={() => {}}
         />
       );
     }

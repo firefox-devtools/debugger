@@ -203,6 +203,7 @@ exports[`ProjectSearch found search results 1`] = `
         getPath={[Function]}
         getRoots={[Function]}
         itemHeight={24}
+        onFocus={[Function]}
         renderItem={[Function]}
       >
         <div
@@ -211,7 +212,6 @@ exports[`ProjectSearch found search results 1`] = `
           <Tree
             autoExpandAll={true}
             autoExpandDepth={1}
-            focused={null}
             getChildren={[Function]}
             getKey={[Function]}
             getParent={[Function]}
@@ -225,7 +225,6 @@ exports[`ProjectSearch found search results 1`] = `
             renderItem={[Function]}
           >
             <div
-              aria-activedescendant={null}
               className="tree "
               onBlur={[Function]}
               onFocus={[Function]}

@@ -16,11 +16,14 @@ import type { Location as BabelLocation } from "@babel/types";
 import type { Symbols } from "../reducers/ast";
 import type { QuickOpenType } from "../reducers/quick-open";
 import type { TabList } from "../reducers/tabs";
+import type { SourcesMapByThread } from "../reducers/types";
 import type { Source } from "../types";
 import type {
   SymbolDeclaration,
   IdentifierDeclaration
 } from "../workers/parser";
+
+import { flatten } from "lodash";
 
 export const MODIFIERS = {
   "@": "functions",
@@ -137,10 +140,10 @@ export function formatShortcutResults(): Array<QuickOpenResult> {
 }
 
 export function formatSources(
-  sources: { [string]: Source },
+  sources: SourcesMapByThread,
   tabs: TabList
 ): Array<QuickOpenResult> {
-  const sourceList: Source[] = (Object.values(sources): any);
+  const sourceList = (flatten(Object.values(sources).map(Object.values)): any);
 
   return sourceList
     .filter(source => !isPretty(source))
