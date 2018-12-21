@@ -74,8 +74,8 @@
   display: flex;
 }
 
-.sources-list .managed-tree .tree-node:first-child {
-  margin-top: 4px;
+.sources-list .managed-tree .tree {
+  overflow: visible;
 }
 
 .sources-list .managed-tree .tree .node {
