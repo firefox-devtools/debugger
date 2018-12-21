@@ -82,6 +82,49 @@ describe("Group", () => {
     expect(component).toMatchSnapshot();
   });
 
+  it("renders group with anonymous functions", () => {
+    const group = [
+      {
+        id: 1,
+        library: "Back",
+        displayName: "",
+        location: {
+          line: 55
+        },
+        source: {
+          url: "http://myfile.com/mahscripts.js"
+        }
+      },
+      {
+        id: 2,
+        library: "Back",
+        displayName: "",
+        location: {
+          line: 55
+        },
+        source: {
+          url: "http://myfile.com/back.js"
+        }
+      },
+      {
+        id: 3,
+        library: "Back",
+        displayName: "",
+        location: {
+          line: 55
+        },
+        source: {
+          url: "http://myfile.com/back.js"
+        }
+      }
+    ];
+
+    const { component } = render({ group });
+    expect(component).toMatchSnapshot();
+    component.setState({ expanded: true });
+    expect(component).toMatchSnapshot();
+  });
+
   describe("mouse events", () => {
     it("does not call FrameMenu when disableContextMenu is true", () => {
       const { component } = render({
