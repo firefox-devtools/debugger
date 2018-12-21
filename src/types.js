@@ -174,6 +174,14 @@ export type Frame = {
   originalDisplayName?: string
 };
 
+export type ChromeFrame = {
+  id: FrameId,
+  displayName: string,
+  scopeChain: any,
+  generatedLocation: SourceLocation,
+  location: ?SourceLocation
+};
+
 /**
  * ContextMenuItem
  *
