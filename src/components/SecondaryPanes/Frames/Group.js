@@ -130,7 +130,7 @@ export default class Group extends Component<Props, State> {
     const { l10n } = this.context;
 
     const frame = this.props.group[0];
-    const displayName = formatDisplayName(frame, {}, l10n);
+    const displayName = formatDisplayName(frame, undefined, l10n);
 
     const l10NEntry = this.state.expanded
       ? "callStack.group.collapseTooltip"
