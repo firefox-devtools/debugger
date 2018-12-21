@@ -10,6 +10,7 @@
   user-select: none;
 
   white-space: nowrap;
+  overflow: auto;
   min-width: 100%;
 
   display: grid;
