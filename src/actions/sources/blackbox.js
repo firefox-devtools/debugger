@@ -9,12 +9,11 @@
  * @module actions/sources
  */
 
-import { isOriginalId } from "devtools-source-map";
+import { isOriginalId, originalToGeneratedId } from "devtools-source-map";
 import { recordEvent } from "../../utils/telemetry";
 import { features } from "../../utils/prefs";
 
 import { PROMISE } from "../utils/middleware/promise";
-import { isOriginalId, originalToGeneratedId } from "devtools-source-map";
 
 import type { Source } from "../../types";
 import type { ThunkArgs } from "../types";
@@ -27,20 +26,20 @@ export function toggleBlackBox(source: Source) {
       recordEvent("blackbox");
     }
 
-    if (isOriginalId(source.id)) {
+    let promise;
+
+    if (features.originalBlackbox && isOriginalId(source.id)) {
       const range = await sourceMaps.getFileGeneratedRange(source);
       const generatedId = originalToGeneratedId(source.id);
-      return dispatch({
-        type: "BLACKBOX",
-        source,
-        [PROMISE]: client.blackBox(generatedId, isBlackBoxed, range)
-      });
+      promise = client.blackBox(generatedId, isBlackBoxed, range);
+    } else {
+      promise = client.blackBox(source.id, isBlackBoxed);
     }
 
     return dispatch({
       type: "BLACKBOX",
       source,
-      [PROMISE]: client.blackBox(source.id, isBlackBoxed)
+      [PROMISE]: promise
     });
   };
 }
