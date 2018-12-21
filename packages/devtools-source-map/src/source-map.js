@@ -306,6 +306,34 @@ async function getOriginalSourceText(originalSource: Source) {
   };
 }
 
+async function getFileGeneratedRange(originalSource: Source) {
+  assert(isOriginalId(originalSource.id), "Source is not an original source");
+
+  const map = await getSourceMap(originalToGeneratedId(originalSource.id));
+  if (!map) {
+    return;
+  }
+
+  const start = map.generatedPositionFor({
+    source: originalSource.url,
+    line: 1,
+    column: 0,
+    bias: SourceMapConsumer.LEAST_UPPER_BOUND
+  });
+
+  const end = map.generatedPositionFor({
+    source: originalSource.url,
+    line: Number.MAX_SAFE_INTEGER,
+    column: Number.MAX_SAFE_INTEGER,
+    bias: SourceMapConsumer.GREATEST_LOWER_BOUND
+  });
+
+  return {
+    start,
+    end
+  };
+}
+
 async function hasMappedSource(location: SourceLocation): Promise<boolean> {
   if (isOriginalId(location.sourceId)) {
     return true;
@@ -342,6 +370,7 @@ module.exports = {
   getAllGeneratedLocations,
   getOriginalLocation,
   getOriginalSourceText,
+  getFileGeneratedRange,
   applySourceMap,
   clearSourceMaps,
   hasMappedSource
