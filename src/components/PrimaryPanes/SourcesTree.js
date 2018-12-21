@@ -298,7 +298,10 @@ class SourcesTree extends Component<Props, State> {
       onExpand: this.onExpand,
       onFocus: this.focusItem,
       renderItem: this.renderItem,
-      preventBlur: true
+      preventBlur: true,
+      style: {
+        padding: "4px 0"
+      }
     };
 
     return <ManagedTree {...treeProps} />;

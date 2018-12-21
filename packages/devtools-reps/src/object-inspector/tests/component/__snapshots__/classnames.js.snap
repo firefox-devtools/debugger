@@ -9,7 +9,12 @@ exports[`ObjectInspector - classnames has the expected class 1`] = `
   onKeyPress={[Function]}
   onKeyUp={[Function]}
   role="tree"
-  style={Object {}}
+  style={
+    Object {
+      "margin": 0,
+      "padding": 0,
+    }
+  }
   tabIndex="0"
 >
   <div
@@ -53,7 +58,12 @@ exports[`ObjectInspector - classnames has the inline class when inline prop is t
   onKeyPress={[Function]}
   onKeyUp={[Function]}
   role="tree"
-  style={Object {}}
+  style={
+    Object {
+      "margin": 0,
+      "padding": 0,
+    }
+  }
   tabIndex="0"
 >
   <div
@@ -97,7 +107,12 @@ exports[`ObjectInspector - classnames has the nowrap class when disableWrap prop
   onKeyPress={[Function]}
   onKeyUp={[Function]}
   role="tree"
-  style={Object {}}
+  style={
+    Object {
+      "margin": 0,
+      "padding": 0,
+    }
+  }
   tabIndex="0"
 >
   <div
