@@ -370,11 +370,23 @@ describe("sources", () => {
       expect(getMode(source).base.typescript).toBe(true);
     });
 
-    it("clojure", () => {
+    it("cross-platform clojure(script) with reader conditionals", () => {
       const source = {
         contentType: "text/x-clojure",
-        text: "(+ 2 3)",
-        url: ""
+        text:
+          "(defn str->int [s] " +
+          "  #?(:clj  (java.lang.Integer/parseInt s) " +
+          "     :cljs (js/parseInt s)))",
+        url: "my-clojurescript-source-with-reader-conditionals.cljc"
+      };
+      expect(getMode(source)).toEqual({ name: "clojure" });
+    });
+
+    it("clojurescript", () => {
+      const source = {
+        contentType: "text/x-clojurescript",
+        text: "(+ 1 2 3)",
+        url: "my-clojurescript-source.cljs"
       };
       expect(getMode(source)).toEqual({ name: "clojure" });
     });
