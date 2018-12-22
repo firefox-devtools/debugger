@@ -83,9 +83,8 @@
 .source-tab.active {
   color: var(--theme-toolbar-selected-color);
   border-bottom-color: transparent;
-  border-left: 1px solid var(--theme-splitter-color);
-  border-right: 1px solid var(--theme-splitter-color);
-  background-color: var(--theme-body-background);
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
 }
 
 .source-tab.active::before {
@@ -171,6 +170,11 @@ html[dir="rtl"] .img.moreTabs {
 
 .source-tab.active .close-btn {
   visibility: visible;
+}
+
+.source-tab.active .close {
+  visibility: visible;
+  background-color: var(--theme-toolbar-selected-color);
 }
 
 .source-tab:hover .close-btn {

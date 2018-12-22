@@ -25,6 +25,10 @@
   margin-top: 0;
 }
 
+.close-btn .close:hover {
+  background-color: var(--theme-comment);
+}
+
 .close-btn:hover .img.close {
   background-color: white;
 }
