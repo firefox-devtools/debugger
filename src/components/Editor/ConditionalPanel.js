@@ -6,13 +6,15 @@
 import React, { PureComponent } from "react";
 import ReactDOM from "react-dom";
 import { connect } from "../../utils/connect";
+import classNames from "classnames";
 import "./ConditionalPanel.css";
 import { toEditorLine } from "../../utils/editor";
 import actions from "../../actions";
 
 import {
   getBreakpointForLocation,
-  getConditionalPanelLocation
+  getConditionalPanelLocation,
+  getLogPointStatus
 } from "../../selectors";
 
 import type { SourceLocation } from "../../types";
@@ -21,6 +23,7 @@ type Props = {
   breakpoint: ?Object,
   setBreakpointCondition: Function,
   location: SourceLocation,
+  log: boolean,
   editor: Object,
   openConditionalPanel: typeof actions.openConditionalPanel,
   closeConditionalPanel: typeof actions.closeConditionalPanel
@@ -60,8 +63,7 @@ export class ConditionalPanel extends PureComponent<Props> {
   };
 
   setBreakpoint(condition: string) {
-    const { location } = this.props;
-    const log = true;
+    const { location, log } = this.props;
     // input 2
     // output console.log(2)
     if (log) {
@@ -143,10 +145,9 @@ export class ConditionalPanel extends PureComponent<Props> {
   }
 
   renderConditionalPanel(props: Props) {
-    const { breakpoint } = props;
+    const { breakpoint, log } = props;
     let condition = breakpoint ? breakpoint.condition : "";
 
-    const log = true;
     if (log) {
       // input console.log(2)
       // output 2
@@ -163,10 +164,18 @@ export class ConditionalPanel extends PureComponent<Props> {
         onBlur={this.props.closeConditionalPanel}
         ref={node => (this.panelNode = node)}
       >
-        <div className="prompt">»</div>
+        <div
+          className={classNames("prompt", {
+            "log-point": log
+          })}
+        >
+          »
+        </div>
         <input
           defaultValue={condition}
-          placeholder={L10N.getStr("editor.conditionalPanel.placeholder")}
+          placeholder={L10N.getStr(
+            `editor.conditionalPanel${log ? ".logPoint." : "."}placeholder`
+          )}
           onKeyDown={this.onKey}
           ref={input => {
             this.input = input;
@@ -186,10 +195,11 @@ export class ConditionalPanel extends PureComponent<Props> {
 
 const mapStateToProps = state => {
   const location = getConditionalPanelLocation(state);
-
+  const log = getLogPointStatus(state);
   return {
     breakpoint: getBreakpointForLocation(state, location),
-    location
+    location,
+    log
   };
 };
 

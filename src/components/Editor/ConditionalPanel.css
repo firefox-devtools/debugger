@@ -23,6 +23,10 @@
   width: 30px;
 }
 
+.conditional-breakpoint-panel .prompt.log-point {
+  color: red;
+}
+
 .conditional-breakpoint-panel input {
   margin: 5px 10px;
   width: calc(100% - 4em);

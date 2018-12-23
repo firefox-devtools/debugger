@@ -40,7 +40,8 @@ export type UIState = {
     end?: number,
     sourceId?: number
   },
-  conditionalPanelLocation: null | SourceLocation
+  conditionalPanelLocation: null | SourceLocation,
+  isLogPoint: boolean
 };
 
 export const createUIState: () => Record<UIState> = makeRecord({
@@ -53,6 +54,7 @@ export const createUIState: () => Record<UIState> = makeRecord({
   frameworkGroupingOn: prefs.frameworkGroupingOn,
   highlightedLineRange: undefined,
   conditionalPanelLocation: null,
+  isLogPoint: false,
   orientation: "horizontal",
   viewport: null
 });
@@ -184,6 +186,10 @@ export function getConditionalPanelLocation(
   state: OuterState
 ): null | SourceLocation {
   return state.ui.get("conditionalPanelLocation");
+}
+
+export function getLogPointStatus(state: OuterState): boolean {
+  return state.ui.get("isLogPoint");
 }
 
 export function getOrientation(state: OuterState): OrientationType {
