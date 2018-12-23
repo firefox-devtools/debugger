@@ -95,7 +95,11 @@ export function gutterMenu({
   const logPoint = {
     accesskey: L10N.getStr("editor.addLogPoint.accesskey"),
     disabled: false,
-    click: () => openConditionalPanel(line, true),
+    click: () =>
+      openConditionalPanel(
+        breakpoint ? breakpoint.location : { line, column, sourceId },
+        true
+      ),
     accelerator: L10N.getStr("toggleCondPanel.key"),
     ...(breakpoint && breakpoint.condition
       ? gutterItems.editLogPoint

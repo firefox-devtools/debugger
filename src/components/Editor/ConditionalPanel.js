@@ -159,18 +159,14 @@ export class ConditionalPanel extends PureComponent<Props> {
     const panel = document.createElement("div");
     ReactDOM.render(
       <div
-        className="conditional-breakpoint-panel"
+        className={classNames("conditional-breakpoint-panel", {
+          "log-point": log
+        })}
         onClick={() => this.keepFocusOnInput()}
         onBlur={this.props.closeConditionalPanel}
         ref={node => (this.panelNode = node)}
       >
-        <div
-          className={classNames("prompt", {
-            "log-point": log
-          })}
-        >
-          »
-        </div>
+        <div className="prompt">»</div>
         <input
           defaultValue={condition}
           placeholder={L10N.getStr(

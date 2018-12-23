@@ -13,6 +13,11 @@
   border-bottom: 1px solid var(--theme-splitter-color);
 }
 
+.conditional-breakpoint-panel.log-point {
+  border-top-color: var(--theme-graphs-orange);
+  border-bottom-color: var(--theme-graphs-orange);
+}
+
 .conditional-breakpoint-panel .prompt {
   font-size: 1.8em;
   color: var(--theme-conditional-breakpoint-color);
@@ -21,10 +26,6 @@
   padding-bottom: 3px;
   text-align: right;
   width: 30px;
-}
-
-.conditional-breakpoint-panel .prompt.log-point {
-  color: red;
 }
 
 .conditional-breakpoint-panel input {
