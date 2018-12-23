@@ -16,7 +16,7 @@ import {
   getDebuggeeUrl,
   getExpandedState,
   getProjectDirectoryRoot,
-  getRelativeSources,
+  getRelativeSourcesForThread,
   getSourceCount,
   getFocusedSourceItem,
   getWorkerDisplayName
@@ -49,15 +49,12 @@ import type {
   ParentMap
 } from "../../utils/sources-tree/types";
 import type { Source } from "../../types";
-import type {
-  SourcesMapByThread,
-  State as AppState
-} from "../../reducers/types";
+import type { SourcesMap, State as AppState } from "../../reducers/types";
 import type { Item } from "../shared/ManagedTree";
 
 type Props = {
   thread: string,
-  sources: SourcesMapByThread,
+  sources: SourcesMap,
   sourceCount: number,
   shownSource?: Source,
   selectedSource?: Source,
@@ -87,12 +84,12 @@ class SourcesTree extends Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    const { debuggeeUrl, sources, projectRoot, thread } = this.props;
+    const { debuggeeUrl, sources, projectRoot } = this.props;
 
     this.state = createTree({
       projectRoot,
       debuggeeUrl,
-      sources: sources[thread]
+      sources
     });
   }
 
@@ -110,32 +107,26 @@ class SourcesTree extends Component<Props, State> {
     if (
       projectRoot != nextProps.projectRoot ||
       debuggeeUrl != nextProps.debuggeeUrl ||
-      thread != nextProps.thread ||
       nextProps.sourceCount === 0
     ) {
       // early recreate tree because of changes
       // to project root, debugee url or lack of sources
       return this.setState(
         createTree({
-          sources: nextProps.sources[nextProps.thread],
+          sources: nextProps.sources,
           debuggeeUrl: nextProps.debuggeeUrl,
           projectRoot: nextProps.projectRoot
         })
       );
     }
 
-    if (
-      nextProps.shownSource &&
-      nextProps.shownSource.thread == thread &&
-      nextProps.shownSource != shownSource
-    ) {
+    if (nextProps.shownSource && nextProps.shownSource != shownSource) {
       const listItems = getDirectories(nextProps.shownSource, sourceTree);
       return this.setState({ listItems });
     }
 
     if (
       nextProps.selectedSource &&
-      nextProps.selectedSource.thread == thread &&
       nextProps.selectedSource != selectedSource
     ) {
       const highlightItems = getDirectories(
@@ -150,8 +141,8 @@ class SourcesTree extends Component<Props, State> {
     if (nextProps.sources != this.props.sources) {
       this.setState(
         updateTree({
-          newSources: nextProps.sources[thread],
-          prevSources: sources[thread],
+          newSources: nextProps.sources,
+          prevSources: sources,
           debuggeeUrl,
           projectRoot,
           uncollapsedTree,
@@ -175,7 +166,7 @@ class SourcesTree extends Component<Props, State> {
   getSource(item: TreeNode): ?Source {
     const source = getSourceFromNode(item);
     if (source) {
-      return this.props.sources[this.props.thread][source.id];
+      return this.props.sources[source.id];
     }
 
     return null;
@@ -371,29 +362,38 @@ class SourcesTree extends Component<Props, State> {
   }
 }
 
-function getSourceForTree(state: AppState, source: ?Source): ?Source | null {
+function getSourceForTree(
+  state: AppState,
+  source: ?Source,
+  thread: ?string
+): ?Source {
   if (!source || !source.isPrettyPrinted) {
     return source;
   }
 
-  return getGeneratedSourceByURL(state, getRawSourceURL(source.url));
+  const candidate = getGeneratedSourceByURL(state, getRawSourceURL(source.url));
+
+  if (!thread || !candidate || candidate.thread == thread) {
+    return candidate;
+  }
 }
 
 const mapStateToProps = (state, props) => {
   const selectedSource = getSelectedSource(state);
   const shownSource = getShownSource(state);
   const focused = getFocusedSourceItem(state);
+  const thread = props.thread;
 
   return {
-    shownSource: getSourceForTree(state, shownSource),
-    selectedSource: getSourceForTree(state, selectedSource),
+    shownSource: getSourceForTree(state, shownSource, thread),
+    selectedSource: getSourceForTree(state, selectedSource, thread),
     debuggeeUrl: getDebuggeeUrl(state),
     expanded: getExpandedState(state, props.thread),
     focused: focused && focused.thread == props.thread ? focused.item : null,
     projectRoot: getProjectDirectoryRoot(state),
-    sources: getRelativeSources(state),
-    sourceCount: getSourceCount(state),
-    workerDisplayName: getWorkerDisplayName(state, props.thread)
+    sources: getRelativeSourcesForThread(state, thread),
+    sourceCount: getSourceCount(state, props.thread),
+    workerDisplayName: getWorkerDisplayName(state, thread)
   };
 };
 

@@ -101,7 +101,7 @@ class PrimaryPanes extends Component<Props, State> {
           ? 1
           : -1
     );
-    return threads.map(thread => <SourcesTree thread={thread} />);
+    return threads.map(thread => <SourcesTree thread={thread} key={thread} />);
   }
 
   render() {

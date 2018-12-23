@@ -140,7 +140,7 @@ function update(
       break;
 
     case "SET_PROJECT_DIRECTORY_ROOT":
-      return recalculateRelativeSources(state, action.url);
+      return updateProjectDirectoryRoot(state, action.url);
 
     case "NAVIGATE":
       const source =
@@ -263,10 +263,10 @@ function updateRelativeSource(
   return relativeSources;
 }
 
-function recalculateRelativeSources(state: SourcesState, root: string) {
+function updateProjectDirectoryRoot(state: SourcesState, root: string) {
   prefs.projectDirectoryRoot = root;
 
-  const relativeSources = (Object.values(state.sources): any).reduce(
+  const relativeSources = getSourceList({ sources: state }).reduce(
     (sources, source: Source) => updateRelativeSource(sources, source, root),
     {}
   );
@@ -346,18 +346,8 @@ export function getSpecificSourceByURL(
   isOriginal: boolean
 ): ?Source {
   return isOriginal
-    ? getOriginalSourceByUrlInSources(
-        getSources(state),
-        getUrls(state),
-        url,
-        ""
-      )
-    : getGeneratedSourceByUrlInSources(
-        getSources(state),
-        getUrls(state),
-        url,
-        ""
-      );
+    ? getOriginalSourceByUrlInSources(getSources(state), getUrls(state), url)
+    : getGeneratedSourceByUrlInSources(getSources(state), getUrls(state), url);
 }
 
 export function getSourceByURL(state: OuterState, url: string): ?Source {
@@ -413,7 +403,7 @@ function getSourceHelper(
   sources: SourcesMap,
   urls: UrlsMap,
   url: string,
-  thread: string
+  thread: string = ""
 ) {
   const foundSources = getSourcesByUrlInSources(sources, urls, url);
   if (!foundSources) {
@@ -506,14 +496,22 @@ export function getUrls(state: OuterState) {
   return state.sources.urls;
 }
 
-export function getSourceList(state: OuterState): Source[] {
-  return (Object.values(getSources(state)): any);
+export function getSourceList(state: OuterState, thread?: string): Source[] {
+  const sourceList = (Object.values(getSources(state)): any);
+  return !thread
+    ? sourceList
+    : sourceList.filter(source => source.thread == thread);
 }
 
-export const getSourceCount: Selector<number> = createSelector(
-  getSources,
-  sources => Object.keys(sources).length
-);
+export function getRelativeSourcesList(state: OuterState): Source[] {
+  return ((Object.values(getRelativeSources(state)): any).flatMap(
+    Object.values
+  ): any);
+}
+
+export function getSourceCount(state: OuterState, thread?: string) {
+  return getSourceList(state, thread).length;
+}
 
 export const getSelectedLocation: Selector<?SourceLocation> = createSelector(
   getSourcesState,
@@ -538,6 +536,13 @@ export function getProjectDirectoryRoot(state: OuterState): string {
 
 export function getRelativeSources(state: OuterState): SourcesMapByThread {
   return state.sources.relativeSources;
+}
+
+export function getRelativeSourcesForThread(
+  state: OuterState,
+  thread: string
+): SourcesMap {
+  return getRelativeSources(state)[thread];
 }
 
 export function getFocusedSourceItem(state: OuterState): ?FocusItem {

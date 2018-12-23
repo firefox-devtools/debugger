@@ -140,12 +140,10 @@ export function formatShortcutResults(): Array<QuickOpenResult> {
 }
 
 export function formatSources(
-  sources: SourcesMapByThread,
+  sources: Source[],
   tabs: TabList
 ): Array<QuickOpenResult> {
-  const sourceList = (flatten(Object.values(sources).map(Object.values)): any);
-
-  return sourceList
+  return sources
     .filter(source => !isPretty(source))
     .filter(({ relativeUrl }) => !!relativeUrl)
     .map(source => formatSourcesForList(source, tabs));

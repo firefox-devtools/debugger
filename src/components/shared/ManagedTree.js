@@ -45,6 +45,10 @@ class ManagedTree extends Component<Props, State> {
     };
   }
 
+  static defaultProps = {
+    onFocus: () => {}
+  };
+
   componentWillReceiveProps(nextProps: Props) {
     const { listItems, highlightItems } = this.props;
     if (nextProps.listItems && nextProps.listItems != listItems) {

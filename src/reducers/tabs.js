@@ -72,13 +72,12 @@ export function removeSourceFromTabList(
   tabs: TabList,
   source: Source
 ): TabList {
-  const rv = tabs.filter(
+  return tabs.filter(
     tab =>
       tab.url !== source.url ||
       tab.isOriginal != isOriginalId(source.id) ||
       (tab.thread && tab.thread !== source.thread)
   );
-  return rv;
 }
 
 export function removeSourcesFromTabList(tabs: TabList, sources: Source[]) {
