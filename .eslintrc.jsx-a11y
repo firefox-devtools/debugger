@@ -55,7 +55,7 @@
       "roles": ["tabpanel"]
     }],
     "jsx-a11y/no-onchange": "warn",
-    "jsx-a11y/no-redundant-roles": "warn",
+    "jsx-a11y/no-redundant-roles": "error",
     "jsx-a11y/no-static-element-interactions": ["warn", {
       "handlers": ["onClick", "onMouseDown", "onMouseUp", "onKeyPress", "onKeyDown", "onKeyUp"]
     }],
