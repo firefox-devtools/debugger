@@ -54,17 +54,14 @@ describe("SourcesTree", () => {
     describe("recreates tree", () => {
       it("does not recreate tree if no new source is added", async () => {
         const { component, props, defaultState } = render();
-        const mockSource = {
+        const sources = {
           "server1.conn13.child1/41": createMockSource(
             "server1.conn13.child1/41",
             "http://mdn.com/three.js"
           )
         };
 
-        await component.setProps({
-          ...props,
-          sources: { FakeThread: mockSource }
-        });
+        await component.setProps({ ...props, sources });
 
         expect(component.state("uncollapsedTree")).toEqual(
           defaultState.uncollapsedTree
@@ -87,7 +84,7 @@ describe("SourcesTree", () => {
           ...props,
           sources: {
             ...props.sources,
-            FakeThread: newThreadSources
+            ...newThreadSources
           }
         });
 
@@ -125,7 +122,7 @@ describe("SourcesTree", () => {
 
         await component.setProps({
           ...props,
-          sources: { FakeThread: sources },
+          sources,
           projectRoot: "mozilla"
         });
 
@@ -136,7 +133,7 @@ describe("SourcesTree", () => {
 
       it("recreates tree if debugeeUrl is changed", async () => {
         const { component, props, defaultState } = render();
-        const mockSource = {
+        const sources = {
           "server1.conn13.child1/41": createMockSource(
             "server1.conn13.child1/41",
             "http://mdn.com/three.js"
@@ -150,7 +147,7 @@ describe("SourcesTree", () => {
         await component.setProps({
           ...props,
           debuggeeUrl: "mozilla",
-          sources: { FakeThread: mockSource }
+          sources
         });
 
         expect(
@@ -180,21 +177,20 @@ describe("SourcesTree", () => {
 
   describe("focusItem", () => {
     it("update the focused item", async () => {
-      const { component, instance } = render();
       const item = createMockItem();
-      await instance.onFocus(item);
-      await component.update();
+      const { component, props } = render({ focused: item });
+
       await component
         .find(".sources-list")
         .simulate("keydown", { keyCode: 13 });
-      // expect(props.selectSource).toHaveBeenCalledWith(item.contents.id);
+
+      expect(props.selectSource).toHaveBeenCalledWith(item.contents.id);
     });
 
     it("allows focus on the (index)", async () => {
-      const { component, instance } = render();
       const item = createMockItem("https://davidwalsh.name/", "(index)");
-      await instance.onFocus(item);
-      await component.update();
+
+      const { component, props } = render({ focused: item });
       await component
         .find(".sources-list")
         .simulate("keydown", { keyCode: 13 });
@@ -240,18 +236,6 @@ describe("SourcesTree", () => {
       const { props, instance } = render();
       instance.selectItem(createMockDirectory());
       expect(props.selectSource).not.toHaveBeenCalled();
-    });
-
-    it("should select item on enter onKeyDown event", async () => {
-      const { component, instance } = render();
-      await instance.onFocus(createMockItem());
-      await component.update();
-      await component
-        .find(".sources-list")
-        .simulate("keydown", { keyCode: 13 });
-      // expect(props.selectSource).toHaveBeenCalledWith(
-      //  "server1.conn13.child1/39"
-      // );
     });
 
     it("does not select if no item is focused on", async () => {
@@ -341,7 +325,7 @@ describe("SourcesTree", () => {
         { id: "server1.conn13.child1/59" }
       );
 
-      const source = {
+      const sources = {
         "server1.conn13.child1/59": createMockSource(
           "server1.conn13.child1/59",
           "http://mdn.com/blackboxed.js",
@@ -349,9 +333,7 @@ describe("SourcesTree", () => {
         )
       };
 
-      const { instance } = render({
-        sources: { FakeThread: source }
-      });
+      const { instance } = render({ sources });
       const path = instance.getPath(item);
       expect(path).toEqual(
         "http://mdn.com/blackboxed.js/blackboxed.js/server1.conn13.child1/59/:blackboxed"
