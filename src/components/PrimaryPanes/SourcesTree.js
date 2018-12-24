@@ -95,7 +95,6 @@ class SourcesTree extends Component<Props, State> {
 
   componentWillReceiveProps(nextProps: Props) {
     const {
-      thread,
       projectRoot,
       debuggeeUrl,
       sources,
@@ -194,7 +193,6 @@ class SourcesTree extends Component<Props, State> {
 
   onKeyDown = (e: KeyboardEvent) => {
     const { focused } = this.props;
-
     if (e.keyCode === 13 && focused) {
       this.selectItem(focused);
     }
