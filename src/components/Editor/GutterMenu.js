@@ -154,7 +154,9 @@ class GutterContextMenuComponent extends Component {
     }).ch;
 
     const breakpoint = nextProps.breakpoints.find(
-      bp => bp.location.line === line
+      bp =>
+        bp.location.line === line &&
+        (bp.location.column === column || bp.location.column === undefined)
     );
 
     // Allow getFirstVisiblePausePoint to find the best first breakpoint
