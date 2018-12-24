@@ -137,12 +137,10 @@ export function formatShortcutResults(): Array<QuickOpenResult> {
 }
 
 export function formatSources(
-  sources: { [string]: Source },
+  sources: Source[],
   tabs: TabList
 ): Array<QuickOpenResult> {
-  const sourceList: Source[] = (Object.values(sources): any);
-
-  return sourceList
+  return sources
     .filter(source => !isPretty(source))
     .filter(({ relativeUrl }) => !!relativeUrl)
     .map(source => formatSourcesForList(source, tabs));

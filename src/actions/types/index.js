@@ -7,6 +7,7 @@
 import type { Frame, Scope, Why, Worker } from "../../types";
 import type { State } from "../../reducers/types";
 import type { MatchedLocations } from "../../reducers/file-search";
+import type { TreeNode } from "../../utils/sources-tree/types";
 
 import type { BreakpointAction } from "./BreakpointAction";
 import type { SourceAction } from "./SourceAction";
@@ -51,7 +52,8 @@ type AddTabAction = {|
   +url: string,
   +framework?: string,
   +isOriginal?: boolean,
-  +sourceId?: string
+  +sourceId?: string,
+  +thread: string
 |};
 
 type UpdateTabAction = {|
@@ -59,7 +61,8 @@ type UpdateTabAction = {|
   +url: string,
   +framework?: string,
   +isOriginal?: boolean,
-  +sourceId?: string
+  +sourceId?: string,
+  +thread: string
 |};
 
 type ReplayAction =
@@ -85,10 +88,14 @@ type NavigateAction =
   | {| +type: "CONNECT", +thread: string, +url: string, +canRewind: boolean |}
   | {| +type: "NAVIGATE", +url: string |};
 
-export type SourceTreeAction = {|
-  +type: "SET_EXPANDED_STATE",
-  +expanded: any
-|};
+export type FocusItem = {
+  thread: string,
+  item: TreeNode
+};
+
+export type SourceTreeAction =
+  | {| +type: "SET_EXPANDED_STATE", +thread: string, +expanded: any |}
+  | {| +type: "SET_FOCUSED_SOURCE_ITEM", item: FocusItem |};
 
 export type ProjectTextSearchAction =
   | {| +type: "ADD_QUERY", +query: string |}

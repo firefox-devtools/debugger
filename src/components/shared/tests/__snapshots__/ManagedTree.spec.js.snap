@@ -7,11 +7,6 @@ exports[`ManagedTree expands list items 1`] = `
   <Tree
     autoExpandAll={true}
     autoExpandDepth={1}
-    focused={
-      Object {
-        "value": "A",
-      }
-    }
     getChildren={[Function]}
     getKey={[Function]}
     getParent={[Function]}
@@ -40,51 +35,23 @@ exports[`ManagedTree expands list items 1`] = `
     }
     onCollapse={[Function]}
     onExpand={[Function]}
-    onFocus={[Function]}
-    renderItem={[Function]}
-  />
-</div>
-`;
-
-exports[`ManagedTree focuses list items 1`] = `
-<div
-  className="managed-tree"
->
-  <Tree
-    autoExpandAll={true}
-    autoExpandDepth={1}
-    focused={
-      Object {
-        "children": Array [
+    onFocus={
+      [MockFunction] {
+        "calls": Array [
+          Array [
+            Object {
+              "value": "A",
+            },
+          ],
+        ],
+        "results": Array [
           Object {
-            "value": 1,
-          },
-          Object {
-            "value": 2,
-          },
-          Object {
-            "value": 3,
-          },
-          Object {
-            "value": 4,
-          },
-          Object {
-            "value": 5,
+            "isThrow": false,
+            "value": undefined,
           },
         ],
-        "value": "FOO",
       }
     }
-    getChildren={[Function]}
-    getKey={[Function]}
-    getParent={[Function]}
-    getPath={[Function]}
-    getRoots={[Function]}
-    isExpanded={[Function]}
-    itemHeight={24}
-    onCollapse={[Function]}
-    onExpand={[Function]}
-    onFocus={[Function]}
     renderItem={[Function]}
   />
 </div>
@@ -97,11 +64,6 @@ exports[`ManagedTree highlights list items 1`] = `
   <Tree
     autoExpandAll={true}
     autoExpandDepth={1}
-    focused={
-      Object {
-        "value": 5,
-      }
-    }
     getChildren={[Function]}
     getKey={[Function]}
     getParent={[Function]}
@@ -130,7 +92,23 @@ exports[`ManagedTree highlights list items 1`] = `
     itemHeight={24}
     onCollapse={[Function]}
     onExpand={[Function]}
-    onFocus={[Function]}
+    onFocus={
+      [MockFunction] {
+        "calls": Array [
+          Array [
+            Object {
+              "value": 5,
+            },
+          ],
+        ],
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+        ],
+      }
+    }
     renderItem={[Function]}
   />
 </div>
@@ -143,7 +121,6 @@ exports[`ManagedTree render 1`] = `
   <Tree
     autoExpandAll={true}
     autoExpandDepth={1}
-    focused={null}
     getChildren={[Function]}
     getKey={[Function]}
     getParent={[Function]}
@@ -153,7 +130,7 @@ exports[`ManagedTree render 1`] = `
     itemHeight={24}
     onCollapse={[Function]}
     onExpand={[Function]}
-    onFocus={[Function]}
+    onFocus={[MockFunction]}
     renderItem={[Function]}
   />
 </div>
@@ -222,7 +199,6 @@ exports[`ManagedTree sets expanded items 1`] = `
     <Tree
       autoExpandAll={true}
       autoExpandDepth={1}
-      focused={null}
       getChildren={[Function]}
       getKey={[Function]}
       getParent={[Function]}
@@ -232,11 +208,10 @@ exports[`ManagedTree sets expanded items 1`] = `
       itemHeight={24}
       onCollapse={[Function]}
       onExpand={[Function]}
-      onFocus={[Function]}
+      onFocus={[MockFunction]}
       renderItem={[Function]}
     >
       <div
-        aria-activedescendant={null}
         className="tree "
         onBlur={[Function]}
         onFocus={[Function]}
@@ -434,7 +409,6 @@ exports[`ManagedTree sets expanded items 2`] = `
     <Tree
       autoExpandAll={true}
       autoExpandDepth={1}
-      focused="a"
       getChildren={[Function]}
       getKey={[Function]}
       getParent={[Function]}
@@ -444,11 +418,24 @@ exports[`ManagedTree sets expanded items 2`] = `
       itemHeight={24}
       onCollapse={[Function]}
       onExpand={[Function]}
-      onFocus={[Function]}
+      onFocus={
+        [MockFunction] {
+          "calls": Array [
+            Array [
+              "a",
+            ],
+          ],
+          "results": Array [
+            Object {
+              "isThrow": false,
+              "value": undefined,
+            },
+          ],
+        }
+      }
       renderItem={[Function]}
     >
       <div
-        aria-activedescendant="a-$"
         className="tree "
         onBlur={[Function]}
         onFocus={[Function]}
@@ -467,7 +454,7 @@ exports[`ManagedTree sets expanded items 2`] = `
         <TreeNode
           depth={0}
           expanded={false}
-          focused={true}
+          focused={false}
           id="a-$"
           index={0}
           isExpandable={false}
@@ -480,7 +467,7 @@ exports[`ManagedTree sets expanded items 2`] = `
         >
           <div
             aria-level={1}
-            className="tree-node focused"
+            className="tree-node"
             data-expandable={false}
             id="a-$"
             onClick={[Function]}

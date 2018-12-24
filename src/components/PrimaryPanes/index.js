@@ -5,14 +5,16 @@
 // @flow
 
 import React, { Component } from "react";
+import { sortBy } from "lodash";
 import { connect } from "../../utils/connect";
 import { Tab, Tabs, TabList, TabPanels } from "react-aria-components/src/tabs";
 import { formatKeyShortcut } from "../../utils/text";
 import actions from "../../actions";
 import {
-  getSources,
+  getRelativeSources,
   getActiveSearch,
-  getSelectedPrimaryPaneTab
+  getSelectedPrimaryPaneTab,
+  getWorkerDisplayName
 } from "../../selectors";
 import { features, prefs } from "../../utils/prefs";
 import "./Sources.css";
@@ -21,7 +23,7 @@ import classnames from "classnames";
 import Outline from "./Outline";
 import SourcesTree from "./SourcesTree";
 
-import type { SourcesMap } from "../../reducers/types";
+import type { SourcesMapByThread } from "../../reducers/types";
 import type { SelectedPrimaryPaneTabType } from "../../selectors";
 
 type State = {
@@ -30,12 +32,13 @@ type State = {
 
 type Props = {
   selectedTab: SelectedPrimaryPaneTabType,
-  sources: SourcesMap,
+  sources: SourcesMapByThread,
   horizontal: boolean,
   sourceSearchOn: boolean,
   setPrimaryPaneTab: typeof actions.setPrimaryPaneTab,
   setActiveSearch: typeof actions.setActiveSearch,
-  closeActiveSearch: typeof actions.closeActiveSearch
+  closeActiveSearch: typeof actions.closeActiveSearch,
+  getWorkerDisplayName: string => string
 };
 
 class PrimaryPanes extends Component<Props, State> {
@@ -91,6 +94,15 @@ class PrimaryPanes extends Component<Props, State> {
     ];
   }
 
+  renderThreadSources() {
+    const threads = sortBy(
+      Object.getOwnPropertyNames(this.props.sources),
+      this.props.getWorkerDisplayName
+    );
+
+    return threads.map(thread => <SourcesTree thread={thread} key={thread} />);
+  }
+
   render() {
     const { selectedTab } = this.props;
     const activeIndex = selectedTab === "sources" ? 0 : 1;
@@ -105,7 +117,7 @@ class PrimaryPanes extends Component<Props, State> {
           {this.renderOutlineTabs()}
         </TabList>
         <TabPanels className="source-outline-panel" hasFocusableContent>
-          <SourcesTree />
+          <div>{this.renderThreadSources()}</div>
           <Outline
             alphabetizeOutline={this.state.alphabetizeOutline}
             onAlphabetizeClick={this.onAlphabetizeClick}
@@ -118,15 +130,18 @@ class PrimaryPanes extends Component<Props, State> {
 
 const mapStateToProps = state => ({
   selectedTab: getSelectedPrimaryPaneTab(state),
-  sources: getSources(state),
-  sourceSearchOn: getActiveSearch(state) === "source"
+  sources: getRelativeSources(state),
+  sourceSearchOn: getActiveSearch(state) === "source",
+  getWorkerDisplayName: thread => getWorkerDisplayName(state, thread)
 });
 
-export default connect(
+const connector = connect(
   mapStateToProps,
   {
     setPrimaryPaneTab: actions.setPrimaryPaneTab,
     setActiveSearch: actions.setActiveSearch,
     closeActiveSearch: actions.closeActiveSearch
   }
-)(PrimaryPanes);
+);
+
+export default connector(PrimaryPanes);
