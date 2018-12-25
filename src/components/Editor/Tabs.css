@@ -38,12 +38,9 @@
 }
 
 .source-tab {
-  border-left: 1px solid transparent;
-  border-right: 1px solid transparent;
   display: inline-flex;
   align-items: center;
   position: relative;
-  /* transition: all 0.15s ease; */
   min-width: 40px;
   max-width: 100%;
   overflow: hidden;
@@ -83,8 +80,6 @@
 .source-tab.active {
   color: var(--theme-toolbar-selected-color);
   border-bottom-color: transparent;
-  border-left: 1px solid transparent;
-  border-right: 1px solid transparent;
 }
 
 .source-tab.active::before {
