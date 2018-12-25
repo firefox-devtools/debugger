@@ -149,6 +149,7 @@ class Breakpoint extends PureComponent<Props> {
         onContextMenu={this.onContextMenu}
       >
         <input
+          id={`bp-${breakpoint.id}`}
           type="checkbox"
           className="breakpoint-checkbox"
           checked={!breakpoint.disabled}
@@ -156,6 +157,7 @@ class Breakpoint extends PureComponent<Props> {
           onClick={ev => ev.stopPropagation()}
         />
         <label
+          htmlFor={`bp-${breakpoint.id}`}
           className="breakpoint-label cm-s-mozilla"
           title={this.getBreakpointText()}
           dangerouslySetInnerHTML={this.highlightText()}
