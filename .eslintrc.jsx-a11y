@@ -27,7 +27,7 @@
       "tabbable": ["button", "checkbox", "link", "searchbox", "spinbutton", "switch", "textbox"]
     }],
     "jsx-a11y/label-has-for": "warn",
-    "jsx-a11y/label-has-associated-control": "warn",
+    "jsx-a11y/label-has-associated-control": "error",
     "jsx-a11y/media-has-caption": "warn",
     "jsx-a11y/mouse-events-have-key-events": "warn",
     "jsx-a11y/no-access-key": "warn",
