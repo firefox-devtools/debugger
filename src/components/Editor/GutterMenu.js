@@ -152,9 +152,8 @@ class GutterContextMenuComponent extends Component {
       left: event.x,
       top: event.y
     }).ch;
-
     const breakpoint = nextProps.breakpoints.find(
-      bp => bp.location.line === line
+      bp => bp.location.line === line && bp.location.column == column
     );
 
     // Allow getFirstVisiblePausePoint to find the best first breakpoint
