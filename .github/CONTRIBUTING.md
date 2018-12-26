@@ -195,7 +195,7 @@ Here are some [notes][mdoc] on how we work.
 + [Adding a Patch](../docs/maintainer.md#adding-a-patch)
 + [Pushing to a branch](../docs/maintainer.md#pushing-to-a-branch)
 
-[mdoc]: ./docs/maintainer.md
+[mdoc]: ../docs/maintainer.md
 
 ### Debugging Tips
 
