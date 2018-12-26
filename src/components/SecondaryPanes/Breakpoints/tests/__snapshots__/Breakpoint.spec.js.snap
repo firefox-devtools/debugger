@@ -10,20 +10,21 @@ exports[`Breakpoint disabled 1`] = `
   <input
     checked={false}
     className="breakpoint-checkbox"
-    id="bp-undefined"
     onChange={[Function]}
     onClick={[Function]}
     type="checkbox"
   />
   <label
     className="breakpoint-label cm-s-mozilla"
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "",
+  >
+    <span
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "",
+        }
       }
-    }
-    htmlFor="bp-undefined"
-  />
+    />
+  </label>
   <div
     className="breakpoint-line-close"
   >
@@ -50,20 +51,21 @@ exports[`Breakpoint paused at a different 1`] = `
   <input
     checked={true}
     className="breakpoint-checkbox"
-    id="bp-undefined"
     onChange={[Function]}
     onClick={[Function]}
     type="checkbox"
   />
   <label
     className="breakpoint-label cm-s-mozilla"
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "",
+  >
+    <span
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "",
+        }
       }
-    }
-    htmlFor="bp-undefined"
-  />
+    />
+  </label>
   <div
     className="breakpoint-line-close"
   >
@@ -90,20 +92,21 @@ exports[`Breakpoint paused at a generatedLocation 1`] = `
   <input
     checked={true}
     className="breakpoint-checkbox"
-    id="bp-undefined"
     onChange={[Function]}
     onClick={[Function]}
     type="checkbox"
   />
   <label
     className="breakpoint-label cm-s-mozilla"
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "",
+  >
+    <span
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "",
+        }
       }
-    }
-    htmlFor="bp-undefined"
-  />
+    />
+  </label>
   <div
     className="breakpoint-line-close"
   >
@@ -130,20 +133,21 @@ exports[`Breakpoint paused at an original location 1`] = `
   <input
     checked={true}
     className="breakpoint-checkbox"
-    id="bp-undefined"
     onChange={[Function]}
     onClick={[Function]}
     type="checkbox"
   />
   <label
     className="breakpoint-label cm-s-mozilla"
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "",
+  >
+    <span
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "",
+        }
       }
-    }
-    htmlFor="bp-undefined"
-  />
+    />
+  </label>
   <div
     className="breakpoint-line-close"
   >
@@ -170,20 +174,21 @@ exports[`Breakpoint simple 1`] = `
   <input
     checked={true}
     className="breakpoint-checkbox"
-    id="bp-undefined"
     onChange={[Function]}
     onClick={[Function]}
     type="checkbox"
   />
   <label
     className="breakpoint-label cm-s-mozilla"
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "",
+  >
+    <span
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "",
+        }
       }
-    }
-    htmlFor="bp-undefined"
-  />
+    />
+  </label>
   <div
     className="breakpoint-line-close"
   >
