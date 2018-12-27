@@ -62,7 +62,7 @@
   font-family: var(--monospace-font-family);
   font-size: 14px;
   line-height: 18px;
-  color: var(--theme-body-color)
+  color: var(--theme-body-color);
 }
 
 .shortcutLabel {
