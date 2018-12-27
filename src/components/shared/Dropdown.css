@@ -17,10 +17,6 @@
   overflow: auto;
 }
 
-html[dir="rtl"] .dropdown {
-  right: calc((var(--width) - 11px) * (-1));
-}
-
 .dropdown-block {
   padding: 0px 2px;
   position: relative;
@@ -37,6 +33,15 @@ html[dir="rtl"] .dropdown {
   font-size: 14px;
   height: 100%;
   width: 24px;
+}
+
+.moreTabs {
+  mask: url(/images/command-chevron.svg) no-repeat;
+  mask-size: 100%;
+  width: 12px;
+  display: block;
+  background: var(--theme-body-color);
+  margin-left: 6px;
 }
 
 .dropdown li {
