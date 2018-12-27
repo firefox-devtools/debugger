@@ -45,6 +45,15 @@
   vertical-align: bottom;
 }
 
+.source-tab button:first-child {
+  border: 0;
+}
+
+.source-tab button:first-child::before {
+  transform: none;
+  transition-property: none;
+}
+
 .source-tab::before {
   content: "";
   position: absolute;

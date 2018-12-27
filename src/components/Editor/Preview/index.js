@@ -103,12 +103,16 @@ class Preview extends PureComponent<Props, State> {
 
     if (preview && !preview.updating) {
       const target = getElementFromPos(preview.cursorPos);
-      target && target.classList.add("preview-selection");
+      target &&
+        target.classList.add("preview-selection") &&
+        target.setAttribute("aria-describedby", "preview-popup-id");
     }
 
     if (prevProps.preview && !prevProps.preview.updating) {
       const target = getElementFromPos(prevProps.preview.cursorPos);
-      target && target.classList.remove("preview-selection");
+      target &&
+        target.classList.remove("preview-selection") &&
+        target.removeAttribute("aria-describedby");
     }
   }
 

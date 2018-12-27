@@ -3,6 +3,7 @@
 exports[`Editor When empty should render 1`] = `
 <div
   className="editor-wrapper"
+  role="tabpanel"
 >
   <div
     className="editor-mount devtools-monospace"

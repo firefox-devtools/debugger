@@ -28,7 +28,7 @@ export class Workers extends Component<Props> {
     const { openWorkerToolbox } = this.props;
 
     return (
-      <div
+      <button
         className="worker"
         key={thread.actor}
         onClick={() => openWorkerToolbox(thread)}
@@ -37,7 +37,7 @@ export class Workers extends Component<Props> {
           <AccessibleImage className={"worker"} />
         </div>
         <div className="label">{getDisplayName(thread)}</div>
-      </div>
+      </button>
     );
   }
 

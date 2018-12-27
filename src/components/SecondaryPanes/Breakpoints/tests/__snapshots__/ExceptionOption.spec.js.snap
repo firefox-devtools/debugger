@@ -3,17 +3,18 @@
 exports[`ExceptionOption renders with values 1`] = `
 <div
   className="testClassName"
-  onClick={[Function]}
 >
-  <input
-    checked="checked"
-    onChange={[Function]}
-    type="checkbox"
-  />
-  <div
+  <label
     className="breakpoint-exceptions-label"
+    htmlFor="breakpoint-exceptions-checkbox"
   >
+    <input
+      checked="checked"
+      id="breakpoint-exceptions-checkbox"
+      onChange={[Function]}
+      type="checkbox"
+    />
     testLabel
-  </div>
+  </label>
 </div>
 `;

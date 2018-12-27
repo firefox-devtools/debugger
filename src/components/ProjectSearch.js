@@ -225,6 +225,8 @@ export class ProjectSearch extends Component<Props, State> {
       <div
         className={classnames("result", { focused })}
         onClick={() => setTimeout(() => this.selectMatchItem(match), 50)}
+        role="button"
+        tabIndex="0"
       >
         <span className="line-number" key={match.line}>
           {match.line}

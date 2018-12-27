@@ -141,7 +141,7 @@ class Tabs extends PureComponent<Props, State> {
 
     const onClick = () => selectSource(source.id);
     return (
-      <li key={source.id} onClick={onClick}>
+      <li key={source.id} onClick={onClick} role="menuitem">
         <AccessibleImage
           className={`dropdown-icon ${this.getIconClass(source)}`}
         />
@@ -157,7 +157,7 @@ class Tabs extends PureComponent<Props, State> {
     }
 
     return (
-      <div className="source-tabs" ref="sourceTabs">
+      <div className="source-tabs" role="tablist" ref="sourceTabs">
         {tabSources.map((source, index) => (
           <Tab key={index} source={source} />
         ))}

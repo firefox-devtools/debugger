@@ -49,11 +49,12 @@ exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
       >
         <div
           className="modal-wrapper"
-          onClick={[Function]}
         >
           <div
             className="modal entering"
-            onClick={[Function]}
+            onBlur={[Function]}
+            onMouseDown={[Function]}
+            role="dialog"
           >
             <SearchInput
               count={0}
@@ -177,11 +178,12 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
       >
         <div
           className="modal-wrapper"
-          onClick={[Function]}
         >
           <div
             className="modal entering"
-            onClick={[Function]}
+            onBlur={[Function]}
+            onMouseDown={[Function]}
+            role="dialog"
           >
             <SearchInput
               count={0}
@@ -288,11 +290,12 @@ exports[`QuickOpenModal Basic render with mount 1`] = `
       >
         <div
           className="modal-wrapper"
-          onClick={[Function]}
         >
           <div
             className="modal entering"
-            onClick={[Function]}
+            onBlur={[Function]}
+            onMouseDown={[Function]}
+            role="dialog"
           >
             <SearchInput
               count={0}
@@ -451,11 +454,12 @@ exports[`QuickOpenModal Simple goto search query = :abc & searchType = goto 1`] 
       >
         <div
           className="modal-wrapper"
-          onClick={[Function]}
         >
           <div
             className="modal entering"
-            onClick={[Function]}
+            onBlur={[Function]}
+            onMouseDown={[Function]}
+            role="dialog"
           >
             <SearchInput
               count={0}
@@ -567,11 +571,12 @@ exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
       >
         <div
           className="modal-wrapper"
-          onClick={[Function]}
         >
           <div
             className="modal entering"
-            onClick={[Function]}
+            onBlur={[Function]}
+            onMouseDown={[Function]}
+            role="dialog"
           >
             <SearchInput
               count={2}
@@ -647,7 +652,7 @@ exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
                   aria-labelledby="undefined-title"
                   className="result-item selected"
                   key="undefinedundefined0"
-                  onClick={[Function]}
+                  onMouseDown={[Function]}
                   role="option"
                 >
                   <div
@@ -660,7 +665,7 @@ exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
                   aria-labelledby="undefined-title"
                   className="result-item"
                   key="undefinedundefined1"
-                  onClick={[Function]}
+                  onMouseDown={[Function]}
                   role="option"
                 >
                   <div
@@ -726,11 +731,12 @@ exports[`QuickOpenModal showErrorEmoji false when goto numeric ':2222' 1`] = `
       >
         <div
           className="modal-wrapper"
-          onClick={[Function]}
         >
           <div
             className="modal entering"
-            onClick={[Function]}
+            onBlur={[Function]}
+            onMouseDown={[Function]}
+            role="dialog"
           >
             <SearchInput
               count={0}
@@ -842,11 +848,12 @@ exports[`QuickOpenModal showErrorEmoji false when no query 1`] = `
       >
         <div
           className="modal-wrapper"
-          onClick={[Function]}
         >
           <div
             className="modal entering"
-            onClick={[Function]}
+            onBlur={[Function]}
+            onMouseDown={[Function]}
+            role="dialog"
           >
             <SearchInput
               count={0}
@@ -969,11 +976,12 @@ exports[`QuickOpenModal showErrorEmoji true when goto not numeric ':22k22' 1`] =
       >
         <div
           className="modal-wrapper"
-          onClick={[Function]}
         >
           <div
             className="modal entering"
-            onClick={[Function]}
+            onBlur={[Function]}
+            onMouseDown={[Function]}
+            role="dialog"
           >
             <SearchInput
               count={0}
@@ -1085,11 +1093,12 @@ exports[`QuickOpenModal showErrorEmoji true when no count + query 1`] = `
       >
         <div
           className="modal-wrapper"
-          onClick={[Function]}
         >
           <div
             className="modal entering"
-            onClick={[Function]}
+            onBlur={[Function]}
+            onMouseDown={[Function]}
+            role="dialog"
           >
             <SearchInput
               count={0}
@@ -1254,11 +1263,12 @@ exports[`QuickOpenModal updateResults on enable 2`] = `
       >
         <div
           className="modal-wrapper"
-          onClick={[Function]}
         >
           <div
             className="modal exited"
-            onClick={[Function]}
+            onBlur={[Function]}
+            onMouseDown={[Function]}
+            role="dialog"
           >
             <SearchInput
               count={0}

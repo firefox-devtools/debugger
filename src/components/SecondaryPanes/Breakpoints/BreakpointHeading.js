@@ -50,6 +50,8 @@ class BreakpointHeading extends PureComponent<Props> {
         title={getFileURL(source, false)}
         onClick={() => selectSource(source.id)}
         onContextMenu={this.onContextMenu}
+        role="button"
+        tabIndex="0"
       >
         <SourceIcon
           source={source}

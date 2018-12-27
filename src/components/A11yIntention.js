@@ -32,6 +32,7 @@ export default class A11yIntention extends React.Component<Props, State> {
         className={this.state.keyboard ? "A11y-keyboard" : "A11y-mouse"}
         onKeyDown={this.handleKeyDown}
         onMouseDown={this.handleMouseDown}
+        role="presentation"
       >
         {this.props.children}
       </div>

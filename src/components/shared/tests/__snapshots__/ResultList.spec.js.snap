@@ -12,7 +12,7 @@ exports[`Result list should render the component 1`] = `
     aria-labelledby="0-title"
     className="result-item"
     key="0value0"
-    onClick={[Function]}
+    onMouseDown={[Function]}
     role="option"
     title="value"
   >
@@ -34,7 +34,7 @@ exports[`Result list should render the component 1`] = `
     aria-labelledby="1-title"
     className="result-item selected"
     key="1value 11"
-    onClick={[Function]}
+    onMouseDown={[Function]}
     role="option"
     title="value 1"
   >

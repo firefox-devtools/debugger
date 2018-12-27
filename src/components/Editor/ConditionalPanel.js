@@ -158,6 +158,7 @@ export class ConditionalPanel extends PureComponent<Props> {
         onClick={() => this.keepFocusOnInput()}
         onBlur={this.props.closeConditionalPanel}
         ref={node => (this.panelNode = node)}
+        role="presentation"
       >
         <div className="prompt">»</div>
         <input

@@ -26,8 +26,7 @@ exports[`Popover mount popover 1`] = `
 >
   <div
     className="popover orientation-right"
-    onKeyDown={[MockFunction]}
-    onMouseLeave={[MockFunction]}
+    open={true}
     style={
       Object {
         "left": 510,
@@ -88,8 +87,7 @@ exports[`Popover mount tooltip 1`] = `
 >
   <div
     className="tooltip"
-    onKeyDown={[MockFunction]}
-    onMouseLeave={[MockFunction]}
+    role="tooltip"
     style={
       Object {
         "left": -8,
@@ -111,8 +109,7 @@ exports[`Popover mount tooltip 1`] = `
 exports[`Popover render (tooltip) 1`] = `
 <div
   className="tooltip"
-  onKeyDown={[MockFunction]}
-  onMouseLeave={[MockFunction]}
+  role="tooltip"
   style={
     Object {
       "left": 0,
@@ -156,8 +153,7 @@ exports[`Popover render 1`] = `
 >
   <div
     className="popover orientation-right"
-    onKeyDown={[MockFunction]}
-    onMouseLeave={[MockFunction]}
+    open={true}
     style={
       Object {
         "left": 510,

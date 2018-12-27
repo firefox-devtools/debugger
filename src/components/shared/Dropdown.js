@@ -37,6 +37,8 @@ export class Dropdown extends Component<Props, State> {
         className="dropdown"
         onClick={this.toggleDropdown}
         style={{ display: this.state.dropdownShown ? "block" : "none" }}
+        role="menu"
+        tabIndex="0"
       >
         {this.props.panel}
       </div>
@@ -58,6 +60,7 @@ export class Dropdown extends Component<Props, State> {
         className="dropdown-mask"
         onClick={this.toggleDropdown}
         style={{ display: this.state.dropdownShown ? "block" : "none" }}
+        role="presentation"
       />
     );
   }

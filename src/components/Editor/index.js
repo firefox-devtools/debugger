@@ -642,6 +642,7 @@ class Editor extends PureComponent<Props, State> {
     return (
       <div
         className={classnames("editor-wrapper")}
+        role="tabpanel"
         ref={c => (this.$editorWrapper = c)}
       >
         <div

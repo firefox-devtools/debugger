@@ -20,13 +20,19 @@ export default function ExceptionOption({
   onChange
 }: ExceptionOptionProps) {
   return (
-    <div className={className} onClick={onChange}>
-      <input
-        type="checkbox"
-        checked={isChecked ? "checked" : ""}
-        onChange={e => e.stopPropagation() && onChange()}
-      />
-      <div className="breakpoint-exceptions-label">{label}</div>
+    <div className={className}>
+      <label
+        htmlFor="breakpoint-exceptions-checkbox"
+        className="breakpoint-exceptions-label"
+      >
+        <input
+          type="checkbox"
+          id="breakpoint-exceptions-checkbox"
+          checked={isChecked ? "checked" : ""}
+          onChange={onChange}
+        />
+        {label}
+      </label>
     </div>
   );
 }

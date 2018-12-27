@@ -345,6 +345,8 @@ exports[`ProjectSearch found search results 1`] = `
                   <div
                     className="result"
                     onClick={[Function]}
+                    role="button"
+                    tabIndex="0"
                   >
                     <span
                       className="line-number"
@@ -413,6 +415,8 @@ exports[`ProjectSearch found search results 1`] = `
                   <div
                     className="result"
                     onClick={[Function]}
+                    role="button"
+                    tabIndex="0"
                   >
                     <span
                       className="line-number"
@@ -481,6 +485,8 @@ exports[`ProjectSearch found search results 1`] = `
                   <div
                     className="result"
                     onClick={[Function]}
+                    role="button"
+                    tabIndex="0"
                   >
                     <span
                       className="line-number"
@@ -621,6 +627,8 @@ exports[`ProjectSearch found search results 1`] = `
                   <div
                     className="result"
                     onClick={[Function]}
+                    role="button"
+                    tabIndex="0"
                   >
                     <span
                       className="line-number"
@@ -689,6 +697,8 @@ exports[`ProjectSearch found search results 1`] = `
                   <div
                     className="result"
                     onClick={[Function]}
+                    role="button"
+                    tabIndex="0"
                   >
                     <span
                       className="line-number"

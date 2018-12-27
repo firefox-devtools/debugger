@@ -187,12 +187,13 @@ export class Popup extends Component<Props, State> {
 
     const { location } = value;
     return (
-      <div
+      <button
         className="preview-popup"
+        id="preview-popup-id"
         onClick={() => selectSourceURL(location.url, { line: location.line })}
       >
         <PreviewFunction func={value} />
-      </div>
+      </button>
     );
   }
 

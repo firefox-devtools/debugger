@@ -229,16 +229,14 @@ class Popover extends Component<Props, State> {
 
   renderPopover() {
     const { top, left, orientation, targetMid } = this.state.coords;
-    const { onMouseLeave, onKeyDown } = this.props;
     const arrow = this.getPopoverArrow(orientation, targetMid.x, targetMid.y);
 
     return (
       <div
+        open
         className={classNames("popover", `orientation-${orientation}`, {
           up: orientation === "up"
         })}
-        onMouseLeave={onMouseLeave}
-        onKeyDown={onKeyDown}
         style={{ top, left }}
         ref={c => (this.$popover = c)}
       >
@@ -250,14 +248,12 @@ class Popover extends Component<Props, State> {
 
   renderTooltip() {
     const { top, left } = this.state.coords;
-    const { onMouseLeave, onKeyDown } = this.props;
     return (
       <div
         className="tooltip"
-        onMouseLeave={onMouseLeave}
-        onKeyDown={onKeyDown}
         style={{ top, left }}
         ref={c => (this.$tooltip = c)}
+        role="tooltip"
       >
         {this.getChildren()}
       </div>

@@ -25,18 +25,19 @@ exports[`XHR Breakpoints should render with 0 expressions passed from props 1`] 
       >
         <div
           className="breakpoints-exceptions"
-          onClick={[Function]}
         >
-          <input
-            checked=""
-            onChange={[Function]}
-            type="checkbox"
-          />
-          <div
+          <label
             className="breakpoint-exceptions-label"
+            htmlFor="breakpoint-exceptions-checkbox"
           >
+            <input
+              checked=""
+              id="breakpoint-exceptions-checkbox"
+              onChange={[Function]}
+              type="checkbox"
+            />
             Pause on any URL
-          </div>
+          </label>
         </div>
       </ExceptionOption>
     </div>
@@ -221,18 +222,19 @@ exports[`XHR Breakpoints should render with 8 expressions passed from props 1`] 
       >
         <div
           className="breakpoints-exceptions"
-          onClick={[Function]}
         >
-          <input
-            checked=""
-            onChange={[Function]}
-            type="checkbox"
-          />
-          <div
+          <label
             className="breakpoint-exceptions-label"
+            htmlFor="breakpoint-exceptions-checkbox"
           >
+            <input
+              checked=""
+              id="breakpoint-exceptions-checkbox"
+              onChange={[Function]}
+              type="checkbox"
+            />
             Pause on any URL
-          </div>
+          </label>
         </div>
       </ExceptionOption>
     </div>

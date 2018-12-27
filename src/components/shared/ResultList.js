@@ -23,6 +23,9 @@ type Props = {
 };
 
 export default class ResultList extends Component<Props> {
+  onClick = (e: SyntheticEvent<HTMLElement>) => {
+    e.stopPropagation();
+  };
   displayName: "ResultList";
 
   static defaultProps = {
@@ -37,7 +40,7 @@ export default class ResultList extends Component<Props> {
 
     const { selectItem, selected } = this.props;
     const props = {
-      onClick: event => selectItem(event, item, index),
+      onMouseDown: event => selectItem(event, item, index),
       key: `${item.id}${item.value}${index}`,
       ref: String(index),
       title: item.value,

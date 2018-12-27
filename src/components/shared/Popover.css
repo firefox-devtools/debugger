@@ -3,6 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 .popover {
+  padding: 0;
   position: fixed;
   z-index: 100;
 }

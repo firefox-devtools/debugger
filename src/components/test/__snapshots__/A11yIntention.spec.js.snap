@@ -5,6 +5,7 @@ exports[`A11yIntention renders its children 1`] = `
   className="A11y-mouse"
   onKeyDown={[Function]}
   onMouseDown={[Function]}
+  role="presentation"
 >
   <span>
     hello world

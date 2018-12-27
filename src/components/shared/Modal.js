@@ -23,7 +23,7 @@ type ModalProps = {
 export const transitionTimeout = 175;
 
 export class Modal extends React.Component<ModalProps> {
-  onClick = (e: SyntheticEvent<HTMLElement>) => {
+  onMouseDown = (e: SyntheticEvent<HTMLElement>) => {
     e.stopPropagation();
   };
 
@@ -31,10 +31,12 @@ export class Modal extends React.Component<ModalProps> {
     const { additionalClass, children, handleClose, status } = this.props;
 
     return (
-      <div className="modal-wrapper" onClick={handleClose}>
+      <div className="modal-wrapper">
         <div
           className={classnames("modal", additionalClass, status)}
-          onClick={this.onClick}
+          onMouseDown={this.onMouseDown}
+          onBlur={handleClose}
+          role="dialog"
         >
           {children}
         </div>

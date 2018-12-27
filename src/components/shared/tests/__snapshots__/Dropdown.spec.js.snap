@@ -7,11 +7,13 @@ exports[`Dropdown render 1`] = `
   <div
     className="dropdown"
     onClick={[Function]}
+    role="menu"
     style={
       Object {
         "display": "block",
       }
     }
+    tabIndex="0"
   >
     <div />
   </div>
@@ -24,6 +26,7 @@ exports[`Dropdown render 1`] = `
   <div
     className="dropdown-mask"
     onClick={[Function]}
+    role="presentation"
     style={
       Object {
         "display": "block",

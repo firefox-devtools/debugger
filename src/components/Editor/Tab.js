@@ -204,20 +204,25 @@ class Tab extends PureComponent<Props> {
       <div
         className={className}
         key={sourceId}
-        onClick={handleTabClick}
         // Accommodate middle click to close tab
-        onMouseUp={e => e.button === 1 && closeTab(source)}
-        onContextMenu={e => this.onTabContextMenu(e, sourceId)}
         title={getFileURL(source, false)}
+        role="tab"
       >
-        <SourceIcon
-          source={source}
-          shouldHide={icon => ["file", "javascript"].includes(icon)}
-        />
-        <div className="filename">
-          {getTruncatedFileName(source, query)}
-          {path && <span>{`../${path}/..`}</span>}
-        </div>
+        <button
+          className={className}
+          onClick={handleTabClick}
+          onMouseUp={e => e.button === 1 && closeTab(source)}
+          onContextMenu={e => this.onTabContextMenu(e, sourceId)}
+        >
+          <SourceIcon
+            source={source}
+            shouldHide={icon => ["file", "javascript"].includes(icon)}
+          />
+          <div className="filename">
+            {getTruncatedFileName(source, query)}
+            {path && <span>{`../${path}/..`}</span>}
+          </div>
+        </button>
         <CloseButton
           handleClick={onClickClose}
           tooltip={L10N.getStr("sourceTabs.closeTabButtonTooltip")}

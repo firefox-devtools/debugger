@@ -3,11 +3,12 @@
 exports[`Modal renders 1`] = `
 <div
   className="modal-wrapper"
-  onClick={[Function]}
 >
   <div
     className="modal entering"
-    onClick={[Function]}
+    onBlur={[Function]}
+    onMouseDown={[Function]}
+    role="dialog"
   />
 </div>
 `;
