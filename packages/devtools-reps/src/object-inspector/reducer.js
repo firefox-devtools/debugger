@@ -64,6 +64,12 @@ function reducer(
     });
   }
 
+  // NOTE: we clear the state on resume because otherwise the scopes pane
+  // would be out of date. Bug 1514760
+  if (type === "RESUME" || type == "NAVIGATE") {
+    return initialState();
+  }
+
   return state;
 }
 
