@@ -17,6 +17,10 @@
   overflow: auto;
 }
 
+html[dir="rtl"] .dropdown {
+  right: calc((var(--width) - 11px) * (-1));
+}
+
 .dropdown-block {
   padding: 0px 2px;
   position: relative;
