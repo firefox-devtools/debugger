@@ -35,13 +35,18 @@
   width: 24px;
 }
 
-.moreTabs {
+.more-tabs {
   mask: url(/images/command-chevron.svg) no-repeat;
   mask-size: 100%;
   width: 12px;
   display: block;
   background: var(--theme-body-color);
   margin-left: 6px;
+}
+
+html[dir="rtl"] .img.more-tabs {
+  transform: rotate(180deg);
+  margin-right: 6px;
 }
 
 .dropdown li {
