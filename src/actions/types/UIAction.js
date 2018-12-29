@@ -60,7 +60,8 @@ export type UIAction =
     |}
   | {|
       +type: "OPEN_CONDITIONAL_PANEL",
-      +location: SourceLocation
+      +location: SourceLocation,
+      +log: boolean
     |}
   | {|
       +type: "CLOSE_CONDITIONAL_PANEL"

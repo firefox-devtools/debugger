@@ -63,7 +63,7 @@ export function gutterMenu({
     },
     editConditional: {
       id: "node-menu-edit-conditional-breakpoint",
-      label: L10N.getStr("editor.editBreakpoint")
+      label: L10N.getStr("editor.editConditionalBreakpoint")
     },
     enableBreakpoint: {
       id: "node-menu-enable-breakpoint",
