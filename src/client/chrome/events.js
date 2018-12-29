@@ -49,7 +49,8 @@ function scriptParsed({
     id: scriptId,
     url,
     sourceMapURL,
-    isPrettyPrinted: false
+    isPrettyPrinted: false,
+    thread: "foo1"
   });
 }
 
@@ -76,8 +77,8 @@ async function paused({
   if (clientType == "chrome") {
     pageAgent.configureOverlay({ message: "Paused in debugger.html" });
   }
-
-  await actions.paused({ thread: "foo1", frame, why, frames, loadedObjects });
+  const pause = { thread: "foo1", frame, why, frames, loadedObjects };
+  await actions.paused(pause);
 }
 
 function resumed() {
