@@ -383,11 +383,15 @@ exports[`ProjectSearch found search results 1`] = `
                       <span
                         className="query-match"
                         key="1"
-                      />
+                      >
+                        some t
+                      </span>
                       <span
                         className="line-match"
                         key="2"
-                      />
+                      >
+                        some thing match1
+                      </span>
                     </span>
                   </div>
                 </div>
@@ -445,11 +449,15 @@ exports[`ProjectSearch found search results 1`] = `
                       <span
                         className="query-match"
                         key="1"
-                      />
+                      >
+                        some t
+                      </span>
                       <span
                         className="line-match"
                         key="2"
-                      />
+                      >
+                        some thing match2
+                      </span>
                     </span>
                   </div>
                 </div>
@@ -507,11 +515,15 @@ exports[`ProjectSearch found search results 1`] = `
                       <span
                         className="query-match"
                         key="1"
-                      />
+                      >
+                        some t
+                      </span>
                       <span
                         className="line-match"
                         key="2"
-                      />
+                      >
+                        some thing match3
+                      </span>
                     </span>
                   </div>
                 </div>
@@ -653,11 +665,15 @@ exports[`ProjectSearch found search results 1`] = `
                       <span
                         className="query-match"
                         key="1"
-                      />
+                      >
+                        some t
+                      </span>
                       <span
                         className="line-match"
                         key="2"
-                      />
+                      >
+                        some thing match4
+                      </span>
                     </span>
                   </div>
                 </div>
@@ -715,11 +731,15 @@ exports[`ProjectSearch found search results 1`] = `
                       <span
                         className="query-match"
                         key="1"
-                      />
+                      >
+                        some t
+                      </span>
                       <span
                         className="line-match"
                         key="2"
-                      />
+                      >
+                        some thing match5
+                      </span>
                     </span>
                   </div>
                 </div>
@@ -843,11 +863,16 @@ exports[`ProjectSearch showErrorEmoji false if not done & results 1`] = `
         summaryMsg="5 results"
       />
     </div>
-    <div
-      className="no-result-msg absolute-center"
-    >
-      Loading…
-    </div>
+    <ManagedTree
+      autoExpandAll={true}
+      autoExpandDepth={1}
+      getChildren={[Function]}
+      getParent={[Function]}
+      getPath={[Function]}
+      getRoots={[Function]}
+      itemHeight={24}
+      renderItem={[Function]}
+    />
   </div>
 </div>
 `;
