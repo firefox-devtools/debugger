@@ -871,6 +871,7 @@ exports[`ProjectSearch showErrorEmoji false if not done & results 1`] = `
       getPath={[Function]}
       getRoots={[Function]}
       itemHeight={24}
+      onFocus={[Function]}
       renderItem={[Function]}
     />
   </div>
