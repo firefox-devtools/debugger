@@ -50,7 +50,7 @@
       "table": ["grid"],
       "td": ["gridcell"]
     }],
-    "jsx-a11y/no-noninteractive-tabindex": ["warn", {
+    "jsx-a11y/no-noninteractive-tabindex": ["error", {
       "tags": [],
       "roles": ["tabpanel"]
     }],

@@ -65,7 +65,6 @@ class Accordion extends Component<Props, State> {
       <li className={item.className} key={i}>
         <h2
           className="_header"
-          tabIndex="0"
           onKeyDown={e => this.onHandleHeaderKeyDown(e, i)}
           onClick={() => this.handleHeaderClick(i)}
         >

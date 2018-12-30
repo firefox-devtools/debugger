@@ -141,7 +141,6 @@ export default class Group extends Component<Props, State> {
         key={frame.id}
         className={classNames("group")}
         onClick={this.toggleFrames}
-        tabIndex={0}
         title={title}
       >
         <span className="title">{displayName}</span>

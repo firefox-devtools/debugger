@@ -150,7 +150,6 @@ export default class FrameComponent extends Component<FrameComponentProps> {
         onMouseDown={e => this.onMouseDown(e, frame, selectedFrame)}
         onKeyUp={e => this.onKeyUp(e, frame, selectedFrame)}
         onContextMenu={disableContextMenu ? null : e => this.onContextMenu(e)}
-        tabIndex={0}
         title={title}
       >
         {tabChar}
