@@ -4,32 +4,72 @@
 
 // Maybe reuse file search's functions?
 
+import getMatches from "./get-matches";
+
 export function findSourceMatches(source, queryText) {
   const { id, loadedState, text } = source;
   if (loadedState != "loaded" || !text || queryText == "") {
     return [];
   }
 
+  const modifiers = {
+    caseSensitive: false,
+    regexMatch: false,
+    wholeWord: false
+  };
+
   const lines = text.split("\n");
-  let result = undefined;
-  const query = new RegExp(queryText, "g");
 
-  const matches = lines
-    .map((_text, line) => {
-      const indices = [];
+  return getMatches(queryText, text, modifiers).map(({ line, ch }) => {
+    const { value, matchIndex } = truncateLine(lines[line], ch);
+    return {
+      sourceId: id,
+      line: line + 1,
+      column: ch,
+      matchIndex,
+      match: queryText,
+      value
+    };
+  });
+}
 
-      while ((result = query.exec(_text))) {
-        indices.push({
-          sourceId: id,
-          line: line + 1,
-          column: result.index,
-          match: result[0],
-          value: _text
-        });
-      }
-      return indices;
-    })
-    .filter(_matches => _matches.length > 0);
+// This is used to find start of a word, so that cropped string look nice
+const startRegex = /([ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])/g;
+// Similarly, find
+const endRegex = new RegExp(
+  [
+    "([ !@#$%^&*()_+-=[]{};':\"\\|,.<>/?])",
+    '[^ !@#$%^&*()_+-=[]{};\':"\\|,.<>/?]*$"/'
+  ].join("")
+);
 
-  return [].concat(...matches);
+function truncateLine(text, column) {
+  if (text.length < 100) {
+    return {
+      matchIndex: column,
+      value: text
+    };
+  }
+
+  // Initially take 40 chars left to the match
+  const offset = Math.max(column - 40, 0);
+  // 400 characters should be enough to figure out the context of the match
+  const truncStr = text.slice(offset, column + 400);
+  let start = truncStr.search(startRegex);
+  let end = truncStr.search(endRegex);
+
+  if (start > column) {
+    // No word separator found before the match, so we take all characters
+    // before the match
+    start = -1;
+  }
+  if (end < column) {
+    end = truncStr.length;
+  }
+  const value = truncStr.slice(start + 1, end);
+
+  return {
+    matchIndex: column - start - offset - 1,
+    value
+  };
 }
