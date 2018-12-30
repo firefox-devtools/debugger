@@ -6,6 +6,7 @@ import { Component } from "react";
 import { showMenu } from "devtools-contextmenu";
 import { connect } from "../../utils/connect";
 import { lineAtHeight } from "../../utils/editor";
+import { features } from "../../utils/prefs";
 import {
   getContextMenu,
   getEmptyLines,
@@ -158,7 +159,7 @@ class GutterContextMenuComponent extends Component {
 
     // Allow getFirstVisiblePausePoint to find the best first breakpoint
     // position by not providing an explicit column number
-    if (!breakpoint && column === 0) {
+    if (features.columnBreakpoints && !breakpoint && column === 0) {
       column = undefined;
     }
 
