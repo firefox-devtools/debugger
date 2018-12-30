@@ -868,11 +868,13 @@ exports[`ProjectSearch showErrorEmoji false if not done & results 1`] = `
     <ManagedTree
       autoExpandAll={true}
       autoExpandDepth={1}
+      autoExpandNodeChildrenLimit={100}
       getChildren={[Function]}
       getParent={[Function]}
       getPath={[Function]}
       getRoots={[Function]}
       itemHeight={24}
+      onFocus={[Function]}
       renderItem={[Function]}
     />
   </div>
