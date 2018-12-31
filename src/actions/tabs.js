@@ -17,13 +17,14 @@ import { selectSource } from "./sources";
 import {
   getSourcesByURLs,
   getSourceTabs,
+  getSourceFromId,
   getNewSelectedSourceId,
   removeSourceFromTabList,
   removeSourcesFromTabList
 } from "../selectors";
 
 import type { Action, ThunkArgs } from "./types";
-import type { Source } from "../types";
+import type { Source, Worker } from "../types";
 
 export function updateTab(source: Source, framework: string): Action {
   const { url, id: sourceId, thread } = source;
@@ -92,4 +93,30 @@ export function closeTabs(urls: string[]) {
     const sourceId = getNewSelectedSourceId(getState(), tabs);
     dispatch(selectSource(sourceId));
   };
+}
+
+export function closeTabsForMissingThreads(
+  dispatch: Function,
+  getState: Function,
+  mainThread: string,
+  workers: Worker[]
+) {
+  const oldTabs = getSourceTabs(getState());
+  const removed = [];
+  for (const { sourceId } of oldTabs) {
+    if (sourceId) {
+      const source = getSourceFromId(getState(), sourceId);
+      if (
+        source.thread != mainThread &&
+        !workers.some(({ actor }) => actor == source.thread)
+      ) {
+        removed.push(source);
+      }
+    }
+  }
+  const tabs = removeSourcesFromTabList(oldTabs, removed);
+  dispatch({ type: "CLOSE_TABS", removed, tabs });
+
+  const sourceId = getNewSelectedSourceId(getState(), tabs);
+  dispatch(selectSource(sourceId));
 }
