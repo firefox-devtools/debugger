@@ -256,20 +256,20 @@ debug-expression-error {
   0% {
     background-color: var(--theme-highlight-gray);
   }
-  100% {
+  50% {
     background-color: transparent;
   }
 }
 
 .theme-dark .highlight-line .CodeMirror-line {
-  animation: fade-highlight-out-dark 1.5s normal forwards;
+  animation: fade-highlight-out-dark 0.4s normal forwards;
 }
 
 @keyframes fade-highlight-out-dark {
   0% {
     background-color: var(--theme-comment);
   }
-  100% {
+  50% {
     background-color: transparent;
   }
 }
