@@ -35,3 +35,16 @@
 .frames ul .frames-group.expanded .badge {
   color: var(--theme-highlight-blue);
 }
+
+.arrow {
+  display: inline-block;
+  width: 12px;
+  margin-inline-end: 8px;
+  transform: rotate(0);
+  transform-origin: center center;
+  transition: transform 0.125s ease;
+}
+
+html[dir="rtl"] .arrow.expanded {
+  transform: rotate(90deg);
+}
