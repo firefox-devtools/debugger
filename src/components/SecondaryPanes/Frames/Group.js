@@ -7,10 +7,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import Svg from "../../shared/Svg";
-import {
-  getLibraryFromUrl,
-  formatDisplayName
-} from "../../../utils/pause/frames";
+import { getLibraryFromUrl } from "../../../utils/pause/frames";
 import FrameMenu from "./FrameMenu";
 
 import "./Group.css";
@@ -20,17 +17,18 @@ import FrameComponent from "./Frame";
 import type { LocalFrame } from "./types";
 import Badge from "../../shared/Badge";
 
-type FrameLocationProps = { frame: LocalFrame };
-function FrameLocation({ frame }: FrameLocationProps) {
+type FrameLocationProps = { frame: LocalFrame, expandedState: boolean };
+function FrameLocation({ frame, expandedState }: FrameLocationProps) {
   const library = frame.library || getLibraryFromUrl(frame);
   if (!library) {
     return null;
   }
-
+  const classArrowExpanded = expandedState ? "arrow expanded" : "arrow";
   return (
-    <span className="location">
-      {library}
+    <span className="group-description">
+      <Svg name="arrow" className={classArrowExpanded} />
       <Svg name={library.toLowerCase()} className="annotation-logo" />
+      <span className="group-description-name">{library}</span>
     </span>
   );
 }
@@ -128,8 +126,7 @@ export default class Group extends Component<Props, State> {
 
   renderDescription() {
     const frame = this.props.group[0];
-    const displayName = formatDisplayName(frame);
-
+    const expanded = this.state.expanded
     const l10NEntry = this.state.expanded
       ? "callStack.group.collapseTooltip"
       : "callStack.group.expandTooltip";
@@ -144,9 +141,8 @@ export default class Group extends Component<Props, State> {
         tabIndex={0}
         title={title}
       >
-        <span className="title">{displayName}</span>
+        <FrameLocation frame={frame} expandedState={expanded}/>
         <Badge>{this.props.group.length}</Badge>
-        <FrameLocation frame={frame} />
       </li>
     );
   }
