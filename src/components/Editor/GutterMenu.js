@@ -50,7 +50,7 @@ export function gutterMenu({
       label: L10N.getStr("editor.addLogPoint")
     },
     addConditional: {
-      id: "node-menu-add-log-point",
+      id: "node-menu-add-conditional-breakpoint",
       label: L10N.getStr("editor.addConditionalBreakpoint")
     },
     removeBreakpoint: {
