@@ -100,7 +100,10 @@ class PrimaryPanes extends Component<Props, State> {
       this.props.getWorkerDisplayName
     );
 
-    return threads.map(thread => thread.length > 0 && <SourcesTree thread={thread} key={thread} />);
+    return threads.map(
+      thread =>
+        thread.length > 0 && <SourcesTree thread={thread} key={thread} />
+    );
   }
 
   render() {
