@@ -101,7 +101,7 @@
 }
 
 .search-field input.empty {
-  color: #737373;
+  color: var(--theme-body-color-inactive);
 }
 
 .search-field .summary {
