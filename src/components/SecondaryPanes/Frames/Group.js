@@ -142,7 +142,7 @@ export default class Group extends Component<Props, State> {
         tabIndex={0}
         title={title}
       >
-        <FrameLocation frame={frame} expandedState={expanded}/>
+        <FrameLocation frame={frame} expandedState={expanded} />
         <Badge>{this.props.group.length}</Badge>
       </li>
     );
