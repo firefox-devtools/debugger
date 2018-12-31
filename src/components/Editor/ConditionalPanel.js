@@ -64,8 +64,6 @@ export class ConditionalPanel extends PureComponent<Props> {
 
   setBreakpoint(condition: string) {
     const { location, log } = this.props;
-    // input 2
-    // output console.log(2)
     if (log) {
       condition = `console.log(${condition})`;
     }
@@ -149,8 +147,6 @@ export class ConditionalPanel extends PureComponent<Props> {
     let condition = breakpoint ? breakpoint.condition : "";
 
     if (log) {
-      // input console.log(2)
-      // output 2
       if (condition && condition.match(/^console.log\(.*\)$/)) {
         condition = condition.match(/^console.log\((.*)\)/)[1];
       }
@@ -170,7 +166,9 @@ export class ConditionalPanel extends PureComponent<Props> {
         <input
           defaultValue={condition}
           placeholder={L10N.getStr(
-            `editor.conditionalPanel${log ? ".logPoint." : "."}placeholder`
+            log
+              ? "editor.conditionalPanel.logPoint.placeholder"
+              : "editor.conditionalPanel.placeholder"
           )}
           onKeyDown={this.onKey}
           ref={input => {

@@ -13,11 +13,6 @@
   border-bottom: 1px solid var(--theme-splitter-color);
 }
 
-.conditional-breakpoint-panel.log-point {
-  border-top-color: var(--theme-graphs-orange);
-  border-bottom-color: var(--theme-graphs-orange);
-}
-
 .conditional-breakpoint-panel .prompt {
   font-size: 1.8em;
   color: var(--theme-conditional-breakpoint-color);
