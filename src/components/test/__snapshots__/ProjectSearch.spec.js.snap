@@ -13,7 +13,7 @@ exports[`ProjectSearch found no search results 1`] = `
       <SearchInput
         count={0}
         expanded={false}
-        handleClose={[MockFunction]}
+        handleClose={[Function]}
         hasPrefix={false}
         isLoading={false}
         onBlur={[Function]}
@@ -96,6 +96,7 @@ exports[`ProjectSearch found search results 1`] = `
   selectSpecificLocation={[MockFunction]}
   sources={Object {}}
   status="DONE"
+  stopOngoingSearch={[MockFunction]}
   updateSearchStatus={[MockFunction]}
 >
   <div
@@ -110,7 +111,7 @@ exports[`ProjectSearch found search results 1`] = `
         <SearchInput
           count={5}
           expanded={false}
-          handleClose={[MockFunction]}
+          handleClose={[Function]}
           hasPrefix={false}
           isLoading={false}
           onBlur={[Function]}
@@ -176,11 +177,11 @@ exports[`ProjectSearch found search results 1`] = `
               </div>
               <CloseButton
                 buttonClass="big"
-                handleClick={[MockFunction]}
+                handleClick={[Function]}
               >
                 <button
                   className="close-btn big"
-                  onClick={[MockFunction]}
+                  onClick={[Function]}
                 >
                   <AccessibleImage
                     className="close"
@@ -748,7 +749,7 @@ exports[`ProjectSearch should display loading message while search is in progres
       <SearchInput
         count={0}
         expanded={false}
-        handleClose={[MockFunction]}
+        handleClose={[Function]}
         hasPrefix={false}
         isLoading={true}
         onBlur={[Function]}
@@ -787,7 +788,7 @@ exports[`ProjectSearch showErrorEmoji false if not done & no results 1`] = `
       <SearchInput
         count={0}
         expanded={false}
-        handleClose={[MockFunction]}
+        handleClose={[Function]}
         hasPrefix={false}
         isLoading={true}
         onBlur={[Function]}
@@ -826,7 +827,7 @@ exports[`ProjectSearch showErrorEmoji false if not done & results 1`] = `
       <SearchInput
         count={5}
         expanded={false}
-        handleClose={[MockFunction]}
+        handleClose={[Function]}
         hasPrefix={false}
         isLoading={true}
         onBlur={[Function]}
@@ -865,7 +866,7 @@ exports[`ProjectSearch turns off shortcuts on unmount 1`] = `
       <SearchInput
         count={0}
         expanded={false}
-        handleClose={[MockFunction]}
+        handleClose={[Function]}
         hasPrefix={false}
         isLoading={false}
         onBlur={[Function]}
@@ -899,7 +900,7 @@ exports[`ProjectSearch where <Enter> has not been pressed 1`] = `
       <SearchInput
         count={0}
         expanded={false}
-        handleClose={[MockFunction]}
+        handleClose={[Function]}
         hasPrefix={false}
         isLoading={false}
         onBlur={[Function]}

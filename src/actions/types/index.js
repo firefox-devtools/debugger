@@ -8,6 +8,7 @@ import type { Frame, Scope, Why, Worker } from "../../types";
 import type { State } from "../../reducers/types";
 import type { MatchedLocations } from "../../reducers/file-search";
 import type { TreeNode } from "../../utils/sources-tree/types";
+import type { SearchOperation } from "../../reducers/project-text-search";
 
 import type { BreakpointAction } from "./BreakpointAction";
 import type { SourceAction } from "./SourceAction";
@@ -99,6 +100,7 @@ export type SourceTreeAction =
 
 export type ProjectTextSearchAction =
   | {| +type: "ADD_QUERY", +query: string |}
+  | {| +type: "ADD_SEARCH", +search: SearchOperation |}
   | {|
       +type: "ADD_SEARCH_RESULT",
       +result: ProjectTextSearchResult
@@ -106,7 +108,8 @@ export type ProjectTextSearchAction =
   | {| +type: "CLEAR_QUERY" |}
   | {| +type: "UPDATE_STATUS", +status: string |}
   | {| +type: "CLEAR_SEARCH_RESULTS" |}
-  | {| +type: "CLEAR_SEARCH" |};
+  | {| +type: "CLEAR_SEARCH" |}
+  | {| +type: "CANCEL_SEARCH" |};
 
 export type FileTextSearchModifier =
   | "caseSensitive"

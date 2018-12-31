@@ -11,12 +11,16 @@
  */
 
 import type { Action } from "../actions/types";
+import type { Cancellable } from "../types";
 
 export type Search = {
   +sourceId: string,
   +filepath: string,
   +matches: any[]
 };
+
+export type SearchOperation = Cancellable;
+
 export type StatusType = "INITIAL" | "FETCHING" | "DONE" | "ERROR";
 export const statusType = {
   initial: "INITIAL",
@@ -28,6 +32,7 @@ export const statusType = {
 export type ResultList = Search[];
 export type ProjectTextSearchState = {
   +query: string,
+  +search?: SearchOperation,
   +results: ResultList,
   +status: string
 };
@@ -73,6 +78,9 @@ function update(
 
     case "CLEAR_SEARCH_RESULTS":
       return { ...state, results: [] };
+
+    case "ADD_SEARCH":
+      return { ...state, search: action.search };
 
     case "CLEAR_SEARCH":
     case "CLOSE_PROJECT_SEARCH":

@@ -16,9 +16,14 @@ import { loadSourceText } from "./sources/loadSourceText";
 import { statusType } from "../reducers/project-text-search";
 
 import type { Action, ThunkArgs } from "./types";
+import type { SearchOperation } from "../reducers/project-text-search";
 
 export function addSearchQuery(query: string): Action {
   return { type: "ADD_QUERY", query };
+}
+
+export function addSearch(search: SearchOperation): Action {
+  return { type: "ADD_SEARCH", search };
 }
 
 export function clearSearchQuery(): Action {
@@ -52,8 +57,22 @@ export function closeProjectSearch(): Action {
   return { type: "CLOSE_PROJECT_SEARCH" };
 }
 
+export function stopOngoingSearch() {
+  return ({ dispatch, getState }: ThunkArgs) => {
+    const state = getState().projectTextSearch;
+    const search = state.search;
+    const status = state.status;
+    if (search && status !== statusType.done) {
+      search.cancel();
+    }
+  };
+}
+
 export function searchSources(query: string) {
-  return async ({ dispatch, getState }: ThunkArgs) => {
+  let cancelled = false;
+
+  const search = async ({ dispatch, getState }: ThunkArgs) => {
+    await dispatch(addSearch(search));
     await dispatch(clearSearchResults());
     await dispatch(addSearchQuery(query));
     dispatch(updateSearchStatus(statusType.fetching));
@@ -61,11 +80,20 @@ export function searchSources(query: string) {
       source => !hasPrettySource(getState(), source.id) && !isThirdParty(source)
     );
     for (const source of validSources) {
+      if (cancelled) {
+        return;
+      }
       await dispatch(loadSourceText(source));
       await dispatch(searchSource(source.id, query));
     }
     dispatch(updateSearchStatus(statusType.done));
   };
+
+  search.cancel = () => {
+    cancelled = true;
+  };
+
+  return search;
 }
 
 export function searchSource(sourceId: string, query: string) {
