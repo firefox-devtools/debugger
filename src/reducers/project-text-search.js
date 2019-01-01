@@ -12,7 +12,6 @@
 
 import type { Action } from "../actions/types";
 import type { Cancellable } from "../types";
-import type { Record } from "../utils/makeRecord";
 
 export type Search = {
   +sourceId: string,
@@ -91,7 +90,7 @@ function update(
   return state;
 }
 
-type OuterState = { projectTextSearch: Record<ProjectTextSearchState> };
+type OuterState = { projectTextSearch: ProjectTextSearchState };
 
 export function getTextSearchOperation(state: OuterState) {
   return state.projectTextSearch.ongoingSearch;
