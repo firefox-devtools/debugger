@@ -85,10 +85,8 @@ export function searchSources(query: string) {
     const validSources = getSourceList(getState()).filter(
       source => !hasPrettySource(getState(), source.id) && !isThirdParty(source)
     );
-    console.log("Searching...");
     for (const source of validSources) {
       if (cancelled) {
-        console.log("Stopped search.");
         return;
       }
       await dispatch(loadSourceText(source));
