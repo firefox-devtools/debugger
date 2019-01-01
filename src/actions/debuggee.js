@@ -6,18 +6,12 @@
 
 import type { Action, ThunkArgs } from "./types";
 import { closeTabsForMissingThreads } from "./tabs";
-import { getMainThread } from "../reducers/pause";
 
 export function updateWorkers() {
   return async function({ dispatch, getState, client }: ThunkArgs) {
     const { workers } = await client.fetchWorkers();
     dispatch(({ type: "SET_WORKERS", workers }: Action));
 
-    closeTabsForMissingThreads(
-      dispatch,
-      getState,
-      getMainThread(getState()),
-      workers
-    );
+    dispatch(closeTabsForMissingThreads(workers));
   };
 }
