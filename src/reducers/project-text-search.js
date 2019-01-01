@@ -21,10 +21,16 @@ export type Search = {
 
 export type SearchOperation = Cancellable;
 
-export type StatusType = "INITIAL" | "FETCHING" | "DONE" | "ERROR";
+export type StatusType =
+  | "INITIAL"
+  | "FETCHING"
+  | "CANCELLED"
+  | "DONE"
+  | "ERROR";
 export const statusType = {
   initial: "INITIAL",
   fetching: "FETCHING",
+  cancelled: "CANCELLED",
   done: "DONE",
   error: "ERROR"
 };
