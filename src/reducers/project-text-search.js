@@ -12,6 +12,7 @@
 
 import type { Action } from "../actions/types";
 import type { Cancellable } from "../types";
+import type { Record } from "../utils/makeRecord";
 
 export type Search = {
   +sourceId: string,
@@ -32,7 +33,7 @@ export const statusType = {
 export type ResultList = Search[];
 export type ProjectTextSearchState = {
   +query: string,
-  +search?: SearchOperation,
+  +ongoingSearch?: SearchOperation,
   +results: ResultList,
   +status: string
 };
@@ -79,8 +80,8 @@ function update(
     case "CLEAR_SEARCH_RESULTS":
       return { ...state, results: [] };
 
-    case "ADD_SEARCH":
-      return { ...state, search: action.search };
+    case "ADD_ONGOING_SEARCH":
+      return { ...state, ongoingSearch: action.ongoingSearch };
 
     case "CLEAR_SEARCH":
     case "CLOSE_PROJECT_SEARCH":
@@ -90,7 +91,11 @@ function update(
   return state;
 }
 
-type OuterState = { projectTextSearch: ProjectTextSearchState };
+type OuterState = { projectTextSearch: Record<ProjectTextSearchState> };
+
+export function getTextSearchOperation(state: OuterState) {
+  return state.projectTextSearch.ongoingSearch;
+}
 
 export function getTextSearchResults(state: OuterState) {
   return state.projectTextSearch.results;

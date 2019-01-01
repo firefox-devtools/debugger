@@ -66,7 +66,6 @@ type Props = {
   activeSearch: ActiveSearchType,
   closeProjectSearch: typeof actions.closeProjectSearch,
   searchSources: typeof actions.searchSources,
-  stopOngoingSearch: typeof actions.stopOngoingSearch,
   clearSearch: typeof actions.clearSearch,
   selectSpecificLocation: typeof actions.selectSpecificLocation,
   setActiveSearch: typeof actions.setActiveSearch,
@@ -126,7 +125,6 @@ export class ProjectSearch extends Component<Props, State> {
   }
 
   doSearch(searchTerm: string) {
-    this.props.stopOngoingSearch();
     this.props.searchSources(searchTerm);
   }
 
@@ -312,10 +310,10 @@ export class ProjectSearch extends Component<Props, State> {
         onBlur={() => this.setState({ inputFocused: false })}
         onKeyDown={this.onKeyDown}
         onHistoryScroll={this.onHistoryScroll}
-        handleClose={() => {
-          this.props.stopOngoingSearch();
-          this.props.closeProjectSearch();
-        }}
+        handleClose={
+          // TODO - This function doesn't quite match the signature.
+          (this.props.closeProjectSearch: any)
+        }
         ref="searchInput"
       />
     );
@@ -353,7 +351,6 @@ export default connect(
   {
     closeProjectSearch: actions.closeProjectSearch,
     searchSources: actions.searchSources,
-    stopOngoingSearch: actions.stopOngoingSearch,
     clearSearch: actions.clearSearch,
     selectSpecificLocation: actions.selectSpecificLocation,
     setActiveSearch: actions.setActiveSearch,

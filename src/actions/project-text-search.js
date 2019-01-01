@@ -13,17 +13,22 @@ import { findSourceMatches } from "../workers/search";
 import { getSource, hasPrettySource, getSourceList } from "../selectors";
 import { isThirdParty } from "../utils/source";
 import { loadSourceText } from "./sources/loadSourceText";
-import { statusType } from "../reducers/project-text-search";
+import {
+  statusType,
+  getTextSearchOperation,
+  getTextSearchStatus
+} from "../reducers/project-text-search";
 
 import type { Action, ThunkArgs } from "./types";
+import type { State } from "../reducers/types";
 import type { SearchOperation } from "../reducers/project-text-search";
 
 export function addSearchQuery(query: string): Action {
   return { type: "ADD_QUERY", query };
 }
 
-export function addSearch(search: SearchOperation): Action {
-  return { type: "ADD_SEARCH", search };
+export function addOngoingSearch(ongoingSearch: SearchOperation): Action {
+  return { type: "ADD_ONGOING_SEARCH", ongoingSearch };
 }
 
 export function clearSearchQuery(): Action {
@@ -53,34 +58,37 @@ export function updateSearchStatus(status: string): Action {
   return { type: "UPDATE_STATUS", status };
 }
 
-export function closeProjectSearch(): Action {
-  return { type: "CLOSE_PROJECT_SEARCH" };
+export function closeProjectSearch() {
+  return async ({ dispatch, getState }: ThunkArgs) => {
+    stopOngoingSearch(getState());
+    await dispatch({ type: "CLOSE_PROJECT_SEARCH" });
+  };
 }
 
-export function stopOngoingSearch() {
-  return ({ dispatch, getState }: ThunkArgs) => {
-    const state = getState().projectTextSearch;
-    const search = state.search;
-    const status = state.status;
-    if (search && status !== statusType.done) {
-      search.cancel();
-    }
-  };
+export function stopOngoingSearch(state: State) {
+  const ongoingSearch = getTextSearchOperation(state);
+  const status = getTextSearchStatus(state);
+  if (ongoingSearch && status !== statusType.done) {
+    ongoingSearch.cancel();
+  }
 }
 
 export function searchSources(query: string) {
   let cancelled = false;
 
   const search = async ({ dispatch, getState }: ThunkArgs) => {
-    await dispatch(addSearch(search));
+    stopOngoingSearch(getState());
+    await dispatch(addOngoingSearch(search));
     await dispatch(clearSearchResults());
     await dispatch(addSearchQuery(query));
     dispatch(updateSearchStatus(statusType.fetching));
     const validSources = getSourceList(getState()).filter(
       source => !hasPrettySource(getState(), source.id) && !isThirdParty(source)
     );
+    console.log("Searching...");
     for (const source of validSources) {
       if (cancelled) {
+        console.log("Stopped search.");
         return;
       }
       await dispatch(loadSourceText(source));

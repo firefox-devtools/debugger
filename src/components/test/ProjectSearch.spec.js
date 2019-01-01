@@ -79,7 +79,6 @@ function render(overrides = {}, mounted = false) {
     activeSearch: "project",
     closeProjectSearch: jest.fn(),
     searchSources: jest.fn(),
-    stopOngoingSearch: jest.fn(),
     clearSearch: jest.fn(),
     updateSearchStatus: jest.fn(),
     selectSpecificLocation: jest.fn(),

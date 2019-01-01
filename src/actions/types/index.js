@@ -100,7 +100,6 @@ export type SourceTreeAction =
 
 export type ProjectTextSearchAction =
   | {| +type: "ADD_QUERY", +query: string |}
-  | {| +type: "ADD_SEARCH", +search: SearchOperation |}
   | {|
       +type: "ADD_SEARCH_RESULT",
       +result: ProjectTextSearchResult
@@ -108,6 +107,7 @@ export type ProjectTextSearchAction =
   | {| +type: "CLEAR_QUERY" |}
   | {| +type: "UPDATE_STATUS", +status: string |}
   | {| +type: "CLEAR_SEARCH_RESULTS" |}
+  | {| +type: "ADD_ONGOING_SEARCH", +ongoingSearch: SearchOperation |}
   | {| +type: "CLEAR_SEARCH" |};
 
 export type FileTextSearchModifier =
