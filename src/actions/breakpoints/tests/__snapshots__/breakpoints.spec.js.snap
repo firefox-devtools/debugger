@@ -26,6 +26,7 @@ Object {
     "sourceId": "a",
     "sourceUrl": "http://localhost:8000/examples/a",
   },
+  "log": false,
   "originalText": "",
   "text": "",
 }
@@ -39,6 +40,7 @@ Array [
         "condition": null,
         "disabled": false,
         "id": "hi",
+        "log": false,
         "selectedLocation": Object {
           "line": 2,
           "sourceId": "a",
@@ -94,6 +96,7 @@ Object {
     "sourceId": "a.js/originalSource-d6d70368d5c252598541e693a7ad6c27",
     "sourceUrl": "http://localhost:8000/examples/a.js:formatted",
   },
+  "log": false,
   "originalText": "function a() {",
   "text": "function a() {",
 }
@@ -107,6 +110,7 @@ Array [
         "condition": null,
         "disabled": true,
         "id": "hi",
+        "log": false,
         "selectedLocation": Object {
           "line": 5,
           "sourceId": "a",
