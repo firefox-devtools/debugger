@@ -159,6 +159,11 @@ html[dir="rtl"] .editor-mount {
   stroke: var(--theme-graphs-orange);
 }
 
+.new-breakpoint.has-condition.log .CodeMirror-gutter-wrapper svg {
+  fill: var(--theme-graphs-orange);
+  stroke: var(--theme-graphs-yellow);
+}
+
 .editor.new-breakpoint.breakpoint-disabled svg {
   fill: var(--breakpoint-fill-disabled);
   stroke: var(--breakpoint-stroke-disabled);
