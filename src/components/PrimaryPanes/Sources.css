@@ -58,11 +58,6 @@
   margin-left: 5px;
 }
 
-.source-outline-panel {
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
 .sources-pane {
   display: flex;
   flex: 1;
