@@ -104,7 +104,8 @@ export type Breakpoint = {|
   +hidden: boolean,
   +text: string,
   +originalText: string,
-  +condition: ?string
+  +condition: ?string,
+  +log: ?boolean
 |};
 
 /**
