@@ -237,7 +237,7 @@ exports[`showErrorEmoji true if query + no results 1`] = `
     showClose={false}
     showErrorEmoji={true}
     size=""
-    summaryMsg="No results"
+    summaryMsg="No results found"
   />
   <div
     className="search-bottom-bar"

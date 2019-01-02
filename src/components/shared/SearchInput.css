@@ -101,7 +101,7 @@
 }
 
 .search-field input.empty {
-  color: var(--theme-highlight-orange);
+  color: var(--theme-body-color-inactive);
 }
 
 .search-field .summary {
@@ -113,6 +113,7 @@
   align-self: center;
   padding-top: 1px;
   white-space: nowrap;
+  user-select: none;
 }
 
 .search-field .search-nav-buttons {
