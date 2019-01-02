@@ -248,10 +248,6 @@ debug-expression-error {
   display: none;
 }
 
-.debugger:not(.can-rewind) .highlight-line .CodeMirror-line {
-  animation: fade-highlight-out 1.5s normal forwards;
-}
-
 @keyframes fade-highlight-out {
   0% {
     background-color: var(--theme-highlight-gray);
@@ -262,7 +258,7 @@ debug-expression-error {
 }
 
 .theme-dark .highlight-line .CodeMirror-line {
-  animation: fade-highlight-out-dark 0.4s normal forwards;
+  animation: fade-highlight-out-dark 1.2s normal forwards;
 }
 
 @keyframes fade-highlight-out-dark {
