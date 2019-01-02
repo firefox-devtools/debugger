@@ -50,6 +50,7 @@ Object {
     "line": 7,
     "sourceUrl": "http://localhost:8000/examples/foo.js",
   },
+  "log": false,
 }
 `;
 
@@ -76,6 +77,7 @@ Object {
     "line": 5,
     "sourceUrl": "http://localhost:8000/examples/foo.js",
   },
+  "log": false,
 }
 `;
 
@@ -102,6 +104,7 @@ Object {
     "line": 5,
     "sourceUrl": "http://localhost:8000/examples/foo",
   },
+  "log": false,
 }
 `;
 
@@ -128,5 +131,6 @@ Object {
     "line": 5,
     "sourceUrl": "http://localhost:8000/examples/foo2",
   },
+  "log": false,
 }
 `;
