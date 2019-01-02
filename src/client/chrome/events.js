@@ -76,8 +76,7 @@ async function paused({
   if (clientType == "chrome") {
     pageAgent.configureOverlay({ message: "Paused in debugger.html" });
   }
-  const pause = { thread: "root", frame, why, frames, loadedObjects };
-  await actions.paused(pause);
+  await actions.paused({ thread: "root", frame, why, frames, loadedObjects });
 }
 
 function resumed() {
