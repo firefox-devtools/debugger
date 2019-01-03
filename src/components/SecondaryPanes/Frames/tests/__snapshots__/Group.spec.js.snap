@@ -156,15 +156,8 @@ exports[`Group renders group with anonymous functions 1`] = `
     tabIndex={0}
     title="Show Back frames"
   >
-    <span
-      className="title"
-    >
-      &lt;anonymous&gt;
-    </span>
-    <Badge>
-      3
-    </Badge>
     <FrameLocation
+      expandedState={false}
       frame={
         Object {
           "displayName": "",
@@ -179,6 +172,9 @@ exports[`Group renders group with anonymous functions 1`] = `
         }
       }
     />
+    <Badge>
+      3
+    </Badge>
   </li>
 </div>
 `;
@@ -195,15 +191,8 @@ exports[`Group renders group with anonymous functions 2`] = `
     tabIndex={0}
     title="Collapse Back frames"
   >
-    <span
-      className="title"
-    >
-      &lt;anonymous&gt;
-    </span>
-    <Badge>
-      3
-    </Badge>
     <FrameLocation
+      expandedState={true}
       frame={
         Object {
           "displayName": "",
@@ -218,6 +207,9 @@ exports[`Group renders group with anonymous functions 2`] = `
         }
       }
     />
+    <Badge>
+      3
+    </Badge>
   </li>
   <div
     className="frames-list"
