@@ -12,7 +12,7 @@
     "jsx-a11y/accessible-emoji": "warn",
     "jsx-a11y/alt-text": "warn",
     "jsx-a11y/anchor-has-content": "warn",
-    "jsx-a11y/anchor-is-valid": "warn",
+    "jsx-a11y/anchor-is-valid": "error",
     "jsx-a11y/aria-activedescendant-has-tabindex": "warn",
     "jsx-a11y/aria-props": "warn",
     "jsx-a11y/aria-proptypes": "warn",
@@ -26,12 +26,20 @@
     "jsx-a11y/interactive-supports-focus": ["warn", {
       "tabbable": ["button", "checkbox", "link", "searchbox", "spinbutton", "switch", "textbox"]
     }],
-    "jsx-a11y/label-has-for": "warn",
-    "jsx-a11y/label-has-associated-control": "warn",
+    "jsx-a11y/label-has-for": ["error", {
+      "required": {
+        "some": [ "nesting", "id" ]
+      }
+    }],
+    "jsx-a11y/label-has-associated-control": ["error", {
+      "required": {
+        "some": [ "nesting", "id" ]
+      }
+    }],
     "jsx-a11y/media-has-caption": "warn",
     "jsx-a11y/mouse-events-have-key-events": "warn",
     "jsx-a11y/no-access-key": "warn",
-    "jsx-a11y/no-autofocus": "warn",
+    "jsx-a11y/no-autofocus": "error",
     "jsx-a11y/no-distracting-elements": "warn",
 
     "jsx-a11y/no-interactive-element-to-noninteractive-role": ["warn", {

@@ -159,6 +159,11 @@ html[dir="rtl"] .editor-mount {
   stroke: var(--theme-graphs-orange);
 }
 
+.new-breakpoint.has-condition.log .CodeMirror-gutter-wrapper svg {
+  fill: var(--theme-graphs-orange);
+  stroke: var(--theme-graphs-yellow);
+}
+
 .editor.new-breakpoint.breakpoint-disabled svg {
   fill: var(--breakpoint-fill-disabled);
   stroke: var(--breakpoint-stroke-disabled);
@@ -247,8 +252,7 @@ debug-expression-error {
 .new-debug-line-error .CodeMirror-activeline-background {
   display: none;
 }
-
-.debugger:not(.can-rewind) .highlight-line .CodeMirror-line {
+.highlight-line .CodeMirror-line {
   animation: fade-highlight-out 1.5s normal forwards;
 }
 
@@ -262,7 +266,7 @@ debug-expression-error {
 }
 
 .theme-dark .highlight-line .CodeMirror-line {
-  animation: fade-highlight-out-dark 1.5s normal forwards;
+  animation: fade-highlight-out-dark 1s normal forwards;
 }
 
 @keyframes fade-highlight-out-dark {

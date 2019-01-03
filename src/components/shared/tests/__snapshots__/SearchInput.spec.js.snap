@@ -114,7 +114,7 @@ exports[`SearchInput shows svg error emoji 1`] = `
     role="combobox"
   >
     <Svg
-      name="sad-face"
+      name="magnifying-glass"
     />
     <input
       aria-activedescendant=""

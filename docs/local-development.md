@@ -51,7 +51,7 @@ It is possible to add a theme specific selector. For example, this selector upda
 
 We use variable theme colors to standardize the colors inside of devtools. A good way to find a color is to select another component with the inspector and see what color it uses. The colors can be found [here][colors].
 
-[colors]: https://developer.mozilla.org/en-US/docs/Tools/DevToolsColors
+[colors]: https://design.firefox.com/photon/visuals/color.html
 
 
 ### Internationalization

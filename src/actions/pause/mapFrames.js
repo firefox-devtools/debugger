@@ -18,21 +18,21 @@ import { findClosestFunction } from "../../utils/ast";
 import type { Frame } from "../../types";
 import type { State } from "../../reducers/types";
 import type { ThunkArgs } from "../types";
-import { features } from "../../utils/prefs";
 
 import { isGeneratedId } from "devtools-source-map";
 
+function isFrameBlackboxed(state, frame) {
+  const source = getSource(state, frame.location.sourceId);
+  return source && source.isBlackBoxed;
+}
+
 function getSelectedFrameId(state, frames) {
-  if (!features.originalBlackbox) {
-    const selectedFrame = getSelectedFrame(state);
-    return selectedFrame && selectedFrame.id;
+  let selectedFrame = getSelectedFrame(state);
+  if (selectedFrame && !isFrameBlackboxed(state, selectedFrame)) {
+    return selectedFrame.id;
   }
 
-  const selectedFrame = frames.find(frame => {
-    const source = getSource(state, frame.location.sourceId);
-    return source && !source.isBlackBoxed;
-  });
-
+  selectedFrame = frames.find(frame => !isFrameBlackboxed(state, frame));
   return selectedFrame && selectedFrame.id;
 }
 
