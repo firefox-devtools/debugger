@@ -395,3 +395,7 @@ export type Worker = {
   type: number,
   url: string
 };
+
+export type Cancellable = {
+  cancel: () => void
+};

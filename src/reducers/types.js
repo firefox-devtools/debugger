@@ -28,7 +28,7 @@ export type State = {
   fileSearch: Record<FileSearchState>,
   pause: PauseState,
   pendingBreakpoints: PendingBreakpointsState,
-  projectTextSearch: Record<ProjectTextSearchState>,
+  projectTextSearch: ProjectTextSearchState,
   sources: SourcesState,
   tabs: TabList,
   ui: Record<UIState>
