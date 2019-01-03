@@ -36,42 +36,42 @@ html[dir="rtl"] .command-bar {
   background-color: var(--theme-body-color);
 }
 
-.command-bar .img.pause {
+.img.pause {
   mask: url(/images/pause.svg) no-repeat;
 }
 
-.command-bar .img.stepOver {
+.img.stepOver {
   mask: url(/images/stepOver.svg) no-repeat;
 }
 
-.command-bar .img.stepIn {
+.img.stepIn {
   mask: url(/images/stepIn.svg) no-repeat;
 }
 
-.command-bar .img.stepOut {
+.img.stepOut {
   mask: url(/images/stepOut.svg) no-repeat;
 }
 
-.command-bar .img.resume {
+.img.resume {
   mask: url(/images/resume.svg) no-repeat;
 }
 
-.command-bar .img.rewind {
+.img.rewind {
   mask: url(/images/resume.svg) no-repeat;
   transform: scaleX(-1);
 }
 
-.command-bar .img.reverseStepOver {
+.img.reverseStepOver {
   mask: url(/images/stepOver.svg) no-repeat;
   transform: scaleX(-1);
 }
 
-.command-bar .img.reverseStepIn {
+.img.reverseStepIn {
   mask: url(/images/stepIn.svg) no-repeat;
   transform: scaleX(-1);
 }
 
-.command-bar .img.reverseStepOut {
+.img.reverseStepOut {
   mask: url(/images/stepOut.svg) no-repeat;
   transform: scaleX(-1);
 }

@@ -390,11 +390,21 @@ export type Scope = {|
   type: string
 |};
 
-export type Worker = {
-  actor: string,
-  type: number,
-  url: string
+export type MainThread = {
+  +actor: string,
+  +url: string,
+  +type: number
 };
+
+export type Worker = {
+  +actor: string,
+  +url: string,
+  +type: number
+};
+
+export type Thread = MainThread & Worker;
+export type ThreadList = Array<Thread>;
+export type WorkerList = Array<Worker>;
 
 export type Cancellable = {
   cancel: () => void
