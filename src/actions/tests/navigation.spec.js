@@ -31,7 +31,7 @@ const threadClient = {
 describe("navigation", () => {
   it("connect sets the debuggeeUrl", async () => {
     const { dispatch, getState } = createStore({
-      fetchWorkers: () => Promise.resolve({ workers: [] })
+      fetchWorkers: () => Promise.resolve([])
     });
     await dispatch(actions.connect("http://test.com/foo"));
     expect(selectors.getDebuggeeUrl(getState())).toEqual("http://test.com/foo");
