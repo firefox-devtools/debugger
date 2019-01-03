@@ -254,9 +254,9 @@ debugger.html community team members help shepherd the community.
 They are here to help mentor new comers, review pull requests, and facilitate issue discussions.
 They are a fantastic resource and genuinely friendly human beings.
 
-| Hubert | Anshul | Tyler | Jaideep | Wellington | Irfan | Martin | Lukas | 
-| ---------- | ------ | ----- | ---- | ----   |   ---- | ---- |---- |
-| ![][bomsy] <br /> [@bomsy][@bomsy] | ![][anshulmalik] <br />[@anshulmalik][@anshulmalik] | ![][wenincode] <br />[@wenincode][@wenincode] | ![][jbhoosreddy] <br /> [@jbhoosreddy][@jbhoosreddy] | ![][wldcordeiro] <br />[@wldcordeiro][@wldcordeiro] | ![][irfanhudda] <br />[@irfanhudda][@irfanhudda] | ![][nyrosmith] <br />[@nyrosmith][@nyrosmith] | ![][lukaszsobek] <br />[@lukaszsobek][@lukaszsobek]  |
+| Hubert | Anshul | Princiya | Tyler | Jaideep | Wellington | Irfan | Martin | Lukas | 
+| ---------- | ------ | -------- | ----- | ---- | ----   |   ---- | ---- |---- |
+| ![][bomsy] <br /> [@bomsy][@bomsy] | ![][anshulmalik] <br />[@anshulmalik][@anshulmalik] | ![][princiya] <br />[@princiya][@princiya] | ![][wenincode] <br />[@wenincode][@wenincode] | ![][jbhoosreddy] <br /> [@jbhoosreddy][@jbhoosreddy] | ![][wldcordeiro] <br />[@wldcordeiro][@wldcordeiro] | ![][irfanhudda] <br />[@irfanhudda][@irfanhudda] | ![][nyrosmith] <br />[@nyrosmith][@nyrosmith] | ![][lukaszsobek] <br />[@lukaszsobek][@lukaszsobek]  |
 
 ### Joining Mozilla
 
@@ -286,6 +286,7 @@ Mozilla has and continues to hire many people from within the Open Source Softwa
 [@lukaszsobek]:https://github.com/lukaszsobek
 [@anshulmalik]:https://github.com/anshulmalik
 [@wenincode]:https://github.com/wenincode
+[@princiya]:https://github.com/princiya
 
 [jasonlaster]:https://avatars.githubusercontent.com/jasonlaster?size=56
 [bomsy]:https://avatars.githubusercontent.com/bomsy?size=56
@@ -300,6 +301,7 @@ Mozilla has and continues to hire many people from within the Open Source Softwa
 [anshulmalik]:https://avatars.githubusercontent.com/anshulmalik?size=56
 [lukaszsobek]:https://avatars.githubusercontent.com/lukaszsobek?size=56
 [wenincode]:https://avatars.githubusercontent.com/wenincode?size=56
+[princiya]:https://avatars.githubusercontent.com/princiya?size=56
 
 [mozilla]:https://www.mozilla.org/
 [mozilla-firefox]:https://www.mozilla.org/firefox/
