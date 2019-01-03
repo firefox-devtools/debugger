@@ -10,7 +10,7 @@
     // plugin:jsx-a11y/recommended set (which they override) that has different severity
     // levels.
     "jsx-a11y/accessible-emoji": "warn",
-    "jsx-a11y/alt-text": "warn",
+    "jsx-a11y/alt-text": "error",
     "jsx-a11y/anchor-has-content": "warn",
     "jsx-a11y/anchor-is-valid": "error",
     "jsx-a11y/aria-activedescendant-has-tabindex": "warn",
