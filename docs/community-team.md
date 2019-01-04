@@ -8,7 +8,6 @@ They are a fantastic resource and genuinely friendly human beings.
 |-------|---|
 | ![Anshul](https://avatars.githubusercontent.com/anshulmalik?s=460&v=4)|**Anshul** is an Applications Deveoper @ORacle, living in India. Ask Anshul about...<ul><li>Source Trees (left Sidebar)</li>Server<li>XHR Breakpoints</li></ul> |
 | ![Hubert](https://avatars3.githubusercontent.com/u/792924?s=460&v=4)|**Hubert** is a software developer @ComparetheMarket, formerly @Oath living in the UK.  Ask him about: <ul><li>Preview</li><li>Tabs</li><li>Search</li></ul> |
-|
 | ![Martin](https://avatars.githubusercontent.com/nyrosmith?)|**Martin** is a software developer @ComparetheMarket, formerly @Oath living in the UK.  Ask him about: <ul><li></li><li></li><li></li></ul> |
 | ![Princiya](https://avatars3.githubusercontent.com/u/8022693?s=460&v=4)|**Princiya** is a software developer from Berlin.<br/>  Ask her about:  <ul><li>Good First Bugs</li><li>Making your first contribution</li><li>React/Redux/CSS</li><li>Anything when you're stuck on a PR</li></ul>  |
 
