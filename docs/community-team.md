@@ -1,15 +1,23 @@
 
-
 ### Community Team
 debugger.html community team members help shepherd the community.They are here to help mentor new comers, review pull requests, and facilitate issue discussions.
 They are a fantastic resource and genuinely friendly human beings.
 
 #### Active Community Team Members
-| Hubert | Anshul | Tyler | Jaideep | Wellington | Irfan | Martin | Lukas |
-| ---------- | ------ | ----- | ---- | ----   |   ---- | ---- |---- |
-|![][bomsy], Software Engineer, UK <br /> [@bomsy][@bomsy] </br> Ask me about... | ![][anshulmalik] <br />[@anshulmalik][@anshulmalik] | ![][wenincode] <br />[@wenincode][@wenincode] | ![][jbhoosreddy] <br /> [@jbhoosreddy][@jbhoosreddy] | ![][wldcordeiro] <br />[@wldcordeiro][@wldcordeiro] | ![][irfanhudda] <br />[@irfanhudda][@irfanhudda] | ![][nyrosmith] <br />[@nyrosmith][@nyrosmith] | ![][lukaszsobek] <br />[@lukaszsobek][@lukaszsobek]  |
+| | (Ordered by first name) |
+|-------|---|
+| ![Anshul](https://avatars.githubusercontent.com/anshulmalik?s=460&v=4)|**Anshul** is an Applications Deveoper @ORacle, living in India. Ask Anshul about...<ul><li>Source Trees (left Sidebar)</li>Server<li>XHR Breakpoints</li></ul> |
+| ![Hubert](https://avatars3.githubusercontent.com/u/792924?s=460&v=4)|**Hubert** is a software developer @ComparetheMarket, formerly @Oath living in the UK.  Ask him about: <ul><li>Preview</li><li>Tabs</li><li>Search</li></ul> |
+|
+| ![Martin](https://avatars.githubusercontent.com/nyrosmith?)|**Martin** is a software developer @ComparetheMarket, formerly @Oath living in the UK.  Ask him about: <ul><li></li><li></li><li></li></ul> |
+| ![Princiya](https://avatars3.githubusercontent.com/u/8022693?s=460&v=4)|**Princiya** is a software developer from Berlin.<br/>  Ask her about:  <ul><li>Good First Bugs</li><li>Making your first contribution</li><li>React/Redux/CSS</li><li>Anything when you're stuck on a PR</li></ul>  |
 
-#### Members on Break
+
+
+#### Members on Break/Paused
+|   |   |
+|---|---|
+| ![Lukas](https://avatars1.githubusercontent.com/u/23530054?s=460&v=4)  |  **Lukas** is a software developer from |
 
 #### Alumni Members
 
