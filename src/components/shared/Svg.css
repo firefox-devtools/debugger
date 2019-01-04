@@ -10,10 +10,11 @@
   fill: var(--theme-splitter-color);
 }
 
-.folder,
-.domain,
-.file,
-.extension {
+.img.folder,
+.img.domain,
+.img.file,
+.img.extension,
+.img.worker {
   background-color: var(--theme-comment);
 }
 
@@ -47,7 +48,8 @@
   height: 15px;
 }
 
-.img.extension {
+.img.extension,
+.img.worker {
   width: 13px;
   height: 13px;
   margin-inline-start: 2px;
@@ -96,11 +98,16 @@
   height: 13px;
 }
 
+.img.worker {
+  mask: url(/images/worker.svg) no-repeat;
+}
+
 .img.domain,
 .img.folder,
 .img.file,
 .sources-list .img.source-icon,
-.img.extension {
+.img.extension,
+.img.worker {
   mask-size: 100%;
   margin-inline-end: 5px;
   display: inline-block;
