@@ -74,7 +74,7 @@ describe("Group", () => {
 
     component.setState({ expanded: true });
 
-    const frameComponents = component.find("FrameComponent");
+    const frameComponents = component.find("Frame");
     expect(frameComponents).toHaveLength(3);
     frameComponents.forEach(node => {
       expect(node.prop("getFrameTitle")).toBe(getFrameTitle);

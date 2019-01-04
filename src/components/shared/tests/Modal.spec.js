@@ -29,12 +29,12 @@ describe("Modal", () => {
   it("passes additionalClass to child div class", () => {
     const additionalClass = "testAddon";
     const wrapper = shallow(<Modal additionalClass={additionalClass} />);
-    expect(wrapper.find(`.modal .${additionalClass}`)).toHaveLength(1);
+    expect(wrapper.find(`.modal-wrapper .${additionalClass}`)).toHaveLength(1);
   });
 
   it("passes status to child div class", () => {
     const status = "testStatus";
     const wrapper = shallow(<Modal status={status} />);
-    expect(wrapper.find(`.modal .${status}`)).toHaveLength(1);
+    expect(wrapper.find(`.modal-wrapper .${status}`)).toHaveLength(1);
   });
 });
