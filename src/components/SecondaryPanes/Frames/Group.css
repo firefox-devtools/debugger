@@ -36,6 +36,10 @@
   color: var(--theme-highlight-blue);
 }
 
+.group-description-name{
+  padding-left: 5px;   
+}
+
 .arrow {
   display: inline-block;
   width: 12px;
