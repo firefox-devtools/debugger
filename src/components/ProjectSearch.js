@@ -83,8 +83,8 @@ function sanitizeQuery(query: string): string {
 }
 
 type FileItem = {
-  setExpanded: (Object, boolean) => any,
-  file: Object,
+  setExpanded: (Result, boolean) => any,
+  file: Result,
   expanded: boolean
 };
 type MatchItem = {
