@@ -69,6 +69,7 @@ export function paused(pauseInfo: Pause) {
       dispatch(removeBreakpoint(hiddenBreakpointLocation));
     }
 
+    await dispatch(setSymbols());
     await dispatch(mapFrames());
 
     const selectedFrame = getSelectedFrame(getState());
