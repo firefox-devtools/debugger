@@ -1,12 +1,12 @@
 ## Mochitests
 
-* [Getting Started](#getting-started)
-* [Running the tests](#running-the-tests)
-* [Mochi](#mochi)
-* [Writing Tests](#writing-tests)
-* [Debugging Intermittents](#debugging-intermittents)
-* [Troubleshooting Test Harness](#troubleshooting-test-harness)
-  * [Missing Rust compiler](#missing-rust-compiler)
+- [Getting Started](#getting-started)
+- [Running the tests](#running-the-tests)
+- [Mochi](#mochi)
+- [Writing Tests](#writing-tests)
+- [Debugging Intermittents](#debugging-intermittents)
+- [Troubleshooting Test Harness](#troubleshooting-test-harness)
+  - [Missing Rust compiler](#missing-rust-compiler)
 
 We use [mochitests] to do integration testing. Mochitests are part of Firefox and allow us to test the debugger literally as you would use it (as a devtools panel).
 
@@ -18,48 +18,48 @@ Mochitests are different from Jest, Mocha, Selenium, because we have access to f
 
 **Requirements**
 
-* mercurial ( `brew install mercurial` )
-* autoconf213 ( `brew install autoconf@2.13 && brew unlink autoconf` )
+- mercurial ( `brew install mercurial` )
+- autoconf213 ( `brew install autoconf@2.13 && brew unlink autoconf` )
 
 **Setup Firefox**
 
-* Inside the main debugger.html folder run:
+- Inside the main debugger.html folder run:
 
 ```
 ./bin/prepare-mochitests-dev
 ```
 
 This command will either clone `mozilla-central` (the firefox repo) or update it.
-It also sets up a symlink for the tests so that changes in `src/test/mochitest` are
+It also sets up a symlink for the tests so that changes in `test/mochitest` are
 reflected in the new firefox directory.
 
 ### Running the tests
 
-* `yarn watch` copies new bundles into the firefox directory
-* `yarn mochi` runs the tests in a second process
+- `yarn watch` copies new bundles into the firefox directory
+- `yarn mochi` runs the tests in a second process
 
 ### Mochi
 
 `mochi` passes its params along to `mochitest`, so you can include `--jsdebugger` and test globs
 
-* `yarn mochi dbg-editor-highlight` runs just one test
-* `yarn mochid dbg-editor-highlight` opens a browser toolbox
-* `yarn mochih dbg-editor-highlight` runs the test headlessly
+- `yarn mochi dbg-editor-highlight` runs just one test
+- `yarn mochid dbg-editor-highlight` opens a browser toolbox
+- `yarn mochih dbg-editor-highlight` runs the test headlessly
 
 ## Writing Tests
 
 Here are a few tips for writing mochitests:
 
-* There are lots of great helper methods in [head]
-* Try to write async user actions that involve a user action like clicking a button or typing a key press followed by a redux action to listen for. For example, the user step in action involves the user clicking the step in button followed by the "stepIn" action firing.
-* The `dbg` object has several helpful properties (actions, selectors, getState, store, toolbox, win)
+- There are lots of great helper methods in [head]
+- Try to write async user actions that involve a user action like clicking a button or typing a key press followed by a redux action to listen for. For example, the user step in action involves the user clicking the step in button followed by the "stepIn" action firing.
+- The `dbg` object has several helpful properties (actions, selectors, getState, store, toolbox, win)
 
 ### Videos
 
 If you're looking for some tutorials on how to write and debug mochitests
 
-* [How We Test the Debugger][testing]
-* [Mochitest (Pause on Next)][testing2]
+- [How We Test the Debugger][testing]
+- [Mochitest (Pause on Next)][testing2]
 
 [testing]: https://www.youtube.com/watch?v=5K9Sx5529JE&t=547s
 [testing2]: https://www.youtube.com/watch?v=E3QIwrcKnwg
@@ -89,8 +89,8 @@ The other way is to add `await waitForever()` to your test. This stops the test 
 
 It's really common to want to wait for something to happen in a test. Generally we wait for one of two things to happen:
 
-* waiting for the Redux state to change
-* waiting for an action to be dispatched
+- waiting for the Redux state to change
+- waiting for an action to be dispatched
 
 ```js
 await waitForState(dbg, state => isPaused(state));
@@ -146,9 +146,9 @@ The mochitest logs provide some context:
 The next step is to add additional logging in the test and debugger code with `info` calls.
 We recommend prefixing your logs and formatting them so they are easy to scan e.g.:
 
-* `info(">> Add breakpoint ${line} -> ${condition}\n")`
-* `info(">> Current breakpoints ${breakpoints.map(bp => bp.location.line).join(", ")}\n")`
-* `info(">> Symbols for source ${source.url} ${JSON.stringify(symbols)}\n")`
+- `info(">> Add breakpoint ${line} -> ${condition}\n")`
+- `info(">> Current breakpoints ${breakpoints.map(bp => bp.location.line).join(", ")}\n")`
+- `info(">> Symbols for source ${source.url} ${JSON.stringify(symbols)}\n")`
 
 At some point, it can be nice to pause the test and debug it. Mochitest makes it easy to pause the test at `debugger` statements with the `--jsdebugger` flag.
 You can run the test with `yarn mochid {test_name}` (ex: `browser_dbg-editor-highlight`).
@@ -161,9 +161,9 @@ You can run the test with `yarn mochid {test_name}` (ex: `browser_dbg-editor-hig
 Intermittents are when a test succeeds most the time (95%) of the time, but not all the time.
 There are several easy traps that result in intermittents:
 
-* **browser inconsistencies** sometimes the server is not as consistent as you would like. For instance, reloading can sometimes cause sources to load out of order. Also stepping too quickly can cause the debugger to enter a bad state. A memorable example of this type of inconsistency came when debugging stepping behavior. It turns out that 1% of the time the browser toolbox will step into an [unexpected location][server-oops]. The solution is too loosen our expectations :)
-* **missed actions** sometimes action "B" can fire before action "A" is done. This is a race condition that can be hard to track down. When you suspect this might happen, it is a good practice to start listening for "B" before you fire action "A". Here's an example where this happened with [reloading][waiting].
-* **state changes** One common way tests start failing occurs when the redux actions introduces a new asynchronous operation. A good way to safe guard your tests is to wait on state to have certain values. An example, of a test that we recently fixed was [pretty printing][pretty-printing]. The test initially waited for the "select source" action to fire, which was occasionally racey. Switching the test to wait for the formatted source to exist simplified the test tremendously.
+- **browser inconsistencies** sometimes the server is not as consistent as you would like. For instance, reloading can sometimes cause sources to load out of order. Also stepping too quickly can cause the debugger to enter a bad state. A memorable example of this type of inconsistency came when debugging stepping behavior. It turns out that 1% of the time the browser toolbox will step into an [unexpected location][server-oops]. The solution is too loosen our expectations :)
+- **missed actions** sometimes action "B" can fire before action "A" is done. This is a race condition that can be hard to track down. When you suspect this might happen, it is a good practice to start listening for "B" before you fire action "A". Here's an example where this happened with [reloading][waiting].
+- **state changes** One common way tests start failing occurs when the redux actions introduces a new asynchronous operation. A good way to safe guard your tests is to wait on state to have certain values. An example, of a test that we recently fixed was [pretty printing][pretty-printing]. The test initially waited for the "select source" action to fire, which was occasionally racey. Switching the test to wait for the formatted source to exist simplified the test tremendously.
 
 ### Appendix
 
@@ -253,7 +253,7 @@ add_task(function*() {
 
 The Debugger Mochitest API Documentation can be found [here](https://devtools-html.github.io/debugger.html/reference#mochitest).
 
-[head]: https://github.com/devtools-html/debugger.html/blob/master/src/test/mochitest/head.js
+[head]: https://github.com/devtools-html/debugger.html/blob/master/test/mochitest/head.js
 [mochitests]: https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Mochitest
 [waiting]: https://github.com/devtools-html/debugger.html/commit/7b4762d9333108b15d81bc41e12182370c81e81c
 [server-oops]: https://github.com/devtools-html/debugger.html/commit/7e54e6b46181b747a828ab2dc1db96c88313db95#diff-4fb7729ef51f162ae50b7c3bc020a1e3
@@ -261,14 +261,15 @@ The Debugger Mochitest API Documentation can be found [here](https://devtools-ht
 [local-config]: https://github.com/devtools-html/debugger.html/blob/master/docs/local-development.md#logging
 
 ## Troubleshooting Test Harness
+
 If symbolic link is suddenly lost between debugger.html and Firefox source, in your terminal, try the following
 
 1. Navigate to the firefox directory (i.e. `cd ~/debugger.html/firefox`)
 2. Execute `./mach mochitest --headless devtools/client/debugger/new`
 
-  If a symbolic link occurs, error message(s) will be displayed.
+If a symbolic link occurs, error message(s) will be displayed.
 
-  ![Test harness with symbolic link errors](http://i40.photobucket.com/albums/e250/md2k6/Public/Opensource/debugger-html-6297/mochitest-error_zpsgicbau0z.jpg)
+![Test harness with symbolic link errors](http://i40.photobucket.com/albums/e250/md2k6/Public/Opensource/debugger-html-6297/mochitest-error_zpsgicbau0z.jpg)
 
 3. Execute `./bin/prepare-mochitests-dev`.
 
@@ -278,11 +279,12 @@ is complete.
 
 4. On a new terminal tab, execute the command to run your test again. If this failed, proceed to step 5.
 
-5.  Execute `./mach configure`
+5. Execute `./mach configure`
 
 This will attempt to fix the harness' configurations.
 
 ### Missing Rust compiler
+
 If you are having issues running mochitest due to missing the Rust compiler, try the following:
 
 1. In the root directory of the project (i.e. `debugger.html/`), execute `./mach configure`.
@@ -295,7 +297,7 @@ If you are having issues running mochitest due to missing the Rust compiler, try
 
 5. Execute `./bin/prepare-mochitests-dev`.
 
-  You may see warnings along the way and the process may
+You may see warnings along the way and the process may
 appear to be frozen. Please be patient, this is expected as it will take a while to recompile. Warning messages does not mean the compilation process has failed.
 
 6. Repeat steps 2 and 3.

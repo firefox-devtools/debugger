@@ -5,7 +5,7 @@
 global.Worker = require("workerjs");
 
 import path from "path";
-import getConfig from "../../bin/getConfig";
+// import getConfig from "../../bin/getConfig";
 import { readFileSync } from "fs";
 import Enzyme from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
@@ -37,11 +37,18 @@ env.testing = true;
 
 const rootPath = path.join(__dirname, "../../");
 
-global.DebuggerConfig = getConfig();
+function getL10nBundle() {
+  const read = file => readFileSync(path.join(__dirname, file));
+  try {
+    return read("../../assets/panel/debugger.properties");
+  } catch (e) {
+    return read("../../../../locales/en-us/debugger.properties");
+  }
+}
+
+global.DebuggerConfig = {};
 global.L10N = require("devtools-launchpad").L10N;
-global.L10N.setBundle(
-  readFileSync(path.join(__dirname, "../../assets/panel/debugger.properties"))
-);
+global.L10N.setBundle(getL10nBundle());
 global.jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 global.performance = { now: () => 0 };
 
