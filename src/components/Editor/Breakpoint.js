@@ -54,7 +54,7 @@ class Breakpoint extends PureComponent<Props> {
     const line = toEditorLine(sourceId, breakpoint.location.line);
     const doc = getDocument(sourceId);
 
-    doc.setGutterMarker(line, "breakpoints",  makeMarker(breakpoint.disabled));
+    doc.setGutterMarker(line, "breakpoints", makeMarker(breakpoint.disabled));
 
     editor.codeMirror.addLineClass(line, "line", "new-breakpoint");
     if (breakpoint.condition) {
@@ -77,7 +77,7 @@ class Breakpoint extends PureComponent<Props> {
   }
 
   componentWillUnmount() {
-    const { editor, breakpoint, selectedSource } = this.props;
+    const { breakpoint, selectedSource } = this.props;
     if (!selectedSource || breakpoint.loading) {
       return;
     }
