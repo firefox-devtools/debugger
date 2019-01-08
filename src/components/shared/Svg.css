@@ -62,44 +62,206 @@
 
 .img.domain {
   mask: url(/images/domain.svg) no-repeat;
+  mask-size: 100%;
 }
 
 .img.folder {
   mask: url(/images/folder.svg) no-repeat;
+  mask-size: 100%;
 }
 
 .img.coffeescript {
   mask: url(/images/coffeescript.svg) no-repeat;
+  mask-size: 100%;
 }
 
 .img.javascript {
   mask: url(/images/javascript.svg) no-repeat;
+  mask-size: 100%;
 }
 
 .img.tab {
   mask: url(/images/tab.svg) no-repeat;
+  mask-size: 100%;
 }
 
 .img.react {
   mask: url(/images/react.svg) no-repeat;
+  mask-size: 100%;
+}
+
+.img.aframe {
+  mask: url(/images/aframe.svg) no-repeat;
+  mask-size: 100%;
+}
+
+.img.babel {
+  mask: url(/images/babel.svg) no-repeat;
+  mask-size: 100%;
+}
+
+.img.backbone {
+  mask: url(/images/backbone.svg) no-repeat;
+  mask-size: 100%;
+}
+
+.img.choo {
+  mask: url(/images/choo.svg) no-repeat;
+  mask-size: 100%;
+}
+
+.img.dojo {
+  mask: url(/images/dojo.svg) no-repeat;
+  mask-size: 100%;
+}
+
+.img.ember {
+  mask: url(/images/ember.svg) no-repeat;
+  mask-size: 100%;
+}
+
+.img.immutable {
+  mask: url(/images/immutable.svg) no-repeat;
+  mask-size: 100%;
+}
+
+.img.jquery {
+  mask: url(/images/jquery.svg) no-repeat;
+  mask-size: 100%;
+}
+
+.img.lodash {
+  mask: url(/images/lodash.svg) no-repeat;
+  mask-size: 100%;
+}
+
+.img.marko {
+  mask: url(/images/marko.svg) no-repeat;
+  mask-size: 100%;
+}
+
+.img.mobx {
+  mask: url(/images/mobx.svg) no-repeat;
+  mask-size: 100%;
+}
+
+.img.next-circle {
+  mask: url(/images/next-circle.svg) no-repeat;
+  mask-size: 100%;
+}
+
+.img.next {
+  mask: url(/images/next.svg) no-repeat;
+  mask-size: 100%;
+}
+
+.img.nextjs {
+  mask: url(/images/nextjs.svg) no-repeat;
+  mask-size: 100%;
+}
+
+.img.nuxtjs {
+  mask: url(/images/nuxtjs.svg) no-repeat;
+  mask-size: 100%;
+}
+
+.img.preact {
+  mask: url(/images/preact.svg) no-repeat;
+  mask-size: 100%;
+}
+
+.img.pug {
+  mask: url(/images/pug.svg) no-repeat;
+  mask-size: 100%;
+}
+
+.img.redux {
+  mask: url(/images/redux.svg) no-repeat;
+  mask-size: 100%;
+}
+
+.img.rxjs {
+  mask: url(/images/rxjs.svg) no-repeat;
+  mask-size: 100%;
+}
+
+.img.sencha-extjs {
+  mask: url(/images/sencha-extjs.svg) no-repeat;
+  mask-size: 100%;
+}
+
+.img.underscore {
+  mask: url(/images/underscore.svg) no-repeat;
+  mask-size: 100%;
+}
+
+.img.webpack {
+  mask: url(/images/webpack.svg) no-repeat;
+  mask-size: 100%;
 }
 
 .img.typescript {
   mask: url(/images/typescript.svg) no-repeat;
+  mask-size: 100%;
 }
 
 .img.extension {
   mask: url(/images/extension.svg) no-repeat;
+  mask-size: 100%;
+}
+
+.img.toggle-panes {
+  mask: url(/images/toggle-panes.svg) no-repeat;
+  mask-size: 100%;
 }
 
 .img.file {
   mask: url(/images/file.svg) no-repeat;
+  mask-size: 100%;
   width: 13px;
   height: 13px;
 }
 
 .img.worker {
   mask: url(/images/worker.svg) no-repeat;
+  mask-size: 100%;
+}
+
+.img.plus {
+  mask: url(/images/plus.svg) no-repeat;
+  mask-size: 100%;
+  height: 16px;
+  width: 16px;
+}
+
+.img.magnifying-glass {
+  mask: url(/images/magnifying-glass.svg) no-repeat;
+  mask-size: 100%;
+}
+
+.img.case-match {
+  mask: url(/images/case-match.svg) no-repeat;
+  mask-size: 100%;
+}
+
+.img.regex-match {
+  mask: url(/images/regex-match.svg) no-repeat;
+  mask-size: 100%;
+}
+
+.img.whole-word-match {
+  mask: url(/images/whole-word-match.svg) no-repeat;
+  mask-size: 100%;
+}
+
+.img.breadcrumb {
+  mask: url(/images/breadcrumbs-divider.svg) no-repeat;
+  mask-size: 100%;
+}
+
+.img.home {
+  mask: url(/images/home.svg) no-repeat;
+  mask-size: 100%;
 }
 
 .img.domain,
@@ -141,28 +303,25 @@
   transition: transform 0.18s ease;
 }
 
-html[dir="ltr"] .img.arrow {
-  transform: rotate(-90deg);
-}
 
 html[dir="rtl"] .img.arrow {
   transform: rotate(90deg);
 }
 
-.arrow svg {
+.arrow {
   transition: transform 0.125s ease;
   width: 10px;
   margin-inline-end: 5px;
   transform: rotate(-90deg);
 }
 
-html[dir="rtl"] .arrow svg,
-.arrow svg:dir(rtl),
-.arrow svg:-moz-locale-dir(rtl) {
+html[dir="rtl"] .arrow,
+.arrow:dir(rtl),
+.arrow:-moz-locale-dir(rtl) {
   transform: rotate(90deg);
 }
 
-.arrow.expanded.expanded svg {
+.arrow.expanded {
   transform: rotate(0deg);
 }
 
