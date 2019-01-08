@@ -27,6 +27,8 @@ import { fetchScopes } from "./fetchScopes";
 import type { Pause, Frame } from "../../types";
 import type { ThunkArgs } from "../types";
 
+import { setSymbols } from "../ast";
+
 async function getOriginalSourceForFrame(state, frame: Frame) {
   return getSources(state)[frame.location.sourceId];
 }
@@ -74,6 +76,7 @@ export function paused(pauseInfo: Pause) {
       dispatch(removeBreakpoint(hiddenBreakpoint));
     }
 
+    await dispatch(setSymbols());
     await dispatch(mapFrames());
 
     const selectedFrame = getSelectedFrame(getState());

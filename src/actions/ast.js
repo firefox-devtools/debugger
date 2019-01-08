@@ -12,7 +12,6 @@ import {
   isPaused
 } from "../selectors";
 
-import { mapFrames } from "./pause";
 import { updateTab } from "./tabs";
 
 import { PROMISE } from "./utils/middleware/promise";
@@ -65,10 +64,6 @@ export function setSymbols(sourceId: SourceId) {
       sourceId,
       [PROMISE]: parser.getSymbols(sourceId)
     });
-
-    if (isPaused(getState())) {
-      await dispatch(mapFrames());
-    }
 
     await dispatch(setPausePoints(sourceId));
     await dispatch(setSourceMetaData(sourceId));
