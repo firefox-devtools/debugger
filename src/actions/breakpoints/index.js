@@ -23,7 +23,8 @@ import { assertBreakpoint, createXHRBreakpoint } from "../../utils/breakpoint";
 import {
   addBreakpoint,
   addHiddenBreakpoint,
-  enableBreakpoint
+  enableBreakpoint,
+  addDisabledBreakpoint
 } from "./addBreakpoint";
 import remapLocations from "./remapLocations";
 import { syncBreakpoint } from "./syncBreakpoint";
@@ -351,7 +352,7 @@ export function addOrToggleDisabledBreakpoint(line: number, column?: number) {
     }
 
     return dispatch(
-      addBreakpoint({
+      addDisabledBreakpoint({
         sourceId: selectedSource.id,
         sourceUrl: selectedSource.url,
         line: line,

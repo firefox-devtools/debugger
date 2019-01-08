@@ -80,7 +80,7 @@ async function addBreakpointPromise(getState, client, sourceMaps, breakpoint) {
 
   const newBreakpoint = {
     id,
-    disabled: false,
+    disabled: breakpoint.disabled,
     hidden: breakpoint.hidden,
     loading: false,
     condition: breakpoint.condition,
@@ -166,6 +166,39 @@ export function addBreakpoint(
     }
 
     const breakpoint = createBreakpoint(location, { condition, hidden });
+
+    return dispatch({
+      type: "ADD_BREAKPOINT",
+      breakpoint,
+      [PROMISE]: addBreakpointPromise(getState, client, sourceMaps, breakpoint)
+    });
+  };
+}
+/**
+ * Add a new disabled breakpoint
+ *
+ * @memberof actions/breakpoints
+ * @static
+ * @param {String} $1.condition Conditional breakpoint condition value
+ * @param {Boolean} $1.disabled Disable value for breakpoint value
+ */
+
+export function addDisabledBreakpoint(
+  location: SourceLocation,
+  { condition, hidden }: addBreakpointOptions = {}
+) {
+  return async ({ dispatch, getState, sourceMaps, client }: ThunkArgs) => {
+    recordEvent("add_breakpoint");
+
+    if (features.columnBreakpoints && location.column === undefined) {
+      location = getFirstPausePointLocation(getState(), location);
+    }
+
+    const breakpoint = createBreakpoint(location, {
+      condition,
+      hidden,
+      disabled: true
+    });
 
     return dispatch({
       type: "ADD_BREAKPOINT",
