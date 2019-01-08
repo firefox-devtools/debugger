@@ -26,6 +26,8 @@ import { fetchScopes } from "./fetchScopes";
 import type { Pause, Frame } from "../../types";
 import type { ThunkArgs } from "../types";
 
+import { setSymbols } from "../ast";
+
 async function getOriginalSourceForFrame(state, frame: Frame) {
   return getSources(state)[frame.location.sourceId];
 }

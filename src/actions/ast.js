@@ -12,7 +12,6 @@ import {
   isPaused
 } from "../selectors";
 
-import { mapFrames } from "./pause";
 import { updateTab } from "./tabs";
 
 import { PROMISE } from "./utils/middleware/promise";
