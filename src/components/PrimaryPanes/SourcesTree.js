@@ -32,7 +32,6 @@ import actions from "../../actions";
 import AccessibleImage from "../shared/AccessibleImage";
 import SourcesTreeItem from "./SourcesTreeItem";
 import ManagedTree from "../shared/ManagedTree";
-import Svg from "../shared/Svg";
 
 // Utils
 import {
@@ -69,7 +68,6 @@ type Props = {
   expanded: Set<string>,
   selectSource: typeof actions.selectSource,
   setExpandedState: typeof actions.setExpandedState,
-  clearProjectDirectoryRoot: typeof actions.clearProjectDirectoryRoot,
   focusItem: typeof actions.focusItem,
   focused: TreeNode,
   workerCount: number
@@ -217,30 +215,6 @@ class SourcesTree extends Component<Props, State> {
     );
   }
 
-  renderProjectRootHeader() {
-    const { projectRoot } = this.props;
-
-    if (!projectRoot) {
-      return null;
-    }
-
-    const rootLabel = projectRoot.split("/").pop();
-
-    return (
-      <div key="root" className="sources-clear-root-container">
-        <button
-          className="sources-clear-root"
-          onClick={() => this.props.clearProjectDirectoryRoot()}
-          title={L10N.getStr("removeDirectoryRoot.label")}
-        >
-          <Svg name="home" />
-          <Svg name="breadcrumb" />
-          <span className="sources-clear-root-label">{rootLabel}</span>
-        </button>
-      </div>
-    );
-  }
-
   getRoots = () => {
     const { projectRoot } = this.props;
     const { sourceTree } = this.state;
@@ -354,20 +328,7 @@ class SourcesTree extends Component<Props, State> {
   }
 
   render() {
-    const { projectRoot, worker } = this.props;
-
-    if (!features.windowlessWorkers && worker) {
-      return null;
-    }
-
     if (this.isEmpty()) {
-      if (projectRoot) {
-        return this.renderPane(
-          this.renderProjectRootHeader(),
-          this.renderEmptyElement(L10N.getStr("sources.noSourcesAvailableRoot"))
-        );
-      }
-
       return this.renderPane(
         this.renderEmptyElement(L10N.getStr("sources.noSourcesAvailable"))
       );
@@ -375,7 +336,6 @@ class SourcesTree extends Component<Props, State> {
 
     return this.renderPane(
       this.renderThreadHeader(),
-      this.renderProjectRootHeader(),
       <div key="tree" className="sources-list" onKeyDown={this.onKeyDown}>
         {this.renderTree()}
       </div>
@@ -424,7 +384,6 @@ export default connect(
   {
     selectSource: actions.selectSource,
     setExpandedState: actions.setExpandedState,
-    clearProjectDirectoryRoot: actions.clearProjectDirectoryRoot,
     focusItem: actions.focusItem
   }
 )(SourcesTree);

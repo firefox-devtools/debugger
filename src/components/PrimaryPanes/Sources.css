@@ -209,6 +209,10 @@
   height: 100%;
 }
 
+.source-outline-panel.has-root .thread-header {
+  margin-top: 4px;
+}
+
 .sources-list .managed-tree .tree .node .img.blackBox {
   mask: url(/images/blackBox.svg) no-repeat;
   mask-size: 100%;
