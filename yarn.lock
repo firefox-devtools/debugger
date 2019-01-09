@@ -5496,6 +5496,13 @@ github-slugger@^1.0.0:
   dependencies:
     emoji-regex ">=6.0.0 <=6.1.1"
 
+github-slugger@^1.2.0:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/github-slugger/-/github-slugger-1.2.1.tgz#47e904e70bf2dccd0014748142d31126cfd49508"
+  integrity sha512-SsZUjg/P03KPzQBt7OxJPasGw6NRO5uOgiZ5RGXVud5iSIZ0eNZeNp5rTwCxtavrRUa/A77j8mePVc5lEvk0KQ==
+  dependencies:
+    emoji-regex ">=6.0.0 <=6.1.1"
+
 glamor@^2.20.40:
   version "2.20.40"
   resolved "https://registry.yarnpkg.com/glamor/-/glamor-2.20.40.tgz#f606660357b7cf18dface731ad1a2cfa93817f05"
@@ -8176,6 +8183,11 @@ mdast-util-to-string@^1.0.0, mdast-util-to-string@^1.0.2:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/mdast-util-to-string/-/mdast-util-to-string-1.0.4.tgz#5c455c878c9355f0c1e7f3e8b719cf583691acfb"
   integrity sha1-XEVch4yTVfDB5/PotxnPWDaRrPs=
+
+mdast-util-to-string@^1.0.4:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/mdast-util-to-string/-/mdast-util-to-string-1.0.5.tgz#3552b05428af22ceda34f156afe62ec8e6d731ca"
+  integrity sha512-2qLt/DEOo5F6nc2VFScQiHPzQ0XXcabquRJxKMhKte8nt42o08HUxNDPk7tt0YPxnWjAT11I1SYi0X0iPnfI5A==
 
 media-typer@0.3.0:
   version "0.3.0"
@@ -11269,6 +11281,20 @@ remark-validate-links@^7.0.0:
     mdast-util-definitions "^1.0.0"
     propose "0.0.5"
     remark-slug "^4.2.1"
+    unist-util-visit "^1.0.0"
+    urljoin "^0.1.5"
+    xtend "^4.0.1"
+
+remark-validate-links@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/remark-validate-links/-/remark-validate-links-8.0.0.tgz#4127c255a08610aa8acb1d7c072d878dc087222f"
+  integrity sha512-S9255mpPMLGKC5xHTgmJOcbKjUGXwag+5VBBbOZqkmstfg7wDnElgsGDOkOeqzSIrlq8Oom+aXTy/Pds3Lhhgg==
+  dependencies:
+    github-slugger "^1.2.0"
+    hosted-git-info "^2.5.0"
+    mdast-util-definitions "^1.0.0"
+    mdast-util-to-string "^1.0.4"
+    propose "0.0.5"
     unist-util-visit "^1.0.0"
     urljoin "^0.1.5"
     xtend "^4.0.1"
