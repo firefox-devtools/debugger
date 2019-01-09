@@ -1,0 +1,21 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
+.event-listener-group {
+	user-select: none;
+}
+
+.event-listener-category {
+	font-weight: bold;
+}
+
+.event-listener-event {
+	display: flex;
+	align-items: center;
+}
+
+.event-listener-event input {
+	margin-inline-end: 6px;
+	margin-inline-start: 20px;
+}

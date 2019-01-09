@@ -6,6 +6,8 @@
 
 import React, { Component } from "react";
 
+import "./EventListeners.css";
+
 const CATEGORIES = {
   Mouse: ["click", "mouseover", "dblclick"],
   Keyboard: ["keyup", "keydown"]
@@ -17,15 +19,23 @@ class EventListeners extends Component<Props, State> {
       return (
         <div className="event-listener-group" key={category}>
           <label>
-            <input type="checkbox" value={category} />
-            <div className="event-listener-category">{category}</div>
+            <input
+              type="checkbox"
+              value={category}
+              onChange={() => this.onCategoryClick(category)}
+            />
+            <span className="event-listener-category">{category}</span>
           </label>
           {CATEGORIES[category].map(event => {
             const key = `${category}:${event}`;
             return (
               <div className="event-listener-event" key={key}>
                 <label>
-                  <input type="checkbox" value={key} />
+                  <input
+                    type="checkbox"
+                    value={key}
+                    onChange={() => this.onEventClick(key)}
+                  />
                   {event}
                 </label>
               </div>
@@ -34,6 +44,14 @@ class EventListeners extends Component<Props, State> {
         </div>
       );
     });
+  }
+
+  onCategoryClick(category) {
+    console.log("Category click!", category);
+  }
+
+  onEventClick(event) {
+    console.log("Event click", event);
   }
 
   render() {
