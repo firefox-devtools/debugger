@@ -113,11 +113,13 @@ function updateTabList(
 }
 
 function persistTabs(tabs) {
-  return tabs.filter(tab => tab.url).map(tab => {
-    const newTab = { ...tab };
-    delete newTab.sourceId;
-    return newTab;
-  });
+  return tabs
+    .filter(tab => tab.url)
+    .map(tab => {
+      const newTab = { ...tab };
+      delete newTab.sourceId;
+      return newTab;
+    });
 }
 
 function moveTabInList(tabs: TabList, { url, tabIndex: newIndex }) {

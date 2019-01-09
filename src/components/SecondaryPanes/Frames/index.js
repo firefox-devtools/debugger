@@ -128,37 +128,36 @@ class Frames extends Component<Props, State> {
 
     return (
       <ul>
-        {framesOrGroups.map(
-          (frameOrGroup: FrameOrGroup) =>
-            frameOrGroup.id ? (
-              <FrameComponent
-                frame={frameOrGroup}
-                toggleFrameworkGrouping={this.toggleFrameworkGrouping}
-                copyStackTrace={this.copyStackTrace}
-                frameworkGroupingOn={frameworkGroupingOn}
-                selectFrame={selectFrame}
-                selectedFrame={selectedFrame}
-                toggleBlackBox={toggleBlackBox}
-                key={String(frameOrGroup.id)}
-                displayFullUrl={displayFullUrl}
-                getFrameTitle={getFrameTitle}
-                disableContextMenu={disableContextMenu}
-              />
-            ) : (
-              <Group
-                group={frameOrGroup}
-                toggleFrameworkGrouping={this.toggleFrameworkGrouping}
-                copyStackTrace={this.copyStackTrace}
-                frameworkGroupingOn={frameworkGroupingOn}
-                selectFrame={selectFrame}
-                selectedFrame={selectedFrame}
-                toggleBlackBox={toggleBlackBox}
-                key={frameOrGroup[0].id}
-                displayFullUrl={displayFullUrl}
-                getFrameTitle={getFrameTitle}
-                disableContextMenu={disableContextMenu}
-              />
-            )
+        {framesOrGroups.map((frameOrGroup: FrameOrGroup) =>
+          frameOrGroup.id ? (
+            <FrameComponent
+              frame={frameOrGroup}
+              toggleFrameworkGrouping={this.toggleFrameworkGrouping}
+              copyStackTrace={this.copyStackTrace}
+              frameworkGroupingOn={frameworkGroupingOn}
+              selectFrame={selectFrame}
+              selectedFrame={selectedFrame}
+              toggleBlackBox={toggleBlackBox}
+              key={String(frameOrGroup.id)}
+              displayFullUrl={displayFullUrl}
+              getFrameTitle={getFrameTitle}
+              disableContextMenu={disableContextMenu}
+            />
+          ) : (
+            <Group
+              group={frameOrGroup}
+              toggleFrameworkGrouping={this.toggleFrameworkGrouping}
+              copyStackTrace={this.copyStackTrace}
+              frameworkGroupingOn={frameworkGroupingOn}
+              selectFrame={selectFrame}
+              selectedFrame={selectedFrame}
+              toggleBlackBox={toggleBlackBox}
+              key={frameOrGroup[0].id}
+              displayFullUrl={displayFullUrl}
+              getFrameTitle={getFrameTitle}
+              disableContextMenu={disableContextMenu}
+            />
+          )
         )}
       </ul>
     );

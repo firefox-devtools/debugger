@@ -30,9 +30,11 @@ describe("CommandBar", () => {
     const keyEventHandlers = context.shortcuts.on.mock.calls;
 
     // simulate pressing the F8 key by calling the F8 handlers
-    keyEventHandlers.filter(i => i[0] === "F8").forEach(([_, handler]) => {
-      handler(null, mockEvent);
-    });
+    keyEventHandlers
+      .filter(i => i[0] === "F8")
+      .forEach(([_, handler]) => {
+        handler(null, mockEvent);
+      });
 
     expect(props.breakOnNext).toBeCalled();
     expect(props.resume).not.toBeCalled();
@@ -61,9 +63,11 @@ describe("CommandBar", () => {
     const keyEventHandlers = context.shortcuts.on.mock.calls;
 
     // simulate pressing the F8 key by calling the F8 handlers
-    keyEventHandlers.filter(i => i[0] === "F8").forEach(([_, handler]) => {
-      handler(null, mockEvent);
-    });
+    keyEventHandlers
+      .filter(i => i[0] === "F8")
+      .forEach(([_, handler]) => {
+        handler(null, mockEvent);
+      });
     expect(props.resume).toBeCalled();
     expect(props.breakOnNext).not.toBeCalled();
   });
