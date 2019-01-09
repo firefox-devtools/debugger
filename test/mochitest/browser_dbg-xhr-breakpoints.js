@@ -9,7 +9,7 @@
   if (plusIcon) {
     plusIcon.click();
   }
-  findElementWithSelector(dbg, ".xhr-input").focus();
+  findElementWithSelector(dbg, ".xhr-input-url").focus();
   type(dbg, text);
   pressKey(dbg, "Enter");
 

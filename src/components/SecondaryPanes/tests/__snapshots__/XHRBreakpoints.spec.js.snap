@@ -1,0 +1,532 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`XHR Breakpoints should render with 0 expressions passed from props 1`] = `
+<XHRBreakpoints
+  xhrBreakpoints={
+    Array [
+      Object {
+        "disabled": false,
+        "loading": false,
+        "method": "ANY",
+        "path": "",
+        "text": "URL contains \\"\\"",
+      },
+    ]
+  }
+>
+  <div>
+    <div
+      className="breakpoints-exceptions-options empty"
+    >
+      <ExceptionOption
+        className="breakpoints-exceptions"
+        label="Pause on any URL"
+        onChange={[Function]}
+      >
+        <div
+          className="breakpoints-exceptions"
+          onClick={[Function]}
+        >
+          <input
+            checked=""
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <div
+            className="breakpoint-exceptions-label"
+          >
+            Pause on any URL
+          </div>
+        </div>
+      </ExceptionOption>
+    </div>
+    <ul
+      className="pane expressions-list"
+    >
+      <li
+        className="xhr-input-container"
+        key="xhr-input-container"
+      >
+        <form
+          className="xhr-input-form"
+          onSubmit={[Function]}
+        >
+          <input
+            className="xhr-input-url"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            placeholder="Break when URL contains"
+            type="text"
+            value=""
+          />
+          <input
+            style={
+              Object {
+                "display": "none",
+              }
+            }
+            type="submit"
+          />
+        </form>
+      </li>
+    </ul>
+  </div>
+</XHRBreakpoints>
+`;
+
+exports[`XHR Breakpoints should render with 8 expressions passed from props 1`] = `
+<XHRBreakpoints
+  xhrBreakpoints={
+    Array [
+      Object {
+        "disabled": false,
+        "loading": false,
+        "method": "ANY",
+        "path": "",
+        "text": "URL contains \\"\\"",
+      },
+      Object {
+        "disabled": false,
+        "loading": false,
+        "method": "ANY",
+        "path": "this is any",
+        "text": "URL contains \\"this is any\\"",
+      },
+      Object {
+        "disabled": false,
+        "loading": false,
+        "method": "GET",
+        "path": "this is get",
+        "text": "URL contains \\"this is get\\"",
+      },
+      Object {
+        "disabled": false,
+        "loading": false,
+        "method": "POST",
+        "path": "this is post",
+        "text": "URL contains \\"this is post\\"",
+      },
+      Object {
+        "disabled": false,
+        "loading": false,
+        "method": "PUT",
+        "path": "this is put",
+        "text": "URL contains \\"this is put\\"",
+      },
+      Object {
+        "disabled": false,
+        "loading": false,
+        "method": "HEAD",
+        "path": "this is head",
+        "text": "URL contains \\"this is head\\"",
+      },
+      Object {
+        "disabled": false,
+        "loading": false,
+        "method": "DELETE",
+        "path": "this is delete",
+        "text": "URL contains \\"this is delete\\"",
+      },
+      Object {
+        "disabled": false,
+        "loading": false,
+        "method": "PATCH",
+        "path": "this is patch",
+        "text": "URL contains \\"this is patch\\"",
+      },
+      Object {
+        "disabled": false,
+        "loading": false,
+        "method": "OPTIONS",
+        "path": "this is options",
+        "text": "URL contains \\"this is options\\"",
+      },
+    ]
+  }
+>
+  <div>
+    <div
+      className="breakpoints-exceptions-options"
+    >
+      <ExceptionOption
+        className="breakpoints-exceptions"
+        label="Pause on any URL"
+        onChange={[Function]}
+      >
+        <div
+          className="breakpoints-exceptions"
+          onClick={[Function]}
+        >
+          <input
+            checked=""
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <div
+            className="breakpoint-exceptions-label"
+          >
+            Pause on any URL
+          </div>
+        </div>
+      </ExceptionOption>
+    </div>
+    <ul
+      className="pane expressions-list"
+    >
+      <li
+        className="xhr-container"
+        key="this is any"
+        onDoubleClick={[Function]}
+        title="this is any"
+      >
+        <input
+          checked={true}
+          className="xhr-checkbox"
+          onChange={[Function]}
+          onClick={[Function]}
+          type="checkbox"
+        />
+        <div
+          className="xhr-label-method"
+        >
+          ANY
+        </div>
+        <div
+          className="xhr-label-url"
+        >
+          this is any
+        </div>
+        <div
+          className="xhr-container__close-btn"
+        >
+          <CloseButton
+            handleClick={[Function]}
+          >
+            <button
+              className="close-btn"
+              onClick={[Function]}
+            >
+              <AccessibleImage
+                className="close"
+              >
+                <span
+                  className="img close"
+                />
+              </AccessibleImage>
+            </button>
+          </CloseButton>
+        </div>
+      </li>
+      <li
+        className="xhr-container"
+        key="this is get"
+        onDoubleClick={[Function]}
+        title="this is get"
+      >
+        <input
+          checked={true}
+          className="xhr-checkbox"
+          onChange={[Function]}
+          onClick={[Function]}
+          type="checkbox"
+        />
+        <div
+          className="xhr-label-method"
+        >
+          GET
+        </div>
+        <div
+          className="xhr-label-url"
+        >
+          this is get
+        </div>
+        <div
+          className="xhr-container__close-btn"
+        >
+          <CloseButton
+            handleClick={[Function]}
+          >
+            <button
+              className="close-btn"
+              onClick={[Function]}
+            >
+              <AccessibleImage
+                className="close"
+              >
+                <span
+                  className="img close"
+                />
+              </AccessibleImage>
+            </button>
+          </CloseButton>
+        </div>
+      </li>
+      <li
+        className="xhr-container"
+        key="this is post"
+        onDoubleClick={[Function]}
+        title="this is post"
+      >
+        <input
+          checked={true}
+          className="xhr-checkbox"
+          onChange={[Function]}
+          onClick={[Function]}
+          type="checkbox"
+        />
+        <div
+          className="xhr-label-method"
+        >
+          POST
+        </div>
+        <div
+          className="xhr-label-url"
+        >
+          this is post
+        </div>
+        <div
+          className="xhr-container__close-btn"
+        >
+          <CloseButton
+            handleClick={[Function]}
+          >
+            <button
+              className="close-btn"
+              onClick={[Function]}
+            >
+              <AccessibleImage
+                className="close"
+              >
+                <span
+                  className="img close"
+                />
+              </AccessibleImage>
+            </button>
+          </CloseButton>
+        </div>
+      </li>
+      <li
+        className="xhr-container"
+        key="this is put"
+        onDoubleClick={[Function]}
+        title="this is put"
+      >
+        <input
+          checked={true}
+          className="xhr-checkbox"
+          onChange={[Function]}
+          onClick={[Function]}
+          type="checkbox"
+        />
+        <div
+          className="xhr-label-method"
+        >
+          PUT
+        </div>
+        <div
+          className="xhr-label-url"
+        >
+          this is put
+        </div>
+        <div
+          className="xhr-container__close-btn"
+        >
+          <CloseButton
+            handleClick={[Function]}
+          >
+            <button
+              className="close-btn"
+              onClick={[Function]}
+            >
+              <AccessibleImage
+                className="close"
+              >
+                <span
+                  className="img close"
+                />
+              </AccessibleImage>
+            </button>
+          </CloseButton>
+        </div>
+      </li>
+      <li
+        className="xhr-container"
+        key="this is head"
+        onDoubleClick={[Function]}
+        title="this is head"
+      >
+        <input
+          checked={true}
+          className="xhr-checkbox"
+          onChange={[Function]}
+          onClick={[Function]}
+          type="checkbox"
+        />
+        <div
+          className="xhr-label-method"
+        >
+          HEAD
+        </div>
+        <div
+          className="xhr-label-url"
+        >
+          this is head
+        </div>
+        <div
+          className="xhr-container__close-btn"
+        >
+          <CloseButton
+            handleClick={[Function]}
+          >
+            <button
+              className="close-btn"
+              onClick={[Function]}
+            >
+              <AccessibleImage
+                className="close"
+              >
+                <span
+                  className="img close"
+                />
+              </AccessibleImage>
+            </button>
+          </CloseButton>
+        </div>
+      </li>
+      <li
+        className="xhr-container"
+        key="this is delete"
+        onDoubleClick={[Function]}
+        title="this is delete"
+      >
+        <input
+          checked={true}
+          className="xhr-checkbox"
+          onChange={[Function]}
+          onClick={[Function]}
+          type="checkbox"
+        />
+        <div
+          className="xhr-label-method"
+        >
+          DELETE
+        </div>
+        <div
+          className="xhr-label-url"
+        >
+          this is delete
+        </div>
+        <div
+          className="xhr-container__close-btn"
+        >
+          <CloseButton
+            handleClick={[Function]}
+          >
+            <button
+              className="close-btn"
+              onClick={[Function]}
+            >
+              <AccessibleImage
+                className="close"
+              >
+                <span
+                  className="img close"
+                />
+              </AccessibleImage>
+            </button>
+          </CloseButton>
+        </div>
+      </li>
+      <li
+        className="xhr-container"
+        key="this is patch"
+        onDoubleClick={[Function]}
+        title="this is patch"
+      >
+        <input
+          checked={true}
+          className="xhr-checkbox"
+          onChange={[Function]}
+          onClick={[Function]}
+          type="checkbox"
+        />
+        <div
+          className="xhr-label-method"
+        >
+          PATCH
+        </div>
+        <div
+          className="xhr-label-url"
+        >
+          this is patch
+        </div>
+        <div
+          className="xhr-container__close-btn"
+        >
+          <CloseButton
+            handleClick={[Function]}
+          >
+            <button
+              className="close-btn"
+              onClick={[Function]}
+            >
+              <AccessibleImage
+                className="close"
+              >
+                <span
+                  className="img close"
+                />
+              </AccessibleImage>
+            </button>
+          </CloseButton>
+        </div>
+      </li>
+      <li
+        className="xhr-container"
+        key="this is options"
+        onDoubleClick={[Function]}
+        title="this is options"
+      >
+        <input
+          checked={true}
+          className="xhr-checkbox"
+          onChange={[Function]}
+          onClick={[Function]}
+          type="checkbox"
+        />
+        <div
+          className="xhr-label-method"
+        >
+          OPTIONS
+        </div>
+        <div
+          className="xhr-label-url"
+        >
+          this is options
+        </div>
+        <div
+          className="xhr-container__close-btn"
+        >
+          <CloseButton
+            handleClick={[Function]}
+          >
+            <button
+              className="close-btn"
+              onClick={[Function]}
+            >
+              <AccessibleImage
+                className="close"
+              >
+                <span
+                  className="img close"
+                />
+              </AccessibleImage>
+            </button>
+          </CloseButton>
+        </div>
+      </li>
+    </ul>
+  </div>
+</XHRBreakpoints>
+`;

@@ -35,7 +35,8 @@ type State = {
   inputValue: string,
   inputMethod: string,
   editIndex: number,
-  focused: boolean
+  focused: boolean,
+  clickedOnOptions: boolean
 };
 
 // At present, the "Pause on any URL" checkbox creates an xhrBreakpoint
@@ -43,6 +44,17 @@ type State = {
 function getExplicitXHRBreakpoints(xhrBreakpoints) {
   return xhrBreakpoints.filter(bp => bp.path !== "");
 }
+
+const xhrMethods = [
+  "ANY",
+  "GET",
+  "POST",
+  "PUT",
+  "HEAD",
+  "DELETE",
+  "PATCH",
+  "OPTIONS"
+];
 
 class XHRBreakpoints extends Component<Props, State> {
   _input: ?HTMLInputElement;
@@ -53,9 +65,10 @@ class XHRBreakpoints extends Component<Props, State> {
     this.state = {
       editing: false,
       inputValue: "",
-      inputMethod: "",
+      inputMethod: "ANY",
       focused: false,
-      editIndex: -1
+      editIndex: -1,
+      clickedOnOptions: false
     };
   }
 
@@ -88,7 +101,7 @@ class XHRBreakpoints extends Component<Props, State> {
     e.preventDefault();
     e.stopPropagation();
 
-    this.props.setXHRBreakpoint(this.state.inputValue, "ANY");
+    this.props.setXHRBreakpoint(this.state.inputValue, this.state.inputMethod);
 
     this.hideInput();
   };
@@ -113,19 +126,46 @@ class XHRBreakpoints extends Component<Props, State> {
     this.setState({ inputValue: target.value });
   };
 
-  hideInput = () => {
+  handleMethodChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
+    const target = e.target;
     this.setState({
-      focused: false,
-      editing: false,
-      editIndex: -1,
-      inputValue: "",
-      inputMethod: ""
+      focused: true,
+      editing: true,
+      inputMethod: target.value
     });
-    this.props.onXHRAdded();
+  };
+
+  hideInput = () => {
+    if (this.state.clickedOnOptions) {
+      this.setState({
+        focused: true,
+        clickedOnOptions: false
+      });
+    } else {
+      this.setState({
+        focused: false,
+        editing: false,
+        editIndex: -1,
+        inputValue: "",
+        inputMethod: "ANY"
+      });
+      this.props.onXHRAdded();
+    }
+  };
+
+  keepFocusOnInputButNoEdit = () => {
+    this.setState({ focused: true, editing: false });
   };
 
   onFocus = () => {
-    this.setState({ focused: true });
+    this.setState({ focused: true, editing: true });
+  };
+
+  onMouseDown = e => {
+    if (this.state.clickedOnOptions) {
+      return;
+    }
+    this.setState({ editing: false, clickedOnOptions: true });
   };
 
   editExpression = index => {
@@ -146,11 +186,11 @@ class XHRBreakpoints extends Component<Props, State> {
     return (
       <li
         className={classnames("xhr-input-container", { focused })}
-        key="xhr-input"
+        key="xhr-input-container"
       >
         <form className="xhr-input-form" onSubmit={onSubmit}>
           <input
-            className="xhr-input"
+            className="xhr-input-url"
             type="text"
             placeholder={placeholder}
             onChange={this.handleChange}
@@ -159,11 +199,13 @@ class XHRBreakpoints extends Component<Props, State> {
             value={inputValue}
             ref={c => (this._input = c)}
           />
+          {focused && this.renderMethodSelectElement()}
           <input type="submit" style={{ display: "none" }} />
         </form>
       </li>
     );
   }
+
   handleCheckbox = index => {
     const {
       xhrBreakpoints,
@@ -179,7 +221,7 @@ class XHRBreakpoints extends Component<Props, State> {
   };
 
   renderBreakpoint = breakpoint => {
-    const { path, text, disabled, method } = breakpoint;
+    const { path, disabled, method } = breakpoint;
     const { editIndex } = this.state;
     const { removeXHRBreakpoint, xhrBreakpoints } = this.props;
 
@@ -212,11 +254,12 @@ class XHRBreakpoints extends Component<Props, State> {
             onChange={() => this.handleCheckbox(index)}
             onClick={ev => ev.stopPropagation()}
           />
-          <div className="xhr-label">{text}</div>
+          <div className="xhr-label-method">{method}</div>
+          <div className="xhr-label-url">{path}</div>
+          <div className="xhr-container__close-btn">
+            <CloseButton handleClick={e => removeXHRBreakpoint(index)} />
+          </div>
         </label>
-        <div className="xhr-container__close-btn">
-          <CloseButton handleClick={e => removeXHRBreakpoint(index)} />
-        </div>
       </li>
     );
   };
@@ -251,6 +294,34 @@ class XHRBreakpoints extends Component<Props, State> {
           onChange={() => togglePauseOnAny()}
         />
       </div>
+    );
+  };
+
+  renderMethodOption = method => {
+    return (
+      <option
+        key={method}
+        value={method}
+        // e.stopPropagation() required here since otherwise Firefox triggers 2x
+        // onMouseDown events on <select> upon clicking on an <option>
+        onMouseDown={e => e.stopPropagation()}
+      >
+        {method}
+      </option>
+    );
+  };
+
+  renderMethodSelectElement = () => {
+    return (
+      <select
+        value={this.state.inputMethod}
+        className={"xhr-input-method"}
+        onChange={this.handleMethodChange}
+        onClick={this.keepFocusOnInputButNoEdit}
+        onMouseDown={this.onMouseDown}
+      >
+        {xhrMethods.map(this.renderMethodOption)}
+      </select>
     );
   };
 
