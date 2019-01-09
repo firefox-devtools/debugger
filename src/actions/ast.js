@@ -65,6 +65,22 @@ export function setSymbols(sourceId: SourceId) {
       [PROMISE]: parser.getSymbols(sourceId)
     });
 
+    //fetch symbols if new set is available
+    const newSymbols = getSymbols(getState(), source);
+    if (!newSymbols) {
+      return;
+    }
+
+    if (isOriginal(newSymbols) && !newSymbols.isWasm) {
+
+      const source = getSourceFromId(getState(), sourceId);
+      await dispatch(setSymbols(sourceId));
+    }
+
+    if (!newSymbols.isWasm) {
+      await parser.setSource(newSymbols);
+    }
+
     await dispatch(setPausePoints(sourceId));
     await dispatch(setSourceMetaData(sourceId));
   };
