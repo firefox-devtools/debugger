@@ -3772,10 +3772,10 @@ devtools-environment@^0.0.6:
   resolved "https://registry.yarnpkg.com/devtools-environment/-/devtools-environment-0.0.6.tgz#11584f5b1ead784c2356d8da647a630fed591a4e"
   integrity sha512-tZK/UlLBnm5TCr9YnBahMkv2bpasjNyQgLNZOvFCMCO4TZSjggrccMTkljhqCr32Zb1Nx/C/jhB/KdlyiUI2Lw==
 
-devtools-launchpad@^0.0.141:
-  version "0.0.141"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.141.tgz#2e71266bdafe6aff55777badde90fd9b88dcd23c"
-  integrity sha512-5MBfNXpflb3jStfLTBFnsqg717AQ2GJ+p9HIs7L8MIwRZNFlQGTXffjVPng01MqZHvKWG2Y9rVHolV3X2DjNYg==
+devtools-launchpad@^0.0.142:
+  version "0.0.142"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.142.tgz#aac647ef493daddba25b8c2d77316701332d65e4"
+  integrity sha512-wyj6GBC+kWNEejgAe71Ma7Vmx/tlos9h2wcDPm7Q27UjnFNDTcS8aL+ePP31/ySaZf59VUdXFArvdDEIPrUj2A==
   dependencies:
     amd-loader "0.0.8"
     autoprefixer "^7.1.2"
