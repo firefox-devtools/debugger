@@ -12,7 +12,7 @@ exports[`Group displays a group 1`] = `
     title="Show Back frames"
   >
     <FrameLocation
-      expandedState={false}
+      expanded={false}
       frame={
         Object {
           "displayName": "foo",
@@ -40,7 +40,7 @@ exports[`Group passes the getFrameTitle prop to the Frame components 1`] = `
     title="Collapse Back frames"
   >
     <FrameLocation
-      expandedState={true}
+      expanded={true}
       frame={
         Object {
           "displayName": "renderFoo",
@@ -157,7 +157,7 @@ exports[`Group renders group with anonymous functions 1`] = `
     title="Show Back frames"
   >
     <FrameLocation
-      expandedState={false}
+      expanded={false}
       frame={
         Object {
           "displayName": "",
@@ -192,7 +192,7 @@ exports[`Group renders group with anonymous functions 2`] = `
     title="Collapse Back frames"
   >
     <FrameLocation
-      expandedState={true}
+      expanded={true}
       frame={
         Object {
           "displayName": "",
