@@ -9,6 +9,7 @@ import classNames from "classnames";
 import Svg from "../../shared/Svg";
 import { getLibraryFromUrl } from "../../../utils/pause/frames";
 import FrameMenu from "./FrameMenu";
+import AccessibleImage from "../../shared/AccessibleImage";
 
 import "./Group.css";
 
@@ -17,16 +18,17 @@ import FrameComponent from "./Frame";
 import type { LocalFrame } from "./types";
 import Badge from "../../shared/Badge";
 
-type FrameLocationProps = { frame: LocalFrame, expandedState: boolean };
-function FrameLocation({ frame, expandedState }: FrameLocationProps) {
+type FrameLocationProps = { frame: LocalFrame, expanded: boolean };
+function FrameLocation({ frame, expanded }: FrameLocationProps) {
   const library = frame.library || getLibraryFromUrl(frame);
   if (!library) {
     return null;
   }
-  const classArrowExpanded = expandedState ? "arrow expanded" : "arrow";
+
+  const arrowClassName = classNames("arrow", { expanded });
   return (
     <span className="group-description">
-      <Svg name="arrow" className={classArrowExpanded} />
+      <AccessibleImage className={arrowClassName} />
       <Svg name={library.toLowerCase()} className="annotation-logo" />
       <span className="group-description-name">{library}</span>
     </span>
@@ -142,7 +144,7 @@ export default class Group extends Component<Props, State> {
         tabIndex={0}
         title={title}
       >
-        <FrameLocation frame={frame} expandedState={expanded} />
+        <FrameLocation frame={frame} expanded={expanded} />
         <Badge>{this.props.group.length}</Badge>
       </li>
     );
