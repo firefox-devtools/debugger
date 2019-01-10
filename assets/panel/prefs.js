@@ -43,6 +43,7 @@ pref("devtools.debugger.tabsBlackBoxed", "[]");
 pref("devtools.debugger.pending-selected-location", "{}");
 pref("devtools.debugger.pending-breakpoints", "{}");
 pref("devtools.debugger.expressions", "[]");
+pref("devtools.debugger.event-listener-breakpoints", "[]");
 pref("devtools.debugger.file-search-case-sensitive", false);
 pref("devtools.debugger.file-search-whole-word", false);
 pref("devtools.debugger.file-search-regex-match", false);
