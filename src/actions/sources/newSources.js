@@ -211,11 +211,6 @@ export function newSource(source: Source) {
 export function newSources(sources: Source[]) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     sources = sources.filter(source => !getSource(getState(), source.id));
-    if (!prefs.chromeAndExtenstionsEnabled) {
-      sources = sources.filter(
-        source => !(source.url && source.url.startsWith("moz-extension://"))
-      );
-    }
 
     if (sources.length == 0) {
       return;

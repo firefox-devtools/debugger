@@ -25,6 +25,7 @@ import type { Source, SourceId, SourceLocation, Thread } from "../types";
 import type { PendingSelectedLocation, Selector } from "./types";
 import type { Action, DonePromiseAction, FocusItem } from "../actions/types";
 import type { LoadSourceAction } from "../actions/types/SourceAction";
+import { omitBy, mapValues } from "lodash";
 
 export type SourcesMap = { [string]: Source };
 export type SourcesMapByThread = { [string]: SourcesMap };
@@ -552,7 +553,13 @@ export function getProjectDirectoryRoot(state: OuterState): string {
 }
 
 export function getRelativeSources(state: OuterState): SourcesMapByThread {
-  return state.sources.relativeSources;
+  let relativeSources = state.sources.relativeSources;
+  if (!prefs.chromeAndExtenstionsEnabled) {
+    relativeSources = mapValues(relativeSources, threadSources => {
+      return omitBy(threadSources, source => source.isExtension);
+    });
+  }
+  return relativeSources;
 }
 
 export function getRelativeSourcesForThread(
