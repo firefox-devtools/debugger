@@ -24,7 +24,7 @@ import * as parser from "../workers/parser";
 
 import { isLoaded, isOriginal } from "../utils/source";
 
-import defer from "./utils/defer";
+import defer from "../utils/defer";
 import type { SourceId } from "../types";
 import type { ThunkArgs, Action } from "./types";
 
