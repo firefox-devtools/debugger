@@ -23,20 +23,20 @@ function update(state = [], action) {
 
 function updateEventTypes(addOrRemove, currentEvents, events) {
   let newEventListeners;
+
+  console.log("updateEventTypes: ", addOrRemove, currentEvents, events);
   if (addOrRemove === "add") {
     newEventListeners = uniq([...currentEvents, ...events]);
   } else {
-    newEventListeners = currentEvents.filter(event => !events.contains(event));
+    newEventListeners = currentEvents.filter(event => !events.includes(event));
   }
 
   asyncStore.eventListenerBreakpoints = newEventListeners;
   return newEventListeners;
 }
 
-export async function getActiveEventListeners() {
-  const eventTypes = await asyncStore.eventListenerBreakpoints;
-  console.log("getActiveEventListeners returns: ", eventTypes);
-  return eventTypes;
+export function getActiveEventListeners(state) {
+  return state.eventListenerBreakpoints;
 }
 
 export default update;

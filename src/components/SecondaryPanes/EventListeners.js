@@ -49,7 +49,7 @@ class EventListeners extends Component<Props, State> {
                           onChange={e =>
                             this.onEventClick(key, e.target.checked)
                           }
-                          checked={activeEventListeners.contains(key)}
+                          checked={activeEventListeners.includes(key)}
                         />
                         {event}
                       </label>
@@ -66,12 +66,14 @@ class EventListeners extends Component<Props, State> {
 
   onCategoryClick(category, isChecked) {
     console.log("Category click!", category, isChecked);
-
     const { addEventListeners, removeEventListeners } = this.props;
+
+    const events = CATEGORIES[category].map(event => `${category}:${event}`);
+
     if (isChecked) {
-      addEventListeners(CATEGORIES[category]);
+      addEventListeners(events);
     } else {
-      removeEventListeners(CATEGORIES[category]);
+      removeEventListeners(events);
     }
   }
 
