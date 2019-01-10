@@ -83,7 +83,7 @@ function sanitizeQuery(query: string): string {
 }
 
 type FileItem = {
-  setExpanded: (Result, boolean) => any,
+  setExpanded: (Result, boolean) => mixed,
   file: Result,
   expanded: boolean
 };
@@ -93,7 +93,7 @@ type MatchItem = {
 };
 
 export class ProjectSearch extends Component<Props, State> {
-  focusedItem: ?FileItem | MatchItem;
+  focusedItem: ?(FileItem | MatchItem);
   constructor(props: Props) {
     super(props);
     this.state = {
