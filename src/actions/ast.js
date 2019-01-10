@@ -5,9 +5,9 @@
 // @flow
 
 import {
+  getGeneratedSource,
   getSource,
   getSourceFromId,
-  getSymbols,
   getSelectedLocation,
   isPaused
 } from "../selectors";
@@ -22,10 +22,13 @@ export { setPausePoints };
 
 import * as parser from "../workers/parser";
 
-import { isLoaded } from "../utils/source";
+import { isLoaded, isOriginal } from "../utils/source";
 
+import defer from "./utils/defer";
 import type { SourceId } from "../types";
 import type { ThunkArgs, Action } from "./types";
+
+const requests = new Map();
 
 export function setSourceMetaData(sourceId: SourceId) {
   return async ({ dispatch, getState }: ThunkArgs) => {
@@ -53,33 +56,49 @@ export function setSourceMetaData(sourceId: SourceId) {
 
 export function setSymbols(sourceId: SourceId) {
   return async ({ dispatch, getState, sourceMaps }: ThunkArgs) => {
-    const source = getSourceFromId(getState(), sourceId);
+    const id = sourceId;
+    const source = getSourceFromId(getState(), id);
+    // Fetch the source text only once.
+    if (requests.has(id)) {
+      return requests.get(id);
+    }
 
-    if (source.isWasm || getSymbols(getState(), source) || !isLoaded(source)) {
+    if (isLoaded(source)) {
+      return Promise.resolve();
+    }
+
+    const deferred = defer();
+    requests.set(id, deferred.promise);
+
+    try {
+      await dispatch({
+        type: "SET_SYMBOLS",
+        sourceId,
+        [PROMISE]: parser.getSymbols(id)
+      });
+    } catch (e) {
+      deferred.resolve();
+      requests.delete(id);
       return;
     }
 
-    await dispatch({
-      type: "SET_SYMBOLS",
-      sourceId,
-      [PROMISE]: parser.getSymbols(sourceId)
-    });
-
-    //fetch symbols if new set is available
-    const newSymbols = getSymbols(getState(), source);
-    if (!newSymbols) {
+    const newSource = getSourceFromId(getState(), id);
+    if (!newSource) {
       return;
     }
 
-    if (isOriginal(newSymbols) && !newSymbols.isWasm) {
-
-      const source = getSourceFromId(getState(), sourceId);
-      await dispatch(setSymbols(sourceId));
+    if (isOriginal(newSource) && !newSource.isWasm) {
+      const generatedSource = getGeneratedSource(getState(), source);
+      await dispatch(setSymbols(generatedSource.id));
     }
 
-    if (!newSymbols.isWasm) {
-      await parser.setSource(newSymbols);
+    if (!newSource.isWasm) {
+      await parser.setSource(newSource);
     }
+
+    // signal that the action is finished
+    deferred.resolve();
+    requests.delete(id);
 
     await dispatch(setPausePoints(sourceId));
     await dispatch(setSourceMetaData(sourceId));
