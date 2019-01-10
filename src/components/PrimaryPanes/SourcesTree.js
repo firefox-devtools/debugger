@@ -328,10 +328,10 @@ class SourcesTree extends Component<Props, State> {
   }
 
   render() {
-    if (this.isEmpty()) {
-      return this.renderPane(
-        this.renderEmptyElement(L10N.getStr("sources.noSourcesAvailable"))
-      );
+    const { worker } = this.props;
+
+    if (!features.windowlessWorkers && worker) {
+      return null;
     }
 
     return this.renderPane(
