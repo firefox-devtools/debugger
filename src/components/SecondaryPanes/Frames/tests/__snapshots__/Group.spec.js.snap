@@ -5,9 +5,10 @@ exports[`Group displays a group 1`] = `
   className="frames-group"
   onContextMenu={[Function]}
 >
-  <li
+  <div
     className="group"
     onClick={[Function]}
+    role="listitem"
     tabIndex={0}
     title="Show Back frames"
   >
@@ -23,7 +24,7 @@ exports[`Group displays a group 1`] = `
     <Badge>
       1
     </Badge>
-  </li>
+  </div>
 </div>
 `;
 
@@ -32,10 +33,11 @@ exports[`Group passes the getFrameTitle prop to the Frame components 1`] = `
   className="frames-group expanded"
   onContextMenu={[Function]}
 >
-  <li
+  <div
     className="group"
     key="1"
     onClick={[Function]}
+    role="listitem"
     tabIndex={0}
     title="Collapse Back frames"
   >
@@ -58,7 +60,7 @@ exports[`Group passes the getFrameTitle prop to the Frame components 1`] = `
     <Badge>
       3
     </Badge>
-  </li>
+  </div>
   <div
     className="frames-list"
   >
@@ -149,10 +151,11 @@ exports[`Group renders group with anonymous functions 1`] = `
   className="frames-group"
   onContextMenu={[Function]}
 >
-  <li
+  <div
     className="group"
     key="1"
     onClick={[Function]}
+    role="listitem"
     tabIndex={0}
     title="Show Back frames"
   >
@@ -175,7 +178,7 @@ exports[`Group renders group with anonymous functions 1`] = `
     <Badge>
       3
     </Badge>
-  </li>
+  </div>
 </div>
 `;
 
@@ -184,10 +187,11 @@ exports[`Group renders group with anonymous functions 2`] = `
   className="frames-group expanded"
   onContextMenu={[Function]}
 >
-  <li
+  <div
     className="group"
     key="1"
     onClick={[Function]}
+    role="listitem"
     tabIndex={0}
     title="Collapse Back frames"
   >
@@ -210,7 +214,7 @@ exports[`Group renders group with anonymous functions 2`] = `
     <Badge>
       3
     </Badge>
-  </li>
+  </div>
   <div
     className="frames-list"
   >
