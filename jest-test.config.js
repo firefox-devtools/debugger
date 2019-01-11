@@ -26,7 +26,7 @@ module.exports = {
     "!**/*.mock.js",
     "!**/*.spec.js"
   ],
-  transformIgnorePatterns: ["node_modules/(?!devtools-)"],
+  transformIgnorePatterns: ["node_modules/(?!(devtools-|react-aria-))"],
   setupTestFrameworkScriptFile: "<rootDir>/src/test/tests-setup.js",
   setupFiles: ["<rootDir>/src/test/shim.js", "jest-localstorage-mock"],
   snapshotSerializers: [
