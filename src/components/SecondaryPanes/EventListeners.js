@@ -5,9 +5,13 @@
 // @flow
 
 import React, { Component } from "react";
+import { findKey } from "lodash";
+
 import { connect } from "../../utils/connect";
 import actions from "../../actions";
 import { getActiveEventListeners } from "../../selectors";
+
+const { Tree } = require("devtools-components");
 
 import "./EventListeners.css";
 
@@ -19,8 +23,6 @@ const CATEGORIES = {
 class EventListeners extends Component<Props, State> {
   getContents() {
     const { activeEventListeners } = this.props;
-
-    console.log("getContents: activeEventListeners: ", activeEventListeners);
 
     return (
       <ul className="event-listeners-list">
@@ -64,10 +66,57 @@ class EventListeners extends Component<Props, State> {
     );
   }
 
-  onCategoryClick(category, isChecked) {
-    console.log("Category click!", category, isChecked);
-    const { addEventListeners, removeEventListeners } = this.props;
+  renderItem = item => {
+    const { activeEventListeners } = this.props;
+    const isCategory = CATEGORIES[item] != undefined;
 
+    const key = isCategory
+      ? item
+      : `${findKey(CATEGORIES, k => k.includes(item))}:${item}`;
+
+    return (
+      <div className="event-listener-event" onClick={e => e.stopPropagation()}>
+        <label>
+          <input
+            type="checkbox"
+            value={key}
+            onChange={e => {
+              e.stopPropagation();
+
+              const checked = e.target.checked;
+              isCategory
+                ? this.onCategoryClick(key, checked)
+                : this.onEventClick(key, checked);
+            }}
+            checked={activeEventListeners.includes(key)}
+          />
+          {item}
+        </label>
+      </div>
+    );
+  };
+
+  getTree() {
+    const data = {
+      children: CATEGORIES
+    };
+
+    return (
+      <div>
+        <Tree
+          getRoots={() => Object.keys(data.children)}
+          getParent={x => data}
+          getChildren={x => (CATEGORIES[x] ? CATEGORIES[x] : [])}
+          renderItem={this.renderItem}
+          isExpanded={() => true}
+          getKey={x => x}
+        />
+      </div>
+    );
+  }
+
+  onCategoryClick(category, isChecked) {
+    const { addEventListeners, removeEventListeners } = this.props;
     const events = CATEGORIES[category].map(event => `${category}:${event}`);
 
     if (isChecked) {
@@ -78,8 +127,6 @@ class EventListeners extends Component<Props, State> {
   }
 
   onEventClick(eventType, isChecked) {
-    console.log("Event click", eventType, isChecked);
-
     const { addEventListeners, removeEventListeners } = this.props;
     if (isChecked) {
       addEventListeners([eventType]);
@@ -89,7 +136,12 @@ class EventListeners extends Component<Props, State> {
   }
 
   render() {
-    return <div>{this.getContents()}</div>;
+    return (
+      <div>
+        {/* this.getContents()*/}
+        {this.getTree()}
+      </div>
+    );
   }
 }
 
