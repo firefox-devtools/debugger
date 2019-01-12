@@ -62,6 +62,7 @@ export function createSource(source: Object): Source {
     isBlackBoxed: false,
     isPrettyPrinted: false,
     isWasm: false,
+    isExtension: source.url && /^(chrome|moz)-extension:\/\//.test(source.url),
     text: undefined,
     contentType: "",
     error: undefined,
