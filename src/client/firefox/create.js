@@ -54,7 +54,7 @@ export function createSource(
     relativeUrl: source.url,
     isPrettyPrinted: false,
     isWasm: false,
-    isExtension: source.url && source.url.startsWith("moz-extension://"),
+    isExtension: source.url && /^(chrome|moz)-extension:\/\//.test(source.url),
     sourceMapURL: source.sourceMapURL,
     introductionUrl: source.introductionUrl,
     isBlackBoxed: false,
