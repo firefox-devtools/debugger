@@ -15,7 +15,8 @@ import {
   underRoot,
   getRelativeUrl,
   isGenerated,
-  isOriginal as isOriginalSource
+  isOriginal as isOriginalSource,
+  isUrlExtension
 } from "../utils/source";
 
 import { originalToGeneratedId } from "devtools-source-map";
@@ -62,7 +63,7 @@ export function createSource(source: Object): Source {
     isBlackBoxed: false,
     isPrettyPrinted: false,
     isWasm: false,
-    isExtension: source.url && /^(chrome|moz)-extension:\/\//.test(source.url),
+    isExtension: source.url && isUrlExtension(source.url),
     text: undefined,
     contentType: "",
     error: undefined,
