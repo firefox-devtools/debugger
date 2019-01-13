@@ -13,7 +13,7 @@ NPM installs the latest versions. We use [Yarn][yarn] because we want to make su
 ### Step 2. Install dependencies
 
 ```bash
-git clone git@github.com:devtools-html/debugger.html.git
+git clone https://github.com/devtools-html/debugger.html.git
 cd debugger.html
 yarn install
 ```
@@ -68,7 +68,7 @@ This setup is for people on the DevTools team and DevTools wizards.
 
 ```bash
 npm i -g yarn
-git clone git@github.com:devtools-html/debugger.html.git
+git clone https://github.com/devtools-html/debugger.html.git
 cd debugger.html
 yarn install
 # close firefox if it's already running
