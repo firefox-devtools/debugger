@@ -2,7 +2,7 @@
 
 [website]: http://firefox-dev.tools/debugger.html/
 
-[![slack-badge]][slack] ![][ci-status] [![npm-version]][npm-package] [![PRs Welcome]][make-a-pull-request]
+[![slack-badge]][slack] [![ci-badge]][ci-status] [![npm-version]][npm-package] [![PRs Welcome]][make-a-pull-request]
 
 debugger.html is a hackable debugger for modern times, built from the ground up using [React] and [Redux]. It is designed to be approachable, yet powerful. And it is engineered to be predictable, understandable, and testable.
 
@@ -96,7 +96,8 @@ Say hello in [Slack][slack] or in the [#devtools-html][irc-devtools-html] channe
 [slack-badge]: https://devtools-html-slack.herokuapp.com/badge.svg
 [slack]: https://devtools-html-slack.herokuapp.com/
 [debugger-screenshot]: https://shipusercontent.com/47aaaa7a6512691f964101bfb0832abe/Screen%20Shot%202017-08-15%20at%202.34.05%20PM.png
-[ci-status]: https://circleci.com/gh/devtools-html/debugger.html.svg??&style=shield
+[ci-badge]: https://circleci.com/gh/devtools-html/debugger.html.svg??&style=shield
+[ci-status]: https://circleci.com/gh/devtools-html/debugger.html/tree/master
 [npm-version]: https://img.shields.io/npm/v/debugger.html.svg
 [npm-package]: https://www.npmjs.com/package/debugger.html
 [prs welcome]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
