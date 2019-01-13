@@ -18,6 +18,7 @@ benchmarking
 blackboxed
 blandy
 Bomsy
+ci-badge
 CLRF
 cmd
 componentDidMount
