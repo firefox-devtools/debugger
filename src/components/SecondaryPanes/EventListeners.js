@@ -83,55 +83,79 @@ class EventListeners extends Component<Props, State> {
     }
   }
 
-  render() {
+  renderCategoryHeading(category) {
+    const { expandedCategories } = this.state;
+    const { activeEventListeners } = this.props;
+
+    const eventTypes = CATEGORIES[category];
+
+    const expanded = expandedCategories.includes(category);
+    const checked = eventTypes.every(eventType =>
+      activeEventListeners.includes(getKey(category, eventType))
+    );
+    const indeterminate =
+      !checked &&
+      eventTypes.some(eventType =>
+        activeEventListeners.includes(getKey(category, eventType))
+      );
+
+    return (
+      <label>
+        <AccessibleImage
+          className={classnames("arrow", { expanded })}
+          onClick={e => this.onCategoryToggle(category, e)}
+        />
+        <input
+          type="checkbox"
+          value={category}
+          onChange={e => this.onCategoryClick(category, e.target.checked)}
+          checked={checked}
+          ref={el => el && (el.indeterminate = indeterminate)}
+        />
+        <span className="event-listener-category">{category}</span>
+      </label>
+    );
+  }
+
+  renderCategoryListing(category) {
     const { activeEventListeners } = this.props;
     const { expandedCategories } = this.state;
 
+    const expanded = expandedCategories.includes(category);
+    if (!expanded) {
+      return null;
+    }
+
     return (
-      <ul className="event-listeners-list">
-        {Object.keys(CATEGORIES).map(category => {
-          const expanded = expandedCategories.includes(category);
+      <ul>
+        {CATEGORIES[category].map(eventType => {
+          const key = getKey(category, eventType);
           return (
-            <li className="event-listener-group" key={category}>
+            <li className="event-listener-event" key={key}>
               <label>
                 <input
                   type="checkbox"
-                  value={category}
-                  onChange={e =>
-                    this.onCategoryClick(category, e.target.checked)
-                  }
-                  checked={CATEGORIES[category].every(eventType =>
-                    activeEventListeners.includes(getKey(category, eventType))
-                  )}
+                  value={key}
+                  onChange={e => this.onEventTypeClick(key, e.target.checked)}
+                  checked={activeEventListeners.includes(key)}
                 />
-                <span className="event-listener-category">{category}</span>
-                <AccessibleImage
-                  className={classnames("arrow", { expanded })}
-                  onClick={e => this.onCategoryToggle(category, e)}
-                />
+                {eventType}
               </label>
-              {expanded && (
-                <ul>
-                  {CATEGORIES[category].map(eventType => {
-                    const key = getKey(category, eventType);
-                    return (
-                      <li className="event-listener-event" key={key}>
-                        <label>
-                          <input
-                            type="checkbox"
-                            value={key}
-                            onChange={e =>
-                              this.onEventTypeClick(key, e.target.checked)
-                            }
-                            checked={activeEventListeners.includes(key)}
-                          />
-                          {eventType}
-                        </label>
-                      </li>
-                    );
-                  })}
-                </ul>
-              )}
+            </li>
+          );
+        })}
+      </ul>
+    );
+  }
+
+  render() {
+    return (
+      <ul className="event-listeners-list">
+        {Object.keys(CATEGORIES).map(category => {
+          return (
+            <li className="event-listener-group" key={category}>
+              {this.renderCategoryHeading(category)}
+              {this.renderCategoryListing(category)}
             </li>
           );
         })}
