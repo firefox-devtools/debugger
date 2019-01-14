@@ -57,7 +57,8 @@ describe("sources selectors", () => {
     state = {
       sources: update(state, {
         type: "ADD_SOURCES",
-        sources: mockedSources
+        // coercing to a Source for the purpose of this test
+        sources: ((mockedSources: any): Source[])
       })
     };
     const selectedRelativeSources = getRelativeSources(state);
@@ -71,7 +72,8 @@ describe("sources selectors", () => {
     state = {
       sources: update(state, {
         type: "ADD_SOURCES",
-        sources: mockedSources
+        // coercing to a Source for the purpose of this test
+        sources: ((mockedSources: any): Source[])
       })
     };
     const selectedRelativeSources = getRelativeSources(state);
