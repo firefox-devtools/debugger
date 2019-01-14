@@ -486,5 +486,5 @@ export function getSourceQueryString(source: ?Source) {
 }
 
 export function isUrlExtension(url: string) {
-  return /^(chrome|moz)-extension:\/\//.test(url);
+  return /^(chrome|moz)-extension:\//.test(url);
 }
