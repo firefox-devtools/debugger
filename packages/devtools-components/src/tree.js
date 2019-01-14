@@ -806,10 +806,7 @@ class Tree extends Component {
       });
     });
 
-    const style = Object.assign({}, this.props.style || {}, {
-      padding: 0,
-      margin: 0
-    });
+    const style = Object.assign({}, this.props.style || {});
 
     return dom.div(
       {
