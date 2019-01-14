@@ -4,20 +4,27 @@
 
 // @flow
 
-export function addEventListeners(events: String[]) {
-  return ({ dispatch }: ThunkArgs) => {
-    dispatch({
+import type { ThunkArgs } from "./types";
+import { asyncStore } from "../utils/prefs";
+
+export function addEventListeners(events: string[]) {
+  return async ({ dispatch, client }: ThunkArgs) => {
+    await dispatch({
       type: "ADD_EVENT_LISTENERS",
       events
     });
+    const newList = await asyncStore.eventListenerBreakpoints;
+    client.setEventListenerBreakpoints(newList);
   };
 }
 
-export function removeEventListeners(events: String[]) {
-  return ({ dispatch }: ThunkArgs) => {
-    dispatch({
+export function removeEventListeners(events: string[]) {
+  return async ({ dispatch, client }: ThunkArgs) => {
+    await dispatch({
       type: "REMOVE_EVENT_LISTENERS",
       events
     });
+    const newList = await asyncStore.eventListenerBreakpoints;
+    client.setEventListenerBreakpoints(newList);
   };
 }

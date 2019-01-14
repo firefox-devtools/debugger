@@ -14,6 +14,19 @@
 	font-weight: bold;
 }
 
+.event-listeners-pane .arrow {
+  margin-inline-start: 4px;
+  margin-top: 1px;
+}
+
+html[dir="ltr"] .event-listeners-pane .arrow.expanded {
+  transform: rotate(0deg);
+}
+
+html[dir="rtl"] .event-listeners-pane .arrow.expanded {
+  transform: rotate(90deg);
+}
+
 .event-listener-event {
 	display: flex;
 	align-items: center;

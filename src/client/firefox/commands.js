@@ -386,6 +386,11 @@ function eventListeners(): Promise<*> {
   return threadClient.eventListeners();
 }
 
+function setEventListenerBreakpoints(eventTypes: string[]) {
+  // TODO: Figure out what sendpoint we want to hit
+  threadClient.setEventListenerBreakpoints(eventTypes);
+}
+
 function pauseGrip(thread: string, func: Function): ObjectClient {
   return lookupThreadClient(thread).pauseGrip(func);
 }
@@ -483,6 +488,7 @@ const clientCommands = {
   sendPacket,
   setPausePoints,
   setSkipPausing,
+  setEventListenerBreakpoints,
   registerSource
 };
 

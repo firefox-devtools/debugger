@@ -5,13 +5,13 @@
 // @flow
 
 import React, { Component } from "react";
-import { findKey } from "lodash";
+import classnames from "classnames";
 
 import { connect } from "../../utils/connect";
 import actions from "../../actions";
 import { getActiveEventListeners } from "../../selectors";
 
-const { Tree } = require("devtools-components");
+import AccessibleImage from "../shared/AccessibleImage";
 
 import "./EventListeners.css";
 
@@ -20,104 +20,52 @@ const CATEGORIES = {
   Keyboard: ["keyup", "keydown"]
 };
 
-class EventListeners extends Component<Props, State> {
-  getContents() {
-    const { activeEventListeners } = this.props;
+type Props = {
+  addEventListeners: typeof actions.addEventListeners,
+  removeEventListeners: typeof actions.removeEventListeners,
+  activeEventListeners: string[]
+};
 
-    return (
-      <ul className="event-listeners-list">
-        {Object.keys(CATEGORIES).map(category => {
-          return (
-            <li className="event-listener-group" key={category}>
-              <label>
-                <input
-                  type="checkbox"
-                  value={category}
-                  onChange={e =>
-                    this.onCategoryClick(category, e.target.checked)
-                  }
-                />
-                <span className="event-listener-category">{category}</span>
-              </label>
-              <ul>
-                {CATEGORIES[category].map(event => {
-                  const key = `${category}:${event}`;
-                  return (
-                    <li className="event-listener-event" key={key}>
-                      <label>
-                        <input
-                          type="checkbox"
-                          value={key}
-                          onChange={e =>
-                            this.onEventClick(key, e.target.checked)
-                          }
-                          checked={activeEventListeners.includes(key)}
-                        />
-                        {event}
-                      </label>
-                    </li>
-                  );
-                })}
-              </ul>
-            </li>
-          );
-        })}
-      </ul>
-    );
+type State = {
+  expandedCategories: string[]
+};
+
+function getKey(category: string, eventType: string) {
+  return `${category}:${eventType}`;
+}
+
+class EventListeners extends Component<Props, State> {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      expandedCategories: []
+    };
   }
 
-  renderItem = item => {
-    const { activeEventListeners } = this.props;
-    const isCategory = CATEGORIES[item] != undefined;
+  onCategoryToggle(category, event) {
+    event.preventDefault();
 
-    const key = isCategory
-      ? item
-      : `${findKey(CATEGORIES, k => k.includes(item))}:${item}`;
+    const { expandedCategories } = this.state;
 
-    return (
-      <div className="event-listener-event" onClick={e => e.stopPropagation()}>
-        <label>
-          <input
-            type="checkbox"
-            value={key}
-            onChange={e => {
-              e.stopPropagation();
-
-              const checked = e.target.checked;
-              isCategory
-                ? this.onCategoryClick(key, checked)
-                : this.onEventClick(key, checked);
-            }}
-            checked={activeEventListeners.includes(key)}
-          />
-          {item}
-        </label>
-      </div>
-    );
-  };
-
-  getTree() {
-    const data = {
-      children: CATEGORIES
-    };
-
-    return (
-      <div>
-        <Tree
-          getRoots={() => Object.keys(data.children)}
-          getParent={x => data}
-          getChildren={x => (CATEGORIES[x] ? CATEGORIES[x] : [])}
-          renderItem={this.renderItem}
-          isExpanded={() => true}
-          getKey={x => x}
-        />
-      </div>
-    );
+    if (expandedCategories.includes(category)) {
+      this.setState({
+        expandedCategories: expandedCategories.filter(
+          eventCategory => eventCategory !== category
+        )
+      });
+    } else {
+      this.setState({
+        expandedCategories: [...expandedCategories, category]
+      });
+    }
   }
 
   onCategoryClick(category, isChecked) {
     const { addEventListeners, removeEventListeners } = this.props;
-    const events = CATEGORIES[category].map(event => `${category}:${event}`);
+    const events = CATEGORIES[category].map(eventType =>
+      getKey(category, eventType)
+    );
 
     if (isChecked) {
       addEventListeners(events);
@@ -126,7 +74,7 @@ class EventListeners extends Component<Props, State> {
     }
   }
 
-  onEventClick(eventType, isChecked) {
+  onEventTypeClick(eventType, isChecked) {
     const { addEventListeners, removeEventListeners } = this.props;
     if (isChecked) {
       addEventListeners([eventType]);
@@ -136,11 +84,58 @@ class EventListeners extends Component<Props, State> {
   }
 
   render() {
+    const { activeEventListeners } = this.props;
+    const { expandedCategories } = this.state;
+
     return (
-      <div>
-        {/* this.getContents()*/}
-        {this.getTree()}
-      </div>
+      <ul className="event-listeners-list">
+        {Object.keys(CATEGORIES).map(category => {
+          const expanded = expandedCategories.includes(category);
+          return (
+            <li className="event-listener-group" key={category}>
+              <label>
+                <input
+                  type="checkbox"
+                  value={category}
+                  onChange={e =>
+                    this.onCategoryClick(category, e.target.checked)
+                  }
+                  checked={CATEGORIES[category].every(eventType =>
+                    activeEventListeners.includes(getKey(category, eventType))
+                  )}
+                />
+                <span className="event-listener-category">{category}</span>
+                <AccessibleImage
+                  className={classnames("arrow", { expanded })}
+                  onClick={e => this.onCategoryToggle(category, e)}
+                />
+              </label>
+              {expanded && (
+                <ul>
+                  {CATEGORIES[category].map(eventType => {
+                    const key = getKey(category, eventType);
+                    return (
+                      <li className="event-listener-event" key={key}>
+                        <label>
+                          <input
+                            type="checkbox"
+                            value={key}
+                            onChange={e =>
+                              this.onEventTypeClick(key, e.target.checked)
+                            }
+                            checked={activeEventListeners.includes(key)}
+                          />
+                          {eventType}
+                        </label>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            </li>
+          );
+        })}
+      </ul>
     );
   }
 }

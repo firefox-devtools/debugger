@@ -7,8 +7,11 @@
 import { asyncStore } from "../utils/prefs";
 import { uniq } from "lodash";
 
-function update(state = [], action) {
-  console.log("event listener update! ", state, action);
+type EventListenerState = {
+  eventListenerBreakpoints: string[]
+};
+
+function update(state: EventListenerState = [], action: any) {
   switch (action.type) {
     case "ADD_EVENT_LISTENERS":
       return updateEventTypes("add", state, action.events);
@@ -21,10 +24,13 @@ function update(state = [], action) {
   }
 }
 
-function updateEventTypes(addOrRemove, currentEvents, events) {
+function updateEventTypes(
+  addOrRemove: string,
+  currentEvents: string[],
+  events: string[]
+) {
   let newEventListeners;
 
-  console.log("updateEventTypes: ", addOrRemove, currentEvents, events);
   if (addOrRemove === "add") {
     newEventListeners = uniq([...currentEvents, ...events]);
   } else {
@@ -35,7 +41,7 @@ function updateEventTypes(addOrRemove, currentEvents, events) {
   return newEventListeners;
 }
 
-export function getActiveEventListeners(state) {
+export function getActiveEventListeners(state: EventListenerState) {
   return state.eventListenerBreakpoints;
 }
 
