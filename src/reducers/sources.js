@@ -63,7 +63,7 @@ export function createSource(source: Object): Source {
     isBlackBoxed: false,
     isPrettyPrinted: false,
     isWasm: false,
-    isExtension: source.url && isUrlExtension(source.url),
+    isExtension: (source.url && isUrlExtension(source.url)) || false,
     text: undefined,
     contentType: "",
     error: undefined,
