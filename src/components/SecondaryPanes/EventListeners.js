@@ -13,6 +13,8 @@ import { getActiveEventListeners } from "../../selectors";
 
 import AccessibleImage from "../shared/AccessibleImage";
 
+import type { EventListenerBreakpoints } from "../../types";
+
 import "./EventListeners.css";
 
 const CATEGORIES = {
@@ -23,7 +25,7 @@ const CATEGORIES = {
 type Props = {
   addEventListeners: typeof actions.addEventListeners,
   removeEventListeners: typeof actions.removeEventListeners,
-  activeEventListeners: string[]
+  activeEventListeners: EventListenerBreakpoints
 };
 
 type State = {

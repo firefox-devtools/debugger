@@ -22,7 +22,8 @@ import type {
   Grip,
   ThreadClient,
   ObjectClient,
-  BPClients
+  BPClients,
+  EventListenerBreakpoints
 } from "./types";
 
 import type { PausePointsMap } from "../../workers/parser";
@@ -386,9 +387,8 @@ function eventListeners(): Promise<*> {
   return threadClient.eventListeners();
 }
 
-function setEventListenerBreakpoints(eventTypes: string[]) {
+function setEventListenerBreakpoints(eventTypes: EventListenerBreakpoints) {
   // TODO: Figure out what sendpoint we want to hit
-  threadClient.setEventListenerBreakpoints(eventTypes);
 }
 
 function pauseGrip(thread: string, func: Function): ObjectClient {

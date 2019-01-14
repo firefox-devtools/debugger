@@ -4,14 +4,15 @@
 
 // @flow
 
-import { asyncStore } from "../utils/prefs";
 import { uniq } from "lodash";
 
-type EventListenerState = {
-  eventListenerBreakpoints: string[]
-};
+import { asyncStore } from "../utils/prefs";
+import type { EventListenerBreakpoints } from "../types";
 
-function update(state: EventListenerState = [], action: any) {
+type OuterState = { eventListenerBreakpoints: EventListenerBreakpoints };
+
+function update(state: EventListenerBreakpoints = [], action: any) {
+  console.log("update; state is: ", state);
   switch (action.type) {
     case "ADD_EVENT_LISTENERS":
       return updateEventTypes("add", state, action.events);
@@ -26,9 +27,9 @@ function update(state: EventListenerState = [], action: any) {
 
 function updateEventTypes(
   addOrRemove: string,
-  currentEvents: string[],
-  events: string[]
-) {
+  currentEvents: EventListenerBreakpoints,
+  events: EventListenerBreakpoints
+): EventListenerBreakpoints {
   let newEventListeners;
 
   if (addOrRemove === "add") {
@@ -41,7 +42,7 @@ function updateEventTypes(
   return newEventListeners;
 }
 
-export function getActiveEventListeners(state: EventListenerState) {
+export function getActiveEventListeners(state: OuterState) {
   return state.eventListenerBreakpoints;
 }
 
