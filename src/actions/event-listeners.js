@@ -7,6 +7,7 @@
 import { asyncStore } from "../utils/prefs";
 
 import type { ThunkArgs } from "./types";
+import type { EventListenerBreakpoints } from "../types";
 
 export function addEventListeners(events: EventListenerBreakpoints) {
   return async ({ dispatch, client }: ThunkArgs) => {

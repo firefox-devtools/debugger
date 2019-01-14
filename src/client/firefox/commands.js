@@ -7,6 +7,7 @@
 import type {
   BreakpointId,
   BreakpointResult,
+  EventListenerBreakpoints,
   Frame,
   FrameId,
   SourceLocation,
@@ -22,8 +23,7 @@ import type {
   Grip,
   ThreadClient,
   ObjectClient,
-  BPClients,
-  EventListenerBreakpoints
+  BPClients
 } from "./types";
 
 import type { PausePointsMap } from "../../workers/parser";
