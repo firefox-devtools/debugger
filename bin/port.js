@@ -42,7 +42,15 @@ function copyCommitFiles({mcModulePath, mcPath, projectPath}) {
 
     const mcFilePath = path.resolve(mcPath, file)
     const dbgFilePath = path.resolve(projectPath, filePath);
-    copyFile(mcFilePath, dbgFilePath, {})
+    try {
+      if (fs.existsSync(mcFilePath)) {
+        copyFile(mcFilePath, dbgFilePath, {})
+      } else {
+        fs.unlinkSync(dbgFilePath);
+      }
+    } catch (e) {
+      console.log(e.message)
+    }
   }
 }
 
