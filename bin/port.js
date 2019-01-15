@@ -38,20 +38,17 @@ function copyCommitFiles({mcModulePath, mcPath, projectPath}) {
   const dbgFiles = files.split("\n").filter(file => file.includes(mcModulePath))
 
   for (const file of dbgFiles) {
-    const filePath = file.replace(mcModulePath,'').replace(/^\/(src\/)?/,'');
+    const filePath = file.replace(mcModulePath,'')
 
     const mcFilePath = path.resolve(mcPath, file)
-    const dbgFilePath = path.resolve(projectPath, 'src', filePath);
-
-    // const filePath = path.relative(projectPath, mcFilePath, )
-
+    const dbgFilePath = path.resolve(projectPath, filePath);
     copyFile(mcFilePath, dbgFilePath, {})
   }
 }
 
 function start() {
   const projectPath = path.resolve(__dirname, "..");
-  const mcModulePath = "devtools/client/debugger/new";
+  const mcModulePath = "devtools/client/debugger/new/";
 
   // resolving against the project path in case it's relative. If it's absolute
   // it will override whatever is in projectPath.
