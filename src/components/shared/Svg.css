@@ -314,7 +314,6 @@ span.img.marko {
   margin-inline-end: 5px;
 }
 
-
 .img.arrow {
   mask: url(/images/arrow.svg);
   margin-inline-end: 5px;
@@ -329,7 +328,6 @@ span.img.marko {
   transform: rotate(-90deg);
   transition: transform 0.18s ease;
 }
-
 
 html[dir="rtl"] .img.arrow {
   transform: rotate(90deg);
