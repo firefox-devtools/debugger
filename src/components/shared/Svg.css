@@ -91,8 +91,8 @@
 }
 
 .img.aframe {
-  mask: url(/images/aframe.svg) no-repeat;
-  mask-size: 100%;
+  background-image: url(/images/aframe.svg);
+  background-size: 15px 15px;
 }
 
 .img.babel {
@@ -111,13 +111,11 @@
 }
 
 .img.dojo {
-  mask: url(/images/dojo.svg) no-repeat;
-  mask-size: 100%;
+  background-image: url(/images/dojo.svg);
 }
 
 .img.ember {
-  mask: url(/images/ember.svg) no-repeat;
-  mask-size: 100%;
+  background-image: url(/images/ember.svg);
 }
 
 .img.immutable {
@@ -135,14 +133,15 @@
   mask-size: 100%;
 }
 
-.img.marko {
-  mask: url(/images/marko.svg) no-repeat;
-  mask-size: 100%;
+span.img.marko {
+  background-image: url(/images/marko.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 
 .img.mobx {
-  mask: url(/images/mobx.svg) no-repeat;
-  mask-size: 100%;
+  background-image: url(/images/mobx.svg);
 }
 
 .img.next-circle {
@@ -156,23 +155,19 @@
 }
 
 .img.nextjs {
-  mask: url(/images/nextjs.svg) no-repeat;
-  mask-size: 100%;
+  background-image: url(/images/nextjs.svg);
 }
 
 .img.nuxtjs {
-  mask: url(/images/nuxtjs.svg) no-repeat;
-  mask-size: 100%;
+  background-image: url(/images/nuxtjs.svg);
 }
 
 .img.preact {
-  mask: url(/images/preact.svg) no-repeat;
-  mask-size: 100%;
+  background-image: url(/images/preact.svg);
 }
 
 .img.pug {
-  mask: url(/images/pug.svg) no-repeat;
-  mask-size: 100%;
+  background-image: url(/images/pug.svg);
 }
 
 .img.redux {
@@ -181,13 +176,11 @@
 }
 
 .img.rxjs {
-  mask: url(/images/rxjs.svg) no-repeat;
-  mask-size: 100%;
+  background-image: url(/images/rxjs.svg);
 }
 
 .img.sencha-extjs {
-  mask: url(/images/sencha-extjs.svg) no-repeat;
-  mask-size: 100%;
+  background-image: url(/images/sencha-extjs.svg);
 }
 
 .img.underscore {
@@ -196,8 +189,13 @@
 }
 
 .img.webpack {
-  mask: url(/images/webpack.svg) no-repeat;
-  mask-size: 100%;
+  background-image: url(/images/webpack.svg);
+  background-repeat: no-repeat;
+}
+
+.img.vue {
+  background: url(/images/vuejs.svg) 1px 1px no-repeat;
+  background-size: 15px;
 }
 
 .img.typescript {
@@ -264,6 +262,33 @@
   mask-size: 100%;
 }
 
+.img.angular {
+  background-image: url(/images/angular.svg);
+  background-repeat: no-repeat;
+}
+
+.img.angular,
+.img.webpack,
+.img.vue,
+.img.aframe,
+.img.dojo,
+.img.ember,
+.img.marko,
+.img.mobx,
+.img.nextjs,
+.img.nuxtjs,
+.img.preact,
+.img.pug,
+.img.rxjs,
+.img.sencha-extjs {
+  background-size: 15px 15px;
+  background-color: transparent;
+  width: 15px;
+  height: 15px;
+  position: relative;
+  top: 3px;
+}
+
 .img.domain,
 .img.folder,
 .img.file,
@@ -282,11 +307,13 @@
   display: inline-block;
 }
 
-.refresh svg,
-.shortcut svg,
-.worker svg {
+.img.refresh,
+.img.shortcut,
+.img.worker,
+.img.arrow {
   margin-inline-end: 5px;
 }
+
 
 .img.arrow {
   mask: url(/images/arrow.svg);
@@ -311,7 +338,6 @@ html[dir="rtl"] .img.arrow {
 .arrow {
   transition: transform 0.125s ease;
   width: 10px;
-  margin-inline-end: 5px;
   transform: rotate(-90deg);
 }
 
@@ -327,30 +353,6 @@ html[dir="rtl"] .arrow,
 
 .arrow.hidden {
   visibility: hidden;
-}
-
-.webpack svg {
-  width: 15px;
-  height: 15px;
-  margin-right: 5px;
-  vertical-align: sub;
-}
-
-.function svg {
-  height: 10px;
-  width: 15px;
-}
-
-.function path {
-  fill: var(--theme-body-color);
-}
-
-.angular svg,
-.source-icon svg {
-  width: 15px;
-  height: 15px;
-  margin-right: 5px;
-  vertical-align: sub;
 }
 
 .angular,
