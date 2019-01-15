@@ -6,7 +6,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
-import Svg from "../../shared/Svg";
 import {
   getLibraryFromUrl,
   formatDisplayName
@@ -30,7 +29,7 @@ function FrameLocation({ frame }: FrameLocationProps) {
   return (
     <span className="location">
       {library}
-      <Svg name={library.toLowerCase()} className="annotation-logo" />
+      <AccessibleImage className={`annotation-logo ${library.toLowerCase()}`} />
     </span>
   );
 }
