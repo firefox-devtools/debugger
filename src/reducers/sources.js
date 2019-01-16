@@ -51,6 +51,7 @@ export function initialSourcesState(): SourcesState {
     selectedLocation: undefined,
     pendingSelectedLocation: prefs.pendingSelectedLocation,
     projectDirectoryRoot: prefs.projectDirectoryRoot,
+    chromeAndExtenstionsEnabled: prefs.chromeAndExtenstionsEnabled,
     focusedItem: null
   };
 }
@@ -554,15 +555,26 @@ export function getProjectDirectoryRoot(state: OuterState): string {
   return state.sources.projectDirectoryRoot;
 }
 
-export function getRelativeSources(state: OuterState): SourcesMapByThread {
-  let relativeSources = state.sources.relativeSources;
-  if (!prefs.chromeAndExtenstionsEnabled) {
-    relativeSources = mapValues(relativeSources, threadSources => {
-      return omitBy(threadSources, source => source.isExtension);
-    });
-  }
-  return relativeSources;
+function getAllRelativeSources(state: OuterState): SourcesMapByThread {
+  return state.sources.relativeSources;
 }
+
+function getChromeAndExtenstionsEnabled(state: OuterState) {
+  return state.sources.chromeAndExtenstionsEnabled;
+}
+
+export const getRelativeSources: Selector<?Source> = createSelector(
+  getChromeAndExtenstionsEnabled,
+  getAllRelativeSources,
+  (chromeAndExtenstionsEnabled, relativeSources) => {
+    if (!chromeAndExtenstionsEnabled) {
+      return mapValues(relativeSources, threadSources => {
+        return omitBy(threadSources, source => source.isExtension);
+      });
+    }
+    return relativeSources;
+  }
+);
 
 export function getRelativeSourcesForThread(
   state: OuterState,
