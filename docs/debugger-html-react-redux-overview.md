@@ -25,7 +25,7 @@ As with most documentation related to code, this document may be out of date. Th
 Debugger.html is a React-Redux based application — the UI is constructed using React Components. the follow illustration provides a simplistic high level view:
 
 ![](https://docs.google.com/drawings/d/1JTDI-62CG29M37rpTGIDh70rOTuCmJf1VqxCKPe9zxM/pub?w=960&h=720)
-[Click here to Edit](https://docs.google.com/drawings/d/1JTDI-62CG29M37rpTGIDh70rOTuCmJf1VqxCKPe9zxM/edit?usp=sharing)
+<!-- Link to Edit:(https://docs.google.com/drawings/d/1JTDI-62CG29M37rpTGIDh70rOTuCmJf1VqxCKPe9zxM/edit?usp=sharing) -->
 
 Application-critical objects are stored in one
 global state object (housed in a Redux store) that some components have
@@ -74,7 +74,7 @@ architectural relationships:
 
 
 ![](https://docs.google.com/drawings/d/1cIa-Cf2pPi3vCKvsCrUSfC1_1LG3XDH7GpNKmWIIKWY/pub?w=960&h=720)
-[Click here to Edit](https://docs.google.com/drawings/d/1cIa-Cf2pPi3vCKvsCrUSfC1_1LG3XDH7GpNKmWIIKWY/edit)
+<!-- Link to Edit:(https://docs.google.com/drawings/d/1cIa-Cf2pPi3vCKvsCrUSfC1_1LG3XDH7GpNKmWIIKWY/edit) -->
 
 
 The App component uses two SplitBox components to separate the
@@ -83,7 +83,7 @@ components are used to allow each of the sections to be expanded or
 collapsed.
 
 ![](https://docs.google.com/drawings/d/1lAEyyci8SQZzh4Dk-EowX0wGnvyOISGO3sqdtzgQqoo/pub?w=960&h=720)
-[Click here to Edit](https://docs.google.com/drawings/d/1lAEyyci8SQZzh4Dk-EowX0wGnvyOISGO3sqdtzgQqoo/edit?usp=sharing)
+<!-- Link to Edit:(https://docs.google.com/drawings/d/1lAEyyci8SQZzh4Dk-EowX0wGnvyOISGO3sqdtzgQqoo/edit?usp=sharing) -->
 ## Source tree view
 
 The left-most section of the application displays the source tree for
@@ -105,7 +105,7 @@ The Sources component encapsulates SourcesTree and
 SourcesTree encapsulates ManagedTree.
 
 ![](https://docs.google.com/drawings/d/1dOCy4BePfX77ky3yUTlZRnAeeFIIi4UAJcYaYmYvUcY/pub?w=960&h=720)
-[Click here to Edit](https://docs.google.com/drawings/d/1dOCy4BePfX77ky3yUTlZRnAeeFIIi4UAJcYaYmYvUcY/edit?usp=sharing)
+<!-- Link to Edit:(https://docs.google.com/drawings/d/1dOCy4BePfX77ky3yUTlZRnAeeFIIi4UAJcYaYmYvUcY/edit?usp=sharing) -->
 
 ## Source editor/file search
 
@@ -120,7 +120,7 @@ The center portion of the application displays either the source editor or a fil
 * The last component on the page is the SourceFooter component. This component renders buttons for blackboxing and prettify source functions.
 
 ![](https://docs.google.com/drawings/d/1PC63VABa0x-W3hACi7ASXgawQeowbAvA_aqN_Z1wpRI/pub?w=960&h=720)
-[Click here to Edit](https://docs.google.com/drawings/d/1PC63VABa0x-W3hACi7ASXgawQeowbAvA_aqN_Z1wpRI/edit?usp=sharing)
+<!-- Link to Edit:(https://docs.google.com/drawings/d/1PC63VABa0x-W3hACi7ASXgawQeowbAvA_aqN_Z1wpRI/edit?usp=sharing) -->
 
 At any time a user can search the sources for a specific string by
 pressing cmd-&gt;p. This will replace all of the components in the
@@ -140,7 +140,7 @@ The farthest right section of the application is handled by many components. At 
 * The Scopes component is responsible for rendering the current variable scopes for the given breakpoint. It uses the ObjectInspector component to render the tree for all scopes and variables. The state of which nodes are collapsed/expanded are maintained using a ManagedTree component, in similar fashion to the SourcesTree component.
 
 ![](https://docs.google.com/drawings/d/1zHogPebNmOFT9Xx6cZsaA6R6cTQLUzBXePV9sf62chA/pub?w=960&h=720)
-[Click here to Edit](https://docs.google.com/drawings/d/1zHogPebNmOFT9Xx6cZsaA6R6cTQLUzBXePV9sf62chA/edit?usp=sharing)
+<!-- Link to Edit:(https://docs.google.com/drawings/d/1zHogPebNmOFT9Xx6cZsaA6R6cTQLUzBXePV9sf62chA/edit?usp=sharing) -->
 
 # Component Data
 
