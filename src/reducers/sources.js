@@ -40,6 +40,7 @@ export type SourcesState = {
   pendingSelectedLocation?: PendingSelectedLocation,
   selectedLocation: ?SourceLocation,
   projectDirectoryRoot: string,
+  chromeAndExtenstionsEnabled: boolean,
   focusedItem: ?FocusItem
 };
 
@@ -563,7 +564,7 @@ function getChromeAndExtenstionsEnabled(state: OuterState) {
   return state.sources.chromeAndExtenstionsEnabled;
 }
 
-export const getRelativeSources: Selector<?Source> = createSelector(
+export const getRelativeSources: Selector<SourcesMapByThread> = createSelector(
   getChromeAndExtenstionsEnabled,
   getAllRelativeSources,
   (chromeAndExtenstionsEnabled, relativeSources) => {
