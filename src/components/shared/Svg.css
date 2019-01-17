@@ -325,7 +325,6 @@ span.img.marko {
   display: inline-block;
   transform: rotate(-90deg);
   transition: transform 0.18s ease;
-  vertical-align: -1px;
 }
 
 html[dir="rtl"] .img.arrow {
