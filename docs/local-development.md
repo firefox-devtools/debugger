@@ -820,8 +820,8 @@ your questions on [Slack][slack].
 [client adapters]: https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-client-adapters
 [modules]: https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-modules
 [source maps]: https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-source-map
-[shimmed-context-menus]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/src/menu.js
-[context-menus]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-modules/client/framework/menu.js
+[shimmed-context-menus]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-contextmenu/menu.js
+[context-menus]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-modules/src/menu/index.js
 [web-workers]: https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers
 [l10n-docs]: https://developer.mozilla.org/en-US/docs/Mozilla/Localization/Localization_content_best_practices#Choose_good_key_IDs
 [immutable-docs]: https://facebook.github.io/immutable-js/docs/#/
