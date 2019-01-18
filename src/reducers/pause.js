@@ -270,7 +270,7 @@ function update(
           previousLocation: getPauseLocation(threadState(), action)
         });
       }
-      return updateThreadState({ command: null });
+      return updateThreadState({ command: action.command });
 
     case "RESUME":
       // Workaround for threads resuming before the initial connection.
