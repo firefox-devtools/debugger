@@ -32,6 +32,7 @@ export type SourcesMap = { [string]: Source };
 export type SourcesMapByThread = { [string]: SourcesMap };
 
 type UrlsMap = { [string]: SourceId[] };
+type GetRelativeSourcesSelector = OuterState => SourcesMapByThread;
 
 export type SourcesState = {
   sources: SourcesMap,
@@ -564,7 +565,7 @@ function getChromeAndExtenstionsEnabled(state: OuterState) {
   return state.sources.chromeAndExtenstionsEnabled;
 }
 
-export const getRelativeSources: OuterState => SourcesMapByThread = createSelector(
+export const getRelativeSources: GetRelativeSourcesSelector = createSelector(
   getChromeAndExtenstionsEnabled,
   getAllRelativeSources,
   (chromeAndExtenstionsEnabled, relativeSources) => {
