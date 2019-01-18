@@ -80,8 +80,8 @@ async function copyCommits() {
   }
 
   function getMessage(sha) {
-    const msg = exec(`git log --format=%B -n 1 ${sha}`).split("\n")[0];
-    return message.replace("__message__", msg);
+    const msg = exec(`git log --format=%B -n 1 ${sha}`).split("\n")[0]
+    return message.replace('__message__', msg);
   }
 
   function getCommitsAfter(sha) {
@@ -101,7 +101,7 @@ async function copyCommits() {
     const message = getMessage(commit);
     console.log(`Copying ${message}`);
     exec(`git checkout ${commit}`);
-    const authorship = exec('g log -n1 --format="%aN <%aE>"');
+    const authorship = exec('git log -n1 --format="%aN <%aE>"');
 
     await copy({ mc, assets: true });
     shell.cd(mc);
