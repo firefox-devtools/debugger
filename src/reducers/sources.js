@@ -564,7 +564,7 @@ function getChromeAndExtenstionsEnabled(state: OuterState) {
   return state.sources.chromeAndExtenstionsEnabled;
 }
 
-export const getRelativeSources: Selector<SourcesMapByThread> = createSelector(
+export const getRelativeSources: OuterState => SourcesMapByThread = createSelector(
   getChromeAndExtenstionsEnabled,
   getAllRelativeSources,
   (chromeAndExtenstionsEnabled, relativeSources) => {
