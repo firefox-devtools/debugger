@@ -1,5 +1,6 @@
-/* Any copyright is dedicated to the Public Domain.
- * http://creativecommons.org/publicdomain/zero/1.0/ */
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 function getColumnBreakpointElements(dbg) {
   return findAllElementsWithSelector(dbg, ".column-breakpoint");
@@ -21,8 +22,8 @@ function hasCondition(marker) {
 
 async function setConditionalBreakpoint(dbg, index, condition) {
   const {
-      addConditionalBreakpoint,
-      editConditionalBreakpoint
+    addConditionalBreakpoint,
+    editConditionalBreakpoint
   } = selectors.gutterContextMenu;
   // Make this work with either add or edit menu items
   const selector = `${addConditionalBreakpoint},${editConditionalBreakpoint}`;
@@ -46,12 +47,14 @@ function removeBreakpointViaContext(dbg, index) {
 // Test enabling and disabling a breakpoint using the check boxes
 add_task(async function() {
   const dbg = await initDebugger("doc-scripts.html", "simple1");
-  await pushPref("devtools.debugger.features.column-breakpoints", false);
+  await pushPref("devtools.debugger.features.column-breakpoints", true);
 
-  if(!Services.prefs.getBoolPref("devtools.debugger.features.column-breakpoints")) {
-    ok(true, "This test only applies when column breakpoints are on");
-    return;
-  }
+  // if(!Services.prefs.getBoolPref("devtools.debugger.features.column-breakpoints")) {
+  //   ok(true, "This test only applies when column breakpoints are on");
+  //   return;
+  // }
+
+  // debugger;
 
   await selectSource(dbg, "simple1");
 
@@ -67,19 +70,22 @@ add_task(async function() {
   let columnBreakpointMarkers = getColumnBreakpointElements(dbg);
   ok(
     columnBreakpointMarkers.length === 2,
-      "2 column breakpoint markers display"
+    "2 column breakpoint markers display"
   );
 
   // Create a breakpoint at 15:8
-  columnBreakpointMarkers[0].click();
+  // columnBreakpointMarkers[0].click();
 
   // Create a breakpoint at 15:28
   columnBreakpointMarkers[1].click();
 
   // Wait for breakpoints in right panel to render
-  await waitForState(dbg, state => {
-    return dbg.win.document.querySelectorAll(".breakpoints-list .breakpoint").length === 3;
-  })
+  await waitForState(
+    dbg,
+    state => findAllElements(dbg, "breakpointItems").length === 2
+  );
+
+  // debugger;
 
   // Scroll down in secondary pane so element we want to right-click is showing
   dbg.win.document.querySelector(".secondary-panes").scrollTop = 100;
@@ -90,20 +96,31 @@ add_task(async function() {
   // Ensure column breakpoint is yellow
   await waitForElementWithSelector(dbg, ".column-breakpoint.has-condition");
 
+  debugger;
+
   // Remove the breakpoint from 15:undefined via the secondary pane context menu
   removeBreakpointViaContext(dbg, 3);
 
   // Ensure that there's still a marker on line 15
-  await waitForState(dbg, state => dbg.selectors.getBreakpointCount(state) == 2);
+  await waitForState(
+    dbg,
+    state => dbg.selectors.getBreakpointCount(state) == 2
+  );
   await waitForElementWithSelector(dbg, ".column-breakpoint.has-condition");
   columnBreakpointMarkers = getColumnBreakpointElements(dbg);
-  ok(hasCondition(columnBreakpointMarkers[0]), "First column breakpoint has conditional style");
+  ok(
+    hasCondition(columnBreakpointMarkers[0]),
+    "First column breakpoint has conditional style"
+  );
 
   // Remove the breakpoint from 15:8
   removeBreakpointViaContext(dbg, 3);
 
   // Ensure there's still a marker and it has no condition
-  await waitForState(dbg, state => dbg.selectors.getBreakpointCount(state) == 1);
+  await waitForState(
+    dbg,
+    state => dbg.selectors.getBreakpointCount(state) == 1
+  );
   await waitForElementWithSelector(dbg, ".column-breakpoint");
 
   // Ensure the first column breakpoint has no conditional style
