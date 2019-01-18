@@ -221,18 +221,18 @@ export type TabTarget = {
     evaluateJS: (
       script: Script,
       func: Function,
-      params?: { frameActor?: FrameId }
+      params?: { frameActor: ?FrameId }
     ) => void,
     evaluateJSAsync: (
       script: Script,
       func: Function,
-      params?: { frameActor?: FrameId }
+      params?: { frameActor: ?FrameId }
     ) => void,
     autocomplete: (
       input: string,
       cursor: number,
       func: Function,
-      frameId: string
+      frameId: ?string
     ) => void
   },
   form: { consoleActor: any },
@@ -322,7 +322,7 @@ export type SourceClient = {
   setBreakpoint: ({
     line: number,
     column: ?number,
-    condition: boolean,
+    condition: ?string,
     noSliding: boolean
   }) => Promise<BreakpointResponse>,
   prettyPrint: number => Promise<*>,
