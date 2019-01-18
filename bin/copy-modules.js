@@ -19,13 +19,12 @@ const envConfig = getConfig();
 feature.setConfig(envConfig);
 
 function ignoreFile(file) {
-  return file.match(/(mochitest)/);
+  return file.match(/(mochitest)/) || fs.statSync(file).isDirectory();
 }
 
 function getFiles() {
-  return glob.sync("./src/**/*.js", {}).filter(file => !ignoreFile(file));
+  return glob.sync("./src/**/*", {}).filter(file => !ignoreFile(file));
 }
-
 
 function copyFiles() {
   getFiles().forEach(file => {
@@ -68,6 +67,7 @@ function createMozBuildFiles() {
   const builds = {};
 
   getFiles()
+    .filter(file => file.match(/.js$/))
     .filter(file => {
       if (file.match(/\/workers\.js/)) {
         return true;
