@@ -102,7 +102,7 @@ async function copyCommits() {
     const message = getMessage(commit);
     console.log(`Copying ${message}`);
     exec(`git checkout ${commit}`);
-    const authorship = exec('g log -n1 --format="%aN <%aE>"');
+    const authorship = exec('git log -n1 --format="%aN <%aE>"');
 
     await copy({ mc, assets: true });
     shell.cd(mc);
