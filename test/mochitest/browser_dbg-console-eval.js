@@ -31,5 +31,4 @@ add_task(async function() {
   selectContextMenuItem(dbg, "#node-menu-evaluate-in-console");
 
   await waitForConsolePanelChange(dbg);
-  await waitForever();
 });
