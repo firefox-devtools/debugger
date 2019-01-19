@@ -20,8 +20,12 @@ import * as parser from "../../../workers/parser/index";
 
 const { isStepping } = selectors;
 
+let stepInResolve = null;
 const mockThreadClient = {
-  stepIn: () => new Promise(_resolve => _resolve),
+  stepIn: () =>
+    new Promise(_resolve => {
+      stepInResolve = _resolve;
+    }),
   stepOver: () => new Promise(_resolve => _resolve),
   evaluate: async () => {},
   evaluateInFrame: async () => {},
@@ -99,13 +103,13 @@ function resumedPacket() {
 
 describe("pause", () => {
   describe("stepping", () => {
-    it("should set the command", async () => {
+    it("should set and clear the command", async () => {
       const { dispatch, getState } = createStore(mockThreadClient);
       const mockPauseInfo = createPauseInfo();
 
       await dispatch(actions.newSource(makeSource("foo1")));
       await dispatch(actions.paused(mockPauseInfo));
-      dispatch(actions.stepIn());
+      const stepped = dispatch(actions.stepIn());
       expect(isStepping(getState())).toBeTruthy();
       if (!stepInResolve) {
         throw new Error("no stepInResolve");

@@ -69,6 +69,7 @@ type ThreadPauseState = {
   shouldPauseOnCaughtExceptions: boolean,
   command: Command,
   lastCommand: Command,
+  wasStepping: boolean,
   previousLocation: ?MappedLocation,
   skipPausing: boolean
 };
@@ -270,14 +271,17 @@ function update(
           previousLocation: getPauseLocation(threadState(), action)
         });
       }
-      return updateThreadState({ command: action.command });
+      return updateThreadState({ command: null });
 
     case "RESUME":
       // Workaround for threads resuming before the initial connection.
       if (!action.thread && !state.currentThread) {
         return state;
       }
-      return updateThreadState(resumedPauseState);
+      return updateThreadState({
+        ...resumedPauseState,
+        wasStepping: !!action.wasStepping
+      });
 
     case "EVALUATE_EXPRESSION":
       return updateThreadState({
@@ -357,6 +361,10 @@ export function getPauseCommand(state: OuterState): Command {
 
 export function getLastCommand(state: OuterState, thread: string) {
   return getThreadPauseState(state.pause, thread).lastCommand;
+}
+
+export function wasStepping(state: OuterState): boolean {
+  return getCurrentPauseState(state).wasStepping;
 }
 
 export function isStepping(state: OuterState) {

@@ -15,24 +15,6 @@
   user-select: none;
 }
 
-<<<<<<< head|||||||merged common ancestors .source-header .new-tab-btn {
-  padding: 4px;
-  margin-top: 4px;
-  margin-left: 2px;
-  fill: var(--theme-comment);
-  transition: 0.1s ease;
-  align-self: center;
-}
-
-.source-header .new-tab-btn:hover {
-  background-color: var(--theme-toolbar-background-hover);
-}
-
-.source-header .new-tab-btn svg {
-  width: 12px;
-  display: block;
-}
-
 .source-header .command-bar {
   flex: initial;
   flex-shrink: 0;

@@ -9,7 +9,7 @@ import {
   getSelectedFrame,
   getSources,
   getLastCommand,
-  isStepping
+  wasStepping
 } from "../../selectors";
 
 import { mapFrames } from ".";
@@ -42,7 +42,6 @@ export function paused(pauseInfo: Pause) {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
     const { thread, frames, why, loadedObjects } = pauseInfo;
     const topFrame = frames.length > 0 ? frames[0] : null;
-    const didStep = isStepping(getState());
 
     // NOTE: do not step when leaving a frame or paused at a debugger statement
     if (topFrame && !why.frameFinished && why.type == "resumeLimit") {
@@ -83,7 +82,7 @@ export function paused(pauseInfo: Pause) {
       await dispatch(selectLocation(selectedFrame.location));
     }
 
-    if (!didStep) {
+    if (!wasStepping(getState())) {
       dispatch(togglePaneCollapse("end", false));
     }
 
