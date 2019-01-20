@@ -21,26 +21,7 @@ yarn install
 *What should I do if I get an error?*  
 Yarn is still new, please comment on this [issue][yarn-issue] if you see anything weird.
 
-### Step 3. Open Firefox
-
-In this step, we'll open Firefox. [Chrome](#starting-chrome) and [Node](#starting-node) are also available in the Appendix. It's not required, but it's generally nice to close other browsers first.
-
-```bash
-yarn run firefox
-```
-
-After Firefox is open, it's nice to go to a page you want to debug. A good sample website is [TodoMVC](http://todomvc.com/examples/vanillajs/).
-
-*Why am I opening Firefox from the terminal?*  
-The firefox command opens firefox with special permissions that enable remote debugging.
-
-*What should I see?*  
-Here's a [screenshot][done-screenshot]  
-
-*What should I do if this doesn't work?*  
-You can either try to run it [manually](#starting-firefox) or comment on the [issue](https://github.com/devtools-html/debugger.html/issues/1341).
-
-### Step 4. Start the Debugger
+### Step 3. Start the Debugger
 
 Now that Firefox is open, lets start the development server. In a new terminal tab, run these commands:
 
@@ -52,9 +33,22 @@ yarn start
 *What does this do?*  
 This command starts a development server.
 
-### Step 5. Open the Debugger
+### Step 4. Open the Debugger
 
 Go to `localhost:8000` in any browser to view the Debugger. If everything worked successfully, you should see this [screenshot](https://cloud.githubusercontent.com/assets/254562/20439428/7498808a-ad89-11e6-895d-d6db320c5009.png)
+
+Now,open Firefox by clicking on `Launch Firefox`. [Chrome](#starting-chrome) and [Node](#starting-node) are also available in the Appendix. It's not required, but it's generally nice to close other browsers first.
+
+After Firefox is open, it's nice to go to a page you want to debug. A good sample website is [TodoMVC](http://todomvc.com/examples/vanillajs/).
+
+*Why am I opening Firefox from inside the debugger?*  
+`Launch Firefox` opens firefox with special permissions that enable remote debugging.
+
+*What should I see?*  
+Here's a [screenshot][done-screenshot]  
+
+*What should I do if this doesn't work?*  
+You can either try to run it [manually](#starting-firefox) or comment on the [issue](https://github.com/devtools-html/debugger.html/issues/1341).
 
 ### Next Steps
 
@@ -80,7 +74,7 @@ yarn start
 
 ### Starting Firefox
 
-If you're looking for an alternative to `yarn run firefox`, you have one option: cli.
+If you're looking for an alternative to opening Firefox from inside the debugger, you have one option: cli.
 
 **Firefox CLI**
 
@@ -91,7 +85,7 @@ If you're looking for an alternative to `yarn run firefox`, you have one option:
 
 You'll be shown a prompt to create a new "development" profile. The development profile is where your remote development user settings will be kept. *It's a good thing :)*
 
-1. Go to `about:config` and set these configs
+2. Go to `about:config` and set these configs
 
 Navigate to `about:config` and accept any warning message. Then search for the following preferences and double click them to toggle their values to the following. [example](http://g.recordit.co/3VsHIooZ9q.gif)
 
@@ -99,7 +93,7 @@ Navigate to `about:config` and accept any warning message. Then search for the f
 * `devtools.chrome.enabled` to `true`
 * `devtools.debugger.prompt-connection` to `false`
 
-1. Restart Firefox
+3. Restart Firefox
 
 Close Firefox and re-open it with the `firefox-bin` command.
 
