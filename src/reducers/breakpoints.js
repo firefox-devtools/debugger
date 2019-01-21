@@ -143,9 +143,8 @@ function removeXHRBreakpoint(state, action) {
     xhrBreakpoints: xhrBreakpoints.filter(bp => {
       if (bp.method === breakpoint.method && bp.path === breakpoint.path) {
         return false;
-      } else {
-        return true;
       }
+      return true;
     })
   };
 }
@@ -153,10 +152,16 @@ function removeXHRBreakpoint(state, action) {
 function updateXHRBreakpoint(state, action) {
   const { breakpoint, index } = action;
   const { xhrBreakpoints } = state;
-  if (action.type === "DISABLE_XHR_BREAKPOINT" || action.type === "ENABLE_XHR_BREAKPOINT") {
+  if (
+    action.type === "DISABLE_XHR_BREAKPOINT" ||
+    action.type === "ENABLE_XHR_BREAKPOINT"
+  ) {
     let breakpointExists = false;
     for (var i = 0; i < xhrBreakpoints.length; i++) {
-      if (breakpoint.method === xhrBreakpoints[i].method && breakpoint.path === xhrBreakpoints[i].path) {
+      if (
+        breakpoint.method === xhrBreakpoints[i].method &&
+        breakpoint.path === xhrBreakpoints[i].path
+      ) {
         breakpointExists = true;
       }
     }
