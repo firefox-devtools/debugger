@@ -131,7 +131,7 @@ export class HighlightLine extends Component<Props> {
   }
 
   resetHighlightLine(doc: SourceDocuments, editorLine: number) {
-    const line: HTMLElement = document.querySelector(".editor-wrapper");
+    const line: HTMLElement | null = document.querySelector(".editor-wrapper");
     if (line != null) {
       const style = getComputedStyle(line);
       const durationString = style.getPropertyValue(
