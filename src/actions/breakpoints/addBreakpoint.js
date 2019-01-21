@@ -24,7 +24,11 @@ import { getTextAtPosition } from "../../utils/source";
 import { recordEvent } from "../../utils/telemetry";
 import { features } from "../../utils/prefs";
 
-import type { BreakpointOptions, Breakpoint, SourceLocation } from "../../types";
+import type {
+  BreakpointOptions,
+  Breakpoint,
+  SourceLocation
+} from "../../types";
 import type { ThunkArgs } from "../types";
 
 async function addBreakpointPromise(getState, client, sourceMaps, breakpoint) {

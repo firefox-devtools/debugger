@@ -322,7 +322,7 @@ describe("breakpoints", () => {
     );
     const newBreakpoint = selectors.getBreakpoint(getState(), loc);
     expect(newBreakpoint.disabled).toBe(false);
-    expect(breakpoint.options.condition).toBe("const foo = 0");
+    expect(newBreakpoint.options.condition).toBe("const foo = 0");
   });
 
   it("should remap breakpoints on pretty print", async () => {
