@@ -23,7 +23,7 @@ Active Community Members are visibly active in Slack and/or Github channels. We 
 
 | | (Ordered by first name) |
 |-------|---|
-| ![Anshul](https://avatars.githubusercontent.com/anshulmalik?s=460&v=4)|**Anshul** is an Applications Deveoper @ORacle, living in India. Ask Anshul about...<ul><li>Source Trees (left Sidebar)</li>Server<li>XHR Breakpoints</li></ul> |
+| ![Anshul](https://avatars.githubusercontent.com/anshulmalik?s=460&v=4)|**[Anshul](https://github.com/anshulmalik)** is an Applications Deveoper @ORacle, living in India. Ask Anshul about...<ul><li>Source Trees (left Sidebar)</li>Server<li>XHR Breakpoints</li></ul> |
 | ![Hubert](https://avatars3.githubusercontent.com/u/792924?s=460&v=4)|**[Hubert](https://github.com/bomsy)** is a software developer @ComparetheMarket, formerly @Oath living in the UK.  Ask him about: <ul><li>Preview</li><li>Tabs</li><li>Search</li></ul> |
 | ![Martin](https://avatars.githubusercontent.com/nyrosmith?)|**[Martin](https://github.com/nyrosmith)** is a software developer @ComparetheMarket, formerly @Oath living in the UK.  |
 | ![Princiya](https://avatars3.githubusercontent.com/u/8022693?s=460&v=4)|**[Princiya](https://github.com/princiya)** is a software developer from Berlin.<br/>  Ask her about:  <ul><li>Good First Bugs</li><li>Making your first contribution</li><li>React/Redux/CSS</li><li>Anything when you're stuck on a PR</li></ul>  |
@@ -36,9 +36,7 @@ From time to time, and for many reasons that life gives us, one of our community
 
 |   |  (Ordered by first name) |
 |---|---|
-| ![Wellington](https://avatars3.githubusercontent.com/u/580982?s=460&v=4)  |  **[Wellington](https://github.com/wldcordeiro)** is a software developer from Salt Lake City.
-
- Lorem Ipsum is simply placeholder text of the printing and typesetting industry. |
+| ![Wellington](https://avatars3.githubusercontent.com/u/580982?s=460&v=4)  |  **[Wellington](https://github.com/wldcordeiro)** is a software developer from Salt Lake City. You can ask him about:  <ul><li> Quick Open</li><li>React/Redux</li><li>UI layout and styling</li></ul>||
 
 ### Firefox Debugger Community Team - Emeritus
 
@@ -48,9 +46,9 @@ Emeritus status honours those who have dedicated time and talent to the Debugger
 
 |   | (Ordered by first name)  |
 |---|---|
-|  ![Lukas](https://avatars1.githubusercontent.com/u/23530054?s=460&v=4) | **[Lukas](https://github.com/lukaszsobek0)** Lorem Ipsum is simply placeholder text of the printing and typesetting industry.  |
-| ![Irfan](https://avatars2.githubusercontent.com/u/1755089?s=400&v=4)  |  **[Irfan](https://github.com/irfanhudda)** Lorem Ipsum is simply placeholder text of the printing and typesetting industry.   |
-| ![Jaideep](https://avatars2.githubusercontent.com/u/2481105?s=460&v=4)  |  **[Jaideep](https://github.com/jbhoosreddy)** Lorem Ipsum is simply placeholder text of the printing and typesetting industry.   |
+|  ![Lukas](https://avatars1.githubusercontent.com/u/23530054?s=460&v=4) | **[Lukas](https://github.com/lukaszsobek0)**  led expertise in areas of:  <ul><li>Jest Unit tests</li><li>React/Redux</li></ul>|  |
+| ![Irfan](https://avatars2.githubusercontent.com/u/1755089?s=400&v=4)  |  **[Irfan](https://github.com/irfanhudda)**  led expertise in areas of:  <ul><li>CodeMirror and CSS</li><li>React/Redux</li></ul>| |
+| ![Jaideep](https://avatars2.githubusercontent.com/u/2481105?s=460&v=4)  |  **[Jaideep](https://github.com/jbhoosreddy)**  led expertise in areas of:  <ul><li>Watch Expressions</li><li>React/Redux</li><li>Mochitests</li></ul>|
 
 
 ### Joining the team
