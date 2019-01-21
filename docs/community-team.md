@@ -36,7 +36,9 @@ From time to time, and for many reasons that life gives us, one of our community
 
 |   |  (Ordered by first name) |
 |---|---|
-| ![Wellington](https://avatars3.githubusercontent.com/u/580982?s=460&v=4)  |  **[Wellington](https://github.com/wldcordeiro)** is a software developer from Salt Lake City.  |
+| ![Wellington](https://avatars3.githubusercontent.com/u/580982?s=460&v=4)  |  **[Wellington](https://github.com/wldcordeiro)** is a software developer from Salt Lake City.
+
+ Lorem Ipsum is simply placeholder text of the printing and typesetting industry. |
 
 #### Community Team - Emeritus
 
