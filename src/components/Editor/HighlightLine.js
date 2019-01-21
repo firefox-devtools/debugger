@@ -132,18 +132,20 @@ export class HighlightLine extends Component<Props> {
 
   resetHighlightLine(doc: SourceDocuments, editorLine: number) {
     const line: HTMLElement = document.querySelector(".editor-wrapper");
-    let style: any;
-    if (line !== null) {
-      style = getComputedStyle(line);
-    }
-    const durationString = style.getPropertyValue("--highlight-line-duration");
-    const duration =
-      parseFloat(durationString.substring(0, durationString.length - 1)) * 1000;
+    if (line != null) {
+      const style = getComputedStyle(line);
+      const durationString = style.getPropertyValue(
+        "--highlight-line-duration"
+      );
+      const duration =
+        parseFloat(durationString.substring(0, durationString.length - 1)) *
+        1000;
 
-    setTimeout(
-      () => doc && doc.removeLineClass(editorLine, "line", "highlight-line"),
-      duration
-    );
+      setTimeout(
+        () => doc && doc.removeLineClass(editorLine, "line", "highlight-line"),
+        duration
+      );
+    }
   }
 
   clearHighlightLine(selectedLocation: SourceLocation, selectedSource: Source) {
