@@ -16,7 +16,12 @@ import {
   getPauseCommand
 } from "../../selectors";
 
-import type { Frame, SourceLocation, Source } from "../../types";
+import type {
+  Frame,
+  SourceLocation,
+  Source,
+  SourceDocuments
+} from "../../types";
 import type { Command } from "../../reducers/types";
 
 type Props = {
