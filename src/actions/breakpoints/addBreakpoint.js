@@ -24,9 +24,12 @@ import { getTextAtPosition } from "../../utils/source";
 import { recordEvent } from "../../utils/telemetry";
 import { features } from "../../utils/prefs";
 
-import type { SourceLocation, Breakpoint } from "../../types";
+import type {
+  BreakpointOptions,
+  Breakpoint,
+  SourceLocation
+} from "../../types";
 import type { ThunkArgs } from "../types";
-import type { addBreakpointOptions } from "./";
 
 async function addBreakpointPromise(getState, client, sourceMaps, breakpoint) {
   const state = getState();
@@ -62,7 +65,7 @@ async function addBreakpointPromise(getState, client, sourceMaps, breakpoint) {
 
   const { id, actualLocation } = await client.setBreakpoint(
     generatedLocation,
-    breakpoint.condition,
+    breakpoint.options,
     isOriginalId(location.sourceId)
   );
 
@@ -80,10 +83,8 @@ async function addBreakpointPromise(getState, client, sourceMaps, breakpoint) {
   const newBreakpoint = {
     id,
     disabled: false,
-    hidden: breakpoint.hidden,
     loading: false,
-    condition: breakpoint.condition,
-    log: breakpoint.log,
+    options: breakpoint.options,
     location: newLocation,
     astLocation,
     generatedLocation: newGeneratedLocation,
@@ -126,9 +127,17 @@ export function enableBreakpoint(breakpoint: Breakpoint) {
   };
 }
 
+/**
+ * Add a new breakpoint
+ *
+ * @memberof actions/breakpoints
+ * @static
+ * @param {BreakpointOptions} options Any options for the new breakpoint.
+ */
+
 export function addBreakpoint(
   location: SourceLocation,
-  { condition, hidden, log = false }: addBreakpointOptions = {}
+  options: BreakpointOptions = {}
 ) {
   return async ({ dispatch, getState, sourceMaps, client }: ThunkArgs) => {
     recordEvent("add_breakpoint");
@@ -137,7 +146,7 @@ export function addBreakpoint(
       location = getFirstPausePointLocation(getState(), location);
     }
 
-    const breakpoint = createBreakpoint(location, { condition, hidden, log });
+    const breakpoint = createBreakpoint(location, options);
 
     return dispatch({
       type: "ADD_BREAKPOINT",
