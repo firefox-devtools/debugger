@@ -154,7 +154,8 @@ class XHRBreakpoints extends Component<Props, State> {
       </li>
     );
   }
-  handleCheckbox = index => {
+  handleCheckbox = (index, e) => {
+    e.stopPropagation();
     const {
       xhrBreakpoints,
       enableXHRBreakpoint,
@@ -193,13 +194,13 @@ class XHRBreakpoints extends Component<Props, State> {
         key={path}
         title={path}
         onDoubleClick={(items, options) => this.editExpression(index)}
+        onClick={e => this.handleCheckbox(index, e)}
       >
         <input
           type="checkbox"
           className="xhr-checkbox"
           checked={!disabled}
-          onChange={() => this.handleCheckbox(index)}
-          onClick={ev => ev.stopPropagation()}
+          onChange={e => this.handleCheckbox(index, e)}
         />
         <div className="xhr-label">{text}</div>
         <div className="xhr-container__close-btn">
