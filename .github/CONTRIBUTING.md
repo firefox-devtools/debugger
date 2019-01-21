@@ -49,7 +49,11 @@ Our goal is to work with the community to build a universal JS debugger for mode
 
 Our Community Team is group of dedicated, and talented people who contribute (much needed) maintainer and leadership skills to debugger.html project. They care deeply about the success of everyone who gets involved.  To learn more about how their role, and **ways they can support your success, checkout out [Community Team Page](/docs/community-team.md)**!
 
+You can also find them on the [#community-team](https://devtools-html-slack.herokuapp.com/) Slack channel.
+
 ## How Can I Contribute?
+
+There are lots of ways to contribute to Debugger!
 
 Here is a great GitHub guide on [contributing to Open Source](https://guides.github.com/activities/contributing-to-open-source/) to help you get started.
 
