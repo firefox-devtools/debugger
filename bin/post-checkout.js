@@ -1,4 +1,5 @@
-const gitParams = process.env.GIT_PARAMS
+const gitParams = process.env.HUSKY_GIT_PARAMS
+
 if (!gitParams) {
   process.exit();
 }

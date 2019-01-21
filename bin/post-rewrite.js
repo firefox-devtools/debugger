@@ -1,5 +1,5 @@
 // This is either 'rebase' or 'amend'.
-if (process.env.GIT_PARAMS !== 'rebase') {
+if (process.env.HUSKY_GIT_PARAMS !== 'rebase') {
   process.exit();
 }
 
