@@ -1,5 +1,5 @@
 
-# Community Team
+# Firefox Debugger Community Team
 debugger.html community team members help shepherd the community.They are here to help mentor new comers, review pull requests, and facilitate issue discussions.
 They are a fantastic resource and genuinely friendly human beings.
 
