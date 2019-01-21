@@ -5,21 +5,15 @@ exports[`Group displays a group 1`] = `
   className="frames-group"
   onContextMenu={[Function]}
 >
-  <li
+  <div
     className="group"
     onClick={[Function]}
+    role="listitem"
     tabIndex={0}
     title="Show Back frames"
   >
-    <span
-      className="title"
-    >
-      foo
-    </span>
-    <Badge>
-      1
-    </Badge>
     <FrameLocation
+      expanded={false}
       frame={
         Object {
           "displayName": "foo",
@@ -27,7 +21,10 @@ exports[`Group displays a group 1`] = `
         }
       }
     />
-  </li>
+    <Badge>
+      1
+    </Badge>
+  </div>
 </div>
 `;
 
@@ -36,22 +33,16 @@ exports[`Group passes the getFrameTitle prop to the Frame components 1`] = `
   className="frames-group expanded"
   onContextMenu={[Function]}
 >
-  <li
+  <div
     className="group"
     key="1"
     onClick={[Function]}
+    role="listitem"
     tabIndex={0}
     title="Collapse Back frames"
   >
-    <span
-      className="title"
-    >
-      renderFoo
-    </span>
-    <Badge>
-      3
-    </Badge>
     <FrameLocation
+      expanded={true}
       frame={
         Object {
           "displayName": "renderFoo",
@@ -66,7 +57,10 @@ exports[`Group passes the getFrameTitle prop to the Frame components 1`] = `
         }
       }
     />
-  </li>
+    <Badge>
+      3
+    </Badge>
+  </div>
   <div
     className="frames-list"
   >
@@ -140,6 +134,157 @@ exports[`Group passes the getFrameTitle prop to the Frame components 1`] = `
       }
       frameworkGroupingOn={true}
       getFrameTitle={[Function]}
+      hideLocation={true}
+      key="3"
+      selectFrame={[MockFunction]}
+      selectedFrame={Object {}}
+      shouldMapDisplayName={false}
+      toggleBlackBox={[MockFunction]}
+      toggleFrameworkGrouping={[MockFunction]}
+    />
+  </div>
+</div>
+`;
+
+exports[`Group renders group with anonymous functions 1`] = `
+<div
+  className="frames-group"
+  onContextMenu={[Function]}
+>
+  <div
+    className="group"
+    key="1"
+    onClick={[Function]}
+    role="listitem"
+    tabIndex={0}
+    title="Show Back frames"
+  >
+    <FrameLocation
+      expanded={false}
+      frame={
+        Object {
+          "displayName": "",
+          "id": 1,
+          "library": "Back",
+          "location": Object {
+            "line": 55,
+          },
+          "source": Object {
+            "url": "http://myfile.com/mahscripts.js",
+          },
+        }
+      }
+    />
+    <Badge>
+      3
+    </Badge>
+  </div>
+</div>
+`;
+
+exports[`Group renders group with anonymous functions 2`] = `
+<div
+  className="frames-group expanded"
+  onContextMenu={[Function]}
+>
+  <div
+    className="group"
+    key="1"
+    onClick={[Function]}
+    role="listitem"
+    tabIndex={0}
+    title="Collapse Back frames"
+  >
+    <FrameLocation
+      expanded={true}
+      frame={
+        Object {
+          "displayName": "",
+          "id": 1,
+          "library": "Back",
+          "location": Object {
+            "line": 55,
+          },
+          "source": Object {
+            "url": "http://myfile.com/mahscripts.js",
+          },
+        }
+      }
+    />
+    <Badge>
+      3
+    </Badge>
+  </div>
+  <div
+    className="frames-list"
+  >
+    <Frame
+      copyStackTrace={[MockFunction]}
+      disableContextMenu={false}
+      frame={
+        Object {
+          "displayName": "",
+          "id": 1,
+          "library": "Back",
+          "location": Object {
+            "line": 55,
+          },
+          "source": Object {
+            "url": "http://myfile.com/mahscripts.js",
+          },
+        }
+      }
+      frameworkGroupingOn={true}
+      hideLocation={true}
+      key="1"
+      selectFrame={[MockFunction]}
+      selectedFrame={Object {}}
+      shouldMapDisplayName={false}
+      toggleBlackBox={[MockFunction]}
+      toggleFrameworkGrouping={[MockFunction]}
+    />
+    <Frame
+      copyStackTrace={[MockFunction]}
+      disableContextMenu={false}
+      frame={
+        Object {
+          "displayName": "",
+          "id": 2,
+          "library": "Back",
+          "location": Object {
+            "line": 55,
+          },
+          "source": Object {
+            "url": "http://myfile.com/back.js",
+          },
+        }
+      }
+      frameworkGroupingOn={true}
+      hideLocation={true}
+      key="2"
+      selectFrame={[MockFunction]}
+      selectedFrame={Object {}}
+      shouldMapDisplayName={false}
+      toggleBlackBox={[MockFunction]}
+      toggleFrameworkGrouping={[MockFunction]}
+    />
+    <Frame
+      copyStackTrace={[MockFunction]}
+      disableContextMenu={false}
+      frame={
+        Object {
+          "displayName": "",
+          "id": 3,
+          "library": "Back",
+          "location": Object {
+            "line": 55,
+          },
+          "source": Object {
+            "url": "http://myfile.com/back.js",
+          },
+        }
+      }
+      frameworkGroupingOn={true}
       hideLocation={true}
       key="3"
       selectFrame={[MockFunction]}

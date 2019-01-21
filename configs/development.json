@@ -1,7 +1,7 @@
 {
   "title": "Debugger",
   "environment": "development",
-  "favicon": "assets/images/favicon.png",
+  "favicon": "images/favicon.png",
   "theme": "light",
   "dir": "ltr",
   "defaultURL": "https://devtools-html.github.io/debugger-examples/",
@@ -19,7 +19,7 @@
     "port": 9229
   },
   "firefox": {
-    "webSocketConnection": false,
+    "webSocketConnection": true,
     "host": "localhost",
     "webSocketPort": 8116,
     "tcpPort": 6080,

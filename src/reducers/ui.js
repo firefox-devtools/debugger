@@ -28,7 +28,6 @@ type Viewport = PartialRange;
 export type UIState = {
   selectedPrimaryPaneTab: SelectedPrimaryPaneTabType,
   activeSearch: ?ActiveSearchType,
-  contextMenu: any,
   shownSource: ?Source,
   startPanelCollapsed: boolean,
   endPanelCollapsed: boolean,
@@ -40,19 +39,20 @@ export type UIState = {
     end?: number,
     sourceId?: number
   },
-  conditionalPanelLocation: null | SourceLocation
+  conditionalPanelLocation: null | SourceLocation,
+  isLogPoint: boolean
 };
 
 export const createUIState: () => Record<UIState> = makeRecord({
   selectedPrimaryPaneTab: "sources",
   activeSearch: null,
-  contextMenu: {},
   shownSource: null,
   startPanelCollapsed: prefs.startPanelCollapsed,
   endPanelCollapsed: prefs.endPanelCollapsed,
   frameworkGroupingOn: prefs.frameworkGroupingOn,
   highlightedLineRange: undefined,
   conditionalPanelLocation: null,
+  isLogPoint: false,
   orientation: "horizontal",
   viewport: null
 });
@@ -69,10 +69,6 @@ function update(
     case "TOGGLE_FRAMEWORK_GROUPING": {
       prefs.frameworkGroupingOn = action.value;
       return state.set("frameworkGroupingOn", action.value);
-    }
-
-    case "SET_CONTEXT_MENU": {
-      return state.set("contextMenu", action.contextMenu);
     }
 
     case "SET_ORIENTATION": {
@@ -108,7 +104,9 @@ function update(
       return state.set("highlightedLineRange", {});
 
     case "OPEN_CONDITIONAL_PANEL":
-      return state.set("conditionalPanelLocation", action.location);
+      return state
+        .set("conditionalPanelLocation", action.location)
+        .set("isLogPoint", action.log);
 
     case "CLOSE_CONDITIONAL_PANEL":
       return state.set("conditionalPanelLocation", null);
@@ -151,10 +149,6 @@ export function getActiveSearch(state: OuterState): ActiveSearchType {
   return state.ui.get("activeSearch");
 }
 
-export function getContextMenu(state: OuterState): any {
-  return state.ui.get("contextMenu");
-}
-
 export function getFrameworkGroupingState(state: OuterState): boolean {
   return state.ui.get("frameworkGroupingOn");
 }
@@ -182,6 +176,10 @@ export function getConditionalPanelLocation(
   state: OuterState
 ): null | SourceLocation {
   return state.ui.get("conditionalPanelLocation");
+}
+
+export function getLogPointStatus(state: OuterState): boolean {
+  return state.ui.get("isLogPoint");
 }
 
 export function getOrientation(state: OuterState): OrientationType {

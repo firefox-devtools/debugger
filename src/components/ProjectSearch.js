@@ -23,7 +23,6 @@ import {
   getTextSearchQuery
 } from "../selectors";
 
-import Svg from "./shared/Svg";
 import ManagedTree from "./shared/ManagedTree";
 import SearchInput from "./shared/SearchInput";
 import AccessibleImage from "./shared/AccessibleImage";
@@ -39,6 +38,7 @@ export type Match = {
   sourceId: string,
   line: number,
   column: number,
+  matchIndex: number,
   match: string,
   value: string,
   text: string
@@ -219,7 +219,7 @@ export class ProjectSearch extends Component<Props, State> {
         className={classnames("file-result", { focused })}
         key={file.sourceId}
       >
-        <Svg name="arrow" className={classnames({ expanded })} />
+        <AccessibleImage className={classnames("arrow", { expanded })} />
         <AccessibleImage className="file" />
         <span className="file-path">{getRelativePath(file.filepath)}</span>
         <span className="matches-summary">{matches}</span>
@@ -263,7 +263,7 @@ export class ProjectSearch extends Component<Props, State> {
     if (!this.props.query) {
       return;
     }
-    if (results.length && status === statusType.done) {
+    if (results.length) {
       return (
         <ManagedTree
           getRoots={() => results}
@@ -271,6 +271,7 @@ export class ProjectSearch extends Component<Props, State> {
           itemHeight={24}
           autoExpandAll={true}
           autoExpandDepth={1}
+          autoExpandNodeChildrenLimit={100}
           getParent={item => null}
           getPath={getFilePath}
           renderItem={this.renderItem}

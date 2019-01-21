@@ -1,29 +1,29 @@
 ## Development Guide␊
 
-* [Themes](#themes)
-* [Internationalization](#internationalization)
-  * [L10N](#l10n)
-  * [RTL](#rtl)
-* [Prefs](#prefs)
-  * [Creating a new Feature Flag](#creating-a-new-feature-flag)
-* [SVGs](#svgs)
-* [ContextMenus](#context-menus)
-* [Flow](#flow)
-* [Logging](#logging)
-* [Testing](#testing)
-  * [Unit Tests](#unit-tests)
-* [Linting](#linting)
-  * [Lint JS](#lint-js)
-  * [Lint CSS](#lint-css)
-* [Performance](#performance)
-* [Colors](#colors)
-* [Configs](#configs)
-* [Workers](#workers)
-  * [Adding a Task](#adding-a-task)
-* [Telemetry](#telemetry)
-* [Contributing to other packages](#contributing-to-other-packages)
-* [Errors](#errors)
-* [Getting Help](#getting-help)
+- [Themes](#themes)
+- [Internationalization](#internationalization)
+  - [L10N](#l10n)
+  - [RTL](#rtl)
+- [Prefs](#prefs)
+  - [Creating a new Feature Flag](#creating-a-new-feature-flag)
+- [SVGs](#svgs)
+- [ContextMenus](#context-menus)
+- [Flow](#flow)
+- [Logging](#logging)
+- [Testing](#testing)
+  - [Unit Tests](#unit-tests)
+- [Linting](#linting)
+  - [Lint JS](#lint-js)
+  - [Lint CSS](#lint-css)
+- [Performance](#performance)
+- [Colors](#colors)
+- [Configs](#configs)
+- [Workers](#workers)
+  - [Adding a Task](#adding-a-task)
+- [Telemetry](#telemetry)
+- [Contributing to other packages](#contributing-to-other-packages)
+- [Errors](#errors)
+- [Getting Help](#getting-help)
 
 ### Themes
 
@@ -46,6 +46,12 @@ It is possible to add a theme specific selector. For example, this selector upda
   fill: var(--theme-body-color);
 }
 ```
+
+#### Theme colors
+
+We use variable theme colors to standardize the colors inside of devtools. A good way to find a color is to select another component with the inspector and see what color it uses. The colors can be found [here][colors].
+
+[colors]: https://design.firefox.com/photon/visuals/color.html
 
 ### Internationalization
 
@@ -94,8 +100,8 @@ User preferences are stored in Prefs. Prefs uses localStorage locally and firefo
 
 The two relevant files to look at are:
 
-* `[assets/panel/prefs.js](https://github.com/devtools-html/debugger.html/blob/master/assets/panel/prefs.js)`
-* `[src/utils/prefs.js](https://github.com/devtools-html/debugger.html/blob/master/src/utils/prefs.js)`
+- `[assets/panel/prefs.js](https://github.com/devtools-html/debugger.html/blob/master/assets/panel/prefs.js)`
+- `[src/utils/prefs.js](https://github.com/devtools-html/debugger.html/blob/master/src/utils/prefs.js)`
 
 **Setting a default value**
 
@@ -129,9 +135,9 @@ prefs.clientSourceMapsEnabled = false;
 
 When you're starting a new feature, it's always good to ask yourself if the feature should be added behind a feature flag.
 
-* does this feature need testing or introduce risk?
-* will this feature be built over several PRs?
-* is it possible we'll want to turn it off quickly?
+- does this feature need testing or introduce risk?
+- will this feature be built over several PRs?
+- is it possible we'll want to turn it off quickly?
 
 It's easy to add a new feature flag to the project.
 
@@ -191,14 +197,14 @@ We use SVGs in DevTools because they look good at any resolution.
 
 **Adding a new SVG**
 
-* add the SVG in [assets/images](../assets/images)
-* add it to [Svg.js](../assets/images/Svg.js)
+- add the SVG in /images](../images)
+- add it to [Svg.js](../images/Svg.js)
 
 ```diff
-diff --git a/assets/images/Svg.js b/assets/images/Svg.js
+diff --git a/images/Svg.js b/images/Svg.js
 index 775aecf..6a7c19d 100644
---- a/assets/images/Svg.js
-+++ b/assets/images/Svg.js
+--- a/images/Svg.js
++++ b/images/Svg.js
 @@ -24,7 +24,8 @@ const svg = {
    "subSettings": require("./subSettings.svg"),
    "toggleBreakpoints": require("./toggle-breakpoints.svg"),
@@ -211,8 +217,8 @@ index 775aecf..6a7c19d 100644
 
 **Using an SVG**
 
-* import the `Svg` module
-* call `Svg(<your-svg>)`
+- import the `Svg` module
+- call `Svg(<your-svg>)`
 
 ```diff
 diff --git a/src/components/Breakpoints.js b/src/components/Breakpoints.js
@@ -240,7 +246,7 @@ index 8c79f4d..6893673 100644
 
 You can style several SVG elements (_svg_, _i_, _path_) just as you would other elements.
 
-* _fill_ is especially useful for changing the color
+- _fill_ is especially useful for changing the color
 
 ```diff
 diff --git a/src/components/Breakpoints.css b/src/components/Breakpoints.css
@@ -289,12 +295,12 @@ function onClick(event) {
 
 Notes:
 
-* `id` helps screen readers and accessibility
-* `label` menu item label shown
-* `accesskey` keyboard shortcut used
-* `disabled` inert item
-* `click` on click callback
-* `hidden` dynamically hide items
+- `id` helps screen readers and accessibility
+- `label` menu item label shown
+- `accesskey` keyboard shortcut used
+- `disabled` inert item
+- `click` on click callback
+- `hidden` dynamically hide items
 
 #### Access Keys
 
@@ -337,15 +343,15 @@ function onClick(event) {
 
 ### [Flow](flow.md)
 
-* [Adding flow to a file](flow.md#adding-flow-to-a-file)
-* [Running flow](flow.md#running-flow)
-* [Missing Annotation](flow.md#missing-annotation)
-* [Where are types defined?](flow.md#where-are-types-defined)
-* [Checking flow coverage](flow.md#checking-flow-coverage)
-* [Common Errors](flow.md#common-errors)
-  * [Required property](flow.md#required-property)
-  * [Missing Annotation](flow.md#missing-annotation)
-  * [Type Inconsistencies](flow.md#type-inconsistencies)
+- [Adding flow to a file](flow.md#adding-flow-to-a-file)
+- [Running flow](flow.md#running-flow)
+- [Missing Annotation](flow.md#missing-annotation)
+- [Where are types defined?](flow.md#where-are-types-defined)
+- [Checking flow coverage](flow.md#checking-flow-coverage)
+- [Common Errors](flow.md#common-errors)
+  - [Required property](flow.md#required-property)
+  - [Missing Annotation](flow.md#missing-annotation)
+  - [Type Inconsistencies](flow.md#type-inconsistencies)
 
 ### Reducers
 
@@ -452,8 +458,8 @@ Logging information can be very useful when developing, and there are a few logg
 
 To enable logging:
 
-* [Create a local config file][create-local-config] if you don't already have one
-* Edit your local config, changing the value of the logger type you want to see to `true`
+- [Create a local config file][create-local-config] if you don't already have one
+- Edit your local config, changing the value of the logger type you want to see to `true`
 
 ```json
   "logging": {
@@ -463,15 +469,15 @@ To enable logging:
   }
 ```
 
-* Restart your development server by typing <kbd>ctrl</kbd>+<kbd>c</kbd> in the Terminal and run `yarn start` again
+- Restart your development server by typing <kbd>ctrl</kbd>+<kbd>c</kbd> in the Terminal and run `yarn start` again
 
 Let's cover the logging types.
 
-* client - This option is currently unused.
+- client - This option is currently unused.
 
-* firefoxProxy - This logger outputs a verbose output of all the Firefox protocol packets to your shell.
+- firefoxProxy - This logger outputs a verbose output of all the Firefox protocol packets to your shell.
 
-* actions - This logger outputs the Redux actions fired to the browser console.
+- actions - This logger outputs the Redux actions fired to the browser console.
 
 ### Testing
 
@@ -485,10 +491,9 @@ yarn run test:all
 
 #### Unit Tests
 
-* `yarn test` or `jest` - runs the jest unit tests
-* `jest -u` - will update the jest fixtures
-* `jest --watch` - will run the tests every time a file changes
-
+- `yarn test` or `jest` - runs the jest unit tests
+- `jest -u` - will update the jest fixtures
+- `jest --watch` - will run the tests every time a file changes
 
 ##### Testing Components
 
@@ -565,13 +570,13 @@ index a3b2ba6..cd5a8e7 100644
 
 ### Linting
 
-| Type     | Command                   |
-| -------- | ------------------------- |
-| all      | `yarn run lint`           |
-| css      | `yarn run lint:css`       |
-| js       | `yarn run lint:js`        |
-| markdown | `yarn run lint:md`        |
-| a11y     | `yarn run lint:jsx-a11y`  |
+| Type     | Command                  |
+| -------- | ------------------------ |
+| all      | `yarn run lint`          |
+| css      | `yarn run lint:css`      |
+| js       | `yarn run lint:js`       |
+| markdown | `yarn run lint:md`       |
+| a11y     | `yarn run lint:jsx-a11y` |
 
 #### Lint CSS
 
@@ -685,8 +690,8 @@ to create new telemetry probes.
 There are two mechanisms available: Scalars, Histograms. Histograms are older, and Scalars is the
 new preferred method. However Scalars cannot do everything, so both are used.
 
-* **Scalars**: Count of an event
-* **Histograms**: Distribution of an event
+- **Scalars**: Count of an event
+- **Histograms**: Distribution of an event
 
 ```js
 const Telemetry = require("devtools-modules/src/utils/telemetry");
@@ -815,8 +820,8 @@ your questions on [Slack][slack].
 [client adapters]: https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-client-adapters
 [modules]: https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-modules
 [source maps]: https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-source-map
-[shimmed-context-menus]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/src/menu.js
-[context-menus]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-modules/client/framework/menu.js
+[shimmed-context-menus]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-contextmenu/menu.js
+[context-menus]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-modules/src/menu/index.js
 [web-workers]: https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers
 [l10n-docs]: https://developer.mozilla.org/en-US/docs/Mozilla/Localization/Localization_content_best_practices#Choose_good_key_IDs
 [immutable-docs]: https://facebook.github.io/immutable-js/docs/#/

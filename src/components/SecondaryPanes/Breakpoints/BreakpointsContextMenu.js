@@ -5,14 +5,14 @@
 // @flow
 
 import { buildMenu, showMenu } from "devtools-contextmenu";
-
+import { getSelectedLocation } from "../../../utils/source-maps";
 import actions from "../../../actions";
-import type { Breakpoint } from "../../../types";
-import type { FormattedBreakpoint } from "../../../selectors/breakpointSources";
+import type { Breakpoint, Source } from "../../../types";
 
 type Props = {
-  breakpoint: FormattedBreakpoint,
+  breakpoint: Breakpoint,
   breakpoints: Breakpoint[],
+  selectedSource: Source,
   removeBreakpoint: typeof actions.removeBreakpoint,
   removeBreakpoints: typeof actions.removeBreakpoints,
   removeAllBreakpoints: typeof actions.removeAllBreakpoints,
@@ -29,6 +29,7 @@ export default function showContextMenu(props: Props) {
   const {
     breakpoint,
     breakpoints,
+    selectedSource,
     removeBreakpoint,
     removeBreakpoints,
     removeAllBreakpoints,
@@ -95,6 +96,7 @@ export default function showContextMenu(props: Props) {
     "breakpointMenuItem.addCondition2.accesskey"
   );
 
+  const selectedLocation = getSelectedLocation(breakpoint, selectedSource);
   const otherBreakpoints = breakpoints.filter(b => b.id !== breakpoint.id);
   const enabledBreakpoints = breakpoints.filter(b => !b.disabled);
   const disabledBreakpoints = breakpoints.filter(b => b.disabled);
@@ -110,7 +112,9 @@ export default function showContextMenu(props: Props) {
     label: deleteSelfLabel,
     accesskey: deleteSelfKey,
     disabled: false,
-    click: () => removeBreakpoint(breakpoint.selectedLocation)
+    click: () => {
+      removeBreakpoint(breakpoint);
+    }
   };
 
   const deleteAllItem = {
@@ -134,7 +138,9 @@ export default function showContextMenu(props: Props) {
     label: enableSelfLabel,
     accesskey: enableSelfKey,
     disabled: false,
-    click: () => toggleDisabledBreakpoint(breakpoint.selectedLocation.line)
+    click: () => {
+      toggleDisabledBreakpoint(breakpoint);
+    }
   };
 
   const enableAllItem = {
@@ -158,7 +164,9 @@ export default function showContextMenu(props: Props) {
     label: disableSelfLabel,
     accesskey: disableSelfKey,
     disabled: false,
-    click: () => toggleDisabledBreakpoint(breakpoint.selectedLocation.line)
+    click: () => {
+      toggleDisabledBreakpoint(breakpoint);
+    }
   };
 
   const disableAllItem = {
@@ -181,7 +189,7 @@ export default function showContextMenu(props: Props) {
     label: removeConditionLabel,
     accesskey: removeConditionKey,
     disabled: false,
-    click: () => setBreakpointCondition(breakpoint.selectedLocation)
+    click: () => setBreakpointCondition(selectedLocation)
   };
 
   const addConditionItem = {
@@ -189,8 +197,8 @@ export default function showContextMenu(props: Props) {
     label: addConditionLabel,
     accesskey: addConditionKey,
     click: () => {
-      selectSpecificLocation(breakpoint.selectedLocation);
-      openConditionalPanel(breakpoint.selectedLocation);
+      selectSpecificLocation(selectedLocation);
+      openConditionalPanel(selectedLocation);
     }
   };
 
@@ -199,8 +207,8 @@ export default function showContextMenu(props: Props) {
     label: editConditionLabel,
     accesskey: editConditionKey,
     click: () => {
-      selectSpecificLocation(breakpoint.selectedLocation);
-      openConditionalPanel(breakpoint.selectedLocation);
+      selectSpecificLocation(selectedLocation);
+      openConditionalPanel(selectedLocation);
     }
   };
 

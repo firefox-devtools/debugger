@@ -26,6 +26,7 @@ Object {
     "sourceId": "a",
     "sourceUrl": "http://localhost:8000/examples/a",
   },
+  "log": false,
   "originalText": "",
   "text": "",
 }
@@ -36,14 +37,32 @@ Array [
   Object {
     "breakpoints": Array [
       Object {
+        "astLocation": Object {
+          "index": 0,
+          "name": undefined,
+          "offset": Object {
+            "line": 2,
+            "sourceId": "a",
+            "sourceUrl": "http://localhost:8000/examples/a",
+          },
+        },
         "condition": null,
         "disabled": false,
-        "id": "hi",
-        "selectedLocation": Object {
+        "generatedLocation": Object {
           "line": 2,
           "sourceId": "a",
           "sourceUrl": "http://localhost:8000/examples/a",
         },
+        "hidden": false,
+        "id": "hi",
+        "loading": false,
+        "location": Object {
+          "line": 2,
+          "sourceId": "a",
+          "sourceUrl": "http://localhost:8000/examples/a",
+        },
+        "log": false,
+        "originalText": "return a",
         "text": "return a",
       },
     ],
@@ -94,6 +113,7 @@ Object {
     "sourceId": "a.js/originalSource-d6d70368d5c252598541e693a7ad6c27",
     "sourceUrl": "http://localhost:8000/examples/a.js:formatted",
   },
+  "log": false,
   "originalText": "function a() {",
   "text": "function a() {",
 }
@@ -104,14 +124,32 @@ Array [
   Object {
     "breakpoints": Array [
       Object {
+        "astLocation": Object {
+          "index": 0,
+          "name": undefined,
+          "offset": Object {
+            "line": 5,
+            "sourceId": "a",
+            "sourceUrl": "http://localhost:8000/examples/a",
+          },
+        },
         "condition": null,
         "disabled": true,
-        "id": "hi",
-        "selectedLocation": Object {
+        "generatedLocation": Object {
           "line": 5,
           "sourceId": "a",
           "sourceUrl": "http://localhost:8000/examples/a",
         },
+        "hidden": false,
+        "id": "hi",
+        "loading": false,
+        "location": Object {
+          "line": 5,
+          "sourceId": "a",
+          "sourceUrl": "http://localhost:8000/examples/a",
+        },
+        "log": false,
+        "originalText": "",
         "text": "",
       },
     ],

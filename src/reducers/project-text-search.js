@@ -11,16 +11,26 @@
  */
 
 import type { Action } from "../actions/types";
+import type { Cancellable } from "../types";
 
 export type Search = {
   +sourceId: string,
   +filepath: string,
   +matches: any[]
 };
-export type StatusType = "INITIAL" | "FETCHING" | "DONE" | "ERROR";
+
+export type SearchOperation = Cancellable;
+
+export type StatusType =
+  | "INITIAL"
+  | "FETCHING"
+  | "CANCELLED"
+  | "DONE"
+  | "ERROR";
 export const statusType = {
   initial: "INITIAL",
   fetching: "FETCHING",
+  cancelled: "CANCELLED",
   done: "DONE",
   error: "ERROR"
 };
@@ -28,6 +38,7 @@ export const statusType = {
 export type ResultList = Search[];
 export type ProjectTextSearchState = {
   +query: string,
+  +ongoingSearch: ?SearchOperation,
   +results: ResultList,
   +status: string
 };
@@ -36,6 +47,7 @@ export function initialProjectTextSearchState(): ProjectTextSearchState {
   return {
     query: "",
     results: [],
+    ongoingSearch: null,
     status: statusType.initial
   };
 }
@@ -47,13 +59,6 @@ function update(
   switch (action.type) {
     case "ADD_QUERY":
       return { ...state, query: action.query };
-
-    case "CLEAR_QUERY":
-      return {
-        ...state,
-        query: "",
-        status: statusType.initial
-      };
 
     case "ADD_SEARCH_RESULT":
       const results = state.results;
@@ -69,10 +74,15 @@ function update(
       return { ...state, results: [...results, result] };
 
     case "UPDATE_STATUS":
-      return { ...state, status: action.status };
+      const ongoingSearch =
+        action.status == statusType.fetching ? state.ongoingSearch : null;
+      return { ...state, status: action.status, ongoingSearch };
 
     case "CLEAR_SEARCH_RESULTS":
       return { ...state, results: [] };
+
+    case "ADD_ONGOING_SEARCH":
+      return { ...state, ongoingSearch: action.ongoingSearch };
 
     case "CLEAR_SEARCH":
     case "CLOSE_PROJECT_SEARCH":
@@ -83,6 +93,10 @@ function update(
 }
 
 type OuterState = { projectTextSearch: ProjectTextSearchState };
+
+export function getTextSearchOperation(state: OuterState) {
+  return state.projectTextSearch.ongoingSearch;
+}
 
 export function getTextSearchResults(state: OuterState) {
   return state.projectTextSearch.results;

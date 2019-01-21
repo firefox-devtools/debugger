@@ -7,11 +7,12 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 import classNames from "classnames";
-import Svg from "../../shared/Svg";
 
+import AccessibleImage from "../../shared/AccessibleImage";
 import { formatDisplayName } from "../../../utils/pause/frames";
 import { getFilename, getFileURL } from "../../../utils/source";
 import FrameMenu from "./FrameMenu";
+import FrameIndent from "./FrameIndent";
 
 import type { Frame } from "../../../types";
 import type { LocalFrame } from "./types";
@@ -38,7 +39,9 @@ function FrameLocation({ frame, displayFullUrl = false }: FrameLocationProps) {
     return (
       <span className="location">
         {frame.library}
-        <Svg name={frame.library.toLowerCase()} className="annotation-logo" />
+        <AccessibleImage
+          className={`annotation-logo ${frame.library.toLowerCase()}`}
+        />
       </span>
     );
   }
@@ -70,7 +73,8 @@ type FrameComponentProps = {
   toggleBlackBox: Function,
   displayFullUrl: boolean,
   getFrameTitle?: string => string,
-  disableContextMenu: boolean
+  disableContextMenu: boolean,
+  selectable: boolean
 };
 
 export default class FrameComponent extends Component<FrameComponentProps> {
@@ -126,7 +130,8 @@ export default class FrameComponent extends Component<FrameComponentProps> {
       shouldMapDisplayName,
       displayFullUrl,
       getFrameTitle,
-      disableContextMenu
+      disableContextMenu,
+      selectable
     } = this.props;
     const { l10n } = this.context;
 
@@ -140,11 +145,9 @@ export default class FrameComponent extends Component<FrameComponentProps> {
         )
       : undefined;
 
-    const tabChar = "\t";
-    const newLineChar = "\n";
-
     return (
-      <li
+      <div
+        role="listitem"
         key={frame.id}
         className={className}
         onMouseDown={e => this.onMouseDown(e, frame, selectedFrame)}
@@ -153,18 +156,18 @@ export default class FrameComponent extends Component<FrameComponentProps> {
         tabIndex={0}
         title={title}
       >
-        {tabChar}
+        {selectable && <FrameIndent />}
         <FrameTitle
           frame={frame}
           options={{ shouldMapDisplayName }}
           l10n={l10n}
         />
-        {!hideLocation && " "}
+        {!hideLocation && <span className="clipboard-only"> </span>}
         {!hideLocation && (
           <FrameLocation frame={frame} displayFullUrl={displayFullUrl} />
         )}
-        {newLineChar}
-      </li>
+        {selectable && <br className="clipboard-only" />}
+      </div>
     );
   }
 }

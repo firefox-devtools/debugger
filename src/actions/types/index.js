@@ -4,9 +4,18 @@
 
 // @flow
 
-import type { Frame, Scope, Why, Worker } from "../../types";
+import type {
+  Frame,
+  Scope,
+  Why,
+  Worker,
+  WorkerList,
+  MainThread
+} from "../../types";
 import type { State } from "../../reducers/types";
 import type { MatchedLocations } from "../../reducers/file-search";
+import type { TreeNode } from "../../utils/sources-tree/types";
+import type { SearchOperation } from "../../reducers/project-text-search";
 
 import type { BreakpointAction } from "./BreakpointAction";
 import type { SourceAction } from "./SourceAction";
@@ -51,7 +60,8 @@ type AddTabAction = {|
   +url: string,
   +framework?: string,
   +isOriginal?: boolean,
-  +sourceId?: string
+  +sourceId?: string,
+  +thread: string
 |};
 
 type UpdateTabAction = {|
@@ -59,7 +69,8 @@ type UpdateTabAction = {|
   +url: string,
   +framework?: string,
   +isOriginal?: boolean,
-  +sourceId?: string
+  +sourceId?: string,
+  +thread: string
 |};
 
 type ReplayAction =
@@ -82,13 +93,17 @@ type ReplayAction =
     |};
 
 type NavigateAction =
-  | {| +type: "CONNECT", +thread: string, +url: string, +canRewind: boolean |}
-  | {| +type: "NAVIGATE", +url: string |};
+  | {| +type: "CONNECT", +mainThread: MainThread, +canRewind: boolean |}
+  | {| +type: "NAVIGATE", +mainThread: MainThread |};
 
-export type SourceTreeAction = {|
-  +type: "SET_EXPANDED_STATE",
-  +expanded: any
-|};
+export type FocusItem = {
+  thread: string,
+  item: TreeNode
+};
+
+export type SourceTreeAction =
+  | {| +type: "SET_EXPANDED_STATE", +thread: string, +expanded: any |}
+  | {| +type: "SET_FOCUSED_SOURCE_ITEM", item: FocusItem |};
 
 export type ProjectTextSearchAction =
   | {| +type: "ADD_QUERY", +query: string |}
@@ -96,9 +111,9 @@ export type ProjectTextSearchAction =
       +type: "ADD_SEARCH_RESULT",
       +result: ProjectTextSearchResult
     |}
-  | {| +type: "CLEAR_QUERY" |}
   | {| +type: "UPDATE_STATUS", +status: string |}
   | {| +type: "CLEAR_SEARCH_RESULTS" |}
+  | {| +type: "ADD_ONGOING_SEARCH", +ongoingSearch: SearchOperation |}
   | {| +type: "CLEAR_SEARCH" |};
 
 export type FileTextSearchModifier =
@@ -133,9 +148,7 @@ export type QuickOpenAction =
 export type DebugeeAction =
   | {|
       +type: "SET_WORKERS",
-      +workers: {
-        workers: Object[]
-      }
+      +workers: WorkerList
     |}
   | {|
       +type: "SELECT_THREAD",

@@ -115,7 +115,8 @@ describe("setProjectDirectoryRoot", () => {
 
     dispatch(actions.setProjectDirectoryRoot("localhost:8000/examples/js"));
 
-    const filteredSources = getRelativeSources(getState());
+    const filteredSourcesByThread = getRelativeSources(getState());
+    const filteredSources = Object.values(filteredSourcesByThread)[0];
     const firstSource = Object.values(filteredSources)[0];
 
     expect(firstSource.url).toEqual(

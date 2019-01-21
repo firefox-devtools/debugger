@@ -6,7 +6,8 @@ import {
   actions,
   selectors,
   createStore,
-  makeSource
+  makeSource,
+  waitForState
 } from "../../../utils/test-head";
 const {
   getSource,
@@ -99,7 +100,7 @@ describe("sources - new sources", () => {
 
   // eslint-disable-next-line
   it("shouldn't let one slow loading source map delay all the other source maps", async () => {
-    const { dispatch, getState } = createStore(
+    const dbg = createStore(
       threadClient,
       {},
       {
@@ -114,11 +115,13 @@ describe("sources - new sources", () => {
         getGeneratedLocation: location => location
       }
     );
+    const { dispatch, getState } = dbg;
     const fooSource = makeSource("foo.js", { sourceMapURL: "foo.js.map" });
     const barSource = makeSource("bar.js", { sourceMapURL: "bar.js.map" });
     const bazzSource = makeSource("bazz.js", { sourceMapURL: "bazz.js.map" });
     await dispatch(actions.newSources([fooSource, barSource, bazzSource]));
     await sourceQueue.flush();
+    await waitForState(dbg, state => getSourceCount(state) == 5);
     expect(getSourceCount(getState())).toEqual(5);
     const barCljs = getSourceByURL(getState(), "bar.cljs", true);
     expect(barCljs.url).toEqual("bar.cljs");

@@ -1,3 +1,6 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 /*
  * copy files to mc
@@ -10,13 +13,13 @@
  * node ./bin/copy --mc ../gecko-dev --sha 123 --message "bug 123 (release 106) __message__.r=dwalsh"
  */
 
-const copyAssets = require("./copy-assets")
-const copyModules = require("./copy-modules")
+const copyAssets = require("./copy-assets");
+const copyModules = require("./copy-modules");
 const minimist = require("minimist");
 const fs = require("fs");
 const chalk = require("chalk");
 const shell = require("shelljs");
-const path = require("path")
+const path = require("path");
 
 const args = minimist(process.argv.slice(1), {
   string: ["mc", "sha", "message"],
@@ -26,17 +29,17 @@ const args = minimist(process.argv.slice(1), {
 const mc = args.mc || "./firefox";
 const watch = args.watch;
 const symlink = args.symlink;
-const assets = args.assets
-const sha = args.sha
-const message = args.message || ""
+const assets = args.assets;
+const sha = args.sha;
+const message = args.message || "";
 
-const mcPath = path.join(__dirname, mc)
+const mcPath = path.join(__dirname, mc);
 
-async function copy({assets, mc, watch, symlink}) {
+async function copy({ assets, mc, watch, symlink }) {
   if (fs.existsSync(mc)) {
     try {
-      await copyAssets({ assets, mc, watch, symlink})
-      await copyModules.run({ mc, watch })
+      await copyAssets({ assets, mc, watch, symlink });
+      await copyModules.run({ mc, watch });
     } catch (e) {
       console.error(e);
       if (e.code === "ENOENT") {
@@ -49,20 +52,24 @@ async function copy({assets, mc, watch, symlink}) {
 }
 
 async function start() {
-  console.log(`Copying Files to ${mc} with params: `, {watch, assets, symlink})
-  return copy({watch, assets, mc, symlink})
+  console.log(`Copying Files to ${mc} with params: `, {
+    watch,
+    assets,
+    symlink
+  });
+  return copy({ watch, assets, mc, symlink });
 }
 
 function missingFilesErrorMessage() {
-  let errorMessage = [
-    'It looks like you are missing some files. The mozilla-central ',
-    'codebase may be missing at ${mc}. You can clone mozilla-central by ',
-    'running \`./bin/prepare-mochitests-dev\` from the root of the ',
-    'debugger.html repository. You can find more information on bundling ',
-    'or mochitests at ',
-    'https://github.com/devtools-html/debugger.html/blob/master/docs/bundling.md or ',
-    'https://github.com/devtools-html/debugger.html/blob/master/docs/mochitests.md'
-  ].join('');
+  const errorMessage = [
+    "It looks like you are missing some files. The mozilla-central ",
+    "codebase may be missing at ${mc}. You can clone mozilla-central by ",
+    "running `./bin/prepare-mochitests-dev` from the root of the ",
+    "debugger.html repository. You can find more information on bundling ",
+    "or mochitests at ",
+    "https://github.com/devtools-html/debugger.html/blob/master/docs/bundling.md or ",
+    "https://github.com/devtools-html/debugger.html/blob/master/docs/mochitests.md"
+  ].join("");
 
   console.warn(chalk.yellow(errorMessage));
 }
@@ -73,29 +80,34 @@ async function copyCommits() {
   }
 
   function getMessage(sha) {
-    return exec(`git log --format=%B -n 1 ${sha}`).split("\n")[0]
+    const msg = exec(`git log --format=%B -n 1 ${sha}`).split("\n")[0]
+    return message.replace('__message__', msg);
   }
 
   function getCommitsAfter(sha) {
-    return exec(`git rev-list --reverse ${sha}^..HEAD`).trim().split("\n");
+    return exec(`git rev-list --reverse ${sha}^..HEAD`)
+      .trim()
+      .split("\n");
   }
 
-  function commitChanges({msg}) {
-    console.log(`git commit -m "${prefix} ${msg}"`)
-    const commitMessage = message.replace('__message__', msg)
-    exec(`git add devtools; git commit -m "${prefix} ${commitMessage}"`)
+  function commitChanges(message, authorship) {
+    exec(
+      `git add devtools; git commit --author="${authorship}" -m "${message}"`
+    );
   }
 
-  const commits = getCommitsAfter(sha)
+  const commits = getCommitsAfter(sha);
   for (const commit of commits) {
     const message = getMessage(commit);
-    console.log(`Copying ${message}`)
+    console.log(`Copying ${message}`);
     exec(`git checkout ${commit}`);
+    const authorship = exec('git log -n1 --format="%aN <%aE>"');
 
-    await copy({mc});
+    await copy({ mc, assets: true });
     shell.cd(mc);
-    commitChanges({message});
-    shell.cd(`-`);
+    commitChanges(message, authorship);
+    shell.cd("-");
+    exec("git checkout .");
   }
 }
 

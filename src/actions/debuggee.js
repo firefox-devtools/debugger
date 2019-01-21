@@ -5,10 +5,16 @@
 // @flow
 
 import type { Action, ThunkArgs } from "./types";
+import { closeTabsForMissingThreads } from "./tabs";
+import { features } from "../utils/prefs";
 
 export function updateWorkers() {
-  return async function({ dispatch, client }: ThunkArgs) {
-    const { workers } = await client.fetchWorkers();
+  return async function({ dispatch, getState, client }: ThunkArgs) {
+    const workers = await client.fetchWorkers();
     dispatch(({ type: "SET_WORKERS", workers }: Action));
+
+    if (features.windowlessWorkers) {
+      dispatch(closeTabsForMissingThreads(workers));
+    }
   };
 }

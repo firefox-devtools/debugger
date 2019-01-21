@@ -198,11 +198,13 @@ exports[`ProjectSearch found search results 1`] = `
       <ManagedTree
         autoExpandAll={true}
         autoExpandDepth={1}
+        autoExpandNodeChildrenLimit={100}
         getChildren={[Function]}
         getParent={[Function]}
         getPath={[Function]}
         getRoots={[Function]}
         itemHeight={24}
+        onFocus={[Function]}
         renderItem={[Function]}
       >
         <div
@@ -211,7 +213,7 @@ exports[`ProjectSearch found search results 1`] = `
           <Tree
             autoExpandAll={true}
             autoExpandDepth={1}
-            focused={null}
+            autoExpandNodeChildrenLimit={100}
             getChildren={[Function]}
             getKey={[Function]}
             getParent={[Function]}
@@ -225,7 +227,6 @@ exports[`ProjectSearch found search results 1`] = `
             renderItem={[Function]}
           >
             <div
-              aria-activedescendant={null}
               className="tree "
               onBlur={[Function]}
               onFocus={[Function]}
@@ -233,12 +234,7 @@ exports[`ProjectSearch found search results 1`] = `
               onKeyPress={[Function]}
               onKeyUp={[Function]}
               role="tree"
-              style={
-                Object {
-                  "margin": 0,
-                  "padding": 0,
-                }
-              }
+              style={Object {}}
               tabIndex="0"
             >
               <TreeNode
@@ -292,27 +288,13 @@ exports[`ProjectSearch found search results 1`] = `
                   <div
                     className="file-result"
                   >
-                    <Svg
-                      className="expanded"
-                      name="arrow"
+                    <AccessibleImage
+                      className="arrow expanded"
                     >
-                      <InlineSVG
-                        className="arrow expanded"
-                        element="i"
-                        raw={false}
-                        src="<svg></svg>"
-                      >
-                        <i
-                          className="arrow expanded"
-                          dangerouslySetInnerHTML={
-                            Object {
-                              "__html": "<svg></svg>",
-                            }
-                          }
-                          src={null}
-                        />
-                      </InlineSVG>
-                    </Svg>
+                      <span
+                        className="img arrow expanded"
+                      />
+                    </AccessibleImage>
                     <AccessibleImage
                       className="file"
                     >
@@ -384,11 +366,15 @@ exports[`ProjectSearch found search results 1`] = `
                       <span
                         className="query-match"
                         key="1"
-                      />
+                      >
+                        some t
+                      </span>
                       <span
                         className="line-match"
                         key="2"
-                      />
+                      >
+                        some thing match1
+                      </span>
                     </span>
                   </div>
                 </div>
@@ -446,11 +432,15 @@ exports[`ProjectSearch found search results 1`] = `
                       <span
                         className="query-match"
                         key="1"
-                      />
+                      >
+                        some t
+                      </span>
                       <span
                         className="line-match"
                         key="2"
-                      />
+                      >
+                        some thing match2
+                      </span>
                     </span>
                   </div>
                 </div>
@@ -508,11 +498,15 @@ exports[`ProjectSearch found search results 1`] = `
                       <span
                         className="query-match"
                         key="1"
-                      />
+                      >
+                        some t
+                      </span>
                       <span
                         className="line-match"
                         key="2"
-                      />
+                      >
+                        some thing match3
+                      </span>
                     </span>
                   </div>
                 </div>
@@ -562,27 +556,13 @@ exports[`ProjectSearch found search results 1`] = `
                   <div
                     className="file-result"
                   >
-                    <Svg
-                      className="expanded"
-                      name="arrow"
+                    <AccessibleImage
+                      className="arrow expanded"
                     >
-                      <InlineSVG
-                        className="arrow expanded"
-                        element="i"
-                        raw={false}
-                        src="<svg></svg>"
-                      >
-                        <i
-                          className="arrow expanded"
-                          dangerouslySetInnerHTML={
-                            Object {
-                              "__html": "<svg></svg>",
-                            }
-                          }
-                          src={null}
-                        />
-                      </InlineSVG>
-                    </Svg>
+                      <span
+                        className="img arrow expanded"
+                      />
+                    </AccessibleImage>
                     <AccessibleImage
                       className="file"
                     >
@@ -654,11 +634,15 @@ exports[`ProjectSearch found search results 1`] = `
                       <span
                         className="query-match"
                         key="1"
-                      />
+                      >
+                        some t
+                      </span>
                       <span
                         className="line-match"
                         key="2"
-                      />
+                      >
+                        some thing match4
+                      </span>
                     </span>
                   </div>
                 </div>
@@ -716,11 +700,15 @@ exports[`ProjectSearch found search results 1`] = `
                       <span
                         className="query-match"
                         key="1"
-                      />
+                      >
+                        some t
+                      </span>
                       <span
                         className="line-match"
                         key="2"
-                      />
+                      >
+                        some thing match5
+                      </span>
                     </span>
                   </div>
                 </div>
@@ -844,11 +832,18 @@ exports[`ProjectSearch showErrorEmoji false if not done & results 1`] = `
         summaryMsg="5 results"
       />
     </div>
-    <div
-      className="no-result-msg absolute-center"
-    >
-      Loading…
-    </div>
+    <ManagedTree
+      autoExpandAll={true}
+      autoExpandDepth={1}
+      autoExpandNodeChildrenLimit={100}
+      getChildren={[Function]}
+      getParent={[Function]}
+      getPath={[Function]}
+      getRoots={[Function]}
+      itemHeight={24}
+      onFocus={[Function]}
+      renderItem={[Function]}
+    />
   </div>
 </div>
 `;

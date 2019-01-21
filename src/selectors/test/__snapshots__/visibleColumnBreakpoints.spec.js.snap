@@ -3,19 +3,25 @@
 exports[`visible column breakpoints duplicate generated locations 1`] = `
 Array [
   Object {
-    "condition": undefined,
-    "enabled": true,
+    "breakpoint": Object {
+      "location": Object {
+        "column": 1,
+        "line": 1,
+        "sourceId": "foo",
+      },
+    },
     "location": Object {
       "column": 1,
       "line": 1,
+      "sourceId": "foo",
     },
   },
   Object {
-    "condition": null,
-    "enabled": false,
+    "breakpoint": undefined,
     "location": Object {
       "column": 3,
       "line": 1,
+      "sourceId": "foo",
     },
   },
 ]
@@ -24,19 +30,25 @@ Array [
 exports[`visible column breakpoints ignores single breakpoints 1`] = `
 Array [
   Object {
-    "condition": undefined,
-    "enabled": true,
+    "breakpoint": Object {
+      "location": Object {
+        "column": 1,
+        "line": 1,
+        "sourceId": "foo",
+      },
+    },
     "location": Object {
       "column": 1,
       "line": 1,
+      "sourceId": "foo",
     },
   },
   Object {
-    "condition": null,
-    "enabled": false,
+    "breakpoint": undefined,
     "location": Object {
       "column": 3,
       "line": 1,
+      "sourceId": "foo",
     },
   },
 ]
@@ -45,19 +57,25 @@ Array [
 exports[`visible column breakpoints only shows visible breakpoints 1`] = `
 Array [
   Object {
-    "condition": undefined,
-    "enabled": true,
+    "breakpoint": Object {
+      "location": Object {
+        "column": 1,
+        "line": 1,
+        "sourceId": "foo",
+      },
+    },
     "location": Object {
       "column": 1,
       "line": 1,
+      "sourceId": "foo",
     },
   },
   Object {
-    "condition": null,
-    "enabled": false,
+    "breakpoint": undefined,
     "location": Object {
       "column": 3,
       "line": 1,
+      "sourceId": "foo",
     },
   },
 ]
@@ -66,19 +84,25 @@ Array [
 exports[`visible column breakpoints simple 1`] = `
 Array [
   Object {
-    "condition": undefined,
-    "enabled": true,
+    "breakpoint": Object {
+      "location": Object {
+        "column": 1,
+        "line": 1,
+        "sourceId": "foo",
+      },
+    },
     "location": Object {
       "column": 1,
       "line": 1,
+      "sourceId": "foo",
     },
   },
   Object {
-    "condition": null,
-    "enabled": false,
+    "breakpoint": undefined,
     "location": Object {
       "column": 5,
       "line": 1,
+      "sourceId": "foo",
     },
   },
 ]

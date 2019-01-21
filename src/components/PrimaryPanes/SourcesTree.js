@@ -16,8 +16,11 @@ import {
   getDebuggeeUrl,
   getExpandedState,
   getProjectDirectoryRoot,
-  getRelativeSources,
-  getSourceCount
+  getRelativeSourcesForThread,
+  getSourceCount,
+  getFocusedSourceItem,
+  getWorkerByThread,
+  getWorkerCount
 } from "../../selectors";
 
 import { getGeneratedSourceByURL } from "../../reducers/sources";
@@ -26,9 +29,9 @@ import { getGeneratedSourceByURL } from "../../reducers/sources";
 import actions from "../../actions";
 
 // Components
+import AccessibleImage from "../shared/AccessibleImage";
 import SourcesTreeItem from "./SourcesTreeItem";
 import ManagedTree from "../shared/ManagedTree";
-import Svg from "../shared/Svg";
 
 // Utils
 import {
@@ -41,30 +44,36 @@ import {
 } from "../../utils/sources-tree";
 import { getRawSourceURL } from "../../utils/source";
 
+import { getDisplayName } from "../../utils/workers";
+import { features } from "../../utils/prefs";
+
 import type {
   TreeNode,
   TreeDirectory,
   ParentMap
 } from "../../utils/sources-tree/types";
-import type { Source } from "../../types";
+import type { Worker, Source } from "../../types";
 import type { SourcesMap, State as AppState } from "../../reducers/types";
 import type { Item } from "../shared/ManagedTree";
 
 type Props = {
+  thread: string,
+  worker: Worker,
   sources: SourcesMap,
   sourceCount: number,
   shownSource?: Source,
   selectedSource?: Source,
   debuggeeUrl: string,
   projectRoot: string,
-  expanded: Set<string> | null,
+  expanded: Set<string>,
   selectSource: typeof actions.selectSource,
   setExpandedState: typeof actions.setExpandedState,
-  clearProjectDirectoryRoot: typeof actions.clearProjectDirectoryRoot
+  focusItem: typeof actions.focusItem,
+  focused: TreeNode,
+  workerCount: number
 };
 
 type State = {
-  focusedItem: ?TreeNode,
   parentMap: ParentMap,
   sourceTree: TreeDirectory,
   uncollapsedTree: TreeDirectory,
@@ -140,21 +149,20 @@ class SourcesTree extends Component<Props, State> {
           debuggeeUrl,
           projectRoot,
           uncollapsedTree,
-          sourceTree,
-          focusedItem: this.state.focusedItem
+          sourceTree
         })
       );
     }
   }
 
-  focusItem = (item: TreeNode) => {
-    this.setState({ focusedItem: item });
-  };
-
   selectItem = (item: TreeNode) => {
     if (item.type == "source" && !Array.isArray(item.contents)) {
       this.props.selectSource(item.contents.id);
     }
+  };
+
+  onFocus = (item: TreeNode) => {
+    this.props.focusItem({ thread: this.props.thread, item });
   };
 
   // NOTE: we get the source from sources because item.contents is cached
@@ -180,18 +188,17 @@ class SourcesTree extends Component<Props, State> {
   };
 
   onExpand = (item: Item, expandedState: Set<string>) => {
-    this.props.setExpandedState(expandedState);
+    this.props.setExpandedState(this.props.thread, expandedState);
   };
 
   onCollapse = (item: Item, expandedState: Set<string>) => {
-    this.props.setExpandedState(expandedState);
+    this.props.setExpandedState(this.props.thread, expandedState);
   };
 
   onKeyDown = (e: KeyboardEvent) => {
-    const { focusedItem } = this.state;
-
-    if (e.keyCode === 13 && focusedItem) {
-      this.selectItem(focusedItem);
+    const { focused } = this.props;
+    if (e.keyCode === 13 && focused) {
+      this.selectItem(focused);
     }
   };
 
@@ -208,30 +215,6 @@ class SourcesTree extends Component<Props, State> {
     );
   }
 
-  renderProjectRootHeader() {
-    const { projectRoot } = this.props;
-
-    if (!projectRoot) {
-      return null;
-    }
-
-    const rootLabel = projectRoot.split("/").pop();
-
-    return (
-      <div key="root" className="sources-clear-root-container">
-        <button
-          className="sources-clear-root"
-          onClick={() => this.props.clearProjectDirectoryRoot()}
-          title={L10N.getStr("removeDirectoryRoot.label")}
-        >
-          <Svg name="home" />
-          <Svg name="breadcrumb" />
-          <span className="sources-clear-root-label">{rootLabel}</span>
-        </button>
-      </div>
-    );
-  }
-
   getRoots = () => {
     const { projectRoot } = this.props;
     const { sourceTree } = this.state;
@@ -241,7 +224,7 @@ class SourcesTree extends Component<Props, State> {
 
     // The "sourceTree.contents[0]" check ensures that there are contents
     // A custom root with no existing sources will be ignored
-    if (projectRoot) {
+    if (projectRoot && sourceContents) {
       if (sourceContents && sourceContents.name !== rootLabel) {
         return sourceContents.contents[0].contents;
       }
@@ -267,7 +250,7 @@ class SourcesTree extends Component<Props, State> {
         depth={depth}
         focused={focused}
         expanded={expanded}
-        focusItem={this.focusItem}
+        focusItem={this.onFocus}
         selectItem={this.selectItem}
         source={this.getSource(item)}
         debuggeeUrl={debuggeeUrl}
@@ -278,13 +261,14 @@ class SourcesTree extends Component<Props, State> {
   };
 
   renderTree() {
-    const { expanded } = this.props;
+    const { expanded, focused } = this.props;
     const { highlightItems, listItems, parentMap } = this.state;
 
     const treeProps = {
       autoExpandAll: false,
       autoExpandDepth: expanded ? 0 : 1,
       expanded,
+      focused,
       getChildren: (item: $Shape<TreeDirectory>) =>
         nodeHasChildren(item) ? item.contents : [],
       getParent: (item: $Shape<TreeNode>) => parentMap.get(item),
@@ -296,7 +280,7 @@ class SourcesTree extends Component<Props, State> {
       listItems,
       onCollapse: this.onCollapse,
       onExpand: this.onExpand,
-      onFocus: this.focusItem,
+      onFocus: this.onFocus,
       renderItem: this.renderItem,
       preventBlur: true
     };
@@ -319,24 +303,39 @@ class SourcesTree extends Component<Props, State> {
     );
   }
 
-  render() {
-    const { projectRoot } = this.props;
+  renderThreadHeader() {
+    const { worker, workerCount } = this.props;
 
-    if (this.isEmpty()) {
-      if (projectRoot) {
-        return this.renderPane(
-          this.renderProjectRootHeader(),
-          this.renderEmptyElement(L10N.getStr("sources.noSourcesAvailableRoot"))
-        );
-      }
+    if (!features.windowlessWorkers || workerCount == 0) {
+      return null;
+    }
 
-      return this.renderPane(
-        this.renderEmptyElement(L10N.getStr("sources.noSourcesAvailable"))
+    if (worker) {
+      return (
+        <div className="node thread-header">
+          <AccessibleImage className="worker" />
+          <span className="label">{getDisplayName(worker)}</span>
+        </div>
       );
     }
 
+    return (
+      <div className="node thread-header">
+        <AccessibleImage className={"file"} />
+        <span className="label">{L10N.getStr("mainThread")}</span>
+      </div>
+    );
+  }
+
+  render() {
+    const { worker } = this.props;
+
+    if (!features.windowlessWorkers && worker) {
+      return null;
+    }
+
     return this.renderPane(
-      this.renderProjectRootHeader(),
+      this.renderThreadHeader(),
       <div key="tree" className="sources-list" onKeyDown={this.onKeyDown}>
         {this.renderTree()}
       </div>
@@ -344,26 +343,39 @@ class SourcesTree extends Component<Props, State> {
   }
 }
 
-function getSourceForTree(state: AppState, source: ?Source): ?Source | null {
+function getSourceForTree(
+  state: AppState,
+  source: ?Source,
+  thread: ?string
+): ?Source {
   if (!source || !source.isPrettyPrinted) {
     return source;
   }
 
-  return getGeneratedSourceByURL(state, getRawSourceURL(source.url));
+  const candidate = getGeneratedSourceByURL(state, getRawSourceURL(source.url));
+
+  if (!thread || !candidate || candidate.thread == thread) {
+    return candidate;
+  }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, props) => {
   const selectedSource = getSelectedSource(state);
   const shownSource = getShownSource(state);
+  const focused = getFocusedSourceItem(state);
+  const thread = props.thread;
 
   return {
-    shownSource: getSourceForTree(state, shownSource),
-    selectedSource: getSourceForTree(state, selectedSource),
+    shownSource: getSourceForTree(state, shownSource, thread),
+    selectedSource: getSourceForTree(state, selectedSource, thread),
     debuggeeUrl: getDebuggeeUrl(state),
-    expanded: getExpandedState(state),
+    expanded: getExpandedState(state, props.thread),
+    focused: focused && focused.thread == props.thread ? focused.item : null,
     projectRoot: getProjectDirectoryRoot(state),
-    sources: getRelativeSources(state),
-    sourceCount: getSourceCount(state)
+    sources: getRelativeSourcesForThread(state, thread),
+    sourceCount: getSourceCount(state, props.thread),
+    worker: getWorkerByThread(state, thread),
+    workerCount: getWorkerCount(state)
   };
 };
 
@@ -372,6 +384,6 @@ export default connect(
   {
     selectSource: actions.selectSource,
     setExpandedState: actions.setExpandedState,
-    clearProjectDirectoryRoot: actions.clearProjectDirectoryRoot
+    focusItem: actions.focusItem
   }
 )(SourcesTree);

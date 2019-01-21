@@ -7,6 +7,7 @@
 import type {
   BreakpointId,
   BreakpointResult,
+  EventListenerBreakpoints,
   Frame,
   FrameId,
   SourceLocation,
@@ -386,6 +387,10 @@ function eventListeners(): Promise<*> {
   return threadClient.eventListeners();
 }
 
+function setEventListenerBreakpoints(eventTypes: EventListenerBreakpoints) {
+  // TODO: Figure out what sendpoint we want to hit
+}
+
 function pauseGrip(thread: string, func: Function): ObjectClient {
   return lookupThreadClient(thread).pauseGrip(func);
 }
@@ -406,35 +411,17 @@ async function createSources(client: ThreadClient) {
 }
 
 async function fetchSources(): Promise<any[]> {
-  let sources = await createSources(threadClient);
+  const sources = await createSources(threadClient);
 
   // NOTE: this happens when we fetch sources and then immediately navigate
   if (!sources) {
     return [];
   }
 
-  if (features.windowlessWorkers) {
-    // Also fetch sources from any workers.
-    workerClients = await updateWorkerClients({
-      threadClient,
-      debuggerClient,
-      tabTarget,
-      workerClients
-    });
-
-    const workerNames = Object.getOwnPropertyNames(workerClients);
-    workerNames.forEach(actor => {
-      const workerSources = createSources(workerClients[actor].thread);
-      if (workerSources) {
-        sources = sources.concat(workerSources);
-      }
-    });
-  }
-
   return sources;
 }
 
-async function fetchWorkers(): Promise<{ workers: Worker[] }> {
+async function fetchWorkers(): Promise<Worker[]> {
   if (features.windowlessWorkers) {
     workerClients = await updateWorkerClients({
       tabTarget,
@@ -444,18 +431,22 @@ async function fetchWorkers(): Promise<{ workers: Worker[] }> {
     });
 
     const workerNames = Object.getOwnPropertyNames(workerClients);
-    return {
-      workers: workerNames.map(actor =>
-        createWorker(actor, workerClients[actor].url)
-      )
-    };
+
+    workerNames.forEach(actor => {
+      createSources(workerClients[actor].thread);
+    });
+
+    return workerNames.map(actor =>
+      createWorker(actor, workerClients[actor].url)
+    );
   }
 
   if (!supportsWorkers(tabTarget)) {
-    return Promise.resolve({ workers: [] });
+    return Promise.resolve([]);
   }
 
-  return tabTarget.activeTab.listWorkers();
+  const { workers } = await tabTarget.activeTab.listWorkers();
+  return workers;
 }
 
 const clientCommands = {
@@ -497,6 +488,7 @@ const clientCommands = {
   sendPacket,
   setPausePoints,
   setSkipPausing,
+  setEventListenerBreakpoints,
   registerSource
 };
 

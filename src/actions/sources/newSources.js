@@ -40,11 +40,12 @@ function createOriginalSource(
     url: originalUrl,
     relativeUrl: originalUrl,
     id: generatedToOriginalId(generatedSource.id, originalUrl),
-    thread: "",
+    thread: generatedSource.thread,
     isPrettyPrinted: false,
     isWasm: false,
     isBlackBoxed: false,
-    loadedState: "unloaded"
+    loadedState: "unloaded",
+    introductionUrl: null
   };
 }
 
@@ -57,15 +58,16 @@ function loadSourceMaps(sources: Source[]) {
       return [];
     }
 
-    return flatten(
-      await Promise.all(
-        sources.map(async ({ id }) => {
-          const originalSources = await dispatch(loadSourceMap(id));
-          sourceQueue.queueSources(originalSources);
-          return originalSources;
-        })
-      )
+    const sourceList = await Promise.all(
+      sources.map(async ({ id }) => {
+        const originalSources = await dispatch(loadSourceMap(id));
+        sourceQueue.queueSources(originalSources);
+        return originalSources;
+      })
     );
+
+    await sourceQueue.flush();
+    return flatten(sourceList);
   };
 }
 
@@ -87,7 +89,16 @@ function loadSourceMap(sourceId: SourceId) {
 
     let urls = null;
     try {
-      urls = await sourceMaps.getOriginalURLs(source);
+      const urlInfo = { ...source };
+      if (!urlInfo.url) {
+        // If the source was dynamically generated (via eval, dynamically
+        // created script elements, and so forth), it won't have a URL, so that
+        // it is not collapsed into other sources from the same place. The
+        // introduction URL will include the point it was constructed at,
+        // however, so use that for resolving any source maps in the source.
+        urlInfo.url = urlInfo.introductionUrl;
+      }
+      urls = await sourceMaps.getOriginalURLs(urlInfo);
     } catch (e) {
       console.error(e);
     }
@@ -207,15 +218,21 @@ export function newSources(sources: Source[]) {
 
     dispatch(({ type: "ADD_SOURCES", sources: sources }: Action));
 
-    dispatch(loadSourceMaps(sources));
-
     for (const source of sources) {
       dispatch(checkSelectedSource(source.id));
-      dispatch(checkPendingBreakpoints(source.id));
     }
 
     // We would like to restore the blackboxed state
     // after loading all states to make sure the correctness.
-    await dispatch(restoreBlackBoxedSources(sources));
+    dispatch(restoreBlackBoxedSources(sources));
+
+    dispatch(loadSourceMaps(sources)).then(() => {
+      // We would like to sync breakpoints after we are done
+      // loading source maps as sometimes generated and original
+      // files share the same paths.
+      for (const source of sources) {
+        dispatch(checkPendingBreakpoints(source.id));
+      }
+    });
   };
 }

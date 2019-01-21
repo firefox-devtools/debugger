@@ -6,7 +6,7 @@ import React from "react";
 import { shallow } from "enzyme";
 
 import Breakpoint from "../Breakpoint";
-import { makeSource } from "../../../../utils/test-head";
+import { makeSource, makeOriginalSource } from "../../../../utils/test-head";
 
 describe("Breakpoint", () => {
   it("simple", () => {
@@ -30,8 +30,9 @@ describe("Breakpoint", () => {
 
   it("paused at an original location", () => {
     const { component } = render({
+      selectedSource: makeOriginalSource("foo"),
       frame: { selectedLocation: location },
-      breakpoint: { selectedLocation: location }
+      breakpoint: { location }
     });
 
     expect(component).toMatchSnapshot();
@@ -47,7 +48,6 @@ describe("Breakpoint", () => {
 
 const generatedLocation = { sourceId: "foo", line: 53, column: 73 };
 const location = { sourceId: "foo/original", line: 5, column: 7 };
-const selectedLocation = generatedLocation;
 
 function render(overrides = {}) {
   const props = generateDefaults(overrides);
@@ -60,7 +60,8 @@ function render(overrides = {}) {
 
 function makeBreakpoint(overrides = {}) {
   return {
-    selectedLocation,
+    location,
+    generatedLocation,
     disabled: false,
     ...overrides
   };

@@ -84,14 +84,7 @@ describe("ManagedTree", () => {
     });
     expect(wrapper).toMatchSnapshot();
   });
-  it("focuses list items", () => {
-    const { props, testTree } = getTestContent();
-    const wrapper = shallow(<ManagedTree {...props} />);
-    wrapper.setProps({ focused: testTree.a });
-    expect(wrapper).toMatchSnapshot();
-    expect(wrapper.state().focusedItem).toEqual(testTree.a);
-    expect(props.onFocus).toHaveBeenCalledWith(testTree.a);
-  });
+
   it("sets expanded items", () => {
     const { props, testTree } = getTestContent();
     const wrapper = mount(<ManagedTree {...props} />);

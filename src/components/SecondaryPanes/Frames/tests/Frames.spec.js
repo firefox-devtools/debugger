@@ -62,7 +62,7 @@ describe("Frames", () => {
       const component = render({ selectedFrame, frames });
 
       const getToggleBtn = () => component.find(".show-more");
-      const getFrames = () => component.find("FrameComponent");
+      const getFrames = () => component.find("Frame");
 
       expect(getToggleBtn().text()).toEqual("Expand rows");
       expect(getFrames()).toHaveLength(7);
@@ -85,7 +85,7 @@ describe("Frames", () => {
       });
 
       const getToggleBtn = () => component.find(".show-more");
-      const getFrames = () => component.find("FrameComponent");
+      const getFrames = () => component.find("Frame");
 
       expect(getToggleBtn().exists()).toBeFalsy();
       expect(getFrames()).toHaveLength(framesNumber);
@@ -115,7 +115,7 @@ describe("Frames", () => {
         />
       );
       expect(component.text()).toBe(
-        "\trenderFoo http://myfile.com/mahscripts.js:55\n"
+        "renderFoo http://myfile.com/mahscripts.js:55"
       );
     });
 
@@ -135,9 +135,7 @@ describe("Frames", () => {
       const getFrameTitle = () => {};
       const component = render({ frames, getFrameTitle });
 
-      expect(component.find("FrameComponent").prop("getFrameTitle")).toBe(
-        getFrameTitle
-      );
+      expect(component.find("Frame").prop("getFrameTitle")).toBe(getFrameTitle);
       expect(component).toMatchSnapshot();
     });
 
@@ -214,7 +212,7 @@ describe("Frames", () => {
         selectedFrame
       });
 
-      expect(component.find("FrameComponent")).toHaveLength(2);
+      expect(component.find("Frame")).toHaveLength(2);
       expect(component).toMatchSnapshot();
     });
   });
@@ -232,12 +230,12 @@ describe("Frames", () => {
       const frameworkGroupingOn = false;
       const component = render({ frames, frameworkGroupingOn, selectedFrame });
 
-      expect(component.find("FrameComponent")).toHaveLength(4);
+      expect(component.find("Frame")).toHaveLength(4);
       expect(component).toMatchSnapshot();
 
       component.setProps({ frameworkGroupingOn: true });
 
-      expect(component.find("FrameComponent")).toHaveLength(2);
+      expect(component.find("Frame")).toHaveLength(2);
       expect(component).toMatchSnapshot();
     });
 
@@ -265,6 +263,28 @@ describe("Frames", () => {
       const frameworkGroupingOn = true;
       const component = render({ frames, frameworkGroupingOn, selectedFrame });
 
+      expect(component).toMatchSnapshot();
+    });
+
+    it("selectable framework frames", () => {
+      const frames = [
+        { id: 1 },
+        { id: 2, library: "back" },
+        { id: 3, library: "back" },
+        { id: 8 }
+      ];
+
+      const selectedFrame = frames[0];
+
+      const component = render({
+        frames,
+        frameworkGroupingOn: false,
+        selectedFrame,
+        selectable: true
+      });
+      expect(component).toMatchSnapshot();
+
+      component.setProps({ frameworkGroupingOn: true });
       expect(component).toMatchSnapshot();
     });
   });

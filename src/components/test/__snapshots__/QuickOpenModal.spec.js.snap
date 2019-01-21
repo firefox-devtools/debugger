@@ -77,16 +77,16 @@ exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
                   role="combobox"
                 >
                   <Svg
-                    name="sad-face"
+                    name="magnifying-glass"
                   >
                     <InlineSVG
-                      className="sad-face "
+                      className="magnifying-glass "
                       element="i"
                       raw={false}
                       src="<svg></svg>"
                     >
                       <i
-                        className="sad-face "
+                        className="magnifying-glass "
                         dangerouslySetInnerHTML={
                           Object {
                             "__html": "<svg></svg>",
@@ -213,16 +213,16 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
                   role="combobox"
                 >
                   <Svg
-                    name="sad-face"
+                    name="magnifying-glass"
                   >
                     <InlineSVG
-                      className="sad-face "
+                      className="magnifying-glass "
                       element="i"
                       raw={false}
                       src="<svg></svg>"
                     >
                       <i
-                        className="sad-face "
+                        className="magnifying-glass "
                         dangerouslySetInnerHTML={
                           Object {
                             "__html": "<svg></svg>",
@@ -498,16 +498,16 @@ exports[`QuickOpenModal Simple goto search query = :abc & searchType = goto 1`] 
                   role="combobox"
                 >
                   <Svg
-                    name="sad-face"
+                    name="magnifying-glass"
                   >
                     <InlineSVG
-                      className="sad-face "
+                      className="magnifying-glass "
                       element="i"
                       raw={false}
                       src="<svg></svg>"
                     >
                       <i
-                        className="sad-face "
+                        className="magnifying-glass "
                         dangerouslySetInnerHTML={
                           Object {
                             "__html": "<svg></svg>",
@@ -1028,16 +1028,16 @@ exports[`QuickOpenModal showErrorEmoji true when goto not numeric ':22k22' 1`] =
                   role="combobox"
                 >
                   <Svg
-                    name="sad-face"
+                    name="magnifying-glass"
                   >
                     <InlineSVG
-                      className="sad-face "
+                      className="magnifying-glass "
                       element="i"
                       raw={false}
                       src="<svg></svg>"
                     >
                       <i
-                        className="sad-face "
+                        className="magnifying-glass "
                         dangerouslySetInnerHTML={
                           Object {
                             "__html": "<svg></svg>",
@@ -1147,16 +1147,16 @@ exports[`QuickOpenModal showErrorEmoji true when no count + query 1`] = `
                   role="combobox"
                 >
                   <Svg
-                    name="sad-face"
+                    name="magnifying-glass"
                   >
                     <InlineSVG
-                      className="sad-face "
+                      className="magnifying-glass "
                       element="i"
                       raw={false}
                       src="<svg></svg>"
                     >
                       <i
-                        className="sad-face "
+                        className="magnifying-glass "
                         dangerouslySetInnerHTML={
                           Object {
                             "__html": "<svg></svg>",

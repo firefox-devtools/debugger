@@ -76,7 +76,7 @@ function copySVGs({ projectPath, mcPath }) {
    * and include them in the jar.mn file
    */
 
-  const projectImagesPath = path.join(projectPath, "assets/images/");
+  const projectImagesPath = path.join(projectPath, "/images/");
   const mcImagesPath = path.join(
     mcPath,
     "devtools/client/debugger/new/images"
@@ -108,12 +108,19 @@ function copySVGs({ projectPath, mcPath }) {
 
   const mozBuildPath = path.join(mcPath, "devtools/client/debugger/new/images/moz.build");
   fs.writeFileSync(mozBuildPath, mozBuildText, "utf-8");
+
+  console.log("[copy-assets] - Svg.js");
+  copyFile(
+    path.join(projectPath, "/images/Svg.js"),
+    path.join(mcPath, "devtools/client/debugger/new/images/Svg.js"),
+    { cwd: projectPath }
+  );
 }
 
 function copyTests({ mcPath, projectPath, mcModulePath, shouldSymLink }) {
   console.log("[copy-assets] copy tests");
 
-  const projectTestPath = path.join(projectPath, "src/test/mochitest");
+  const projectTestPath = path.join(projectPath, "test/mochitest");
   const mcTestPath = path.join(mcPath, mcModulePath, "test/mochitest");
   if (shouldSymLink) {
     symlinkTests({ projectPath, mcTestPath, projectTestPath });
@@ -240,6 +247,7 @@ function start() {
     { cwd: projectPath }
   );
 
+
   // Ensure /dist path exists.
   const bundlePath = "devtools/client/debugger/new/dist";
   shell.mkdir("-p", path.join(mcPath, bundlePath));
@@ -257,14 +265,6 @@ function start() {
   writeReadme(path.join(mcPath, "devtools/client/debugger/new/README.mozilla"));
 
   const debuggerPath = "devtools/client/debugger/new"
-
-  if (!mcPath.startsWith(projectPath)) {
-    rimraf.sync(path.join(
-      mcPath,
-      debuggerPath,
-      "test/mochitest/examples/babel/source-maps-semantics.md"
-    ));
-  }
 
   console.log("[copy-assets] make webpack bundles");
   return makeBundle({

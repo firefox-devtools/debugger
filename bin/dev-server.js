@@ -14,8 +14,8 @@ let webpackConfig = require("../webpack.config");
 
 let { app } = toolbox.startDevServer(envConfig, webpackConfig, __dirname);
 
-app.use("/integration/examples", express.static("src/test/mochitest/examples"));
-app.use("/images", serve(path.join(__dirname, "../assets/images")));
+app.use("/integration/examples", express.static("test/mochitest/examples"));
+app.use("/images", serve(path.join(__dirname, "../images")));
 
 // Serve devtools-reps images
 app.use("/devtools-reps/images/", serve(path.join(__dirname, "../src/shared/images")));

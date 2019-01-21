@@ -195,7 +195,7 @@ Here are some [notes][mdoc] on how we work.
 + [Adding a Patch](../docs/maintainer.md#adding-a-patch)
 + [Pushing to a branch](../docs/maintainer.md#pushing-to-a-branch)
 
-[mdoc]: ./docs/maintainer.md
+[mdoc]: ../docs/maintainer.md
 
 ### Debugging Tips
 
@@ -252,7 +252,13 @@ Our goal is to work with the community to build a universal JS debugger for mode
 
 Our Community Team is group of contributors who care deeply about the debugger.html project, the health of the community, and the success of everyone who gets involved.  To learn more about our community team,  the role they play, and how to get ingolved please [check out our Community Team page]().
 
+<<<<<<< HEAD
 **Feeling stuck, or have questions?  Find us on Slack in the #community-team channel!**
+=======
+| Hubert | Anshul | Princiya | Tyler | Jaideep | Wellington | Irfan | Martin | Lukas | 
+| ---------- | ------ | -------- | ----- | ---- | ----   |   ---- | ---- |---- |
+| ![][bomsy] <br /> [@bomsy][@bomsy] | ![][anshulmalik] <br />[@anshulmalik][@anshulmalik] | ![][princiya] <br />[@princiya][@princiya] | ![][wenincode] <br />[@wenincode][@wenincode] | ![][jbhoosreddy] <br /> [@jbhoosreddy][@jbhoosreddy] | ![][wldcordeiro] <br />[@wldcordeiro][@wldcordeiro] | ![][irfanhudda] <br />[@irfanhudda][@irfanhudda] | ![][nyrosmith] <br />[@nyrosmith][@nyrosmith] | ![][lukaszsobek] <br />[@lukaszsobek][@lukaszsobek]  |
+>>>>>>> 83fbcab16463b4d64ce1a4731c8fa703af7df455
 
 ### Joining Mozilla
 
@@ -282,6 +288,7 @@ Mozilla has and continues to hire many people from within the Open Source Softwa
 [@lukaszsobek]:https://github.com/lukaszsobek
 [@anshulmalik]:https://github.com/anshulmalik
 [@wenincode]:https://github.com/wenincode
+[@princiya]:https://github.com/princiya
 
 [jasonlaster]:https://avatars.githubusercontent.com/jasonlaster?size=56
 [bomsy]:https://avatars.githubusercontent.com/bomsy?size=56
@@ -296,6 +303,7 @@ Mozilla has and continues to hire many people from within the Open Source Softwa
 [anshulmalik]:https://avatars.githubusercontent.com/anshulmalik?size=56
 [lukaszsobek]:https://avatars.githubusercontent.com/lukaszsobek?size=56
 [wenincode]:https://avatars.githubusercontent.com/wenincode?size=56
+[princiya]:https://avatars.githubusercontent.com/princiya?size=56
 
 [mozilla]:https://www.mozilla.org/
 [mozilla-firefox]:https://www.mozilla.org/firefox/

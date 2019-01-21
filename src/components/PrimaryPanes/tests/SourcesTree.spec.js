@@ -54,17 +54,14 @@ describe("SourcesTree", () => {
     describe("recreates tree", () => {
       it("does not recreate tree if no new source is added", async () => {
         const { component, props, defaultState } = render();
-        const mockSource = {
+        const sources = {
           "server1.conn13.child1/41": createMockSource(
             "server1.conn13.child1/41",
             "http://mdn.com/three.js"
           )
         };
 
-        await component.setProps({
-          ...props,
-          sources: mockSource
-        });
+        await component.setProps({ ...props, sources });
 
         expect(component.state("uncollapsedTree")).toEqual(
           defaultState.uncollapsedTree
@@ -78,12 +75,16 @@ describe("SourcesTree", () => {
           "http://mdn.com/four.js",
           true
         );
+        const newThreadSources = {
+          ...props.sources.FakeThread,
+          "server1.conn13.child1/43": newSource
+        };
 
         await component.setProps({
           ...props,
           sources: {
             ...props.sources,
-            "server1.conn13.child1/43": newSource
+            ...newThreadSources
           }
         });
 
@@ -121,7 +122,7 @@ describe("SourcesTree", () => {
 
         await component.setProps({
           ...props,
-          sources: sources,
+          sources,
           projectRoot: "mozilla"
         });
 
@@ -132,7 +133,7 @@ describe("SourcesTree", () => {
 
       it("recreates tree if debugeeUrl is changed", async () => {
         const { component, props, defaultState } = render();
-        const mockSource = {
+        const sources = {
           "server1.conn13.child1/41": createMockSource(
             "server1.conn13.child1/41",
             "http://mdn.com/three.js"
@@ -146,7 +147,7 @@ describe("SourcesTree", () => {
         await component.setProps({
           ...props,
           debuggeeUrl: "mozilla",
-          sources: mockSource
+          sources
         });
 
         expect(
@@ -158,12 +159,13 @@ describe("SourcesTree", () => {
     describe("updates highlighted items", () => {
       it("updates highlightItems if selectedSource changes", async () => {
         const { component, props } = render();
-        const mockSource = {
-          "server1.conn13.child1/41": createMockSource(
-            "server1.conn13.child1/41",
-            "http://mdn.com/three.js"
-          )
-        };
+        const mockSource = createMockSource(
+          "server1.conn13.child1/41",
+          "http://mdn.com/three.js",
+          false,
+          null,
+          "FakeThread"
+        );
         await component.setProps({
           ...props,
           selectedSource: mockSource
@@ -175,50 +177,24 @@ describe("SourcesTree", () => {
 
   describe("focusItem", () => {
     it("update the focused item", async () => {
-      const { component, instance, props } = render();
       const item = createMockItem();
-      await instance.focusItem(item);
-      await component.update();
+      const { component, props } = render({ focused: item });
+
       await component
         .find(".sources-list")
         .simulate("keydown", { keyCode: 13 });
+
       expect(props.selectSource).toHaveBeenCalledWith(item.contents.id);
     });
 
     it("allows focus on the (index)", async () => {
-      const { component, instance, props } = render();
       const item = createMockItem("https://davidwalsh.name/", "(index)");
-      await instance.focusItem(item);
-      await component.update();
+
+      const { component, props } = render({ focused: item });
       await component
         .find(".sources-list")
         .simulate("keydown", { keyCode: 13 });
       expect(props.selectSource).toHaveBeenCalledWith(item.contents.id);
-    });
-  });
-
-  describe("with custom root", () => {
-    it("renders custom root source list", async () => {
-      const { component } = render({
-        projectRoot: "mdn.com"
-      });
-      expect(component).toMatchSnapshot();
-    });
-
-    it("calls clearProjectDirectoryRoot on click", async () => {
-      const { component, props } = render({
-        projectRoot: "mdn"
-      });
-      component.find(".sources-clear-root").simulate("click");
-      expect(props.clearProjectDirectoryRoot).toHaveBeenCalled();
-    });
-
-    it("renders empty custom root source list", async () => {
-      const { component } = render({
-        projectRoot: "custom",
-        sources: {}
-      });
-      expect(component).toMatchSnapshot();
     });
   });
 
@@ -235,18 +211,6 @@ describe("SourcesTree", () => {
       const { props, instance } = render();
       instance.selectItem(createMockDirectory());
       expect(props.selectSource).not.toHaveBeenCalled();
-    });
-
-    it("should select item on enter onKeyDown event", async () => {
-      const { component, props, instance } = render();
-      await instance.focusItem(createMockItem());
-      await component.update();
-      await component
-        .find(".sources-list")
-        .simulate("keydown", { keyCode: 13 });
-      expect(props.selectSource).toHaveBeenCalledWith(
-        "server1.conn13.child1/39"
-      );
     });
 
     it("does not select if no item is focused on", async () => {
@@ -288,7 +252,10 @@ describe("SourcesTree", () => {
         .find("ManagedTree")
         .props()
         .onExpand({}, expandedState);
-      expect(props.setExpandedState).toHaveBeenCalledWith(expandedState);
+      expect(props.setExpandedState).toHaveBeenCalledWith(
+        "FakeThread",
+        expandedState
+      );
     });
 
     it("onCollapse", async () => {
@@ -298,7 +265,10 @@ describe("SourcesTree", () => {
         .find("ManagedTree")
         .props()
         .onCollapse({}, expandedState);
-      expect(props.setExpandedState).toHaveBeenCalledWith(expandedState);
+      expect(props.setExpandedState).toHaveBeenCalledWith(
+        "FakeThread",
+        expandedState
+      );
     });
 
     it("getParent", async () => {
@@ -330,7 +300,7 @@ describe("SourcesTree", () => {
         { id: "server1.conn13.child1/59" }
       );
 
-      const source = {
+      const sources = {
         "server1.conn13.child1/59": createMockSource(
           "server1.conn13.child1/59",
           "http://mdn.com/blackboxed.js",
@@ -338,9 +308,7 @@ describe("SourcesTree", () => {
         )
       };
 
-      const { instance } = render({
-        sources: source
-      });
+      const { instance } = render({ sources });
       const path = instance.getPath(item);
       expect(path).toEqual(
         "http://mdn.com/blackboxed.js/blackboxed.js/server1.conn13.child1/59/:blackboxed"
@@ -396,6 +364,7 @@ function generateDefaults(overrides) {
     )
   };
   return {
+    thread: "FakeThread",
     autoExpandAll: true,
     selectSource: jest.fn(),
     setExpandedState: jest.fn(),
@@ -403,6 +372,7 @@ function generateDefaults(overrides) {
     debuggeeUrl: "http://mdn.com",
     clearProjectDirectoryRoot: jest.fn(),
     setProjectDirectoryRoot: jest.fn(),
+    focusItem: jest.fn(),
     projectRoot: "",
     ...overrides
   };
@@ -419,9 +389,16 @@ function render(overrides = {}) {
   return { component, props, defaultState, instance };
 }
 
-function createMockSource(id, url, isBlackBoxed = false, sourceMapURL = null) {
+function createMockSource(
+  id,
+  url,
+  isBlackBoxed = false,
+  sourceMapURL = null,
+  thread = ""
+) {
   return createSource({
     id: id,
+    thread,
     url: url,
     isPrettyPrinted: false,
     isWasm: false,

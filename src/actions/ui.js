@@ -24,12 +24,6 @@ import type {
   SelectedPrimaryPaneTabType
 } from "../reducers/ui";
 
-export function setContextMenu(type: string, event: any) {
-  return ({ dispatch }: ThunkArgs) => {
-    dispatch({ type: "SET_CONTEXT_MENU", contextMenu: { type, event } });
-  };
-}
-
 export function setPrimaryPaneTab(tabName: SelectedPrimaryPaneTabType) {
   return { type: "SET_PRIMARY_PANE_TAB", tabName };
 }
@@ -156,14 +150,18 @@ export function clearHighlightLineRange() {
   };
 }
 
-export function openConditionalPanel(location: ?SourceLocation) {
+export function openConditionalPanel(
+  location: ?SourceLocation,
+  log: boolean = false
+) {
   if (!location) {
     return;
   }
 
   return {
     type: "OPEN_CONDITIONAL_PANEL",
-    location
+    location,
+    log
   };
 }
 

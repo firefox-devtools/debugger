@@ -16,12 +16,16 @@ exports[`Breakpoint disabled 1`] = `
   />
   <label
     className="breakpoint-label cm-s-mozilla"
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "",
+    onClick={[Function]}
+  >
+    <span
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "",
+        }
       }
-    }
-  />
+    />
+  </label>
   <div
     className="breakpoint-line-close"
   >
@@ -54,12 +58,16 @@ exports[`Breakpoint paused at a different 1`] = `
   />
   <label
     className="breakpoint-label cm-s-mozilla"
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "",
+    onClick={[Function]}
+  >
+    <span
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "",
+        }
       }
-    }
-  />
+    />
+  </label>
   <div
     className="breakpoint-line-close"
   >
@@ -92,12 +100,16 @@ exports[`Breakpoint paused at a generatedLocation 1`] = `
   />
   <label
     className="breakpoint-label cm-s-mozilla"
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "",
+    onClick={[Function]}
+  >
+    <span
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "",
+        }
       }
-    }
-  />
+    />
+  </label>
   <div
     className="breakpoint-line-close"
   >
@@ -130,12 +142,16 @@ exports[`Breakpoint paused at an original location 1`] = `
   />
   <label
     className="breakpoint-label cm-s-mozilla"
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "",
+    onClick={[Function]}
+  >
+    <span
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "",
+        }
       }
-    }
-  />
+    />
+  </label>
   <div
     className="breakpoint-line-close"
   >
@@ -168,12 +184,16 @@ exports[`Breakpoint simple 1`] = `
   />
   <label
     className="breakpoint-label cm-s-mozilla"
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "",
+    onClick={[Function]}
+  >
+    <span
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "",
+        }
       }
-    }
-  />
+    />
+  </label>
   <div
     className="breakpoint-line-close"
   >

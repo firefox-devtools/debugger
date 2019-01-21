@@ -23,9 +23,6 @@
   white-space: nowrap;
   color: inherit;
   display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
   border-bottom: 1px solid var(--theme-splitter-color);
 }
 
@@ -39,7 +36,7 @@
   height: 13px;
 }
 
-.theme-dark .sources-clear-root svg {
+.theme-dark .sources-clear-root {
   fill: var(--theme-body-color);
 }
 
@@ -47,11 +44,11 @@
   opacity: 0.5;
 }
 
-.sources-clear-root .breadcrumb svg {
+.sources-clear-root .breadcrumb {
   width: 5px;
-  top: 2px;
-  position: absolute;
-  margin-right: 5px;
+  margin: 0 2px 0 6px;
+  vertical-align: bottom;
+  background: var(--theme-body-color-alt);
 }
 
 .sources-clear-root-label {
@@ -61,26 +58,21 @@
 .sources-pane {
   display: flex;
   flex: 1;
-  overflow-x: auto;
-  overflow-y: auto;
-  height: 100%;
+  flex-direction: column;
 }
 
 .sources-list {
   flex: 1;
   display: flex;
-  overflow: hidden;
 }
 
 .sources-list .managed-tree {
   flex: 1;
   display: flex;
-  overflow-x: hidden;
-  overflow-y: auto;
 }
 
-.sources-list .managed-tree .tree-node:first-child {
-  margin-top: 4px;
+.sources-list .managed-tree .tree {
+  padding: 4px 0;
 }
 
 .sources-list .managed-tree .tree .node {
@@ -88,11 +80,11 @@
   width: 100%;
 }
 
-.sources-list .tree .img.arrow {
-  margin-right: 5px;
+.sources-list .img {
+  margin-inline-end: 5px;
 }
 
-.sources-list .tree .focused .img:not(.vue):not(.angular),
+.sources-list .tree .focused .img:not(.vue):not(.angular):not(.webpack):not(.dojo):not(.ember):not(.aframe):not(.marko):not(.mobx):not(.nextjs):not(.nuxtjs):not(.preact):not(.pug):not(.rxjs):not(.sencha-extjs),
 .sources-list .managed-tree .tree .node.focused .img.blackBox {
   background: #ffffff;
 }
@@ -107,10 +99,6 @@
   color: inherit;
 }
 
-.sources-list .tree .img.arrow.expanded {
-  transform: rotate(0deg);
-}
-
 .theme-dark .source-list .tree .node.focused {
   background-color: var(--theme-tab-toolbar-background);
 }
@@ -122,6 +110,10 @@
 .sources-list .tree .label {
   padding: 3px 0px 3px 0px;
   display: inline-block;
+}
+
+.sources-list .tree .arrow {
+  vertical-align: 1px;
 }
 
 .sources-list .tree .node .no-arrow {
@@ -212,6 +204,14 @@
   overflow: auto;
 }
 
+.source-outline-panel.has-root > div {
+  height: 100%;
+}
+
+.source-outline-panel.has-root .thread-header {
+  margin-top: 4px;
+}
+
 .sources-list .managed-tree .tree .node .img.blackBox {
   mask: url(/images/blackBox.svg) no-repeat;
   mask-size: 100%;
@@ -240,7 +240,6 @@
   display: block;
 }
 
-.sources-list-custom-root .sources-list,
 .sources-list-custom-root .no-sources-message {
   position: absolute;
   top: 26px;
@@ -258,4 +257,12 @@
 
 .sources-list .tree-node[data-expandable="false"] .tree-indent:last-of-type {
   margin-inline-end: 0;
+}
+
+.thread-header {
+  margin-top: 10px;
+}
+
+.thread-header .label {
+  line-height: 15px;
 }

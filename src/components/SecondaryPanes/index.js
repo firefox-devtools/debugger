@@ -21,7 +21,7 @@ import {
   getWorkers
 } from "../../selectors";
 
-import Svg from "../shared/Svg";
+import AccessibleImage from "../shared/AccessibleImage";
 import { prefs, features } from "../../utils/prefs";
 
 import Breakpoints from "./Breakpoints";
@@ -33,13 +33,13 @@ import Accordion from "../shared/Accordion";
 import CommandBar from "./CommandBar";
 import UtilsBar from "./UtilsBar";
 import XHRBreakpoints from "./XHRBreakpoints";
+import EventListeners from "./EventListeners";
 
 import Scopes from "./Scopes";
 
 import "./SecondaryPanes.css";
 
-import type { Expression } from "../../types";
-import type { WorkersList } from "../../reducers/types";
+import type { Expression, WorkerList } from "../../types";
 
 type AccordionPaneItem = {
   header: string,
@@ -58,7 +58,7 @@ function debugBtn(onClick, type, className, tooltip) {
       key={type}
       title={tooltip}
     >
-      <Svg name={type} title={tooltip} aria-label={tooltip} />
+      <AccessibleImage className={type} title={tooltip} aria-label={tooltip} />
     </button>
   );
 }
@@ -78,7 +78,7 @@ type Props = {
   isWaitingOnBreak: boolean,
   shouldPauseOnExceptions: boolean,
   shouldPauseOnCaughtExceptions: boolean,
-  workers: WorkersList,
+  workers: WorkerList,
   toggleShortcutsModal: () => void,
   toggleAllBreakpoints: typeof actions.toggleAllBreakpoints,
   evaluateExpressions: typeof actions.evaluateExpressions,
@@ -187,14 +187,14 @@ class SecondaryPanes extends Component<Props, State> {
     buttons.push(
       debugBtn(
         evt => {
-          if (prefs.expressionsVisible) {
+          if (prefs.xhrBreakpointsVisible) {
             evt.stopPropagation();
           }
           this.setState({ showXHRInput: true });
         },
         "plus",
         "plus",
-        L10N.getStr("xhrBreakpoints.placeholder")
+        L10N.getStr("xhrBreakpoints.label")
       )
     );
 
@@ -263,7 +263,9 @@ class SecondaryPanes extends Component<Props, State> {
 
   getWorkersItem(): AccordionPaneItem {
     return {
-      header: L10N.getStr("workersHeader"),
+      header: features.windowlessWorkers
+        ? L10N.getStr("threadsHeader")
+        : L10N.getStr("workersHeader"),
       className: "workers-pane",
       component: <Workers />,
       opened: prefs.workersVisible,
@@ -298,12 +300,25 @@ class SecondaryPanes extends Component<Props, State> {
     };
   }
 
+  getEventListenersItem() {
+    return {
+      header: L10N.getStr("eventListenersHeader"),
+      className: "event-listeners-pane",
+      buttons: [],
+      component: <EventListeners />,
+      opened: prefs.eventListenersVisible,
+      onToggle: opened => {
+        prefs.eventListenersVisible = opened;
+      }
+    };
+  }
+
   getStartItems() {
     const { workers } = this.props;
 
     const items: Array<AccordionPaneItem> = [];
     if (this.props.horizontal) {
-      if (features.workers && workers.size > 0) {
+      if (features.workers && workers.length > 0) {
         items.push(this.getWorkersItem());
       }
 
@@ -324,6 +339,10 @@ class SecondaryPanes extends Component<Props, State> {
       items.push(this.getXHRItem());
     }
 
+    if (features.eventListenersBreakpoints) {
+      items.push(this.getEventListenersItem());
+    }
+
     return items.filter(item => item);
   }
 
@@ -340,7 +359,7 @@ class SecondaryPanes extends Component<Props, State> {
       return [];
     }
 
-    if (features.workers && workers.size > 0) {
+    if (features.workers && workers.length > 0) {
       items.push(this.getWorkersItem());
     }
 
