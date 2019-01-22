@@ -106,6 +106,7 @@ export function closeTabsForMissingThreads(workers: Worker[]) {
       if (sourceId) {
         const source = getSourceFromId(getState(), sourceId);
         if (
+          source &&
           source.thread != mainThread.actor &&
           !workers.some(({ actor }) => actor == source.thread)
         ) {
