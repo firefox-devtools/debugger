@@ -60,5 +60,5 @@ We embrace diversity and invite people from all backgrounds to get involved. We 
 
 ### Review Periods
 
-One per year, we'll check in with our active, and members on break to ensure they are feeling supported, and activated for the coming months. If we do not hear back from members at this time, they will be transitioned to alumni role.
+Once per year, we'll check in with our active, and members on break to ensure they are feeling supported, and activated for the coming months. If we do not hear back from members at this time, they will be transitioned to alumni role.
 The next review period, will be _during the month of July 2019_.
