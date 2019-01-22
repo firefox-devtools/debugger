@@ -21,13 +21,12 @@ add_task(async function() {
 
   await selectSource(dbg, "simple2", 1);
 
-  clickElement(dbg, "codeMirrorCode");
+  clickElement(dbg, "CodeMirrorLines");
   await waitForElementWithSelector(dbg, ".CodeMirror-code");
 
-  // pressKey(dbg, "selectAll"); // This doesn't work properly
   getCM(dbg).setSelection({ line: 0, ch: 0 }, { line: 8, ch: 0 });
 
-  rightClickElement(dbg, "codeMirrorCode");
+  rightClickElement(dbg, "CodeMirrorLines");
   selectContextMenuItem(dbg, "#node-menu-evaluate-in-console");
 
   await waitForConsolePanelChange(dbg);

@@ -52,8 +52,8 @@ DebuggerPanel.prototype = {
           return Promise.all([onNodeFrontSet, onInspectorUpdated]);
         }.bind(this),
         openConsoleAndEvaluate: async function(input) {
-          await this.toolbox.selectTool("webconsole");
-          const jsterm = this.toolbox.getPanel("webconsole").hud.jsterm;
+          const webconsolePanel = await this.toolbox.selectTool("webconsole");
+          const jsterm = webconsolePanel.hud.jsterm;
           jsterm.execute(input);
         }.bind(this)
       }
