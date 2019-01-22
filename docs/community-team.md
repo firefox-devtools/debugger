@@ -1,6 +1,6 @@
 # :heart: Firefox Debugger Community Team :heart:
 
-debugger.html community team members help shepherd the community.They are here to help mentor new comers, review pull requests, and facilitate issue discussions.
+debugger.html community team members help shepherd the community.They are here to help mentor newcomers, review pull requests, and facilitate issue discussions.
 They are a fantastic resource and genuinely friendly human beings.
 
 ## Primary Role Descriptions
@@ -29,7 +29,8 @@ Active Community Members are visibly active in Slack and/or Github channels. We 
 | ![Hubert](https://avatars3.githubusercontent.com/u/792924?s=460&v=4)    | **[Hubert](https://github.com/bomsy)** is a software developer @ComparetheMarket, formerly @Oath living in the UK. Ask him about: <ul><li>Preview</li><li>Tabs</li><li>Search</li></ul>                                                          |
 | ![Martin](https://avatars.githubusercontent.com/nyrosmith?)             | **[Martin](https://github.com/nyrosmith)** is a software developer @ComparetheMarket, formerly @Oath living in the UK.                                                                                                                           |
 | ![Princiya](https://avatars3.githubusercontent.com/u/8022693?s=460&v=4) | **[Princiya](https://github.com/princiya)** is a software developer from Berlin.<br/> Ask her about: <ul><li>Good First Bugs</li><li>Making your first contribution</li><li>React/Redux/CSS</li><li>Anything when you're stuck on a PR</li></ul> |
-| ![Tyler](https://avatars1.githubusercontent.com/u/5448834?s=460&v=4)    | **[Tyler](https://github.com/wenincode)** is a software developer @ComparetheMarket, formerly @Oath living in the UK. Ask him about: <ul><li>Good First Bugs</li><li>Source Tree</li><li>Tabs</li></ul>                                          |
+| ![Tyler](https://avatars1.githubusercontent.com/u/5448834?s=460&v=4)    | **[Tyler](https://github.com/wenincode)** is a software developer @jobber living in Canada.                                                                                                                                                      |
+| . Ask him about: <ul><li>Source Tree</li><li>Tabs</li></ul>             |
 
 ### Members on Break/Paused
 
