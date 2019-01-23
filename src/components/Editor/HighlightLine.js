@@ -137,9 +137,12 @@ export class HighlightLine extends Component<Props> {
       const durationString = style.getPropertyValue(
         "--highlight-line-duration"
       );
-      const duration =
-        parseFloat(durationString.substring(0, durationString.length - 1)) *
-        1000;
+      const duration = parseInt(
+        durationString.substring(0, durationString.length - 2).trim(),
+        10
+      );
+
+      console.log(duration);
 
       setTimeout(
         () => doc && doc.removeLineClass(editorLine, "line", "highlight-line"),

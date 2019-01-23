@@ -9,7 +9,7 @@
   --debug-line-error-border: rgb(255, 0, 0);
   --debug-expression-error-background: rgba(231, 116, 113, 0.3);
   --editor-header-height: 30px;
-  --highlight-line-duration: 1.5s;
+  --highlight-line-duration: 1500ms;
 }
 
 .theme-dark .editor-wrapper {
