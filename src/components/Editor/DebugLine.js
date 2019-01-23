@@ -45,7 +45,7 @@ export class DebugLine extends Component<Props> {
     const { why, frame, source } = this.props;
 
     startOperation();
-    this.clearDebugLine(prevProps.frame, prevProps.source, prevProps.why);
+    this.clearDebugLine(prevProps.why, prevProps.frame, prevProps.source);
     this.setDebugLine(why, frame, source);
     endOperation();
   }
@@ -76,7 +76,7 @@ export class DebugLine extends Component<Props> {
     );
   }
 
-  clearDebugLine(frame: Frame, source: Source, why: Why) {
+  clearDebugLine(why: Why, frame: Frame, source: Source) {
     if (!isDocumentReady(source, frame)) {
       return;
     }
