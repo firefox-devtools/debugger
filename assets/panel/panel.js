@@ -50,6 +50,11 @@ DebuggerPanel.prototype = {
             .setNodeFront(front, { reason: "debugger" });
 
           return Promise.all([onNodeFrontSet, onInspectorUpdated]);
+        }.bind(this),
+        openConsoleAndEvaluate: async function(input) {
+          const webconsolePanel = await this.toolbox.selectTool("webconsole");
+          const jsterm = webconsolePanel.hud.jsterm;
+          jsterm.execute(input);
         }.bind(this)
       }
     });
