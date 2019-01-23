@@ -63,8 +63,7 @@ type AddTabAction = {|
   +url: string,
   +framework?: string,
   +isOriginal?: boolean,
-  +sourceId?: string,
-  +thread: string
+  +sourceId?: string
 |};
 
 type UpdateTabAction = {|
@@ -72,8 +71,7 @@ type UpdateTabAction = {|
   +url: string,
   +framework?: string,
   +isOriginal?: boolean,
-  +sourceId?: string,
-  +thread: string
+  +sourceId?: string
 |};
 
 type ReplayAction =
@@ -151,7 +149,8 @@ export type QuickOpenAction =
 export type DebugeeAction =
   | {|
       +type: "SET_WORKERS",
-      +workers: WorkerList
+      +workers: WorkerList,
+      +mainThread: string
     |}
   | {|
       +type: "SELECT_THREAD",
