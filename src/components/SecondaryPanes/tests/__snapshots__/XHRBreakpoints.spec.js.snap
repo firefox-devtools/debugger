@@ -180,43 +180,45 @@ exports[`XHR Breakpoints should render with 8 expressions passed from props 1`] 
         onDoubleClick={[Function]}
         title="this is any"
       >
-        <input
-          checked={true}
-          className="xhr-checkbox"
-          onChange={[Function]}
-          onClick={[Function]}
-          type="checkbox"
-        />
-        <div
-          className="xhr-label-method"
-        >
-          ANY
-        </div>
-        <div
-          className="xhr-label-url"
-        >
-          this is any
-        </div>
-        <div
-          className="xhr-container__close-btn"
-        >
-          <CloseButton
-            handleClick={[Function]}
+        <label>
+          <input
+            checked={true}
+            className="xhr-checkbox"
+            onChange={[Function]}
+            onClick={[Function]}
+            type="checkbox"
+          />
+          <div
+            className="xhr-label-method"
           >
-            <button
-              className="close-btn"
-              onClick={[Function]}
+            ANY
+          </div>
+          <div
+            className="xhr-label-url"
+          >
+            this is any
+          </div>
+          <div
+            className="xhr-container__close-btn"
+          >
+            <CloseButton
+              handleClick={[Function]}
             >
-              <AccessibleImage
-                className="close"
+              <button
+                className="close-btn"
+                onClick={[Function]}
               >
-                <span
-                  className="img close"
-                />
-              </AccessibleImage>
-            </button>
-          </CloseButton>
-        </div>
+                <AccessibleImage
+                  className="close"
+                >
+                  <span
+                    className="img close"
+                  />
+                </AccessibleImage>
+              </button>
+            </CloseButton>
+          </div>
+        </label>
       </li>
       <li
         className="xhr-container"
@@ -224,43 +226,45 @@ exports[`XHR Breakpoints should render with 8 expressions passed from props 1`] 
         onDoubleClick={[Function]}
         title="this is get"
       >
-        <input
-          checked={true}
-          className="xhr-checkbox"
-          onChange={[Function]}
-          onClick={[Function]}
-          type="checkbox"
-        />
-        <div
-          className="xhr-label-method"
-        >
-          GET
-        </div>
-        <div
-          className="xhr-label-url"
-        >
-          this is get
-        </div>
-        <div
-          className="xhr-container__close-btn"
-        >
-          <CloseButton
-            handleClick={[Function]}
+        <label>
+          <input
+            checked={true}
+            className="xhr-checkbox"
+            onChange={[Function]}
+            onClick={[Function]}
+            type="checkbox"
+          />
+          <div
+            className="xhr-label-method"
           >
-            <button
-              className="close-btn"
-              onClick={[Function]}
+            GET
+          </div>
+          <div
+            className="xhr-label-url"
+          >
+            this is get
+          </div>
+          <div
+            className="xhr-container__close-btn"
+          >
+            <CloseButton
+              handleClick={[Function]}
             >
-              <AccessibleImage
-                className="close"
+              <button
+                className="close-btn"
+                onClick={[Function]}
               >
-                <span
-                  className="img close"
-                />
-              </AccessibleImage>
-            </button>
-          </CloseButton>
-        </div>
+                <AccessibleImage
+                  className="close"
+                >
+                  <span
+                    className="img close"
+                  />
+                </AccessibleImage>
+              </button>
+            </CloseButton>
+          </div>
+        </label>
       </li>
       <li
         className="xhr-container"
@@ -268,43 +272,45 @@ exports[`XHR Breakpoints should render with 8 expressions passed from props 1`] 
         onDoubleClick={[Function]}
         title="this is post"
       >
-        <input
-          checked={true}
-          className="xhr-checkbox"
-          onChange={[Function]}
-          onClick={[Function]}
-          type="checkbox"
-        />
-        <div
-          className="xhr-label-method"
-        >
-          POST
-        </div>
-        <div
-          className="xhr-label-url"
-        >
-          this is post
-        </div>
-        <div
-          className="xhr-container__close-btn"
-        >
-          <CloseButton
-            handleClick={[Function]}
+        <label>
+          <input
+            checked={true}
+            className="xhr-checkbox"
+            onChange={[Function]}
+            onClick={[Function]}
+            type="checkbox"
+          />
+          <div
+            className="xhr-label-method"
           >
-            <button
-              className="close-btn"
-              onClick={[Function]}
+            POST
+          </div>
+          <div
+            className="xhr-label-url"
+          >
+            this is post
+          </div>
+          <div
+            className="xhr-container__close-btn"
+          >
+            <CloseButton
+              handleClick={[Function]}
             >
-              <AccessibleImage
-                className="close"
+              <button
+                className="close-btn"
+                onClick={[Function]}
               >
-                <span
-                  className="img close"
-                />
-              </AccessibleImage>
-            </button>
-          </CloseButton>
-        </div>
+                <AccessibleImage
+                  className="close"
+                >
+                  <span
+                    className="img close"
+                  />
+                </AccessibleImage>
+              </button>
+            </CloseButton>
+          </div>
+        </label>
       </li>
       <li
         className="xhr-container"
@@ -312,43 +318,45 @@ exports[`XHR Breakpoints should render with 8 expressions passed from props 1`] 
         onDoubleClick={[Function]}
         title="this is put"
       >
-        <input
-          checked={true}
-          className="xhr-checkbox"
-          onChange={[Function]}
-          onClick={[Function]}
-          type="checkbox"
-        />
-        <div
-          className="xhr-label-method"
-        >
-          PUT
-        </div>
-        <div
-          className="xhr-label-url"
-        >
-          this is put
-        </div>
-        <div
-          className="xhr-container__close-btn"
-        >
-          <CloseButton
-            handleClick={[Function]}
+        <label>
+          <input
+            checked={true}
+            className="xhr-checkbox"
+            onChange={[Function]}
+            onClick={[Function]}
+            type="checkbox"
+          />
+          <div
+            className="xhr-label-method"
           >
-            <button
-              className="close-btn"
-              onClick={[Function]}
+            PUT
+          </div>
+          <div
+            className="xhr-label-url"
+          >
+            this is put
+          </div>
+          <div
+            className="xhr-container__close-btn"
+          >
+            <CloseButton
+              handleClick={[Function]}
             >
-              <AccessibleImage
-                className="close"
+              <button
+                className="close-btn"
+                onClick={[Function]}
               >
-                <span
-                  className="img close"
-                />
-              </AccessibleImage>
-            </button>
-          </CloseButton>
-        </div>
+                <AccessibleImage
+                  className="close"
+                >
+                  <span
+                    className="img close"
+                  />
+                </AccessibleImage>
+              </button>
+            </CloseButton>
+          </div>
+        </label>
       </li>
       <li
         className="xhr-container"
@@ -356,43 +364,45 @@ exports[`XHR Breakpoints should render with 8 expressions passed from props 1`] 
         onDoubleClick={[Function]}
         title="this is head"
       >
-        <input
-          checked={true}
-          className="xhr-checkbox"
-          onChange={[Function]}
-          onClick={[Function]}
-          type="checkbox"
-        />
-        <div
-          className="xhr-label-method"
-        >
-          HEAD
-        </div>
-        <div
-          className="xhr-label-url"
-        >
-          this is head
-        </div>
-        <div
-          className="xhr-container__close-btn"
-        >
-          <CloseButton
-            handleClick={[Function]}
+        <label>
+          <input
+            checked={true}
+            className="xhr-checkbox"
+            onChange={[Function]}
+            onClick={[Function]}
+            type="checkbox"
+          />
+          <div
+            className="xhr-label-method"
           >
-            <button
-              className="close-btn"
-              onClick={[Function]}
+            HEAD
+          </div>
+          <div
+            className="xhr-label-url"
+          >
+            this is head
+          </div>
+          <div
+            className="xhr-container__close-btn"
+          >
+            <CloseButton
+              handleClick={[Function]}
             >
-              <AccessibleImage
-                className="close"
+              <button
+                className="close-btn"
+                onClick={[Function]}
               >
-                <span
-                  className="img close"
-                />
-              </AccessibleImage>
-            </button>
-          </CloseButton>
-        </div>
+                <AccessibleImage
+                  className="close"
+                >
+                  <span
+                    className="img close"
+                  />
+                </AccessibleImage>
+              </button>
+            </CloseButton>
+          </div>
+        </label>
       </li>
       <li
         className="xhr-container"
@@ -400,43 +410,45 @@ exports[`XHR Breakpoints should render with 8 expressions passed from props 1`] 
         onDoubleClick={[Function]}
         title="this is delete"
       >
-        <input
-          checked={true}
-          className="xhr-checkbox"
-          onChange={[Function]}
-          onClick={[Function]}
-          type="checkbox"
-        />
-        <div
-          className="xhr-label-method"
-        >
-          DELETE
-        </div>
-        <div
-          className="xhr-label-url"
-        >
-          this is delete
-        </div>
-        <div
-          className="xhr-container__close-btn"
-        >
-          <CloseButton
-            handleClick={[Function]}
+        <label>
+          <input
+            checked={true}
+            className="xhr-checkbox"
+            onChange={[Function]}
+            onClick={[Function]}
+            type="checkbox"
+          />
+          <div
+            className="xhr-label-method"
           >
-            <button
-              className="close-btn"
-              onClick={[Function]}
+            DELETE
+          </div>
+          <div
+            className="xhr-label-url"
+          >
+            this is delete
+          </div>
+          <div
+            className="xhr-container__close-btn"
+          >
+            <CloseButton
+              handleClick={[Function]}
             >
-              <AccessibleImage
-                className="close"
+              <button
+                className="close-btn"
+                onClick={[Function]}
               >
-                <span
-                  className="img close"
-                />
-              </AccessibleImage>
-            </button>
-          </CloseButton>
-        </div>
+                <AccessibleImage
+                  className="close"
+                >
+                  <span
+                    className="img close"
+                  />
+                </AccessibleImage>
+              </button>
+            </CloseButton>
+          </div>
+        </label>
       </li>
       <li
         className="xhr-container"
@@ -444,43 +456,45 @@ exports[`XHR Breakpoints should render with 8 expressions passed from props 1`] 
         onDoubleClick={[Function]}
         title="this is patch"
       >
-        <input
-          checked={true}
-          className="xhr-checkbox"
-          onChange={[Function]}
-          onClick={[Function]}
-          type="checkbox"
-        />
-        <div
-          className="xhr-label-method"
-        >
-          PATCH
-        </div>
-        <div
-          className="xhr-label-url"
-        >
-          this is patch
-        </div>
-        <div
-          className="xhr-container__close-btn"
-        >
-          <CloseButton
-            handleClick={[Function]}
+        <label>
+          <input
+            checked={true}
+            className="xhr-checkbox"
+            onChange={[Function]}
+            onClick={[Function]}
+            type="checkbox"
+          />
+          <div
+            className="xhr-label-method"
           >
-            <button
-              className="close-btn"
-              onClick={[Function]}
+            PATCH
+          </div>
+          <div
+            className="xhr-label-url"
+          >
+            this is patch
+          </div>
+          <div
+            className="xhr-container__close-btn"
+          >
+            <CloseButton
+              handleClick={[Function]}
             >
-              <AccessibleImage
-                className="close"
+              <button
+                className="close-btn"
+                onClick={[Function]}
               >
-                <span
-                  className="img close"
-                />
-              </AccessibleImage>
-            </button>
-          </CloseButton>
-        </div>
+                <AccessibleImage
+                  className="close"
+                >
+                  <span
+                    className="img close"
+                  />
+                </AccessibleImage>
+              </button>
+            </CloseButton>
+          </div>
+        </label>
       </li>
       <li
         className="xhr-container"
@@ -488,43 +502,45 @@ exports[`XHR Breakpoints should render with 8 expressions passed from props 1`] 
         onDoubleClick={[Function]}
         title="this is options"
       >
-        <input
-          checked={true}
-          className="xhr-checkbox"
-          onChange={[Function]}
-          onClick={[Function]}
-          type="checkbox"
-        />
-        <div
-          className="xhr-label-method"
-        >
-          OPTIONS
-        </div>
-        <div
-          className="xhr-label-url"
-        >
-          this is options
-        </div>
-        <div
-          className="xhr-container__close-btn"
-        >
-          <CloseButton
-            handleClick={[Function]}
+        <label>
+          <input
+            checked={true}
+            className="xhr-checkbox"
+            onChange={[Function]}
+            onClick={[Function]}
+            type="checkbox"
+          />
+          <div
+            className="xhr-label-method"
           >
-            <button
-              className="close-btn"
-              onClick={[Function]}
+            OPTIONS
+          </div>
+          <div
+            className="xhr-label-url"
+          >
+            this is options
+          </div>
+          <div
+            className="xhr-container__close-btn"
+          >
+            <CloseButton
+              handleClick={[Function]}
             >
-              <AccessibleImage
-                className="close"
+              <button
+                className="close-btn"
+                onClick={[Function]}
               >
-                <span
-                  className="img close"
-                />
-              </AccessibleImage>
-            </button>
-          </CloseButton>
-        </div>
+                <AccessibleImage
+                  className="close"
+                >
+                  <span
+                    className="img close"
+                  />
+                </AccessibleImage>
+              </button>
+            </CloseButton>
+          </div>
+        </label>
       </li>
     </ul>
   </div>
