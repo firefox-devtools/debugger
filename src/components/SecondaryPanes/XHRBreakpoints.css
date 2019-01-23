@@ -19,10 +19,18 @@
    border: 1px solid red;
  }
 
+ .xhr-container label {
+   display: flex;
+ }
+
  .xhr-input-form {
   display: inline-flex;
   width: 100%;
   padding: 0.5em 1em 0.5em 1em;
+}
+
+.xhr-checkbox {
+  margin-inline-start: 0;
 }
 
 .xhr-input-url {
