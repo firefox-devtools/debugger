@@ -92,6 +92,9 @@ async function addBreakpointPromise(getState, client, sourceMaps, breakpoint) {
   };
 
   assertBreakpoint(newBreakpoint);
+  if(breakpoint.disabled){
+	  await client.removeBreakpoint(newGeneratedLocation);
+  }
 
   const previousLocation = locationMoved(location, newLocation)
     ? location
