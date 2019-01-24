@@ -353,3 +353,5 @@ export default connect(
     togglePauseOnAny: actions.togglePauseOnAny
   }
 )(XHRBreakpoints);
+
+export { xhrMethods };
