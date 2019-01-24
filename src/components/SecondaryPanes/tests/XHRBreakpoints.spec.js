@@ -5,7 +5,17 @@
 import React from "react";
 import { mount } from "enzyme";
 import XHRBreakpoints from "../XHRBreakpoints";
-import { xhrMethods } from "../XHRBreakpoints";
+
+const xhrMethods = [
+  "ANY",
+  "GET",
+  "POST",
+  "PUT",
+  "HEAD",
+  "DELETE",
+  "PATCH",
+  "OPTIONS"
+];
 
 // default state includes xhrBreakpoints[0] which is the checkbox that
 // enables breaking on any url during an XMLHTTPRequest
@@ -246,6 +256,7 @@ describe("XHR Breakpoints", function() {
       stopPropagation: jest.fn()
     };
     const availableXHRMethods = xhrMethods;
+    expect(availableXHRMethods.length > 0).toBeTruthy();
 
     // check each of the available methods to see whether
     // adding them as a method to a new breakpoint works as expected
