@@ -15,6 +15,7 @@ import FrameMenu from "./FrameMenu";
 import "./Group.css";
 
 import FrameComponent from "./Frame";
+import AccessibleImage from "../../shared/AccessibleImage";
 
 import type { LocalFrame } from "./types";
 import Badge from "../../shared/Badge";
