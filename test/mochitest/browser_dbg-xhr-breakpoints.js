@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
- async function addXHRBreakpoint(dbg, text) {
+ async function addXHRBreakpoint(dbg, text, method) {
   info("Adding a XHR breakpoint");
 
   const plusIcon = findElementWithSelector(dbg, ".xhr-breakpoints-pane .plus");
@@ -11,6 +11,11 @@
   }
   findElementWithSelector(dbg, ".xhr-input-url").focus();
   type(dbg, text);
+
+  if (method) {
+    findElementWithSelector(dbg, ".xhr-input-method").value = method;
+  }
+
   pressKey(dbg, "Enter");
 
   await waitForDispatch(dbg, "SET_XHR_BREAKPOINT");
@@ -47,7 +52,9 @@ async function clickPauseOnAny(dbg, expectedEvent) {
 // Tests that a basic XHR breakpoint works for get and POST is ignored
 add_task(async function() {
   const dbg = await initDebugger("doc-xhr.html", "fetch.js");
-  await dbg.actions.setXHRBreakpoint("doc", "GET");
+
+  await addXHRBreakpoint(dbg, "doc", "GET");
+
   invokeInTab("main", "doc-xhr.html");
   await waitForPaused(dbg);
   assertPausedLocation(dbg);
@@ -57,7 +64,8 @@ add_task(async function() {
   invokeInTab("main", "doc-xhr.html");
   assertNotPaused(dbg);
 
-  await dbg.actions.setXHRBreakpoint("doc-xhr.html", "POST");
+  await addXHRBreakpoint(dbg, "doc-xhr.html", "POST");
+
   invokeInTab("main", "doc");
   assertNotPaused(dbg);
 });
@@ -116,5 +124,4 @@ add_task(async function() {
     "134",
     "Only the desired breakpoint was removed"
   );
-
 });
