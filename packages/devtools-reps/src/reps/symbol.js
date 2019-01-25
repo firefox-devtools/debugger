@@ -8,7 +8,10 @@ const PropTypes = require("prop-types");
 const { getGripType, wrapRender } = require("./rep-utils");
 
 const dom = require("react-dom-factories");
+const { rep: StringRep } = require("./string");
 const { span } = dom;
+
+const MAX_STRING_LENGTH = 50;
 
 /**
  * Renders a symbol.
@@ -21,12 +24,28 @@ function SymbolRep(props) {
   const { className = "objectBox objectBox-symbol", object } = props;
   const { name } = object;
 
+  let symbolText;
+  if (!name) {
+    symbolText = "";
+  } else if (name.type && name.type === "longString") {
+    symbolText = StringRep({
+      object: name || "",
+      shouldCrop: true,
+      cropLimit: MAX_STRING_LENGTH
+    });
+  } else {
+    const { Rep } = require("./rep");
+    symbolText = Rep({ object: name });
+  }
+
   return span(
     {
       className,
       "data-link-actor-id": object.actor
     },
-    `Symbol(${name || ""})`
+    "Symbol(",
+    symbolText,
+    ")"
   );
 }
 

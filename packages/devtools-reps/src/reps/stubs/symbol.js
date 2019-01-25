@@ -14,4 +14,10 @@ stubs.set("SymbolWithoutIdentifier", {
   actor: "server1.conn1.child1/symbol2"
 });
 
+stubs.set("SymbolWithLongString", {
+  type: "symbol",
+  actor: "server1.conn1.child1/symbol1",
+  name: "aa".repeat(10000)
+});
+
 module.exports = stubs;
