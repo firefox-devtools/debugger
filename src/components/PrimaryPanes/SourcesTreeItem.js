@@ -218,8 +218,7 @@ class SourceTreeItem extends Component<Props, State> {
       source,
       focused,
       hasMatchingGeneratedSource,
-      hasSiblingOfSameName,
-      toggleBlackBox
+      hasSiblingOfSameName
     } = this.props;
 
     const suffix = hasMatchingGeneratedSource ? (
