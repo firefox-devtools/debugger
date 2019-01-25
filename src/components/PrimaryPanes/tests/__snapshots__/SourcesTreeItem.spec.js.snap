@@ -304,6 +304,7 @@ Object {
         "text": undefined,
         "url": "http://mdn.com/one.js",
       },
+      "toggleBlackBox": [MockFunction],
     },
     "refs": Object {},
     "state": null,
@@ -356,6 +357,7 @@ Object {
               "url": "http://mdn.com/one.js",
             }
           }
+          toggleBlackBox={[MockFunction]}
         />,
         "_forcedUpdate": false,
         "_instance": [Circular],
@@ -444,6 +446,7 @@ Object {
       "text": undefined,
       "url": "http://mdn.com/one.js",
     },
+    "toggleBlackBox": [MockFunction],
   },
 }
 `;
@@ -517,6 +520,7 @@ Object {
         "text": undefined,
         "url": "http://mdn.com/one.js",
       },
+      "toggleBlackBox": [MockFunction],
     },
     "refs": Object {},
     "state": null,
@@ -569,6 +573,7 @@ Object {
               "url": "http://mdn.com/one.js",
             }
           }
+          toggleBlackBox={[MockFunction]}
         />,
         "_forcedUpdate": false,
         "_instance": [Circular],
@@ -638,6 +643,7 @@ Object {
       "text": undefined,
       "url": "http://mdn.com/one.js",
     },
+    "toggleBlackBox": [MockFunction],
   },
 }
 `;
@@ -699,6 +705,7 @@ Object {
         "text": undefined,
         "url": "http://mdn.com/one.js",
       },
+      "toggleBlackBox": [MockFunction],
     },
     "refs": Object {},
     "state": null,
@@ -739,6 +746,7 @@ Object {
               "url": "http://mdn.com/one.js",
             }
           }
+          toggleBlackBox={[MockFunction]}
         />,
         "_forcedUpdate": false,
         "_instance": [Circular],
@@ -796,6 +804,7 @@ Object {
       "text": undefined,
       "url": "http://mdn.com/one.js",
     },
+    "toggleBlackBox": [MockFunction],
   },
 }
 `;
@@ -858,6 +867,7 @@ Object {
         "text": undefined,
         "url": "http://mdn.com/one.js",
       },
+      "toggleBlackBox": [MockFunction],
     },
     "refs": Object {},
     "state": null,
@@ -899,6 +909,7 @@ Object {
               "url": "http://mdn.com/one.js",
             }
           }
+          toggleBlackBox={[MockFunction]}
         />,
         "_forcedUpdate": false,
         "_instance": [Circular],
@@ -957,6 +968,7 @@ Object {
       "text": undefined,
       "url": "http://mdn.com/one.js",
     },
+    "toggleBlackBox": [MockFunction],
   },
 }
 `;
@@ -1007,6 +1019,7 @@ Object {
       "setExpanded": [MockFunction],
       "setProjectDirectoryRoot": [MockFunction],
       "source": null,
+      "toggleBlackBox": [MockFunction],
     },
     "refs": Object {},
     "state": null,
@@ -1034,6 +1047,7 @@ Object {
           setExpanded={[MockFunction]}
           setProjectDirectoryRoot={[MockFunction]}
           source={null}
+          toggleBlackBox={[MockFunction]}
         />,
         "_forcedUpdate": false,
         "_instance": [Circular],
@@ -1080,6 +1094,7 @@ Object {
     "setExpanded": [MockFunction],
     "setProjectDirectoryRoot": [MockFunction],
     "source": null,
+    "toggleBlackBox": [MockFunction],
   },
 }
 `;
@@ -1140,6 +1155,7 @@ Object {
         "text": undefined,
         "url": "http://mdn.com/one.js",
       },
+      "toggleBlackBox": [MockFunction],
     },
     "refs": Object {},
     "state": null,
@@ -1179,6 +1195,7 @@ Object {
               "url": "http://mdn.com/one.js",
             }
           }
+          toggleBlackBox={[MockFunction]}
         />,
         "_forcedUpdate": false,
         "_instance": [Circular],
@@ -1235,6 +1252,7 @@ Object {
       "text": undefined,
       "url": "http://mdn.com/one.js",
     },
+    "toggleBlackBox": [MockFunction],
   },
 }
 `;
@@ -1283,6 +1301,7 @@ Object {
       "setExpanded": [MockFunction],
       "setProjectDirectoryRoot": [MockFunction],
       "source": null,
+      "toggleBlackBox": [MockFunction],
     },
     "refs": Object {},
     "state": null,
@@ -1308,6 +1327,7 @@ Object {
           setExpanded={[MockFunction]}
           setProjectDirectoryRoot={[MockFunction]}
           source={null}
+          toggleBlackBox={[MockFunction]}
         />,
         "_forcedUpdate": false,
         "_instance": [Circular],
@@ -1352,6 +1372,7 @@ Object {
     "setExpanded": [MockFunction],
     "setProjectDirectoryRoot": [MockFunction],
     "source": null,
+    "toggleBlackBox": [MockFunction],
   },
 }
 `;
@@ -1402,6 +1423,7 @@ Object {
       "setExpanded": [MockFunction],
       "setProjectDirectoryRoot": [MockFunction],
       "source": null,
+      "toggleBlackBox": [MockFunction],
     },
     "refs": Object {},
     "state": null,
@@ -1429,6 +1451,7 @@ Object {
           setExpanded={[MockFunction]}
           setProjectDirectoryRoot={[MockFunction]}
           source={null}
+          toggleBlackBox={[MockFunction]}
         />,
         "_forcedUpdate": false,
         "_instance": [Circular],
@@ -1475,6 +1498,7 @@ Object {
     "setExpanded": [MockFunction],
     "setProjectDirectoryRoot": [MockFunction],
     "source": null,
+    "toggleBlackBox": [MockFunction],
   },
 }
 `;
@@ -1536,6 +1560,7 @@ Object {
         "text": undefined,
         "url": "http://mdn.com/one.js",
       },
+      "toggleBlackBox": [MockFunction],
     },
     "refs": Object {},
     "state": null,
@@ -1576,6 +1601,7 @@ Object {
               "url": "http://mdn.com/one.js",
             }
           }
+          toggleBlackBox={[MockFunction]}
         />,
         "_forcedUpdate": false,
         "_instance": [Circular],
@@ -1633,6 +1659,7 @@ Object {
       "text": undefined,
       "url": "http://mdn.com/one.js",
     },
+    "toggleBlackBox": [MockFunction],
   },
 }
 `;
@@ -1693,6 +1720,7 @@ Object {
         "text": undefined,
         "url": "http://mdn.com/one.js",
       },
+      "toggleBlackBox": [MockFunction],
     },
     "refs": Object {},
     "state": null,
@@ -1732,6 +1760,7 @@ Object {
               "url": "http://mdn.com/one.js",
             }
           }
+          toggleBlackBox={[MockFunction]}
         />,
         "_forcedUpdate": false,
         "_instance": [Circular],
@@ -1788,6 +1817,7 @@ Object {
       "text": undefined,
       "url": "http://mdn.com/one.js",
     },
+    "toggleBlackBox": [MockFunction],
   },
 }
 `;
@@ -1874,6 +1904,7 @@ Object {
         "text": undefined,
         "url": "http://mdn.com/one.js",
       },
+      "toggleBlackBox": [MockFunction],
     },
     "refs": Object {},
     "state": null,
@@ -1925,6 +1956,7 @@ Object {
               "url": "http://mdn.com/one.js",
             }
           }
+          toggleBlackBox={[MockFunction]}
         />,
         "_forcedUpdate": false,
         "_instance": [Circular],
@@ -2007,6 +2039,7 @@ Object {
       "text": undefined,
       "url": "http://mdn.com/one.js",
     },
+    "toggleBlackBox": [MockFunction],
   },
 }
 `;
@@ -2094,6 +2127,7 @@ Object {
         "text": undefined,
         "url": "http://mdn.com/one.js",
       },
+      "toggleBlackBox": [MockFunction],
     },
     "refs": Object {},
     "state": null,
@@ -2146,6 +2180,7 @@ Object {
               "url": "http://mdn.com/one.js",
             }
           }
+          toggleBlackBox={[MockFunction]}
         />,
         "_forcedUpdate": false,
         "_instance": [Circular],
@@ -2229,6 +2264,7 @@ Object {
       "text": undefined,
       "url": "http://mdn.com/one.js",
     },
+    "toggleBlackBox": [MockFunction],
   },
 }
 `;
