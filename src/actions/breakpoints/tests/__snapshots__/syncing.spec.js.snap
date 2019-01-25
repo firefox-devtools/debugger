@@ -18,7 +18,7 @@ Object {
       "sourceUrl": "http://localhost:8000/gen.js",
     },
     "id": "magic.js:3:",
-    "loading": false,
+    "loading": true,
     "location": Object {
       "column": undefined,
       "line": 3,
@@ -60,7 +60,7 @@ Object {
       "sourceUrl": "http://localhost:8000/gen.js",
     },
     "id": "magic.js:12:",
-    "loading": false,
+    "loading": true,
     "location": Object {
       "column": undefined,
       "line": 12,
@@ -132,7 +132,7 @@ Object {
       "sourceUrl": "http://localhost:8000/gen.js",
     },
     "id": "magic.js:3:",
-    "loading": false,
+    "loading": true,
     "location": Object {
       "column": undefined,
       "line": 3,
@@ -174,7 +174,7 @@ Object {
       "sourceUrl": "http://localhost:8000/gen.js",
     },
     "id": "magic.js:3:",
-    "loading": false,
+    "loading": true,
     "location": Object {
       "column": undefined,
       "line": 3,
