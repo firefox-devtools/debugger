@@ -31,7 +31,7 @@ function generateDefaults(editor, overrides) {
       why: { type: "breakpoint" }
     },
     frame: null,
-    selectedSource: makeSource("foo").source,
+    source: makeSource("foo").source,
     ...overrides
   };
 }
