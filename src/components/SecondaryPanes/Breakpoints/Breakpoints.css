@@ -119,11 +119,11 @@ html[dir="rtl"] .breakpoints-list .breakpoint.is-conditional {
 }
 
 html:not([dir="rtl"]) .breakpoints-list .breakpoint.log {
-  border-left-color: var(--theme-graphs-orange);
+  border-left-color: var(--theme-highlight-purple);
 }
 
 html[dir="rtl"] .breakpoints-list .breakpoint.log {
-  border-right-color: var(--theme-graphs-orange);
+  border-right-color: var(--theme-highlight-purple);
 }
 
 html .breakpoints-list .breakpoint.paused {
