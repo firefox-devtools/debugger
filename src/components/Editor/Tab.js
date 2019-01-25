@@ -28,7 +28,6 @@ import {
 import { shouldShowPrettyPrint } from "../../utils/editor";
 import { copyToTheClipboard } from "../../utils/clipboard";
 import { getTabMenuItems } from "../../utils/tabs";
-import { shouldBlackBox } from "../../utils/source";
 
 import {
   getSelectedSource,
@@ -145,7 +144,7 @@ class Tab extends PureComponent<Props> {
           label: source.isBlackBoxed
             ? L10N.getStr("sourceFooter.unblackbox")
             : L10N.getStr("sourceFooter.blackbox"),
-          click: () => toggleBlackBox(source),
+          click: () => toggleBlackBox(source)
         }
       },
       {
