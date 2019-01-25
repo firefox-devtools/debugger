@@ -29,7 +29,13 @@ import type { SourceLocation } from "../../types";
 import type { ThunkArgs } from "../types";
 import type { addBreakpointOptions } from "./";
 
-async function addBreakpointPromise(getState, client, sourceMaps, breakpoint, shiftKey = false) {
+async function addBreakpointPromise(
+  getState,
+  client,
+  sourceMaps,
+  breakpoint,
+  shiftKey = false
+) {
   const state = getState();
   const source = getSource(state, breakpoint.location.sourceId);
 
@@ -90,9 +96,9 @@ async function addBreakpointPromise(getState, client, sourceMaps, breakpoint, sh
     text,
     originalText
   };
-	if(!shiftKey){
-		newBreakpoint.disabled=false;
-	}
+  if (!shiftKey) {
+    newBreakpoint.disabled = false;
+  }
   assertBreakpoint(newBreakpoint);
 
   if (breakpoint.disabled && shiftKey) {
@@ -209,7 +215,13 @@ export function addDisabledBreakpoint(
     return dispatch({
       type: "ADD_BREAKPOINT",
       breakpoint,
-      [PROMISE]: addBreakpointPromise(getState, client, sourceMaps, breakpoint,true)
+      [PROMISE]: addBreakpointPromise(
+        getState,
+        client,
+        sourceMaps,
+        breakpoint,
+        true
+      )
     });
   };
 }
