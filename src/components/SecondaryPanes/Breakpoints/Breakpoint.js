@@ -127,10 +127,8 @@ class Breakpoint extends PureComponent<Props> {
 
   getBreakpointText() {
     const { breakpoint, selectedSource } = this.props;
-    return (
-      breakpoint.options.condition ||
-      getSelectedText(breakpoint, selectedSource)
-    );
+    const { condition, logValue } = breakpoint.options;
+    return condition || logValue || getSelectedText(breakpoint, selectedSource);
   }
 
   highlightText = memoize(
@@ -151,7 +149,6 @@ class Breakpoint extends PureComponent<Props> {
     const { breakpoint } = this.props;
     const text = this.getBreakpointText();
     const editor = getEditor();
-
     return (
       <div
         className={classnames({

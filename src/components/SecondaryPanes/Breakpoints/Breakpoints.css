@@ -118,11 +118,11 @@ html[dir="rtl"] .breakpoints-list .breakpoint.is-conditional {
   border-right-color: var(--theme-graphs-yellow);
 }
 
-html:not([dir="rtl"]) .breakpoints-list .breakpoint.is-conditional.log {
+html:not([dir="rtl"]) .breakpoints-list .breakpoint.log {
   border-left-color: var(--theme-graphs-orange);
 }
 
-html[dir="rtl"] .breakpoints-list .breakpoint.is-conditional.log {
+html[dir="rtl"] .breakpoints-list .breakpoint.log {
   border-right-color: var(--theme-graphs-orange);
 }
 
