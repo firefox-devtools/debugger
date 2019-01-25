@@ -626,7 +626,7 @@ export function getRelativeSourcesForThread(
   state: OuterState,
   thread: string
 ): SourcesMap {
-  return getRelativeSources(state)[thread];
+  return getRelativeSources(state)[thread] || {};
 }
 
 export function getFocusedSourceItem(state: OuterState): ?FocusItem {

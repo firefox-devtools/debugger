@@ -34,7 +34,6 @@ function makeMockSource(
   return {
     id,
     url,
-    thread: "FakeThread",
     isBlackBoxed: false,
     isPrettyPrinted: false,
     loadedState: text ? "loaded" : "unloaded",
