@@ -91,6 +91,7 @@ export function removeBreakpoint(breakpoint: Breakpoint) {
       type: "REMOVE_BREAKPOINT",
       breakpoint,
       disabled: false,
+      loading: false,
       [PROMISE]: removeBreakpointsPromise(client, getState(), breakpoint)
     });
   };

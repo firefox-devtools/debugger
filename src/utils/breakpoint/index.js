@@ -171,7 +171,7 @@ export function createBreakpoint(
       hidden: hidden || false
     },
     disabled: disabled || false,
-    loading: false,
+    loading: true,
     astLocation: astLocation || defaultASTLocation,
     generatedLocation: generatedLocation || location,
     location,
