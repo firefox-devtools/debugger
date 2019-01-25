@@ -119,7 +119,7 @@ class SourceTreeItem extends Component<Props, State> {
       // Flow requires some extra handling to ensure the value of contents.
       const { contents } = item;
 
-      if (!Array.isArray(contents, source)) {
+      if (!Array.isArray(contents)) {
         const copySourceUri2 = {
           id: "node-menu-copy-source",
           label: copySourceUri2Label,
