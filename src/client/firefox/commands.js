@@ -349,18 +349,16 @@ function pauseOnExceptions(
 }
 
 async function blackBox(
-  sourceId: SourceId,
+  sourceActor: SourceActor,
   isBlackBoxed: boolean,
   range?: Range
 ): Promise<*> {
-  const sourceClient = threadClient.source({ actor: sourceId });
+  const sourceClient = threadClient.source({ actor: sourceActor.actor });
   if (isBlackBoxed) {
     await sourceClient.unblackBox(range);
   } else {
     await sourceClient.blackBox(range);
   }
-
-  return { isBlackBoxed: !isBlackBoxed };
 }
 
 async function setPausePoints(
@@ -399,8 +397,8 @@ function pauseGrip(thread: string, func: Function): ObjectClient {
   return lookupThreadClient(thread).pauseGrip(func);
 }
 
-function registerSourceActor({ actor, source }) {
-  sourceActors[actor] = source;
+function registerSourceActor(sourceActor: SourceActor) {
+  sourceActors[sourceActor.actor] = sourceActor.source;
 }
 
 async function createSources(client: ThreadClient) {
@@ -408,11 +406,9 @@ async function createSources(client: ThreadClient) {
   if (!sources) {
     return null;
   }
-  const rv = sources.map(packet =>
+  return sources.map(packet =>
     createSource(client.actor, packet, { supportsWasm })
   );
-  rv.forEach(({ sourceActor }) => registerSourceActor(sourceActor));
-  return rv;
 }
 
 async function fetchSources(): Promise<any[]> {
@@ -499,6 +495,7 @@ const clientCommands = {
   getFrameScopes,
   pauseOnExceptions,
   fetchSources,
+  registerSourceActor,
   fetchWorkers,
   getMainThread,
   sendPacket,

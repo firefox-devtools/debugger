@@ -73,6 +73,7 @@ export function createSource(
     source: createdSource.id,
     thread
   };
+  clientCommands.registerSourceActor(sourceActor);
   return { sourceActor, source: (createdSource: Source) };
 }
 

@@ -53,6 +53,9 @@ export type SourcesState = {
   // sources can have the same URL.
   urls: UrlsMap,
 
+  // All original sources associated with a generated source.
+  originalSources: { [SourceId]: SourceId[] },
+
   // For each thread, all sources in that thread that are under the project root
   // and should be shown in the editor's sources pane.
   relativeSources: SourcesMapByThread,
@@ -69,6 +72,7 @@ export function initialSourcesState(): SourcesState {
     sources: {},
     sourceActors: {},
     urls: {},
+    originalSources: {},
     relativeSources: {},
     selectedLocation: undefined,
     pendingSelectedLocation: prefs.pendingSelectedLocation,
@@ -102,20 +106,14 @@ function update(
   let location = null;
 
   switch (action.type) {
-    case "UPDATE_SOURCE": {
-      const source = action.source;
-      return updateSources(state, [source]);
-    }
+    case "UPDATE_SOURCE":
+      return updateSources(state, [action.source]);
 
-    case "ADD_SOURCE": {
-      const source = action.source;
-      return updateSources(state, [source]);
-    }
+    case "ADD_SOURCE":
+      return updateSources(state, [action.source]);
 
-    case "ADD_SOURCES": {
-      state = updateSources(state, action.sources);
-      return updateSourceActors(state, action.sourceActors);
-    }
+    case "ADD_SOURCES":
+      return updateSources(state, action.sources, action.sourceActors);
 
     case "SET_WORKERS":
       return updateWorkers(state, action.workers, action.mainThread);
@@ -216,22 +214,59 @@ function setSourceTextProps(state, action: LoadSourceAction): SourcesState {
   return updateSources(state, [source]);
 }
 
-function updateSources(state, sources) {
+function updateSources(state, sources, sourceActors) {
+  const relativeSources = { ...state.relativeSources };
+  for (const thread in relativeSources) {
+    relativeSources[thread] = { ...relativeSources[thread] };
+  }
+
   state = {
     ...state,
     sources: { ...state.sources },
-    urls: { ...state.urls }
+    sourceActors: { ...state.sourceActors },
+    urls: { ...state.urls },
+    originalSources: { ...state.originalSources },
+    relativeSources
   };
 
-  return sources.reduce(
-    (newState, source) => updateSource(newState, source),
-    state
-  );
+  sources.forEach(source => updateSource(state, source));
+  if (sourceActors) {
+    sourceActors.forEach(sourceActor =>
+      updateForNewSourceActor(state, sourceActor)
+    );
+  }
+
+  return state;
+}
+
+function updateSourceUrl(state: SourcesState, source: Object) {
+  const existing = state.urls[source.url] || [];
+  if (!existing.includes(source.id)) {
+    state.urls[source.url] = [...existing, source.id];
+  }
+}
+
+function updateOriginalSources(state: SourcesState, source: Object) {
+  if (!isOriginalSource(source)) {
+    return;
+  }
+  const generatedId = originalToGeneratedId(source.id);
+  const existing = state.originalSources[generatedId] || [];
+  if (!existing.includes(source.id)) {
+    state.originalSources[generatedId] = [...existing, source.id];
+
+    // Update relative sources for any affected threads.
+    if (state.sourceActors[generatedId]) {
+      for (const sourceActor of state.sourceActors[generatedId]) {
+        updateRelativeSource(state, source, sourceActor);
+      }
+    }
+  }
 }
 
 function updateSource(state: SourcesState, source: Object) {
   if (!source.id) {
-    return state;
+    return;
   }
 
   const existingSource = state.sources[source.id];
@@ -241,51 +276,15 @@ function updateSource(state: SourcesState, source: Object) {
 
   state.sources[source.id] = updatedSource;
 
-  const existingUrls = state.urls[source.url];
-  state.urls[source.url] = existingUrls
-    ? [...existingUrls, source.id]
-    : [source.id];
-
-  return state;
+  updateSourceUrl(state, source);
+  updateOriginalSources(state, source);
 }
 
-function updateSourceActors(
+function updateRelativeSource(
   state: SourcesState,
-  newSourceActors: SourceActor[]
-) {
-  const sourceActors = { ...state.sourceActors };
-  for (const id in sourceActors) {
-    sourceActors[id] = sourceActors[id].concat();
-  }
-
-  const relativeSources = { ...state.relativeSources };
-  for (const thread in relativeSources) {
-    relativeSources[thread] = { ...relativeSources[thread] };
-  }
-
-  state = {
-    ...state,
-    sourceActors,
-    relativeSources
-  };
-
-  newSourceActors.forEach(sourceActor =>
-    updateForNewSourceActor(state, sourceActor)
-  );
-
-  return state;
-}
-
-function updateForNewSourceActor(
-  state: SourcesState,
+  source: Object,
   sourceActor: SourceActor
 ) {
-  if (!state.sourceActors[sourceActor.source]) {
-    state.sourceActors[sourceActor.source] = [];
-  }
-  state.sourceActors[sourceActor.source].push(sourceActor);
-
-  const source = state.sources[sourceActor.source];
   const root = state.projectDirectoryRoot;
 
   if (!underRoot(source, root)) {
@@ -303,6 +302,16 @@ function updateForNewSourceActor(
   state.relativeSources[sourceActor.thread][source.id] = relativeSource;
 }
 
+function updateForNewSourceActor(
+  state: SourcesState,
+  sourceActor: SourceActor
+) {
+  const existing = state.sourceActors[sourceActor.source] || [];
+  state.sourceActors[sourceActor.source] = [...existing, sourceActor];
+
+  updateRelativeSource(state, state.sources[sourceActor.source], sourceActor);
+}
+
 function updateWorkers(
   state: SourcesState,
   workers: WorkerList,
@@ -314,7 +323,7 @@ function updateWorkers(
   for (const actors: any of Object.values(state.sourceActors)) {
     for (const sourceActor of actors) {
       if (
-        workers.includes(sourceActor.thread) ||
+        workers.some(worker => worker.actor == sourceActor.thread) ||
         mainThread == sourceActor.thread
       ) {
         sourceActors.push(sourceActor);
@@ -322,8 +331,9 @@ function updateWorkers(
     }
   }
 
-  return updateSourceActors(
+  return updateSources(
     { ...state, sourceActors: {}, relativeSources: {} },
+    [],
     sourceActors
   );
 }
@@ -336,13 +346,14 @@ function updateProjectDirectoryRoot(state: SourcesState, root: string) {
     actors.forEach(sourceActor => sourceActors.push(sourceActor));
   }
 
-  return updateSourceActors(
+  return updateSources(
     {
       ...state,
       projectDirectoryRoot: root,
       sourceActors: {},
       relativeSources: {}
     },
+    [],
     sourceActors
   );
 }
