@@ -101,26 +101,9 @@ class XHRBreakpoints extends Component<Props, State> {
     e.preventDefault();
     e.stopPropagation();
 
-    const inputValueOnSubmit = e.target.children[0].value;
-    const inputMethodOnSubmit = e.target.children[1].value;
-
-    // callback for after the state is updated
-    // with actual input value and input method on submit
-    const setXHRBreakpoint = function() {
-      this.props.setXHRBreakpoint(
-        this.state.inputValue,
-        this.state.inputMethod
-      );
-      this.hideInput();
-    };
-
-    this.setState(
-      {
-        inputValue: inputValueOnSubmit,
-        inputMethod: inputMethodOnSubmit
-      },
-      setXHRBreakpoint
-    );
+    this.handleMethodChange({target: e.currentTarget.children[1]});
+    this.props.setXHRBreakpoint(this.state.inputValue, this.state.inputMethod);
+    this.hideInput();
   };
 
   handleExistingSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
@@ -143,11 +126,13 @@ class XHRBreakpoints extends Component<Props, State> {
     this.setState({ inputValue: target.value });
   };
 
-  handleMethodChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
+  handleMethodChange = (e) => {
     const target = e.target;
+    console.log('im changing')
     this.setState({
       focused: true,
       editing: true,
+      // $FlowIgnore
       inputMethod: target.value
     });
   };
