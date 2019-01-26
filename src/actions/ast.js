@@ -5,11 +5,11 @@
 // @flow
 
 import {
-  getGeneratedSource,
   getSource,
   getSourceFromId,
   getSelectedLocation,
-  isPaused
+  isPaused,
+  hasSymbols
 } from "../selectors";
 
 import { updateTab } from "./tabs";
@@ -56,11 +56,14 @@ export function setSourceMetaData(sourceId: SourceId) {
 
 export function setSymbols(sourceId: SourceId) {
   return async ({ dispatch, getState, sourceMaps }: ThunkArgs) => {
-    const id = sourceId;
-    const source = getSourceFromId(getState(), id);
+    const source = getSourceFromId(getState(), sourceId);
     // Fetch the source text only once.
-    if (requests.has(id)) {
-      return requests.get(id);
+    if (hasSymbols(getState(), source)) {
+      return;
+    }
+
+    if (requests.has(sourceId)) {
+      return requests.get(sourceId);
     }
 
     if (isLoaded(source)) {
@@ -68,28 +71,27 @@ export function setSymbols(sourceId: SourceId) {
     }
 
     const deferred = defer();
-    requests.set(id, deferred.promise);
+    requests.set(sourceId, deferred.promise);
 
     try {
       await dispatch({
         type: "SET_SYMBOLS",
         sourceId,
-        [PROMISE]: parser.getSymbols(id)
+        [PROMISE]: parser.getSymbols(sourceId)
       });
     } catch (e) {
       deferred.resolve();
-      requests.delete(id);
+      requests.delete(sourceId);
       return;
     }
 
-    const newSource = getSourceFromId(getState(), id);
+    const newSource = getSourceFromId(getState(), sourceId);
     if (!newSource) {
       return;
     }
 
     if (isOriginal(newSource) && !newSource.isWasm) {
-      const generatedSource = getGeneratedSource(getState(), source);
-      await dispatch(setSymbols(generatedSource.id));
+      await dispatch(setSymbols(newSource.id));
     }
 
     if (!newSource.isWasm) {
@@ -98,7 +100,7 @@ export function setSymbols(sourceId: SourceId) {
 
     // signal that the action is finished
     deferred.resolve();
-    requests.delete(id);
+    requests.delete(sourceId);
 
     await dispatch(setPausePoints(sourceId));
     await dispatch(setSourceMetaData(sourceId));
