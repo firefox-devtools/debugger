@@ -107,14 +107,20 @@ class XHRBreakpoints extends Component<Props, State> {
     // callback for after the state is updated
     // with actual input value and input method on submit
     const setXHRBreakpoint = function() {
-      this.props.setXHRBreakpoint(this.state.inputValue, this.state.inputMethod);
+      this.props.setXHRBreakpoint(
+        this.state.inputValue,
+        this.state.inputMethod
+      );
       this.hideInput();
-    }
+    };
 
-    this.setState({
-      inputValue: inputValueOnSubmit,
-      inputMethod: inputMethodOnSubmit
-    }, setXHRBreakpoint);
+    this.setState(
+      {
+        inputValue: inputValueOnSubmit,
+        inputMethod: inputMethodOnSubmit
+      },
+      setXHRBreakpoint
+    );
   };
 
   handleExistingSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
