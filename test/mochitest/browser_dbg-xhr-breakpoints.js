@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
- async function addXHRBreakpoint(dbg, text, method) {
+async function addXHRBreakpoint(dbg, text, method) {
   info("Adding a XHR breakpoint");
 
   const plusIcon = findElementWithSelector(dbg, ".xhr-breakpoints-pane .plus");
@@ -24,7 +24,9 @@
 async function removeXHRBreakpoint(dbg, index) {
   info("Removing a XHR breakpoint");
 
-  const closeButtons = dbg.win.document.querySelectorAll(".xhr-breakpoints-pane .close-btn");
+  const closeButtons = dbg.win.document.querySelectorAll(
+    ".xhr-breakpoints-pane .close-btn"
+  );
   if (closeButtons[index]) {
     closeButtons[index].click();
   }
@@ -33,7 +35,9 @@ async function removeXHRBreakpoint(dbg, index) {
 }
 
 function getXHRBreakpointsElements(dbg) {
-  return [...dbg.win.document.querySelectorAll(".xhr-breakpoints-pane .xhr-container")];
+  return [
+    ...dbg.win.document.querySelectorAll(".xhr-breakpoints-pane .xhr-container")
+  ];
 }
 
 function getXHRBreakpointLabels(elements) {
@@ -41,7 +45,10 @@ function getXHRBreakpointLabels(elements) {
 }
 
 function getXHRBreakpointCheckbox(dbg) {
-  return findElementWithSelector(dbg, ".xhr-breakpoints-pane .breakpoints-exceptions input");
+  return findElementWithSelector(
+    dbg,
+    ".xhr-breakpoints-pane .breakpoints-exceptions input"
+  );
 }
 
 async function clickPauseOnAny(dbg, expectedEvent) {
@@ -114,10 +121,7 @@ add_task(async function() {
 
   const listItems = getXHRBreakpointsElements(dbg);
   is(listItems.length, 3, "3 XHR breakpoints display in list");
-  is(
-    pauseOnAnyCheckbox.checked, true,
-    "The pause on any is still checked"
-  );
+  is(pauseOnAnyCheckbox.checked, true, "The pause on any is still checked");
   is(
     getXHRBreakpointLabels(listItems).join(""),
     "134",

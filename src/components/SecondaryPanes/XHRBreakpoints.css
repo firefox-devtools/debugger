@@ -2,28 +2,28 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
- .xhr-input-container {
-   display: block;
-   border: 1px solid transparent;
- }
+.xhr-input-container {
+  display: block;
+  border: 1px solid transparent;
+}
 
- .xhr-input-container.focused {
-   border: 1px solid var(--theme-highlight-blue);
- }
+.xhr-input-container.focused {
+  border: 1px solid var(--theme-highlight-blue);
+}
 
- :root.theme-dark .xhr-input-container.focused {
-   border: 1px solid var(--blue-50);
- }
+:root.theme-dark .xhr-input-container.focused {
+  border: 1px solid var(--blue-50);
+}
 
- .xhr-input-container.error {
-   border: 1px solid red;
- }
+.xhr-input-container.error {
+  border: 1px solid red;
+}
 
- .xhr-container label {
-   display: flex;
- }
+.xhr-container label {
+  display: flex;
+}
 
- .xhr-input-form {
+.xhr-input-form {
   display: inline-flex;
   width: 100%;
   padding: 0.5em 1em 0.5em 1em;

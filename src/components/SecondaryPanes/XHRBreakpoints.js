@@ -101,7 +101,9 @@ class XHRBreakpoints extends Component<Props, State> {
     e.preventDefault();
     e.stopPropagation();
 
-    this.handleMethodChange({target: e.currentTarget.children[1]});
+    this.handleMethodChange({
+      target: e.currentTarget.children[1]
+    });
     this.props.setXHRBreakpoint(this.state.inputValue, this.state.inputMethod);
     this.hideInput();
   };
@@ -126,9 +128,8 @@ class XHRBreakpoints extends Component<Props, State> {
     this.setState({ inputValue: target.value });
   };
 
-  handleMethodChange = (e) => {
+  handleMethodChange = e => {
     const target = e.target;
-    console.log('im changing')
     this.setState({
       focused: true,
       editing: true,
