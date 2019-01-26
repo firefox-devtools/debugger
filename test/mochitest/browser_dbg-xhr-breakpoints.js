@@ -55,7 +55,7 @@ add_task(async function() {
 
   await addXHRBreakpoint(dbg, "doc", "GET");
 
-  invokeInTab("main", "doc-xhr.html");
+  invokeInTab("main", "doc-xhr.html", "GET");
   await waitForPaused(dbg);
   assertPausedLocation(dbg);
   resume(dbg);
@@ -65,7 +65,6 @@ add_task(async function() {
   assertNotPaused(dbg);
 
   await addXHRBreakpoint(dbg, "doc-xhr.html", "POST");
-
   invokeInTab("main", "doc");
   assertNotPaused(dbg);
 });
