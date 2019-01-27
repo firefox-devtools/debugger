@@ -15,13 +15,13 @@ import { makeMockSource } from "../../../../utils/test-mockup";
 
 jest.mock("devtools-contextmenu");
 
-function render(overrides = {}, disabled = false) {
-  const props = generateDefaults(overrides, disabled);
+function render(disabled = false) {
+  const props = generateDefaults(disabled);
   const component = shallow(<BreakpointsContextMenu {...props} />);
   return { component, props };
 }
 
-function generateDefaults(overrides = {}, disabled) {
+function generateDefaults(disabled) {
   const breakpoints = [
     createBreakpoint(
       {
@@ -67,7 +67,6 @@ function generateDefaults(overrides = {}, disabled) {
     contextMenuEvent: ({ preventDefault: jest.fn() }: any),
     selectedSource: makeMockSource(),
     setBreakpointOptions: jest.fn()
-    // ...overrides
   };
   return props;
 }
@@ -95,7 +94,7 @@ describe("BreakpointsContextMenu", () => {
     });
 
     it("'enable others' calls toggleBreakpoints with proper arguments", () => {
-      const { props } = render({}, true);
+      const { props } = render(true);
       const menuItems = buildMenu.mock.calls[0][0];
       const enableOthers = menuItems.find(
         item => item.item.id === "node-menu-enable-others"

@@ -258,7 +258,5 @@ export default function showContextMenu(props: Props) {
   ];
 
   showMenu(contextMenuEvent, buildMenu(items));
-
-  // This is needed for flow to pass BreakpointsContextMenu.spec.js
   return null;
 }
