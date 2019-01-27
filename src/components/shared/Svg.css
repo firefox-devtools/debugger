@@ -89,6 +89,7 @@
 .img.react {
   mask: url(/images/react.svg) no-repeat;
   mask-size: 100%;
+  background: var(--theme-highlight-bluegrey);
 }
 
 .img.aframe {
@@ -271,6 +272,7 @@ span.img.marko {
 .img.angular {
   background-image: url(/images/angular.svg);
   background-repeat: no-repeat;
+  margin-inline-end: 6px;
 }
 
 .img.angular,
@@ -354,6 +356,49 @@ span.img.marko {
   transition: transform 0.18s ease;
 }
 
+/* source icon specific styles */
+.source-icon {
+  width: 15px;
+  height: 15px;
+  position: relative;
+  background-color: var(--theme-comment);
+  mask-size: 100%;
+  display: inline-block;
+  margin-inline-end: 5px;
+}
+
+.img.blackBox {
+  mask: url(/images/blackBox.svg) no-repeat;
+  mask-size: 100%;
+  background-color: var(--theme-highlight-blue);
+}
+
+.sources-list .img.blackBox {
+  width: 13px;
+  height: 13px;
+  margin-top: 2px;
+  margin-inline-start: 1px;
+  margin-inline-end: 6px;
+}
+
+.sources-list .tree .focused .img:not(.vue):not(.angular):not(.webpack):not(.dojo):not(.ember):not(.aframe):not(.marko):not(.mobx):not(.nextjs):not(.nuxtjs):not(.preact):not(.pug):not(.rxjs):not(.sencha-extjs),
+.sources-list .managed-tree .tree .node.focused .img.blackBox {
+  background: #ffffff;
+}
+
+.theme-dark .sources-list .managed-tree .tree .node .img.blackBox {
+  background-color: var(--theme-body-color);
+}
+
+.source-icon.prettyPrint {
+  mask: url(/images/prettyPrint.svg) no-repeat;
+  mask-size: 100%;
+  background: var(--theme-highlight-blue);
+  fill: var(--theme-textbox-box-shadow);
+}
+/* source icon specific styles */
+
+
 /* overrides tree component */
 .tree-node button.arrow {
   background: none;
@@ -397,32 +442,3 @@ html[dir="rtl"] .arrow,
 .theme-dark .webpack {
   opacity: 0.5;
 }
-
-.source-icon svg {
-  fill: var(--theme-comment);
-}
-
-.sources-list .tree .focused .img:not(.vue):not(.angular):not(.webpack):not(.dojo):not(.ember):not(.aframe):not(.marko):not(.mobx):not(.nextjs):not(.nuxtjs):not(.preact):not(.pug):not(.rxjs):not(.sencha-extjs),
-.sources-list .managed-tree .tree .node.focused .img.blackBox {
-  background: #ffffff;
-}
-
-/* Blackbox stuff */
-.theme-dark .sources-list .managed-tree .tree .node .img.blackBox {
-  background-color: var(--theme-body-color);
-}
-
-.img.blackBox {
-  mask: url(/images/blackBox.svg) no-repeat;
-  mask-size: 100%;
-  background-color: var(--theme-highlight-blue);
-}
-
-.sources-list .img.blackBox {
-  width: 13px;
-  height: 13px;
-  margin-top: 2px;
-  margin-inline-start: 1px;
-  margin-inline-end: 6px;
-}
-/* Blackbox stuff end */
