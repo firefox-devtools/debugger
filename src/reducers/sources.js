@@ -40,6 +40,7 @@ export type SourcesMapByThread = { [ThreadId]: SourcesMap };
 
 type SourceActorsMap = { [SourceId]: SourceActor[] };
 type UrlsMap = { [string]: SourceId[] };
+type PlainUrlsMap = { [string]: string[] };
 type GetRelativeSourcesSelector = OuterState => SourcesMapByThread;
 
 export type SourcesState = {
@@ -52,6 +53,11 @@ export type SourcesState = {
   // All sources associated with a given URL. When using source maps, multiple
   // sources can have the same URL.
   urls: UrlsMap,
+
+  // All full URLs belonging to a given plain (query string stripped) URL.
+  // Query strings are only shown in the Sources tab if they are required for
+  // disambiguation.
+  plainUrls: PlainUrlsMap,
 
   // All original sources associated with a generated source.
   originalSources: { [SourceId]: SourceId[] },
@@ -72,6 +78,7 @@ export function initialSourcesState(): SourcesState {
     sources: {},
     sourceActors: {},
     urls: {},
+    plainUrls: {},
     originalSources: {},
     relativeSources: {},
     selectedLocation: undefined,
@@ -225,6 +232,7 @@ function updateSources(state, sources, sourceActors) {
     sources: { ...state.sources },
     sourceActors: { ...state.sourceActors },
     urls: { ...state.urls },
+    plainUrls: { ...state.plainUrls },
     originalSources: { ...state.originalSources },
     relativeSources
   };
@@ -244,6 +252,17 @@ function updateSourceUrl(state: SourcesState, source: Object) {
   if (!existing.includes(source.id)) {
     state.urls[source.url] = [...existing, source.id];
   }
+}
+
+function updatePlainUrl(state: SourcesState, source: Object) {
+  // If we've seen this URL before, it will be in state.urls, and we shouldn't
+  // add it to plainUrls a second time.
+  if (!source.url || state.urls[source.url]) {
+    return;
+  }
+  const plainUrl = source.url.split("?")[0];
+  const existing = state.plainUrls[plainUrl] || [];
+  state.plainUrls[plainUrl] = [...existing, source.url];
 }
 
 function updateOriginalSources(state: SourcesState, source: Object) {
@@ -276,6 +295,7 @@ function updateSource(state: SourcesState, source: Object) {
 
   state.sources[source.id] = updatedSource;
 
+  updatePlainUrl(state, source);
   updateSourceUrl(state, source);
   updateOriginalSources(state, source);
 }
@@ -552,15 +572,12 @@ export function getSourcesUrlsInSources(
   state: OuterState,
   url: string
 ): string[] {
-  const urls = getUrls(state);
-  if (!url || !urls[url]) {
+  if (!url) {
     return [];
   }
   const plainUrl = url.split("?")[0];
-
-  return Object.keys(urls)
-    .filter(Boolean)
-    .filter(sourceUrl => sourceUrl.split("?")[0] === plainUrl);
+  const plainUrls = getPlainUrls(state);
+  return plainUrls[plainUrl] || [];
 }
 
 export function getHasSiblingOfSameName(state: OuterState, source: ?Source) {
@@ -583,6 +600,9 @@ export function getUrls(state: OuterState) {
   return state.sources.urls;
 }
 
+export function getPlainUrls(state: OuterState) {
+  return state.sources.plainUrls;
+}
 export function getSourceList(state: OuterState): Source[] {
   return (Object.values(getSources(state)): any);
 }
