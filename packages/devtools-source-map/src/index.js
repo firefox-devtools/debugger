@@ -37,6 +37,7 @@ const applySourceMap = dispatcher.task("applySourceMap");
 const clearSourceMaps = dispatcher.task("clearSourceMaps");
 const hasMappedSource = dispatcher.task("hasMappedSource");
 const getOriginalStackFrames = dispatcher.task("getOriginalStackFrames");
+const hasLoadedSourceMap = dispatcher.task("hasLoadedSourceMap");
 
 module.exports = {
   originalToGeneratedId,
@@ -56,6 +57,7 @@ module.exports = {
   applySourceMap,
   clearSourceMaps,
   getOriginalStackFrames,
+  hasLoadedSourceMap,
   startSourceMapWorker(url: string, assetRoot: string) {
     dispatcher.start(url);
     setAssetRootURL(assetRoot);

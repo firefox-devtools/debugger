@@ -14,7 +14,10 @@ const { SourceMapConsumer, SourceMapGenerator } = require("source-map");
 
 const { createConsumer } = require("./utils/createConsumer");
 const assert = require("./utils/assert");
-const { fetchSourceMap } = require("./utils/fetchSourceMap");
+const {
+  fetchSourceMap,
+  hasLoadedSourceMap
+} = require("./utils/fetchSourceMap");
 const {
   getSourceMap,
   setSourceMap,
@@ -373,5 +376,6 @@ module.exports = {
   getFileGeneratedRange,
   applySourceMap,
   clearSourceMaps,
-  hasMappedSource
+  hasMappedSource,
+  hasLoadedSourceMap
 };
