@@ -11,6 +11,7 @@ exports[`Frame getFrameTitle 1`] = `
   tabIndex={0}
   title="Jump to https://aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.com/assets/src/js/foo-view.js:10"
 >
+  <FrameIndent />
   <FrameTitle
     frame={
       Object {
@@ -36,6 +37,7 @@ exports[`Frame getFrameTitle 1`] = `
      
   </span>
   <FrameLocation
+    displayFullUrl={false}
     frame={
       Object {
         "displayName": "renderFoo",
@@ -48,6 +50,9 @@ exports[`Frame getFrameTitle 1`] = `
         },
       }
     }
+  />
+  <br
+    className="clipboard-only"
   />
 </div>
 `;
@@ -62,6 +67,7 @@ exports[`Frame library frame 1`] = `
   role="listitem"
   tabIndex={0}
 >
+  <FrameIndent />
   <FrameTitle
     frame={
       Object {
@@ -90,6 +96,7 @@ exports[`Frame library frame 1`] = `
      
   </span>
   <FrameLocation
+    displayFullUrl={false}
     frame={
       Object {
         "displayName": "updateEvents",
@@ -105,6 +112,9 @@ exports[`Frame library frame 1`] = `
         "toggleFrameworkGrouping": [MockFunction],
       }
     }
+  />
+  <br
+    className="clipboard-only"
   />
 </div>
 `;
@@ -119,6 +129,7 @@ exports[`Frame user frame (not selected) 1`] = `
   role="listitem"
   tabIndex={0}
 >
+  <FrameIndent />
   <FrameTitle
     frame={
       Object {
@@ -148,6 +159,7 @@ exports[`Frame user frame (not selected) 1`] = `
      
   </span>
   <FrameLocation
+    displayFullUrl={false}
     frame={
       Object {
         "displayName": "renderFoo",
@@ -164,6 +176,9 @@ exports[`Frame user frame (not selected) 1`] = `
         "toggleFrameworkGrouping": [MockFunction],
       }
     }
+  />
+  <br
+    className="clipboard-only"
   />
 </div>
 `;
@@ -178,6 +193,7 @@ exports[`Frame user frame 1`] = `
   role="listitem"
   tabIndex={0}
 >
+  <FrameIndent />
   <FrameTitle
     frame={
       Object {
@@ -207,6 +223,7 @@ exports[`Frame user frame 1`] = `
      
   </span>
   <FrameLocation
+    displayFullUrl={false}
     frame={
       Object {
         "displayName": "renderFoo",
@@ -223,6 +240,9 @@ exports[`Frame user frame 1`] = `
         "toggleFrameworkGrouping": [MockFunction],
       }
     }
+  />
+  <br
+    className="clipboard-only"
   />
 </div>
 `;
