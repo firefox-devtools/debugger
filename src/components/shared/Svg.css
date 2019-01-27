@@ -356,7 +356,7 @@ span.img.marko {
   transition: transform 0.18s ease;
 }
 
-/* source icon specific styles */
+/* source icon specific styles start*/
 .source-icon {
   width: 15px;
   height: 15px;
@@ -396,8 +396,7 @@ span.img.marko {
   background: var(--theme-highlight-blue);
   fill: var(--theme-textbox-box-shadow);
 }
-/* source icon specific styles */
-
+/* source icon specific styles end*/
 
 /* overrides tree component */
 .tree-node button.arrow {
