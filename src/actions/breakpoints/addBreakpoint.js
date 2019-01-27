@@ -101,7 +101,7 @@ async function addBreakpointPromise(
   }
   assertBreakpoint(newBreakpoint);
 
-  if (breakpoint.disabled && shiftKey) {
+  if (shiftKey) {
     await client.removeBreakpoint(newGeneratedLocation);
   }
 
