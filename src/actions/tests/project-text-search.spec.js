@@ -85,7 +85,8 @@ describe("project text search", () => {
         source: "function bla(x, y) {\n const bar = 4; return 2;\n}",
         contentType: "text/javascript"
       }),
-      getOriginalURLs: async () => [source2.url]
+      getOriginalURLs: async () => [source2.url],
+      hasLoadedSourceMap: async () => true
     };
 
     const { dispatch, getState } = createStore(threadClient, {}, mockMaps);
