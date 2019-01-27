@@ -78,6 +78,7 @@
 .img.javascript {
   mask: url(/images/javascript.svg) no-repeat;
   mask-size: 100%;
+  margin-inline-end: 5px;
 }
 
 .img.tab {
@@ -255,11 +256,16 @@ span.img.marko {
 .img.breadcrumb {
   mask: url(/images/breadcrumbs-divider.svg) no-repeat;
   mask-size: 100%;
+  width: 5px;
+  margin: 0 2px 0 6px;
+  vertical-align: bottom;
+  background: var(--theme-body-color-alt);
 }
 
 .img.home {
   mask: url(/images/home.svg) no-repeat;
   mask-size: 100%;
+  opacity: 0.5;
 }
 
 .img.angular {
@@ -395,3 +401,28 @@ html[dir="rtl"] .arrow,
 .source-icon svg {
   fill: var(--theme-comment);
 }
+
+.sources-list .tree .focused .img:not(.vue):not(.angular):not(.webpack):not(.dojo):not(.ember):not(.aframe):not(.marko):not(.mobx):not(.nextjs):not(.nuxtjs):not(.preact):not(.pug):not(.rxjs):not(.sencha-extjs),
+.sources-list .managed-tree .tree .node.focused .img.blackBox {
+  background: #ffffff;
+}
+
+/* Blackbox stuff */
+.theme-dark .sources-list .managed-tree .tree .node .img.blackBox {
+  background-color: var(--theme-body-color);
+}
+
+.img.blackBox {
+  mask: url(/images/blackBox.svg) no-repeat;
+  mask-size: 100%;
+  background-color: var(--theme-highlight-blue);
+}
+
+.sources-list .img.blackBox {
+  width: 13px;
+  height: 13px;
+  margin-top: 2px;
+  margin-inline-start: 1px;
+  margin-inline-end: 6px;
+}
+/* Blackbox stuff end */

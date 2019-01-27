@@ -26,29 +26,8 @@
   border-bottom: 1px solid var(--theme-splitter-color);
 }
 
-.sources-clear-root i {
-  margin-right: 5px;
-  position: relative;
-}
-
-.sources-clear-root svg {
-  width: 13px;
-  height: 13px;
-}
-
 .theme-dark .sources-clear-root {
   fill: var(--theme-body-color);
-}
-
-.sources-clear-root .home {
-  opacity: 0.5;
-}
-
-.sources-clear-root .breadcrumb {
-  width: 5px;
-  margin: 0 2px 0 6px;
-  vertical-align: bottom;
-  background: var(--theme-body-color-alt);
 }
 
 .sources-clear-root-label {
@@ -78,15 +57,6 @@
 .sources-list .managed-tree .tree .node {
   padding: 0 10px 0 3px;
   width: 100%;
-}
-
-.sources-list .img {
-  margin-inline-end: 5px;
-}
-
-.sources-list .tree .focused .img:not(.vue):not(.angular):not(.webpack):not(.dojo):not(.ember):not(.aframe):not(.marko):not(.mobx):not(.nextjs):not(.nuxtjs):not(.preact):not(.pug):not(.rxjs):not(.sencha-extjs),
-.sources-list .managed-tree .tree .node.focused .img.blackBox {
-  background: #ffffff;
 }
 
 .sources-list .tree .label .suffix {
@@ -210,22 +180,6 @@
 
 .source-outline-panel.has-root .thread-header {
   margin-top: 4px;
-}
-
-.sources-list .managed-tree .tree .node .img.blackBox {
-  mask: url(/images/blackBox.svg) no-repeat;
-  mask-size: 100%;
-  background-color: var(--theme-highlight-blue);
-  width: 13px;
-  height: 13px;
-  display: inline-block;
-  margin-inline-end: 6px;
-  margin-inline-start: 1px;
-  margin-top: 2px;
-}
-
-.theme-dark .sources-list .managed-tree .tree .node .img.blackBox {
-  background-color: var(--theme-body-color);
 }
 
 /*

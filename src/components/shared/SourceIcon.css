@@ -28,12 +28,6 @@
   background-size: 13px 13px;
 }
 
-.source-icon.blackBox {
-  mask: url(/images/blackBox.svg) no-repeat;
-  mask-size: 100%;
-  background: var(--theme-highlight-blue);
-}
-
 .source-icon.react {
   mask-size: 100%;
   background: var(--theme-highlight-bluegrey);
