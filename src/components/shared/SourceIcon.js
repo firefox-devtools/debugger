@@ -17,6 +17,8 @@ import { getSourceMetaData, getTabs } from "../../selectors";
 import type { Source } from "../../types";
 import type { SourceMetaDataType } from "../../reducers/ast";
 
+import "./SourceIcon.css";
+
 type Props = {
   source: Source,
   // sourceMetaData will provide framework information
