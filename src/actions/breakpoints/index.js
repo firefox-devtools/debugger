@@ -364,7 +364,10 @@ export function toggleBreakpointAtLine(line: number) {
   };
 }
 
-export function addBreakpointAtLine(line: number) {
+export function addBreakpointAtLine(
+  line: number,
+  shouldDisable: boolean = false
+) {
   return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const state = getState();
     const source = getSelectedSource(state);
@@ -374,12 +377,15 @@ export function addBreakpointAtLine(line: number) {
     }
 
     return dispatch(
-      addBreakpoint({
-        sourceId: source.id,
-        sourceUrl: source.url,
-        column: undefined,
-        line
-      })
+      addBreakpoint(
+        {
+          sourceId: source.id,
+          sourceUrl: source.url,
+          column: undefined,
+          line
+        },
+        { disabled: shouldDisable }
+      )
     );
   };
 }

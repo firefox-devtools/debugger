@@ -101,7 +101,7 @@ async function addBreakpointPromise(getState, client, sourceMaps, breakpoint) {
 
   const newBreakpoint = {
     id: makeBreakpointId(generatedLocation),
-    disabled: false,
+    disabled: breakpoint.disabled,
     loading: false,
     options: breakpoint.options,
     location: newLocation,
