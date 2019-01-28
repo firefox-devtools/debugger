@@ -49,7 +49,7 @@ function createOriginalSource(
   };
 }
 
-function loadSourceMaps(sources: Source[], existingMapsOnly: boolean) {
+function loadSourceMaps(sources: Source[]) {
   return async function({
     dispatch,
     sourceMaps
@@ -60,9 +60,7 @@ function loadSourceMaps(sources: Source[], existingMapsOnly: boolean) {
 
     const sourceList = await Promise.all(
       sources.map(async ({ id }) => {
-        const originalSources = await dispatch(
-          loadSourceMap(id, existingMapsOnly)
-        );
+        const originalSources = await dispatch(loadSourceMap(id));
         sourceQueue.queueSources(originalSources);
         return originalSources;
       })
@@ -77,7 +75,7 @@ function loadSourceMaps(sources: Source[], existingMapsOnly: boolean) {
  * @memberof actions/sources
  * @static
  */
-function loadSourceMap(sourceId: SourceId, existingMapsOnly: boolean) {
+function loadSourceMap(sourceId: SourceId) {
   return async function({
     dispatch,
     getState,
@@ -100,16 +98,6 @@ function loadSourceMap(sourceId: SourceId, existingMapsOnly: boolean) {
         // however, so use that for resolving any source maps in the source.
         urlInfo.url = urlInfo.introductionUrl;
       }
-
-      if (existingMapsOnly) {
-        // When existingMapsOnly is set we can only load source maps which won't
-        // require making a network request.
-        const loaded = await sourceMaps.hasLoadedSourceMap(urlInfo);
-        if (!loaded) {
-          return [];
-        }
-      }
-
       urls = await sourceMaps.getOriginalURLs(urlInfo);
     } catch (e) {
       console.error(e);
@@ -238,14 +226,7 @@ export function newSources(sources: Source[]) {
     // after loading all states to make sure the correctness.
     dispatch(restoreBlackBoxedSources(sources));
 
-    // Block while handling sources whose maps have already been loaded and will
-    // not require a network request. We need to wait for these loads to finish
-    // so that we can find the loaded source if the user tries to view it.
-    // If a network request is required we don't want to block, so that the
-    // debugger does not get suspended while the network request completes.
-    await dispatch(loadSourceMaps(sources, true));
-
-    dispatch(loadSourceMaps(sources, false)).then(() => {
+    dispatch(loadSourceMaps(sources)).then(() => {
       // We would like to sync breakpoints after we are done
       // loading source maps as sometimes generated and original
       // files share the same paths.

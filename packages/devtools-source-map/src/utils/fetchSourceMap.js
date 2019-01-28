@@ -5,12 +5,7 @@
 // @flow
 
 const { networkRequest } = require("devtools-utils");
-const {
-  getSourceMap,
-  setSourceMap,
-  addLoadedSourceMapURL,
-  hasLoadedSourceMapURL
-} = require("./sourceMapRequests");
+const { getSourceMap, setSourceMap } = require("./sourceMapRequests");
 const { WasmRemap } = require("./wasmRemap");
 const { SourceMapConsumer } = require("source-map");
 const { convertToJSON } = require("./convertToJSON");
@@ -60,7 +55,6 @@ async function _resolveAndFetch(generatedSource: Source): SourceMapConsumer {
     }
   }
 
-  addLoadedSourceMapURL(sourceMapURL);
   return map;
 }
 
@@ -90,9 +84,4 @@ function fetchSourceMap(generatedSource: Source) {
   return req;
 }
 
-function hasLoadedSourceMap(generatedSource: Source) {
-  const { sourceMapURL } = _resolveSourceMapURL(generatedSource);
-  return hasLoadedSourceMapURL(sourceMapURL);
-}
-
-module.exports = { fetchSourceMap, hasLoadedSourceMap };
+module.exports = { fetchSourceMap };

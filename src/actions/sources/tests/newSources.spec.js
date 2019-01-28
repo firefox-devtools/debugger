@@ -57,8 +57,7 @@ describe("sources - new sources", () => {
       threadClient,
       {},
       {
-        getOriginalURLs: async () => ["magic.js"],
-        hasLoadedSourceMap: async () => true
+        getOriginalURLs: async () => ["magic.js"]
       }
     );
 
@@ -71,14 +70,7 @@ describe("sources - new sources", () => {
   // eslint-disable-next-line
   it("should not attempt to fetch original sources if it's missing a source map url", async () => {
     const getOriginalURLs = jest.fn();
-    const { dispatch } = createStore(
-      threadClient,
-      {},
-      {
-        getOriginalURLs,
-        hasLoadedSourceMap: async () => true
-      }
-    );
+    const { dispatch } = createStore(threadClient, {}, { getOriginalURLs });
 
     await dispatch(actions.newSource(makeSource("base.js")));
     expect(getOriginalURLs).not.toHaveBeenCalled();
@@ -96,8 +88,7 @@ describe("sources - new sources", () => {
       threadClient,
       {},
       {
-        getOriginalURLs: async () => new Promise(_ => {}),
-        hasLoadedSourceMap: async () => false
+        getOriginalURLs: async () => new Promise(_ => {})
       }
     );
     const baseSource = makeSource("base.js", { sourceMapURL: "base.js.map" });
@@ -121,8 +112,7 @@ describe("sources - new sources", () => {
 
           return [source.id.replace(".js", ".cljs")];
         },
-        getGeneratedLocation: location => location,
-        hasLoadedSourceMap: async () => false
+        getGeneratedLocation: location => location
       }
     );
     const { dispatch, getState } = dbg;
@@ -137,30 +127,5 @@ describe("sources - new sources", () => {
     expect(barCljs.url).toEqual("bar.cljs");
     const bazzCljs = getSourceByURL(getState(), "bazz.cljs", true);
     expect(bazzCljs.url).toEqual("bazz.cljs");
-  });
-
-  // eslint-disable-next-line
-  it("should immediately load maps that have already been loaded", async () => {
-    const dbg = createStore(
-      threadClient,
-      {},
-      {
-        getOriginalURLs: async source => {
-          return [source.id.replace(".js", ".cljs")];
-        },
-        getGeneratedLocation: location => location,
-        hasLoadedSourceMap: async source => source.id == "foo.js"
-      }
-    );
-    const { dispatch, getState } = dbg;
-    const fooSource = makeSource("foo.js", { sourceMapURL: "foo.js.map" });
-    const barSource = makeSource("bar.js", { sourceMapURL: "bar.js.map" });
-    await dispatch(actions.newSources([fooSource, barSource]));
-    await sourceQueue.flush();
-    expect(getSourceCount(getState())).toEqual(3);
-    const fooCljs = getSourceByURL(getState(), "foo.cljs", true);
-    expect(fooCljs.url).toEqual("foo.cljs");
-    const barCljs = getSourceByURL(getState(), "bar.cljs", true);
-    expect(barCljs).toEqual(undefined);
   });
 });

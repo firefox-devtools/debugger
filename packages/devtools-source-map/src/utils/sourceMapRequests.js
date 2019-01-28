@@ -3,11 +3,9 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 const sourceMapRequests = new Map();
-const loadedSourceMapURLs = new Set();
 
 function clearSourceMaps() {
   sourceMapRequests.clear();
-  loadedSourceMapURLs.clear();
 }
 
 function getSourceMap(generatedSourceId: string): ?Promise<SourceMapConsumer> {
@@ -18,18 +16,8 @@ function setSourceMap(generatedId, request) {
   sourceMapRequests.set(generatedId, request);
 }
 
-function addLoadedSourceMapURL(url: string) {
-  loadedSourceMapURLs.add(url);
-}
-
-function hasLoadedSourceMapURL(url: string) {
-  return loadedSourceMapURLs.has(url);
-}
-
 module.exports = {
   clearSourceMaps,
   getSourceMap,
-  setSourceMap,
-  addLoadedSourceMapURL,
-  hasLoadedSourceMapURL
+  setSourceMap
 };
