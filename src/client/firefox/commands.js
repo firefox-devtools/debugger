@@ -281,9 +281,7 @@ function evaluate(
     return Promise.resolve({ result: null });
   }
 
-  return new Promise(resolve => {
-    console.evaluateJSAsync(script, result => resolve(result), params);
-  });
+  return console.evaluateJSAsync(script, params);
 }
 
 function autocomplete(
