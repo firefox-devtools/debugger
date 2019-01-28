@@ -56,6 +56,7 @@ exports[`XHR Breakpoints should render with 0 expressions passed from props 1`] 
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
+            onKeyDown={[Function]}
             placeholder="Break when URL contains"
             type="text"
             value=""
@@ -176,7 +177,7 @@ exports[`XHR Breakpoints should render with 8 expressions passed from props 1`] 
     >
       <li
         className="xhr-container"
-        key="this is any"
+        key="this is any-ANY"
         onDoubleClick={[Function]}
         title="this is any"
       >
@@ -222,7 +223,7 @@ exports[`XHR Breakpoints should render with 8 expressions passed from props 1`] 
       </li>
       <li
         className="xhr-container"
-        key="this is get"
+        key="this is get-GET"
         onDoubleClick={[Function]}
         title="this is get"
       >
@@ -268,7 +269,7 @@ exports[`XHR Breakpoints should render with 8 expressions passed from props 1`] 
       </li>
       <li
         className="xhr-container"
-        key="this is post"
+        key="this is post-POST"
         onDoubleClick={[Function]}
         title="this is post"
       >
@@ -314,7 +315,7 @@ exports[`XHR Breakpoints should render with 8 expressions passed from props 1`] 
       </li>
       <li
         className="xhr-container"
-        key="this is put"
+        key="this is put-PUT"
         onDoubleClick={[Function]}
         title="this is put"
       >
@@ -360,7 +361,7 @@ exports[`XHR Breakpoints should render with 8 expressions passed from props 1`] 
       </li>
       <li
         className="xhr-container"
-        key="this is head"
+        key="this is head-HEAD"
         onDoubleClick={[Function]}
         title="this is head"
       >
@@ -406,7 +407,7 @@ exports[`XHR Breakpoints should render with 8 expressions passed from props 1`] 
       </li>
       <li
         className="xhr-container"
-        key="this is delete"
+        key="this is delete-DELETE"
         onDoubleClick={[Function]}
         title="this is delete"
       >
@@ -452,7 +453,7 @@ exports[`XHR Breakpoints should render with 8 expressions passed from props 1`] 
       </li>
       <li
         className="xhr-container"
-        key="this is patch"
+        key="this is patch-PATCH"
         onDoubleClick={[Function]}
         title="this is patch"
       >
@@ -498,7 +499,7 @@ exports[`XHR Breakpoints should render with 8 expressions passed from props 1`] 
       </li>
       <li
         className="xhr-container"
-        key="this is options"
+        key="this is options-OPTIONS"
         onDoubleClick={[Function]}
         title="this is options"
       >
