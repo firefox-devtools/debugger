@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-.frames [role="list"] {
+.frames [role="list"]l {
   list-style: none;
   margin-top: 4px;
   padding: 0;
@@ -58,12 +58,12 @@
   overflow: hidden;
 }
 
-.frames [role="list"] [role="listitem"]:hover,
-.frames [role="list"] [role="listitem"]:focus {
+[role="list"] [role="listitem"]hover,
+[role="list"] [role="listitem"]focus {
   background-color: var(--theme-toolbar-background-alt);
 }
 
-.theme-dark .frames [role="list"] [role="listitem"]:focus {
+.theme-dark [role="list"] [role="listitem"]focus {
   background-color: var(--theme-tab-toolbar-background);
 }
 
