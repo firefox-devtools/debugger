@@ -58,7 +58,10 @@ function update(
     }
 
     case "DISABLE_BREAKPOINT": {
-      return updateBreakpoint(state, action);
+      console.log("BEFORE_DISABLE " + JSON.stringify(state));
+      const newState = updateBreakpoint(state, action);
+      console.log("AFTER_DISABLE " + JSON.stringify(state));
+      return newState;
     }
 
     case "DISABLE_ALL_BREAKPOINTS": {
