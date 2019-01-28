@@ -23,7 +23,8 @@ import {
   getRawSourceURL,
   getSourceQueryString,
   getTruncatedFileName,
-  isPretty
+  isPretty,
+  shouldBlackbox
 } from "../../utils/source";
 import { shouldShowPrettyPrint } from "../../utils/editor";
 import { copyToTheClipboard } from "../../utils/clipboard";
@@ -144,6 +145,7 @@ class Tab extends PureComponent<Props> {
           label: source.isBlackBoxed
             ? L10N.getStr("sourceFooter.unblackbox")
             : L10N.getStr("sourceFooter.blackbox"),
+          disabled: !shouldBlackbox(source),
           click: () => toggleBlackBox(source)
         }
       },
