@@ -24,18 +24,14 @@ function SymbolRep(props) {
   const { className = "objectBox objectBox-symbol", object } = props;
   const { name } = object;
 
-  let symbolText;
-  if (!name) {
-    symbolText = "";
-  } else if (name.type && name.type === "longString") {
+  let symbolText = name || "";
+  if (name && name.type && name.type === "longString") {
     symbolText = StringRep({
-      object: name || "",
+      object: symbolText,
       shouldCrop: true,
-      cropLimit: MAX_STRING_LENGTH
+      cropLimit: MAX_STRING_LENGTH,
+      useQuotes: false
     });
-  } else {
-    const { Rep } = require("./rep");
-    symbolText = Rep({ object: name });
   }
 
   return span(
