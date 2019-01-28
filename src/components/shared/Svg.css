@@ -263,6 +263,12 @@ span.img.marko {
   background: var(--theme-body-color-alt);
 }
 
+.img.blackBox {
+  mask: url(/images/blackBox.svg) no-repeat;
+  mask-size: 100%;
+  background-color: var(--theme-highlight-blue);
+}
+
 .img.home {
   mask: url(/images/home.svg) no-repeat;
   mask-size: 100%;
@@ -356,7 +362,7 @@ span.img.marko {
   transition: transform 0.18s ease;
 }
 
-/* source icon specific styles start*/
+/* Source icons */
 .source-icon {
   width: 15px;
   height: 15px;
@@ -365,20 +371,6 @@ span.img.marko {
   mask-size: 100%;
   display: inline-block;
   margin-inline-end: 5px;
-}
-
-.img.blackBox {
-  mask: url(/images/blackBox.svg) no-repeat;
-  mask-size: 100%;
-  background-color: var(--theme-highlight-blue);
-}
-
-.sources-list .img.blackBox {
-  width: 13px;
-  height: 13px;
-  margin-top: 2px;
-  margin-inline-start: 1px;
-  margin-inline-end: 6px;
 }
 
 .sources-list .tree .focused .img:not(.vue):not(.angular):not(.webpack):not(.dojo):not(.ember):not(.aframe):not(.marko):not(.mobx):not(.nextjs):not(.nuxtjs):not(.preact):not(.pug):not(.rxjs):not(.sencha-extjs),
@@ -390,13 +382,14 @@ span.img.marko {
   background-color: var(--theme-body-color);
 }
 
+/* Can't replicate .prettyPrint (see issue #7784). Once resolved, */
+/* selector can be changed to .img.prettyPrint for consistency */
 .source-icon.prettyPrint {
   mask: url(/images/prettyPrint.svg) no-repeat;
   mask-size: 100%;
   background: var(--theme-highlight-blue);
   fill: var(--theme-textbox-box-shadow);
 }
-/* source icon specific styles end*/
 
 /* overrides tree component */
 .tree-node button.arrow {
