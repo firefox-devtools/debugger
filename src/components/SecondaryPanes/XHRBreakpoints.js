@@ -175,7 +175,7 @@ class XHRBreakpoints extends Component<Props, State> {
     if (e.key === "Tab") {
       e.preventDefault();
     }
-  }
+  };
 
   editExpression = index => {
     const { xhrBreakpoints } = this.props;
@@ -252,7 +252,7 @@ class XHRBreakpoints extends Component<Props, State> {
     return (
       <li
         className="xhr-container"
-        key={path + '-' + method}
+        key={`${path}-${method}`}
         title={path}
         onDoubleClick={(items, options) => this.editExpression(index)}
       >
