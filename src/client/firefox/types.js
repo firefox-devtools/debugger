@@ -227,7 +227,7 @@ export type TabTarget = {
       script: Script,
       func: Function,
       params?: { frameActor: ?FrameId }
-    ) => void,
+    ) => Promise<{ result: ?Object }>,
     autocomplete: (
       input: string,
       cursor: number,
