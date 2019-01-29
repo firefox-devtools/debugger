@@ -19,6 +19,7 @@ import { loadSourceText } from "../sources/loadSourceText";
 import { togglePaneCollapse } from "../ui";
 import { command } from "./commands";
 import { shouldStep } from "../../utils/pause";
+import { setSymbols } from "../ast.js";
 
 import { updateFrameLocation } from "./mapFrames";
 
@@ -74,6 +75,7 @@ export function paused(pauseInfo: Pause) {
       dispatch(removeBreakpoint(hiddenBreakpoint));
     }
 
+    await dispatch(setSymbols(topFrame.location.sourceId));
     await dispatch(mapFrames());
 
     const selectedFrame = getSelectedFrame(getState());
