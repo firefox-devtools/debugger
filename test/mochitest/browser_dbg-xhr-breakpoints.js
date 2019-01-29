@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-async function addXHRBreakpoint(dbg, text, method) {
+async function addXHRBreakpoint(dbg, text, method, forceChangeEvent) {
   info("Adding a XHR breakpoint");
 
   const plusIcon = findElementWithSelector(dbg, ".xhr-breakpoints-pane .plus");
@@ -14,6 +14,17 @@ async function addXHRBreakpoint(dbg, text, method) {
 
   if (method) {
     findElementWithSelector(dbg, ".xhr-input-method").value = method;
+  }
+
+  if (forceChangeEvent) {
+    pressKey(dbg, "Tab");
+    pressKey(dbg, "Down");
+    pressKey(dbg, "Down");
+    pressKey(dbg, "Enter");
+    pressKey(dbg, "Tab");
+    pressKey(dbg, "Up");
+    pressKey(dbg, "Up");
+    pressKey(dbg, "Enter");
   }
 
   pressKey(dbg, "Enter");
@@ -60,7 +71,7 @@ async function clickPauseOnAny(dbg, expectedEvent) {
 add_task(async function() {
   const dbg = await initDebugger("doc-xhr.html", "fetch.js");
 
-  await addXHRBreakpoint(dbg, "doc", "GET");
+  await addXHRBreakpoint(dbg, "doc", "GET", true);
 
   invokeInTab("main", "doc-xhr.html", "GET");
   await waitForPaused(dbg);
@@ -68,11 +79,11 @@ add_task(async function() {
   resume(dbg);
 
   await dbg.actions.removeXHRBreakpoint(0);
-  invokeInTab("main", "doc-xhr.html");
+  invokeInTab("main", "doc-xhr.html", "GET");
   assertNotPaused(dbg);
 
-  await addXHRBreakpoint(dbg, "doc-xhr.html", "POST");
-  invokeInTab("main", "doc");
+  await addXHRBreakpoint(dbg, "doc", "POST", true);
+  invokeInTab("main", "doc-xhr.html", "GET");
   assertNotPaused(dbg);
 });
 

@@ -36,7 +36,7 @@ type State = {
   inputMethod: string,
   editIndex: number,
   focused: boolean,
-  clickedOnOptions: boolean
+  clickedOnFormElement: boolean
 };
 
 // At present, the "Pause on any URL" checkbox creates an xhrBreakpoint
@@ -68,7 +68,7 @@ class XHRBreakpoints extends Component<Props, State> {
       inputMethod: "ANY",
       focused: false,
       editIndex: -1,
-      clickedOnOptions: false
+      clickedOnFormElement: false
     };
   }
 
@@ -101,9 +101,6 @@ class XHRBreakpoints extends Component<Props, State> {
     e.preventDefault();
     e.stopPropagation();
 
-    this.handleMethodChange({
-      target: e.currentTarget.children[1]
-    });
     this.props.setXHRBreakpoint(this.state.inputValue, this.state.inputMethod);
     this.hideInput();
   };
@@ -128,7 +125,7 @@ class XHRBreakpoints extends Component<Props, State> {
     this.setState({ inputValue: target.value });
   };
 
-  handleMethodChange = e => {
+  handleMethodChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
     const target = e.target;
     this.setState({
       focused: true,
@@ -139,10 +136,10 @@ class XHRBreakpoints extends Component<Props, State> {
   };
 
   hideInput = () => {
-    if (this.state.clickedOnOptions) {
+    if (this.state.clickedOnFormElement) {
       this.setState({
         focused: true,
-        clickedOnOptions: false
+        clickedOnFormElement: false
       });
     } else {
       this.setState({
@@ -156,24 +153,24 @@ class XHRBreakpoints extends Component<Props, State> {
     }
   };
 
-  keepFocusOnInputButNoEdit = () => {
-    this.setState({ focused: true, editing: false });
-  };
-
   onFocus = () => {
     this.setState({ focused: true, editing: true });
   };
 
   onMouseDown = e => {
-    if (this.state.clickedOnOptions) {
-      return;
-    }
-    this.setState({ editing: false, clickedOnOptions: true });
+    this.setState({ editing: false, clickedOnFormElement: true });
   };
 
-  handleKeyDown = e => {
+  handleTab = e => {
     if (e.key === "Tab") {
-      e.preventDefault();
+      if (e.target.nodeName === "INPUT") {
+        this.setState({
+          clickedOnFormElement: true,
+          editing: false
+        });
+      } else if (e.target.nodeName === "SELECT") {
+        this.setState({ focused: false });
+      }
     }
   };
 
@@ -205,11 +202,11 @@ class XHRBreakpoints extends Component<Props, State> {
             onChange={this.handleChange}
             onBlur={this.hideInput}
             onFocus={this.onFocus}
-            onKeyDown={this.handleKeyDown}
             value={inputValue}
+            onKeyDown={this.handleTab}
             ref={c => (this._input = c)}
           />
-          {focused && this.renderMethodSelectElement()}
+          {this.renderMethodSelectElement()}
           <input type="submit" style={{ display: "none" }} />
         </form>
       </li>
@@ -327,8 +324,8 @@ class XHRBreakpoints extends Component<Props, State> {
         value={this.state.inputMethod}
         className={"xhr-input-method"}
         onChange={this.handleMethodChange}
-        onClick={this.keepFocusOnInputButNoEdit}
         onMouseDown={this.onMouseDown}
+        onKeyDown={this.handleTab}
       >
         {xhrMethods.map(this.renderMethodOption)}
       </select>

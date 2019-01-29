@@ -78,6 +78,14 @@
   line-height: 15px;
 }
 
+.xhr-input-method {
+  display: none;
+}
+
+.xhr-input-container.focused .xhr-input-method {
+  display: block;
+}
+
 .xhr-label-url {
   max-width: calc(100% - var(--breakpoint-expression-right-clear-space));
   color: var(--theme-comment);

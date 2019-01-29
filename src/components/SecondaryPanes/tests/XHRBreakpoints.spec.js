@@ -126,8 +126,11 @@ describe("XHR Breakpoints", function() {
   it("should display xhr-input-method on click", function() {
     const xhrBreakpointsComponent = renderXHRBreakpointsComponent();
     xhrBreakpointsComponent.find(".xhr-input-url").simulate("focus");
-    const xhrInputMethod = xhrBreakpointsComponent.find(".xhr-input-method");
-    expect(xhrInputMethod).toHaveLength(1);
+
+    var xhrInputContainer = xhrBreakpointsComponent.find(
+      ".xhr-input-container"
+    );
+    expect(xhrInputContainer.hasClass("focused")).toBeTruthy();
   });
 
   it("should have focused and editing default to false", function() {
@@ -154,23 +157,29 @@ describe("XHR Breakpoints", function() {
       propsOverride
     );
     xhrBreakpointsComponent.find(".xhr-input-url").simulate("focus");
+    var xhrInputContainer = xhrBreakpointsComponent.find(
+      ".xhr-input-container"
+    );
+    expect(xhrInputContainer.hasClass("focused")).toBeTruthy();
 
     xhrBreakpointsComponent
       .find(".breakpoint-exceptions-label")
       .simulate("mousedown");
     expect(xhrBreakpointsComponent.state("focused")).toBe(true);
     expect(xhrBreakpointsComponent.state("editing")).toBe(true);
-    expect(xhrBreakpointsComponent.state("clickedOnOptions")).toBe(false);
+    expect(xhrBreakpointsComponent.state("clickedOnFormElement")).toBe(false);
 
     xhrBreakpointsComponent.find(".xhr-input-url").simulate("blur");
     expect(xhrBreakpointsComponent.state("focused")).toBe(false);
     expect(xhrBreakpointsComponent.state("editing")).toBe(false);
-    expect(xhrBreakpointsComponent.state("clickedOnOptions")).toBe(false);
+    expect(xhrBreakpointsComponent.state("clickedOnFormElement")).toBe(false);
 
     xhrBreakpointsComponent
       .find(".breakpoint-exceptions-label")
       .simulate("click");
-    expect(xhrBreakpointsComponent.find(".xhr-input-method")).toHaveLength(0);
+
+    xhrInputContainer = xhrBreakpointsComponent.find(".xhr-input-container");
+    expect(xhrInputContainer.hasClass("focused")).not.toBeTruthy();
   });
 
   // shifting focus from .xhr-input to .xhr-input-method
@@ -182,15 +191,18 @@ describe("XHR Breakpoints", function() {
     xhrBreakpointsComponent.find(".xhr-input-method").simulate("mousedown");
     expect(xhrBreakpointsComponent.state("focused")).toBe(true);
     expect(xhrBreakpointsComponent.state("editing")).toBe(false);
-    expect(xhrBreakpointsComponent.state("clickedOnOptions")).toBe(true);
+    expect(xhrBreakpointsComponent.state("clickedOnFormElement")).toBe(true);
 
     xhrBreakpointsComponent.find(".xhr-input-url").simulate("blur");
     expect(xhrBreakpointsComponent.state("focused")).toBe(true);
     expect(xhrBreakpointsComponent.state("editing")).toBe(false);
-    expect(xhrBreakpointsComponent.state("clickedOnOptions")).toBe(false);
+    expect(xhrBreakpointsComponent.state("clickedOnFormElement")).toBe(false);
 
     xhrBreakpointsComponent.find(".xhr-input-method").simulate("click");
-    expect(xhrBreakpointsComponent.find(".xhr-input-method")).toHaveLength(1);
+    var xhrInputContainer = xhrBreakpointsComponent.find(
+      ".xhr-input-container"
+    );
+    expect(xhrInputContainer.hasClass("focused")).toBeTruthy();
   });
 
   it("should have all 8 methods available as options", function() {
@@ -232,7 +244,7 @@ describe("XHR Breakpoints", function() {
 
     // click on method options and select GET
     const methodEvent = { target: { value: "GET" } };
-    xhrBreakpointsComponent.find(".xhr-input-method").simulate("click");
+    xhrBreakpointsComponent.find(".xhr-input-method").simulate("mousedown");
     expect(xhrBreakpointsComponent.state("inputMethod")).toBe("ANY");
     expect(xhrBreakpointsComponent.state("editing")).toBe(false);
     xhrBreakpointsComponent
@@ -320,10 +332,9 @@ describe("XHR Breakpoints", function() {
     existingXHRbreakpoint.simulate("doubleclick");
     const xhrInput = xhrBreakpointsComponent.find(".xhr-input-url");
     xhrInput.simulate("focus");
-    const xhrInputMethod = xhrBreakpointsComponent.find(".xhr-input-method");
-    expect(xhrInputMethod).toHaveLength(1);
 
     // change inputs and submit form
+    const xhrInputMethod = xhrBreakpointsComponent.find(".xhr-input-method");
     xhrInput.simulate("change", { target: { value: "POSTURLValue" } });
     xhrInputMethod.simulate("change", { target: { value: "POST" } });
     xhrBreakpointsComponent.find("form").simulate("submit", mockEvent);
