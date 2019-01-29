@@ -119,4 +119,5 @@
 .expressions-list,
 .input-expression {
   font-family: var(--monospace-font-family);
+  font-size: 11px;
 }
