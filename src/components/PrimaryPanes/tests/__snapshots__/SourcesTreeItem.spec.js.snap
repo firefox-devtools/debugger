@@ -81,6 +81,7 @@ Object {
         "text": undefined,
         "url": "http://mdn.com/one.js",
       },
+      "toggleBlackBox": [MockFunction],
     },
     "refs": Object {},
     "state": null,
@@ -131,6 +132,7 @@ Object {
               "url": "http://mdn.com/one.js",
             }
           }
+          toggleBlackBox={[MockFunction]}
         />,
         "_forcedUpdate": false,
         "_instance": [Circular],
@@ -212,6 +214,7 @@ Object {
       "text": undefined,
       "url": "http://mdn.com/one.js",
     },
+    "toggleBlackBox": [MockFunction],
   },
 }
 `;
