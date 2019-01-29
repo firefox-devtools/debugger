@@ -198,7 +198,7 @@ describe("ProjectSearch", () => {
       },
       true
     );
-    component.instance().focusedItem = null;
+    component.instance().state.focusedItem = null;
     shortcuts.dispatch("Enter");
     expect(selectSpecificLocation).not.toHaveBeenCalled();
   });
@@ -212,36 +212,13 @@ describe("ProjectSearch", () => {
       },
       true
     );
-    component.instance().focusedItem = { match: testMatch, expanded: null };
+    component.instance().state.focusedItem = { match: testMatch };
     shortcuts.dispatch("Enter");
     expect(selectSpecificLocation).toHaveBeenCalledWith({
       sourceId: "some-target/source42",
       line: 3,
       column: 30
     });
-  });
-
-  it("onEnterPress shortcut setExpanded", () => {
-    const selectSpecificLocation = jest.fn();
-    const component = render(
-      {
-        results: testResults,
-        selectSpecificLocation
-      },
-      true
-    );
-    const setExpanded = jest.fn();
-    const testFile = {
-      filepath: "testFilePath1",
-      matches: [testMatch]
-    };
-    component.instance().focusedItem = {
-      setExpanded,
-      file: testFile,
-      expanded: true
-    };
-    shortcuts.dispatch("Enter");
-    expect(setExpanded).toHaveBeenCalledWith(testFile, false);
   });
 
   it("state.inputValue responds to prop.query changes", () => {
