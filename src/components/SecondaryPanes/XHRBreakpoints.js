@@ -162,15 +162,19 @@ class XHRBreakpoints extends Component<Props, State> {
   };
 
   handleTab = e => {
-    if (e.key === "Tab") {
-      if (e.target.nodeName === "INPUT") {
-        this.setState({
-          clickedOnFormElement: true,
-          editing: false
-        });
-      } else if (e.target.nodeName === "SELECT") {
-        this.setState({ focused: false });
-      }
+    if (e.key !== "Tab") {
+      return;
+    }
+
+    if (e.target.nodeName === "INPUT") {
+      this.setState({
+        clickedOnFormElement: true,
+        editing: false
+      });
+    } else if (e.target.nodeName === "SELECT") {
+      // The user has tabbed off the select and we should
+      // cancel the edit
+      this.hideInput();
     }
   };
 
