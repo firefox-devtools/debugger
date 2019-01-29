@@ -1,5 +1,3 @@
----
----
 # Contributing to debugger.html
 
 :+1::tada: First off, thanks for taking the time to contribute! :tada::+1:
@@ -24,7 +22,7 @@ We respect your time and want to help you make the most of it as you learn more 
   * [Maintainer Tips](#maintainer-tips)
   * [Debugging Tips](#debugging-tips)
   * [Pro Tips](#pro-tips)
-* [Project Overview](#project-overview)
+ * [Project Overview](#project-overview)
   * [debugger.html](#debuggerhtml)
   * [devtools.html](#devtoolshtml)
   * [Firefox Developer Tools](#firefox-developer-tools)
@@ -38,7 +36,24 @@ The developer tools in most major browsers are just web applications.  They are 
 
 We strive for collaboration with [mutual respect for each other](../CODE_OF_CONDUCT.md).   Mozilla also has a set of [participation guidelines](https://www.mozilla.org/en-US/about/governance/policies/participation/) which goes into greater detail specific to Mozilla employees and contributors.
 
+## About Us
+
+debugger.html is an Open Source [Mozilla][mozilla] [Firefox][mozilla-firefox] Developer Tools project.
+Our goal is to work with the community to build a universal JS debugger for modern times.
+
+| Jason | Harald | Yulia | Victoria | David |
+| ---------- | ------ | ------ | ------ | ---- |
+| ![][jasonlaster] <br/> [@jasonlaster][@jasonlaster] | ![][digitarald] <br/> [@digitarald][@digitarald] | ![][codehag] <br/> [@codehag][@codehag]  | ![][violasong] <br/> [@violasong][@violasong] | ![][darkwing] <br />[@darkwing][@darkwing] |
+
+### :heart: Community Team :heart:
+
+Our Community Team is group of dedicated, and talented people who contribute (much needed) maintainer and leadership skills to debugger.html project. They care deeply about the success of everyone who gets involved.  To learn more about how their role, and **ways they can support your success, checkout out [Community Team Page](/docs/community-team.md)**!
+
+You can also find them on the [#community-team](https://devtools-html-slack.herokuapp.com/) Slack channel.
+
 ## How Can I Contribute?
+
+There are lots of ways to contribute to Debugger!
 
 Here is a great GitHub guide on [contributing to Open Source](https://guides.github.com/activities/contributing-to-open-source/) to help you get started.
 
@@ -238,25 +253,6 @@ The debugger.html project is targeted to land in Firefox for Firefox 52.  Howeve
 + [Talks](../docs/talks.md)
 + [Videos](../docs/videos.md)
 
-
-## About Us
-
-debugger.html is an Open Source [Mozilla][mozilla] [Firefox][mozilla-firefox] Developer Tools project.
-Our goal is to work with the community to build a universal JS debugger for modern times.
-
-| Jason | Harald | Yulia | Victoria | David |
-| ---------- | ------ | ------ | ------ | ---- |
-| ![][jasonlaster] <br/> [@jasonlaster][@jasonlaster] | ![][digitarald] <br/> [@digitarald][@digitarald] | ![][codehag] <br/> [@codehag][@codehag]  | ![][violasong] <br/> [@violasong][@violasong] | ![][darkwing] <br />[@darkwing][@darkwing] |
-
-### Team Members
-
-debugger.html community team members help shepherd the community.
-They are here to help mentor new comers, review pull requests, and facilitate issue discussions.
-They are a fantastic resource and genuinely friendly human beings.
-
-| Hubert | Anshul | Princiya | Tyler | Jaideep | Wellington | Irfan | Martin | Lukas | 
-| ---------- | ------ | -------- | ----- | ---- | ----   |   ---- | ---- |---- |
-| ![][bomsy] <br /> [@bomsy][@bomsy] | ![][anshulmalik] <br />[@anshulmalik][@anshulmalik] | ![][princiya] <br />[@princiya][@princiya] | ![][wenincode] <br />[@wenincode][@wenincode] | ![][jbhoosreddy] <br /> [@jbhoosreddy][@jbhoosreddy] | ![][wldcordeiro] <br />[@wldcordeiro][@wldcordeiro] | ![][irfanhudda] <br />[@irfanhudda][@irfanhudda] | ![][nyrosmith] <br />[@nyrosmith][@nyrosmith] | ![][lukaszsobek] <br />[@lukaszsobek][@lukaszsobek]  |
 
 ### Joining Mozilla
 
