@@ -8,6 +8,7 @@ import actions from "../../../actions";
 import { bindActionCreators } from "redux";
 import type { SourceLocation, Breakpoint } from "../../../types";
 import { features } from "../../../utils/prefs";
+import { enableBreakpointsAtLine } from "../../../actions/breakpoints";
 
 export const addBreakpointItem = (
   location: SourceLocation,
@@ -157,6 +158,14 @@ export function breakpointItems(
 ) {
   const items = [
     removeBreakpointItem(breakpoint, breakpointActions),
+
+    // TODO:  Make this item conditional
+    removeBreakpointsOnLineItem(breakpoint.location, breakpointActions),
+    // TODO:  Make this item conditional
+    enableBreakpointsOnLineItem(breakpoint.location, breakpointActions),
+    // TODO:  Make this item conditional
+    disableBreakpointsOnLineItem(breakpoint.location, breakpointActions),
+
     toggleDisabledBreakpointItem(breakpoint, breakpointActions),
     conditionalBreakpointItem(breakpoint, breakpointActions)
   ];
@@ -182,10 +191,57 @@ export function createBreakpointItems(
   return items;
 }
 
+// ToDo: Only enable if there are more than one breakpoints on a line?
+export const removeBreakpointsOnLineItem = (
+  location: SourceLocation,
+  breakpointActions: BreakpointItemActions
+) => ({
+  id: "node-menu-remove-breakpoints-on-line",
+  label: "Remove Breakpoints on Line",
+  accesskey: "", // TODO
+  disabled: false, // TODO
+  click: () =>
+    breakpointActions.removeBreakpointsAtLine(location.sourceId, location.line),
+  accelerator: "" // TODO
+});
+
+// ToDo: Only enable if there are more than one breakpoints on a line?
+export const enableBreakpointsOnLineItem = (
+  location: SourceLocation,
+  breakpointActions: BreakpointItemActions
+) => ({
+  id: "node-menu-remove-breakpoints-on-line",
+  label: "Enable Breakpoints on Line",
+  accesskey: "", // TODO
+  disabled: false, // TODO
+  click: () =>
+    breakpointActions.enableBreakpointsAtLine(location.sourceId, location.line),
+  accelerator: "" // TODO
+});
+
+// ToDo: Only enable if there are more than one breakpoints on a line?
+export const disableBreakpointsOnLineItem = (
+  location: SourceLocation,
+  breakpointActions: BreakpointItemActions
+) => ({
+  id: "node-menu-remove-breakpoints-on-line",
+  label: "Disable Breakpoints on Line",
+  accesskey: "", // TODO
+  disabled: false, // TODO
+  click: () =>
+    breakpointActions.disableBreakpointsAtLine(
+      location.sourceId,
+      location.line
+    ),
+  accelerator: "" // TODO
+});
+
 export type BreakpointItemActions = {
   addBreakpoint: typeof actions.addBreakpoint,
   removeBreakpoint: typeof actions.removeBreakpoint,
   removeBreakpointsAtLine: typeof actions.removeBreakpointsAtLine,
+  enableBreakpointsAtLine: typeof actions.enableBreakpointsAtLine,
+  disableBreakpointsAtLine: typeof actions.disableBreakpointsAtLine,
   toggleDisabledBreakpoint: typeof actions.toggleDisabledBreakpoint,
   openConditionalPanel: typeof actions.openConditionalPanel
 };
@@ -196,6 +252,8 @@ export function breakpointItemActions(dispatch: Function) {
       addBreakpoint: actions.addBreakpoint,
       removeBreakpoint: actions.removeBreakpoint,
       removeBreakpointsAtLine: actions.removeBreakpointsAtLine,
+      enableBreakpointsAtLine: actions.enableBreakpointsAtLine,
+      disableBreakpointsAtLine: actions.disableBreakpointsAtLine,
       disableBreakpoint: actions.disableBreakpoint,
       toggleDisabledBreakpoint: actions.toggleDisabledBreakpoint,
       openConditionalPanel: actions.openConditionalPanel
