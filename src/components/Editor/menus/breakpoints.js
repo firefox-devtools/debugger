@@ -8,7 +8,6 @@ import actions from "../../../actions";
 import { bindActionCreators } from "redux";
 import type { SourceLocation, Breakpoint } from "../../../types";
 import { features } from "../../../utils/prefs";
-import { enableBreakpointsAtLine } from "../../../actions/breakpoints";
 
 export const addBreakpointItem = (
   location: SourceLocation,
@@ -158,17 +157,18 @@ export function breakpointItems(
 ) {
   const items = [
     removeBreakpointItem(breakpoint, breakpointActions),
-
-    // TODO:  Make this item conditional
-    removeBreakpointsOnLineItem(breakpoint.location, breakpointActions),
-    // TODO:  Make this item conditional
-    enableBreakpointsOnLineItem(breakpoint.location, breakpointActions),
-    // TODO:  Make this item conditional
-    disableBreakpointsOnLineItem(breakpoint.location, breakpointActions),
-
-    toggleDisabledBreakpointItem(breakpoint, breakpointActions),
-    conditionalBreakpointItem(breakpoint, breakpointActions)
+    toggleDisabledBreakpointItem(breakpoint, breakpointActions)
   ];
+
+  if (features.columnBreakpoints) {
+    items.push(
+      removeBreakpointsOnLineItem(breakpoint.location, breakpointActions),
+      enableBreakpointsOnLineItem(breakpoint.location, breakpointActions),
+      disableBreakpointsOnLineItem(breakpoint.location, breakpointActions)
+    );
+  }
+
+  items.push(conditionalBreakpointItem(breakpoint, breakpointActions));
 
   if (features.logPoints) {
     items.push(logPointItem(breakpoint, breakpointActions));
@@ -197,7 +197,7 @@ export const removeBreakpointsOnLineItem = (
   breakpointActions: BreakpointItemActions
 ) => ({
   id: "node-menu-remove-breakpoints-on-line",
-  label: "Remove Breakpoints on Line",
+  label: L10N.getStr("breakpointMenuItem.removeAllAtLine.label"),
   accesskey: "", // TODO
   disabled: false, // TODO
   click: () =>
@@ -211,7 +211,7 @@ export const enableBreakpointsOnLineItem = (
   breakpointActions: BreakpointItemActions
 ) => ({
   id: "node-menu-remove-breakpoints-on-line",
-  label: "Enable Breakpoints on Line",
+  label: L10N.getStr("breakpointMenuItem.enableAllAtLine.label"),
   accesskey: "", // TODO
   disabled: false, // TODO
   click: () =>
@@ -225,7 +225,7 @@ export const disableBreakpointsOnLineItem = (
   breakpointActions: BreakpointItemActions
 ) => ({
   id: "node-menu-remove-breakpoints-on-line",
-  label: "Disable Breakpoints on Line",
+  label: L10N.getStr("breakpointMenuItem.disableAllAtLine.label"),
   accesskey: "", // TODO
   disabled: false, // TODO
   click: () =>
