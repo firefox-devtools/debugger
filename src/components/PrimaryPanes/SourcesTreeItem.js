@@ -15,7 +15,7 @@ import AccessibleImage from "../shared/AccessibleImage";
 import {
   getGeneratedSourceByURL,
   getHasSiblingOfSameName,
-  hasPrettySource
+  hasPrettySource as checkHasPrettySource
 } from "../../selectors";
 import actions from "../../actions";
 
@@ -261,7 +261,7 @@ const mapStateToProps = (state, props) => {
   return {
     hasMatchingGeneratedSource: getHasMatchingGeneratedSource(state, source),
     hasSiblingOfSameName: getHasSiblingOfSameName(state, source),
-    hasPrettySource: source ? hasPrettySource(state, source.id) : false
+    hasPrettySource: source ? checkHasPrettySource(state, source.id) : false
   };
 };
 
