@@ -171,7 +171,7 @@ class XHRBreakpoints extends Component<Props, State> {
         clickedOnFormElement: true,
         editing: false
       });
-    } else if (e.target.nodeName === "SELECT") {
+    } else if (e.target.nodeName === "SELECT" && !e.shiftKey) {
       // The user has tabbed off the select and we should
       // cancel the edit
       this.hideInput();
