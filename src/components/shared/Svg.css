@@ -21,7 +21,6 @@
 .worker,
 .file,
 .folder,
-.sources-list .source-icon,
 .extension {
   position: relative;
   top: 2px;
@@ -78,7 +77,6 @@
 .img.javascript {
   mask: url(/images/javascript.svg) no-repeat;
   mask-size: 100%;
-  margin-inline-end: 5px;
 }
 
 .img.tab {
@@ -197,7 +195,6 @@ span.img.marko {
 
 .img.vue {
   background: url(/images/vuejs.svg) 1px 1px no-repeat;
-  background-size: 15px;
 }
 
 .img.typescript {
@@ -278,7 +275,6 @@ span.img.marko {
 .img.angular {
   background-image: url(/images/angular.svg);
   background-repeat: no-repeat;
-  margin-inline-end: 6px;
 }
 
 /* Can't replicate .prettyPrint (see issue #7784). Once resolved, */
@@ -311,27 +307,20 @@ span.img.marko {
   position: relative;
 }
 
-.sources-list .img.angular,
-.sources-list .img.webpack,
-.sources-list .img.vue,
-.sources-list .img.aframe,
-.sources-list .img.dojo,
-.sources-list .img.ember,
-.sources-list .img.marko,
-.sources-list .img.mobx,
-.sources-list .img.nextjs,
-.sources-list .img.nuxtjs,
-.sources-list .img.preact,
-.sources-list .img.pug,
-.sources-list .img.rxjs,
-.sources-list .img.sencha-extjs {
-  top: 3px;
+.img.angular,
+.img.webpack {
+  opacity: 0.8;
+  margin-inline-end: 5px;
+}
+
+.theme-dark .img.angular,
+.theme-dark .webpack {
+  opacity: 0.5;
 }
 
 .img.domain,
 .img.folder,
 .img.file,
-.sources-list .img.source-icon,
 .img.extension,
 .img.worker {
   mask-size: 100%;
@@ -348,8 +337,7 @@ span.img.marko {
 
 .img.refresh,
 .img.shortcut,
-.img.worker,
-.img.arrow {
+.img.worker {
   margin-inline-end: 5px;
 }
 
@@ -360,7 +348,7 @@ span.img.marko {
 
 .img.arrow {
   mask: url(/images/arrow.svg);
-  margin-inline-end: 4px;
+  margin-inline-end: 5px;
   width: 10px;
   height: 10px;
   padding-top: 9px;
@@ -403,14 +391,4 @@ html[dir="rtl"] .arrow,
 
 .arrow.hidden {
   visibility: hidden;
-}
-
-.angular,
-.webpack {
-  opacity: 0.8;
-}
-
-.theme-dark .angular,
-.theme-dark .webpack {
-  opacity: 0.5;
 }

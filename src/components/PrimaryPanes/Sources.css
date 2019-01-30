@@ -91,6 +91,36 @@
   display: inline-block;
 }
 
+.sources-list .source-icon {
+  top: 2px;
+}
+
+.sources-list .img.angular,
+.sources-list .img.webpack,
+.sources-list .img.vue,
+.sources-list .img.aframe,
+.sources-list .img.dojo,
+.sources-list .img.ember,
+.sources-list .img.marko,
+.sources-list .img.mobx,
+.sources-list .img.nextjs,
+.sources-list .img.nuxtjs,
+.sources-list .img.preact,
+.sources-list .img.pug,
+.sources-list .img.rxjs,
+.sources-list .img.sencha-extjs {
+  top: 3px;
+}
+
+.sources-list .tree .focused .img:not(.vue):not(.angular):not(.webpack):not(.dojo):not(.ember):not(.aframe):not(.marko):not(.mobx):not(.nextjs):not(.nuxtjs):not(.preact):not(.pug):not(.rxjs):not(.sencha-extjs),
+.sources-list .managed-tree .tree .node.focused .img.blackBox {
+  background: #ffffff;
+}
+
+.theme-dark .sources-list .managed-tree .tree .node .img.blackBox {
+  background-color: var(--theme-body-color);
+}
+
 .no-sources-message {
   width: 100%;
   font-style: italic;

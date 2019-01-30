@@ -7,12 +7,3 @@
   display: inline-block;
   margin-inline-end: 5px;
 }
-
-.sources-list .tree .focused .img:not(.vue):not(.angular):not(.webpack):not(.dojo):not(.ember):not(.aframe):not(.marko):not(.mobx):not(.nextjs):not(.nuxtjs):not(.preact):not(.pug):not(.rxjs):not(.sencha-extjs),
-.sources-list .managed-tree .tree .node.focused .img.blackBox {
-  background: #ffffff;
-}
-
-.theme-dark .sources-list .managed-tree .tree .node .img.blackBox {
-  background-color: var(--theme-body-color);
-}
