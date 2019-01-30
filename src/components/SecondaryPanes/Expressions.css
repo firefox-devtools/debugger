@@ -117,7 +117,7 @@
 }
 
 .expressions-list span:not(.unavailable),
-.input-expression {
+.input-expression:not(:placeholder-shown) {
   font-family: var(--monospace-font-family);
 }
 

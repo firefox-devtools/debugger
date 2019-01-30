@@ -31,6 +31,9 @@
   font-size: 14px;
   color: var(--theme-conditional-breakpoint-color);
   line-height: 30px;
+}
+
+.conditional-breakpoint-panel input:not(:placeholder-shown) {
   font-family: var(--monospace-font-family);
 }
 
