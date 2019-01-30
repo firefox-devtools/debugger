@@ -116,8 +116,12 @@
   padding-inline-start: 10px;
 }
 
-.expressions-list,
+.expressions-list span:not(.unavailable),
 .input-expression {
   font-family: var(--monospace-font-family);
+}
+
+.expressions-list span,
+.input-expression {
   font-size: 11px;
 }
