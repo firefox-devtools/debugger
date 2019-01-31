@@ -18,7 +18,7 @@ import type { Frame } from "../../../types";
 import type { LocalFrame } from "./types";
 
 type FrameTitleProps = {
-  frame: Frame,
+  frame: LocalFrame,
   options: Object,
   l10n: Object
 };
