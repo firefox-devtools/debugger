@@ -4483,10 +4483,10 @@ eslint-plugin-jsx-a11y@^6.1.2:
     has "^1.0.3"
     jsx-ast-utils "^2.0.1"
 
-eslint-plugin-mozilla@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-mozilla/-/eslint-plugin-mozilla-1.1.0.tgz#bd77bcea3505644666649d58d20fd4120bb5f82e"
-  integrity sha512-LmmwR+/B5MDC/50aGIqMsuRnGBSLjBBHTIfm9IawLap5GHwOWN7BcP0x4AFiWwgUQMr+PScQniW5W+olFLuk+Q==
+eslint-plugin-mozilla@1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-mozilla/-/eslint-plugin-mozilla-1.1.1.tgz#84464335d5d806541e38df3480c777f01d8ebe8c"
+  integrity sha512-ynTwCUOc5vf+ZZKtSfySSGWmPLd/wCCiX+zH2MnMcVUYtV0187cUVJTOcQ0YxOdpcQrfaW8gMraETrXGsdZ5bA==
   dependencies:
     htmlparser2 "3.10.0"
     ini-parser "0.0.2"
