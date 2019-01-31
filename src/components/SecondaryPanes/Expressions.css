@@ -116,7 +116,6 @@
   padding-inline-start: 10px;
 }
 
-.expressions-list span:not(.unavailable),
 .input-expression:not(:placeholder-shown) {
   font-family: var(--monospace-font-family);
 }
