@@ -193,7 +193,8 @@ export type Frame = {
   this: Object,
   framework?: string,
   isOriginal?: boolean,
-  originalDisplayName?: string
+  originalDisplayName?: string,
+  library?: string
 };
 
 export type ChromeFrame = {
