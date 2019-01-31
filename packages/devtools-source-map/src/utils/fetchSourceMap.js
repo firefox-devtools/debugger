@@ -20,7 +20,7 @@ function clearOriginalURLs() {
   originalURLs.clear();
 }
 
-function hasOriginalURL(url: string) {
+function hasOriginalURL(url: string): boolean {
   return originalURLs.has(url);
 }
 
