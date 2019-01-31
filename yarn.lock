@@ -3772,10 +3772,10 @@ devtools-environment@^0.0.6:
   resolved "https://registry.yarnpkg.com/devtools-environment/-/devtools-environment-0.0.6.tgz#11584f5b1ead784c2356d8da647a630fed591a4e"
   integrity sha512-tZK/UlLBnm5TCr9YnBahMkv2bpasjNyQgLNZOvFCMCO4TZSjggrccMTkljhqCr32Zb1Nx/C/jhB/KdlyiUI2Lw==
 
-devtools-launchpad@^0.0.143:
-  version "0.0.143"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.143.tgz#efcc665ca9eb7fd743c07a5ce509e713f5099301"
-  integrity sha512-KFWHzU88Z3Bpj4lBx2rkKayChEgeuN31VQHy2mwRY7MojNK/B7UEchUGxur/JdRQ36F+Br/npsdNbLLbsUjHbQ==
+devtools-launchpad@^0.0.144:
+  version "0.0.144"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.144.tgz#88453954c72bc850a6bbf594207c3ac3e0256961"
+  integrity sha512-dJAneBfGdEKb+HM6IjaOsahAw5WWkh99uoTqUGiL1hkXFT38Bi+iU8jDaZreytV/4oPcAX62Ugf21b5xNeYOwA==
   dependencies:
     amd-loader "0.0.8"
     autoprefixer "^7.1.2"
@@ -3804,7 +3804,7 @@ devtools-launchpad@^0.0.143:
     devtools-contextmenu "~1"
     devtools-environment "^0.0.5"
     devtools-license-check "^0.7.0"
-    devtools-mc-assets "^0.0.6"
+    devtools-mc-assets "^0.0.7"
     devtools-modules "~1"
     devtools-sprintf-js "^1.0.3"
     express "^4.13.4"
@@ -3885,10 +3885,10 @@ devtools-linters@^0.0.4:
     retext-syntax-urls "^1.0.0"
     unified "^6.1.0"
 
-devtools-mc-assets@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/devtools-mc-assets/-/devtools-mc-assets-0.0.6.tgz#51d935ddc6e929d386549d95ff96e3c2323372f7"
-  integrity sha512-QtkmEP62gqo3/R95sFxRCFYKTetNbPU5ZgU52NcL/yCXcgcBKHv6hnv88+HW26uS1RAW4KL7STUyUs40KEmXxw==
+devtools-mc-assets@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/devtools-mc-assets/-/devtools-mc-assets-0.0.7.tgz#d02a12ab66c46a3f535ef90f64cfac9a5dd1bfa4"
+  integrity sha512-heipZSnA3iw0z7iTdm5MhMvofs4Wv5PatAEa8l7evk21z3SthkApdS6xWFaey9T76MqFm77odAR65vl88RkzPQ==
 
 devtools-modules@~1, devtools-modules@~1.1.0:
   version "1.1.0"
