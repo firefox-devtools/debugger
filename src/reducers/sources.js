@@ -260,7 +260,7 @@ function updatePlainUrl(state: SourcesState, source: Object) {
   if (!source.url || state.urls[source.url]) {
     return;
   }
-  const plainUrl = source.url.split("?")[0];
+  const plainUrl = getPlainUrl(source.url);
   const existing = state.plainUrls[plainUrl] || [];
   state.plainUrls[plainUrl] = [...existing, source.url];
 }
@@ -568,6 +568,11 @@ function getSourcesByUrlInSources(
   return urls[url].map(id => sources[id]);
 }
 
+function getPlainUrl(url: string): string {
+  const queryStart = url.indexOf("?");
+  return queryStart !== -1 ? url.slice(0, queryStart) : url;
+}
+
 export function getSourcesUrlsInSources(
   state: OuterState,
   url: string
@@ -575,7 +580,7 @@ export function getSourcesUrlsInSources(
   if (!url) {
     return [];
   }
-  const plainUrl = url.split("?")[0];
+  const plainUrl = getPlainUrl(url);
   const plainUrls = getPlainUrls(state);
   return plainUrls[plainUrl] || [];
 }
