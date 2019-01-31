@@ -135,9 +135,7 @@ class Tabs extends PureComponent<Props, State> {
     const onClick = () => selectSource(source.id);
     return (
       <li key={source.id} onClick={onClick}>
-        <AccessibleImage
-          className={`dropdown-icon ${this.getIconClass(source)}`}
-        />
+        <AccessibleImage className={`dropdown-icon ${this.getIconClass(source)}`} />
         {filename}
       </li>
     );

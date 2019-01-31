@@ -4,10 +4,7 @@
 
 function openProjectSearch(dbg) {
   synthesizeKeyShortcut("CmdOrCtrl+Shift+F");
-  return waitForState(
-    dbg,
-    state => dbg.selectors.getActiveSearch(state) === "project"
-  );
+  return waitForState(dbg, state => dbg.selectors.getActiveSearch(state) === "project");
 }
 
 function closeProjectSearch(dbg) {
@@ -16,10 +13,7 @@ function closeProjectSearch(dbg) {
 }
 
 async function selectResult(dbg) {
-  const select = waitForState(
-    dbg,
-    () => !dbg.selectors.getActiveSearch(dbg.getState())
-  );
+  const select = waitForState(dbg, () => !dbg.selectors.getActiveSearch(dbg.getState()));
   await clickElement(dbg, "fileMatch");
   return select;
 }

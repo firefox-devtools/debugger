@@ -4,12 +4,7 @@
 
 // @flow
 
-import {
-  actions,
-  createStore,
-  selectors,
-  makeSource
-} from "../../utils/test-head";
+import { actions, createStore, selectors, makeSource } from "../../utils/test-head";
 
 const {
   getSource,

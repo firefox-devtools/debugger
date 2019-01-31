@@ -11,10 +11,7 @@
 
 import { getSourcesByURL } from "./sources";
 
-import {
-  createPendingBreakpoint,
-  makePendingLocationId
-} from "../utils/breakpoint";
+import { createPendingBreakpoint, makePendingLocationId } from "../utils/breakpoint";
 import { isGenerated } from "../utils/source";
 
 import type { SourcesState } from "./sources";
@@ -69,10 +66,7 @@ function addBreakpoint(state, action) {
     return state;
   }
   // when the action completes, we can commit the breakpoint
-  const {
-    breakpoint,
-    previousLocation
-  } = ((action: any): DonePromiseAction).value;
+  const { breakpoint, previousLocation } = ((action: any): DonePromiseAction).value;
 
   if (previousLocation) {
     const previousLocationId = makePendingLocationId(previousLocation);
@@ -153,9 +147,7 @@ export function getPendingBreakpoints(state: OuterState) {
   return state.pendingBreakpoints;
 }
 
-export function getPendingBreakpointList(
-  state: OuterState
-): PendingBreakpoint[] {
+export function getPendingBreakpointList(state: OuterState): PendingBreakpoint[] {
   return (Object.values(getPendingBreakpoints(state)): any);
 }
 

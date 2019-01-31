@@ -91,9 +91,7 @@ export function log({ dispatch, getState }) {
     const asyncMsg = !action.status ? "" : `[${action.status}]`;
 
     if (isTesting()) {
-      dump(
-        `[ACTION] ${action.type} ${asyncMsg} - ${serializeAction(action)}\n`
-      );
+      dump(`[ACTION] ${action.type} ${asyncMsg} - ${serializeAction(action)}\n`);
     } else {
       console.log(action, asyncMsg);
     }

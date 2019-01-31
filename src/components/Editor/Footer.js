@@ -7,11 +7,7 @@ import React, { PureComponent } from "react";
 import { connect } from "../../utils/connect";
 import classnames from "classnames";
 import actions from "../../actions";
-import {
-  getSelectedSource,
-  getPrettySource,
-  getPaneCollapse
-} from "../../selectors";
+import { getSelectedSource, getPrettySource, getPaneCollapse } from "../../selectors";
 
 import {
   isPretty,
@@ -181,10 +177,7 @@ class SourceFooter extends PureComponent<Props, State> {
     }
 
     const filename = getFilename(mappedSource);
-    const tooltip = L10N.getFormatStr(
-      "sourceFooter.mappedSourceTooltip",
-      filename
-    );
+    const tooltip = L10N.getFormatStr("sourceFooter.mappedSourceTooltip", filename);
     const title = L10N.getFormatStr("sourceFooter.mappedSource", filename);
     const mappedSourceLocation = {
       sourceId: selectedSource.id,
@@ -251,10 +244,7 @@ const mapStateToProps = state => {
   return {
     selectedSource,
     mappedSource: getGeneratedSource(state, selectedSource),
-    prettySource: getPrettySource(
-      state,
-      selectedSource ? selectedSource.id : null
-    ),
+    prettySource: getPrettySource(state, selectedSource ? selectedSource.id : null),
     endPanelCollapsed: getPaneCollapse(state, "end")
   };
 };

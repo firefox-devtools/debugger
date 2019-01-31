@@ -16,12 +16,7 @@ import {
   getPauseCommand
 } from "../../selectors";
 
-import type {
-  Frame,
-  SourceLocation,
-  Source,
-  SourceDocuments
-} from "../../types";
+import type { Frame, SourceLocation, Source, SourceDocuments } from "../../types";
 import type { Command } from "../../reducers/types";
 
 type Props = {
@@ -44,9 +39,7 @@ function isDebugLine(selectedFrame: Frame, selectedLocation: SourceLocation) {
 
 function isDocumentReady(selectedSource, selectedLocation) {
   return (
-    selectedLocation &&
-    isLoaded(selectedSource) &&
-    hasDocument(selectedLocation.sourceId)
+    selectedLocation && isLoaded(selectedSource) && hasDocument(selectedLocation.sourceId)
   );
 }
 
@@ -67,10 +60,7 @@ export class HighlightLine extends Component<Props> {
     this.completeHighlightLine(null);
   }
 
-  shouldSetHighlightLine(
-    selectedLocation: SourceLocation,
-    selectedSource: Source
-  ) {
+  shouldSetHighlightLine(selectedLocation: SourceLocation, selectedSource: Source) {
     const { sourceId, line } = selectedLocation;
     const editorLine = toEditorLine(sourceId, line);
 
@@ -86,22 +76,14 @@ export class HighlightLine extends Component<Props> {
   }
 
   completeHighlightLine(prevProps: Props | null) {
-    const {
-      pauseCommand,
-      selectedLocation,
-      selectedFrame,
-      selectedSource
-    } = this.props;
+    const { pauseCommand, selectedLocation, selectedFrame, selectedSource } = this.props;
     if (pauseCommand) {
       this.isStepping = true;
     }
 
     startOperation();
     if (prevProps) {
-      this.clearHighlightLine(
-        prevProps.selectedLocation,
-        prevProps.selectedSource
-      );
+      this.clearHighlightLine(prevProps.selectedLocation, prevProps.selectedSource);
     }
     this.setHighlightLine(selectedLocation, selectedFrame, selectedSource);
     endOperation();
@@ -131,9 +113,7 @@ export class HighlightLine extends Component<Props> {
   }
 
   resetHighlightLine(doc: SourceDocuments, editorLine: number) {
-    const editorWrapper: HTMLElement | null = document.querySelector(
-      ".editor-wrapper"
-    );
+    const editorWrapper: HTMLElement | null = document.querySelector(".editor-wrapper");
 
     if (editorWrapper === null) {
       return;

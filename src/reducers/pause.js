@@ -116,10 +116,7 @@ function getThreadPauseState(state: PauseState, thread: string) {
   return state.threads[thread] || createInitialPauseState();
 }
 
-function update(
-  state: PauseState = createPauseState(),
-  action: Action
-): PauseState {
+function update(state: PauseState = createPauseState(), action: Action): PauseState {
   // Actions need to specify any thread they are operating on. These helpers
   // manage updating the pause state for that thread.
   const threadState = () => {
@@ -471,9 +468,7 @@ export function getSelectedFrameBindings(state: OuterState) {
     if (currentScope.bindings) {
       const bindings = Object.keys(currentScope.bindings.variables);
       const args = [].concat(
-        ...currentScope.bindings.arguments.map(argument =>
-          Object.keys(argument)
-        )
+        ...currentScope.bindings.arguments.map(argument => Object.keys(argument))
       );
 
       frameBindings = [...frameBindings, ...bindings, ...args];

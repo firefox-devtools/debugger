@@ -4,11 +4,7 @@
 
 // @flow
 
-import {
-  getSelectedSource,
-  getSelectedFrame,
-  getCanRewind
-} from "../../selectors";
+import { getSelectedSource, getSelectedFrame, getCanRewind } from "../../selectors";
 import { addHiddenBreakpoint } from "../breakpoints";
 import { resume, rewind } from "./commands";
 
@@ -28,8 +24,7 @@ export function continueToHere(line: number, column?: number) {
       return;
     }
 
-    const action =
-      getCanRewind(getState()) && line < debugLine ? rewind : resume;
+    const action = getCanRewind(getState()) && line < debugLine ? rewind : resume;
 
     await dispatch(
       addHiddenBreakpoint({

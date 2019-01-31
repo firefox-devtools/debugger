@@ -46,11 +46,7 @@ import { getRawSourceURL } from "../../utils/source";
 import { getDisplayName } from "../../utils/workers";
 import { features } from "../../utils/prefs";
 
-import type {
-  TreeNode,
-  TreeDirectory,
-  ParentMap
-} from "../../utils/sources-tree/types";
+import type { TreeNode, TreeDirectory, ParentMap } from "../../utils/sources-tree/types";
 import type { Worker, Source } from "../../types";
 import type { SourcesMap, State as AppState } from "../../reducers/types";
 import type { Item } from "../shared/ManagedTree";
@@ -97,13 +93,7 @@ class SourcesTree extends Component<Props, State> {
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    const {
-      projectRoot,
-      debuggeeUrl,
-      sources,
-      shownSource,
-      selectedSource
-    } = this.props;
+    const { projectRoot, debuggeeUrl, sources, shownSource, selectedSource } = this.props;
     const { uncollapsedTree, sourceTree } = this.state;
 
     if (
@@ -127,14 +117,8 @@ class SourcesTree extends Component<Props, State> {
       return this.setState({ listItems });
     }
 
-    if (
-      nextProps.selectedSource &&
-      nextProps.selectedSource != selectedSource
-    ) {
-      const highlightItems = getDirectories(
-        nextProps.selectedSource,
-        sourceTree
-      );
+    if (nextProps.selectedSource && nextProps.selectedSource != selectedSource) {
+      const highlightItems = getDirectories(nextProps.selectedSource, sourceTree);
       this.setState({ highlightItems });
     }
 
@@ -369,12 +353,7 @@ const mapStateToProps = (state, props) => {
 
   return {
     shownSource: getSourceForTree(state, relativeSources, shownSource, thread),
-    selectedSource: getSourceForTree(
-      state,
-      relativeSources,
-      selectedSource,
-      thread
-    ),
+    selectedSource: getSourceForTree(state, relativeSources, selectedSource, thread),
     debuggeeUrl: getDebuggeeUrl(state),
     expanded: getExpandedState(state, props.thread),
     focused: focused && focused.thread == props.thread ? focused.item : null,

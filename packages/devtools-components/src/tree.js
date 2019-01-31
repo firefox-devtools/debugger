@@ -66,15 +66,7 @@ class TreeNode extends Component {
   }
 
   render() {
-    const {
-      depth,
-      id,
-      item,
-      focused,
-      expanded,
-      renderItem,
-      isExpandable
-    } = this.props;
+    const { depth, id, item, focused, expanded, renderItem, isExpandable } = this.props;
 
     const arrow = isExpandable
       ? ArrowExpanderFactory({
@@ -92,9 +84,7 @@ class TreeNode extends Component {
     }
 
     const indents = Array.from({ length: depth }).fill(treeIndent);
-    const items = indents.concat(
-      renderItem(item, depth, focused, arrow, expanded)
-    );
+    const items = indents.concat(renderItem(item, depth, focused, arrow, expanded));
 
     return dom.div(
       {
@@ -369,12 +359,8 @@ class Tree extends Component {
     this._onCollapse = oncePerAnimationFrame(this._onCollapse).bind(this);
     this._focusPrevNode = oncePerAnimationFrame(this._focusPrevNode).bind(this);
     this._focusNextNode = oncePerAnimationFrame(this._focusNextNode).bind(this);
-    this._focusParentNode = oncePerAnimationFrame(this._focusParentNode).bind(
-      this
-    );
-    this._focusFirstNode = oncePerAnimationFrame(this._focusFirstNode).bind(
-      this
-    );
+    this._focusParentNode = oncePerAnimationFrame(this._focusParentNode).bind(this);
+    this._focusFirstNode = oncePerAnimationFrame(this._focusFirstNode).bind(this);
     this._focusLastNode = oncePerAnimationFrame(this._focusLastNode).bind(this);
 
     this._autoExpand = this._autoExpand.bind(this);
@@ -425,10 +411,7 @@ class Tree extends Component {
       }
 
       const children = this.props.getChildren(item);
-      if (
-        autoExpandNodeChildrenLimit &&
-        children.length > autoExpandNodeChildrenLimit
-      ) {
+      if (autoExpandNodeChildrenLimit && children.length > autoExpandNodeChildrenLimit) {
         return;
       }
 
@@ -599,8 +582,7 @@ class Tree extends Component {
           : null;
         const isVisible =
           !scrolledParent ||
-          (top >= scrolledParentRect.top &&
-            bottom <= scrolledParentRect.bottom);
+          (top >= scrolledParentRect.top && bottom <= scrolledParentRect.bottom);
 
         if (!isVisible) {
           const { alignTo } = options;

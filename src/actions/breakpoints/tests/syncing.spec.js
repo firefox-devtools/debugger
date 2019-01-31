@@ -20,12 +20,7 @@ jest.mock("../../../utils/prefs", () => ({
   clear: jest.fn()
 }));
 
-import {
-  createStore,
-  selectors,
-  actions,
-  makeSource
-} from "../../../utils/test-head";
+import { createStore, selectors, actions, makeSource } from "../../../utils/test-head";
 
 import { makeBreakpointId } from "../../../utils/breakpoint";
 
@@ -119,9 +114,7 @@ function newGeneratedLocation(line) {
 
 describe("loading the debugger", () => {
   it("loads the initial breakpoint state", async () => {
-    (getGeneratedLocation: any).mockImplementation(() =>
-      newGeneratedLocation(3)
-    );
+    (getGeneratedLocation: any).mockImplementation(() => newGeneratedLocation(3));
 
     const { dispatch, getState } = createStore(threadClient, {}, sourceMaps);
 
@@ -146,9 +139,7 @@ describe("loading the debugger", () => {
   it("loads the initial breakpoint state with a changed file", async () => {
     const location = { line: 9, column: 0 };
     const generated = 3;
-    (getGeneratedLocation: any).mockImplementation(() =>
-      newGeneratedLocation(generated)
-    );
+    (getGeneratedLocation: any).mockImplementation(() => newGeneratedLocation(generated));
     (findScopeByName: any).mockImplementation(() => ({
       location: { start: location }
     }));
@@ -180,9 +171,7 @@ describe("loading the debugger", () => {
 describe("reloading debuggee", () => {
   beforeEach(() => {
     const location = { line: 0, column: 0 };
-    (getGeneratedLocation: any).mockImplementation(() =>
-      newGeneratedLocation(3)
-    );
+    (getGeneratedLocation: any).mockImplementation(() => newGeneratedLocation(3));
     (findScopeByName: any).mockImplementation(() => ({
       location: { start: location }
     }));
@@ -233,9 +222,7 @@ describe("reloading debuggee", () => {
     // here we are mocking out what happens when the source changed, and the
     // new line for originalSource line 3, is the generated Source line 5
 
-    (getGeneratedLocation: any).mockImplementation(() =>
-      newGeneratedLocation(5)
-    );
+    (getGeneratedLocation: any).mockImplementation(() => newGeneratedLocation(5));
     // end mocking out
 
     const { dispatch, getState } = createStore(threadClient, {}, sourceMaps);
@@ -261,9 +248,7 @@ describe("reloading debuggee", () => {
   });
 
   it("syncs with changed source and an existing disabled BP", async () => {
-    (getGeneratedLocation: any).mockImplementationOnce(() =>
-      newGeneratedLocation(5)
-    );
+    (getGeneratedLocation: any).mockImplementationOnce(() => newGeneratedLocation(5));
 
     const { dispatch, getState } = createStore(threadClient, {}, sourceMaps);
 
@@ -282,9 +267,7 @@ describe("reloading debuggee", () => {
     const { breakpoint } = await dispatch(actions.addBreakpoint(location));
     await dispatch(actions.disableBreakpoint(breakpoint));
 
-    (getGeneratedLocation: any).mockImplementationOnce(() =>
-      newGeneratedLocation(1)
-    );
+    (getGeneratedLocation: any).mockImplementationOnce(() => newGeneratedLocation(1));
 
     await dispatch(
       actions.syncBreakpoint(

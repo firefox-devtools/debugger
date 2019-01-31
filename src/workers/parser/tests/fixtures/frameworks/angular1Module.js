@@ -1,4 +1,3 @@
-angular.module('something', ['ngRoute', 'ngResource'])
-	.config(function ($routeProvider) {
-		'use strict';
-	});
+angular.module("something", ["ngRoute", "ngResource"]).config(function($routeProvider) {
+  "use strict";
+});

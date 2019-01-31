@@ -19,10 +19,7 @@ import { buildMappedScopes } from "../../utils/pause/mapScopes";
 
 export function mapScopes(scopes: Promise<Scope>, frame: Frame) {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
-    const generatedSource = getSource(
-      getState(),
-      frame.generatedLocation.sourceId
-    );
+    const generatedSource = getSource(getState(), frame.generatedLocation.sourceId);
 
     const source = getSource(getState(), frame.location.sourceId);
 
@@ -45,13 +42,7 @@ export function mapScopes(scopes: Promise<Scope>, frame: Frame) {
         await dispatch(loadSourceText(source));
 
         try {
-          return await buildMappedScopes(
-            source,
-            frame,
-            await scopes,
-            sourceMaps,
-            client
-          );
+          return await buildMappedScopes(source, frame, await scopes, sourceMaps, client);
         } catch (e) {
           log(e);
           return null;

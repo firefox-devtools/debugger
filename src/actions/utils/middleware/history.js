@@ -14,10 +14,7 @@ import type { ThunkArgs } from "../../types";
  * in logging object. Should only be used for tests, as it collects all
  * action information, which will cause memory bloat.
  */
-export const history = (log: Object[] = []) => ({
-  dispatch,
-  getState
-}: ThunkArgs) => {
+export const history = (log: Object[] = []) => ({ dispatch, getState }: ThunkArgs) => {
   return (next: Function) => (action: Object) => {
     if (isDevelopment()) {
       log.push(action);

@@ -231,9 +231,7 @@ function updateSources(state, sources, sourceActors) {
 
   sources.forEach(source => updateSource(state, source));
   if (sourceActors) {
-    sourceActors.forEach(sourceActor =>
-      updateForNewSourceActor(state, sourceActor)
-    );
+    sourceActors.forEach(sourceActor => updateForNewSourceActor(state, sourceActor));
   }
 
   return state;
@@ -302,10 +300,7 @@ function updateRelativeSource(
   state.relativeSources[sourceActor.thread][source.id] = relativeSource;
 }
 
-function updateForNewSourceActor(
-  state: SourcesState,
-  sourceActor: SourceActor
-) {
+function updateForNewSourceActor(state: SourcesState, sourceActor: SourceActor) {
   const existing = state.sourceActors[sourceActor.source] || [];
 
   // Do not allow duplicate source actors in the store.
@@ -318,11 +313,7 @@ function updateForNewSourceActor(
   updateRelativeSource(state, state.sources[sourceActor.source], sourceActor);
 }
 
-function updateWorkers(
-  state: SourcesState,
-  workers: WorkerList,
-  mainThread: ThreadId
-) {
+function updateWorkers(state: SourcesState, workers: WorkerList, mainThread: ThreadId) {
   // Clear out actors for any removed workers by regenerating source actor
   // state for all remaining workers.
   const sourceActors = [];
@@ -411,26 +402,12 @@ export function hasSourceActor(state: OuterState, sourceActor: SourceActor) {
   return existing.some(({ actor }) => actor == sourceActor.actor);
 }
 
-export function getOriginalSourceByURL(
-  state: OuterState,
-  url: string
-): ?Source {
-  return getOriginalSourceByUrlInSources(
-    getSources(state),
-    getUrls(state),
-    url
-  );
+export function getOriginalSourceByURL(state: OuterState, url: string): ?Source {
+  return getOriginalSourceByUrlInSources(getSources(state), getUrls(state), url);
 }
 
-export function getGeneratedSourceByURL(
-  state: OuterState,
-  url: string
-): ?Source {
-  return getGeneratedSourceByUrlInSources(
-    getSources(state),
-    getUrls(state),
-    url
-  );
+export function getGeneratedSourceByURL(state: OuterState, url: string): ?Source {
+  return getGeneratedSourceByUrlInSources(getSources(state), getUrls(state), url);
 }
 
 export function getSpecificSourceByURL(
@@ -455,10 +432,7 @@ export function getSourcesByURL(state: OuterState, url: string): Source[] {
   return getSourcesByUrlInSources(getSources(state), getUrls(state), url);
 }
 
-export function getGeneratedSource(
-  state: OuterState,
-  source: ?Source
-): ?Source {
+export function getGeneratedSource(state: OuterState, source: ?Source): ?Source {
   if (!source) {
     return null;
   }
@@ -507,10 +481,7 @@ function getSourceHelper(
 
 export const getOriginalSourceByUrlInSources = getSourceHelper.bind(null, true);
 
-export const getGeneratedSourceByUrlInSources = getSourceHelper.bind(
-  null,
-  false
-);
+export const getGeneratedSourceByUrlInSources = getSourceHelper.bind(null, false);
 
 export function getSpecificSourceByUrlInSources(
   sources: SourcesMap,
@@ -523,11 +494,7 @@ export function getSpecificSourceByUrlInSources(
     : getGeneratedSourceByUrlInSources(sources, urls, url);
 }
 
-export function getSourceByUrlInSources(
-  sources: SourcesMap,
-  urls: UrlsMap,
-  url: string
-) {
+export function getSourceByUrlInSources(sources: SourcesMap, urls: UrlsMap, url: string) {
   const foundSources = getSourcesByUrlInSources(sources, urls, url);
   if (!foundSources) {
     return null;
@@ -536,11 +503,7 @@ export function getSourceByUrlInSources(
   return foundSources[0];
 }
 
-function getSourcesByUrlInSources(
-  sources: SourcesMap,
-  urls: UrlsMap,
-  url: string
-) {
+function getSourcesByUrlInSources(sources: SourcesMap, urls: UrlsMap, url: string) {
   if (!url || !urls[url]) {
     return [];
   }
@@ -548,10 +511,7 @@ function getSourcesByUrlInSources(
   return urls[url].map(id => sources[id]);
 }
 
-export function getSourcesUrlsInSources(
-  state: OuterState,
-  url: string
-): string[] {
+export function getSourcesUrlsInSources(state: OuterState, url: string): string[] {
   const urls = getUrls(state);
   if (!url || !urls[url]) {
     return [];
@@ -588,9 +548,7 @@ export function getSourceList(state: OuterState): Source[] {
 }
 
 export function getRelativeSourcesList(state: OuterState): Source[] {
-  return ((Object.values(getRelativeSources(state)): any).flatMap(
-    Object.values
-  ): any);
+  return ((Object.values(getRelativeSources(state)): any).flatMap(Object.values): any);
 }
 
 export function getSourceCount(state: OuterState) {

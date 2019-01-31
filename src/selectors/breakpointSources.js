@@ -6,11 +6,7 @@
 
 import { sortBy, uniq } from "lodash";
 import { createSelector } from "reselect";
-import {
-  getSources,
-  getBreakpointsList,
-  getSelectedSource
-} from "../selectors";
+import { getSources, getBreakpointsList, getSelectedSource } from "../selectors";
 import { getFilename } from "../utils/source";
 import { getSelectedLocation } from "../utils/source-maps";
 
@@ -35,15 +31,10 @@ function getBreakpointsForSource(
         !bp.loading &&
         (bp.text || bp.originalText || bp.options.condition || bp.disabled)
     )
-    .filter(
-      bp => getSelectedLocation(bp, selectedSource).sourceId == source.id
-    );
+    .filter(bp => getSelectedLocation(bp, selectedSource).sourceId == source.id);
 }
 
-function findBreakpointSources(
-  sources: SourcesMap,
-  breakpoints: Breakpoint[]
-): Source[] {
+function findBreakpointSources(sources: SourcesMap, breakpoints: Breakpoint[]): Source[] {
   const sourceIds: string[] = uniq(breakpoints.map(bp => bp.location.sourceId));
 
   const breakpointSources = sourceIds
@@ -61,11 +52,7 @@ export const getBreakpointSources: Selector<BreakpointSources> = createSelector(
     findBreakpointSources(sources, breakpoints)
       .map(source => ({
         source,
-        breakpoints: getBreakpointsForSource(
-          source,
-          selectedSource,
-          breakpoints
-        )
+        breakpoints: getBreakpointsForSource(source, selectedSource, breakpoints)
       }))
       .filter(({ breakpoints: bpSources }) => bpSources.length > 0)
 );

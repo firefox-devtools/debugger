@@ -4,12 +4,7 @@
 
 // @flow
 
-import {
-  actions,
-  selectors,
-  createStore,
-  makeSource
-} from "../../utils/test-head";
+import { actions, selectors, createStore, makeSource } from "../../utils/test-head";
 
 import { makeMockFrame } from "../../utils/test-mockup";
 

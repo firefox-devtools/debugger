@@ -5,11 +5,7 @@
 // @flow
 
 import { PROMISE } from "../utils/middleware/promise";
-import {
-  getGeneratedSource,
-  getSource,
-  getSourceActors
-} from "../../selectors";
+import { getGeneratedSource, getSource, getSourceActors } from "../../selectors";
 import * as parser from "../../workers/parser";
 import { isLoaded, isOriginal } from "../../utils/source";
 import { Telemetry } from "devtools-modules";

@@ -14,12 +14,7 @@ import { isEqual } from "lodash";
 
 import { makeBreakpointId } from "../utils/breakpoint";
 
-import type {
-  XHRBreakpoint,
-  Breakpoint,
-  BreakpointId,
-  SourceLocation
-} from "../types";
+import type { XHRBreakpoint, Breakpoint, BreakpointId, SourceLocation } from "../types";
 import type { Action, DonePromiseAction } from "../actions/types";
 
 export type BreakpointsMap = { [BreakpointId]: Breakpoint };
@@ -237,13 +232,10 @@ function updateAllBreakpoints(state, action): BreakpointsState {
 }
 
 function remapBreakpoints(state, action): BreakpointsState {
-  const breakpoints = action.breakpoints.reduce(
-    (updatedBreakpoints, breakpoint) => {
-      const locationId = makeBreakpointId(breakpoint.location);
-      return { ...updatedBreakpoints, [locationId]: breakpoint };
-    },
-    {}
-  );
+  const breakpoints = action.breakpoints.reduce((updatedBreakpoints, breakpoint) => {
+    const locationId = makeBreakpointId(breakpoint.location);
+    return { ...updatedBreakpoints, [locationId]: breakpoint };
+  }, {});
 
   return { ...state, breakpoints };
 }
@@ -275,10 +267,7 @@ export function getBreakpointCount(state: OuterState): number {
   return getBreakpointsList(state).length;
 }
 
-export function getBreakpoint(
-  state: OuterState,
-  location: SourceLocation
-): ?Breakpoint {
+export function getBreakpoint(state: OuterState, location: SourceLocation): ?Breakpoint {
   const breakpoints = getBreakpointsMap(state);
   return breakpoints[makeBreakpointId(location)];
 }

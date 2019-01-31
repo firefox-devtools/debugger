@@ -12,10 +12,7 @@ import {
   getSourceQueryString,
   getFileURL
 } from "../../../utils/source";
-import {
-  getHasSiblingOfSameName,
-  getBreakpointsForSource
-} from "../../../selectors";
+import { getHasSiblingOfSameName, getBreakpointsForSource } from "../../../selectors";
 
 import SourceIcon from "../../shared/SourceIcon";
 

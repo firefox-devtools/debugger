@@ -6,13 +6,7 @@ function countSources(dbg) {
   return dbg.selectors.getSourceCount(dbg.getState());
 }
 
-const sources = [
-  "simple1.js",
-  "simple2.js",
-  "simple3.js",
-  "long.js",
-  "scripts.html"
-];
+const sources = ["simple1.js", "simple2.js", "simple3.js", "long.js", "scripts.html"];
 
 /**
  * Test navigating
@@ -50,8 +44,5 @@ add_task(async function() {
   await reload(dbg, "long.js");
   await waitForSelectedSource(dbg, "long.js");
 
-  ok(
-    getSelectedSource(getState()).url.includes("long.js"),
-    "Selected source is long.js"
-  );
+  ok(getSelectedSource(getState()).url.includes("long.js"), "Selected source is long.js");
 });

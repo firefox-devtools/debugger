@@ -300,8 +300,7 @@ async function getOriginalSourceText(originalSource: Source) {
 
   let text = map.sourceContentFor(originalSource.url);
   if (!text) {
-    text = (await networkRequest(originalSource.url, { loadFromCache: false }))
-      .content;
+    text = (await networkRequest(originalSource.url, { loadFromCache: false })).content;
   }
 
   return {

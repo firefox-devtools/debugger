@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 const path = require("path");
 const spawn = require("child_process").spawn;
 
@@ -10,6 +14,7 @@ const prettierCmd = path.resolve(
 const args = [
   "--trailing-comma=none",
   "--bracket-spacing=true",
+  "--print-width 90",
   "--write",
   "*.js",
   "*.json",
@@ -17,8 +22,8 @@ const args = [
   "src/*.js",
   "src/*/*.js",
   "src/components/**/*.css",
-  "src/test/mochitest/*.js",
-  "src/test/mochitest/!(examples)/**/*.js"
+  "test/mochitest/*.js",
+  "test/mochitest/!(examples)/**/*.js"
 ];
 
 const prettierArgs = process.argv.slice(2).concat(args);

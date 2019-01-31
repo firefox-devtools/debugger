@@ -90,9 +90,7 @@ describe("ast", () => {
 
       await dispatch(actions.newSource(csr));
 
-      await dispatch(
-        actions.loadSourceText(getSource(getState(), csr.source.id))
-      );
+      await dispatch(actions.loadSourceText(getSource(getState(), csr.source.id)));
       await dispatch(actions.setSourceMetaData(csr.source.id));
 
       await waitForState(store, state => {
@@ -126,10 +124,7 @@ describe("ast", () => {
         await dispatch(actions.newSource(base));
         await dispatch(actions.loadSourceText(base.source));
         await dispatch(actions.setSymbols("base.js"));
-        await waitForState(
-          store,
-          state => !isSymbolsLoading(state, base.source)
-        );
+        await waitForState(store, state => !isSymbolsLoading(state, base.source));
 
         const baseSymbols = getSymbols(getState(), base.source);
         expect(baseSymbols).toMatchSnapshot();
@@ -167,9 +162,7 @@ describe("ast", () => {
       const csr = makeSource("scopes.js");
       await dispatch(actions.newSource(csr));
 
-      await dispatch(
-        actions.selectLocation({ sourceId: "scopes.js", line: 5 })
-      );
+      await dispatch(actions.selectLocation({ sourceId: "scopes.js", line: 5 }));
 
       const frame = makeFrame({ id: "1", sourceId: "scopes.js" });
       await dispatch(

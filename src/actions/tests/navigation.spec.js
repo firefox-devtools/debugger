@@ -4,12 +4,7 @@
 
 // @flow
 
-import {
-  createStore,
-  selectors,
-  actions,
-  makeSource
-} from "../../utils/test-head";
+import { createStore, selectors, actions, makeSource } from "../../utils/test-head";
 
 jest.mock("../../utils/editor");
 

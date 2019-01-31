@@ -25,17 +25,15 @@ function createMockAngularPage() {
   httpServer.registerContentType("html", "text/html");
   httpServer.registerContentType("js", "application/javascript");
 
-  const htmlFilename = "angular-mock.html"
+  const htmlFilename = "angular-mock.html";
   httpServer.registerPathHandler(`/${htmlFilename}`, function(request, response) {
-      response.setStatusLine(request.httpVersion, 200, "OK");
-      response.write(`
+    response.setStatusLine(request.httpVersion, 200, "OK");
+    response.write(`
         <html>
             <button class="pause">Click me</button>
             <script type="text/javascript" src="angular.js"></script>
-        </html>`
-      );
-    }
-  );
+        </html>`);
+  });
 
   // Register an angular.js file in order to create a Group with anonymous functions in
   // the callstack panel.
@@ -90,7 +88,6 @@ add_task(async function() {
   await waitForSelectedSource(dbg, "frames.js");
 });
 
-
 add_task(async function() {
   const url = createMockAngularPage();
   const tab = await addTab(url);
@@ -108,6 +105,9 @@ add_task(async function() {
   await waitForPaused(dbg);
   const $group = findElementWithSelector(dbg, ".frames .frames-group");
   is($group.querySelector(".badge").textContent, "2", "Group has expected badge");
-  is($group.querySelector(".group-description-name").textContent, "Angular",
-    "Group has expected location");
+  is(
+    $group.querySelector(".group-description-name").textContent,
+    "Angular",
+    "Group has expected location"
+  );
 });

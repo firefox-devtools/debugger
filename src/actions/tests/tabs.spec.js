@@ -4,12 +4,7 @@
 
 // @flow
 
-import {
-  actions,
-  selectors,
-  createStore,
-  makeSource
-} from "../../utils/test-head";
+import { actions, selectors, createStore, makeSource } from "../../utils/test-head";
 const { getSelectedSource, getSourceTabs } = selectors;
 
 import { sourceThreadClient as threadClient } from "./helpers/threadClient.js";

@@ -21,10 +21,7 @@ function assertEditorBreakpoint(dbg, line, shouldExist) {
   const exists = !!getLineEl(dbg, line).querySelector(".new-breakpoint");
   ok(
     exists === shouldExist,
-    "Breakpoint " +
-      (shouldExist ? "exists" : "does not exist") +
-      " on line " +
-      line
+    "Breakpoint " + (shouldExist ? "exists" : "does not exist") + " on line " + line
   );
 }
 
@@ -39,7 +36,13 @@ function clickGutter(dbg, line) {
 
 add_task(async function() {
   // NOTE: the CORS call makes the test run times inconsistent
-  const dbg = await initDebugger("doc-sourcemaps.html", "entry.js", "output.js", "times2.js", "opts.js");
+  const dbg = await initDebugger(
+    "doc-sourcemaps.html",
+    "entry.js",
+    "output.js",
+    "times2.js",
+    "opts.js"
+  );
   const {
     selectors: { getBreakpoint, getBreakpointCount },
     getState

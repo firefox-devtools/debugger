@@ -58,20 +58,14 @@ function update(state: TabList = [], action: Action): TabList {
   }
 }
 
-export function removeSourceFromTabList(
-  tabs: TabList,
-  source: Source
-): TabList {
+export function removeSourceFromTabList(tabs: TabList, source: Source): TabList {
   return tabs.filter(
     tab => tab.url !== source.url || tab.isOriginal != isOriginalId(source.id)
   );
 }
 
 export function removeSourcesFromTabList(tabs: TabList, sources: Source[]) {
-  return sources.reduce(
-    (t, source) => removeSourceFromTabList(t, source),
-    tabs
-  );
+  return sources.reduce((t, source) => removeSourceFromTabList(t, source), tabs);
 }
 
 /**
@@ -199,8 +193,7 @@ export const getSourceTabs: Selector<Tab[]> = createSelector(
   getTabs,
   getSources,
   getUrls,
-  (tabs, sources, urls) =>
-    tabs.filter(tab => getTabWithOrWithoutUrl(tab, sources, urls))
+  (tabs, sources, urls) => tabs.filter(tab => getTabWithOrWithoutUrl(tab, sources, urls))
 );
 
 export const getSourcesForTabs: Selector<Source[]> = createSelector(
@@ -213,12 +206,7 @@ export const getSourcesForTabs: Selector<Source[]> = createSelector(
 
 function getTabWithOrWithoutUrl(tab, sources, urls) {
   if (tab.url) {
-    return getSpecificSourceByUrlInSources(
-      sources,
-      urls,
-      tab.url,
-      tab.isOriginal
-    );
+    return getSpecificSourceByUrlInSources(sources, urls, tab.url, tab.isOriginal);
   }
 
   return tab.sourceId ? sources[tab.sourceId] : null;

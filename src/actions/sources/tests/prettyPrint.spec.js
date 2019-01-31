@@ -4,12 +4,7 @@
 
 // @flow
 
-import {
-  actions,
-  selectors,
-  createStore,
-  makeSource
-} from "../../../utils/test-head";
+import { actions, selectors, createStore, makeSource } from "../../../utils/test-head";
 import { createPrettySource } from "../prettyPrint";
 import { sourceThreadClient } from "../../tests/helpers/threadClient.js";
 

@@ -93,13 +93,10 @@ const jumpToMappedLocationItem = (
   id: "node-menu-jump",
   label: L10N.getFormatStr(
     "editor.jumpToMappedLocation1",
-    isOriginalId(selectedSource.id)
-      ? L10N.getStr("generated")
-      : L10N.getStr("original")
+    isOriginalId(selectedSource.id) ? L10N.getStr("generated") : L10N.getStr("original")
   ),
   accesskey: L10N.getStr("editor.jumpToMappedLocation1.accesskey"),
-  disabled:
-    (!isMapped(selectedSource) && !isPretty(selectedSource)) || hasPrettySource,
+  disabled: (!isMapped(selectedSource) && !isPretty(selectedSource)) || hasPrettySource,
   click: () => editorActions.jumpToMappedLocation(location)
 });
 
@@ -114,10 +111,7 @@ const showSourceMenuItem = (
   click: () => editorActions.showSource(selectedSource.id)
 });
 
-const blackBoxMenuItem = (
-  selectedSource: Source,
-  editorActions: EditorItemActions
-) => ({
+const blackBoxMenuItem = (selectedSource: Source, editorActions: EditorItemActions) => ({
   id: "node-menu-blackbox",
   label: selectedSource.isBlackBoxed
     ? L10N.getStr("sourceFooter.unblackbox")
@@ -148,10 +142,7 @@ const evaluateInConsoleItem = (
   click: () => editorActions.evaluateInConsole(selectionText)
 });
 
-const downloadFileItem = (
-  selectedSource: Source,
-  editorActions: EditorItemActions
-) => {
+const downloadFileItem = (selectedSource: Source, editorActions: EditorItemActions) => {
   return {
     id: "node-menu-download-file",
     label: L10N.getStr("downloadFile.label"),
@@ -180,12 +171,7 @@ export function editorMenuItems({
   const items = [];
 
   items.push(
-    jumpToMappedLocationItem(
-      selectedSource,
-      location,
-      hasPrettySource,
-      editorActions
-    ),
+    jumpToMappedLocationItem(selectedSource, location, hasPrettySource, editorActions),
     continueToHereItem(location, isPaused, editorActions),
     { type: "separator" },
     copyToClipboardItem(selectedSource, editorActions),

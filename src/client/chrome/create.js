@@ -7,9 +7,7 @@
 import type { ChromeFrame, SourceLocation, LoadedObject } from "../../types";
 import type { ServerLocation } from "./types";
 
-export function fromServerLocation(
-  serverLocation?: ServerLocation
-): ?SourceLocation {
+export function fromServerLocation(serverLocation?: ServerLocation): ?SourceLocation {
   if (serverLocation) {
     return {
       sourceId: serverLocation.scriptId,
@@ -42,10 +40,7 @@ export function createFrame(frame: any): ?ChromeFrame {
   };
 }
 
-export function createLoadedObject(
-  serverObject: any,
-  parentId: string
-): LoadedObject {
+export function createLoadedObject(serverObject: any, parentId: string): LoadedObject {
   const { value, name } = serverObject;
 
   return {

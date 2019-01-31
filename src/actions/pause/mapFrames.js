@@ -47,23 +47,15 @@ export function updateFrameLocation(frame: Frame, sourceMaps: any) {
   }));
 }
 
-function updateFrameLocations(
-  frames: Frame[],
-  sourceMaps: any
-): Promise<Frame[]> {
+function updateFrameLocations(frames: Frame[], sourceMaps: any): Promise<Frame[]> {
   if (!frames || frames.length == 0) {
     return Promise.resolve(frames);
   }
 
-  return Promise.all(
-    frames.map(frame => updateFrameLocation(frame, sourceMaps))
-  );
+  return Promise.all(frames.map(frame => updateFrameLocation(frame, sourceMaps)));
 }
 
-export function mapDisplayNames(
-  frames: Frame[],
-  getState: () => State
-): Frame[] {
+export function mapDisplayNames(frames: Frame[], getState: () => State): Frame[] {
   return frames.map(frame => {
     if (frame.isOriginal) {
       return frame;
@@ -95,10 +87,7 @@ function isWasmOriginalSourceFrame(frame, getState: () => State): boolean {
   if (isGeneratedId(frame.location.sourceId)) {
     return false;
   }
-  const generatedSource = getSource(
-    getState(),
-    frame.generatedLocation.sourceId
-  );
+  const generatedSource = getSource(getState(), frame.generatedLocation.sourceId);
 
   return Boolean(generatedSource && generatedSource.isWasm);
 }

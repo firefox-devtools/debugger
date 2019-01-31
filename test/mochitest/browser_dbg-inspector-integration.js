@@ -9,8 +9,8 @@ function waitForInspectorPanelChange(dbg) {
 
   return new Promise(resolve => {
     toolbox.getPanelWhenReady("inspector").then(() => {
-    ok(toolbox.inspector, "Inspector is shown.");
-    resolve(toolbox.inspector);
+      ok(toolbox.inspector, "Inspector is shown.");
+      resolve(toolbox.inspector);
     });
   });
 }

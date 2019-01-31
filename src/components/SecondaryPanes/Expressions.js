@@ -54,10 +54,7 @@ type Props = {
 
 class Expressions extends Component<Props, State> {
   _input: ?HTMLInputElement;
-  renderExpression: (
-    expression: Expression,
-    index: number
-  ) => React$Element<"li">;
+  renderExpression: (expression: Expression, index: number) => React$Element<"li">;
 
   constructor(props: Props) {
     super(props);
@@ -92,12 +89,7 @@ class Expressions extends Component<Props, State> {
 
   shouldComponentUpdate(nextProps, nextState) {
     const { editing, inputValue, focused } = this.state;
-    const {
-      expressions,
-      expressionError,
-      showInput,
-      autocompleteMatches
-    } = this.props;
+    const { expressions, expressionError, showInput, autocompleteMatches } = this.props;
 
     return (
       autocompleteMatches !== nextProps.autocompleteMatches ||
@@ -133,10 +125,7 @@ class Expressions extends Component<Props, State> {
     });
   }
 
-  deleteExpression(
-    e: SyntheticMouseEvent<HTMLDivElement>,
-    expression: Expression
-  ) {
+  deleteExpression(e: SyntheticMouseEvent<HTMLDivElement>, expression: Expression) {
     e.stopPropagation();
     const { deleteExpression } = this.props;
     deleteExpression(expression);
@@ -233,9 +222,7 @@ class Expressions extends Component<Props, State> {
         className="expression-container"
         key={input}
         title={expression.input}
-        onDoubleClick={(items, options) =>
-          this.editExpression(expression, index)
-        }
+        onDoubleClick={(items, options) => this.editExpression(expression, index)}
       >
         <div className="expression-content">
           <ObjectInspector
@@ -285,9 +272,7 @@ class Expressions extends Component<Props, State> {
       : L10N.getStr("expressions.placeholder");
 
     return (
-      <li
-        className={classnames("expression-input-container", { focused, error })}
-      >
+      <li className={classnames("expression-input-container", { focused, error })}>
         <form className="expression-input-form" onSubmit={this.handleNewSubmit}>
           <input
             className="input-expression"

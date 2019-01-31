@@ -14,11 +14,7 @@ add_task(async function() {
 
   // Enter code editor
   pressKey(dbg, "Enter");
-  is(
-    findElementWithSelector(dbg, "textarea"),
-    doc.activeElement,
-    "Editor is enabled"
-  );
+  is(findElementWithSelector(dbg, "textarea"), doc.activeElement, "Editor is enabled");
 
   // Exit code editor and focus on container
   pressKey(dbg, "Escape");
@@ -30,9 +26,5 @@ add_task(async function() {
 
   // Enter code editor
   pressKey(dbg, "Tab");
-  is(
-    findElementWithSelector(dbg, "textarea"),
-    doc.activeElement,
-    "Editor is enabled"
-  );
+  is(findElementWithSelector(dbg, "textarea"), doc.activeElement, "Editor is enabled");
 });

@@ -46,12 +46,7 @@ type State = {
 
 class Scopes extends PureComponent<Props, State> {
   constructor(props: Props, ...args) {
-    const {
-      why,
-      selectedFrame,
-      originalFrameScopes,
-      generatedFrameScopes
-    } = props;
+    const { why, selectedFrame, originalFrameScopes, generatedFrameScopes } = props;
 
     super(props, ...args);
 
@@ -98,12 +93,7 @@ class Scopes extends PureComponent<Props, State> {
   }
 
   render() {
-    const {
-      isPaused,
-      isLoading,
-      openLink,
-      openElementInInspector
-    } = this.props;
+    const { isPaused, isLoading, openLink, openElementInInspector } = this.props;
     const { originalScopes, generatedScopes, showOriginal } = this.state;
 
     const scopes = (showOriginal && originalScopes) || generatedScopes;
@@ -162,10 +152,7 @@ const mapStateToProps = state => {
   const selectedFrame = getSelectedFrame(state);
   const selectedSource = getSelectedSource(state);
 
-  const {
-    scope: originalFrameScopes,
-    pending: originalPending
-  } = getOriginalFrameScope(
+  const { scope: originalFrameScopes, pending: originalPending } = getOriginalFrameScope(
     state,
     selectedSource && selectedSource.id,
     selectedFrame && selectedFrame.id

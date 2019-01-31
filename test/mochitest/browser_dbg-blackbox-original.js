@@ -28,7 +28,6 @@ add_task(async function() {
   // should not pause
   is(isPaused(dbg), false);
 
-
   // unblackbox
   await clickElement(dbg, "blackbox");
   await waitForDispatch(dbg, "BLACKBOX");
@@ -38,5 +37,5 @@ add_task(async function() {
   // should pause
   await waitForPaused(dbg);
 
-  ok(true, "blackbox works")
+  ok(true, "blackbox works");
 });

@@ -4,12 +4,7 @@
 
 // @flow
 
-import {
-  actions,
-  selectors,
-  createStore,
-  makeSource
-} from "../../../utils/test-head";
+import { actions, selectors, createStore, makeSource } from "../../../utils/test-head";
 const { getSourcesUrlsInSources } = selectors;
 
 // eslint-disable-next-line max-len
@@ -23,16 +18,10 @@ describe("sources - sources with querystrings", () => {
     await dispatch(actions.newSource(makeSource("diff.js?v=1")));
 
     expect(
-      getSourcesUrlsInSources(
-        getState(),
-        "http://localhost:8000/examples/base.js?v=1"
-      )
+      getSourcesUrlsInSources(getState(), "http://localhost:8000/examples/base.js?v=1")
     ).toHaveLength(2);
     expect(
-      getSourcesUrlsInSources(
-        getState(),
-        "http://localhost:8000/examples/diff.js?v=1"
-      )
+      getSourcesUrlsInSources(getState(), "http://localhost:8000/examples/diff.js?v=1")
     ).toHaveLength(1);
   });
 });

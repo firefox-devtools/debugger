@@ -17,7 +17,9 @@ PromiseTestUtils.whitelistRejectionsGlobally(/NS_ERROR_FAILURE/);
 
 requestLongerTimeout(5);
 
-const { BrowserToolboxProcess } = ChromeUtils.import("resource://devtools/client/framework/ToolboxProcess.jsm");
+const { BrowserToolboxProcess } = ChromeUtils.import(
+  "resource://devtools/client/framework/ToolboxProcess.jsm"
+);
 let gProcess = undefined;
 
 function initChromeDebugger() {
@@ -55,14 +57,8 @@ add_task(async function() {
 
   gProcess = await initChromeDebugger();
 
-  ok(
-    gProcess._dbgProcess,
-    "The remote debugger process wasn't created properly!"
-  );
-  ok(
-    gProcess._dbgProcess.exitCode == null,
-    "The remote debugger process isn't running!"
-  );
+  ok(gProcess._dbgProcess, "The remote debugger process wasn't created properly!");
+  ok(gProcess._dbgProcess.exitCode == null, "The remote debugger process isn't running!");
   is(
     typeof gProcess._dbgProcess.pid,
     "number",
@@ -74,10 +70,7 @@ add_task(async function() {
   info("process name: " + gProcess._dbgProcess.processName);
   info("process sig: " + gProcess._dbgProcess.processSignature);
 
-  ok(
-    gProcess._dbgProfilePath,
-    "The remote debugger profile wasn't created properly!"
-  );
+  ok(gProcess._dbgProfilePath, "The remote debugger profile wasn't created properly!");
 
   is(
     gProcess._dbgProfilePath,

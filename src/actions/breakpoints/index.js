@@ -25,11 +25,7 @@ import {
   createXHRBreakpoint,
   makeSourceActorLocation
 } from "../../utils/breakpoint";
-import {
-  addBreakpoint,
-  addHiddenBreakpoint,
-  enableBreakpoint
-} from "./addBreakpoint";
+import { addBreakpoint, addHiddenBreakpoint, enableBreakpoint } from "./addBreakpoint";
 import remapLocations from "./remapLocations";
 import { syncBreakpoint } from "./syncBreakpoint";
 import { closeConditionalPanel } from "../ui";
@@ -49,10 +45,7 @@ import type {
 import { recordEvent } from "../../utils/telemetry";
 
 async function removeBreakpointsPromise(client, state, breakpoint) {
-  const sourceActors = getSourceActors(
-    state,
-    breakpoint.generatedLocation.sourceId
-  );
+  const sourceActors = getSourceActors(state, breakpoint.generatedLocation.sourceId);
   for (const sourceActor of sourceActors) {
     const sourceActorLocation = makeSourceActorLocation(
       sourceActor,
@@ -112,9 +105,7 @@ export function disableBreakpoint(breakpoint: Breakpoint) {
 
     const newBreakpoint: Breakpoint = { ...breakpoint, disabled: true };
 
-    return dispatch(
-      ({ type: "DISABLE_BREAKPOINT", breakpoint: newBreakpoint }: Action)
-    );
+    return dispatch(({ type: "DISABLE_BREAKPOINT", breakpoint: newBreakpoint }: Action));
   };
 }
 
@@ -224,9 +215,7 @@ export function toggleBreakpoints(
 export function removeAllBreakpoints() {
   return async ({ dispatch, getState }: ThunkArgs) => {
     const breakpointList = getBreakpointsList(getState());
-    return Promise.all(
-      breakpointList.map(bp => dispatch(removeBreakpoint(bp)))
-    );
+    return Promise.all(breakpointList.map(bp => dispatch(removeBreakpoint(bp))));
   };
 }
 
@@ -260,11 +249,7 @@ export function removeBreakpointsInSource(source: Source) {
 export function remapBreakpoints(sourceId: string) {
   return async ({ dispatch, getState, sourceMaps }: ThunkArgs) => {
     const breakpoints = getBreakpointsList(getState());
-    const newBreakpoints = await remapLocations(
-      breakpoints,
-      sourceId,
-      sourceMaps
-    );
+    const newBreakpoints = await remapLocations(breakpoints, sourceId, sourceMaps);
 
     return dispatch(
       ({
@@ -304,10 +289,7 @@ export function setBreakpointOptions(
       await dispatch(enableBreakpoint(bp));
     }
 
-    const sourceActors = getSourceActors(
-      getState(),
-      bp.generatedLocation.sourceId
-    );
+    const sourceActors = getSourceActors(getState(), bp.generatedLocation.sourceId);
     for (const sourceActor of sourceActors) {
       const sourceActorLocation = makeSourceActorLocation(
         sourceActor,
@@ -440,11 +422,7 @@ export function disableXHRBreakpoint(index: number, bp?: XHRBreakpoint) {
   };
 }
 
-export function updateXHRBreakpoint(
-  index: number,
-  path: string,
-  method: string
-) {
+export function updateXHRBreakpoint(index: number, path: string, method: string) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
     const xhrBreakpoints = getXHRBreakpoints(getState());
     const breakpoint = xhrBreakpoints[index];

@@ -34,10 +34,7 @@ WorkerDispatcher.prototype = {
     this.worker = null;
   },
 
-  task(
-    method: string,
-    { queue = false } = {}
-  ): (...args: any[]) => Promise<any> {
+  task(method: string, { queue = false } = {}): (...args: any[]) => Promise<any> {
     const calls = [];
     const push = (args: Array<any>) => {
       return new Promise((resolve, reject) => {

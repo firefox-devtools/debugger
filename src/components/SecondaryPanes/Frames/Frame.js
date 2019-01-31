@@ -39,17 +39,13 @@ function FrameLocation({ frame, displayFullUrl = false }: FrameLocationProps) {
     return (
       <span className="location">
         {frame.library}
-        <AccessibleImage
-          className={`annotation-logo ${frame.library.toLowerCase()}`}
-        />
+        <AccessibleImage className={`annotation-logo ${frame.library.toLowerCase()}`} />
       </span>
     );
   }
 
   const { location, source } = frame;
-  const filename = displayFullUrl
-    ? getFileURL(source, false)
-    : getFilename(source);
+  const filename = displayFullUrl ? getFileURL(source, false) : getFilename(source);
 
   return (
     <span className="location">
@@ -100,11 +96,7 @@ export default class FrameComponent extends Component<FrameComponentProps> {
     );
   }
 
-  onMouseDown(
-    e: SyntheticMouseEvent<HTMLElement>,
-    frame: Frame,
-    selectedFrame: Frame
-  ) {
+  onMouseDown(e: SyntheticMouseEvent<HTMLElement>, frame: Frame, selectedFrame: Frame) {
     if (e.button !== 0) {
       return;
     }
@@ -140,9 +132,7 @@ export default class FrameComponent extends Component<FrameComponentProps> {
     });
 
     const title = getFrameTitle
-      ? getFrameTitle(
-          `${getFileURL(frame.source, false)}:${frame.location.line}`
-        )
+      ? getFrameTitle(`${getFileURL(frame.source, false)}:${frame.location.line}`)
       : undefined;
 
     return (
@@ -157,15 +147,9 @@ export default class FrameComponent extends Component<FrameComponentProps> {
         title={title}
       >
         {selectable && <FrameIndent />}
-        <FrameTitle
-          frame={frame}
-          options={{ shouldMapDisplayName }}
-          l10n={l10n}
-        />
+        <FrameTitle frame={frame} options={{ shouldMapDisplayName }} l10n={l10n} />
         {!hideLocation && <span className="clipboard-only"> </span>}
-        {!hideLocation && (
-          <FrameLocation frame={frame} displayFullUrl={displayFullUrl} />
-        )}
+        {!hideLocation && <FrameLocation frame={frame} displayFullUrl={displayFullUrl} />}
         {selectable && <br className="clipboard-only" />}
       </div>
     );

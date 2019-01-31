@@ -42,12 +42,13 @@ export const getVisibleBreakpoints: Selector<?(Breakpoint[])> = createSelector(
 /*
  * Finds the first breakpoint per line, which appear in the selected source.
  */
-export const getFirstVisibleBreakpoints: Selector<
-  Breakpoint[]
-> = createSelector(getVisibleBreakpoints, breakpoints => {
-  if (!breakpoints) {
-    return [];
-  }
+export const getFirstVisibleBreakpoints: Selector<Breakpoint[]> = createSelector(
+  getVisibleBreakpoints,
+  breakpoints => {
+    if (!breakpoints) {
+      return [];
+    }
 
-  return (uniqBy(sortBreakpoints(breakpoints), bp => bp.location.line): any);
-});
+    return (uniqBy(sortBreakpoints(breakpoints), bp => bp.location.line): any);
+  }
+);

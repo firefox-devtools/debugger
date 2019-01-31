@@ -213,9 +213,7 @@ class SearchInput extends Component<Props, State> {
       return;
     }
 
-    return (
-      <div className="search-nav-buttons">{this.renderArrowButtons()}</div>
-    );
+    return <div className="search-nav-buttons">{this.renderArrowButtons()}</div>;
   }
 
   render() {
@@ -269,9 +267,7 @@ class SearchInput extends Component<Props, State> {
           {this.renderSpinner()}
           {this.renderSummaryMsg()}
           {this.renderNav()}
-          {showClose && (
-            <CloseButton handleClick={handleClose} buttonClass={size} />
-          )}
+          {showClose && <CloseButton handleClick={handleClose} buttonClass={size} />}
         </div>
       </div>
     );

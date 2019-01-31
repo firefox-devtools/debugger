@@ -8,7 +8,10 @@ function firstBreakpoint(dbg) {
 // tests to make sure we do not accidentally slide the breakpoint up to the first
 // function with the same name in the file.
 add_task(async function() {
-  const dbg = await initDebugger("doc-duplicate-functions.html", "doc-duplicate-functions");
+  const dbg = await initDebugger(
+    "doc-duplicate-functions.html",
+    "doc-duplicate-functions"
+  );
   const source = findSource(dbg, "doc-duplicate-functions");
 
   await selectSource(dbg, source.url);

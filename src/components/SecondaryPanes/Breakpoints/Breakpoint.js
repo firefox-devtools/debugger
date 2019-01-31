@@ -14,10 +14,7 @@ import { memoize } from "lodash";
 import showContextMenu from "./BreakpointsContextMenu";
 import { CloseButton } from "../../shared/Button";
 
-import {
-  getLocationWithoutColumn,
-  getSelectedText
-} from "../../../utils/breakpoint";
+import { getLocationWithoutColumn, getSelectedText } from "../../../utils/breakpoint";
 import { getSelectedLocation } from "../../../utils/source-maps";
 import { features } from "../../../utils/prefs";
 import { getEditor } from "../../../utils/editor";
@@ -122,10 +119,7 @@ class Breakpoint extends PureComponent<Props> {
 
   getBreakpointText() {
     const { breakpoint, selectedSource } = this.props;
-    return (
-      breakpoint.options.condition ||
-      getSelectedText(breakpoint, selectedSource)
-    );
+    return breakpoint.options.condition || getSelectedText(breakpoint, selectedSource);
   }
 
   highlightText = memoize(

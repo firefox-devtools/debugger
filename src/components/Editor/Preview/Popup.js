@@ -60,8 +60,7 @@ function inPreview(event) {
 
   if (
     !relatedTarget ||
-    (relatedTarget.classList &&
-      relatedTarget.classList.contains("preview-expression"))
+    (relatedTarget.classList && relatedTarget.classList.contains("preview-expression"))
   ) {
     return true;
   }
@@ -86,11 +85,7 @@ export class Popup extends Component<Props, State> {
   }
 
   async componentWillMount() {
-    const {
-      value,
-      setPopupObjectProperties,
-      popupObjectProperties
-    } = this.props;
+    const { value, setPopupObjectProperties, popupObjectProperties } = this.props;
 
     const root = this.getRoot();
 
@@ -217,10 +212,7 @@ export class Popup extends Component<Props, State> {
     }
 
     return (
-      <div
-        className="preview-popup"
-        style={{ maxHeight: this.calculateMaxHeight() }}
-      >
+      <div className="preview-popup" style={{ maxHeight: this.calculateMaxHeight() }}>
         {this.renderObjectInspector(roots)}
       </div>
     );
@@ -322,12 +314,7 @@ const mapStateToProps = state => ({
   openElementInInspector: actions.openElementInInspectorCommand
 });
 
-const {
-  addExpression,
-  selectSourceURL,
-  setPopupObjectProperties,
-  openLink
-} = actions;
+const { addExpression, selectSourceURL, setPopupObjectProperties, openLink } = actions;
 
 const mapDispatchToProps = {
   addExpression,

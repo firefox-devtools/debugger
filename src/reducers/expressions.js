@@ -129,9 +129,7 @@ function restoreExpressions() {
 }
 
 function storeExpressions({ expressions }) {
-  prefs.expressions = expressions
-    .map(expression => omit(expression, "value"))
-    .toJS();
+  prefs.expressions = expressions.map(expression => omit(expression, "value")).toJS();
 }
 
 function appendExpressionToList(state: Record<ExpressionState>, value: any) {
@@ -143,11 +141,7 @@ function appendExpressionToList(state: Record<ExpressionState>, value: any) {
   return newState;
 }
 
-function updateExpressionInList(
-  state: Record<ExpressionState>,
-  key: string,
-  value: any
-) {
+function updateExpressionInList(state: Record<ExpressionState>, key: string, value: any) {
   const newState = state.update("expressions", () => {
     const list = state.expressions;
     const index = list.findIndex(e => e.input == key);
@@ -172,9 +166,7 @@ export const getExpressions: Selector<List<Expression>> = createSelector(
   expressions => expressions.expressions
 );
 
-export const getAutocompleteMatches: Selector<
-  Map<string, List<string>>
-> = createSelector(
+export const getAutocompleteMatches: Selector<Map<string, List<string>>> = createSelector(
   getExpressionsWrapper,
   expressions => expressions.autocompleteMatches
 );

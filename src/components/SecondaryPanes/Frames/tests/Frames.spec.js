@@ -118,9 +118,7 @@ describe("Frames", () => {
           displayFullUrl={true}
         />
       );
-      expect(component.text()).toBe(
-        "renderFoo http://myfile.com/mahscripts.js:55"
-      );
+      expect(component.text()).toBe("renderFoo http://myfile.com/mahscripts.js:55");
     });
 
     it("passes the getFrameTitle prop to the Frame component", () => {
@@ -203,11 +201,7 @@ describe("Frames", () => {
         "2": { id: "2", isBlackBoxed: true }
       };
 
-      const processedFrames = formatCallStackFrames(
-        frames,
-        sources,
-        sources["1"]
-      );
+      const processedFrames = formatCallStackFrames(frames, sources, sources["1"]);
       const selectedFrame = frames[0];
 
       const component = render({

@@ -242,10 +242,7 @@ function removeBreakpoint(
   }
 }
 
-function setBreakpointOptions(
-  location: SourceActorLocation,
-  options: BreakpointOptions
-) {
+function setBreakpointOptions(location: SourceActorLocation, options: BreakpointOptions) {
   const id = makeBreakpointActorId(location);
   const bpClient = bpClients[id];
   delete bpClients[id];
@@ -277,9 +274,7 @@ function evaluate(
     return Promise.resolve({ result: null });
   }
 
-  const console = thread
-    ? lookupConsoleClient(thread)
-    : tabTarget.activeConsole;
+  const console = thread ? lookupConsoleClient(thread) : tabTarget.activeConsole;
   if (!console) {
     return Promise.resolve({ result: null });
   }
@@ -287,11 +282,7 @@ function evaluate(
   return console.evaluateJSAsync(script, params);
 }
 
-function autocomplete(
-  input: string,
-  cursor: number,
-  frameId: ?string
-): Promise<mixed> {
+function autocomplete(input: string, cursor: number, frameId: ?string): Promise<mixed> {
   if (!tabTarget || !tabTarget.activeConsole || !input) {
     return Promise.resolve({});
   }
@@ -361,10 +352,7 @@ async function blackBox(
   }
 }
 
-async function setPausePoints(
-  sourceActor: SourceActor,
-  pausePoints: PausePointsMap
-) {
+async function setPausePoints(sourceActor: SourceActor, pausePoints: PausePointsMap) {
   return sendPacket({
     to: sourceActor.actor,
     type: "setPausePoints",
@@ -406,9 +394,7 @@ async function createSources(client: ThreadClient) {
   if (!sources) {
     return null;
   }
-  return sources.map(packet =>
-    createSource(client.actor, packet, { supportsWasm })
-  );
+  return sources.map(packet => createSource(client.actor, packet, { supportsWasm }));
 }
 
 async function fetchSources(): Promise<any[]> {
@@ -444,9 +430,7 @@ async function fetchWorkers(): Promise<Worker[]> {
       createSources(workerClients[actor].thread);
     });
 
-    return workerNames.map(actor =>
-      createWorker(actor, workerClients[actor].url)
-    );
+    return workerNames.map(actor => createWorker(actor, workerClients[actor].url));
   }
 
   if (!supportsWorkers(tabTarget)) {

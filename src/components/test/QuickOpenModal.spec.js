@@ -225,9 +225,7 @@ describe("QuickOpenModal", () => {
       },
       "mount"
     );
-    wrapper
-      .find("input")
-      .simulate("change", { target: { value: "somefil:33" } });
+    wrapper.find("input").simulate("change", { target: { value: "somefil:33" } });
     expect(filter).toHaveBeenCalledWith([], "somefil", {
       key: "value",
       maxResults: 1000
@@ -251,9 +249,7 @@ describe("QuickOpenModal", () => {
         "mount"
       );
 
-      wrapper
-        .find("input")
-        .simulate("change", { target: { value: "@someFunc" } });
+      wrapper.find("input").simulate("change", { target: { value: "@someFunc" } });
 
       expect(filter).toHaveBeenCalledWith([], "someFunc", {
         key: "value",
@@ -276,9 +272,7 @@ describe("QuickOpenModal", () => {
         },
         "mount"
       );
-      wrapper
-        .find("input")
-        .simulate("change", { target: { value: "@someFunc" } });
+      wrapper.find("input").simulate("change", { target: { value: "@someFunc" } });
       expect(filter).not.toHaveBeenCalled();
     });
   });

@@ -6,11 +6,7 @@
 
 import { createStore, selectors, actions } from "../../utils/test-head";
 
-const {
-  getFileSearchQuery,
-  getFileSearchModifiers,
-  getFileSearchResults
-} = selectors;
+const { getFileSearchQuery, getFileSearchModifiers, getFileSearchResults } = selectors;
 
 describe("file text search", () => {
   it("should update search results", () => {

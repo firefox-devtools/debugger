@@ -23,9 +23,7 @@ class PaneToggleButton extends PureComponent<Props> {
 
   render() {
     const { position, collapsed, horizontal, handleClick } = this.props;
-    const title = !collapsed
-      ? L10N.getStr("expandPanes")
-      : L10N.getStr("collapsePanes");
+    const title = !collapsed ? L10N.getStr("expandPanes") : L10N.getStr("collapsePanes");
 
     return (
       <CommandBarButton

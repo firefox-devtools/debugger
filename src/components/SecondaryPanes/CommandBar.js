@@ -112,9 +112,7 @@ class CommandBar extends Component<Props> {
       // The Mac supports both the Windows Function keys
       // as well as the Mac non-Function keys
       COMMANDS.forEach(action =>
-        shortcuts.on(getKeyForOS("WINNT", action), (_, e) =>
-          this.handleEvent(e, action)
-        )
+        shortcuts.on(getKeyForOS("WINNT", action), (_, e) => this.handleEvent(e, action))
       );
     }
   }
@@ -264,13 +262,9 @@ class CommandBar extends Component<Props> {
 
     return (
       <button
-        className={classnames(
-          "command-bar-button",
-          "command-bar-skip-pausing",
-          {
-            active: skipPausing
-          }
-        )}
+        className={classnames("command-bar-button", "command-bar-skip-pausing", {
+          active: skipPausing
+        })}
         title={L10N.getStr("skipPausingTooltip.label")}
         onClick={toggleSkipPausing}
       >

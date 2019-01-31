@@ -11,7 +11,13 @@ function getLabel(dbg, index) {
 }
 
 add_task(async function() {
-  const dbg = await initDebugger("doc-sources.html", "simple1", "simple2", "nested-source", "long.js");
+  const dbg = await initDebugger(
+    "doc-sources.html",
+    "simple1",
+    "simple2",
+    "nested-source",
+    "long.js"
+  );
   const {
     selectors: { getSelectedSource },
     getState
@@ -51,9 +57,5 @@ add_task(async function() {
 
   await waitForSourceCount(dbg, 9);
   await assertNodeIsFocused(dbg, 4);
-  is(
-    getLabel(dbg, 7),
-    "math.min.js",
-    "math.min.js - The dynamic script exists"
-  );
+  is(getLabel(dbg, 7), "math.min.js", "math.min.js - The dynamic script exists");
 });

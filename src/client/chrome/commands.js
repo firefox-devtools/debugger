@@ -4,11 +4,7 @@
 
 // @flow
 
-import {
-  toServerLocation,
-  fromServerLocation,
-  createLoadedObject
-} from "./create";
+import { toServerLocation, fromServerLocation, createLoadedObject } from "./create";
 
 import type { SourceLocation } from "../../types";
 import type { ServerLocation, Agents } from "./types";

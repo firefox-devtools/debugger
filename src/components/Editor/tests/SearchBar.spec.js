@@ -63,9 +63,7 @@ describe("SearchBar", () => {
 describe("doSearch", () => {
   it("should complete a search", async () => {
     const { component, props } = render();
-    component
-      .find("SearchInput")
-      .simulate("change", { target: { value: "query" } });
+    component.find("SearchInput").simulate("change", { target: { value: "query" } });
 
     const doSearchArgs = props.doSearch.mock.calls[0][0];
     expect(doSearchArgs).toMatchSnapshot();

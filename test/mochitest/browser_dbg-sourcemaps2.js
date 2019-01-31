@@ -5,11 +5,7 @@ requestLongerTimeout(2);
 function assertBpInGutter(dbg, lineNumber) {
   const el = findElement(dbg, "breakpoint");
   const bpLineNumber = +el.querySelector(".CodeMirror-linenumber").innerText;
-  is(
-    bpLineNumber,
-    lineNumber,
-    "Breakpoint is on the correct line in the gutter"
-  );
+  is(bpLineNumber, lineNumber, "Breakpoint is on the correct line in the gutter");
 }
 
 // Tests loading sourcemapped sources, setting breakpoints, and
@@ -47,8 +43,5 @@ add_task(async function() {
   ok(findElement(dbg, "sourceMapLink"), "Sourcemap link in original source");
   await selectSource(dbg, "main.min.js");
 
-  ok(
-    !findElement(dbg, "sourceMapLink"),
-    "No Sourcemap link exists in generated source"
-  );
+  ok(!findElement(dbg, "sourceMapLink"), "No Sourcemap link exists in generated source");
 });

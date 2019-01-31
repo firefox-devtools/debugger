@@ -4,12 +4,7 @@
 
 // @flow
 
-import {
-  createStore,
-  selectors,
-  actions,
-  makeSource
-} from "../../utils/test-head";
+import { createStore, selectors, actions, makeSource } from "../../utils/test-head";
 
 const {
   getActiveSearch,
@@ -123,9 +118,7 @@ describe("setProjectDirectoryRoot", () => {
     const filteredSources = Object.values(filteredSourcesByThread)[0];
     const firstSource: Source = (Object.values(filteredSources)[0]: any);
 
-    expect(firstSource.url).toEqual(
-      "http://localhost:8000/examples/js/scopes.js"
-    );
+    expect(firstSource.url).toEqual("http://localhost:8000/examples/js/scopes.js");
 
     expect(firstSource.relativeUrl).toEqual("scopes.js");
   });

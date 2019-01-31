@@ -26,16 +26,11 @@ export class Worker extends Component<Props> {
   render() {
     const { currentThread, isPaused, thread } = this.props;
 
-    const label = isWorker(thread)
-      ? getDisplayName(thread)
-      : L10N.getStr("mainThread");
+    const label = isWorker(thread) ? getDisplayName(thread) : L10N.getStr("mainThread");
 
     return (
       <div
-        className={classnames(
-          "worker",
-          thread.actor == currentThread && "selected"
-        )}
+        className={classnames("worker", thread.actor == currentThread && "selected")}
         key={thread.actor}
         onClick={() => this.props.selectThread(thread.actor)}
       >

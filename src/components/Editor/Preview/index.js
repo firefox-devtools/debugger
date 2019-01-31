@@ -50,10 +50,7 @@ function inPopup(e) {
 
 function getElementFromPos(pos: DOMRect) {
   // $FlowIgnore
-  return document.elementFromPoint(
-    pos.x + pos.width / 2,
-    pos.y + pos.height / 2
-  );
+  return document.elementFromPoint(pos.x + pos.width / 2, pos.y + pos.height / 2);
 }
 
 class Preview extends PureComponent<Props, State> {

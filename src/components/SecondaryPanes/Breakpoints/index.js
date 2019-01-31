@@ -17,10 +17,7 @@ import actions from "../../../actions";
 import { getDisplayPath } from "../../../utils/source";
 import { getSelectedLocation } from "../../../utils/source-maps";
 
-import {
-  makeBreakpointId,
-  sortSelectedBreakpoints
-} from "../../../utils/breakpoint";
+import { makeBreakpointId, sortSelectedBreakpoints } from "../../../utils/breakpoint";
 
 import { getSelectedSource, getBreakpointSources } from "../../../selectors";
 
@@ -66,9 +63,7 @@ class Breakpoints extends Component<Props> {
             className="breakpoints-exceptions-caught"
             label={L10N.getStr("pauseOnCaughtExceptionsItem")}
             isChecked={shouldPauseOnCaughtExceptions}
-            onChange={() =>
-              pauseOnExceptions(true, !shouldPauseOnCaughtExceptions)
-            }
+            onChange={() => pauseOnExceptions(true, !shouldPauseOnCaughtExceptions)}
           />
         )}
       </div>
@@ -77,17 +72,12 @@ class Breakpoints extends Component<Props> {
 
   renderBreakpoints() {
     const { breakpointSources, selectedSource } = this.props;
-    const sources = [
-      ...breakpointSources.map(({ source, breakpoints }) => source)
-    ];
+    const sources = [...breakpointSources.map(({ source, breakpoints }) => source)];
 
     return [
       ...breakpointSources.map(({ source, breakpoints, i }) => {
         const path = getDisplayPath(source, sources);
-        const sortedBreakpoints = sortSelectedBreakpoints(
-          breakpoints,
-          selectedSource
-        );
+        const sortedBreakpoints = sortSelectedBreakpoints(breakpoints, selectedSource);
 
         return [
           <BreakpointHeading
@@ -101,9 +91,7 @@ class Breakpoints extends Component<Props> {
               breakpoint={breakpoint}
               source={source}
               selectedSource={selectedSource}
-              key={makeBreakpointId(
-                getSelectedLocation(breakpoint, selectedSource)
-              )}
+              key={makeBreakpointId(getSelectedLocation(breakpoint, selectedSource))}
             />
           ))
         ];

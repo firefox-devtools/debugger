@@ -29,9 +29,7 @@ server.registerPathHandler("/inline-cache.html", (request, response) => {
   `);
 });
 
-const SOURCE_URL = `http://localhost:${
-  server.identity.primaryPort
-}/inline-cache.html`;
+const SOURCE_URL = `http://localhost:${server.identity.primaryPort}/inline-cache.html`;
 
 /**
  * This is meant to simulate the developer editing the inline source and saving.

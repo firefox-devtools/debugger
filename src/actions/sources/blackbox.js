@@ -46,13 +46,7 @@ export function toggleBlackBox(source: Source) {
     return dispatch({
       type: "BLACKBOX",
       source,
-      [PROMISE]: blackboxActors(
-        getState(),
-        client,
-        sourceId,
-        isBlackBoxed,
-        range
-      )
+      [PROMISE]: blackboxActors(getState(), client, sourceId, isBlackBoxed, range)
     });
   };
 }

@@ -5,12 +5,7 @@
 
 // @flow
 
-import {
-  isPaused,
-  getCurrentThread,
-  getSource,
-  getTopFrame
-} from "../../selectors";
+import { isPaused, getCurrentThread, getSource, getTopFrame } from "../../selectors";
 import { PROMISE } from "../utils/middleware/promise";
 import { getNextStep } from "../../workers/parser";
 import { addHiddenBreakpoint } from "../breakpoints";

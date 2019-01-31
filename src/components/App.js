@@ -128,10 +128,7 @@ class App extends Component<Props, State> {
   componentWillUnmount() {
     horizontalLayoutBreakpoint.removeListener(this.onLayoutChange);
     verticalLayoutBreakpoint.removeListener(this.onLayoutChange);
-    shortcuts.off(
-      L10N.getStr("symbolSearch.search.key2"),
-      this.toggleQuickOpenModal
-    );
+    shortcuts.off(L10N.getStr("symbolSearch.search.key2"), this.toggleQuickOpenModal);
 
     const searchKeys = [
       L10N.getStr("sources.search.key2"),
@@ -171,11 +168,7 @@ class App extends Component<Props, State> {
     return this.props.orientation === "horizontal";
   }
 
-  toggleQuickOpenModal = (
-    _,
-    e: SyntheticEvent<HTMLElement>,
-    query?: string
-  ) => {
+  toggleQuickOpenModal = (_, e: SyntheticEvent<HTMLElement>, query?: string) => {
     const { quickOpenEnabled, openQuickOpen, closeQuickOpen } = this.props;
 
     e.preventDefault();

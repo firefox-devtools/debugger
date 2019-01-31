@@ -24,11 +24,7 @@ import {
   getFileSearchResults
 } from "../selectors";
 
-import {
-  closeActiveSearch,
-  clearHighlightLineRange,
-  setActiveSearch
-} from "./ui";
+import { closeActiveSearch, clearHighlightLineRange, setActiveSearch } from "./ui";
 type Editor = Object;
 type Match = Object;
 
@@ -66,9 +62,7 @@ export function setFileSearchQuery(query: string): Action {
   };
 }
 
-export function toggleFileSearchModifier(
-  modifier: FileTextSearchModifier
-): Action {
+export function toggleFileSearchModifier(modifier: FileTextSearchModifier): Action {
   return { type: "TOGGLE_FILE_SEARCH_MODIFIER", modifier };
 }
 
@@ -138,13 +132,7 @@ export function searchContentsForHighlight(
     const modifiers = getFileSearchModifiers(getState());
     const selectedSource = getSelectedSource(getState());
 
-    if (
-      !query ||
-      !editor ||
-      !selectedSource ||
-      !selectedSource.text ||
-      !modifiers
-    ) {
+    if (!query || !editor || !selectedSource || !selectedSource.text || !modifiers) {
       return;
     }
 

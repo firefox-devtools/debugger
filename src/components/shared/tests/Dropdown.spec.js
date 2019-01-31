@@ -13,6 +13,5 @@ describe("Dropdown", () => {
   const wrapper = shallow(<Dropdown panel={<div />} icon="✅" />);
   it("render", () => expect(wrapper).toMatchSnapshot());
   wrapper.find(".dropdown").simulate("click");
-  it("handle toggleDropdown", () =>
-    expect(wrapper.state().dropdownShown).toEqual(true));
+  it("handle toggleDropdown", () => expect(wrapper.state().dropdownShown).toEqual(true));
 });

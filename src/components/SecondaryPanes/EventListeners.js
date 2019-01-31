@@ -65,9 +65,7 @@ class EventListeners extends Component<Props, State> {
 
   onCategoryClick(category, isChecked) {
     const { addEventListeners, removeEventListeners } = this.props;
-    const events = CATEGORIES[category].map(eventType =>
-      getKey(category, eventType)
-    );
+    const events = CATEGORIES[category].map(eventType => getKey(category, eventType));
 
     if (isChecked) {
       addEventListeners(events);

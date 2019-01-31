@@ -20,13 +20,7 @@ function unmountRoot() {
 
 if (isFirefoxPanel()) {
   module.exports = {
-    bootstrap: ({
-      threadClient,
-      tabTarget,
-      debuggerClient,
-      sourceMaps,
-      panel
-    }: any) => {
+    bootstrap: ({ threadClient, tabTarget, debuggerClient, sourceMaps, panel }: any) => {
       return onConnect(
         {
           tab: { clientType: "firefox" },
@@ -61,8 +55,7 @@ if (isFirefoxPanel()) {
         win.focus();
       },
       openWorkerToolbox: worker => alert(worker.url),
-      openElementInInspector: grip =>
-        alert(`Opening node in Inspector: ${grip.class}`),
+      openElementInInspector: grip => alert(`Opening node in Inspector: ${grip.class}`),
       openConsoleAndEvaluate: input => alert(`console.log: ${input}`)
     });
   });

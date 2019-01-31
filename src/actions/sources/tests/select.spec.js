@@ -51,9 +51,7 @@ describe("sources", () => {
       })
     );
 
-    await dispatch(
-      actions.selectLocation({ sourceId: "foo1", line: 1, column: 5 })
-    );
+    await dispatch(actions.selectLocation({ sourceId: "foo1", line: 1, column: 5 }));
 
     const selectedSource = getSelectedSource(getState());
     if (!selectedSource) {
@@ -69,8 +67,7 @@ describe("sources", () => {
 
     await waitForState(
       store,
-      state =>
-        getOutOfScopeLocations(state) && getSourceMetaData(state, source.id)
+      state => getOutOfScopeLocations(state) && getSourceMetaData(state, source.id)
     );
     const locations = getOutOfScopeLocations(getState());
     expect(locations).toHaveLength(1);
@@ -214,9 +211,7 @@ describe("sources", () => {
     const baseCSR = makeSource("base.js");
     await dispatch(actions.newSource(baseCSR));
 
-    await dispatch(
-      actions.selectLocation({ sourceId: baseCSR.source.id, line: 1 })
-    );
+    await dispatch(actions.selectLocation({ sourceId: baseCSR.source.id, line: 1 }));
 
     const selected = getSelectedSource(getState());
     expect(selected && selected.id).toBe(baseCSR.source.id);
@@ -244,9 +239,7 @@ describe("sources", () => {
 
     const fooCSR = makeSource("foo.js");
     await dispatch(actions.newSource(fooCSR));
-    await dispatch(
-      actions.selectLocation({ sourceId: fooCSR.source.id, line: 1 })
-    );
+    await dispatch(actions.selectLocation({ sourceId: fooCSR.source.id, line: 1 }));
 
     const selected = getSelectedLocation(getState());
     expect(selected && selected.line).toBe(12);

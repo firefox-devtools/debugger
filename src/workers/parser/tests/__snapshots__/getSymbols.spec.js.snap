@@ -90,7 +90,7 @@ loading: false"
 
 exports[`Parser.getSymbols call expression 1`] = `
 "functions:
-[(2, 0), (2, 70)]  evaluate(script, , )
+[(2, 0), (2, 76)]  evaluate(script, , )
 
 callExpressions:
 [(1, 0), (1, 8)]  dispatch
@@ -111,9 +111,9 @@ memberExpressions:
 objectProperties:
 [(1, 11), (1, 12)]  d
 [(2, 28), (2, 35)]  frameId
-[(2, 41), (2, 48)]  frameId
-[(2, 55), (2, 56)]  c
-[(2, 61), (2, 62)]  c
+[(2, 42), (2, 49)]  frameId
+[(2, 58), (2, 59)]  c
+[(2, 66), (2, 67)]  c
 
 comments:
 
@@ -124,9 +124,9 @@ identifiers:
 [(2, 9), (2, 17)] evaluate evaluate
 [(2, 18), (2, 24)] script script
 [(2, 28), (2, 35)] frameId frameId
-[(2, 41), (2, 48)] 3 frameId
-[(2, 55), (2, 56)] c c
-[(2, 61), (2, 62)] 2 c
+[(2, 42), (2, 49)] 3 frameId
+[(2, 58), (2, 59)] c c
+[(2, 66), (2, 67)] 2 c
 [(4, 0), (4, 1)] a a
 [(4, 2), (4, 3)] b b
 [(4, 4), (4, 5)] c c
@@ -427,7 +427,7 @@ callExpressions:
 memberExpressions:
 [(7, 35), (7, 42)] arr.entries entries
 [(8, 10), (8, 13)] console.log log
-[(16, 34), (16, 46)] prefsBlueprint[accessorName] accessorName
+[(18, 34), (18, 46)] prefsBlueprint[accessorName] accessorName
 
 objectProperties:
 [(1, 8), (1, 9)] b b
@@ -437,10 +437,10 @@ objectProperties:
 [(11, 8), (11, 9)] a a
 [(11, 20), (11, 21)] b b
 [(11, 36), (11, 37)] a a
-[(12, 8), (12, 12)] temp temp
-[(12, 17), (12, 20)]  foo
-[(14, 7), (14, 10)] [key] key
-[(14, 23), (14, 24)] z z
+[(13, 2), (13, 6)] temp temp
+[(13, 11), (13, 14)]  foo
+[(16, 7), (16, 10)] [key] key
+[(16, 23), (16, 24)] z z
 
 comments:
 
@@ -473,19 +473,19 @@ identifiers:
 [(11, 20), (11, 21)] bb = 5 b
 [(11, 23), (11, 25)] bb bb
 [(11, 36), (11, 37)] 3 a
-[(12, 22), (12, 27)] foooo foooo
-[(12, 8), (12, 12)] [{
+[(13, 16), (13, 21)] foooo foooo
+[(13, 2), (13, 6)] [{
   foo: foooo
 }] temp
-[(12, 17), (12, 20)] foooo foo
-[(12, 35), (12, 38)] obj obj
-[(14, 13), (14, 16)] foo foo
-[(14, 7), (14, 10)] foo key
-[(14, 23), (14, 24)] \\"bar\\" z
-[(14, 26), (14, 31)] \\"bar\\" bar
-[(16, 7), (16, 15)] prefName prefName
-[(16, 19), (16, 33)] prefsBlueprint prefsBlueprint
-[(16, 34), (16, 46)] accessorName accessorName
+[(13, 11), (13, 14)] foooo foo
+[(14, 4), (14, 7)] obj obj
+[(16, 13), (16, 16)] foo foo
+[(16, 7), (16, 10)] foo key
+[(16, 23), (16, 24)] \\"bar\\" z
+[(16, 26), (16, 31)] \\"bar\\" bar
+[(18, 7), (18, 15)] prefName prefName
+[(18, 19), (18, 33)] prefsBlueprint prefsBlueprint
+[(18, 34), (18, 46)] accessorName accessorName
 
 classes:
 
@@ -853,26 +853,26 @@ exports[`Parser.getSymbols func 1`] = `
 [(23, 1), (25, 1)]  anonymous()
 [(28, 7), (30, 3)]  name()
 [(32, 2), (34, 3)]  bar()
-[(37, 15), (38, 1)]  root()
-[(40, 0), (42, 1)]  test(a1, , )
-[(44, 0), (44, 13)]  anonymous()    1
-[(46, 0), (50, 1)]  ret2()
+[(37, 15), (37, 33)]  root()
+[(39, 0), (41, 1)]  test(a1, , )
+[(43, 0), (43, 13)]  anonymous()    1
+[(45, 0), (47, 1)]  ret2()
 
 callExpressions:
 [(18, 9), (18, 12)]  foo
 [(23, 1), (25, 1)]
-[(41, 10), (41, 13)]  log   pause next here
-[(48, 4), (48, 7)]  foo
+[(40, 10), (40, 13)]  log   pause next here
+[(46, 9), (46, 12)]  foo
 
 memberExpressions:
-[(41, 10), (41, 13)] console.log log
+[(40, 10), (40, 13)] console.log log
 
 objectProperties:
 [(28, 2), (28, 5)] obj.foo foo
-[(40, 29), (40, 31)]  a3
-[(40, 33), (40, 35)]  a4
-[(40, 37), (40, 39)]  a5
-[(40, 43), (40, 45)]  a6
+[(39, 29), (39, 31)]  a3
+[(39, 33), (39, 35)]  a4
+[(39, 37), (39, 39)]  a5
+[(39, 43), (39, 45)]  a6
 
 comments:
 
@@ -893,21 +893,21 @@ identifiers:
 [(28, 16), (28, 20)] name name
 [(32, 2), (32, 5)] bar bar
 [(37, 24), (37, 28)] root root
-[(40, 9), (40, 13)] test test
-[(40, 14), (40, 16)] a1 a1
-[(40, 18), (40, 20)] a2 a2
-[(40, 29), (40, 31)] a3 a3
-[(40, 33), (40, 35)] a4 a4
-[(40, 37), (40, 39)] {
+[(39, 9), (39, 13)] test test
+[(39, 14), (39, 16)] a1 a1
+[(39, 18), (39, 20)] a2 a2
+[(39, 29), (39, 31)] a3 a3
+[(39, 33), (39, 35)] a4 a4
+[(39, 37), (39, 39)] {
   a6: a7
 } = {} a5
-[(40, 43), (40, 45)] a7 a6
-[(40, 47), (40, 49)] a7 a7
-[(41, 2), (41, 9)] console console
-[(41, 10), (41, 13)] log log
-[(44, 7), (44, 8)] x x
-[(46, 9), (46, 13)] ret2 ret2
-[(48, 4), (48, 7)] foo foo
+[(39, 43), (39, 45)] a7 a6
+[(39, 47), (39, 49)] a7 a7
+[(40, 2), (40, 9)] console console
+[(40, 10), (40, 13)] log log
+[(43, 7), (43, 8)] x x
+[(45, 9), (45, 13)] ret2 ret2
+[(46, 9), (46, 12)] foo foo
 
 classes:
 
@@ -1146,14 +1146,14 @@ exports[`Parser.getSymbols object expressions 1`] = `
 
 
 callExpressions:
-[(3, 62), (3, 70)]  getValue   2
+[(3, 61), (3, 69)]  getValue   2
 
 memberExpressions:
 
 
 objectProperties:
-[(1, 13), (1, 19)] y.params params
-[(2, 15), (2, 16)] foo.b b
+[(1, 12), (1, 18)] y.params params
+[(2, 14), (2, 15)] foo.b b
 [(3, 14), (3, 15)] bar.x x
 [(3, 20), (3, 21)] bar.y y
 [(3, 30), (3, 31)] bar.z z
@@ -1161,19 +1161,19 @@ objectProperties:
 [(3, 48), (3, 49)] bar.s s
 [(3, 58), (3, 59)] bar.d d
 [(4, 27), (4, 37)]  frameActor
-[(6, 20), (6, 26)] collection.genres genres
-[(6, 29), (6, 37)] collection.genres
-[(6, 40), (6, 46)] collection.genres.undefined.movies movies
-[(6, 50), (6, 58)] collection.genres.undefined.movies[0].director director
+[(6, 21), (6, 27)] collection.genres genres
+[(6, 31), (6, 39)] collection.genres
+[(6, 43), (6, 49)] collection.genres.undefined.movies movies
+[(6, 54), (6, 62)] collection.genres.undefined.movies[0].director director
 
 comments:
 
 
 identifiers:
 [(1, 6), (1, 7)] y y
-[(1, 13), (1, 19)] params params
+[(1, 12), (1, 18)] params params
 [(2, 6), (2, 9)] foo foo
-[(2, 15), (2, 16)] b b
+[(2, 14), (2, 15)] b b
 [(3, 6), (3, 9)] bar bar
 [(3, 14), (3, 15)] 3 x
 [(3, 20), (3, 21)] \\"434\\" y
@@ -1183,29 +1183,29 @@ identifiers:
 [(3, 48), (3, 49)] c * 2 s
 [(3, 51), (3, 52)] c c
 [(3, 58), (3, 59)]  d
-[(3, 62), (3, 70)] getValue getValue
+[(3, 61), (3, 69)] getValue getValue
 [(4, 6), (4, 12)] params params
 [(4, 15), (4, 22)] frameId frameId
 [(4, 27), (4, 37)] frameId frameActor
 [(4, 39), (4, 46)] frameId frameId
 [(6, 6), (6, 16)] collection collection
-[(6, 20), (6, 26)] ({
+[(6, 21), (6, 27)] ({
   \\"sci-fi\\": {
     movies: [{
       director: \\"yo\\"
     }]
   }
 }) genres
-[(6, 29), (6, 37)] ({
+[(6, 31), (6, 39)] ({
   movies: [{
     director: \\"yo\\"
   }]
 }) sci-fi
-[(6, 40), (6, 46)] [{
+[(6, 43), (6, 49)] [{
   director: \\"yo\\"
 }] movies
-[(6, 50), (6, 58)] \\"yo\\" director
-[(6, 60), (6, 64)] \\"yo\\" yo
+[(6, 54), (6, 62)] \\"yo\\" director
+[(6, 64), (6, 68)] \\"yo\\" yo
 
 classes:
 
@@ -1331,15 +1331,15 @@ memberExpressions:
 
 
 objectProperties:
-[(8, 6), (8, 9)] foo foo
-[(8, 13), (8, 16)] foo.bar bar
-[(9, 5), (9, 8)] baz baz
-[(10, 5), (10, 7)] ll ll
-[(15, 6), (15, 7)] a a
-[(17, 10), (17, 12)]  my
-[(19, 13), (19, 15)]  oy
-[(19, 17), (19, 20)]  vey
-[(19, 28), (19, 35)]  mitzvot
+[(9, 2), (9, 5)] foo foo
+[(9, 9), (9, 12)] foo.bar bar
+[(11, 6), (11, 9)] baz baz
+[(12, 6), (12, 8)] ll ll
+[(16, 6), (16, 7)] a a
+[(18, 11), (18, 13)]  my
+[(20, 14), (20, 16)]  oy
+[(20, 18), (20, 21)]  vey
+[(20, 29), (20, 36)]  mitzvot
 
 comments:
 
@@ -1351,26 +1351,26 @@ identifiers:
 [(4, 6), (4, 7)] a a
 [(5, 2), (5, 3)] b b
 [(6, 0), (6, 1)] a a
-[(8, 13), (8, 16)] bar bar
-[(8, 6), (8, 9)] {
+[(9, 9), (9, 12)] bar bar
+[(9, 2), (9, 5)] {
   bar
 } foo
-[(9, 5), (9, 8)] baz baz
-[(10, 5), (10, 7)] ll = 3 ll
-[(13, 5), (13, 10)] first first
-[(15, 9), (15, 11)] _a _a
-[(15, 6), (15, 7)] _a a
-[(17, 5), (17, 7)] oh oh
-[(17, 14), (17, 17)] god god
-[(17, 10), (17, 12)] god my
-[(19, 6), (19, 8)] oh oh
-[(19, 13), (19, 15)] oy oy
-[(19, 22), (19, 26)] _vey _vey
-[(19, 17), (19, 20)] _vey vey
-[(19, 28), (19, 35)] _mitz = 4 mitzvot
-[(19, 37), (19, 42)] _mitz _mitz
-[(21, 5), (21, 8)] one one
-[(21, 13), (21, 18)] stuff stuff
+[(11, 6), (11, 9)] baz baz
+[(12, 6), (12, 8)] ll = 3 ll
+[(14, 5), (14, 10)] first first
+[(16, 9), (16, 11)] _a _a
+[(16, 6), (16, 7)] _a a
+[(18, 5), (18, 7)] oh oh
+[(18, 15), (18, 18)] god god
+[(18, 11), (18, 13)] god my
+[(20, 6), (20, 8)] oh oh
+[(20, 14), (20, 16)] oy oy
+[(20, 23), (20, 27)] _vey _vey
+[(20, 18), (20, 21)] _vey vey
+[(20, 29), (20, 36)] _mitz = 4 mitzvot
+[(20, 38), (20, 43)] _mitz _mitz
+[(22, 5), (22, 8)] one one
+[(22, 13), (22, 18)] stuff stuff
 
 classes:
 

@@ -105,10 +105,10 @@ describe("breakpoints", () => {
         line: 5,
         sourceUrl: "http://localhost:8000/examples/a"
       };
-      const {
-        correctedThreadClient,
-        correctedLocation
-      } = simulateCorrectThreadClient(2, invalidLocation);
+      const { correctedThreadClient, correctedLocation } = simulateCorrectThreadClient(
+        2,
+        invalidLocation
+      );
       const { dispatch, getState } = createStore(correctedThreadClient);
 
       const csr = makeSource("a");
@@ -352,9 +352,7 @@ describe("breakpoints", () => {
     );
     const newBreakpoint = selectors.getBreakpoint(getState(), loc);
     expect(newBreakpoint && !newBreakpoint.disabled).toBe(true);
-    expect(newBreakpoint && newBreakpoint.options.condition).toBe(
-      "const foo = 0"
-    );
+    expect(newBreakpoint && newBreakpoint.options.condition).toBe("const foo = 0");
   });
 
   it("should remap breakpoints on pretty print", async () => {
@@ -376,8 +374,7 @@ describe("breakpoints", () => {
     const breakpoint = selectors.getBreakpointsList(getState())[0];
 
     expect(
-      breakpoint.location.sourceUrl &&
-        breakpoint.location.sourceUrl.includes("formatted")
+      breakpoint.location.sourceUrl && breakpoint.location.sourceUrl.includes("formatted")
     ).toBe(true);
     expect(breakpoint).toMatchSnapshot();
   });

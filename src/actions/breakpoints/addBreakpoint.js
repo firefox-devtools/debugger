@@ -27,11 +27,7 @@ import { getTextAtPosition } from "../../utils/source";
 import { recordEvent } from "../../utils/telemetry";
 import { features } from "../../utils/prefs";
 
-import type {
-  BreakpointOptions,
-  Breakpoint,
-  SourceLocation
-} from "../../types";
+import type { BreakpointOptions, Breakpoint, SourceLocation } from "../../types";
 import type { ThunkArgs } from "../types";
 
 async function addBreakpointPromise(getState, client, sourceMaps, breakpoint) {
@@ -58,9 +54,7 @@ async function addBreakpointPromise(getState, client, sourceMaps, breakpoint) {
   const generatedSource = getSource(state, generatedLocation.sourceId);
 
   if (!generatedSource) {
-    throw new Error(
-      `Unable to find generated source: ${generatedLocation.sourceId}`
-    );
+    throw new Error(`Unable to find generated source: ${generatedLocation.sourceId}`);
   }
 
   assertLocation(location);
@@ -76,10 +70,7 @@ async function addBreakpointPromise(getState, client, sourceMaps, breakpoint) {
   const newGeneratedLocation = { ...generatedLocation };
 
   for (const sourceActor of sourceActors) {
-    const sourceActorLocation = makeSourceActorLocation(
-      sourceActor,
-      generatedLocation
-    );
+    const sourceActorLocation = makeSourceActorLocation(sourceActor, generatedLocation);
     const { actualLocation } = await client.setBreakpoint(
       sourceActorLocation,
       breakpoint.options,
@@ -89,9 +80,7 @@ async function addBreakpointPromise(getState, client, sourceMaps, breakpoint) {
     newGeneratedLocation.column = actualLocation.column;
   }
 
-  const newLocation = await sourceMaps.getOriginalLocation(
-    newGeneratedLocation
-  );
+  const newLocation = await sourceMaps.getOriginalLocation(newGeneratedLocation);
 
   const symbols = getSymbols(getState(), source);
   const astLocation = await getASTLocation(source, symbols, newLocation);
@@ -113,9 +102,7 @@ async function addBreakpointPromise(getState, client, sourceMaps, breakpoint) {
 
   assertBreakpoint(newBreakpoint);
 
-  const previousLocation = locationMoved(location, newLocation)
-    ? location
-    : null;
+  const previousLocation = locationMoved(location, newLocation) ? location : null;
 
   return {
     breakpoint: newBreakpoint,
@@ -154,10 +141,7 @@ export function enableBreakpoint(breakpoint: Breakpoint) {
  * @param {BreakpointOptions} options Any options for the new breakpoint.
  */
 
-export function addBreakpoint(
-  location: SourceLocation,
-  options: BreakpointOptions = {}
-) {
+export function addBreakpoint(location: SourceLocation, options: BreakpointOptions = {}) {
   return async ({ dispatch, getState, sourceMaps, client }: ThunkArgs) => {
     recordEvent("add_breakpoint");
 

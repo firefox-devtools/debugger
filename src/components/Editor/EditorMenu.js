@@ -38,11 +38,7 @@ class EditorMenu extends Component {
       contextMenu: event
     } = props;
 
-    const location = getSourceLocationFromMouseEvent(
-      editor,
-      selectedSource,
-      event
-    );
+    const location = getSourceLocationFromMouseEvent(editor, selectedSource, event);
 
     showMenu(
       event,

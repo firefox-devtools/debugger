@@ -95,11 +95,7 @@ export async function syncBreakpointPromise(
   const { location, astLocation } = pendingBreakpoint;
   const previousLocation = { ...location, sourceId };
 
-  const scopedLocation = await makeScopedLocation(
-    astLocation,
-    previousLocation,
-    source
-  );
+  const scopedLocation = await makeScopedLocation(astLocation, previousLocation, source);
 
   const scopedGeneratedLocation = await getGeneratedLocation(
     getState(),
@@ -115,10 +111,7 @@ export async function syncBreakpointPromise(
     sourceId: generatedSourceId
   };
 
-  const isSameLocation = !locationMoved(
-    generatedLocation,
-    scopedGeneratedLocation
-  );
+  const isSameLocation = !locationMoved(generatedLocation, scopedGeneratedLocation);
 
   const sourceActors = getSourceActors(getState(), sourceId);
 
@@ -157,10 +150,7 @@ export async function syncBreakpointPromise(
 
   // clear server breakpoints if they exist and we have moved
   for (const sourceActor of sourceActors) {
-    const sourceActorLocation = makeSourceActorLocation(
-      sourceActor,
-      generatedLocation
-    );
+    const sourceActorLocation = makeSourceActorLocation(sourceActor, generatedLocation);
     if (client.getBreakpointByLocation(sourceActorLocation)) {
       await client.removeBreakpoint(sourceActorLocation);
     }
@@ -191,9 +181,7 @@ export async function syncBreakpointPromise(
 
   // the breakpoint might have slid server side, so we want to get the location
   // based on the server's return value
-  const newLocation = await sourceMaps.getOriginalLocation(
-    newGeneratedLocation
-  );
+  const newLocation = await sourceMaps.getOriginalLocation(newGeneratedLocation);
 
   const originalText = getTextAtPosition(source, newLocation);
   const text = getTextAtPosition(generatedSource, newGeneratedLocation);
@@ -217,10 +205,7 @@ export async function syncBreakpointPromise(
  * @param {String} $1.sourceId String  value
  * @param {PendingBreakpoint} $1.location PendingBreakpoint  value
  */
-export function syncBreakpoint(
-  sourceId: SourceId,
-  pendingBreakpoint: PendingBreakpoint
-) {
+export function syncBreakpoint(sourceId: SourceId, pendingBreakpoint: PendingBreakpoint) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const response = await syncBreakpointPromise(
       getState,

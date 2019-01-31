@@ -12,12 +12,7 @@ import { waitForMs } from "../utils/utils";
 import { newSources } from "./sources";
 import { updateWorkers } from "./debuggee";
 
-import {
-  clearASTs,
-  clearSymbols,
-  clearScopes,
-  clearSources
-} from "../workers/parser";
+import { clearASTs, clearSymbols, clearScopes, clearSources } from "../workers/parser";
 
 import { clearWasmStates } from "../utils/wasm";
 import { getMainThread } from "../selectors";

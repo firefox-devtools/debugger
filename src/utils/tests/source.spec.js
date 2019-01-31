@@ -317,7 +317,9 @@ describe("sources", () => {
       const source = makeMockSource(undefined, undefined, "", "<h1></h1>");
       expect(
         getMode(source, { ...defaultSymbolDeclarations, hasJsx: true })
-      ).toEqual({ name: "jsx" });
+      ).toEqual({
+        name: "jsx"
+      });
     });
 
     it("returns jsx if the fileExtension is .jsx", () => {

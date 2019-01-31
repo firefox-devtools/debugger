@@ -29,11 +29,7 @@ const chromeExtensionSource = {
   url: "chrome-extension://id/js/content.js"
 };
 
-const mockedSources = [
-  extenstionSource,
-  firefoxExtensionSource,
-  chromeExtensionSource
-];
+const mockedSources = [extenstionSource, firefoxExtensionSource, chromeExtensionSource];
 
 const mockedSourceActors = [
   { actor: "extensionId-actor", source: "extenstionId", thread: "foo" },

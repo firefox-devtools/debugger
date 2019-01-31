@@ -75,10 +75,7 @@ const mockThreadClient = {
 
 const mockFrameId = "1";
 
-function createPauseInfo(
-  frameLocation = { sourceId: "foo1", line: 2 },
-  frameOpts = {}
-) {
+function createPauseInfo(frameLocation = { sourceId: "foo1", line: 2 }, frameOpts = {}) {
   const frames = [
     makeFrame(
       { id: mockFrameId, sourceId: frameLocation.sourceId },
@@ -235,10 +232,7 @@ describe("pause", () => {
         original: { "1": { pending: false, scope: null } }
       });
 
-      expect(selectors.getSelectedFrameBindings(getState())).toEqual([
-        "b",
-        "a"
-      ]);
+      expect(selectors.getSelectedFrameBindings(getState())).toEqual(["b", "a"]);
     });
 
     it("maps frame locations and names to original source", async () => {

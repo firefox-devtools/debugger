@@ -134,10 +134,7 @@ class XHRBreakpoints extends Component<Props, State> {
     const placeholder = L10N.getStr("xhrBreakpoints.placeholder");
 
     return (
-      <li
-        className={classnames("xhr-input-container", { focused })}
-        key="xhr-input"
-      >
+      <li className={classnames("xhr-input-container", { focused })} key="xhr-input">
         <form className="xhr-input-form" onSubmit={onSubmit}>
           <input
             className="xhr-input"
@@ -155,11 +152,7 @@ class XHRBreakpoints extends Component<Props, State> {
     );
   }
   handleCheckbox = index => {
-    const {
-      xhrBreakpoints,
-      enableXHRBreakpoint,
-      disableXHRBreakpoint
-    } = this.props;
+    const { xhrBreakpoints, enableXHRBreakpoint, disableXHRBreakpoint } = this.props;
     const breakpoint = xhrBreakpoints[index];
     if (breakpoint.disabled) {
       enableXHRBreakpoint(index);

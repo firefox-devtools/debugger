@@ -26,9 +26,7 @@ function renderExceptionSummary(exception: string | Grip) {
 function renderMessage(why: ExceptionReason) {
   if (why.type == "exception" && why.exception) {
     return (
-      <div className={"message warning"}>
-        {renderExceptionSummary(why.exception)}
-      </div>
+      <div className={"message warning"}>{renderExceptionSummary(why.exception)}</div>
     );
   }
 

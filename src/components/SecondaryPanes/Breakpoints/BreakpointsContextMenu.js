@@ -46,55 +46,29 @@ export default function showContextMenu(props: Props) {
 
   const deleteSelfLabel = L10N.getStr("breakpointMenuItem.deleteSelf2.label");
   const deleteAllLabel = L10N.getStr("breakpointMenuItem.deleteAll2.label");
-  const deleteOthersLabel = L10N.getStr(
-    "breakpointMenuItem.deleteOthers2.label"
-  );
+  const deleteOthersLabel = L10N.getStr("breakpointMenuItem.deleteOthers2.label");
   const enableSelfLabel = L10N.getStr("breakpointMenuItem.enableSelf2.label");
   const enableAllLabel = L10N.getStr("breakpointMenuItem.enableAll2.label");
-  const enableOthersLabel = L10N.getStr(
-    "breakpointMenuItem.enableOthers2.label"
-  );
+  const enableOthersLabel = L10N.getStr("breakpointMenuItem.enableOthers2.label");
   const disableSelfLabel = L10N.getStr("breakpointMenuItem.disableSelf2.label");
   const disableAllLabel = L10N.getStr("breakpointMenuItem.disableAll2.label");
-  const disableOthersLabel = L10N.getStr(
-    "breakpointMenuItem.disableOthers2.label"
-  );
-  const removeConditionLabel = L10N.getStr(
-    "breakpointMenuItem.removeCondition2.label"
-  );
-  const addConditionLabel = L10N.getStr(
-    "breakpointMenuItem.addCondition2.label"
-  );
-  const editConditionLabel = L10N.getStr(
-    "breakpointMenuItem.editCondition2.label"
-  );
+  const disableOthersLabel = L10N.getStr("breakpointMenuItem.disableOthers2.label");
+  const removeConditionLabel = L10N.getStr("breakpointMenuItem.removeCondition2.label");
+  const addConditionLabel = L10N.getStr("breakpointMenuItem.addCondition2.label");
+  const editConditionLabel = L10N.getStr("breakpointMenuItem.editCondition2.label");
 
   const deleteSelfKey = L10N.getStr("breakpointMenuItem.deleteSelf2.accesskey");
   const deleteAllKey = L10N.getStr("breakpointMenuItem.deleteAll2.accesskey");
-  const deleteOthersKey = L10N.getStr(
-    "breakpointMenuItem.deleteOthers2.accesskey"
-  );
+  const deleteOthersKey = L10N.getStr("breakpointMenuItem.deleteOthers2.accesskey");
   const enableSelfKey = L10N.getStr("breakpointMenuItem.enableSelf2.accesskey");
   const enableAllKey = L10N.getStr("breakpointMenuItem.enableAll2.accesskey");
-  const enableOthersKey = L10N.getStr(
-    "breakpointMenuItem.enableOthers2.accesskey"
-  );
-  const disableSelfKey = L10N.getStr(
-    "breakpointMenuItem.disableSelf2.accesskey"
-  );
+  const enableOthersKey = L10N.getStr("breakpointMenuItem.enableOthers2.accesskey");
+  const disableSelfKey = L10N.getStr("breakpointMenuItem.disableSelf2.accesskey");
   const disableAllKey = L10N.getStr("breakpointMenuItem.disableAll2.accesskey");
-  const disableOthersKey = L10N.getStr(
-    "breakpointMenuItem.disableOthers2.accesskey"
-  );
-  const removeConditionKey = L10N.getStr(
-    "breakpointMenuItem.removeCondition2.accesskey"
-  );
-  const editConditionKey = L10N.getStr(
-    "breakpointMenuItem.editCondition2.accesskey"
-  );
-  const addConditionKey = L10N.getStr(
-    "breakpointMenuItem.addCondition2.accesskey"
-  );
+  const disableOthersKey = L10N.getStr("breakpointMenuItem.disableOthers2.accesskey");
+  const removeConditionKey = L10N.getStr("breakpointMenuItem.removeCondition2.accesskey");
+  const editConditionKey = L10N.getStr("breakpointMenuItem.editCondition2.accesskey");
+  const addConditionKey = L10N.getStr("breakpointMenuItem.addCondition2.accesskey");
 
   const selectedLocation = getSelectedLocation(breakpoint, selectedSource);
   const otherBreakpoints = breakpoints.filter(b => b.id !== breakpoint.id);
@@ -225,16 +199,14 @@ export default function showContextMenu(props: Props) {
     { item: enableOthersItem, hidden: () => hideEnableOthersItem },
     {
       item: { type: "separator" },
-      hidden: () =>
-        hideEnableSelfItem && hideEnableAllItem && hideEnableOthersItem
+      hidden: () => hideEnableSelfItem && hideEnableAllItem && hideEnableOthersItem
     },
     { item: deleteSelfItem },
     { item: deleteAllItem },
     { item: deleteOthersItem, hidden: () => breakpoints.length === 1 },
     {
       item: { type: "separator" },
-      hidden: () =>
-        hideDisableSelfItem && hideDisableAllItem && hideDisableOthersItem
+      hidden: () => hideDisableSelfItem && hideDisableAllItem && hideDisableOthersItem
     },
 
     { item: disableSelfItem, hidden: () => hideDisableSelfItem },

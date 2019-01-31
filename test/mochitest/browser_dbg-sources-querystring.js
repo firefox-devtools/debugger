@@ -15,7 +15,11 @@ function assertBreakpointHeading(dbg, label, index) {
 }
 
 add_task(async function() {
-  const dbg = await initDebugger("doc-sources-querystring.html", "simple1.js?x=1", "simple1.js?x=2");
+  const dbg = await initDebugger(
+    "doc-sources-querystring.html",
+    "simple1.js?x=1",
+    "simple1.js?x=2"
+  );
   const {
     selectors: { getSelectedSource },
     getState

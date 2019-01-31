@@ -37,10 +37,7 @@ function copyStackTraceElement(copyStackTrace) {
   return formatMenuElement("copyStackTrace", () => copyStackTrace());
 }
 
-function toggleFrameworkGroupingElement(
-  toggleFrameworkGrouping,
-  frameworkGroupingOn
-) {
+function toggleFrameworkGroupingElement(toggleFrameworkGrouping, frameworkGroupingOn) {
   const actionType = frameworkGroupingOn
     ? "framework.disableGrouping"
     : "framework.enableGrouping";
@@ -49,9 +46,7 @@ function toggleFrameworkGroupingElement(
 }
 
 function blackBoxSource(source, toggleBlackBox) {
-  const toggleBlackBoxString = source.isBlackBoxed
-    ? unblackboxString
-    : blackboxString;
+  const toggleBlackBoxString = source.isBlackBoxed ? unblackboxString : blackboxString;
 
   return formatMenuElement(toggleBlackBoxString, () => toggleBlackBox(source));
 }

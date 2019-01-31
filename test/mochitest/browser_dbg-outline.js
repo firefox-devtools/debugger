@@ -33,11 +33,7 @@ add_task(async function() {
     dbg,
     ".outline-list__element .function-signature"
   );
-  is(
-    firstFunction.innerText,
-    "main()",
-    "Natural first function is first listed"
-  );
+  is(firstFunction.innerText, "main()", "Natural first function is first listed");
   // Sort the list
   findElementWithSelector(dbg, ".outline-footer button").click();
   // Button becomes active to show alphabetization
@@ -51,6 +47,5 @@ add_task(async function() {
     dbg,
     ".outline-list__element .function-signature"
   );
-  is(firstAlphaFunction.innerText, "doEval()",
-     "Alphabetized first function is correct");
+  is(firstAlphaFunction.innerText, "doEval()", "Alphabetized first function is correct");
 });

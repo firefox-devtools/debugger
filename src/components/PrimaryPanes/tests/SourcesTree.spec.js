@@ -65,9 +65,7 @@ describe("SourcesTree", () => {
 
         await component.setProps({ ...props, sources });
 
-        expect(component.state("uncollapsedTree")).toEqual(
-          defaultState.uncollapsedTree
-        );
+        expect(component.state("uncollapsedTree")).toEqual(defaultState.uncollapsedTree);
       });
 
       it("updates tree with a new item", async () => {
@@ -90,9 +88,7 @@ describe("SourcesTree", () => {
           }
         });
 
-        expect(
-          component.state("uncollapsedTree").contents[0].contents
-        ).toHaveLength(6);
+        expect(component.state("uncollapsedTree").contents[0].contents).toHaveLength(6);
       });
 
       it("updates sources if sources are emptied", async () => {
@@ -118,9 +114,7 @@ describe("SourcesTree", () => {
           )
         };
 
-        expect(defaultState.uncollapsedTree.contents[0].contents).toHaveLength(
-          5
-        );
+        expect(defaultState.uncollapsedTree.contents[0].contents).toHaveLength(5);
 
         await component.setProps({
           ...props,
@@ -128,9 +122,7 @@ describe("SourcesTree", () => {
           projectRoot: "mozilla"
         });
 
-        expect(
-          component.state("uncollapsedTree").contents[0].contents
-        ).toHaveLength(1);
+        expect(component.state("uncollapsedTree").contents[0].contents).toHaveLength(1);
       });
 
       it("recreates tree if debugeeUrl is changed", async () => {
@@ -142,9 +134,7 @@ describe("SourcesTree", () => {
           )
         };
 
-        expect(defaultState.uncollapsedTree.contents[0].contents).toHaveLength(
-          5
-        );
+        expect(defaultState.uncollapsedTree.contents[0].contents).toHaveLength(5);
 
         await component.setProps({
           ...props,
@@ -152,9 +142,7 @@ describe("SourcesTree", () => {
           sources
         });
 
-        expect(
-          component.state("uncollapsedTree").contents[0].contents
-        ).toHaveLength(1);
+        expect(component.state("uncollapsedTree").contents[0].contents).toHaveLength(1);
       });
     });
 
@@ -182,9 +170,7 @@ describe("SourcesTree", () => {
       const item = createMockItem();
       const { component, props } = render({ focused: item });
 
-      await component
-        .find(".sources-list")
-        .simulate("keydown", { keyCode: 13 });
+      await component.find(".sources-list").simulate("keydown", { keyCode: 13 });
 
       expect(props.selectSource).toHaveBeenCalledWith(item.contents.id);
     });
@@ -193,9 +179,7 @@ describe("SourcesTree", () => {
       const item = createMockItem("https://davidwalsh.name/", "(index)");
 
       const { component, props } = render({ focused: item });
-      await component
-        .find(".sources-list")
-        .simulate("keydown", { keyCode: 13 });
+      await component.find(".sources-list").simulate("keydown", { keyCode: 13 });
       expect(props.selectSource).toHaveBeenCalledWith(item.contents.id);
     });
   });
@@ -204,9 +188,7 @@ describe("SourcesTree", () => {
     it("should select item with no children", async () => {
       const { instance, props } = render();
       instance.selectItem(createMockItem());
-      expect(props.selectSource).toHaveBeenCalledWith(
-        "server1.conn13.child1/39"
-      );
+      expect(props.selectSource).toHaveBeenCalledWith("server1.conn13.child1/39");
     });
 
     it("should not select item with children", async () => {
@@ -217,9 +199,7 @@ describe("SourcesTree", () => {
 
     it("does not select if no item is focused on", async () => {
       const { component, props } = render();
-      await component
-        .find(".sources-list")
-        .simulate("keydown", { keyCode: 13 });
+      await component.find(".sources-list").simulate("keydown", { keyCode: 13 });
       expect(props.selectSource).not.toHaveBeenCalled();
     });
   });
@@ -227,10 +207,7 @@ describe("SourcesTree", () => {
   describe("handles items", () => {
     it("getChildren from directory", async () => {
       const { component } = render();
-      const item = createMockDirectory("http://mdn.com/views", "views", [
-        "a",
-        "b"
-      ]);
+      const item = createMockDirectory("http://mdn.com/views", "views", ["a", "b"]);
       const children = component
         .find("ManagedTree")
         .props()
@@ -254,10 +231,7 @@ describe("SourcesTree", () => {
         .find("ManagedTree")
         .props()
         .onExpand({}, expandedState);
-      expect(props.setExpandedState).toHaveBeenCalledWith(
-        "FakeThread",
-        expandedState
-      );
+      expect(props.setExpandedState).toHaveBeenCalledWith("FakeThread", expandedState);
     });
 
     it("onCollapse", async () => {
@@ -267,10 +241,7 @@ describe("SourcesTree", () => {
         .find("ManagedTree")
         .props()
         .onCollapse({}, expandedState);
-      expect(props.setExpandedState).toHaveBeenCalledWith(
-        "FakeThread",
-        expandedState
-      );
+      expect(props.setExpandedState).toHaveBeenCalledWith("FakeThread", expandedState);
     });
 
     it("getParent", async () => {
@@ -290,17 +261,13 @@ describe("SourcesTree", () => {
     it("should return path for item", async () => {
       const { instance } = render();
       const path = instance.getPath(createMockItem());
-      expect(path).toEqual(
-        "http://mdn.com/one.js/one.js/server1.conn13.child1/39/"
-      );
+      expect(path).toEqual("http://mdn.com/one.js/one.js/server1.conn13.child1/39/");
     });
 
     it("should return path for blackboxedboxed item", async () => {
-      const item = createMockItem(
-        "http://mdn.com/blackboxed.js",
-        "blackboxed.js",
-        { id: "server1.conn13.child1/59" }
-      );
+      const item = createMockItem("http://mdn.com/blackboxed.js", "blackboxed.js", {
+        id: "server1.conn13.child1/59"
+      });
 
       const sources = {
         "server1.conn13.child1/59": createMockSource(

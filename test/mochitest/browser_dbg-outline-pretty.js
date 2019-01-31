@@ -10,7 +10,7 @@ function getNthItem(dbg, index) {
 }
 
 // Tests that the length of outline functions for original and pretty printed source matches
-add_task(async function () {
+add_task(async function() {
   const dbg = await initDebugger("doc-scripts.html", "simple1");
   const {
     selectors: { getSelectedSource },
@@ -26,5 +26,9 @@ add_task(async function () {
   await waitForElementWithSelector(dbg, ".outline-list");
   const prettySource = getItems(dbg);
 
-  is(originalSource.length, prettySource.length, "Length of outline functions for both prettyPrint and originalSource same");
+  is(
+    originalSource.length,
+    prettySource.length,
+    "Length of outline functions for both prettyPrint and originalSource same"
+  );
 });

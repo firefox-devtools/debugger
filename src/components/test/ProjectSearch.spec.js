@@ -150,9 +150,7 @@ describe("ProjectSearch", () => {
       },
       true
     );
-    component
-      .find("SearchInput input")
-      .simulate("change", { target: { value: "bar" } });
+    component.find("SearchInput input").simulate("change", { target: { value: "bar" } });
     expect(component.state().inputValue).toEqual("bar");
   });
 

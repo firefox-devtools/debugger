@@ -4,12 +4,7 @@
 
 // @flow
 
-import {
-  actions,
-  selectors,
-  createStore,
-  makeSource
-} from "../../../utils/test-head";
+import { actions, selectors, createStore, makeSource } from "../../../utils/test-head";
 import { sourceThreadClient } from "../../tests/helpers/threadClient.js";
 
 describe("loadSourceText", () => {

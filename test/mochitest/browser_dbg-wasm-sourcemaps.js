@@ -1,6 +1,6 @@
 /* Any copyright is dedicated to the Public Domain.
  * http://creativecommons.org/publicdomain/zero/1.0/ */
- requestLongerTimeout(2);
+requestLongerTimeout(2);
 
 /**
  * Test WebAssembly source maps
@@ -35,9 +35,5 @@ add_task(async function() {
   const firstFrameTitle = frames[0].querySelector(".title").textContent;
   is(firstFrameTitle, "(wasmcall)", "It shall be a wasm call");
   const firstFrameLocation = frames[0].querySelector(".location").textContent;
-  is(
-    firstFrameLocation.includes("fib.c"),
-    true,
-    "It shall be to fib.c source"
-  );
+  is(firstFrameLocation.includes("fib.c"), true, "It shall be to fib.c source");
 });

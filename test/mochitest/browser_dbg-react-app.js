@@ -3,13 +3,10 @@ add_task(async function() {
 
   await addBreakpoint(dbg, "App.js", 11);
 
-  info('Test previewing an immutable Map inside of a react component')
+  info("Test previewing an immutable Map inside of a react component");
   invokeInTab("clickButton");
   await waitForPaused(dbg);
-  await waitForState(
-    dbg,
-    state => dbg.selectors.getSelectedScopeMappings(state)
-  );
+  await waitForState(dbg, state => dbg.selectors.getSelectedScopeMappings(state));
 
   await assertPreviewTextValue(dbg, 10, 22, {
     text: "size: 1",

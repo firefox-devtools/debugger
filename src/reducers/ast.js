@@ -143,10 +143,7 @@ function update(
     }
 
     case "SET_SOURCE_METADATA": {
-      return state.setIn(
-        ["sourceMetaData", action.sourceId],
-        action.sourceMetaData
-      );
+      return state.setIn(["sourceMetaData", action.sourceId], action.sourceMetaData);
     }
 
     default: {
@@ -203,17 +200,11 @@ export function getEmptyLines(state: OuterState, sourceId: string) {
   return state.ast.emptyLines.get(sourceId);
 }
 
-export function getPausePoints(
-  state: OuterState,
-  sourceId: string
-): ?PausePoints {
+export function getPausePoints(state: OuterState, sourceId: string): ?PausePoints {
   return state.ast.pausePoints.get(sourceId);
 }
 
-export function getPausePoint(
-  state: OuterState,
-  location: ?SourceLocation
-): ?PausePoint {
+export function getPausePoint(state: OuterState, location: ?SourceLocation): ?PausePoint {
   if (!location) {
     return;
   }
@@ -242,9 +233,7 @@ export function getFirstPausePointLocation(
     return location;
   }
 
-  const pausesAtLine = pausePoints.filter(
-    point => point.location.line == location.line
-  );
+  const pausesAtLine = pausePoints.filter(point => point.location.line == location.line);
 
   if (pausesAtLine) {
     const values: PausePoint[] = (Object.values(pausesAtLine): any);

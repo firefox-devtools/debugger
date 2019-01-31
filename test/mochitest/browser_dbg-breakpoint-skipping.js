@@ -3,7 +3,7 @@
 
 function skipPausing(dbg) {
   clickElementWithSelector(dbg, ".command-bar-skip-pausing");
-  return waitForState(dbg, state => dbg.selectors.getSkipPausing(state))
+  return waitForState(dbg, state => dbg.selectors.getSkipPausing(state));
 }
 
 add_task(async function() {
@@ -11,6 +11,6 @@ add_task(async function() {
   await addBreakpoint(dbg, "simple3", 2);
 
   await skipPausing(dbg);
-  const res = await invokeInTab("simple")
-  is(res, 3, "simple() successfully completed")
+  const res = await invokeInTab("simple");
+  is(res, 3, "simple() successfully completed");
 });

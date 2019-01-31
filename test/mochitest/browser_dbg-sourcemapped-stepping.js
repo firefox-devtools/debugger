@@ -8,15 +8,9 @@ async function breakpointSteps(dbg, target, fixture, { line, column }, steps) {
   const filename = `${target}://./${fixture}/input.`;
   const fnName = (target + "-" + fixture).replace(/-([a-z])/g, (s, c) => c.toUpperCase());
 
-  await invokeWithBreakpoint(
-    dbg,
-    fnName,
-    filename,
-    { line, column },
-    async source => {
-      await runSteps(dbg, source, steps);
-    }
-  );
+  await invokeWithBreakpoint(dbg, fnName, filename, { line, column }, async source => {
+    await runSteps(dbg, source, steps);
+  });
 
   ok(true, `Ran tests for ${fixture} at line ${line} column ${column}`);
 }
@@ -95,10 +89,7 @@ function testStepOveForOfClosure(dbg) {
     "webpack3-babel6",
     "step-over-for-of-closure",
     { line: 6, column: 2 },
-    [
-      ["stepOver", { line: 8, column: 2 }],
-      ["stepOver", { line: 12, column: 2 }]
-    ]
+    [["stepOver", { line: 8, column: 2 }], ["stepOver", { line: 12, column: 2 }]]
   );
 }
 

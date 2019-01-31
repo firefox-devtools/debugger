@@ -1,2 +1,2 @@
 @annotation
-class MyClass { }
+class MyClass {}

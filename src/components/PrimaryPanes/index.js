@@ -140,9 +140,7 @@ class PrimaryPanes extends Component<Props, State> {
         className="sources-panel"
         onActivateTab={this.onActivateTab}
       >
-        <TabList className="source-outline-tabs">
-          {this.renderOutlineTabs()}
-        </TabList>
+        <TabList className="source-outline-tabs">{this.renderOutlineTabs()}</TabList>
         <TabPanels
           className={classnames("source-outline-panel", {
             "has-root": projectRoot

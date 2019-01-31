@@ -94,9 +94,7 @@ class Frames extends Component<Props, State> {
   }
 
   truncateFrames(frames: Array<Frame>): Array<Frame> {
-    const numFramesToShow = this.state.showAllFrames
-      ? frames.length
-      : NUM_FRAMES_SHOWN;
+    const numFramesToShow = this.state.showAllFrames ? frames.length : NUM_FRAMES_SHOWN;
 
     return frames.slice(0, numFramesToShow);
   }
@@ -197,9 +195,7 @@ class Frames extends Component<Props, State> {
     if (!frames) {
       return (
         <div className="pane frames">
-          <div className="pane-info empty">
-            {L10N.getStr("callStack.notPaused")}
-          </div>
+          <div className="pane-info empty">{L10N.getStr("callStack.notPaused")}</div>
         </div>
       );
     }

@@ -88,9 +88,7 @@ describe("BreakpointsContextMenu", () => {
       expect(props.removeBreakpoints).toHaveBeenCalled();
 
       const otherBreakpoints = [props.breakpoints[1], props.breakpoints[2]];
-      expect(props.removeBreakpoints.mock.calls[0][0]).toEqual(
-        otherBreakpoints
-      );
+      expect(props.removeBreakpoints.mock.calls[0][0]).toEqual(otherBreakpoints);
     });
 
     it("'enable others' calls toggleBreakpoints with proper arguments", () => {
@@ -106,9 +104,7 @@ describe("BreakpointsContextMenu", () => {
       expect(props.toggleBreakpoints.mock.calls[0][0]).toBe(false);
 
       const otherBreakpoints = [props.breakpoints[1], props.breakpoints[2]];
-      expect(props.toggleBreakpoints.mock.calls[0][1]).toEqual(
-        otherBreakpoints
-      );
+      expect(props.toggleBreakpoints.mock.calls[0][1]).toEqual(otherBreakpoints);
     });
 
     it("'disable others' calls toggleBreakpoints with proper arguments", () => {
@@ -123,9 +119,7 @@ describe("BreakpointsContextMenu", () => {
       expect(props.toggleBreakpoints.mock.calls[0][0]).toBe(true);
 
       const otherBreakpoints = [props.breakpoints[1], props.breakpoints[2]];
-      expect(props.toggleBreakpoints.mock.calls[0][1]).toEqual(
-        otherBreakpoints
-      );
+      expect(props.toggleBreakpoints.mock.calls[0][1]).toEqual(otherBreakpoints);
     });
   });
 });

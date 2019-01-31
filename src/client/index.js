@@ -10,11 +10,7 @@ import * as chrome from "./chrome";
 import { prefs, asyncStore } from "../utils/prefs";
 import { setupHelper } from "../utils/dbg";
 
-import {
-  bootstrapApp,
-  bootstrapStore,
-  bootstrapWorkers
-} from "../utils/bootstrap";
+import { bootstrapApp, bootstrapStore, bootstrapWorkers } from "../utils/bootstrap";
 import { initialBreakpointsState } from "../reducers/breakpoints";
 
 import type { Panel } from "./firefox/types";
@@ -22,10 +18,7 @@ import type { Panel } from "./firefox/types";
 function loadFromPrefs(actions: Object) {
   const { pauseOnExceptions, pauseOnCaughtExceptions } = prefs;
   if (pauseOnExceptions || pauseOnCaughtExceptions) {
-    return actions.pauseOnExceptions(
-      pauseOnExceptions,
-      pauseOnCaughtExceptions
-    );
+    return actions.pauseOnExceptions(pauseOnExceptions, pauseOnCaughtExceptions);
   }
 }
 
@@ -57,11 +50,7 @@ function getClient(connection: any) {
   return clientType == "firefox" ? firefox : chrome;
 }
 
-export async function onConnect(
-  connection: Object,
-  sourceMaps: Object,
-  panel: Panel
-) {
+export async function onConnect(connection: Object, sourceMaps: Object, panel: Panel) {
   // NOTE: the landing page does not connect to a JS process
   if (!connection) {
     return;

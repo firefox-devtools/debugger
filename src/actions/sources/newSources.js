@@ -33,11 +33,7 @@ import type { Source, SourceId } from "../../types";
 import type { Action, ThunkArgs } from "../types";
 import type { CreateSourceResult } from "../../client/firefox/types";
 
-function createOriginalSource(
-  originalUrl,
-  generatedSource,
-  sourceMaps
-): Source {
+function createOriginalSource(originalUrl, generatedSource, sourceMaps): Source {
   return {
     url: originalUrl,
     relativeUrl: originalUrl,
@@ -51,10 +47,7 @@ function createOriginalSource(
 }
 
 function loadSourceMaps(sources: Source[]) {
-  return async function({
-    dispatch,
-    sourceMaps
-  }: ThunkArgs): Promise<Promise<Source>[]> {
+  return async function({ dispatch, sourceMaps }: ThunkArgs): Promise<Promise<Source>[]> {
     if (!prefs.clientSourceMapsEnabled) {
       return [];
     }
@@ -149,8 +142,7 @@ function checkSelectedSource(sourceId: string) {
       await dispatch(
         selectLocation({
           sourceId: source.id,
-          line:
-            typeof pendingLocation.line === "number" ? pendingLocation.line : 0,
+          line: typeof pendingLocation.line === "number" ? pendingLocation.line : 0,
           column: pendingLocation.column
         })
       );
@@ -166,10 +158,7 @@ function checkPendingBreakpoints(sourceId: string) {
       return;
     }
 
-    const pendingBreakpoints = getPendingBreakpointsForSource(
-      getState(),
-      source
-    );
+    const pendingBreakpoints = getPendingBreakpointsForSource(getState(), source);
 
     if (pendingBreakpoints.length === 0) {
       return;
@@ -219,9 +208,7 @@ export function newSources(createdSources: CreateSourceResult[]) {
     // Find any source actors we haven't seen before.
     const sourceActors = createdSources
       .map(csr => csr.sourceActor)
-      .filter(
-        sourceActor => sourceActor && !hasSourceActor(getState(), sourceActor)
-      );
+      .filter(sourceActor => sourceActor && !hasSourceActor(getState(), sourceActor));
 
     if (sources.length == 0 && sourceActors.length == 0) {
       return;

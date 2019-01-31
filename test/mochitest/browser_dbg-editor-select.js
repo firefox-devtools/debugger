@@ -50,8 +50,5 @@ add_task(async function() {
   await waitForSelectedSource(dbg, "long.js");
 
   assertPausedLocation(dbg);
-  ok(
-    isVisibleInEditor(dbg, findElement(dbg, "breakpoint")),
-    "Breakpoint is visible"
-  );
+  ok(isVisibleInEditor(dbg, findElement(dbg, "breakpoint")), "Breakpoint is visible");
 });

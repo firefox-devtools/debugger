@@ -7,10 +7,7 @@ declare var describe: (name: string, func: () => void) => void;
 declare var it: (desc: string, func: () => void) => void;
 declare var expect: (value: any) => any;
 
-import {
-  getBreakpointsForSource,
-  initialBreakpointsState
-} from "../breakpoints";
+import { getBreakpointsForSource, initialBreakpointsState } from "../breakpoints";
 
 import { createBreakpoint } from "../../utils/breakpoint";
 
@@ -38,10 +35,7 @@ describe("Breakpoints Selectors", () => {
 
     const breakpoints = initializeStateWith(data);
     const allBreakpoints = Object.values(matchingBreakpoints);
-    const sourceBreakpoints = getBreakpointsForSource(
-      { breakpoints },
-      sourceId
-    );
+    const sourceBreakpoints = getBreakpointsForSource({ breakpoints }, sourceId);
 
     expect(sourceBreakpoints).toEqual(allBreakpoints);
     expect(sourceBreakpoints[0] === allBreakpoints[0]).toBe(true);
@@ -77,10 +71,7 @@ describe("Breakpoints Selectors", () => {
     const breakpoints = initializeStateWith(data);
 
     const allBreakpoints = Object.values(matchingBreakpoints);
-    const sourceBreakpoints = getBreakpointsForSource(
-      { breakpoints },
-      generatedSourceId
-    );
+    const sourceBreakpoints = getBreakpointsForSource({ breakpoints }, generatedSourceId);
 
     expect(sourceBreakpoints).toEqual(allBreakpoints);
   });

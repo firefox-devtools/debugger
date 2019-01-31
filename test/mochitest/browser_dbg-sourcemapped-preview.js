@@ -10,15 +10,9 @@ async function breakpointPreviews(dbg, target, fixture, { line, column }, previe
 
   log(`Starting ${fixture} tests`);
 
-  await invokeWithBreakpoint(
-    dbg,
-    fnName,
-    filename,
-    { line, column },
-    async () => {
-      await assertPreviews(dbg, previews);
-    }
-  );
+  await invokeWithBreakpoint(dbg, fnName, filename, { line, column }, async () => {
+    await assertPreviews(dbg, previews);
+  });
 
   ok(true, `Ran tests for ${fixture} at line ${line} column ${column}`);
 }
@@ -118,62 +112,68 @@ function testShadowing(dbg) {
 }
 
 function testImportedBindings(dbg) {
-  return breakpointPreviews(dbg, "webpack3-babel6", "esmodules-cjs", { line: 20, column: 2 }, [
-    {
-      line: 20,
-      column: 16,
-      expression: "_mod2.default;",
-      result: '"a-default"'
-    },
-    {
-      line: 21,
-      column: 16,
-      expression: "_mod4.original;",
-      result: '"an-original"'
-    },
-    {
-      line: 22,
-      column: 16,
-      expression: "_mod3.aNamed;",
-      result: '"a-named"'
-    },
-    {
-      line: 23,
-      column: 16,
-      expression: "_mod3.aNamed;",
-      result: '"a-named"'
-    },
-    {
-      line: 24,
-      column: 16,
-      expression: "aNamespace",
-      fields: [["aNamed", "a-named"], ["default", "a-default"]]
-    },
-    {
-      line: 29,
-      column: 20,
-      expression: "_mod7.default;",
-      result: '"a-default2"'
-    },
-    {
-      line: 30,
-      column: 20,
-      expression: "_mod9.original;",
-      result: '"an-original2"'
-    },
-    {
-      line: 31,
-      column: 20,
-      expression: "_mod8.aNamed2;",
-      result: '"a-named2"'
-    },
-    {
-      line: 32,
-      column: 20,
-      expression: "_mod8.aNamed2;",
-      result: '"a-named2"'
-    }
-  ]);
+  return breakpointPreviews(
+    dbg,
+    "webpack3-babel6",
+    "esmodules-cjs",
+    { line: 20, column: 2 },
+    [
+      {
+        line: 20,
+        column: 16,
+        expression: "_mod2.default;",
+        result: '"a-default"'
+      },
+      {
+        line: 21,
+        column: 16,
+        expression: "_mod4.original;",
+        result: '"an-original"'
+      },
+      {
+        line: 22,
+        column: 16,
+        expression: "_mod3.aNamed;",
+        result: '"a-named"'
+      },
+      {
+        line: 23,
+        column: 16,
+        expression: "_mod3.aNamed;",
+        result: '"a-named"'
+      },
+      {
+        line: 24,
+        column: 16,
+        expression: "aNamespace",
+        fields: [["aNamed", "a-named"], ["default", "a-default"]]
+      },
+      {
+        line: 29,
+        column: 20,
+        expression: "_mod7.default;",
+        result: '"a-default2"'
+      },
+      {
+        line: 30,
+        column: 20,
+        expression: "_mod9.original;",
+        result: '"an-original2"'
+      },
+      {
+        line: 31,
+        column: 20,
+        expression: "_mod8.aNamed2;",
+        result: '"a-named2"'
+      },
+      {
+        line: 32,
+        column: 20,
+        expression: "_mod8.aNamed2;",
+        result: '"a-named2"'
+      }
+    ]
+  );
 }
 
 add_task(async function() {

@@ -21,8 +21,8 @@ function hasCondition(marker) {
 
 async function setConditionalBreakpoint(dbg, index, condition) {
   const {
-      addConditionalBreakpoint,
-      editConditionalBreakpoint
+    addConditionalBreakpoint,
+    editConditionalBreakpoint
   } = selectors.gutterContextMenu;
   // Make this work with either add or edit menu items
   const selector = `${addConditionalBreakpoint},${editConditionalBreakpoint}`;
@@ -48,7 +48,7 @@ add_task(async function() {
   const dbg = await initDebugger("doc-scripts.html", "simple1");
   await pushPref("devtools.debugger.features.column-breakpoints", false);
 
-  if(!Services.prefs.getBoolPref("devtools.debugger.features.column-breakpoints")) {
+  if (!Services.prefs.getBoolPref("devtools.debugger.features.column-breakpoints")) {
     ok(true, "This test only applies when column breakpoints are on");
     return;
   }
@@ -65,10 +65,7 @@ add_task(async function() {
   await waitForElementWithSelector(dbg, ".column-breakpoint");
 
   let columnBreakpointMarkers = getColumnBreakpointElements(dbg);
-  ok(
-    columnBreakpointMarkers.length === 2,
-      "2 column breakpoint markers display"
-  );
+  ok(columnBreakpointMarkers.length === 2, "2 column breakpoint markers display");
 
   // Create a breakpoint at 15:8
   columnBreakpointMarkers[0].click();
@@ -78,8 +75,10 @@ add_task(async function() {
 
   // Wait for breakpoints in right panel to render
   await waitForState(dbg, state => {
-    return dbg.win.document.querySelectorAll(".breakpoints-list .breakpoint").length === 3;
-  })
+    return (
+      dbg.win.document.querySelectorAll(".breakpoints-list .breakpoint").length === 3
+    );
+  });
 
   // Scroll down in secondary pane so element we want to right-click is showing
   dbg.win.document.querySelector(".secondary-panes").scrollTop = 100;
@@ -97,7 +96,10 @@ add_task(async function() {
   await waitForState(dbg, state => dbg.selectors.getBreakpointCount(state) == 2);
   await waitForElementWithSelector(dbg, ".column-breakpoint.has-condition");
   columnBreakpointMarkers = getColumnBreakpointElements(dbg);
-  ok(hasCondition(columnBreakpointMarkers[0]), "First column breakpoint has conditional style");
+  ok(
+    hasCondition(columnBreakpointMarkers[0]),
+    "First column breakpoint has conditional style"
+  );
 
   // Remove the breakpoint from 15:8
   removeBreakpointViaContext(dbg, 3);

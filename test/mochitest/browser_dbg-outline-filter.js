@@ -16,10 +16,7 @@ add_task(async function() {
   findElementWithSelector(dbg, ".outline-tab").click();
 
   // turn off alphetical sort if active
-  const alphabetizeButton = findElementWithSelector(
-    dbg,
-    ".outline-footer button"
-  );
+  const alphabetizeButton = findElementWithSelector(dbg, ".outline-footer button");
   if (alphabetizeButton.className === "active") {
     alphabetizeButton.click();
   }
@@ -45,27 +42,15 @@ add_task(async function() {
   type(dbg, "t");
   is(getItems(dbg).length, 4, "4 items in the list after 't' filter");
   ok(getItems(dbg)[0].textContent.includes("TodoModel(key)"), "item TodoModel");
-  ok(
-    getItems(dbg)[1].textContent.includes("toggleAll(checked)"),
-    "item toggleAll"
-  );
-  ok(
-    getItems(dbg)[2].textContent.includes("toggle(todoToToggle)"),
-    "item toggle"
-  );
+  ok(getItems(dbg)[1].textContent.includes("toggleAll(checked)"), "item toggleAll");
+  ok(getItems(dbg)[2].textContent.includes("toggle(todoToToggle)"), "item toggle");
   ok(getItems(dbg)[3].textContent.includes("testModel()"), "item testModel");
 
   // filter using term 'tog'
   type(dbg, "og");
   is(getItems(dbg).length, 2, "2 items in the list after 'tog' filter");
-  ok(
-    getItems(dbg)[0].textContent.includes("toggleAll(checked)"),
-    "item toggleAll"
-  );
-  ok(
-    getItems(dbg)[1].textContent.includes("toggle(todoToToggle)"),
-    "item toggle"
-  );
+  ok(getItems(dbg)[0].textContent.includes("toggleAll(checked)"), "item toggleAll");
+  ok(getItems(dbg)[1].textContent.includes("toggle(todoToToggle)"), "item toggle");
 
   pressKey(dbg, "Escape");
   is(getItems(dbg).length, 9, "9 items in the list after escape pressed");

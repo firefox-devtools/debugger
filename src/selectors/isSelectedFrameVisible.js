@@ -30,8 +30,5 @@ export function isSelectedFrameVisible(state) {
     return selectedLocation.sourceId === selectedFrame.location.sourceId;
   }
 
-  return (
-    selectedLocation.sourceId ===
-    getGeneratedId(selectedFrame.location.sourceId)
-  );
+  return selectedLocation.sourceId === getGeneratedId(selectedFrame.location.sourceId);
 }

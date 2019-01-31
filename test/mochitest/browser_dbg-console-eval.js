@@ -17,17 +17,14 @@ function waitForConsolePanelChange(dbg) {
 }
 
 function findMessages(win, query) {
-  return Array.prototype.filter.call(
-    win.document.querySelectorAll(".message"),
-    e => e.innerText.includes(query)
+  return Array.prototype.filter.call(win.document.querySelectorAll(".message"), e =>
+    e.innerText.includes(query)
   );
 }
 
 async function hasMessage(dbg, msg) {
   const webConsole = await dbg.toolbox.getPanel("webconsole");
-  return waitFor(
-    async () => findMessages(webConsole._frameWindow, msg).length > 0
-  );
+  return waitFor(async () => findMessages(webConsole._frameWindow, msg).length > 0);
 }
 
 add_task(async function() {

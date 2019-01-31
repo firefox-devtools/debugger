@@ -18,10 +18,7 @@ import { features } from "../../utils/prefs";
 import { getIndentation } from "../../utils/indentation";
 
 import { showMenu } from "devtools-contextmenu";
-import {
-  createBreakpointItems,
-  breakpointItemActions
-} from "./menus/breakpoints";
+import { createBreakpointItems, breakpointItemActions } from "./menus/breakpoints";
 
 import { continueToHereItem, editorItemActions } from "./menus/editor";
 
@@ -180,11 +177,9 @@ class Editor extends PureComponent<Props, State> {
 
     const toggleFoldMarkerVisibility = e => {
       if (node instanceof HTMLElement) {
-        node
-          .querySelectorAll(".CodeMirror-guttermarker-subtle")
-          .forEach(elem => {
-            elem.classList.toggle("visible");
-          });
+        node.querySelectorAll(".CodeMirror-guttermarker-subtle").forEach(elem => {
+          elem.classList.toggle("visible");
+        });
       }
     };
 
@@ -198,9 +193,7 @@ class Editor extends PureComponent<Props, State> {
       );
       codeMirror.on("contextmenu", (cm, event) => this.openMenu(event));
     } else {
-      codeMirrorWrapper.addEventListener("contextmenu", event =>
-        this.openMenu(event)
-      );
+      codeMirrorWrapper.addEventListener("contextmenu", event => this.openMenu(event));
     }
 
     codeMirror.on("scroll", this.onEditorScroll);
@@ -214,15 +207,10 @@ class Editor extends PureComponent<Props, State> {
     const { shortcuts } = this.context;
 
     const searchAgainKey = L10N.getStr("sourceSearch.search.again.key2");
-    const searchAgainPrevKey = L10N.getStr(
-      "sourceSearch.search.againPrev.key2"
-    );
+    const searchAgainPrevKey = L10N.getStr("sourceSearch.search.againPrev.key2");
 
     shortcuts.on(L10N.getStr("toggleBreakpoint.key"), this.onToggleBreakpoint);
-    shortcuts.on(
-      L10N.getStr("toggleCondPanel.key"),
-      this.onToggleConditionalPanel
-    );
+    shortcuts.on(L10N.getStr("toggleCondPanel.key"), this.onToggleConditionalPanel);
     shortcuts.on(L10N.getStr("sourceTabs.closeTab.key"), this.onClosePress);
     shortcuts.on("Esc", this.onEscape);
     shortcuts.on(searchAgainPrevKey, this.onSearchAgain);
@@ -246,9 +234,7 @@ class Editor extends PureComponent<Props, State> {
     }
 
     const searchAgainKey = L10N.getStr("sourceSearch.search.again.key2");
-    const searchAgainPrevKey = L10N.getStr(
-      "sourceSearch.search.againPrev.key2"
-    );
+    const searchAgainPrevKey = L10N.getStr("sourceSearch.search.againPrev.key2");
     const shortcuts = this.context.shortcuts;
     shortcuts.off(L10N.getStr("sourceTabs.closeTab.key"));
     shortcuts.off(L10N.getStr("toggleBreakpoint.key"));
@@ -352,12 +338,7 @@ class Editor extends PureComponent<Props, State> {
     event.stopPropagation();
     event.preventDefault();
 
-    const {
-      selectedSource,
-      breakpointActions,
-      editorActions,
-      isPaused
-    } = this.props;
+    const { selectedSource, breakpointActions, editorActions, isPaused } = this.props;
     const { editor } = this.state;
     if (!selectedSource || !editor) {
       return;
@@ -392,12 +373,7 @@ class Editor extends PureComponent<Props, State> {
     this.setState({ contextMenu: null });
   };
 
-  onGutterClick = (
-    cm: Object,
-    line: number,
-    gutter: string,
-    ev: MouseEvent
-  ) => {
+  onGutterClick = (cm: Object, line: number, gutter: string, ev: MouseEvent) => {
     const {
       selectedSource,
       conditionalPanelLocation,
@@ -586,9 +562,7 @@ class Editor extends PureComponent<Props, State> {
 
     return {
       height:
-        subtractions.length === 0
-          ? "100%"
-          : `calc(100% - ${subtractions.join(" - ")})`
+        subtractions.length === 0 ? "100%" : `calc(100% - ${subtractions.join(" - ")})`
     };
   }
 
@@ -618,9 +592,7 @@ class Editor extends PureComponent<Props, State> {
           />
         }
         {conditionalPanelLocation ? <ConditionalPanel editor={editor} /> : null}
-        {features.columnBreakpoints ? (
-          <ColumnBreakpoints editor={editor} />
-        ) : null}
+        {features.columnBreakpoints ? <ColumnBreakpoints editor={editor} /> : null}
       </div>
     );
   }
@@ -637,10 +609,7 @@ class Editor extends PureComponent<Props, State> {
 
   render() {
     return (
-      <div
-        className={classnames("editor-wrapper")}
-        ref={c => (this.$editorWrapper = c)}
-      >
+      <div className={classnames("editor-wrapper")} ref={c => (this.$editorWrapper = c)}>
         <div
           className="editor-mount devtools-monospace"
           style={this.getInlineEditorStyles()}

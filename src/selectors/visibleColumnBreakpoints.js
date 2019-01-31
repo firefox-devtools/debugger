@@ -33,8 +33,7 @@ function contains(location: PartialPosition, range: Range) {
     location.line >= range.start.line &&
     location.line <= range.end.line &&
     (!location.column ||
-      (location.column >= range.start.column &&
-        location.column <= range.end.column))
+      (location.column >= range.start.column && location.column <= range.end.column))
   );
 }
 
@@ -134,9 +133,7 @@ export function getColumnBreakpoints(
   }));
 }
 
-export const visibleColumnBreakpoints: Selector<
-  ColumnBreakpoints
-> = createSelector(
+export const visibleColumnBreakpoints: Selector<ColumnBreakpoints> = createSelector(
   getVisiblePausePoints,
   getVisibleBreakpoints,
   getViewport,

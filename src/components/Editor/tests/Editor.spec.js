@@ -94,9 +94,7 @@ describe("Editor", () => {
         selectedSource: { loadedState: "loading" }
       });
 
-      expect(mockEditor.replaceDocument.mock.calls[0][0].getValue()).toBe(
-        "Loading…"
-      );
+      expect(mockEditor.replaceDocument.mock.calls[0][0].getValue()).toBe("Loading…");
       expect(mockEditor.codeMirror.scrollTo.mock.calls).toEqual([]);
     });
   });
@@ -179,9 +177,7 @@ describe("Editor", () => {
         selectedLocation: { sourceId: "bar", line: 1, column: 1 }
       });
 
-      expect(mockEditor.replaceDocument.mock.calls[1][0].getValue()).toBe(
-        "Loading…"
-      );
+      expect(mockEditor.replaceDocument.mock.calls[1][0].getValue()).toBe("Loading…");
 
       expect(mockEditor.setText.mock.calls).toEqual([["the text"]]);
 
@@ -264,9 +260,7 @@ describe("Editor", () => {
         selectedLocation: { sourceId: "foo", line: 1, column: 1 }
       });
 
-      expect(mockEditor.replaceDocument.mock.calls[0][0].getValue()).toBe(
-        "Loading…"
-      );
+      expect(mockEditor.replaceDocument.mock.calls[0][0].getValue()).toBe("Loading…");
 
       expect(mockEditor.setText.mock.calls).toEqual([["the text"]]);
 

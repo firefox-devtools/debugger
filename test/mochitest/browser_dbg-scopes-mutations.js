@@ -14,9 +14,7 @@ function expandNode(dbg, index) {
   const objectInspector = node.closest(".object-inspector");
   const properties = objectInspector.querySelectorAll(".node").length;
   findElement(dbg, "scopeNode", index).click();
-  return waitUntil(
-    () => objectInspector.querySelectorAll(".node").length !== properties
-  );
+  return waitUntil(() => objectInspector.querySelectorAll(".node").length !== properties);
 }
 
 add_task(async function() {
@@ -40,11 +38,7 @@ add_task(async function() {
 
   info("Expand `phonebook`");
   await expandNode(dbg, 3);
-  is(
-    getScopeNodeLabel(dbg, 4),
-    "S",
-    'The fourth element in the scope panel is "S"'
-  );
+  is(getScopeNodeLabel(dbg, 4), "S", 'The fourth element in the scope panel is "S"');
 
   info("Expand `S`");
   await expandNode(dbg, 4);

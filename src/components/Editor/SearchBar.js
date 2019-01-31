@@ -111,9 +111,7 @@ class SearchBar extends Component<Props, State> {
     shortcuts.on(searchShortcut, (_, e) => this.toggleSearch(e));
     shortcuts.on("Escape", (_, e) => this.onEscape(e));
 
-    shortcuts.on(shiftSearchAgainShortcut, (_, e) =>
-      this.traverseResults(e, true)
-    );
+    shortcuts.on(shiftSearchAgainShortcut, (_, e) => this.traverseResults(e, true));
 
     shortcuts.on(searchAgainShortcut, (_, e) => this.traverseResults(e, false));
   }

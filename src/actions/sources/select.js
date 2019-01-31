@@ -37,10 +37,7 @@ import {
 import type { SourceLocation, PartialPosition, Source } from "../../types";
 import type { ThunkArgs } from "../types";
 
-export const setSelectedLocation = (
-  source: Source,
-  location: SourceLocation
-) => ({
+export const setSelectedLocation = (source: Source, location: SourceLocation) => ({
   type: "SET_SELECTED_LOCATION",
   source,
   location
@@ -67,10 +64,7 @@ export const clearSelectedLocation = () => ({
  * @memberof actions/sources
  * @static
  */
-export function selectSourceURL(
-  url: string,
-  options: PartialPosition = { line: 1 }
-) {
+export function selectSourceURL(url: string, options: PartialPosition = { line: 1 }) {
   return async ({ dispatch, getState, sourceMaps }: ThunkArgs) => {
     const source = getSourceByURL(getState(), url);
     if (!source) {
@@ -189,11 +183,7 @@ export function jumpToMappedLocation(location: SourceLocation) {
       return;
     }
 
-    const pairedLocation = await getMappedLocation(
-      getState(),
-      sourceMaps,
-      location
-    );
+    const pairedLocation = await getMappedLocation(getState(), sourceMaps, location);
 
     return dispatch(selectSpecificLocation({ ...pairedLocation }));
   };

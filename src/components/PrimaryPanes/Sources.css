@@ -84,7 +84,10 @@
   margin-inline-end: 5px;
 }
 
-.sources-list .tree .focused .img:not(.vue):not(.angular):not(.webpack):not(.dojo):not(.ember):not(.aframe):not(.marko):not(.mobx):not(.nextjs):not(.nuxtjs):not(.preact):not(.pug):not(.rxjs):not(.sencha-extjs),
+.sources-list
+  .tree
+  .focused
+  .img:not(.vue):not(.angular):not(.webpack):not(.dojo):not(.ember):not(.aframe):not(.marko):not(.mobx):not(.nextjs):not(.nuxtjs):not(.preact):not(.pug):not(.rxjs):not(.sencha-extjs),
 .sources-list .managed-tree .tree .node.focused .img.blackBox {
   background: #ffffff;
 }
@@ -249,9 +252,7 @@
 }
 
 /* Removes start margin when a custom root is used */
-.sources-list-custom-root
-  .tree
-  > .tree-node[data-expandable="false"][aria-level="0"] {
+.sources-list-custom-root .tree > .tree-node[data-expandable="false"][aria-level="0"] {
   padding-inline-start: 4px;
 }
 

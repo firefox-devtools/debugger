@@ -104,19 +104,13 @@ export class ProjectSearch extends Component<Props, State> {
   componentDidMount() {
     const { shortcuts } = this.context;
 
-    shortcuts.on(
-      L10N.getStr("projectTextSearch.key"),
-      this.toggleProjectTextSearch
-    );
+    shortcuts.on(L10N.getStr("projectTextSearch.key"), this.toggleProjectTextSearch);
     shortcuts.on("Enter", this.onEnterPress);
   }
 
   componentWillUnmount() {
     const { shortcuts } = this.context;
-    shortcuts.off(
-      L10N.getStr("projectTextSearch.key"),
-      this.toggleProjectTextSearch
-    );
+    shortcuts.off(L10N.getStr("projectTextSearch.key"), this.toggleProjectTextSearch);
     shortcuts.off("Enter", this.onEnterPress);
   }
 
@@ -221,10 +215,7 @@ export class ProjectSearch extends Component<Props, State> {
     const matches = ` (${matchesLength} match${matchesLength > 1 ? "es" : ""})`;
 
     return (
-      <div
-        className={classnames("file-result", { focused })}
-        key={file.sourceId}
-      >
+      <div className={classnames("file-result", { focused })} key={file.sourceId}>
         <AccessibleImage className={classnames("arrow", { expanded })} />
         <AccessibleImage className="file" />
         <span className="file-path">{getRelativePath(file.filepath)}</span>

@@ -4,10 +4,7 @@
 requestLongerTimeout(2);
 
 async function waitForBreakpointCount(dbg, count) {
-  return waitForState(
-    dbg,
-    state => dbg.selectors.getBreakpointCount(state) === count
-  );
+  return waitForState(dbg, state => dbg.selectors.getBreakpointCount(state) === count);
 }
 
 add_task(async function() {

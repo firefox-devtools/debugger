@@ -107,10 +107,7 @@ export type ProjectTextSearchAction =
   | {| +type: "ADD_ONGOING_SEARCH", +ongoingSearch: SearchOperation |}
   | {| +type: "CLEAR_SEARCH" |};
 
-export type FileTextSearchModifier =
-  | "caseSensitive"
-  | "wholeWord"
-  | "regexMatch";
+export type FileTextSearchModifier = "caseSensitive" | "wholeWord" | "regexMatch";
 
 export type FileTextSearchAction =
   | {|

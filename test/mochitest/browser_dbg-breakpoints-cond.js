@@ -11,10 +11,7 @@ function assertEditorBreakpoint(dbg, line, shouldExist) {
 
   ok(
     exists === shouldExist,
-    "Breakpoint " +
-      (shouldExist ? "exists" : "does not exist") +
-      " on line " +
-      line
+    "Breakpoint " + (shouldExist ? "exists" : "does not exist") + " on line " + line
   );
 }
 
@@ -86,7 +83,7 @@ add_task(async function() {
 
   const bpCondition = waitForDispatch(dbg, "SET_BREAKPOINT_OPTIONS");
   //right click breakpoint in breakpoints list
-  rightClickElement(dbg, "breakpointItem", 3)
+  rightClickElement(dbg, "breakpointItem", 3);
   // select "remove condition";
   selectContextMenuItem(dbg, selectors.breakpointContextMenu.removeCondition);
   await bpCondition;

@@ -41,11 +41,7 @@ function findExpressionMatch(state, codeMirror, tokenPos) {
   return match;
 }
 
-export function updatePreview(
-  target: HTMLElement,
-  tokenPos: Object,
-  codeMirror: any
-) {
+export function updatePreview(target: HTMLElement, tokenPos: Object, codeMirror: any) {
   return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const cursorPos = target.getBoundingClientRect();
 

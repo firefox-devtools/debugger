@@ -13,13 +13,7 @@ function getTestContent() {
   const testTree = {
     a: {
       value: "FOO",
-      children: [
-        { value: 1 },
-        { value: 2 },
-        { value: 3 },
-        { value: 4 },
-        { value: 5 }
-      ]
+      children: [{ value: 1 }, { value: 2 }, { value: 3 }, { value: 4 }, { value: 5 }]
     },
     b: {
       value: "BAR",
@@ -67,9 +61,7 @@ function getTestContent() {
 
 describe("ManagedTree", () => {
   it("render", () =>
-    expect(
-      shallow(<ManagedTree {...getTestContent().props} />)
-    ).toMatchSnapshot());
+    expect(shallow(<ManagedTree {...getTestContent().props} />)).toMatchSnapshot());
   it("expands list items", () => {
     const { props, testTree } = getTestContent();
     const wrapper = shallow(<ManagedTree {...props} />);

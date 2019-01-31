@@ -96,10 +96,7 @@ export function showSource(sourceId: string) {
   };
 }
 
-export function togglePaneCollapse(
-  position: panelPositionType,
-  paneCollapsed: boolean
-) {
+export function togglePaneCollapse(position: panelPositionType, paneCollapsed: boolean) {
   return ({ dispatch, getState }: ThunkArgs) => {
     const prevPaneCollapse = getPaneCollapse(getState(), position);
     if (prevPaneCollapse === paneCollapsed) {
@@ -150,10 +147,7 @@ export function clearHighlightLineRange() {
   };
 }
 
-export function openConditionalPanel(
-  location: ?SourceLocation,
-  log: boolean = false
-) {
+export function openConditionalPanel(location: ?SourceLocation, log: boolean = false) {
   if (!location) {
     return;
   }

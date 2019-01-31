@@ -15,9 +15,7 @@ function getColumn(column, selectedSource) {
 }
 
 function getLocation(bp, selectedSource) {
-  return isGenerated(selectedSource)
-    ? bp.generatedLocation || bp.location
-    : bp.location;
+  return isGenerated(selectedSource) ? bp.generatedLocation || bp.location : bp.location;
 }
 
 function getBreakpointsForSource(
@@ -32,11 +30,7 @@ function getBreakpointsForSource(
   });
 }
 
-function findBreakpointAtLocation(
-  breakpoints,
-  selectedSource,
-  { line, column }
-) {
+function findBreakpointAtLocation(breakpoints, selectedSource, { line, column }) {
   return breakpoints.find(breakpoint => {
     const location = getLocation(breakpoint, selectedSource);
     const sameLine = location.line === line;

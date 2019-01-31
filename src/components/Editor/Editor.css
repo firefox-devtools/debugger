@@ -26,7 +26,9 @@
   min-width: 0 !important;
 }
 
-.CodeMirror.cm-s-mozilla, .CodeMirror-scroll, .CodeMirror-sizer {
+.CodeMirror.cm-s-mozilla,
+.CodeMirror-scroll,
+.CodeMirror-sizer {
   overflow-anchor: none;
 }
 
@@ -211,10 +213,7 @@ html[dir="rtl"] .editor-mount {
 }
 
 /* set the linenumber white when there is a breakpoint */
-.cm-s-mozilla
-  .new-breakpoint
-  .CodeMirror-gutter-wrapper
-  .CodeMirror-linenumber {
+.cm-s-mozilla .new-breakpoint .CodeMirror-gutter-wrapper .CodeMirror-linenumber {
   color: white;
 }
 

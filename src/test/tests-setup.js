@@ -25,10 +25,7 @@ import {
   clearSymbols,
   clearASTs
 } from "../workers/parser";
-import {
-  start as startSearchWorker,
-  stop as stopSearchWorker
-} from "../workers/search";
+import { start as startSearchWorker, stop as stopSearchWorker } from "../workers/search";
 import { clearDocuments } from "../utils/editor";
 import { clearHistory } from "./utils/history";
 
@@ -67,9 +64,7 @@ beforeAll(() => {
   startSourceMapWorker(
     path.join(rootPath, "node_modules/devtools-source-map/src/worker.js")
   );
-  startPrettyPrintWorker(
-    path.join(rootPath, "src/workers/pretty-print/worker.js")
-  );
+  startPrettyPrintWorker(path.join(rootPath, "src/workers/pretty-print/worker.js"));
   startParserWorker(path.join(rootPath, "src/workers/parser/worker.js"));
   startSearchWorker(path.join(rootPath, "src/workers/search/worker.js"));
   process.on("unhandledRejection", formatException);

@@ -1,2 +1,1 @@
-
-const m = Immutable.Map({a: 2})
+const m = Immutable.Map({ a: 2 });

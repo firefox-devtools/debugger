@@ -104,9 +104,7 @@ class SplitBox extends Component {
     const splitBox = ReactDOM.findDOMNode(this);
     const doc = splitBox.ownerDocument;
     const defaultCursor = doc.documentElement.style.cursor;
-    doc.documentElement.style.cursor = this.state.vert
-      ? "ew-resize"
-      : "ns-resize";
+    doc.documentElement.style.cursor = this.state.vert ? "ew-resize" : "ns-resize";
 
     splitBox.classList.add("dragging");
     document.dispatchEvent(new CustomEvent("drag:start"));
@@ -125,9 +123,7 @@ class SplitBox extends Component {
     document.dispatchEvent(new CustomEvent("drag:end"));
 
     if (this.props.onResizeEnd) {
-      this.props.onResizeEnd(
-        this.state.vert ? this.state.width : this.state.height
-      );
+      this.props.onResizeEnd(this.state.vert ? this.state.width : this.state.height);
     }
   }
 

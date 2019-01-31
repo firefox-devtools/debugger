@@ -137,10 +137,7 @@ describe("SourceTreeItem", () => {
         stopPropagation: jest.fn()
       };
 
-      await instance.onContextMenu(
-        mockEvent,
-        createMockDirectory("root/", "root")
-      );
+      await instance.onContextMenu(mockEvent, createMockDirectory("root/", "root"));
 
       expect(showMenu).toHaveBeenCalledWith(mockEvent, menuOptions);
 

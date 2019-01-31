@@ -26,12 +26,7 @@ class ColumnBreakpoints extends Component {
   };
 
   render() {
-    const {
-      editor,
-      columnBreakpoints,
-      selectedSource,
-      breakpointActions
-    } = this.props;
+    const { editor, columnBreakpoints, selectedSource, breakpointActions } = this.props;
 
     if (!selectedSource || selectedSource.isBlackBoxed) {
       return null;

@@ -11,12 +11,7 @@ import {
   makeSource,
   waitForState
 } from "../../../utils/test-head";
-const {
-  getSource,
-  getSourceCount,
-  getSelectedSource,
-  getSourceByURL
-} = selectors;
+const { getSource, getSourceCount, getSelectedSource, getSourceByURL } = selectors;
 import sourceQueue from "../../../utils/source-queue";
 
 // eslint-disable-next-line max-len

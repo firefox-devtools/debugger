@@ -104,8 +104,7 @@ class Tab extends PureComponent<Props> {
             closeTabs(tabURLs.filter((t, i) => i > tabIndex));
           },
           disabled:
-            tabCount === 1 ||
-            tabSources.some((t, i) => t === tab && tabCount - 1 === i)
+            tabCount === 1 || tabSources.some((t, i) => t === tab && tabCount - 1 === i)
         }
       },
       {

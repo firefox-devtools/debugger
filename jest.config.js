@@ -7,8 +7,5 @@ const rootDir = resolve(__dirname);
 module.exports = {
   rootDir,
   reporters: ["default", "jest-junit"],
-  projects: [
-    "<rootDir>/jest-test.config.js",
-    "<rootDir>/packages/*/jest.config.js"
-  ]
+  projects: ["<rootDir>/jest-test.config.js", "<rootDir>/packages/*/jest.config.js"]
 };

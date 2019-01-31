@@ -30,10 +30,7 @@ import Modal from "./shared/Modal";
 import SearchInput from "./shared/SearchInput";
 import ResultList from "./shared/ResultList";
 
-import type {
-  FormattedSymbolDeclarations,
-  QuickOpenResult
-} from "../utils/quick-open";
+import type { FormattedSymbolDeclarations, QuickOpenResult } from "../utils/quick-open";
 
 import type { Source } from "../types";
 import type { QuickOpenType } from "../reducers/quick-open";
@@ -119,8 +116,7 @@ export class QuickOpenModal extends Component<Props, State> {
 
   searchSources = (query: string) => {
     const { sources } = this.props;
-    const results =
-      query == "" ? sources : filter(sources, this.dropGoto(query));
+    const results = query == "" ? sources : filter(sources, this.dropGoto(query));
     return this.setState({ results });
   };
 
@@ -187,10 +183,7 @@ export class QuickOpenModal extends Component<Props, State> {
     }
   };
 
-  selectResultItem = (
-    e: SyntheticEvent<HTMLElement>,
-    item: ?QuickOpenResult
-  ) => {
+  selectResultItem = (e: SyntheticEvent<HTMLElement>, item: ?QuickOpenResult) => {
     if (item == null) {
       return;
     }
@@ -206,8 +199,7 @@ export class QuickOpenModal extends Component<Props, State> {
 
     if (this.isSymbolSearch()) {
       return this.gotoLocation({
-        line:
-          item.location && item.location.start ? item.location.start.line : 0
+        line: item.location && item.location.start ? item.location.start.line : 0
       });
     }
 
@@ -328,10 +320,7 @@ export class QuickOpenModal extends Component<Props, State> {
     return <div dangerouslySetInnerHTML={{ __html: html }} />;
   }
 
-  highlightMatching = (
-    query: string,
-    results: QuickOpenResult[]
-  ): QuickOpenResult[] => {
+  highlightMatching = (query: string, results: QuickOpenResult[]): QuickOpenResult[] => {
     let newQuery = query;
     if (newQuery === "") {
       return results;
@@ -393,9 +382,7 @@ export class QuickOpenModal extends Component<Props, State> {
           handleClose={this.closeModal}
           expanded={expanded}
           showClose={false}
-          selectedItemId={
-            expanded && items[selectedIndex] ? items[selectedIndex].id : ""
-          }
+          selectedItemId={expanded && items[selectedIndex] ? items[selectedIndex].id : ""}
           {...(this.isSourceSearch() ? { size: "big" } : {})}
         />
         {newResults && (

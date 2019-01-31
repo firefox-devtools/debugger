@@ -4,11 +4,7 @@
 
 // @flow
 
-import {
-  actions,
-  createStore,
-  getTelemetryEvents
-} from "../../../utils/test-head";
+import { actions, createStore, getTelemetryEvents } from "../../../utils/test-head";
 
 import {
   getShouldPauseOnExceptions,

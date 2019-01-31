@@ -5,10 +5,7 @@
 // @flow
 
 // TODO: we would like to mock this in the local tests
-import {
-  generateBreakpoint,
-  mockPendingBreakpoint
-} from "./helpers/breakpoints.js";
+import { generateBreakpoint, mockPendingBreakpoint } from "./helpers/breakpoints.js";
 
 import {
   simulateCorrectThreadClient,
@@ -118,9 +115,7 @@ describe("when adding breakpoints", () => {
       await dispatch(actions.newSource(csr));
       await dispatch(actions.loadSourceText(csr.source));
 
-      await dispatch(
-        actions.addBreakpoint(breakpoint1.location, { hidden: true })
-      );
+      await dispatch(actions.addBreakpoint(breakpoint1.location, { hidden: true }));
       const pendingBps = selectors.getPendingBreakpoints(getState());
 
       expect(pendingBps[breakpointLocationId1]).toBeUndefined();
@@ -166,9 +161,7 @@ describe("when changing an existing breakpoint", () => {
     await dispatch(actions.loadSourceText(csr.source));
 
     await dispatch(actions.addBreakpoint(bp.location));
-    await dispatch(
-      actions.setBreakpointOptions(bp.location, { condition: "2" })
-    );
+    await dispatch(actions.setBreakpointOptions(bp.location, { condition: "2" }));
     const bps = selectors.getPendingBreakpoints(getState());
     const breakpoint = bps[id];
     expect(breakpoint.options.condition).toBe("2");
@@ -207,9 +200,7 @@ describe("when changing an existing breakpoint", () => {
     const id = makePendingLocationId(bp.location);
 
     await dispatch(actions.addBreakpoint(bp.location));
-    await dispatch(
-      actions.setBreakpointOptions(bp.location, { condition: "2" })
-    );
+    await dispatch(actions.setBreakpointOptions(bp.location, { condition: "2" }));
     const bps = selectors.getPendingBreakpoints(getState());
     const breakpoint = bps[id];
     expect(breakpoint.options.condition).toBe("2");
@@ -218,10 +209,7 @@ describe("when changing an existing breakpoint", () => {
 
 describe("initializing when pending breakpoints exist in prefs", () => {
   it("syncs pending breakpoints", async () => {
-    const { getState } = createStore(
-      simpleMockThreadClient,
-      loadInitialState()
-    );
+    const { getState } = createStore(simpleMockThreadClient, loadInitialState());
     const bps = selectors.getPendingBreakpoints(getState());
     expect(bps).toMatchSnapshot();
   });
@@ -355,10 +343,10 @@ describe("invalid breakpoint location", () => {
   it("a corrected corresponding pending breakpoint is added", async () => {
     // setup
     const bp = generateBreakpoint("foo.js");
-    const {
-      correctedThreadClient,
-      correctedLocation
-    } = simulateCorrectThreadClient(2, bp.location);
+    const { correctedThreadClient, correctedLocation } = simulateCorrectThreadClient(
+      2,
+      bp.location
+    );
     const { dispatch, getState } = createStore(correctedThreadClient);
     const correctedPendingId = makePendingLocationId(correctedLocation);
 

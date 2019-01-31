@@ -1,5 +1,5 @@
 dispatch({ d });
-function evaluate(script, { frameId } = {frameId: 3}, {c} = {c: 2}) {}
+function evaluate(script, { frameId } = { frameId: 3 }, { c } = { c: 2 }) {}
 
 a(b(c()));
 

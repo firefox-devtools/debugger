@@ -1,15 +1,12 @@
-
 if (x) {
   foo();
-}
-else if (y) {
+} else if (y) {
   foo();
-}
-else {
+} else {
   foo();
 }
 
-for (var i=0; i< 5; i++ ) {
+for (var i = 0; i < 5; i++) {
   foo();
 }
 
@@ -19,7 +16,7 @@ while (x) {
 
 switch (c) {
   case a:
-    console.log('hi')
+    console.log("hi");
 }
 
 var a = 3;
@@ -33,7 +30,7 @@ for (const val of vals) {
 }
 
 try {
-} catch (e) {
-}
+} catch (e) {}
 
-with (e) {}
+with (e) {
+}

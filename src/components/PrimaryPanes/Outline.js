@@ -13,11 +13,7 @@ import { copyToTheClipboard } from "../../utils/clipboard";
 import { findFunctionText } from "../../utils/function";
 
 import actions from "../../actions";
-import {
-  getSelectedSource,
-  getSymbols,
-  getSelectedLocation
-} from "../../selectors";
+import { getSelectedSource, getSymbols, getSelectedLocation } from "../../selectors";
 
 import OutlineFilter from "./OutlineFilter";
 import "./Outline.css";
@@ -136,9 +132,7 @@ export class Outline extends Component<Props, State> {
   }
 
   renderLoading() {
-    return (
-      <div className="outline-pane-info">{L10N.getStr("loadingText")}</div>
-    );
+    return <div className="outline-pane-info">{L10N.getStr("loadingText")}</div>;
   }
 
   renderFunction(func: FunctionDeclaration) {
@@ -169,9 +163,7 @@ export class Outline extends Component<Props, State> {
     const heading = classFunc ? (
       <h2>{this.renderFunction(classFunc)}</h2>
     ) : (
-      <h2
-        onClick={classInfo ? () => this.selectItem(classInfo.location) : null}
-      >
+      <h2 onClick={classInfo ? () => this.selectItem(classInfo.location) : null}>
         <span className="keyword">class</span> {klass}
       </h2>
     );
@@ -239,9 +231,7 @@ export class Outline extends Component<Props, State> {
       return this.renderLoading();
     }
 
-    const symbolsToDisplay = symbols.functions.filter(
-      func => func.name != "anonymous"
-    );
+    const symbolsToDisplay = symbols.functions.filter(func => func.name != "anonymous");
 
     if (symbolsToDisplay.length === 0) {
       return this.renderPlaceholder();

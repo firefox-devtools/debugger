@@ -1,10 +1,9 @@
 /* Any copyright is dedicated to the Public Domain.
  * http://creativecommons.org/publicdomain/zero/1.0/ */
 
-function openFirstBreakpointContextMenu(dbg){
+function openFirstBreakpointContextMenu(dbg) {
   rightClickElement(dbg, "breakpointItem", 3);
 }
-
 
 // Tests to see if we can trigger a breakpoint action via the context menu
 add_task(async function() {
@@ -14,7 +13,7 @@ add_task(async function() {
 
   await addBreakpoint(dbg, "simple2", 3);
 
-  openFirstBreakpointContextMenu(dbg)
+  openFirstBreakpointContextMenu(dbg);
   // select "Remove breakpoint"
   selectContextMenuItem(dbg, selectors.breakpointContextMenu.remove);
 
@@ -38,7 +37,8 @@ add_task(async function() {
   let dispatched = waitForDispatch(dbg, "DISABLE_BREAKPOINT", 3);
   selectContextMenuItem(dbg, selectors.breakpointContextMenu.disableOthers);
   await waitForState(dbg, state =>
-    dbg.selectors.getBreakpointsList(state)
+    dbg.selectors
+      .getBreakpointsList(state)
       .every(bp => (bp.location.line !== 1) === bp.disabled)
   );
   await dispatched;
@@ -59,7 +59,8 @@ add_task(async function() {
   dispatched = waitForDispatch(dbg, "ENABLE_BREAKPOINT", 3);
   selectContextMenuItem(dbg, selectors.breakpointContextMenu.enableOthers);
   await waitForState(dbg, state =>
-    dbg.selectors.getBreakpointsList(state)
+    dbg.selectors
+      .getBreakpointsList(state)
       .every(bp => (bp.location.line === 1) === bp.disabled)
   );
   await dispatched;
@@ -69,9 +70,11 @@ add_task(async function() {
   // select "Remove Others"
   dispatched = waitForDispatch(dbg, "REMOVE_BREAKPOINT", 3);
   selectContextMenuItem(dbg, selectors.breakpointContextMenu.removeOthers);
-  await waitForState(dbg, state =>
-    dbg.selectors.getBreakpointsList(state).length === 1 &&
-    dbg.selectors.getBreakpointsList(state)[0].location.line === 1
+  await waitForState(
+    dbg,
+    state =>
+      dbg.selectors.getBreakpointsList(state).length === 1 &&
+      dbg.selectors.getBreakpointsList(state)[0].location.line === 1
   );
   await dispatched;
   ok("remaining breakpoint should be on line 1");

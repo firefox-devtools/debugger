@@ -67,12 +67,7 @@ export function setPausePoints(sourceId: SourceId) {
       }
     }
 
-    pausePoints = await mapLocations(
-      pausePoints,
-      getState(),
-      source,
-      sourceMaps
-    );
+    pausePoints = await mapLocations(pausePoints, getState(), source, sourceMaps);
 
     dispatch(
       ({

@@ -9,7 +9,7 @@ add_task(async function() {
   assertPausedLocation(dbg);
 
   const threadClient = dbg.toolbox.threadClient;
-  await checkEvaluateInTopFrame(threadClient, 'window.scrollBy(0, 10);', undefined);
+  await checkEvaluateInTopFrame(threadClient, "window.scrollBy(0, 10);", undefined);
 
   // checkEvaluateInTopFrame does an implicit resume for some reason.
   await waitForPaused(dbg);
