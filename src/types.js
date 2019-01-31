@@ -120,7 +120,8 @@ export type Breakpoint = {|
 export type BreakpointOptions = {
   hidden?: boolean,
   condition?: string,
-  logValue?: string
+  logValue?: string,
+  disabled?: boolean
 };
 
 export type BreakpointActor = {|

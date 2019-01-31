@@ -34,7 +34,13 @@ import type {
 } from "../../types";
 import type { ThunkArgs } from "../types";
 
-async function addBreakpointPromise(getState, client, sourceMaps, breakpoint) {
+async function addBreakpointPromise(
+  getState,
+  client,
+  sourceMaps,
+  breakpoint,
+  shouldDisable = false
+) {
   const state = getState();
   const source = getSource(state, breakpoint.location.sourceId);
 
@@ -101,7 +107,7 @@ async function addBreakpointPromise(getState, client, sourceMaps, breakpoint) {
 
   const newBreakpoint = {
     id: makeBreakpointId(generatedLocation),
-    disabled: breakpoint.disabled,
+    disabled: shouldDisable,
     loading: false,
     options: breakpoint.options,
     location: newLocation,
@@ -166,11 +172,18 @@ export function addBreakpoint(
     }
 
     const breakpoint = createBreakpoint(location, options);
+    const shouldDisable = options && options.disabled === true;
 
     return dispatch({
       type: "ADD_BREAKPOINT",
       breakpoint,
-      [PROMISE]: addBreakpointPromise(getState, client, sourceMaps, breakpoint)
+      [PROMISE]: addBreakpointPromise(
+        getState,
+        client,
+        sourceMaps,
+        breakpoint,
+        shouldDisable
+      )
     });
   };
 }
