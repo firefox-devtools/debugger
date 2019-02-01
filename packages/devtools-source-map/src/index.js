@@ -121,7 +121,7 @@ export const startSourceMapWorker = (url: string, assetRoot: string) => {
   dispatcher.start(url);
   setAssetRootURL(assetRoot);
 };
-export const stopSourceMapWorker = () => dispatcher.stop.bind(dispatcher);
+export const stopSourceMapWorker = dispatcher.stop.bind(dispatcher);
 
 import * as self from "devtools-source-map";
 export default self;
