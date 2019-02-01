@@ -212,7 +212,7 @@ describe("ProjectSearch", () => {
       },
       true
     );
-    component.instance().state.focusedItem = { match: testMatch };
+    component.instance().state.focusedItem = { testMatch };
     shortcuts.dispatch("Enter");
     expect(selectSpecificLocation).toHaveBeenCalledWith({
       sourceId: "some-target/source42",
