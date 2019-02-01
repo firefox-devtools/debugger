@@ -119,8 +119,3 @@
 .input-expression:not(:placeholder-shown) {
   font-family: var(--monospace-font-family);
 }
-
-.expressions-list span,
-.input-expression {
-  font-size: 11px;
-}
