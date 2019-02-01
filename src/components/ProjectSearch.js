@@ -177,7 +177,7 @@ export class ProjectSearch extends Component<Props, State> {
 
   onEnterPress = () => {
     if (
-      !this.isProjectSearchEnabled ||
+      !this.isProjectSearchEnabled() ||
       !this.state.focusedItem ||
       this.state.inputFocused
     ) {

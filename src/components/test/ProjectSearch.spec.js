@@ -65,6 +65,7 @@ const testResults = [
 ];
 
 const testMatch = {
+  type: "MATCH",
   match: "match1",
   value: "some thing match1",
   sourceId: "some-target/source42",
@@ -212,7 +213,7 @@ describe("ProjectSearch", () => {
       },
       true
     );
-    component.instance().state.focusedItem = { testMatch };
+    component.instance().state.focusedItem = { ...testMatch };
     shortcuts.dispatch("Enter");
     expect(selectSpecificLocation).toHaveBeenCalledWith({
       sourceId: "some-target/source42",
