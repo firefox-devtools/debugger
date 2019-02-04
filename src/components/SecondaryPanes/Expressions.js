@@ -236,14 +236,7 @@ class Expressions extends Component<Props, State> {
     };
 
     return (
-      <li
-        className="expression-container"
-        key={input}
-        title={expression.input}
-        onDoubleClick={(items, options) =>
-          this.editExpression(expression, index)
-        }
-      >
+      <li className="expression-container" key={input} title={expression.input}>
         <div className="expression-content">
           <ObjectInspector
             roots={[root]}
@@ -254,6 +247,9 @@ class Expressions extends Component<Props, State> {
             createObjectClient={grip => createObjectClient(grip)}
             onDOMNodeClick={grip => openElementInInspector(grip)}
             onInspectIconClick={grip => openElementInInspector(grip)}
+            onExpressionDblClick={(items, options) =>
+              this.editExpression(expression, index)
+            }
           />
           <div className="expression-container__close-btn">
             <CloseButton
