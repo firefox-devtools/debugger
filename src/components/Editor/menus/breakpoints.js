@@ -162,9 +162,11 @@ export function breakpointItems(
 
   if (features.columnBreakpoints) {
     items.push(
+      { type: "separator" },
       removeBreakpointsOnLineItem(breakpoint.location, breakpointActions),
       enableBreakpointsOnLineItem(breakpoint.location, breakpointActions),
-      disableBreakpointsOnLineItem(breakpoint.location, breakpointActions)
+      disableBreakpointsOnLineItem(breakpoint.location, breakpointActions),
+      { type: "separator" }
     );
   }
 
