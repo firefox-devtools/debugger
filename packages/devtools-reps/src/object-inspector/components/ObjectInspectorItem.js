@@ -266,7 +266,14 @@ class ObjectInspectorItem extends Component<Props> {
       return null;
     }
 
-    const { item, depth, focused, expanded, onLabelClick } = this.props;
+    const {
+      item,
+      depth,
+      focused,
+      expanded,
+      onLabelClick,
+      onExpressionDblClick
+    } = this.props;
     return dom.span(
       {
         className: "object-label",
@@ -286,7 +293,8 @@ class ObjectInspectorItem extends Component<Props> {
                 setExpanded: this.props.setExpanded
               });
             }
-          : undefined
+          : undefined,
+        onDoubleClick: onExpressionDblClick
       },
       label
     );
