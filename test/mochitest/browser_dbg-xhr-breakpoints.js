@@ -67,23 +67,25 @@ async function clickPauseOnAny(dbg, expectedEvent) {
   await waitForDispatch(dbg, expectedEvent);
 }
 
-// Tests that a basic XHR breakpoint works for get and POST is ignored
 add_task(async function() {
   const dbg = await initDebugger("doc-xhr.html", "fetch.js");
+  const wait = ms => (new Promise(resolve => setTimeout(resolve, ms)));
 
   await addXHRBreakpoint(dbg, "doc", "GET", true);
 
   invokeInTab("main", "doc-xhr.html", "GET");
   await waitForPaused(dbg);
   assertPausedLocation(dbg);
-  resume(dbg);
+  await resume(dbg);
 
   await dbg.actions.removeXHRBreakpoint(0);
   invokeInTab("main", "doc-xhr.html", "GET");
+  await wait(1000); // timeout needed before checking whether it's paused
   assertNotPaused(dbg);
 
   await addXHRBreakpoint(dbg, "doc", "POST", true);
   invokeInTab("main", "doc-xhr.html", "GET");
+  await wait(1000); // timeout needed before checking whether it's paused
   assertNotPaused(dbg);
 });
 
