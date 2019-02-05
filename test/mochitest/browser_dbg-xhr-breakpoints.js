@@ -2,8 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-async function addXHRBreakpoint(dbg, text, method, forceChangeEvent) {
-  info("Adding a XHR breakpoint");
+async function addXHRBreakpoint(dbg, text, method, forceChangeEvent = false) {
+  info(`Adding a XHR breakpoint for pattern ${text} and method ${method}`);
 
   const plusIcon = findElementWithSelector(dbg, ".xhr-breakpoints-pane .plus");
   if (plusIcon) {
