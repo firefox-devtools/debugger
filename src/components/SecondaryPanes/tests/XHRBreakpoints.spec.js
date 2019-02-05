@@ -232,7 +232,6 @@ describe("XHR Breakpoints", function() {
 
   it("should return focus to input box after selecting a method", function() {
     const xhrBreakpointsComponent = renderXHRBreakpointsComponent();
-    const xhrBreakpointsComponentInstance = xhrBreakpointsComponent.instance();
 
     // focus starts off at .xhr-input
     xhrBreakpointsComponent.find(".xhr-input-url").simulate("focus");
