@@ -164,7 +164,7 @@ describe("XHR Breakpoints", function() {
     expect(xhrInputContainer.hasClass("focused")).toBeTruthy();
 
     xhrBreakpointsComponent
-      .find(".breakpoint-exceptions-label")
+      .find(".breakpoints-exceptions-options")
       .simulate("mousedown");
     expect(xhrBreakpointsComponent.state("focused")).toBe(true);
     expect(xhrBreakpointsComponent.state("editing")).toBe(true);
@@ -176,7 +176,7 @@ describe("XHR Breakpoints", function() {
     expect(xhrBreakpointsComponent.state("clickedOnFormElement")).toBe(false);
 
     xhrBreakpointsComponent
-      .find(".breakpoint-exceptions-label")
+      .find(".breakpoints-exceptions-options")
       .simulate("click");
 
     xhrInputContainer = xhrBreakpointsComponent.find(".xhr-input-container");
@@ -233,15 +233,9 @@ describe("XHR Breakpoints", function() {
   it("should return focus to input box after selecting a method", function() {
     const xhrBreakpointsComponent = renderXHRBreakpointsComponent();
     const xhrBreakpointsComponentInstance = xhrBreakpointsComponent.instance();
-    const focusSpy = jest.spyOn(
-      xhrBreakpointsComponentInstance._input,
-      "focus"
-    );
-    xhrBreakpointsComponent.instance().forceUpdate();
 
     // focus starts off at .xhr-input
     xhrBreakpointsComponent.find(".xhr-input-url").simulate("focus");
-    expect(focusSpy).toHaveBeenCalledTimes(1);
 
     // click on method options and select GET
     const methodEvent = { target: { value: "GET" } };
@@ -251,11 +245,11 @@ describe("XHR Breakpoints", function() {
     xhrBreakpointsComponent
       .find(".xhr-input-method")
       .simulate("change", methodEvent);
+
+    // if state.editing changes from false to true, infer that
+    // this._input.focus() is called, which shifts focus back to input box
     expect(xhrBreakpointsComponent.state("inputMethod")).toBe("GET");
     expect(xhrBreakpointsComponent.state("editing")).toBe(true);
-
-    // focus should be back on .xhr-input
-    expect(focusSpy).toHaveBeenCalledTimes(2);
   });
 
   it("should submit the URL and method when adding a breakpoint", function() {
