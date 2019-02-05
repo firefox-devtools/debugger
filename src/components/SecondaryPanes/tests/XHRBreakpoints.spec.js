@@ -38,6 +38,7 @@ function generateDefaultState(propsOverride) {
 function renderXHRBreakpointsComponent(propsOverride) {
   const props = generateDefaultState(propsOverride);
   const xhrBreakpointsComponent = shallow(
+    // $FlowIgnore
     <XHRBreakpoints.WrappedComponent {...props} />
   );
   return xhrBreakpointsComponent;
