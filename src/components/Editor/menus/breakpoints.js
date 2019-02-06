@@ -151,11 +151,11 @@ export function breakpointItems(
     );
   }
 
-  if (condition) {
+  if (condition || (!condition && !logValue)) {
     items.push(conditionalBreakpointItem(breakpoint, breakpointActions));
   }
 
-  if (features.logPoints && logValue) {
+  if ((features.logPoints && logValue) || (!condition && !logValue)) {
     items.push(logPointItem(breakpoint, breakpointActions));
   }
   return items;
