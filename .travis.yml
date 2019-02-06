@@ -12,7 +12,7 @@ env:
   global:
     - DISPLAY=':99.0'
     - YARN_VERSION='1.9.4'
-    - MC_COMMIT='1d7c85e4e922' # https://hg.mozilla.org/mozilla-central/shortlog
+    - MC_COMMIT='4677e6074704' # https://hg.mozilla.org/mozilla-central/shortlog
 
 notifications:
   slack:
