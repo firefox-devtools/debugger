@@ -3750,10 +3750,10 @@ devtools-config@^0.0.16:
   resolved "https://registry.yarnpkg.com/devtools-config/-/devtools-config-0.0.16.tgz#e7251788422f42a16aa1372b6adbebfcb7a74994"
   integrity sha512-v/wrZ1QemwmmZEHKoQqorEcqmIZk757niDfA17vf/c4uQ47pBjv8963D7wqX5Zpv4wrrVw+8SLBHAF7yVVyypw==
 
-devtools-connection@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/devtools-connection/-/devtools-connection-1.0.4.tgz#06921176dd16238e69eae0e8b53b2e392505c57a"
-  integrity sha512-jcq+mG9sn6CxABrUGvjupybTjjqLC0nG0JG/Rgo0uAE7V57tl/hQhTC+YURLsLrn9ISZpBPD/ZbTWRx5YZw58A==
+devtools-connection@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/devtools-connection/-/devtools-connection-1.0.5.tgz#143e529e758160a52b97af4894bda833b1a8cee9"
+  integrity sha512-3bi9EY4SYcF+X3pawpWq3n81Cm/DxDNVNYg01YKeeR2OiWkjoib4r3vlxAIWWLAfggZin110uch1Ba8BTNq13A==
 
 devtools-contextmenu@~1.0.3:
   version "1.0.3"
@@ -3772,10 +3772,10 @@ devtools-environment@^0.0.6:
   resolved "https://registry.yarnpkg.com/devtools-environment/-/devtools-environment-0.0.6.tgz#11584f5b1ead784c2356d8da647a630fed591a4e"
   integrity sha512-tZK/UlLBnm5TCr9YnBahMkv2bpasjNyQgLNZOvFCMCO4TZSjggrccMTkljhqCr32Zb1Nx/C/jhB/KdlyiUI2Lw==
 
-devtools-launchpad@^0.0.146:
-  version "0.0.146"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.146.tgz#82a144cc5f90aaa986d3a4e498beb9c4cc8faa5f"
-  integrity sha512-XifsjOoVTrvz/lpQzUJ9fC7a19sU36C+0ghsiebqiw1Or9svgJyHVgOf4rC3Qew3RrCzS1jGMzblRt0lhzVRLQ==
+devtools-launchpad@^0.0.147:
+  version "0.0.147"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.147.tgz#161c5001a2aa61c79e1436583cdcc36e0052fea5"
+  integrity sha512-uiTr/bmwxfuD5RAz01sFwroYe88PmRIS/DT6XMC0Ca/P7lyw2Ji8o2h24eb6KXeE4hHiX59xQDRGm4tTsPBRvQ==
   dependencies:
     amd-loader "0.0.8"
     autoprefixer "^7.1.2"
@@ -3800,7 +3800,7 @@ devtools-launchpad@^0.0.146:
     css-loader "^0.26.1"
     debug "^3.1.0"
     devtools-config "^0.0.16"
-    devtools-connection "^1.0.4"
+    devtools-connection "^1.0.5"
     devtools-contextmenu "~1.0.3"
     devtools-environment "^0.0.5"
     devtools-license-check "^0.7.0"
