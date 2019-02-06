@@ -164,8 +164,9 @@ export function breakpointItems(
     items.push(
       { type: "separator" },
       removeBreakpointsOnLineItem(breakpoint.location, breakpointActions),
-      enableBreakpointsOnLineItem(breakpoint.location, breakpointActions),
-      disableBreakpointsOnLineItem(breakpoint.location, breakpointActions),
+      breakpoint.disabled
+        ? enableBreakpointsOnLineItem(breakpoint.location, breakpointActions)
+        : disableBreakpointsOnLineItem(breakpoint.location, breakpointActions),
       { type: "separator" }
     );
   }
@@ -200,42 +201,34 @@ export const removeBreakpointsOnLineItem = (
 ) => ({
   id: "node-menu-remove-breakpoints-on-line",
   label: L10N.getStr("breakpointMenuItem.removeAllAtLine.label"),
-  accesskey: "", // TODO
-  disabled: false, // TODO
+  accesskey: L10N.getStr("breakpointMenuItem.removeAllAtLine.accesskey"),
+  disabled: false,
   click: () =>
-    breakpointActions.removeBreakpointsAtLine(location.sourceId, location.line),
-  accelerator: "" // TODO
+    breakpointActions.removeBreakpointsAtLine(location.sourceId, location.line)
 });
 
-// ToDo: Only enable if there are more than one breakpoints on a line?
 export const enableBreakpointsOnLineItem = (
   location: SourceLocation,
   breakpointActions: BreakpointItemActions
 ) => ({
   id: "node-menu-remove-breakpoints-on-line",
   label: L10N.getStr("breakpointMenuItem.enableAllAtLine.label"),
-  accesskey: "", // TODO
-  disabled: false, // TODO
+  accesskey: L10N.getStr("breakpointMenuItem.enableAllAtLine.accesskey"),
+  disabled: false,
   click: () =>
-    breakpointActions.enableBreakpointsAtLine(location.sourceId, location.line),
-  accelerator: "" // TODO
+    breakpointActions.enableBreakpointsAtLine(location.sourceId, location.line)
 });
 
-// ToDo: Only enable if there are more than one breakpoints on a line?
 export const disableBreakpointsOnLineItem = (
   location: SourceLocation,
   breakpointActions: BreakpointItemActions
 ) => ({
   id: "node-menu-remove-breakpoints-on-line",
   label: L10N.getStr("breakpointMenuItem.disableAllAtLine.label"),
-  accesskey: "", // TODO
-  disabled: false, // TODO
+  accesskey: L10N.getStr("breakpointMenuItem.enableAllAtLine.accesskey"),
+  disabled: false,
   click: () =>
-    breakpointActions.disableBreakpointsAtLine(
-      location.sourceId,
-      location.line
-    ),
-  accelerator: "" // TODO
+    breakpointActions.disableBreakpointsAtLine(location.sourceId, location.line)
 });
 
 export type BreakpointItemActions = {
