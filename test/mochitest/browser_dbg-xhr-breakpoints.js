@@ -16,17 +16,6 @@ async function addXHRBreakpoint(dbg, text, method, forceChangeEvent = false) {
     findElementWithSelector(dbg, ".xhr-input-method").value = method;
   }
 
-  if (forceChangeEvent) {
-    pressKey(dbg, "Tab");
-    pressKey(dbg, "Down");
-    pressKey(dbg, "Down");
-    pressKey(dbg, "Enter");
-    pressKey(dbg, "Tab");
-    pressKey(dbg, "Up");
-    pressKey(dbg, "Up");
-    pressKey(dbg, "Enter");
-  }
-
   pressKey(dbg, "Enter");
 
   await waitForDispatch(dbg, "SET_XHR_BREAKPOINT");
