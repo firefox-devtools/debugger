@@ -276,8 +276,22 @@ function updateSource(state: SourcesState, source: Object) {
 
   state.sources[source.id] = updatedSource;
 
+  updateExistingRelativeSource(state, source);
   updateSourceUrl(state, source);
   updateOriginalSources(state, source);
+}
+
+function updateExistingRelativeSource(state: SourcesState, source: Object) {
+  const relativeSources = { ...state.relativeSources };
+
+  for (const thread in relativeSources) {
+    relativeSources[thread] = { ...relativeSources[thread] };
+    if (relativeSources[thread][source.id]) {
+      const existingRelativeSource = relativeSources[thread][source.id];
+      const updatedRelativeSource = { ...existingRelativeSource, ...source};
+      state.relativeSources[thread][source.id] = updatedRelativeSource;
+    }
+  }
 }
 
 function updateRelativeSource(
