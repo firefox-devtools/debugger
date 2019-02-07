@@ -225,7 +225,7 @@ export const disableBreakpointsOnLineItem = (
 ) => ({
   id: "node-menu-remove-breakpoints-on-line",
   label: L10N.getStr("breakpointMenuItem.disableAllAtLine.label"),
-  accesskey: L10N.getStr("breakpointMenuItem.enableAllAtLine.accesskey"),
+  accesskey: L10N.getStr("breakpointMenuItem.disableAllAtLine.accesskey"),
   disabled: false,
   click: () =>
     breakpointActions.disableBreakpointsAtLine(location.sourceId, location.line)
