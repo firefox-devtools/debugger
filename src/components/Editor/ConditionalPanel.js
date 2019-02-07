@@ -3,6 +3,11 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
+const CodeMirror = require("codemirror");
+
+// $FlowIgnore
+require("codemirror/addon/display/placeholder");
+
 import React, { PureComponent } from "react";
 import ReactDOM from "react-dom";
 import { connect } from "../../utils/connect";
@@ -160,15 +165,26 @@ export class ConditionalPanel extends PureComponent<Props> {
         <div className="prompt">»</div>
         <input
           defaultValue={condition}
-          placeholder={L10N.getStr(
-            log
-              ? "editor.conditionalPanel.logPoint.placeholder"
-              : "editor.conditionalPanel.placeholder"
-          )}
-          onKeyDown={this.onKey}
           ref={input => {
+            const codeMirror = CodeMirror.fromTextArea(input, {
+              mode: "javascript",
+              theme: "mozilla",
+              placeholder: L10N.getStr(
+                log
+                  ? "editor.conditionalPanel.logPoint.placeholder"
+                  : "editor.conditionalPanel.placeholder"
+              )
+            });
+            const codeMirrorWrapper = codeMirror.getWrapperElement();
+
+            codeMirrorWrapper.addEventListener("keydown", e => {
+              codeMirror.save();
+              this.onKey(e);
+            });
+
             this.input = input;
-            this.keepFocusOnInput();
+            codeMirror.focus();
+            codeMirror.setCursor(codeMirror.lineCount(), 0);
           }}
         />
       </div>,
