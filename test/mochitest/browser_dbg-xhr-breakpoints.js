@@ -4,6 +4,7 @@
 
 async function addXHRBreakpoint(dbg, text, method, forceChangeEvent = false) {
   info(`Adding a XHR breakpoint for pattern ${text} and method ${method}`);
+  const wait = ms => (new Promise(resolve => setTimeout(resolve, ms)));
 
   const plusIcon = findElementWithSelector(dbg, ".xhr-breakpoints-pane .plus");
   if (plusIcon) {
@@ -14,6 +15,25 @@ async function addXHRBreakpoint(dbg, text, method, forceChangeEvent = false) {
 
   if (method) {
     findElementWithSelector(dbg, ".xhr-input-method").value = method;
+  }
+
+  if (forceChangeEvent) {
+    pressKey(dbg, "Tab");
+    await wait(1000);
+    pressKey(dbg, "Down");
+    await wait(1000);
+    pressKey(dbg, "Down");
+    await wait(1000);
+    pressKey(dbg, "Enter");
+    await wait(1000);
+    pressKey(dbg, "Tab");
+    await wait(1000);
+    pressKey(dbg, "Up");
+    await wait(1000);
+    pressKey(dbg, "Up");
+    await wait(1000);
+    pressKey(dbg, "Enter");
+    await wait(1000);
   }
 
   pressKey(dbg, "Enter");
