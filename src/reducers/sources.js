@@ -288,7 +288,7 @@ function updateExistingRelativeSource(state: SourcesState, source: Object) {
     relativeSources[thread] = { ...relativeSources[thread] };
     if (relativeSources[thread][source.id]) {
       const existingRelativeSource = relativeSources[thread][source.id];
-      const updatedRelativeSource = { ...existingRelativeSource, ...source};
+      const updatedRelativeSource = { ...existingRelativeSource, ...source };
       state.relativeSources[thread][source.id] = updatedRelativeSource;
     }
   }
