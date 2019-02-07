@@ -80,7 +80,7 @@ function createMozBuildFiles() {
        return file.match(/workers\/(\w|-)*\/index.js/);
      }
 
-     return !file.match(/(test|types)/)
+     return !file.match(/(test|types|packages)/)
 
    })
     .forEach(file => {
