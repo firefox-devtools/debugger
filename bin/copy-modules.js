@@ -23,7 +23,7 @@ function ignoreFile(file) {
 }
 
 function getFiles() {
-  return glob.sync("./src/**/*", {}).filter(file => !ignoreFile(file));
+  return [...glob.sync("./src/**/*", {}), ...glob.sync("./packages/**/*", {})].filter(file => !ignoreFile(file));
 }
 
 function copyFiles() {
