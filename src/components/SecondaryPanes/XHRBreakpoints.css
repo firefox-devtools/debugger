@@ -76,6 +76,7 @@
 .xhr-label-method {
   padding: 0px 2px 0px 2px;
   line-height: 15px;
+  display: inline-block;
 }
 
 .xhr-input-method {
@@ -92,18 +93,23 @@
   display: inline-block;
   cursor: text;
   flex-grow: 1;
-  text-overflow: ellipsis;
   overflow: hidden;
   padding: 0px 2px 0px 2px;
   line-height: 15px;
   font-size: 11px;
 }
 
-.xhr-container .close-btn {
+.xhr-container label {
+  flex-grow: 1;
+  display: flex;
+  padding-inline-end: 36px;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+.xhr-container__close-btn {
   offset-inline-end: 12px;
-  inset-inline-end: 12px;
   offset-inline-start: auto;
-  inset-inline-start: auto;
   position: absolute;
   top: 8px;
 }
