@@ -58,7 +58,7 @@ async function clickPauseOnAny(dbg, expectedEvent) {
 
 add_task(async function() {
   const dbg = await initDebugger("doc-xhr.html", "fetch.js");
-  const wait = ms => (new Promise(resolve => setTimeout(resolve, ms)));
+  const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
   await addXHRBreakpoint(dbg, "doc", "GET");
 

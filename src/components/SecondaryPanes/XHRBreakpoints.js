@@ -107,14 +107,15 @@ class XHRBreakpoints extends Component<Props, State> {
         this.state.inputMethod
       );
       this.hideInput();
-    }
+    };
 
     // force update inputMethod in state for mochitest purposes
     // before setting XHR breakpoint
-    this.setState({
+    this.setState(
       // $FlowIgnore
-      inputMethod: e.target.children[1].value
-    }, setXHRBreakpoint);
+      { inputMethod: e.target.children[1].value },
+      setXHRBreakpoint
+    );
   };
 
   handleExistingSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
