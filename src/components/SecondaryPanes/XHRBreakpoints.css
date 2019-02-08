@@ -93,6 +93,7 @@
   display: inline-block;
   cursor: text;
   flex-grow: 1;
+  text-overflow: ellipsis;
   overflow: hidden;
   padding: 0px 2px 0px 2px;
   line-height: 15px;
