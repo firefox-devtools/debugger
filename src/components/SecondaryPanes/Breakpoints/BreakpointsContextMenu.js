@@ -7,6 +7,8 @@
 import { buildMenu, showMenu } from "devtools-contextmenu";
 import { getSelectedLocation } from "../../../utils/source-maps";
 import actions from "../../../actions";
+import { features } from "../../../utils/prefs";
+
 import type { Breakpoint, Source } from "../../../types";
 
 type Props = {
@@ -212,6 +214,28 @@ export default function showContextMenu(props: Props) {
     }
   };
 
+  const addLogPointItem = {
+    id: "node-menu-add-log-point",
+    label: L10N.getStr("editor.addLogPoint"),
+    accesskey: L10N.getStr("editor.addLogPoint.accesskey"),
+    disabled: false,
+    click: () => openConditionalPanel(selectedLocation, true),
+    accelerator: L10N.getStr("toggleCondPanel.key")
+  };
+
+  const editLogPointItem = {
+    id: "node-menu-edit-log-point",
+    label: L10N.getStr("editor.editLogPoint"),
+    accesskey: L10N.getStr("editor.addLogPoint.accesskey"),
+    disabled: false,
+    click: () => openConditionalPanel(selectedLocation, true),
+    accelerator: L10N.getStr("toggleCondPanel.key")
+  };
+
+  const logPointItem = breakpoint.options.logValue
+    ? editLogPointItem
+    : addLogPointItem;
+
   const hideEnableSelfItem = !breakpoint.disabled;
   const hideEnableAllItem = disabledBreakpoints.length === 0;
   const hideEnableOthersItem = otherDisabledBreakpoints.length === 0;
@@ -245,15 +269,23 @@ export default function showContextMenu(props: Props) {
     },
     {
       item: addConditionItem,
-      hidden: () => breakpoint.options.condition
+      hidden: () => breakpoint.options.logValue || breakpoint.options.condition
     },
     {
       item: editConditionItem,
-      hidden: () => !breakpoint.options.condition
+      hidden: () => breakpoint.options.logValue || !breakpoint.options.condition
     },
     {
       item: removeConditionItem,
-      hidden: () => !breakpoint.options.condition
+      hidden: () => breakpoint.options.logValue || !breakpoint.options.condition
+    },
+    {
+      item: logPointItem,
+      hidden: () =>
+        !(
+          (features.logPoints && breakpoint.options.logValue) ||
+          (!breakpoint.options.condition && !breakpoint.options.logValue)
+        )
     }
   ];
 
