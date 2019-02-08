@@ -2,9 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-async function addXHRBreakpoint(dbg, text, method, forceChangeEvent = false) {
+async function addXHRBreakpoint(dbg, text, method) {
   info(`Adding a XHR breakpoint for pattern ${text} and method ${method}`);
-  const wait = ms => (new Promise(resolve => setTimeout(resolve, ms)));
 
   const plusIcon = findElementWithSelector(dbg, ".xhr-breakpoints-pane .plus");
   if (plusIcon) {
@@ -15,25 +14,6 @@ async function addXHRBreakpoint(dbg, text, method, forceChangeEvent = false) {
 
   if (method) {
     findElementWithSelector(dbg, ".xhr-input-method").value = method;
-  }
-
-  if (forceChangeEvent) {
-    pressKey(dbg, "Tab");
-    await wait(1000);
-    pressKey(dbg, "Down");
-    await wait(1000);
-    pressKey(dbg, "Down");
-    await wait(1000);
-    pressKey(dbg, "Enter");
-    await wait(1000);
-    pressKey(dbg, "Tab");
-    await wait(1000);
-    pressKey(dbg, "Up");
-    await wait(1000);
-    pressKey(dbg, "Up");
-    await wait(1000);
-    pressKey(dbg, "Enter");
-    await wait(1000);
   }
 
   pressKey(dbg, "Enter");
@@ -80,7 +60,7 @@ add_task(async function() {
   const dbg = await initDebugger("doc-xhr.html", "fetch.js");
   const wait = ms => (new Promise(resolve => setTimeout(resolve, ms)));
 
-  await addXHRBreakpoint(dbg, "doc", "GET", true);
+  await addXHRBreakpoint(dbg, "doc", "GET");
 
   invokeInTab("main", "doc-xhr.html");
   await waitForPaused(dbg);
@@ -92,7 +72,7 @@ add_task(async function() {
   await wait(1000); // timeout needed before checking whether it's paused
   assertNotPaused(dbg);
 
-  await addXHRBreakpoint(dbg, "doc", "POST", true);
+  await addXHRBreakpoint(dbg, "doc", "POST");
   invokeInTab("main", "doc-xhr.html");
   await wait(1000); // timeout needed before checking whether it's paused
   assertNotPaused(dbg);

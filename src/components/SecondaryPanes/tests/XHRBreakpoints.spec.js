@@ -4,7 +4,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 import React from "react";
-import { shallow } from "enzyme";
+import { mount } from "enzyme";
 import XHRBreakpoints from "../XHRBreakpoints";
 
 const xhrMethods = [
@@ -37,7 +37,7 @@ function generateDefaultState(propsOverride) {
 
 function renderXHRBreakpointsComponent(propsOverride) {
   const props = generateDefaultState(propsOverride);
-  const xhrBreakpointsComponent = shallow(
+  const xhrBreakpointsComponent = mount(
     // $FlowIgnore
     <XHRBreakpoints.WrappedComponent {...props} />
   );
