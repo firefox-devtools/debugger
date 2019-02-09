@@ -3,17 +3,13 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-const CodeMirror = require("codemirror");
-
-// $FlowIgnore
-require("codemirror/addon/display/placeholder");
-
 import React, { PureComponent } from "react";
 import ReactDOM from "react-dom";
 import { connect } from "../../utils/connect";
 import classNames from "classnames";
 import "./ConditionalPanel.css";
 import { toEditorLine } from "../../utils/editor";
+import { createEditor } from "../../utils/editor/create-editor";
 import actions from "../../actions";
 
 import {
@@ -166,7 +162,8 @@ export class ConditionalPanel extends PureComponent<Props> {
         <input
           defaultValue={condition}
           ref={input => {
-            const codeMirror = CodeMirror.fromTextArea(input, {
+            const editor = createEditor();
+            const codeMirror = editor.CodeMirror.fromTextArea(input, {
               mode: "javascript",
               theme: "mozilla",
               placeholder: L10N.getStr(
