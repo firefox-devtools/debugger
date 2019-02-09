@@ -16,7 +16,8 @@ import { CloseButton } from "../../shared/Button";
 
 import {
   getLocationWithoutColumn,
-  getSelectedText
+  getSelectedText,
+  makeBreakpointId
 } from "../../../utils/breakpoint";
 import { getSelectedLocation } from "../../../utils/source-maps";
 import { features } from "../../../utils/prefs";
@@ -102,8 +103,12 @@ class Breakpoint extends PureComponent<Props> {
       return false;
     }
 
-    const bpId = getLocationWithoutColumn(this.selectedLocation);
-    const frameId = getLocationWithoutColumn(frame.selectedLocation);
+    const bpId = features.columnBreakpoints
+      ? makeBreakpointId(this.selectedLocation)
+      : getLocationWithoutColumn(this.selectedLocation);
+    const frameId = features.columnBreakpoints
+      ? makeBreakpointId(frame.selectedLocation)
+      : getLocationWithoutColumn(frame.selectedLocation);
     return bpId == frameId;
   }
 
@@ -170,14 +175,16 @@ class Breakpoint extends PureComponent<Props> {
         />
         <label
           htmlFor={breakpoint.id}
-          className="breakpoint-label cm-s-mozilla"
+          className="breakpoint-label cm-s-mozilla devtools-monospace"
           onClick={this.selectBreakpoint}
           title={text}
         >
           <span dangerouslySetInnerHTML={this.highlightText(text, editor)} />
         </label>
         <div className="breakpoint-line-close">
-          <div className="breakpoint-line">{this.getBreakpointLocation()}</div>
+          <div className="breakpoint-line devtools-monospace">
+            {this.getBreakpointLocation()}
+          </div>
           <CloseButton
             handleClick={e => this.removeBreakpoint(e)}
             tooltip={L10N.getStr("breakpoints.removeBreakpointTooltip")}

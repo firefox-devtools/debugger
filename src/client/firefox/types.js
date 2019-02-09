@@ -244,14 +244,12 @@ export type TabTarget = {
   },
   form: { consoleActor: any },
   root: any,
-  activeTab: {
-    navigateTo: ({ url: string }) => Promise<*>,
-    listWorkers: () => Promise<*>,
-    reload: () => Promise<*>
-  },
   destroy: () => void,
   isBrowsingContext: boolean,
-  isContentProcess: boolean
+  isContentProcess: boolean,
+  navigateTo: ({ url: string }) => Promise<*>,
+  reload: () => Promise<*>,
+  listWorkers: () => Promise<*>
 };
 
 /**
@@ -330,9 +328,12 @@ export type SourceClient = {
   setBreakpoint: ({
     line: number,
     column: ?number,
-    condition: ?string,
-    noSliding: boolean
+    options: BreakpointOptions
   }) => Promise<BreakpointResponse>,
+  getBreakpointPositionsCompressed: (range: {
+    start: { line: number },
+    end: { line: number }
+  }) => Promise<any>,
   prettyPrint: number => Promise<*>,
   disablePrettyPrint: () => Promise<*>,
   blackBox: (range?: Range) => Promise<*>,
@@ -398,7 +399,7 @@ export type BreakpointClient = {
     line: number,
     column: ?number
   },
-  setCondition: (ThreadClient, ?string) => Promise<BreakpointClient>,
+  setOptions: BreakpointOptions => Promise<BreakpointClient>,
   // request: any,
   source: SourceClient,
   options: BreakpointOptions

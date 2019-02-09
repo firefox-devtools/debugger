@@ -23,7 +23,7 @@ function ignoreFile(file) {
 }
 
 function getFiles() {
-  return glob.sync("./src/**/*", {}).filter(file => !ignoreFile(file));
+  return [...glob.sync("./src/**/*", {}), ...glob.sync("./packages/**/*", {})].filter(file => !ignoreFile(file));
 }
 
 function copyFiles() {
@@ -80,7 +80,7 @@ function createMozBuildFiles() {
        return file.match(/workers\/(\w|-)*\/index.js/);
      }
 
-     return !file.match(/(test|types)/)
+     return !file.match(/(test|types|packages)/)
 
    })
     .forEach(file => {

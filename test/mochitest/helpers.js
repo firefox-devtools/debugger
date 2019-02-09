@@ -767,10 +767,13 @@ function findBreakpoint(dbg, url, line) {
   if (
     Services.prefs.getBoolPref("devtools.debugger.features.column-breakpoints")
   ) {
-    column = dbg.selectors.getFirstPausePointLocation(dbg.store.getState(), {
-      sourceId: source.id,
-      line
-    }).column;
+    ({ column } = dbg.selectors.getFirstVisibleBreakpointPosition(
+      dbg.store.getState(), 
+      {
+        sourceId: source.id, 
+        line
+      }
+    ));
   }
   return getBreakpoint(getState(), { sourceId: source.id, line, column });
 }
@@ -789,7 +792,7 @@ async function loadAndAddBreakpoint(dbg, filename, line, column) {
   await selectSource(dbg, source);
 
   // Test that breakpoint is not off by a line.
-  await addBreakpoint(dbg, source, line);
+  await addBreakpoint(dbg, source, line, column);
 
   is(getBreakpointCount(getState()), 1, "One breakpoint exists");
   if (!getBreakpoint(getState(), { sourceId: source.id, line, column })) {

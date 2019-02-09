@@ -2,15 +2,17 @@
 
 ![][debugger-intro-gif]
 
-### Step 1. Install Yarn
+### Step 1. Get recent version of Node.js.
+
+### Step 2. Install Yarn
 
 ```bash
 npm i -g yarn
 ```
-*Why Yarn and not NPM?*  
-NPM installs the latest versions. We use [Yarn][yarn] because we want to make sure everyone is using the same libraries.   
+*Why Yarn and not NPM?*
+NPM installs the latest versions. We use [Yarn][yarn] because we want to make sure everyone is using the same libraries.
 
-### Step 2. Install dependencies
+### Step 3. Install dependencies
 
 ```bash
 git clone https://github.com/devtools-html/debugger.html.git
@@ -18,10 +20,10 @@ cd debugger.html
 yarn install
 ```
 
-*What should I do if I get an error?*  
+*What should I do if I get an error?*
 Yarn is still new, please comment on this [issue][yarn-issue] if you see anything weird.
 
-### Step 3. Start the Debugger
+### Step 4. Start the Debugger
 
 Now that Firefox is open, lets start the development server. In a new terminal tab, run these commands:
 
@@ -30,10 +32,10 @@ cd debugger.html
 yarn start
 ```
 
-*What does this do?*  
+*What does this do?*
 This command starts a development server.
 
-### Step 4. Open the Debugger
+### Step 5. Open the Debugger
 
 Go to `localhost:8000` in any browser to view the Debugger. If everything worked successfully, you should see this [screenshot](https://cloud.githubusercontent.com/assets/254562/20439428/7498808a-ad89-11e6-895d-d6db320c5009.png)
 
@@ -41,13 +43,13 @@ Now,open Firefox by clicking on `Launch Firefox`. [Chrome](#starting-chrome) and
 
 After Firefox is open, it's nice to go to a page you want to debug. A good sample website is [TodoMVC](http://todomvc.com/examples/vanillajs/).
 
-*Why am I opening Firefox from inside the debugger?*  
+*Why am I opening Firefox from inside the debugger?*
 `Launch Firefox` opens firefox with special permissions that enable remote debugging.
 
-*What should I see?*  
-Here's a [screenshot][done-screenshot]  
+*What should I see?*
+Here's a [screenshot][done-screenshot]
 
-*What should I do if this doesn't work?*  
+*What should I do if this doesn't work?*
 You can either try to run it [manually](#starting-firefox) or comment on the [issue](https://github.com/devtools-html/debugger.html/issues/1341).
 
 ### Next Steps

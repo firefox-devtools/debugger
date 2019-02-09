@@ -4,6 +4,7 @@
     "config:base",
     ":preserveSemverRanges"
   ],
+  "recreateClosed": false,
   "statusCheckVerify": true,
   "ignoreDeps": [
     "react",

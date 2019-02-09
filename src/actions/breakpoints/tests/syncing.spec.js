@@ -27,7 +27,7 @@ import {
   makeSource
 } from "../../../utils/test-head";
 
-import { makeLocationId } from "../../../utils/breakpoint";
+import { makeBreakpointId } from "../../../utils/breakpoint";
 
 jest.mock("../../../utils/breakpoint/astBreakpointLocation", () => ({
   findScopeByName: jest.fn(),
@@ -43,7 +43,7 @@ function setBreakpoint(location, condition) {
   const actualLocation = { ...location, line: location.line };
 
   return Promise.resolve({
-    id: makeLocationId(location),
+    id: makeBreakpointId(location),
     actualLocation,
     condition
   });
@@ -98,11 +98,12 @@ function pendingBreakpoint(overrides) {
       },
       index: 0
     },
-    condition: null,
+    options: {
+      logValue: "",
+      hidden: false
+    },
     disabled: false,
-    hidden: false,
     loading: false,
-    options: {},
     text: "",
     ...overrides
   };
@@ -135,6 +136,7 @@ describe("loading the debugger", () => {
       getState,
       threadClient,
       sourceMaps,
+      dispatch,
       reloadedSource.source.id,
       pendingBreakpoint()
     );
@@ -165,6 +167,7 @@ describe("loading the debugger", () => {
       getState,
       threadClient,
       sourceMaps,
+      dispatch,
       reloadedSource.source.id,
       pendingBreakpoint()
     );
@@ -209,6 +212,7 @@ describe("reloading debuggee", () => {
       getState,
       threadClient,
       sourceMaps,
+      dispatch,
       reloadedSource.source.id,
       pendingBreakpoint({ location: loc1 })
     );
@@ -252,6 +256,7 @@ describe("reloading debuggee", () => {
       getState,
       threadClient,
       sourceMaps,
+      dispatch,
       reloadedSource.source.id,
       pendingBreakpoint()
     );
@@ -279,7 +284,7 @@ describe("reloading debuggee", () => {
       column: undefined
     };
 
-    const { breakpoint } = await dispatch(actions.addBreakpoint(location));
+    const breakpoint = await dispatch(actions.addBreakpoint(location));
     await dispatch(actions.disableBreakpoint(breakpoint));
 
     (getGeneratedLocation: any).mockImplementationOnce(() =>

@@ -187,13 +187,14 @@ export type Frame = {
   displayName: string,
   location: SourceLocation,
   generatedLocation: SourceLocation,
-  source?: Source,
+  source: ?Source,
   scope: Scope,
   // FIXME Define this type more clearly
   this: Object,
   framework?: string,
   isOriginal?: boolean,
-  originalDisplayName?: string
+  originalDisplayName?: string,
+  library?: string
 };
 
 export type ChromeFrame = {
@@ -440,3 +441,8 @@ export type Cancellable = {
 export type EventListenerBreakpoints = string[];
 
 export type SourceDocuments = { [string]: Object };
+
+export type BreakpointPosition = { line: number, string: number };
+export type BreakpointLinePositions = Array<BreakpointPosition>;
+export type BreakpointSourcePositions = { [number]: BreakpointLinePositions };
+export type BreakpointPositions = { [string]: BreakpointSourcePositions };

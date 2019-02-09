@@ -32,7 +32,7 @@ import type { PausePointsMap } from "../../workers/parser";
 
 import { makeBreakpointActorId } from "../../utils/breakpoint";
 
-import { createSource, createBreakpointLocation, createWorker } from "./create";
+import { createSource, createWorker } from "./create";
 import { supportsWorkers, updateWorkerClients } from "./workers";
 
 import { features } from "../../utils/prefs";
@@ -187,20 +187,10 @@ function removeXHRBreakpoint(path: string, method: string) {
   return threadClient.removeXHRBreakpoint(path, method);
 }
 
-// Source and breakpoint clients do not yet support an options structure, so
-// for now we transform options into condition strings when setting breakpoints.
-function transformOptionsToCondition(options) {
-  if (options.logValue) {
-    return `console.log(${options.logValue})`;
-  }
-  return options.condition;
-}
-
 function setBreakpoint(
   location: SourceActorLocation,
-  options: BreakpointOptions,
-  noSliding: boolean
-): Promise<BreakpointResult> {
+  options: BreakpointOptions
+) {
   const sourceThreadClient = lookupThreadClient(location.sourceActor.thread);
   const sourceClient = sourceThreadClient.source({
     actor: location.sourceActor.actor
@@ -210,18 +200,11 @@ function setBreakpoint(
     .setBreakpoint({
       line: location.line,
       column: location.column,
-      condition: transformOptionsToCondition(options),
-      noSliding
+      options
     })
-    .then(([{ actualLocation }, bpClient]) => {
-      actualLocation = createBreakpointLocation(location, actualLocation);
-
-      const id = makeBreakpointActorId(actualLocation);
+    .then(([, bpClient]) => {
+      const id = makeBreakpointActorId(location);
       bpClients[id] = bpClient;
-      bpClient.location.line = actualLocation.line;
-      bpClient.location.column = actualLocation.column;
-
-      return { id, actualLocation };
     });
 }
 
@@ -248,14 +231,16 @@ function setBreakpointOptions(
 ) {
   const id = makeBreakpointActorId(location);
   const bpClient = bpClients[id];
-  delete bpClients[id];
 
-  const sourceThreadClient = bpClient.source._activeThread;
-  return bpClient
-    .setCondition(sourceThreadClient, transformOptionsToCondition(options))
-    .then(_bpClient => {
+  if (debuggerClient.mainRoot.traits.nativeLogpoints) {
+    bpClient.setOptions(options);
+  } else {
+    // Older server breakpoints destroy themselves when changing options.
+    delete bpClients[id];
+    bpClient.setOptions(options).then(_bpClient => {
       bpClients[id] = _bpClient;
     });
+  }
 }
 
 async function evaluateInFrame(script: Script, options: EvaluateParam) {
@@ -306,11 +291,11 @@ function autocomplete(
 }
 
 function navigate(url: string): Promise<*> {
-  return tabTarget.activeTab.navigateTo({ url });
+  return tabTarget.navigateTo({ url });
 }
 
 function reload(): Promise<*> {
-  return tabTarget.activeTab.reload();
+  return tabTarget.reload();
 }
 
 function getProperties(thread: string, grip: Grip): Promise<*> {
@@ -453,12 +438,29 @@ async function fetchWorkers(): Promise<Worker[]> {
     return Promise.resolve([]);
   }
 
-  const { workers } = await tabTarget.activeTab.listWorkers();
+  const { workers } = await tabTarget.listWorkers();
   return workers;
 }
 
 function getMainThread() {
   return threadClient.actor;
+}
+
+async function getBreakpointPositions(
+  location: SourceActorLocation
+): Promise<Array<Number>> {
+  const {
+    sourceActor: { thread, actor },
+    line
+  } = location;
+  const sourceThreadClient = lookupThreadClient(thread);
+  const sourceClient = sourceThreadClient.source({ actor });
+  const { positions } = await sourceClient.getBreakpointPositionsCompressed({
+    start: { line },
+    end: { line }
+  });
+
+  return positions ? positions[line] : [];
 }
 
 const clientCommands = {
@@ -481,6 +483,7 @@ const clientCommands = {
   sourceContents,
   getSourceForActor,
   getBreakpointByLocation,
+  getBreakpointPositions,
   setBreakpoint,
   setXHRBreakpoint,
   removeXHRBreakpoint,

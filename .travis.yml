@@ -1,5 +1,4 @@
 sudo: required
-dist: precise
 language: python
   - "3.6"
 
@@ -13,7 +12,7 @@ env:
   global:
     - DISPLAY=':99.0'
     - YARN_VERSION='1.9.4'
-    - MC_COMMIT='d5549e46baed' # https://hg.mozilla.org/mozilla-central/shortlog
+    - MC_COMMIT='4677e6074704' # https://hg.mozilla.org/mozilla-central/shortlog
 
 notifications:
   slack:
@@ -64,4 +63,5 @@ script:
     browser_webconsole_eval_in_debugger_stackframe2.js
     browser_webconsole_location_debugger_link.js
     browser_webconsole_stacktrace_location_debugger_link.js
+    browser_application_panel_debug-service-worker.js
   - ./node_modules/.bin/mochii --ci --mc ./firefox --headless devtools/client/debugger/new
