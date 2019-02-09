@@ -58,7 +58,6 @@ async function clickPauseOnAny(dbg, expectedEvent) {
 
 add_task(async function() {
   const dbg = await initDebugger("doc-xhr.html", "fetch.js");
-  const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
   await addXHRBreakpoint(dbg, "doc", "GET");
 
@@ -68,13 +67,11 @@ add_task(async function() {
   await resume(dbg);
 
   await dbg.actions.removeXHRBreakpoint(0);
-  invokeInTab("main", "doc-xhr.html");
-  await wait(1000); // timeout needed before checking whether it's paused
+  await invokeInTab("main", "doc-xhr.html");
   assertNotPaused(dbg);
 
   await addXHRBreakpoint(dbg, "doc", "POST");
-  invokeInTab("main", "doc-xhr.html");
-  await wait(1000); // timeout needed before checking whether it's paused
+  await invokeInTab("main", "doc-xhr.html");
   assertNotPaused(dbg);
 });
 
