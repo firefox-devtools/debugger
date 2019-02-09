@@ -6,7 +6,7 @@
 
 debugger.html is a hackable debugger for modern times, built from the ground up using [React] and [Redux]. It is designed to be approachable, yet powerful. And it is engineered to be predictable, understandable, and testable.
 
-[Mozilla] created this debugger for use in the [Firefox] Developer Tools. And we've purposely created this project in GitHub, using modern toolchains. We hope to not only to create a great debugger that works with the [Firefox][firefox-rdp] and [Chrome][chrome-rdp] debugging protocols but develop a broader community that wants to create great tools for the web.
+[Mozilla] created this debugger for use in the [Firefox] Developer Tools. And we've purposely created this project in GitHub, using modern toolchains. We hope to not only create a great debugger that works with the [Firefox][firefox-rdp] and [Chrome][chrome-rdp] debugging protocols, but also develop a broader community that wants to create great tools for the web.
 
 ![debugger-screenshot]
 
@@ -38,52 +38,51 @@ yarn start
 #### Next Steps
 
 * [`/claim`][cl] an [available] issue. If you get stuck, we'd be happy to [help].
-* Do our getting started activity [debugging the debugger][first-activity]
-* Read the [app overview][app-overview] or [contributing][contributing] guidelines
-* Watch a [video][getting-started-screencast] on contributing to the Debugger. Or [listen][changelog] to a podcast about the project.
-* Go to the [features][tracking] board to see what we're working on
+* Do our getting started activity _[Debugging the Debugger][first-activity]_.
+* Read the [app overview][app-overview], or [contributing][contributing] guidelines.
+* Watch a [video][getting-started-screencast] on contributing to the debugger, or [listen][changelog] to a podcast about the project.
+* Go to the [features][tracking] board to see what we're working on.
 
 ### Getting Involved
 
-This is an open source project and we would love your help. We have prepared a [contributing] guide to help you get started.
+This is an open source project, and we would love your help. We have prepared a [contributing] guide to help you get started.
 
-If this is your [first PR][make-a-pull-request] or you're not sure where to get started,
+If this is your [first PR][make-a-pull-request], or you're not sure where to get started,
 say hi in [Slack][slack] and a team member would be happy to mentor you.
 
 We strive for collaboration with [mutual respect for each other][contributing]. Mozilla also has a set of [participation guidelines] which goes into greater detail specific to Mozilla employees and contributors.
 
-Or, perhaps you have found a vulnerability in the debugger and want to report it? in that case, take
-a look at [how we handle security bugs over][vulnerabilities], and open a bug at [Bugzilla][bugzilla] so we can track it while keeping users safe!
+Have you found a vulnerability in the debugger and want to report it? In that case, take
+a look at [how we handle security bugs][vulnerabilities], and open a bug at [Bugzilla][bugzilla] so we can track the vulnerability while keeping users safe!
 
 ### Development Guide
 
-We strive to make the Debugger as development friendly as possible. If you have a question that's not answered in the guide, ask us in [Slack][slack]. We also :heart: documentation PRs!
+We strive to make the Debugger as development-friendly as possible. If you have a question that's not answered in the guide, ask us in [Slack][slack]. We also :heart: documentation PRs!
 
 |                        |                                             |
 | :--------------------: | :-----------------------------------------: |
-|        [Themes]        |       theming changes for light, dark       |
-| [Internationalization] | using or adding a localized string _(l10n)_ |
-|        [Prefs]         |        using or adding a preferences        |
-|         [Flow]         |   flow best practices and common gotchas    |
-|       [Logging]        |      tips for logging redux and client      |
-|       [Testing]        |       unit and integration test tips        |
-|       [Linting]        |          css, js, markdown linting          |
-|       [Configs]        |    how to use debugger settings locally     |
+|        [Themes]        |       Theming changes for light, dark       |
+| [Internationalization] | Using or adding a localized string _(l10n)_ |
+|        [Prefs]         |        Using or adding preferences          |
+|         [Flow]         |   Flow best practices and common gotchas    |
+|       [Logging]        |      Tips for logging Redux and client      |
+|       [Testing]        |       Unit and integration test tips        |
+|       [Linting]        |          CSS, JS, Markdown linting          |
+|       [Configs]        |    How to use debugger settings locally     |
 
 ### Documentation
 
-Looking for a place to find our documentation? you can find them
-[here][docs]!
+Looking for our documentation? You can find it [here][docs]!
 
-Our [Weekly updates][weekly-updates] are also posted!
+Our [weekly updates][weekly-updates] are also posted!
 
 ### Discussion
 
 Say hello in [Slack][slack] or in the [#devtools-html][irc-devtools-html] channel on irc.mozilla.org.
 
-* **Community Call**: Every Tuesday at 2 pm EST. [Join the Hangout][community-call]
-* **DevTools Call**: Every Tuesday at 12 pm EST. [Join the DevTools Vidyo][vidyo] Meeting Notes [Google Docs][google-docs]
-* **Pairing**: Ask in [Slack][slack] and you'll either find someone or be able to schedule a time for later.
+* **Community Call**: Every Tuesday at 2 pm EST. [Join the Hangout][community-call].
+* **DevTools Call**: Every Tuesday at 12 pm EST. [Join the DevTools Vidyo][vidyo], or read the Meeting Notes [Google Doc][google-docs].
+* **Pairing**: Ask in [Slack][slack] and you'll either find someone, or be able to schedule a time for later.
 
 ### License
 
