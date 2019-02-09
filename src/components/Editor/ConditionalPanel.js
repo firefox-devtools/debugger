@@ -9,7 +9,6 @@ import { connect } from "../../utils/connect";
 import classNames from "classnames";
 import "./ConditionalPanel.css";
 import { toEditorLine } from "../../utils/editor";
-import { createEditor } from "../../utils/editor/create-editor";
 import actions from "../../actions";
 
 import {
@@ -144,7 +143,7 @@ export class ConditionalPanel extends PureComponent<Props> {
   }
 
   renderConditionalPanel(props: Props) {
-    const { breakpoint, log } = props;
+    const { breakpoint, log, editor } = props;
     const options = (breakpoint && breakpoint.options) || {};
     const condition = log ? options.logValue : options.condition;
 
@@ -162,7 +161,6 @@ export class ConditionalPanel extends PureComponent<Props> {
         <input
           defaultValue={condition}
           ref={input => {
-            const editor = createEditor();
             const codeMirror = editor.CodeMirror.fromTextArea(input, {
               mode: "javascript",
               theme: "mozilla",
