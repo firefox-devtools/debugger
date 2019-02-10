@@ -25,9 +25,9 @@ yarn install
 
 **What should I do if I get an error?**
 
-Yarn is still new; if you're experiencing any unusual errors with it, please comment on [this issue][yarn-issue].
+Yarn is still new; if you're experiencing any unusual errors with it, please leave a comment on [this issue][yarn-issue].
 
-### Step 4. Start the Debugger
+### Step 4. Start the debugger
 
 Now that Firefox is open, let's start the development server. In a new terminal tab, run these commands:
 
@@ -40,7 +40,7 @@ yarn start
 
 This command starts a development server.
 
-### Step 5. Open the Debugger
+### Step 5. Open the debugger
 
 Go to `localhost:8000` in any browser to view the debugger. If everything is working successfully, your screen should look something like [this](https://cloud.githubusercontent.com/assets/254562/20439428/7498808a-ad89-11e6-895d-d6db320c5009.png).
 
@@ -131,7 +131,7 @@ It's easy to start Node in a mode where DevTools will find it:
 node --inspect --debug-brk ./node_modules/.bin/webpack
 ```
 
-**Note** *./node_modules/.bin/webpack* could be anything. We're often debugging Webpack these days, so it's often appropriate.
+**Note:** *./node_modules/.bin/webpack* could be anything. We're often debugging Webpack these days, so it's often appropriate.
 
 **Note:** Currently, Node.js debugging is limited in some ways. For example, there isn't support for seeing variables or the console, but you can manage breakpoints and navigate code execution (pause, step-in, step-over, etc.) in the debugger across various sources.
 
@@ -140,10 +140,10 @@ node --inspect --debug-brk ./node_modules/.bin/webpack
 Windows and Linux should *just work* most of the time. However, there are several edge cases.
 
 If you find any issues on these two platforms, please leave a comment on these issues:
-* [windows][windows-issue]
-* [linux][linux-issue]
+* [Windows][windows-issue]
+* [Linux][linux-issue]
 
-**Firefox Windows command**
+**Firefox Windows Command**
 ```
 C:\Program Files (x86)\Mozilla Firefox\firefox.exe -start-debugger-server 6080 -P development
 ```
