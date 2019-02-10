@@ -119,8 +119,8 @@ export type Breakpoint = {|
  */
 export type BreakpointOptions = {
   hidden?: boolean,
-  condition?: string,
-  logValue?: string
+  condition?: string | null,
+  logValue?: string | null
 };
 
 export type BreakpointActor = {|

@@ -128,7 +128,7 @@ class Breakpoint extends PureComponent<Props> {
   getBreakpointText() {
     const { breakpoint, selectedSource } = this.props;
     const { condition, logValue } = breakpoint.options;
-    return condition || logValue || getSelectedText(breakpoint, selectedSource);
+    return logValue || condition || getSelectedText(breakpoint, selectedSource);
   }
 
   highlightText = memoize(
@@ -156,7 +156,7 @@ class Breakpoint extends PureComponent<Props> {
           paused: this.isCurrentlyPausedAtBreakpoint(),
           disabled: breakpoint.disabled,
           "is-conditional": !!breakpoint.options.condition,
-          log: !!breakpoint.options.logValue
+          "is-log": !!breakpoint.options.logValue
         })}
         onClick={this.selectBreakpoint}
         onDoubleClick={this.onDoubleClick}

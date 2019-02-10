@@ -131,10 +131,6 @@ export function breakpointItems(
   breakpoint: Breakpoint,
   breakpointActions: BreakpointItemActions
 ) {
-  const {
-    options: { condition, logValue }
-  } = breakpoint;
-
   const items = [
     removeBreakpointItem(breakpoint, breakpointActions),
     toggleDisabledBreakpointItem(breakpoint, breakpointActions)
@@ -151,13 +147,12 @@ export function breakpointItems(
     );
   }
 
-  if (condition || (!condition && !logValue)) {
-    items.push(conditionalBreakpointItem(breakpoint, breakpointActions));
-  }
+  items.push(conditionalBreakpointItem(breakpoint, breakpointActions));
 
-  if ((features.logPoints && logValue) || (!condition && !logValue)) {
+  if (features.logPoints) {
     items.push(logPointItem(breakpoint, breakpointActions));
   }
+
   return items;
 }
 

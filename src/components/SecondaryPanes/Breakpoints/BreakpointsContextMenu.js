@@ -191,7 +191,11 @@ export default function showContextMenu(props: Props) {
     label: removeConditionLabel,
     accesskey: removeConditionKey,
     disabled: false,
-    click: () => setBreakpointOptions(selectedLocation, {})
+    click: () =>
+      setBreakpointOptions(selectedLocation, {
+        ...breakpoint.options,
+        condition: null
+      })
   };
 
   const addConditionItem = {
@@ -232,6 +236,18 @@ export default function showContextMenu(props: Props) {
     accelerator: L10N.getStr("toggleCondPanel.key")
   };
 
+  const removeLogPointItem = {
+    id: "node-menu-remove-log",
+    label: L10N.getStr("editor.removeLogPoint.label"),
+    accesskey: L10N.getStr("editor.removeLogPoint.accesskey"),
+    disabled: false,
+    click: () =>
+      setBreakpointOptions(selectedLocation, {
+        ...breakpoint.options,
+        logValue: null
+      })
+  };
+
   const logPointItem = breakpoint.options.logValue
     ? editLogPointItem
     : addLogPointItem;
@@ -269,23 +285,23 @@ export default function showContextMenu(props: Props) {
     },
     {
       item: addConditionItem,
-      hidden: () => breakpoint.options.logValue || breakpoint.options.condition
+      hidden: () => breakpoint.options.condition
     },
     {
       item: editConditionItem,
-      hidden: () => breakpoint.options.logValue || !breakpoint.options.condition
+      hidden: () => !breakpoint.options.condition
     },
     {
       item: removeConditionItem,
-      hidden: () => breakpoint.options.logValue || !breakpoint.options.condition
+      hidden: () => !breakpoint.options.condition
     },
     {
       item: logPointItem,
-      hidden: () =>
-        !(
-          (features.logPoints && breakpoint.options.logValue) ||
-          (!breakpoint.options.condition && !breakpoint.options.logValue)
-        )
+      hidden: () => !features.logPoints
+    },
+    {
+      item: removeLogPointItem,
+      hidden: () => !features.logPoints || !breakpoint.options.logValue
     }
   ];
 

@@ -167,9 +167,9 @@ html[dir="rtl"] .editor-mount {
   stroke: var(--theme-graphs-orange);
 }
 
-.new-breakpoint.has-condition.log .CodeMirror-gutter-wrapper svg {
-  fill: var(--theme-highlight-purple);
-  stroke: var(--breakpoint-stroke);
+.new-breakpoint.has-log .CodeMirror-gutter-wrapper svg {
+  fill: var(--theme-graphs-purple);
+  stroke: var(--purple-60);
 }
 
 .editor.new-breakpoint.breakpoint-disabled svg {
