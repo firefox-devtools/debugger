@@ -4,20 +4,44 @@ Debugging the Debugger is one of the highest levels of inception. Before you beg
 
 ### Playing with the debugger
 
-Setup the Debugger so that your environment looks like this [gif][debugger-intro-gif].
+Setup the Debugger so that your environment looks like this [gif][debugger-intro-gif]. If you have any questions, go back to the [getting setup][getting-setup] instructions.
 
-If you have any questions, go back to the [getting setup][getting-setup] instructions.
+Now that you have the Debugger ready, play with it.
+
+- Use the Debugger and feel comfortable with it.
+- Identify the different components and panes, for example, sources, editor, right sidebar, etc.
+- Review the code and identify the presentation layer with React, the interaction with Redux and the client's data.
 
 ### Design a new theme :snowflake:
 
-Lets design a new theme for the debugger, it's not too hard! Our goal here is to style the source tree, editor, and other UI components.
+Lets design a new theme for the debugger, it's not too hard!
 
-Share your a screenshot of your theme [here](./getting-setup.md) ! Here's an example camo [theme][camo-theme] that I designed the other day.
+**Goals**
+
+- Style the source tree, editor, and other UI components.
+
+**Hints**
+
+- Read about the [themes](local-development.md#themes).
+- Each component has its own css.
+- There is a css file for variables.
+- There is a set of rules for the Debugger called reps.
+
+**Next steps**
+
+Share your screenshot of your theme!
+
+* Camo [theme][camo-theme] designed by [@jasonlaster](https://github.com/jasonlaster).
+
 
 ### Make breakpoints dance :dancers:
 
-Adding a breakpoint is a critical piece in the inception game...
-Lets make the debugger do something special when a breakpoint is added.
+Adding a breakpoint is a critical piece in the inception game.
+
+**Goals**
+- Make the debugger do something special when a breakpoint is added.
+
+**Hints**
 
 You can find the file that handles breakpoints here: `/debugger.html/src/components/Editor/Breakpoint.js`
 Then go ahead and find (Cntrl-F) "addBreakpoint". This should pull up the addBreakpoint function, which (surprise!) adds a breakpoint!
@@ -45,11 +69,21 @@ addBreakpoint() {
 
 This will show a popup when we create a breakpoint.
 
+**Next steps**
+
+Use your imagination. What should Debugger do when a breakpoint is added?
+
+
 ### Pausing FTW :red_circle:
 
-When the debugger pauses, the fun begins. Here's a [gif](http://g.recordit.co/qutDioRQvy.gif) of what the debugger does normally when it pauses. Your mission if you choose to accept it, is to make it do something truly weird.
+When the debugger pauses, the fun begins. Here's a [gif](http://g.recordit.co/qutDioRQvy.gif) of what the debugger does normally when it pauses.
 
-Here's some example code that you can help you to get you started; `debugger.html/src/components/SecondaryPanes/Frames/WhyPaused.js` renders the pause reason into the sidebar, and `/debugger.html/src/utils/pause/why.js` is used in several places to expose the current paused state.
+**Goals**
+- Add logic on the pausing event.
+
+**Hints**
+
+Here's some example code that can help you to get started; `debugger.html/src/components/SecondaryPanes/Frames/WhyPaused.js` renders the pause reason into the sidebar, and `/debugger.html/src/utils/pause/why.js` is used in several places to expose the current paused state.
 
 WhyPaused.js (Starts at line 42):
 
@@ -91,6 +125,11 @@ export function getPauseReason(why?: Why): string | null {
 }
 ```
 
+**Next steps**
+
+Your mission if you choose to accept it, is to make the pausing do something truly weird.
+
+
 ### Debugger Philosophy
 
 Here's the debugger philosophy in a nutshell.
@@ -106,13 +145,15 @@ Please let us know if we're missing something zen [here][getting-started-issue].
 
 Now that you've internalized the debugger philosophy, it's time to start putting this wisdom to use.
 
-**Share what you know** Give a talk in school, work, or a local meetup. I'm willing to bet your audience will not know the debugger is a web app! Write a blog post. We'd be happy to link to it here and it could go a really long way towards helping a newcomer grok the philosophy.
+**Share what you know** Give a talk in school, work, or a local meetup. We're willing to bet your audience will not know the debugger is a web app! Write a blog post. We'd be happy to link to it here and it could go a really long way towards helping a newcomer grok the philosophy.
 
-* here are @amitzur's [slides][amit-slides] from his [talk][amit-tweet]
+**Talks**
+
+* Here are @amitzur's [slides][amit-slides] from his [talk][amit-tweet].
 
 ## **Contribute back** take a look at how you can start [contributing][contributing]. We would love the help!
 
-[contributing]: https://github.com/devtools-html/debugger.html/blob/master/.github/CONTRIBUTING.md 
+[contributing]: https://github.com/devtools-html/debugger.html/blob/master/.github/CONTRIBUTING.md
 [getting-setup]: ./getting-setup.md
 [getting-started-issue]: https://github.com/devtools-html/debugger.html/issues/1247
 [debugger-intro-gif]: http://g.recordit.co/WjHZaXKifZ.gif
