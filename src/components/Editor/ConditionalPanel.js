@@ -119,7 +119,7 @@ export class ConditionalPanel extends PureComponent<Props> {
       this.renderConditionalPanel(props),
       {
         coverGutter: true,
-        noHScroll: false
+        noHScroll: true
       }
     );
     if (this.input) {
