@@ -50,10 +50,12 @@ function waitForBreakpoint(dbg, url, line) {
   return waitForState(dbg, () => findBreakpoint(dbg, url, line));
 }
 
-function waitForBreakpointWithCondition(dbg, url, line) {
+function waitForBreakpointWithCondition(dbg, url, line, cond) {
   return waitForState(dbg, () => {
     const bp = findBreakpoint(dbg, url, line);
-    return bp && bp.options.condition;
+    return (
+      bp && bp.options.condition && (!cond || bp.options.condition == cond)
+    );
   });
 }
 
@@ -130,7 +132,7 @@ add_task(async function() {
 
   info("Edit the conditional breakpoint set above");
   await setConditionalBreakpoint(dbg, 5, "2");
-  await waitForBreakpointWithCondition(dbg, "simple2", 5);
+  await waitForBreakpointWithCondition(dbg, "simple2", 5, "12");
 
   bp = findBreakpoint(dbg, "simple2", 5);
   is(bp.options.condition, "12", "breakpoint is created with the condition");
@@ -161,8 +163,8 @@ add_task(async function() {
 
   info('Add "log point"');
   await setLogPoint(dbg, 5, "44");
-  assertEditorBreakpoint(dbg, 5, { hasLog: true });
   await waitForBreakpointWithLog(dbg, "simple2", 5);
+  assertEditorBreakpoint(dbg, 5, { hasLog: true });
   bp = findBreakpoint(dbg, "simple2", 5);
   is(bp.options.logValue, "44", "breakpoint condition removed");
 });

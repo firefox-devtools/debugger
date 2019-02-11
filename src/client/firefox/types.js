@@ -11,6 +11,7 @@
  */
 
 import type {
+  BreakpointLocation,
   BreakpointOptions,
   FrameId,
   ActorId,
@@ -145,20 +146,6 @@ export type PausedPacket = {
 export type ResumedPacket = {
   from: ActorId,
   type: string
-};
-
-/**
- * Location of an actual event, when breakpoints are set they are requested
- * at one location but the server will respond with the "actual location" where
- * the breakpoint was really set if it differs from the requested location.
- *
- * @memberof firefox
- * @static
- */
-export type ActualLocation = {
-  source: SourcePayload,
-  line: number,
-  column?: number
 };
 
 /**
@@ -325,11 +312,6 @@ export type SourceClient = {
   source: () => { source: any, contentType?: string },
   _activeThread: ThreadClient,
   actor: string,
-  setBreakpoint: ({
-    line: number,
-    column: ?number,
-    options: BreakpointOptions
-  }) => Promise<BreakpointResponse>,
   getBreakpointPositionsCompressed: (range: {
     start: { line: number },
     end: { line: number }
@@ -368,6 +350,8 @@ export type ThreadClient = {
   source: ({ actor: SourceId }) => SourceClient,
   pauseGrip: (Grip | Function) => ObjectClient,
   pauseOnExceptions: (boolean, boolean) => Promise<*>,
+  setBreakpoint: (BreakpointLocation, BreakpointOptions) => Promise<*>,
+  removeBreakpoint: BreakpointLocation => Promise<*>,
   setXHRBreakpoint: (path: string, method: string) => Promise<boolean>,
   removeXHRBreakpoint: (path: string, method: string) => Promise<boolean>,
   interrupt: () => Promise<*>,
@@ -384,38 +368,6 @@ export type ThreadClient = {
   url: string,
   setEventListenerBreakpoints: (string[]) => void
 };
-
-/**
- * BreakpointClient
- * @memberof firefox
- * @static
- */
-export type BreakpointClient = {
-  actor: ActorId,
-  remove: () => void,
-  location: {
-    actor: string,
-    url: string,
-    line: number,
-    column: ?number
-  },
-  setOptions: BreakpointOptions => Promise<BreakpointClient>,
-  // request: any,
-  source: SourceClient,
-  options: BreakpointOptions
-};
-
-export type BPClients = { [id: ActorId]: BreakpointClient };
-
-export type BreakpointResponse = [
-  {
-    actor?: ActorId,
-    from?: ActorId,
-    isPending?: boolean,
-    actualLocation?: ActualLocation
-  },
-  BreakpointClient
-];
 
 export type FirefoxClientConnection = {
   getTabTarget: () => TabTarget,
