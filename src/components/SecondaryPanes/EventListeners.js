@@ -46,8 +46,6 @@ class EventListeners extends Component<Props, State> {
   }
 
   onCategoryToggle(category, event) {
-    event.preventDefault();
-
     const { expandedCategories } = this.state;
 
     if (expandedCategories.includes(category)) {
@@ -102,20 +100,22 @@ class EventListeners extends Component<Props, State> {
       );
 
     return (
-      <label>
+      <div>
         <AccessibleImage
           className={classnames("arrow", { expanded })}
           onClick={e => this.onCategoryToggle(category, e)}
         />
-        <input
-          type="checkbox"
-          value={category}
-          onChange={e => this.onCategoryClick(category, e.target.checked)}
-          checked={checked}
-          ref={el => el && (el.indeterminate = indeterminate)}
-        />
-        <span className="event-listener-category">{category}</span>
-      </label>
+        <label>
+          <input
+            type="checkbox"
+            value={category}
+            onChange={e => this.onCategoryClick(category, e.target.checked)}
+            checked={checked}
+            ref={el => el && (el.indeterminate = indeterminate)}
+          />
+          <span className="event-listener-category">{category}</span>
+        </label>
+      </div>
     );
   }
 
