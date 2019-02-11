@@ -15,6 +15,14 @@
 	user-select: none;
 }
 
+.event-listener-group input[type="checkbox"] {
+	vertical-align: middle;
+}
+
+.event-listener-group span.event-listener-category {
+	vertical-align: middle;
+}
+
 .event-listeners-content .arrow {
 	margin-inline-end: 0;
 }
