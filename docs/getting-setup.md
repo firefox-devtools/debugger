@@ -46,7 +46,7 @@ Go to `localhost:8000` in any browser to view the debugger. If everything is wor
 
 Now, open Firefox by clicking on `Launch Firefox`. [Chrome](#starting-chrome) and [Node](#starting-node) are also available in the appendix. We recommend that you close other browsers before launching Firefox, though it is not required.
 
-After Firefox is open, you may wish to experiment with the debugger and its features. A good example website for this is called [TodoMVC](http://todomvc.com/examples/vanillajs/), where you can debug a simple Todo application in a wide variety of JS frameworks.
+After Firefox is open, you may wish to experiment with the debugger and its features. A good example website for this is called [TodoMVC](http://todomvc.com/examples/vanillajs/), where you can debug a simple "to do" application in a wide variety of JS frameworks.
 
 **Why am I opening Firefox from inside the debugger?**
 
