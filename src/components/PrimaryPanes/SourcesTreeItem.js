@@ -246,7 +246,7 @@ class SourceTreeItem extends Component<Props, State> {
         className={classnames("node", { focused })}
         key={item.path}
         onClick={this.onClick}
-        onContextMenu={e => this.onContextMenu(e, item, source)}
+        onContextMenu={e => source && this.onContextMenu(e, item, source)}
       >
         {this.renderItemArrow()}
         {this.getIcon(item, depth)}
