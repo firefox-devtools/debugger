@@ -768,9 +768,9 @@ function findBreakpoint(dbg, url, line) {
     Services.prefs.getBoolPref("devtools.debugger.features.column-breakpoints")
   ) {
     ({ column } = dbg.selectors.getFirstVisibleBreakpointPosition(
-      dbg.store.getState(), 
+      dbg.store.getState(),
       {
-        sourceId: source.id, 
+        sourceId: source.id,
         line
       }
     ));
@@ -1106,7 +1106,7 @@ const selectors = {
   scopeValue: i =>
     `.scopes-list .tree-node:nth-child(${i}) .object-delimiter + *`,
   frame: i => `.frames [role="list"] [role="listitem"]:nth-child(${i})`,
-  frames: `.frames [role="list"] [role="listitem"]`,
+  frames: '.frames [role="list"] [role="listitem"]',
   gutter: i => `.CodeMirror-code *:nth-child(${i}) .CodeMirror-linenumber`,
   // These work for bobth the breakpoint listing and gutter marker
   gutterContextMenu: {
@@ -1149,7 +1149,7 @@ const selectors = {
   outlineItem: i =>
     `.outline-list__element:nth-child(${i}) .function-signature`,
   outlineItems: ".outline-list__element",
-  conditionalPanelInput: ".conditional-breakpoint-panel textarea",
+  conditionalPanelInput: ".conditional-breakpoint-panel input",
   searchField: ".search-field",
   blackbox: ".action.black-box",
   projectSearchCollapsed: ".project-text-search .arrow:not(.expanded)",
@@ -1507,15 +1507,15 @@ async function getDebuggerSplitConsole(dbg) {
 }
 
 async function openConsoleContextMenu(hud, element) {
-  const onConsoleMenuOpened = hud.ui.consoleOutput.once("menu-open");
+  const onConsoleMenuOpened = hud.ui.wrapper.once("menu-open");
   synthesizeContextMenuEvent(element);
   await onConsoleMenuOpened;
-  const doc = hud.ui.consoleOutput.owner.chromeWindow.document;
+  const doc = hud.ui.wrapper.owner.chromeWindow.document;
   return doc.getElementById("webconsole-menu");
 }
 
 function hideConsoleContextMenu(hud) {
-  const doc = hud.ui.consoleOutput.owner.chromeWindow.document;
+  const doc = hud.ui.wrapper.owner.chromeWindow.document;
   const popup = doc.getElementById("webconsole-menu");
   if (!popup) {
     return Promise.resolve();
