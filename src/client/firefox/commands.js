@@ -7,7 +7,6 @@
 import type {
   ActorId,
   BreakpointOptions,
-  BreakpointResult,
   EventListenerBreakpoints,
   Frame,
   FrameId,
@@ -208,21 +207,14 @@ function setBreakpoint(
     });
 }
 
-function removeBreakpoint(
-  location: SourceActorLocation
-): Promise<void> | ?BreakpointResult {
-  try {
-    const id = makeBreakpointActorId(location);
-    const bpClient = bpClients[id];
-    if (!bpClient) {
-      console.warn("No breakpoint to delete on server");
-      return Promise.resolve();
-    }
-    delete bpClients[id];
-    return bpClient.remove();
-  } catch (_error) {
-    console.warn("No breakpoint to delete on server");
+async function removeBreakpoint(location: SourceActorLocation) {
+  const id = makeBreakpointActorId(location);
+  const bpClient = bpClients[id];
+  if (!bpClient) {
+    throw new Error("No breakpoint to delete on server");
   }
+  delete bpClients[id];
+  await bpClient.remove();
 }
 
 function setBreakpointOptions(
@@ -231,16 +223,7 @@ function setBreakpointOptions(
 ) {
   const id = makeBreakpointActorId(location);
   const bpClient = bpClients[id];
-
-  if (debuggerClient.mainRoot.traits.nativeLogpoints) {
-    bpClient.setOptions(options);
-  } else {
-    // Older server breakpoints destroy themselves when changing options.
-    delete bpClients[id];
-    bpClient.setOptions(options).then(_bpClient => {
-      bpClients[id] = _bpClient;
-    });
-  }
+  bpClient.setOptions(options);
 }
 
 async function evaluateInFrame(script: Script, options: EvaluateParam) {

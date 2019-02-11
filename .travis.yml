@@ -64,4 +64,9 @@ script:
     browser_webconsole_location_debugger_link.js
     browser_webconsole_stacktrace_location_debugger_link.js
     browser_application_panel_debug-service-worker.js
+    browser_webconsole_sourcemap_nosource
+    browser_webconsole_context_menu_copy_entire_message.js
+    browser_webconsole_context_menu_export_console_output_clipboard.js
+    browser_webconsole_context_menu_copy_message_with_framework_stacktrace.js
+    test_smart-trace
   - ./node_modules/.bin/mochii --ci --mc ./firefox --headless devtools/client/debugger/new

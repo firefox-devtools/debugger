@@ -1,15 +1,18 @@
-## Getting Setup
+## Getting Set Up
 
 ![][debugger-intro-gif]
 
-### Step 1. Get recent version of Node.js.
+### Step 1. Install a recent version of Node.js
+
+You can download the latest versions [here][node].
 
 ### Step 2. Install Yarn
 
 ```bash
 npm i -g yarn
 ```
-*Why Yarn and not NPM?*
+**Why Yarn and not NPM?**
+
 NPM installs the latest versions. We use [Yarn][yarn] because we want to make sure everyone is using the same libraries.
 
 ### Step 3. Install dependencies
@@ -20,54 +23,59 @@ cd debugger.html
 yarn install
 ```
 
-*What should I do if I get an error?*
-Yarn is still new, please comment on this [issue][yarn-issue] if you see anything weird.
+**What should I do if I get an error?**
 
-### Step 4. Start the Debugger
+Yarn is still new; if you're experiencing any unusual errors with it, please leave a comment on [this issue][yarn-issue].
 
-Now that Firefox is open, lets start the development server. In a new terminal tab, run these commands:
+### Step 4. Start the debugger
+
+Now that Firefox is open, let's start the development server. In a new terminal tab, run these commands:
 
 ```bash
 cd debugger.html
 yarn start
 ```
 
-*What does this do?*
+**What does this do?**
+
 This command starts a development server.
 
-### Step 5. Open the Debugger
+### Step 5. Open the debugger
 
-Go to `localhost:8000` in any browser to view the Debugger. If everything worked successfully, you should see this [screenshot](https://cloud.githubusercontent.com/assets/254562/20439428/7498808a-ad89-11e6-895d-d6db320c5009.png)
+Go to `localhost:8000` in any browser to view the debugger. If everything is working successfully, your screen should look something like [this](https://cloud.githubusercontent.com/assets/254562/20439428/7498808a-ad89-11e6-895d-d6db320c5009.png).
 
-Now,open Firefox by clicking on `Launch Firefox`. [Chrome](#starting-chrome) and [Node](#starting-node) are also available in the Appendix. It's not required, but it's generally nice to close other browsers first.
+Now, open Firefox by clicking on `Launch Firefox`. [Chrome](#starting-chrome) and [Node](#starting-node) are also available in the appendix. We recommend that you close other browsers before launching Firefox, though it is not required.
 
-After Firefox is open, it's nice to go to a page you want to debug. A good sample website is [TodoMVC](http://todomvc.com/examples/vanillajs/).
+After Firefox is open, you may wish to experiment with the debugger and its features. A good example website for this is called [TodoMVC](http://todomvc.com/examples/vanillajs/), where you can debug a simple "to do" application in a wide variety of JS frameworks.
 
-*Why am I opening Firefox from inside the debugger?*
-`Launch Firefox` opens firefox with special permissions that enable remote debugging.
+**Why am I opening Firefox from inside the debugger?**
 
-*What should I see?*
-Here's a [screenshot][done-screenshot]
+`Launch Firefox` opens Firefox with special permissions that enable remote debugging.
 
-*What should I do if this doesn't work?*
-You can either try to run it [manually](#starting-firefox) or comment on the [issue](https://github.com/devtools-html/debugger.html/issues/1341).
+**What should I see?**
+
+Here's a [screenshot][done-screenshot].
+
+**What should I do if this doesn't work?**
+
+You can either try to [start Firefox manually](#starting-firefox), or you can get help by commenting on [this issue](https://github.com/devtools-html/debugger.html/issues/1341).
 
 ### Next Steps
 
-Go [here](./debugging-the-debugger.md) if you want to start debugging the debugger!
+Try our official getting started activity [_Debugging the Debugger_](./debugging-the-debugger.md)!
 
 ## Appendix
 
 ### Quick Setup
 
-This setup is for people on the DevTools team and DevTools wizards.
+This setup is for people on the DevTools team (and any of you DevTools wizards out there):
 
 ```bash
 npm i -g yarn
 git clone https://github.com/devtools-html/debugger.html.git
 cd debugger.html
 yarn install
-# close firefox if it's already running
+# close Firefox if it's already running
 /Applications/Firefox.app/Contents/MacOS/firefox-bin --start-debugger-server 6080 -P development
 # create a new terminal tab
 cd debugger.html
@@ -76,38 +84,36 @@ yarn start
 
 ### Starting Firefox
 
-If you're looking for an alternative to opening Firefox from inside the debugger, you have one option: cli.
+If you're looking for an alternative to opening Firefox from inside the debugger, you must use the command-line interface (CLI). 
 
 **Firefox CLI**
 
-1. Run `firefox-bin` from the command line
+1. Run `firefox-bin` from the command line.
 ```bash
 /Applications/Firefox.app/Contents/MacOS/firefox-bin --start-debugger-server 6080 -P development
 ```
 
-You'll be shown a prompt to create a new "development" profile. The development profile is where your remote development user settings will be kept. *It's a good thing :)*
+You'll be prompted to create a new "development profile". The development profile is where your remote development user settings will be kept.
 
-2. Go to `about:config` and set these configs
-
-Navigate to `about:config` and accept any warning message. Then search for the following preferences and double click them to toggle their values to the following. [example](http://g.recordit.co/3VsHIooZ9q.gif)
+2. Navigate to `about:config` and accept any warning messages. Then, search for the following preferences, and double-click them to toggle their values according to [this example](http://g.recordit.co/3VsHIooZ9q.gif):
 
 * `devtools.debugger.remote-enabled` to `true`
 * `devtools.chrome.enabled` to `true`
 * `devtools.debugger.prompt-connection` to `false`
 
-3. Restart Firefox
-
-Close Firefox and re-open it with the `firefox-bin` command.
+3. Restart Firefox by closing and reopening it with the `firefox-bin` command.
 
 ### Starting Chrome
 
-There are two ways to run chrome. Here's the easy way to run chrome
+There are two ways to run Chrome for the purposes of remote debugging with the debugger: 
+
+The easy way:
 
 ```bash
 yarn run chrome
 ```
 
-Here's the slightly harder way.
+And the slightly harder way:
 
 ```bash
  /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222 --no-first-run --user-data-dir=/tmp/chrome-dev-profile
@@ -117,27 +123,27 @@ Here's the slightly harder way.
 
 It's easy to start Node in a mode where DevTools will find it:
 
-* *--inspect* - tells node to open a debugger server
-* *--inspect=9223* - tells node to open a debugger server on 9223 instead of 9229.
-* *--debug-brk* - tells node to pause on the first statement
+* *--inspect* - tells Node to open a debugger server.
+* *--inspect=9223* - tells Node to open a debugger server on 9223 instead of 9229.
+* *--debug-brk* - tells Node to pause on the first statement.
 
 ```bash
 node --inspect --debug-brk ./node_modules/.bin/webpack
 ```
 
-**Note** *./node_modules/.bin/webpack* could be anything. We're often debugging webpack these days so it's often appropriate :/
+**Note:** *./node_modules/.bin/webpack* could be anything. We're often debugging Webpack these days, so it's often appropriate.
 
-**Note:** Currently Node.js debugging is limited in some ways, there isn't support for seeing variables or the console, but you can manage breakpoints and navigate code execution (pause, step-in, step-over, etc.) in the debugger across various sources.
+**Note:** Currently, Node.js debugging is limited in some ways. For example, there isn't support for seeing variables or the console, but you can manage breakpoints and navigate code execution (pause, step-in, step-over, etc.) in the debugger across various sources.
 
-### Windows + Linux setup
+### Windows + Linux Setup
 
-Windows and Linux should *just work*, but unfortunately there are several edge cases.
+Windows and Linux should *just work* most of the time. However, there are several edge cases.
 
-If you find any issues on these two platforms comment on these issues:
-* [windows][windows-issue]
-* [linux][linux-issue]
+If you find any issues on these two platforms, please leave a comment on these issues:
+* [Windows][windows-issue]
+* [Linux][linux-issue]
 
-**Firefox windows command**
+**Firefox Windows Command**
 ```
 C:\Program Files (x86)\Mozilla Firefox\firefox.exe -start-debugger-server 6080 -P development
 ```
@@ -149,3 +155,4 @@ C:\Program Files (x86)\Mozilla Firefox\firefox.exe -start-debugger-server 6080 -
 [windows-issue]:https://github.com/devtools-html/debugger.html/issues/1248
 [yarn-issue]:https://github.com/devtools-html/debugger.html/issues/1216
 [yarn]:https://yarnpkg.com
+[node]:https://nodejs.org/
