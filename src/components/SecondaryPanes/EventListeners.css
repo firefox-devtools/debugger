@@ -26,12 +26,12 @@
 }
 
 .event-listener-group label {
-	display:flex;
+	display: flex;
 	align-items: center;
 }
 
 .event-listener-category {
-	padding:3px 0px;
+	padding: 3px 0px;
 	line-height: 14px;
 }
 
@@ -62,5 +62,5 @@ html[dir="rtl"] .event-listeners-content .arrow.expanded {
 	margin-inline-end: 4px;
 	margin-inline-start: 0px;
 	margin-top: 0px;
-	margin-bottom: 0px; 
+	margin-bottom: 0px;
 }
