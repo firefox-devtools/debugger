@@ -90,8 +90,7 @@ function copySVGs({ projectPath, mcPath }) {
       usedSvgs.push(...searchText(fs.readFileSync(file, "utf-8"), svgTest))
     );
 
-  const files = fs
-    .readdirSync(projectImagesPath)
+  const files = fs.readdirSync(projectImagesPath)
     .filter(file => file.match(/svg$/))
     .filter(file => usedSvgs.includes(file));
 
@@ -108,6 +107,24 @@ function copySVGs({ projectPath, mcPath }) {
 
   const mozBuildPath = path.join(mcPath, "devtools/client/debugger/new/images/moz.build");
   fs.writeFileSync(mozBuildPath, mozBuildText, "utf-8");
+
+
+  const sourceFiles = fs.readdirSync(path.join(projectImagesPath, "sources"))
+    .filter(file => file.match(/svg$/))
+    .filter(file => usedSvgs.some(svg => svg.includes(file)));
+
+  sourceFiles.forEach(file =>
+    fsExtra.copySync(
+      path.join(path.join(projectImagesPath, "sources"), file),
+      path.join(path.join(mcImagesPath, "sources"), `${file}`)
+    )
+  );
+  const mozBuildSourceText = moz_build_tpl
+    .replace('__FILES__',sourceFiles.map(f => `    '${f}',`).join("\n"))
+
+  const mozBuildSourcePath = path.join(mcPath, "devtools/client/debugger/new/images/sources/moz.build");
+  fs.writeFileSync(mozBuildSourcePath, mozBuildSourceText, "utf-8");
+
 
   console.log("[copy-assets] - Svg.js");
   copyFile(
