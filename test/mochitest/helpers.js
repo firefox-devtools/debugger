@@ -94,7 +94,7 @@ function _afterDispatchDone(store, type) {
 function waitForDispatch(dbg, type, eventRepeat = 1) {
   let count = 0;
 
-  return Task.spawn(function* () {
+  return Task.spawn(function*() {
     info(`Waiting for ${type} to dispatch ${eventRepeat} time(s)`);
     while (count < eventRepeat) {
       yield _afterDispatchDone(dbg.store, type);
@@ -947,7 +947,7 @@ function waitForActive(dbg) {
  */
 function invokeInTab(fnc, ...args) {
   info(`Invoking in tab: ${fnc}(${args.map(uneval).join(",")})`);
-  return ContentTask.spawn(gBrowser.selectedBrowser, { fnc, args }, function* ({
+  return ContentTask.spawn(gBrowser.selectedBrowser, { fnc, args }, function*({
     fnc,
     args
   }) {
@@ -1319,6 +1319,9 @@ async function hoverAtPos(dbg, { line, ch }) {
   const coords = getCoordsFromPosition(cm, { line: line - 1, ch });
 
   const { left, top } = coords;
+
+  // Adds a vertical offset due to increased line height
+  // https://github.com/devtools-html/debugger.html/pull/7934
   const lineHeightOffset = 3;
 
   const tokenEl = dbg.win.document.elementFromPoint(
