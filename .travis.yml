@@ -38,7 +38,7 @@ install:
   - pip install --user mercurial
   - python --version
   - node --version
-  - . $HOME/.nvm/nvm.sh; nvm install 9; nvm use 9;
+  - . $HOME/.nvm/nvm.sh; nvm install 10.15.0; nvm use 10.15.0;
   - ./bin/ci/install-yarn
   - ./bin/ci/clone-gecko.sh
   - yarn
