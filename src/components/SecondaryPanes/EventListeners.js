@@ -105,16 +105,18 @@ class EventListeners extends Component<Props, State> {
           className={classnames("arrow", { expanded })}
           onClick={e => this.onCategoryToggle(category, e)}
         />
-        <label>
-          <input
-            type="checkbox"
-            value={category}
-            onChange={e => this.onCategoryClick(category, e.target.checked)}
-            checked={checked}
-            ref={el => el && (el.indeterminate = indeterminate)}
-          />
-          <span className="event-listener-category">{category}</span>
-        </label>
+        <div>
+          <label>
+            <input
+              type="checkbox"
+              value={category}
+              onChange={e => this.onCategoryClick(category, e.target.checked)}
+              checked={checked}
+              ref={el => el && (el.indeterminate = indeterminate)}
+            />
+            <span className="event-listener-category">{category}</span>
+          </label>
+        </div>
       </div>
     );
   }
@@ -141,7 +143,7 @@ class EventListeners extends Component<Props, State> {
                   onChange={e => this.onEventTypeClick(key, e.target.checked)}
                   checked={activeEventListeners.includes(key)}
                 />
-                {eventType}
+                <span>{eventType}</span>
               </label>
             </li>
           );
