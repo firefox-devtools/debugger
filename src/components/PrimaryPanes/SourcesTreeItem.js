@@ -213,7 +213,7 @@ class SourceTreeItem extends Component<Props, State> {
       case "webpack://":
         return "Webpack";
       default:
-        return `${item.name}`;
+        return `${unescape(item.name)}`;
     }
   }
 
