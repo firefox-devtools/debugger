@@ -85,8 +85,8 @@ function traverseTree(
   tree: TreeDirectory,
   debuggeeHost: ?string
 ): TreeNode {
-  const parts = url.path.split("/").filter(p => p !== "");
-  parts.unshift(url.group);
+  const parts = url.path.replace(/\/$/, "").split("/");
+  parts[0] = url.group;
 
   let path = "";
   return parts.reduce((subTree, part, index) => {
