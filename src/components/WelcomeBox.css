@@ -55,7 +55,7 @@
 }
 
 .shortcutKey {
-  text-align: right;
+  text-align: end;
   padding-right: 10px;
   font-family: var(--monospace-font-family);
   font-size: 14px;
@@ -64,7 +64,7 @@
 }
 
 .shortcutLabel {
-  text-align: left;
+  text-align: start;
   padding-left: 10px;
   font-size: 14px;
   line-height: 18px;

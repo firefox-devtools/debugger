@@ -131,11 +131,7 @@ html .breakpoints-list .breakpoint.paused {
   font-size: 11px;
   color: var(--theme-comment);
   min-width: 16px;
-  text-align: right;
-}
-
-html[dir="rtl"] .breakpoints-list .breakpoint .breakpoint-line {
-  text-align: left;
+  text-align: end;
 }
 
 .breakpoints-list .breakpoint:hover .breakpoint-line {
