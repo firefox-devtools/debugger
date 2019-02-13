@@ -102,7 +102,7 @@ class EventListeners extends Component<Props, State> {
     return (
       <div className="event-listener-header">
         <button
-          className="btn-expand-category"
+          className="event-listener-expand"
           onClick={e => this.onCategoryToggle(category, e)}
         >
           <AccessibleImage className={classnames("arrow", { expanded })} />
@@ -145,7 +145,7 @@ class EventListeners extends Component<Props, State> {
                   onChange={e => this.onEventTypeClick(key, e.target.checked)}
                   checked={activeEventListeners.includes(key)}
                 />
-                <span>{eventType}</span>
+                <span className="event-listener-name">{eventType}</span>
               </label>
             </li>
           );

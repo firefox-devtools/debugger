@@ -20,7 +20,7 @@
 	align-items: center;
 }
 
-.btn-expand-category {
+.event-listener-expand {
 	border: none;
 	background: none;
 	padding: 4px 5px;
@@ -60,7 +60,7 @@ html[dir="rtl"] .event-listeners-content .arrow.expanded {
 	margin-inline-start: 30px;
 }
 
-.event-listener-event span {
+.event-listener-name {
 	line-height: 14px;
 	padding: 3px 0px;
 }
