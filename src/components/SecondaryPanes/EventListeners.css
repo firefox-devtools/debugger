@@ -15,9 +15,16 @@
 	user-select: none;
 }
 
-.event-listener-group div {
+.event-listener-header {
 	display: flex;
 	align-items: center;
+}
+
+.btn-expand-category {
+	border: none;
+	background: none;
+	padding: 4px 5px;
+	line-height: 12px;
 }
 
 .event-listener-group input[type="checkbox"] {

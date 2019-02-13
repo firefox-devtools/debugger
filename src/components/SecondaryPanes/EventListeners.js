@@ -100,11 +100,13 @@ class EventListeners extends Component<Props, State> {
       );
 
     return (
-      <div>
-        <AccessibleImage
-          className={classnames("arrow", { expanded })}
+      <div className="event-listener-header">
+        <button
+          className="btn-expand-category"
           onClick={e => this.onCategoryToggle(category, e)}
-        />
+        >
+          <AccessibleImage className={classnames("arrow", { expanded })} />
+        </button>
         <div>
           <label>
             <input
