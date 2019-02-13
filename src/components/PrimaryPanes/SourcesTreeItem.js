@@ -109,7 +109,7 @@ class SourceTreeItem extends Component<Props, State> {
     }
   };
 
-  onContextMenu = (event: Event, item: TreeNode, source: ?Source) => {
+  onContextMenu = (event: Event, item: TreeNode) => {
     const copySourceUri2Label = L10N.getStr("copySourceUri2");
     const copySourceUri2Key = L10N.getStr("copySourceUri2.accesskey");
     const setDirectoryRootLabel = L10N.getStr("setDirectoryRoot.label");
@@ -134,6 +134,7 @@ class SourceTreeItem extends Component<Props, State> {
           click: () => copyToTheClipboard(contents.url)
         };
 
+        const { source } = this.props;
         if (source) {
           const blackBoxMenuItem = {
             id: "node-menu-blackbox",
@@ -142,7 +143,7 @@ class SourceTreeItem extends Component<Props, State> {
               : L10N.getStr("sourceFooter.blackbox"),
             accesskey: L10N.getStr("sourceFooter.blackbox.accesskey"),
             disabled: !shouldBlackbox(source),
-            click: () => source && this.props.toggleBlackBox(source)
+            click: () => this.props.toggleBlackBox(source)
           };
           menuOptions.push(copySourceUri2, blackBoxMenuItem);
         }
@@ -247,7 +248,7 @@ class SourceTreeItem extends Component<Props, State> {
         className={classnames("node", { focused })}
         key={item.path}
         onClick={this.onClick}
-        onContextMenu={e => this.onContextMenu(e, item, source)}
+        onContextMenu={e => this.onContextMenu(e, item)}
       >
         {this.renderItemArrow()}
         {this.getIcon(item, depth)}
