@@ -39,7 +39,7 @@ function createMockAngularPage() {
 
   // Register an angular.js file in order to create a Group with anonymous functions in
   // the callstack panel.
-  httpServer.registerPathHandler("@angular/core@7.2.4/bundles/core.umd.js", function(request, response) {
+  httpServer.registerPathHandler("/@angular/core@7.2.4/bundles/core.umd.js", function(request, response) {
     response.setHeader("Content-Type", "application/javascript");
     response.write(`
       document.querySelector("button.pause").addEventListener("click", () => {
