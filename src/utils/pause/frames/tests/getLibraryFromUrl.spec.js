@@ -87,7 +87,7 @@ describe("getLibraryFromUrl", () => {
       const callstack = [
         frame,
         makeMockFrameWithURL(
-          "https://cdnjs.cloudflare.com/ajax/libs/angular/angular.js"
+          "https://stackblitz.io/turbo_modules/@angular/core@7.2.4/bundles/core.umd.js"
         )
       ];
 
