@@ -23,9 +23,7 @@
 .welcomebox .command-bar-button {
   position: absolute;
   top: auto;
-  offset-inline-end: 0;
   inset-inline-end: 0;
-  offset-inline-start: auto;
   inset-inline-start: auto;
   bottom: 0;
 }

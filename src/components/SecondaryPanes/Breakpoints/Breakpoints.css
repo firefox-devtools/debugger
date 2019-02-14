@@ -179,9 +179,7 @@ html .breakpoints-list .breakpoint.paused {
 }
 
 .breakpoint .close-btn {
-  offset-inline-end: 15px;
   inset-inline-end: 15px;
-  offset-inline-start: auto;
   inset-inline-start: auto;
   position: absolute;
   top: 8px;
