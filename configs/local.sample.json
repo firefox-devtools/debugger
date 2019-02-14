@@ -1,28 +1,6 @@
 {
   "theme": "light",
-  "hotReloading": false,
-  "logging": {
-    "actions": false
-  },
-  "performance": {
-    "actions": false
-  },
-  "features": {
-    "eventListeners": {
-      "label": "Event Listeners",
-      "enabled": false
-    },
-    "codeCoverage": {
-      "label": "Code Coverage",
-      "enabled": false
-    },
-    "codeFolding": {
-      "label": "Code Folding",
-      "enabled": false
-    },
-    "searchNav": {
-      "label": "Search Navigation",
-      "enabled": false
-    }
+  "firefox": {
+    "webSocketConnection": false
   }
 }
