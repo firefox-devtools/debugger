@@ -6,7 +6,7 @@
 	padding-top: 4px;
 	padding-bottom: 4px;
 	padding-inline-start: 14px;
-	padding-inline-end:20px;
+	padding-inline-end: 20px;
 }
 
 .event-listeners-content ul {
@@ -31,7 +31,7 @@
 }
 
 .event-listener-group input[type="checkbox"] {
-	margin:0px;
+	margin: 0px;
 	margin-inline-end: 4px;
 }
 
