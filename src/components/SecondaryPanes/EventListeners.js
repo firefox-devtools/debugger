@@ -107,18 +107,16 @@ class EventListeners extends Component<Props, State> {
         >
           <AccessibleImage className={classnames("arrow", { expanded })} />
         </button>
-        <div>
-          <label className="event-listener-header-label">
-            <input
-              type="checkbox"
-              value={category}
-              onChange={e => this.onCategoryClick(category, e.target.checked)}
-              checked={checked}
-              ref={el => el && (el.indeterminate = indeterminate)}
-            />
-            <span className="event-listener-category">{category}</span>
-          </label>
-        </div>
+        <label className="event-listener-label">
+          <input
+            type="checkbox"
+            value={category}
+            onChange={e => this.onCategoryClick(category, e.target.checked)}
+            checked={checked}
+            ref={el => el && (el.indeterminate = indeterminate)}
+          />
+          <span className="event-listener-category">{category}</span>
+        </label>
       </div>
     );
   }
@@ -138,7 +136,7 @@ class EventListeners extends Component<Props, State> {
           const key = getKey(category, eventType);
           return (
             <li className="event-listener-event" key={key}>
-              <label>
+              <label className="event-listener-label">
                 <input
                   type="checkbox"
                   value={key}

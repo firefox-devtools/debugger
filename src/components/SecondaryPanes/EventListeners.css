@@ -35,10 +35,11 @@
 	margin-inline-end: 4px;
 }
 
-.event-listener-header-label {
+.event-listener-label {
 	display: flex;
 	align-items: center;
 	padding-inline-start: 2px;
+	padding-inline-end: 10px;
 }
 
 .event-listener-category {
