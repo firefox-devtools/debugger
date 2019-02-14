@@ -3,7 +3,10 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 .event-listeners-content {
-	padding: 4px 20px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	padding-inline-start: 14px;
+	padding-inline-end:20px;
 }
 
 .event-listeners-content ul {
@@ -28,13 +31,14 @@
 }
 
 .event-listener-group input[type="checkbox"] {
-	margin-top: 0px;
-	margin-bottom: 0px;
+	margin:0px;
+	margin-inline-end: 4px;
 }
 
-.event-listener-group label {
+.event-listener-header-label {
 	display: flex;
 	align-items: center;
+	padding-inline-start: 2px;
 }
 
 .event-listener-category {

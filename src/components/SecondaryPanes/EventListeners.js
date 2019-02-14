@@ -108,7 +108,7 @@ class EventListeners extends Component<Props, State> {
           <AccessibleImage className={classnames("arrow", { expanded })} />
         </button>
         <div>
-          <label>
+          <label className="event-listener-header-label">
             <input
               type="checkbox"
               value={category}
