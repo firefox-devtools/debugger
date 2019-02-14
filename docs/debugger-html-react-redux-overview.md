@@ -17,7 +17,7 @@ This document gives a detailed view of the components, actions and reducers that
 React documentation can be found [here](https://facebook.github.io/react/docs/getting-started.html).
 Redux documentation can be found [here](http://redux.js.org/).
 
-As with most documentation related to code, this document may be out of date. The last edit date occurred on August 30, 2016. If you find issues in the documentation please file an issue as described in the [contributing](https://github.com/devtools-html/debugger.html/blob/master/.github/CONTRIBUTING.md#writing-documentation-book) guide.
+As with most documentation related to code, this document may be out of date. The last edit date occurred on August 30, 2016. If you find issues in the documentation please file an issue as described in the [contributing](https://github.com/firefox-devtools/debugger.html/blob/master/.github/CONTRIBUTING.md#writing-documentation-book) guide.
 
 # Architecture
 
@@ -62,7 +62,7 @@ actual DOM will be rendered.
 # Components
 
 
-debugger.html uses React [Components](https://github.com/devtools-html/debugger.html/tree/master/src/components) to render portions of the
+debugger.html uses React [Components](https://github.com/firefox-devtools/debugger.html/tree/master/src/components) to render portions of the
 application. Each component’s source code is located under the
 src/components folder. In this section we will cover how the
 presentation pieces fit together; later we will discuss
@@ -178,7 +178,7 @@ so the actions can be called directly from the component.
 # Reducers
 
 
-The [Reducers](https://github.com/devtools-html/debugger.html/tree/master/src/reducers) are all located in the src/reducers folder and are
+The [Reducers](https://github.com/firefox-devtools/debugger.html/tree/master/src/reducers) are all located in the src/reducers folder and are
 all combined using Redux’s <code>combineReducers()</code> function. This function is
 executed in main.js as follows:
 
@@ -441,7 +441,7 @@ The tabs reducer handles the following action types:
 
 # Actions
 
-The [actions](https://github.com/devtools-html/debugger.html/tree/master/src/actions) in debugger.html are all located in the
+The [actions](https://github.com/firefox-devtools/debugger.html/tree/master/src/actions) in debugger.html are all located in the
 src/actions folder; there is an action file corresponding to
  each reducer, which is responsible for dispatching the
 proper event when the application state needs to be modified. In this

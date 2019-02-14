@@ -18,7 +18,7 @@ NPM installs the latest versions. We use [Yarn][yarn] because we want to make su
 ### Step 3. Install dependencies
 
 ```bash
-git clone https://github.com/devtools-html/debugger.html.git
+git clone https://github.com/firefox-devtools/debugger.html.git
 cd debugger.html
 yarn install
 ```
@@ -58,7 +58,7 @@ Here's a [screenshot][done-screenshot].
 
 **What should I do if this doesn't work?**
 
-You can either try to [start Firefox manually](#starting-firefox), or you can get help by commenting on [this issue](https://github.com/devtools-html/debugger.html/issues/1341).
+You can either try to [start Firefox manually](#starting-firefox), or you can get help by commenting on [this issue](https://github.com/firefox-devtools/debugger.html/issues/1341).
 
 ### Next Steps
 
@@ -72,7 +72,7 @@ This setup is for people on the DevTools team (and any of you DevTools wizards o
 
 ```bash
 npm i -g yarn
-git clone https://github.com/devtools-html/debugger.html.git
+git clone https://github.com/firefox-devtools/debugger.html.git
 cd debugger.html
 yarn install
 # close Firefox if it's already running
@@ -84,7 +84,7 @@ yarn start
 
 ### Starting Firefox
 
-If you're looking for an alternative to opening Firefox from inside the debugger, you must use the command-line interface (CLI). 
+If you're looking for an alternative to opening Firefox from inside the debugger, you must use the command-line interface (CLI).
 
 **Firefox CLI**
 
@@ -105,7 +105,7 @@ You'll be prompted to create a new "development profile". The development profil
 
 ### Starting Chrome
 
-There are two ways to run Chrome for the purposes of remote debugging with the debugger: 
+There are two ways to run Chrome for the purposes of remote debugging with the debugger:
 
 The easy way:
 
@@ -151,8 +151,8 @@ C:\Program Files (x86)\Mozilla Firefox\firefox.exe -start-debugger-server 6080 -
 [debugger-intro-gif]:http://g.recordit.co/WjHZaXKifZ.gif
 [done-screenshot]:https://cloud.githubusercontent.com/assets/254562/20439409/55e3994a-ad89-11e6-8e76-55e18c7c0d75.png
 
-[linux-issue]:https://github.com/devtools-html/debugger.html/issues/1082
-[windows-issue]:https://github.com/devtools-html/debugger.html/issues/1248
-[yarn-issue]:https://github.com/devtools-html/debugger.html/issues/1216
+[linux-issue]:https://github.com/firefox-devtools/debugger.html/issues/1082
+[windows-issue]:https://github.com/firefox-devtools/debugger.html/issues/1248
+[yarn-issue]:https://github.com/firefox-devtools/debugger.html/issues/1216
 [yarn]:https://yarnpkg.com
 [node]:https://nodejs.org/

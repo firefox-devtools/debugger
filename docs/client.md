@@ -27,11 +27,11 @@ The Debugger client communicates with the server via clients and actors.
 
 **Add Events**
 
-[breakpointclient]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-sham-modules/shared/client/main.js#L3008
-[sourceclient]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-sham-modules/shared/client/main.js#L2751
-[threadclient]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-sham-modules/shared/client/main.js#L1700
+[breakpointclient]: https://github.com/firefox-devtools/devtools-core/blob/master/packages/devtools-sham-modules/shared/client/main.js#L3008
+[sourceclient]: https://github.com/firefox-devtools/devtools-core/blob/master/packages/devtools-sham-modules/shared/client/main.js#L2751
+[threadclient]: https://github.com/firefox-devtools/devtools-core/blob/master/packages/devtools-sham-modules/shared/client/main.js#L1700
 [setbreakpointactor]: https://dxr.mozilla.org/mozilla-central/source/devtools/server/actors/source.js#654-678
-[setbreakpointclient]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-sham-modules/shared/client/main.js#L2925-L2969
+[setbreakpointclient]: https://github.com/firefox-devtools/devtools-core/blob/master/packages/devtools-sham-modules/shared/client/main.js#L2925-L2969
 
 #### Adding a new Actor Method
 

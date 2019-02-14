@@ -26,4 +26,4 @@ app.use("/devtools-components/images/",
   serve(path.join(__dirname, "../node_modules/devtools-components/src/images")));
 
 console.log("View debugger examples here:");
-console.log("https://github.com/devtools-html/debugger-examples");
+console.log("https://github.com/firefox-devtools/debugger-examples");

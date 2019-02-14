@@ -67,21 +67,21 @@ bundle (generated) locations and the client kept them in (mapped locations) orig
 ![](https://cloud.githubusercontent.com/assets/792924/26710979/4d08d27a-4755-11e7-8722-43f578ce6651.png)
 
 
-[pr-0]:https://github.com/devtools-html/debugger.html/pull/3051
-[pr-1]:https://github.com/devtools-html/debugger.html/pull/3057
-[pr-2]:https://github.com/devtools-html/debugger.html/pull/3067
-[pr-3]:https://github.com/devtools-html/debugger.html/pull/3064
-[pr-4]:https://github.com/devtools-html/debugger.html/pull/3061
-[pr-5]:https://github.com/devtools-html/debugger.html/pull/3060
-[pr-6]:https://github.com/devtools-html/debugger.html/pull/3065
-[pr-7]:https://github.com/devtools-html/debugger.html/pull/3077
-[pr-8]:https://github.com/devtools-html/debugger.html/pull/3079
-[pr-9]:https://github.com/devtools-html/debugger.html/pull/3087
-[pr-10]:https://github.com/devtools-html/debugger.html/pull/3089
-[pr-11]:https://github.com/devtools-html/debugger.html/pull/3082
-[pr-12]:https://github.com/devtools-html/debugger.html/pull/3039
-[pr-13]:https://github.com/devtools-html/debugger.html/pull/3081
-[pr-14]:https://github.com/devtools-html/debugger.html/pull/3086
+[pr-0]:https://github.com/firefox-devtools/debugger.html/pull/3051
+[pr-1]:https://github.com/firefox-devtools/debugger.html/pull/3057
+[pr-2]:https://github.com/firefox-devtools/debugger.html/pull/3067
+[pr-3]:https://github.com/firefox-devtools/debugger.html/pull/3064
+[pr-4]:https://github.com/firefox-devtools/debugger.html/pull/3061
+[pr-5]:https://github.com/firefox-devtools/debugger.html/pull/3060
+[pr-6]:https://github.com/firefox-devtools/debugger.html/pull/3065
+[pr-7]:https://github.com/firefox-devtools/debugger.html/pull/3077
+[pr-8]:https://github.com/firefox-devtools/debugger.html/pull/3079
+[pr-9]:https://github.com/firefox-devtools/debugger.html/pull/3087
+[pr-10]:https://github.com/firefox-devtools/debugger.html/pull/3089
+[pr-11]:https://github.com/firefox-devtools/debugger.html/pull/3082
+[pr-12]:https://github.com/firefox-devtools/debugger.html/pull/3039
+[pr-13]:https://github.com/firefox-devtools/debugger.html/pull/3081
+[pr-14]:https://github.com/firefox-devtools/debugger.html/pull/3086
 [@jasonLaster]:http://github.com/jasonLaster
 [@bomsy]:http://github.com/bomsy
 [@irfanhudda]:http://github.com/irfanhudda
