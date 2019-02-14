@@ -251,14 +251,14 @@ add_task(function*() {
 });
 ```
 
-The Debugger Mochitest API Documentation can be found [here](https://devtools-html.github.io/debugger.html/reference#mochitest).
+The Debugger Mochitest API Documentation can be found [here](https://firefox-devtools.github.io/debugger.html/reference#mochitest).
 
-[head]: https://github.com/devtools-html/debugger.html/blob/master/test/mochitest/head.js
+[head]: https://github.com/firefox-devtools/debugger.html/blob/master/test/mochitest/head.js
 [mochitests]: https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Mochitest
-[waiting]: https://github.com/devtools-html/debugger.html/commit/7b4762d9333108b15d81bc41e12182370c81e81c
-[server-oops]: https://github.com/devtools-html/debugger.html/commit/7e54e6b46181b747a828ab2dc1db96c88313db95#diff-4fb7729ef51f162ae50b7c3bc020a1e3
-[pretty-printing]: https://github.com/devtools-html/debugger.html/commit/6a66ce54faf8239fb358462c53c022a75615aae6#diff-a81153d2e92178917a135261f4245c39R12
-[local-config]: https://github.com/devtools-html/debugger.html/blob/master/docs/local-development.md#logging
+[waiting]: https://github.com/firefox-devtools/debugger.html/commit/7b4762d9333108b15d81bc41e12182370c81e81c
+[server-oops]: https://github.com/firefox-devtools/debugger.html/commit/7e54e6b46181b747a828ab2dc1db96c88313db95#diff-4fb7729ef51f162ae50b7c3bc020a1e3
+[pretty-printing]: https://github.com/firefox-devtools/debugger.html/commit/6a66ce54faf8239fb358462c53c022a75615aae6#diff-a81153d2e92178917a135261f4245c39R12
+[local-config]: https://github.com/firefox-devtools/debugger.html/blob/master/docs/local-development.md#logging
 
 ## Troubleshooting Test Harness
 

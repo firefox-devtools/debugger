@@ -304,8 +304,8 @@ One of the most interesting debugger questions is what happens when the debugger
 [@codehag]: http://github.com/codehag
 [@andreicristianpetcu]: http://github.com/andreicristianpetcu
 [@andarist]: http://github.com/Andarist
-[pr-6]: https://github.com/devtools-html/debugger.html/pull/2784
-[pr-23]: https://github.com/devtools-html/debugger.html/pull/2810
+[pr-6]: https://github.com/firefox-devtools/debugger.html/pull/2784
+[pr-23]: https://github.com/firefox-devtools/debugger.html/pull/2810
 [@zaggy]: http://github.com/zaggy
 [@amelzer]: http://github.com/amelzer
 [@ruturajv]: http://github.com/ruturajv

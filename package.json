@@ -3,13 +3,13 @@
   "version": "0.6.0",
   "license": "MPL-2.0",
   "repository": {
-    "url": "git://github.com/devtools-html/debugger.html.git",
+    "url": "git://github.com/firefox-devtools/debugger.html.git",
     "type": "git"
   },
   "bugs": {
-    "url": "https://github.com/devtools-html/debugger.html/issues"
+    "url": "https://github.com/firefox-devtools/debugger.html/issues"
   },
-  "homepage": "https://github.com/devtools-html/debugger.html#readme",
+  "homepage": "https://github.com/firefox-devtools/debugger.html#readme",
   "engineStrict": true,
   "engines": {
     "node": ">=10.15.0"
@@ -36,8 +36,8 @@
     "test:watch": "jest --watch",
     "test:coverage": "yarn test --coverage",
     "test:all": "yarn test; yarn lint; yarn flow",
-    "firefox": "start-firefox --start --location https://devtools-html.github.io/debugger-examples/",
-    "chrome": "start-chrome --location https://devtools-html.github.io/debugger-examples/",
+    "firefox": "start-firefox --start --location https://firefox-devtools.github.io/debugger-examples/",
+    "chrome": "start-chrome --location https://firefox-devtools.github.io/debugger-examples/",
     "watch": "node bin/copy --watch --symlink",
     "copy": "node bin/copy --assets",
     "flow-coverage": "flow-coverage-report --threshold 50 -i 'src/actions/*.js' -i 'src/reducers/*.js' -i 'src/utils/*.js' -i 'src/components/*.js' -i 'src/components/**/*.js' -t html -t text",

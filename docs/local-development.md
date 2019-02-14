@@ -100,8 +100,8 @@ User preferences are stored in Prefs. Prefs uses localStorage locally and firefo
 
 The two relevant files to look at are:
 
-- `[assets/panel/prefs.js](https://github.com/devtools-html/debugger.html/blob/master/assets/panel/prefs.js)`
-- `[src/utils/prefs.js](https://github.com/devtools-html/debugger.html/blob/master/src/utils/prefs.js)`
+- `[assets/panel/prefs.js](https://github.com/firefox-devtools/debugger.html/blob/master/assets/panel/prefs.js)`
+- `[src/utils/prefs.js](https://github.com/firefox-devtools/debugger.html/blob/master/src/utils/prefs.js)`
 
 **Setting a default value**
 
@@ -770,10 +770,10 @@ your questions on [Slack][slack].
 | Breakpoints        | ![][breakpoints] | ![][wldcordeiro] [@wldcordeiro][@wldcordeiro] <br /> ![][jbhoosreddy] [@jbhoosreddy][@jbhoosreddy] |
 | Product & UI       |                  | ![][clarkbw] [@clarkbw][@clarkbw] <br /> ![][jasonlaster] [@jasonlaster][@jasonlaster]             |
 
-[devtools-config-readme]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-config/README.md
-[create-local-config]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-config/README.md#local-config
-[l10n-issues]: https://github.com/devtools-html/debugger.html/labels/localization
-[flow-issues]: https://github.com/devtools-html/debugger.html/labels/flow
+[devtools-config-readme]: https://github.com/firefox-devtools/devtools-core/blob/master/packages/devtools-config/README.md
+[create-local-config]: https://github.com/firefox-devtools/devtools-core/blob/master/packages/devtools-config/README.md#local-config
+[l10n-issues]: https://github.com/firefox-devtools/debugger.html/labels/localization
+[flow-issues]: https://github.com/firefox-devtools/debugger.html/labels/flow
 [bidirection]: https://github.com/gasolin/postcss-bidirection
 [logical]: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Logical_Properties
 [scopes]: https://cloud.githubusercontent.com/assets/254562/22392764/019de6e6-e4cb-11e6-8445-2c4ec87cb4a6.png
@@ -796,8 +796,8 @@ your questions on [Slack][slack].
 [@arthur801031]: https://github.com/arthur801031
 [@zacqary]: https://github.com/zacqary
 [slack]: https://devtools-html-slack.herokuapp.com/
-[kill-strings]: https://github.com/devtools-html/devtools-core/issues/57
-[l10n]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/src/utils/L10N.js
+[kill-strings]: https://github.com/firefox-devtools/devtools-core/issues/57
+[l10n]: https://github.com/firefox-devtools/devtools-core/blob/master/packages/devtools-launchpad/src/utils/L10N.js
 [rtl-screenshot]: https://cloud.githubusercontent.com/assets/394320/19226865/ef18b0d0-8eb9-11e6-82b4-8c4da702fe91.png
 [jest]: https://facebook.github.io/jest/
 [jest-matchers]: https://facebook.github.io/jest/docs/using-matchers.html#content
@@ -806,22 +806,22 @@ your questions on [Slack][slack].
 [debugger-properties]: ../assets/panel/debugger.properties
 [development-json]: ../configs/development.json
 [mdn-colors]: https://developer.mozilla.org/en-US/docs/Tools/DevToolsColors
-[light-theme]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/src/lib/themes/light-theme.css#L1
-[dark-theme]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/src/lib/themes/dark-theme.css#L1
-[devtools-css-variables]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-launchpad/src/lib/themes/variables.css#L1
+[light-theme]: https://github.com/firefox-devtools/devtools-core/blob/master/packages/devtools-launchpad/src/lib/themes/light-theme.css#L1
+[dark-theme]: https://github.com/firefox-devtools/devtools-core/blob/master/packages/devtools-launchpad/src/lib/themes/dark-theme.css#L1
+[devtools-css-variables]: https://github.com/firefox-devtools/devtools-core/blob/master/packages/devtools-launchpad/src/lib/themes/variables.css#L1
 [css variables]: https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_variables
 [light-ui-screen]: https://cloud.githubusercontent.com/assets/1755089/22209736/9b194f2a-e1ad-11e6-9de0-561dd529d5f0.png
 [pr-table]: ./pull-requests.md#screenshots
 [mochitest]: ./mochitests.md
 [mocha]: ./integration-tests.md
 [contrast-ratio-tool]: http://leaverou.github.io/contrast-ratio/#rgb%28204%2C%20209%2C%20213%29-on-rgb%28252%2C%20252%2C%20252%29
-[launchpad]: https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-launchpad
-[reps]: https://github.com/devtools-html/reps
-[client adapters]: https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-client-adapters
-[modules]: https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-modules
-[source maps]: https://github.com/devtools-html/devtools-core/tree/master/packages/devtools-source-map
-[shimmed-context-menus]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-contextmenu/menu.js
-[context-menus]: https://github.com/devtools-html/devtools-core/blob/master/packages/devtools-modules/src/menu/index.js
+[launchpad]: https://github.com/firefox-devtools/devtools-core/tree/master/packages/devtools-launchpad
+[reps]: https://github.com/firefox-devtools/reps
+[client adapters]: https://github.com/firefox-devtools/devtools-core/tree/master/packages/devtools-client-adapters
+[modules]: https://github.com/firefox-devtools/devtools-core/tree/master/packages/devtools-modules
+[source maps]: https://github.com/firefox-devtools/devtools-core/tree/master/packages/devtools-source-map
+[shimmed-context-menus]: https://github.com/firefox-devtools/devtools-core/blob/master/packages/devtools-contextmenu/menu.js
+[context-menus]: https://github.com/firefox-devtools/devtools-core/blob/master/packages/devtools-modules/src/menu/index.js
 [web-workers]: https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers
 [l10n-docs]: https://developer.mozilla.org/en-US/docs/Mozilla/Localization/Localization_content_best_practices#Choose_good_key_IDs
 [immutable-docs]: https://facebook.github.io/immutable-js/docs/#/
