@@ -27,7 +27,7 @@ First, get a recent version of Node.js to run the debugger.
 
 ```bash
 curl -o- -L https://yarnpkg.com/install.sh | bash -s
-git clone https://github.com/devtools-html/debugger.html.git
+git clone https://github.com/firefox-devtools/debugger.html.git
 
 cd debugger.html
 yarn
@@ -97,8 +97,8 @@ Say hello in [Slack][slack] or in the [#devtools-html][irc-devtools-html] channe
 [slack-badge]: https://devtools-html-slack.herokuapp.com/badge.svg
 [slack]: https://devtools-html-slack.herokuapp.com/
 [debugger-screenshot]: https://shipusercontent.com/47aaaa7a6512691f964101bfb0832abe/Screen%20Shot%202017-08-15%20at%202.34.05%20PM.png
-[ci-badge]: https://circleci.com/gh/devtools-html/debugger.html.svg??&style=shield
-[ci-status]: https://circleci.com/gh/devtools-html/debugger.html/tree/master
+[ci-badge]: https://circleci.com/gh/firefox-devtools/debugger.html.svg??&style=shield
+[ci-status]: https://circleci.com/gh/firefox-devtools/debugger.html/tree/master
 [npm-version]: https://img.shields.io/npm/v/debugger.html.svg
 [npm-package]: https://www.npmjs.com/package/debugger.html
 [prs welcome]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
@@ -106,10 +106,10 @@ Say hello in [Slack][slack] or in the [#devtools-html][irc-devtools-html] channe
 [getting-started]: ./docs/getting-setup.md
 [contributing]: ./.github/CONTRIBUTING.md
 [getting-started-screencast]: ./docs/videos.md
-[available]: https://github.com/devtools-html/debugger.html/labels/available
+[available]: https://github.com/firefox-devtools/debugger.html/labels/available
 [app-overview]: ./docs/debugger-html-react-redux-overview.md
 [first-activity]: ./docs/debugging-the-debugger.md
-[tracking]: https://github.com/devtools-html/debugger.html/projects/10
+[tracking]: https://github.com/firefox-devtools/debugger.html/projects/10
 [help]: ./docs/local-development.md#getting-help
 [participation guidelines]: https://www.mozilla.org/en-US/about/governance/policies/participation/
 [irc-devtools-html]: irc://irc.mozilla.org/devtools-html
@@ -119,8 +119,8 @@ Say hello in [Slack][slack] or in the [#devtools-html][irc-devtools-html] channe
 [vulnerabilities]: https://www.mozilla.org/en-US/about/governance/policies/security-group/bugs/
 [vidyo]: https://v.mozilla.com/flex.html?roomdirect.html&key=n9vJUD3L1vRMHKQC5OCNRT3UBjw
 [changelog]: https://changelog.com/podcast/247
-[docs]: https://devtools-html.github.io/debugger.html/docs/
-[weekly-updates]: https://devtools-html.github.io/debugger.html/docs/updates
+[docs]: https://firefox-devtools.github.io/debugger.html/docs/
+[weekly-updates]: https://firefox-devtools.github.io/debugger.html/docs/updates
 [configs]: ./docs/local-development.md#configs
 [themes]: ./docs/local-development.md#themes
 [internationalization]: ./docs/local-development.md#internationalization

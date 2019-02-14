@@ -153,9 +153,9 @@ Now that you've internalized the debugger philosophy, it's time to start putting
 
 ## **Contribute back** take a look at how you can start [contributing][contributing]. We would love the help!
 
-[contributing]: https://github.com/devtools-html/debugger.html/blob/master/.github/CONTRIBUTING.md
+[contributing]: https://github.com/firefox-devtools/debugger.html/blob/master/.github/CONTRIBUTING.md
 [getting-setup]: ./getting-setup.md
-[getting-started-issue]: https://github.com/devtools-html/debugger.html/issues/1247
+[getting-started-issue]: https://github.com/firefox-devtools/debugger.html/issues/1247
 [debugger-intro-gif]: http://g.recordit.co/WjHZaXKifZ.gif
 [amit-slides]: https://docs.google.com/presentation/d/1jdnvL-BwwxEuFbb9tiRxcT6UT-Ua0jGhy9FKBT4b43E/edit
 [amit-tweet]: https://twitter.com/amitzur/status/790153843946426369

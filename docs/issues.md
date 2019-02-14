@@ -17,22 +17,22 @@ Issues are organized in terms of components.
 Issue titles should include the name of the component as a tag
 at the very beginning. Consider the following titles:
 
-* Bad: `Fix input field padding of search bar`  
+* Bad: `Fix input field padding of search bar`
 * Good: `[SearchBar] Fix input field padding`
 
 or
 
-* Bad: `Add information about titles to documentation`  
+* Bad: `Add information about titles to documentation`
 * Good: `[Docs] Add information about titles`
 
 Some common tags include:
 
-|Editor|SecondaryPanes|UI|Other| 
-|----------|------|-----|----| 
-|Editor|CommandBar|SourceTree|Accessibility| 
-|SourceTabs|WatchExpressions|TextSearch|Theme| 
-|SearchBar|Breakpoints|WelcomeBox|Reducer| 
-|SourceFooter|CallStack||Action| 
+|Editor|SecondaryPanes|UI|Other|
+|----------|------|-----|----|
+|Editor|CommandBar|SourceTree|Accessibility|
+|SourceTabs|WatchExpressions|TextSearch|Theme|
+|SearchBar|Breakpoints|WelcomeBox|Reducer|
+|SourceFooter|CallStack||Action|
 ||Scopes||Docs|RTL|
 
 
@@ -114,7 +114,7 @@ If you'd like to work on an issue, `/claim` it in the issue and it'll be marked 
 ### Labels
 
 
-These are the [labels](https://github.com/devtools-html/debugger.html/labels) we use to help organize and communicate the state of issues and pull requests in the project.  If you find a label being used that isn't described here please file an issue to get it listed.
+These are the [labels](https://github.com/firefox-devtools/debugger.html/labels) we use to help organize and communicate the state of issues and pull requests in the project.  If you find a label being used that isn't described here please file an issue to get it listed.
 
 | Label name | query:mag_right: | Description |
 | --- | --- | --- |
@@ -199,25 +199,25 @@ We focus on being community friendly for many reasons.
 * There's an incredible diversity of talent to help us with topics ranging from testing to internationalization.
 * Focusing on *contributor experience* helps us build the best development environment. For instance, if you find it's hard to describe how to make an accessibility change, maybe we should improve how we support tab navigation.
 
-[labels-available]:https://github.com/devtools-html/debugger.html/labels/available
-[labels-first-timers-only]:https://github.com/devtools-html/debugger.html/labels/first-timers-only
-[labels-difficulty-easy]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%20easy
-[labels-difficulty-medium]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%20medium
-[labels-difficulty-hard]:https://github.com/devtools-html/debugger.html/labels/difficulty%3A%20hard
-[labels-docs]:https://github.com/devtools-html/debugger.html/labels/docs
-[labels-design]:https://github.com/devtools-html/debugger.html/labels/design
-[labels-enhancement]:https://github.com/devtools-html/debugger.html/labels/enhancement
-[labels-bug]:https://github.com/devtools-html/debugger.html/labels/bug
-[labels-chrome]:https://github.com/devtools-html/debugger.html/labels/chrome
-[labels-firefox]:https://github.com/devtools-html/debugger.html/labels/firefox
-[labels-infrastructure]:https://github.com/devtools-html/debugger.html/labels/infrastructure
-[labels-discussion]:https://github.com/devtools-html/debugger.html/labels/discussion
+[labels-available]:https://github.com/firefox-devtools/debugger.html/labels/available
+[labels-first-timers-only]:https://github.com/firefox-devtools/debugger.html/labels/first-timers-only
+[labels-difficulty-easy]:https://github.com/firefox-devtools/debugger.html/labels/difficulty%3A%20easy
+[labels-difficulty-medium]:https://github.com/firefox-devtools/debugger.html/labels/difficulty%3A%20medium
+[labels-difficulty-hard]:https://github.com/firefox-devtools/debugger.html/labels/difficulty%3A%20hard
+[labels-docs]:https://github.com/firefox-devtools/debugger.html/labels/docs
+[labels-design]:https://github.com/firefox-devtools/debugger.html/labels/design
+[labels-enhancement]:https://github.com/firefox-devtools/debugger.html/labels/enhancement
+[labels-bug]:https://github.com/firefox-devtools/debugger.html/labels/bug
+[labels-chrome]:https://github.com/firefox-devtools/debugger.html/labels/chrome
+[labels-firefox]:https://github.com/firefox-devtools/debugger.html/labels/firefox
+[labels-infrastructure]:https://github.com/firefox-devtools/debugger.html/labels/infrastructure
+[labels-discussion]:https://github.com/firefox-devtools/debugger.html/labels/discussion
 [github-tables]: ./pull-requests.md#screenshots
-[labels-needs-description]:https://github.com/devtools-html/debugger.html/labels/needs-description
-[labels-needs-str]:https://github.com/devtools-html/debugger.html/labels/needs-str
-[labels-needs-investigation]:https://github.com/devtools-html/debugger.html/labels/needs-investigation
+[labels-needs-description]:https://github.com/firefox-devtools/debugger.html/labels/needs-description
+[labels-needs-str]:https://github.com/firefox-devtools/debugger.html/labels/needs-str
+[labels-needs-investigation]:https://github.com/firefox-devtools/debugger.html/labels/needs-investigation
 
-[enhancements-board]: https://github.com/devtools-html/debugger.html/projects/6
-[bugs-board]: https://github.com/devtools-html/debugger.html/projects/11
-[features-board]: https://github.com/devtools-html/debugger.html/projects/10
+[enhancements-board]: https://github.com/firefox-devtools/debugger.html/projects/6
+[bugs-board]: https://github.com/firefox-devtools/debugger.html/projects/11
+[features-board]: https://github.com/firefox-devtools/debugger.html/projects/10
 [roadmap]: ../ROADMAP.md

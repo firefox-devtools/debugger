@@ -122,7 +122,7 @@ Notes:
 * Don't worry about including `--force`, often it's inevitable if you're helping with a rebase.
 * It's best to include your work as a separate commit so the contributor can easily see the patch.
 
-[enhancements board]: https://github.com/devtools-html/debugger.html/projects/5
+[enhancements board]: https://github.com/firefox-devtools/debugger.html/projects/5
 [ship]: https://www.realartists.com
 [ship-screenshot]: https://cloud.githubusercontent.com/assets/254562/23369201/8fe98b82-fcde-11e6-9dac-3e40547f29ad.png
 [github-2fa]: https://help.github.com/articles/securing-your-account-with-two-factor-authentication-2fa/
@@ -130,4 +130,4 @@ Notes:
 [github-remote]: https://help.github.com/articles/adding-a-remote/
 [gardening]: http://words.steveklabnik.com/how-to-be-an-open-source-gardener
 [glitch]: https://fabulous-umbrella.glitch.me/
-[na]: https://github.com/devtools-html/debugger.html/labels/not-actionable
+[na]: https://github.com/firefox-devtools/debugger.html/labels/not-actionable
