@@ -30,6 +30,10 @@
 	line-height: 12px;
 }
 
+.event-listener-expand:hover {
+	background: transparent;
+}
+
 .event-listener-group input[type="checkbox"] {
 	margin: 0px;
 	margin-inline-end: 4px;
