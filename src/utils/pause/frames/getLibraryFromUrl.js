@@ -78,13 +78,7 @@ const libraryMap = [
   },
   {
     label: "Angular",
-    pattern: new RegExp(
-      "angular\\.|" +
-        "angular.*" +
-        "(animations|common|core|elements|forms|platform-browser|" +
-        "platform-server|platform-webworker|router|service-worker|upgrade)",
-      "i"
-    ),
+    pattern: /angular(?!.*\/app\/)/i,
     contextPattern: /(zone\.js)/
   },
   {

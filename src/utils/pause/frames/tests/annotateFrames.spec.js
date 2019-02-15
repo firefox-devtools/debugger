@@ -15,7 +15,7 @@ describe("annotateFrames", () => {
       ),
       makeMockFrameWithURL("/node_modules/zone/zone.js"),
       makeMockFrameWithURL(
-        "https://stackblitz.io/turbo_modules/@angular/core@7.2.4/bundles/core.umd.js"
+        "https://cdnjs.cloudflare.com/ajax/libs/angular/angular.js"
       )
     ];
     const frames = annotateFrames(callstack);
