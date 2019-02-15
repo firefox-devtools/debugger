@@ -11,6 +11,7 @@ You can download the latest versions [here][node].
 ```bash
 npm i -g yarn
 ```
+
 **Why Yarn and not NPM?**
 
 NPM installs the latest versions. We use [Yarn][yarn] because we want to make sure everyone is using the same libraries.
@@ -89,6 +90,7 @@ If you're looking for an alternative to opening Firefox from inside the debugger
 **Firefox CLI**
 
 1. Run `firefox-bin` from the command line.
+
 ```bash
 /Applications/Firefox.app/Contents/MacOS/firefox-bin --start-debugger-server 6080 -P development
 ```
@@ -97,11 +99,25 @@ You'll be prompted to create a new "development profile". The development profil
 
 2. Navigate to `about:config` and accept any warning messages. Then, search for the following preferences, and double-click them to toggle their values according to [this example](http://g.recordit.co/3VsHIooZ9q.gif):
 
-* `devtools.debugger.remote-enabled` to `true`
-* `devtools.chrome.enabled` to `true`
-* `devtools.debugger.prompt-connection` to `false`
+- `devtools.debugger.remote-enabled` to `true`
+- `devtools.chrome.enabled` to `true`
+- `devtools.debugger.prompt-connection` to `false`
 
 3. Restart Firefox by closing and reopening it with the `firefox-bin` command.
+
+#### Using Web Sockets
+
+If you are not seeing any tabs when you connect, it is possible that switching from a TCP server to a WS could help.
+
+1. create a `local.json` file in `configs` and set `firefox.webSocketConnection` to `true`
+2. Start Firefox from the command line
+
+```
+/Applications/Firefox\ Nightly.app/Contents/MacOS/firefox --start-debugger-server ws:8116 -P dev
+```
+
+> NOTE: if you are curious about how the debugger server starts listening on a port
+> this function is useful: [devtools-startup.js](https://searchfox.org/mozilla-central/source/devtools/startup/devtools-startup.js#789-854)
 
 ### Starting Chrome
 
@@ -123,36 +139,37 @@ And the slightly harder way:
 
 It's easy to start Node in a mode where DevTools will find it:
 
-* *--inspect* - tells Node to open a debugger server.
-* *--inspect=9223* - tells Node to open a debugger server on 9223 instead of 9229.
-* *--debug-brk* - tells Node to pause on the first statement.
+- _--inspect_ - tells Node to open a debugger server.
+- _--inspect=9223_ - tells Node to open a debugger server on 9223 instead of 9229.
+- _--debug-brk_ - tells Node to pause on the first statement.
 
 ```bash
 node --inspect --debug-brk ./node_modules/.bin/webpack
 ```
 
-**Note:** *./node_modules/.bin/webpack* could be anything. We're often debugging Webpack these days, so it's often appropriate.
+**Note:** _./node_modules/.bin/webpack_ could be anything. We're often debugging Webpack these days, so it's often appropriate.
 
 **Note:** Currently, Node.js debugging is limited in some ways. For example, there isn't support for seeing variables or the console, but you can manage breakpoints and navigate code execution (pause, step-in, step-over, etc.) in the debugger across various sources.
 
 ### Windows + Linux Setup
 
-Windows and Linux should *just work* most of the time. However, there are several edge cases.
+Windows and Linux should _just work_ most of the time. However, there are several edge cases.
 
 If you find any issues on these two platforms, please leave a comment on these issues:
-* [Windows][windows-issue]
-* [Linux][linux-issue]
+
+- [Windows][windows-issue]
+- [Linux][linux-issue]
 
 **Firefox Windows Command**
+
 ```
 C:\Program Files (x86)\Mozilla Firefox\firefox.exe -start-debugger-server 6080 -P development
 ```
 
-[debugger-intro-gif]:http://g.recordit.co/WjHZaXKifZ.gif
-[done-screenshot]:https://cloud.githubusercontent.com/assets/254562/20439409/55e3994a-ad89-11e6-8e76-55e18c7c0d75.png
-
-[linux-issue]:https://github.com/firefox-devtools/debugger.html/issues/1082
-[windows-issue]:https://github.com/firefox-devtools/debugger.html/issues/1248
-[yarn-issue]:https://github.com/firefox-devtools/debugger.html/issues/1216
-[yarn]:https://yarnpkg.com
-[node]:https://nodejs.org/
+[debugger-intro-gif]: http://g.recordit.co/WjHZaXKifZ.gif
+[done-screenshot]: https://cloud.githubusercontent.com/assets/254562/20439409/55e3994a-ad89-11e6-8e76-55e18c7c0d75.png
+[linux-issue]: https://github.com/firefox-devtools/debugger.html/issues/1082
+[windows-issue]: https://github.com/firefox-devtools/debugger.html/issues/1248
+[yarn-issue]: https://github.com/firefox-devtools/debugger.html/issues/1216
+[yarn]: https://yarnpkg.com
+[node]: https://nodejs.org/

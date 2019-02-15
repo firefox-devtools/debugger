@@ -19,7 +19,7 @@
     "port": 9229
   },
   "firefox": {
-    "webSocketConnection": true,
+    "webSocketConnection": false,
     "host": "localhost",
     "webSocketPort": 8116,
     "tcpPort": 6080,
