@@ -1,110 +1,124 @@
 ## Maintainer Tips
 
-Helping maintain a project is the best way to contribute to its overall health.
+Helping to maintain a project is the best way to contribute to its overall health.
 
 * [Triaging Issues](#triaging-issues)
 * [Making Bugs Actionable](#making-bugs-actionable)
 * [Reviewing Stale Issues](#reviewing-stale-issues)
-* [Making Issues available](#making-issues-available)
-* [Following up on In Progress work](#following-up-on-in-progress-work)
+* [Making Issues Available](#making-issues-available)
+* [Following up on In-Progress Work](#following-up-on-in-progress-work)
 * [Adding a Patch](#adding-a-patch)
-* [Pushing to a branch](#pushing-to-a-branch)
+* [Pushing to a Branch](#pushing-to-a-branch)
 
 ### Triaging Issues
 
 We encourage the community to help make bugs actionable, make features available,
 and close stale issues. Triaging is one of the most important contributions a
-community member can make for a projects health. Stave Klabnik's
-[article][gardening] on how to be an open source gardener expresses our values.
+community member can make for a project's health. [Steve Klabnik's article][gardening] on how to be an "open source gardener" reflects our values here at _debugger.html_.
 
 #### Making Bugs Actionable
 
-Bugs are labeled [`not-actionable`][na] when they are filed. Here is a checklist
-for making bugs actionable:
+When bugs are filed, they are immediately labeled _[`not-actionable`][na]_. Before they can be appropriately addressed by our contributors, bugs need to be made _actionable_. 
 
-1. Check for duplicate bugs
-2. Verify that the bug is reproducible
-3. Define steps to reproduce with expected and actual results
+You can help us make bugs actionable by following these steps:
+
+1. Check for duplicate bugs.
+2. Verify that the bug is reproducible.
+3. Define steps to reproduce the bug, with expected and actual results.
 4. Create a small test case. We have a [glitch] template for sharing examples.
-5. Add [labels](./issues.md#labels)
+5. Add [labels](./issues.md#labels).
 
 #### Reviewing Stale Issues
 
-We define _stale_ as issues that are 30 days or older. Stale is often an indicator of another issue: it is unnecessary, too vague, too broad, or a low priority.
+We define _stale_ as issues that are 30 days or older. If an issue is stale, it is often an indicator that the issue is problematic in one or more ways. 
 
-* _unnecessary_ - close it
-* _vague_ - clarify the issue and make it more available
-* _broad_ - create more focused issues, such as "add flow types to `WhyPaused` component"
-* _low priority_ - close it and add the _icebox_ label to it.
+Typically, a stale issue can be:
+
+* _Unnecessary_: It does not signal a problem that needs to be solved. 
+* _Vague_: It doesn't explain the problem well. 
+* _Broad_: It signals too many problems at once.
+* _Low priority_: It signals a problem that could be solved, but is not urgent.
+
+Here's how you can help review each of these types of issues:
+
+* _Unnecessary issues_ - Close them.
+* _Vague issues_ - Clarify these issues with the contributor(s) who opened them, and try to pinpoint the problems that need solving.
+* _Broad issues_ - Divide larger issues into several smaller, more focused issues. 
+* _Low priority issues_ - Close them and tag them with the  _icebox_ label.
 
 ### Prioritizing Issues
 
-At any given point, there are too many issues in the project to realistically be able to complete them all in the near future.
+_debugger.html_ is a highly active repository. There are too many issues open in the project at any one time for us to be able to complete them all in a timely manner.
 
-We try to prioritize the issues into 3 buckets: current milestone, backlog, and icebox.
+We try to prioritize the issues into three buckets: **current milestone**, **backlog**, and **icebox**.
 
-* We add issues to a milestone every two weeks that we hope to accomplish in that time frame.
-* We add the _backlog_ label to issues that we would like to accomplish in the next 4 to 6 weeks.
-* We add the _icebox_ label to issues that we would like to get to in the future. We also close these issues so that we can keep the issue list under control. We commit to reviewing the _icebox_ issues every six weeks and re-opening issues we hope to get to.
+* We add the **current milestone** label to issues that we expect to accomplish within the next two weeks. 
+* We add the **backlog** label to issues that we would like to accomplish in the next four to six weeks.
+* We add the **icebox** label to issues that we would like to get to in the future. However, to keep these issues from flooding the issue page on the repository, we close them temporarily until they can be dealt with. We commit to reviewing the icebox issues every six weeks, and reopening the issues that fit the _current milestone_ or _backlog_ labels.
 
-There will always be some issues that don't fall into these buckets.
+In addition to the above, there will always be some issues that do not fall into the above buckets: 
 
-* We have not yet investigated the issue
-* We think a community member could realistically do it e.g. ui polish, code health
+* Issues that have not been investigated by a maintainer.
+* Issues that we believe realistically could be handled by a community member (e.g. UI polishing, code health, etc.).
 
-#### Icebox Issues
+### Icebox Issues
 
-#### Making Issues available
+#### Making Issues Available
 
-Available is short for two things:
+In order for an issue to be marked _available_, it must meet two requirements. 
 
-1. a clearly defined specification (end-state)
-2. a clear implementation plan
+Available issues must have:
 
-Our goal is to have 100% of our issues available or blocked by another available ticket.
-If you find an issue that is not available you can:
+1. A clearly defined specification (end-state).
+2. A clear implementation plan.
 
-1. investigate the issue and answer questions that you have
-2. share questions or offer reasonable solutions that can be implemented
-3. [add a patch](#adding-a-patch) to help the person who picks up the issue
+Our goal is to have 100% of our issues either available or blocked by another available ticket.
 
-#### Following up on In Progress work
+If you find an issue that is not available, you can:
 
-Following up on in progress work is delicate, but tremendously important.
+1. Investigate the issue, and brainstorm solutions to any problems you may find.
+2. Share questions, or offer reasonable solutions that can be implemented.
+3. [Add a patch](#adding-a-patch) that will help anyone who picks up the issue in the future.
 
-When done well, the recipient feels like their work is appreciated and feels comfortable asking questions that could be blocking the work.
+#### Following up on In-Progress work
 
-When done poorly, the recipient feels like they're being rushed and is not sure how to complete it.
+Following up on in-progress work is a delicate, but tremendously important task.
 
-Some good rules of thumb are:
+When done well, the person whom you follow up on feels appreciated and supported. When you check in with them, they will often feel comfortable asking questions that could be blocking their work. If you, the contributor, and any other community members can find answers to these questions, the work can move forward, and the debugger can improve.
 
-1. asking what their timeline is
-2. asking if they are blocked or if you can help
-3. offer to pair or talk on Slack.
-4. try to breakdown the work so small pieces can be merged
+When done poorly, the person whom you follow up on feels rushed, micromanaged and second-guessed. Contributors made to feel this way will often struggle to complete their work, and they will be reluctant to ask for help. 
 
-### Adding a patch
+Here at _debugger.html_, it is important that follow-ups go smoothly, and that all contributors involved feel appreciated and well-supported. 
+
+Here are a few good rules of thumb that will help you follow up on in-progress work in a structured, respectful way: 
+
+1. Ask the contributor what the timeline is for completing their task(s).
+2. Ask the contributor if any part of the task(s) has them feeling stuck.
+3. Offer to pair up and work together, or to discuss the task(s) via Slack or voice chat. 
+4. Work together to break down each task into small pieces, so that things can be merged gradually, instead of all at once. 
+
+### Adding a Patch
 
 Patches are a great way to clarify what work needs to be done.
 
-Patches on `available` issues help clarify where the code should go and are often clearer than English.
+Patches on `available` issues help clarify where the necessary code should eventually go. Also, they are often clearer than English.
 
-Tips:
+Here are a few ways you can add a patch:
 
-* write some pseudo-code or add comments where code should go
-* add a diff with diff code blocks
-* use the \[gist] cli to make diffs. I have a shortcut for `git diff | gist --type diff`
-* when gists are long you can include a link to a gist and this snippet in the issue `curl <raw-gist-url> | git apply`
+* Write some pseudocode, or add comments where you think new code should go.
+* Add a diff, using diff code blocks.
+* Use the \[gist] cli to make diffs. Use a shortcut for `git diff | gist --type diff`.
+* When gists are long, leave a comment on the issue with a link to a gist, along with this snippet: `curl <raw-gist-url> | git apply`.
 
-### Pushing to a branch
+### Pushing to a Branch
 
-Here are the steps for getting a PR branch and then updating it
+Here are the steps for getting a PR branch and then updating it:
 
-Getting Setup:
+Getting Set Up:
 
-1. **http remote** [github help][github-remote]
-2. **2fa** [github help][github-2fa]
-3. **personal access tokens** [github help][github-pat]
+1. **HTTP Remote** [github help][github-remote]
+2. **Two-factor Authentication (2FA)** [github help][github-2fa]
+3. **Personal Access Tokens** [github help][github-pat]
 
 Steps:
 
@@ -114,13 +128,13 @@ git fetch <username>
 git checkout --track <username>/<pr-branch>
 git pull --rebase # if you want to get new changes
 git push <username> <pr-branch>
-git push -f <username> <pr-branch>  # sadly you often need to push force
+git push -f <username> <pr-branch>  # sadly, you often need to push force
 ```
 
-Notes:
+#### Notes:
 
-* Don't worry about including `--force`, often it's inevitable if you're helping with a rebase.
-* It's best to include your work as a separate commit so the contributor can easily see the patch.
+* Don't worry about including `--force`, it's often inevitable if you're helping with a rebase.
+* It's best to include your work as a separate commit, so that the contributor can easily see the patch.
 
 [enhancements board]: https://github.com/firefox-devtools/debugger.html/projects/5
 [ship]: https://www.realartists.com
