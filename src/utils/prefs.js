@@ -9,7 +9,7 @@ import { isDevelopment } from "devtools-environment";
 import Services from "devtools-services";
 import { asyncStoreHelper } from "./asyncStoreHelper";
 
-const prefsSchemaVersion = "1.0.7";
+const prefsSchemaVersion = "1.0.8";
 
 const pref = Services.pref;
 
@@ -116,7 +116,6 @@ export const features = new PrefsHelper("devtools.debugger.features", {
   windowlessWorkers: ["Bool", "windowless-workers"],
   outline: ["Bool", "outline"],
   codeFolding: ["Bool", "code-folding"],
-  pausePoints: ["Bool", "pause-points"],
   skipPausing: ["Bool", "skip-pausing"],
   autocompleteExpression: ["Bool", "autocomplete-expressions"],
   mapExpressionBindings: ["Bool", "map-expression-bindings"],
@@ -137,8 +136,8 @@ export const asyncStore = asyncStoreHelper("debugger", {
 
 if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
   // clear pending Breakpoints
-  prefs.pendingBreakpoints = {};
-  prefs.tabs = [];
-  prefs.xhrBreakpoints = [];
+  asyncStore.pendingBreakpoints = {};
+  asyncStore.tabs = [];
+  asyncStore.xhrBreakpoints = [];
   prefs.debuggerPrefsSchemaVersion = prefsSchemaVersion;
 }
