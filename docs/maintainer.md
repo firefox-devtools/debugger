@@ -117,7 +117,7 @@ Here are the steps for getting a PR branch and then updating it:
 Getting Set Up:
 
 1. **HTTP Remote** [github help][github-remote]
-2. **Two-factor Authentification (2FA)** [github help][github-2fa]
+2. **Two-factor Authentication (2FA)** [github help][github-2fa]
 3. **Personal Access Tokens** [github help][github-pat]
 
 Steps:
