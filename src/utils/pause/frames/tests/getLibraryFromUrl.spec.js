@@ -71,17 +71,23 @@ describe("getLibraryFromUrl", () => {
 
   describe("When Angular is in the URL", () => {
     it("should return Angular for AngularJS (1.x)", () => {
-      const frame = makeMockFrameWithURL("https://cdnjs.cloudflare.com/ajax/libs/angular/angular.js");
+      const frame = makeMockFrameWithURL(
+        "https://cdnjs.cloudflare.com/ajax/libs/angular/angular.js"
+      );
       expect(getLibraryFromUrl(frame)).toEqual("Angular");
     });
 
     it("should return Angular for Angular (2.x)", () => {
-      const frame = makeMockFrameWithURL("https://stackblitz.io/turbo_modules/@angular/core@7.2.4/bundles/core.umd.js");
+      const frame = makeMockFrameWithURL(
+        "https://stackblitz.io/turbo_modules/@angular/core@7.2.4/bundles/core.umd.js"
+      );
       expect(getLibraryFromUrl(frame)).toEqual("Angular");
     });
 
     it("should not return Angular for Angular components", () => {
-      const frame = makeMockFrameWithURL("https://firefox-devtools-angular-log.stackblitz.io/~/src/app/hello.component.ts");
+      const frame = makeMockFrameWithURL(
+        "https://firefox-devtools-angular-log.stackblitz.io/~/src/app/hello.component.ts"
+      );
       expect(getLibraryFromUrl(frame)).toBeNull();
     });
   });
