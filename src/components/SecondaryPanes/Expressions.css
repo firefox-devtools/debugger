@@ -99,6 +99,22 @@
   top: 1px;
 }
 
+.expression-container .close-btn {
+  display: none;
+}
+
+.expression-container:focus-within .close-btn {
+  display: flex;
+}
+
+.expression-container .close {
+  visibility: hidden;
+}
+
+.expression-container:focus-within .close {
+  visibility: visible;
+}
+
 .expression-content {
   position: relative;
 }
