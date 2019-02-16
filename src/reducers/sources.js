@@ -269,7 +269,15 @@ function updateDisplayedSource(state: SourcesState, source: Source) {
     return;
   }
 
-  source.actors.forEach(({ thread }) => {
+  let actors = source.actors;
+
+  // Original sources do not have actors, so use the generated source.
+  if (isOriginalSource(source)) {
+    const generatedSource = state.sources[originalToGeneratedId(source.id)];
+    actors = generatedSource ? generatedSource.actors : [];
+  }
+
+  actors.forEach(({ thread }) => {
     if (!state.displayed[thread]) {
       state.displayed[thread] = {};
     }
