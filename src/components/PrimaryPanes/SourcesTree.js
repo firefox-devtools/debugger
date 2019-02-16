@@ -334,9 +334,13 @@ class SourcesTree extends Component<Props, State> {
 
     return this.renderPane(
       this.renderThreadHeader(),
-      <div key="tree" className="sources-list">
-        {this.renderTree()}
-      </div>
+      this.isEmpty() ? (
+        this.renderEmptyElement("No Sources")
+      ) : (
+        <div key="tree" className="sources-list">
+          {this.renderTree()}
+        </div>
+      )
     );
   }
 }
