@@ -32,7 +32,7 @@ import type {
 import type { PendingSelectedLocation, Selector } from "./types";
 import type { Action, DonePromiseAction, FocusItem } from "../actions/types";
 import type { LoadSourceAction } from "../actions/types/SourceAction";
-import { omitBy, mapValues } from "lodash";
+import { omitBy, mapValues, uniqBy } from "lodash";
 
 export type SourcesMap = { [SourceId]: Source };
 export type SourcesMapByThread = { [ThreadId]: SourcesMap };
@@ -248,12 +248,10 @@ function updateSource(state: SourcesState, source: Object) {
 
   // Any actors in the source are added to the existing ones.
   if (existingSource && source.actors) {
-    const oldActors = existingSource.actors.filter(({ actor }) => {
-      return !updatedSource.actors.some(
-        ({ actor: newActor }) => newActor == actor
-      );
-    });
-    updatedSource.actors = [...oldActors, ...updatedSource.actors];
+    updatedSource.actors = uniqBy(
+      [...existingSource.actors, ...updatedSource.actors],
+      ({ actor }) => actor
+    );
   }
 
   state.sources[source.id] = updatedSource;
