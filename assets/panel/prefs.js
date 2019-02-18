@@ -1,5 +1,6 @@
-/* Any copyright is dedicated to the Public Domain.
- * http://creativecommons.org/publicdomain/zero/1.0/ */
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // Enable the Debugger
 pref("devtools.debugger.enabled", true);
@@ -70,6 +71,6 @@ pref("devtools.debugger.features.autocomplete-expressions", false);
 pref("devtools.debugger.features.map-expression-bindings", true);
 pref("devtools.debugger.features.xhr-breakpoints", true);
 pref("devtools.debugger.features.original-blackbox", true);
-pref("devtools.debugger.features.windowless-workers", false);
+pref("devtools.debugger.features.windowless-workers", true);
 pref("devtools.debugger.features.event-listeners-breakpoints", false);
 pref("devtools.debugger.features.log-points", true);

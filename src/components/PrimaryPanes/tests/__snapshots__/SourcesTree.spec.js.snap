@@ -6,6 +6,18 @@ exports[`SourcesTree After changing expanded nodes Shows the tree with four.js, 
   key="pane"
 >
   <div
+    className="node thread-header"
+  >
+    <AccessibleImage
+      className="file"
+    />
+    <span
+      className="label"
+    >
+      Main Thread
+    </span>
+  </div>
+  <div
     className="sources-list"
     key="tree"
     onKeyDown={[Function]}
@@ -42,6 +54,18 @@ exports[`SourcesTree Should show the tree with nothing expanded 1`] = `
   key="pane"
 >
   <div
+    className="node thread-header"
+  >
+    <AccessibleImage
+      className="file"
+    />
+    <span
+      className="label"
+    >
+      Main Thread
+    </span>
+  </div>
+  <div
     className="sources-list"
     key="tree"
     onKeyDown={[Function]}
@@ -70,6 +94,18 @@ exports[`SourcesTree When loading initial source Shows the tree with one.js, two
   className="sources-pane"
   key="pane"
 >
+  <div
+    className="node thread-header"
+  >
+    <AccessibleImage
+      className="file"
+    />
+    <span
+      className="label"
+    >
+      Main Thread
+    </span>
+  </div>
   <div
     className="sources-list"
     key="tree"
@@ -107,6 +143,18 @@ exports[`SourcesTree on receiving new props updates highlighted items updates hi
   key="pane"
 >
   <div
+    className="node thread-header"
+  >
+    <AccessibleImage
+      className="file"
+    />
+    <span
+      className="label"
+    >
+      Main Thread
+    </span>
+  </div>
+  <div
     className="sources-list"
     key="tree"
     onKeyDown={[Function]}
@@ -127,6 +175,7 @@ exports[`SourcesTree on receiving new props updates highlighted items updates hi
               "id": "server1.conn13.child1/41",
               "introductionUrl": null,
               "isBlackBoxed": false,
+              "isExtension": false,
               "isPrettyPrinted": false,
               "isWasm": false,
               "loadedState": "unloaded",
@@ -148,6 +197,7 @@ exports[`SourcesTree on receiving new props updates highlighted items updates hi
                   "id": "server1.conn13.child1/42",
                   "introductionUrl": null,
                   "isBlackBoxed": false,
+                  "isExtension": false,
                   "isPrettyPrinted": false,
                   "isWasm": false,
                   "loadedState": "unloaded",
@@ -167,6 +217,7 @@ exports[`SourcesTree on receiving new props updates highlighted items updates hi
                   "id": "server1.conn13.child1/42/originalSource-sha",
                   "introductionUrl": null,
                   "isBlackBoxed": false,
+                  "isExtension": false,
                   "isPrettyPrinted": false,
                   "isWasm": false,
                   "loadedState": "unloaded",
@@ -186,6 +237,7 @@ exports[`SourcesTree on receiving new props updates highlighted items updates hi
                   "id": "server1.conn13.child1/39",
                   "introductionUrl": null,
                   "isBlackBoxed": false,
+                  "isExtension": false,
                   "isPrettyPrinted": false,
                   "isWasm": false,
                   "loadedState": "unloaded",
@@ -205,6 +257,7 @@ exports[`SourcesTree on receiving new props updates highlighted items updates hi
                   "id": "server1.conn13.child1/41",
                   "introductionUrl": null,
                   "isBlackBoxed": false,
+                  "isExtension": false,
                   "isPrettyPrinted": false,
                   "isWasm": false,
                   "loadedState": "unloaded",
@@ -224,6 +277,7 @@ exports[`SourcesTree on receiving new props updates highlighted items updates hi
                   "id": "server1.conn13.child1/40",
                   "introductionUrl": null,
                   "isBlackBoxed": false,
+                  "isExtension": false,
                   "isPrettyPrinted": false,
                   "isWasm": false,
                   "loadedState": "unloaded",
