@@ -25,7 +25,7 @@ Simply put, its tests simulate what you expect a user to do, and then check that
 
 Typically, tests would simulate a user's action flow through the debugger _(e.g. click this button, press this key)_. After performing a set of actions, we set assertions _(e.g. debugger is paused/not paused, elements appear/disappear)_.
 
-[A typical test workflow would look like this.](http://g.recordit.co/dp6qbK0Jnf.gif).
+[A typical test workflow would look like this.](http://g.recordit.co/dp6qbK0Jnf.gif)
 
 ## Initial Setup ##
 
