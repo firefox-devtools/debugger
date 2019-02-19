@@ -295,6 +295,21 @@ class ObjectInspectorItem extends Component<Props> {
             }
           : undefined,
         onDoubleClick: onExpressionDblClick
+          ? event => {
+              event.stopPropagation();
+
+              if (depth > 0) {
+                return;
+              }
+
+              onExpressionDblClick(item, {
+                depth,
+                focused,
+                expanded,
+                setExpanded: this.props.setExpanded
+              });
+            }
+          : undefined
       },
       label
     );
