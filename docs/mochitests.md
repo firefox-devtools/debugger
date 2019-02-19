@@ -373,9 +373,7 @@ If a symbolic link occurs, error message(s) will be displayed.
 
 3. Execute `./bin/prepare-mochitests-dev`.
 
-Running this command again allows the preparation script to check the integrity of the firefox directory and all symbolic
-links. It will then automatically execute `yarn copy` on your behalf, which ensures the symbolic linking process
-is complete.
+Running this command again allows the preparation script to check the integrity of the firefox directory and all symbolic links. It will then automatically execute `yarn copy` on your behalf, which ensures the symbolic linking process is complete.
 
 4. On a new terminal tab, execute the command to run your test again. If this failed, proceed to step 5.
 
@@ -397,7 +395,6 @@ If you are having issues running mochitest due to missing the Rust compiler, try
 
 5. Execute `./bin/prepare-mochitests-dev`.
 
-You may see warnings along the way and the process may
-appear to be frozen. Please be patient, this is expected as it will take a while to recompile. Warning messages does not mean the compilation process has failed.
+You may see warnings along the way and the process may appear to be frozen. Please be patient, this is expected as it will take a while to recompile. Warning messages does not mean the compilation process has failed.
 
 6. Repeat steps 2 and 3.
