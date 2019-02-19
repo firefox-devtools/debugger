@@ -2,12 +2,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
- :root[platform="mac"] .welcomebox .shortcutKey,
- .launchpad-root[platform="mac"] .welcomebox .shortcutKey {
-   --monospace-font-family: monospace;
-   font-weight: 600;
- }
-
 .welcomebox {
   position: absolute;
   top: var(--editor-header-height);
@@ -67,6 +61,12 @@
   font-size: 14px;
   line-height: 18px;
   color: var(--theme-body-color);
+}
+
+:root[platform="mac"] .welcomebox .shortcutKey,
+.launchpad-root[platform="mac"] .welcomebox .shortcutKey {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-weight: 500;
 }
 
 .shortcutLabel {
