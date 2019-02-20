@@ -45,7 +45,7 @@ Adding a breakpoint is a critical piece in the inception game.
 
 **Hints**
 
-You can find the file that handles breakpoints here: `/debugger.html/src/components/Editor/Breakpoint.js`. 
+You can find the file that handles breakpoints here: `/debugger/src/components/Editor/Breakpoint.js`. 
 
 Once you have the file open in your editor,  go ahead and find (Ctrl-F) "addBreakpoint". This should pull up the `addBreakpoint` function, which (surprise!) adds a breakpoint. 
 
@@ -169,9 +169,9 @@ Here are a few useful ways you can **share what you've learned** from using and 
 
 Take a look at how you can start [contributing][contributing]. We would love the help!
 
-[contributing]: https://github.com/firefox-devtools/debugger.html/blob/master/.github/CONTRIBUTING.md
+[contributing]: https://github.com/firefox-devtools/debugger/blob/master/.github/CONTRIBUTING.md
 [getting-setup]: ./getting-setup.md
-[getting-started-issue]: https://github.com/firefox-devtools/debugger.html/issues/1247
+[getting-started-issue]: https://github.com/firefox-devtools/debugger/issues/1247
 [debugger-intro-gif]: http://g.recordit.co/WjHZaXKifZ.gif
 [amit-slides]: https://docs.google.com/presentation/d/1jdnvL-BwwxEuFbb9tiRxcT6UT-Ua0jGhy9FKBT4b43E/edit
 [amit-tweet]: https://twitter.com/amitzur/status/790153843946426369

@@ -94,8 +94,8 @@ User preferences are stored in Prefs. Prefs uses localStorage locally and firefo
 
 The two relevant files to look at are:
 
-- `[assets/panel/prefs.js](https://github.com/firefox-devtools/debugger.html/blob/master/assets/panel/prefs.js)`
-- `[src/utils/prefs.js](https://github.com/firefox-devtools/debugger.html/blob/master/src/utils/prefs.js)`
+- `[assets/panel/prefs.js](https://github.com/firefox-devtools/debugger/blob/master/assets/panel/prefs.js)`
+- `[src/utils/prefs.js](https://github.com/firefox-devtools/debugger/blob/master/src/utils/prefs.js)`
 
 **Setting a default value**
 
@@ -766,8 +766,8 @@ your questions on [Slack][slack].
 
 [devtools-config-readme]: https://github.com/firefox-devtools/devtools-core/blob/master/packages/devtools-config/README.md
 [create-local-config]: https://github.com/firefox-devtools/devtools-core/blob/master/packages/devtools-config/README.md#local-config
-[l10n-issues]: https://github.com/firefox-devtools/debugger.html/labels/localization
-[flow-issues]: https://github.com/firefox-devtools/debugger.html/labels/flow
+[l10n-issues]: https://github.com/firefox-devtools/debugger/labels/localization
+[flow-issues]: https://github.com/firefox-devtools/debugger/labels/flow
 [logical]: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Logical_Properties
 [scopes]: https://cloud.githubusercontent.com/assets/254562/22392764/019de6e6-e4cb-11e6-8445-2c4ec87cb4a6.png
 [call-stack]: https://cloud.githubusercontent.com/assets/254562/22392766/019eca70-e4cb-11e6-8b1a-e92b33a7cecb.png

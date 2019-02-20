@@ -171,7 +171,7 @@ These are the instructions for getting the debugger.html project to connect to a
 ios_webkit_debug_proxy
 ```
 
-* Run the [debugger.html](https://github.com/firefox-devtools/debugger.html)
+* Run the [debugger.html](https://github.com/firefox-devtools/debugger)
   * `npm start`
 * Connect using the following URL
   * [http://localhost:8000/?ws=localhost:9222/devtools/page/1](http://localhost:8000/?ws=localhost:9222/devtools/page/1)
