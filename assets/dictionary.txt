@@ -212,3 +212,6 @@ TravisCI
 30-60minutes
 myScriptFunction
 Homebrew
+Amit
+Zur
+Zur's
