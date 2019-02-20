@@ -163,7 +163,7 @@ Here are a few useful ways you can **share what you've learned** from using and 
 
 **Talks**
 
-* Here are Firefox Devtools contributor Amit Zur's (@amitzur) [slides][amit-slides] from his _Javascript Israel_ [talk][amit-tweet] about the debugger, titled _A New Way for OSS @ Mozilla_. 
+* Here are Firefox Devtools contributor Amit Zur's (@amitzur) [slides][amit-slides] from his _JavaScript Israel_ [talk][amit-tweet] about the debugger, titled _A New Way for OSS @ Mozilla_. 
 
 ## Contribute to the Debugger
 
