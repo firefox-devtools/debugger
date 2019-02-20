@@ -208,3 +208,7 @@ asyncStore
 CPG
 TodoMVC
 pseudocode
+TravisCI
+30-60minutes
+myScriptFunction
+Homebrew
