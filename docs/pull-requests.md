@@ -151,7 +151,7 @@ work on top of master. There are three steps:
 
 ![rebase-screen]
 
-[orig]: https://github.com/firefox-devtools/debugger.html
+[orig]: https://github.com/firefox-devtools/debugger
 [edx]: https://github.com/edx/edx-platform/wiki/How-to-Rebase-a-Pull-Request
 [servo]: https://github.com/servo/servo/wiki/Beginner%27s-guide-to-rebasing-and-squashing
 [rebase-docs]: https://help.github.com/articles/about-git-rebase/

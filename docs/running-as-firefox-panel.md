@@ -47,7 +47,7 @@ In the shell, navigate to the debugger.html project folder, and follow the Getti
 
 Now we can put these pieces together.
 
-in debugger project (`projects/debugger.html` or wherever you have it!):
+in debugger project (`projects/debugger` or wherever you have it!):
 
 ```
 node ./bin/copy --mc <path to firefox>

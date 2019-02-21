@@ -67,8 +67,8 @@ function missingFilesErrorMessage() {
     "running `./bin/prepare-mochitests-dev` from the root of the ",
     "debugger.html repository. You can find more information on bundling ",
     "or mochitests at ",
-    "https://github.com/firefox-devtools/debugger.html/blob/master/docs/bundling.md or ",
-    "https://github.com/firefox-devtools/debugger.html/blob/master/docs/mochitests.md"
+    "https://github.com/firefox-devtools/debugger/blob/master/docs/bundling.md or ",
+    "https://github.com/firefox-devtools/debugger/blob/master/docs/mochitests.md"
   ].join("");
 
   console.warn(chalk.yellow(errorMessage));

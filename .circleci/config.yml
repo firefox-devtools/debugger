@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/debugger.html
+    working_directory: ~/debugger
     parallelism: 1
     shell: /bin/bash --login
     environment:
@@ -22,10 +22,10 @@ jobs:
       - checkout
       - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
       - run:
-          working_directory: ~/debugger.html
+          working_directory: ~/debugger
           command: mkdir -p $DOWNLOADS_PATH
       - run:
-          working_directory: ~/debugger.html
+          working_directory: ~/debugger
           command: mkdir -p $YARN_PATH
       - run: cp configs/ci.json configs/local.json
       - restore_cache:
