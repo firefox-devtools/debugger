@@ -3,13 +3,13 @@
   "version": "0.6.0",
   "license": "MPL-2.0",
   "repository": {
-    "url": "git://github.com/firefox-devtools/debugger.html.git",
+    "url": "git://github.com/firefox-devtools/debugger.git",
     "type": "git"
   },
   "bugs": {
-    "url": "https://github.com/firefox-devtools/debugger.html/issues"
+    "url": "https://github.com/firefox-devtools/debugger/issues"
   },
-  "homepage": "https://github.com/firefox-devtools/debugger.html#readme",
+  "homepage": "https://github.com/firefox-devtools/debugger#readme",
   "engineStrict": true,
   "engines": {
     "node": ">=10.15.0"

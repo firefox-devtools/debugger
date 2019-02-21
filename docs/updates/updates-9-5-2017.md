@@ -35,8 +35,8 @@ This past week was one of the more impressive weeks in the project:
 
 Project Search is one of those features, which is hard to get just right. This week, [@bomsy] fixed an issue which was breaking keyboard navigation when search results were streaming in. The basic problem was every time the results were updated, the UI needed to re-focus on the first item, this is easier said than done! We also added a lot of polish to the UI, [@zacck] is working on making sure our focus, hover, and select states are all correct!
 
-* [Fix project search test](https://github.com/firefox-devtools/debugger.html/pull/3888) [@jasonLaster]
-* [[WIP] Stealing Atom look and feel for the Search UI](https://github.com/firefox-devtools/debugger.html/pull/3823) [@zacck]
+* [Fix project search test](https://github.com/firefox-devtools/debugger/pull/3888) [@jasonLaster]
+* [[WIP] Stealing Atom look and feel for the Search UI](https://github.com/firefox-devtools/debugger/pull/3823) [@zacck]
 * [Fix focus issues][pr-11] - [@bomsy]
 
 ![project]
@@ -59,7 +59,7 @@ Huge thanks to [@darkwing] who added the parser utilities for finding empty line
 Firefox has great support for web workers and service workers. For instance, a worker can have a child worker. Unfortunately, the Firefox debugger has lagged behind Chrome's. We hope to catch up. This past week [@nyrosmith] started working on a workers right sidebar panel which will show a list of workers that can be debugged. The old UI had this, and we know it is important to surface. We hope to make it possible to debug workers in the same toolbox in Q1 of 2018.
 
 * [Show workers][pr-7] - [@nyrosmith]
-* [List workers](https://github.com/firefox-devtools/debugger.html/pull/3856) [@nyrosmith]
+* [List workers](https://github.com/firefox-devtools/debugger/pull/3856) [@nyrosmith]
 
 #### AST breakpoints:
 
@@ -67,7 +67,7 @@ AST breakpoints is perhaps the biggest upgrade to breakpoints that since source 
 
 * [add astLocation to addBreakpoint][pr-1] - [@codehag]
 * [clear ast tree on navigate][pr-5] - [@codehag]
-* [Add astBreakpoint to syncBreakpoint](https://github.com/firefox-devtools/debugger.html/pull/3851) [@codehag]
+* [Add astBreakpoint to syncBreakpoint](https://github.com/firefox-devtools/debugger/pull/3851) [@codehag]
 * [refactor loadSourceText][pr-0] - [@codehag]
 
 ![ast]
@@ -78,8 +78,8 @@ One of the biggest issues with debugging with source maps, is that while you get
 
 We hope to solve these problems by mapping generated and original variables. And we're starting with the minified case. This week, [@yurydelendik] created the initial PRs for doing the mapping and got a proof of concept of preview and scopes working!
 
-* [Parse to extract all scopes and bindings.](https://github.com/firefox-devtools/debugger.html/pull/3852) [@yurydelendik]
-* [Show mapped names in scopes bindings](https://github.com/firefox-devtools/debugger.html/pull/3817) [@yurydelendik]
+* [Parse to extract all scopes and bindings.](https://github.com/firefox-devtools/debugger/pull/3852) [@yurydelendik]
+* [Show mapped names in scopes bindings](https://github.com/firefox-devtools/debugger/pull/3817) [@yurydelendik]
 
 ![map]
 
@@ -107,18 +107,18 @@ async function updateUser(name, email) {
 
 
 * [Caches line formatter type; resizes gutter after the change.][pr-4a] - [@yurydelendik]
-* [Searching across very long lines](https://github.com/firefox-devtools/debugger.html/pull/3885) [@codehag]
+* [Searching across very long lines](https://github.com/firefox-devtools/debugger/pull/3885) [@codehag]
 * [Remove old generated breakpoints][pr-1a] - [@jasonLaster]
 
 
 #### Code Health
 
-* [[flow] [WIP] update to v 53](https://github.com/firefox-devtools/debugger.html/pull/3710) [@arthur801031]
-* [Add a wallaby config to the project.](https://github.com/firefox-devtools/debugger.html/pull/3613) [@wldcordeiro]
+* [[flow] [WIP] update to v 53](https://github.com/firefox-devtools/debugger/pull/3710) [@arthur801031]
+* [Add a wallaby config to the project.](https://github.com/firefox-devtools/debugger/pull/3613) [@wldcordeiro]
 
 #### Documentation
 
-* [document reducer best practices](https://github.com/firefox-devtools/debugger.html/pull/3874) [@jasonLaster]
+* [document reducer best practices](https://github.com/firefox-devtools/debugger/pull/3874) [@jasonLaster]
 
 #### Infrastructure:
 
@@ -136,34 +136,34 @@ async function updateUser(name, email) {
 [project]:https://user-images.githubusercontent.com/897731/29890029-79a3b068-8dc6-11e7-897e-dae8e5eeaf13.png
 [async]:http://g.recordit.co/27QqcxkTTP.gif
 
-[pr-0a]:https://github.com/firefox-devtools/debugger.html/pull/3812
-[pr-1a]:https://github.com/firefox-devtools/debugger.html/pull/3790
-[pr-2a]:https://github.com/firefox-devtools/debugger.html/pull/3810
-[pr-3a]:https://github.com/firefox-devtools/debugger.html/pull/3818
-[pr-4a]:https://github.com/firefox-devtools/debugger.html/pull/3764
-[pr-5a]:https://github.com/firefox-devtools/debugger.html/pull/3811
-[pr-6a]:https://github.com/firefox-devtools/debugger.html/pull/3825
-[pr-7a]:https://github.com/firefox-devtools/debugger.html/pull/3808
-[pr-8a]:https://github.com/firefox-devtools/debugger.html/pull/3839
-[pr-9a]:https://github.com/firefox-devtools/debugger.html/pull/3836
-[pr-10a]:https://github.com/firefox-devtools/debugger.html/pull/3843
-[pr-11a]:https://github.com/firefox-devtools/debugger.html/pull/3821
-[pr-0]:https://github.com/firefox-devtools/debugger.html/pull/3853
-[pr-1]:https://github.com/firefox-devtools/debugger.html/pull/3848
-[pr-2]:https://github.com/firefox-devtools/debugger.html/pull/3845
-[pr-3]:https://github.com/firefox-devtools/debugger.html/pull/3809
-[pr-4]:https://github.com/firefox-devtools/debugger.html/pull/3835
-[pr-5]:https://github.com/firefox-devtools/debugger.html/pull/3849
-[pr-6]:https://github.com/firefox-devtools/debugger.html/pull/3850
-[pr-7]:https://github.com/firefox-devtools/debugger.html/pull/3806
-[pr-8]:https://github.com/firefox-devtools/debugger.html/pull/3722
-[pr-9]:https://github.com/firefox-devtools/debugger.html/pull/3840
-[pr-10]:https://github.com/firefox-devtools/debugger.html/pull/3859
-[pr-11]:https://github.com/firefox-devtools/debugger.html/pull/3841
-[pr-12]:https://github.com/firefox-devtools/debugger.html/pull/3867
-[pr-13]:https://github.com/firefox-devtools/debugger.html/pull/3861
-[pr-14]:https://github.com/firefox-devtools/debugger.html/pull/3870
-[pr-15]:https://github.com/firefox-devtools/debugger.html/pull/3857
+[pr-0a]:https://github.com/firefox-devtools/debugger/pull/3812
+[pr-1a]:https://github.com/firefox-devtools/debugger/pull/3790
+[pr-2a]:https://github.com/firefox-devtools/debugger/pull/3810
+[pr-3a]:https://github.com/firefox-devtools/debugger/pull/3818
+[pr-4a]:https://github.com/firefox-devtools/debugger/pull/3764
+[pr-5a]:https://github.com/firefox-devtools/debugger/pull/3811
+[pr-6a]:https://github.com/firefox-devtools/debugger/pull/3825
+[pr-7a]:https://github.com/firefox-devtools/debugger/pull/3808
+[pr-8a]:https://github.com/firefox-devtools/debugger/pull/3839
+[pr-9a]:https://github.com/firefox-devtools/debugger/pull/3836
+[pr-10a]:https://github.com/firefox-devtools/debugger/pull/3843
+[pr-11a]:https://github.com/firefox-devtools/debugger/pull/3821
+[pr-0]:https://github.com/firefox-devtools/debugger/pull/3853
+[pr-1]:https://github.com/firefox-devtools/debugger/pull/3848
+[pr-2]:https://github.com/firefox-devtools/debugger/pull/3845
+[pr-3]:https://github.com/firefox-devtools/debugger/pull/3809
+[pr-4]:https://github.com/firefox-devtools/debugger/pull/3835
+[pr-5]:https://github.com/firefox-devtools/debugger/pull/3849
+[pr-6]:https://github.com/firefox-devtools/debugger/pull/3850
+[pr-7]:https://github.com/firefox-devtools/debugger/pull/3806
+[pr-8]:https://github.com/firefox-devtools/debugger/pull/3722
+[pr-9]:https://github.com/firefox-devtools/debugger/pull/3840
+[pr-10]:https://github.com/firefox-devtools/debugger/pull/3859
+[pr-11]:https://github.com/firefox-devtools/debugger/pull/3841
+[pr-12]:https://github.com/firefox-devtools/debugger/pull/3867
+[pr-13]:https://github.com/firefox-devtools/debugger/pull/3861
+[pr-14]:https://github.com/firefox-devtools/debugger/pull/3870
+[pr-15]:https://github.com/firefox-devtools/debugger/pull/3857
 [@codehag]:http://github.com/codehag
 [@darkwing]:http://github.com/darkwing
 [@rohanprasad]:http://github.com/rohanprasad

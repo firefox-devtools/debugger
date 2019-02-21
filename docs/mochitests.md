@@ -2,7 +2,7 @@
 
 Mochitests is a test runner for integration (end-to-end) testing that allows us to test the debugger literally as a user would use it natively.
 
-It is different from other test runners (Jest, Mocha, Jasmine) because it simulates a real user interacting with your application. For debugger.html, we do this by building your own version of Firefox with your changes to debugger.html. This Firefox build and its debugger is what's tested by Mochitests, in the same way that a user interacting with the debugger would natively.
+It is different from other test runners (Jest, Mocha, Jasmine) because it simulates a real user interacting with your application. For debugger, we do this by building your own version of Firefox with your changes to debugger.html. This Firefox build and its debugger is what's tested by Mochitests, in the same way that a user interacting with the debugger would natively.
 
 If you've submitted a pull request to this project, you've already worked with Mochitests! TravisCI, which is one of the checks your PR has to pass, runs Mochitests every time you push a new commit to your PR.
 
@@ -364,14 +364,14 @@ Visit the [mochitest](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/
 
 ### Troubleshooting Test Harness
 
-If symbolic link is suddenly lost between debugger.html and Firefox source, in your terminal, try the following
+If symbolic link is suddenly lost between debugger and Firefox source, in your terminal, try the following
 
-1. Navigate to the firefox directory (i.e. `cd ~/debugger.html/firefox`)
+1. Navigate to the firefox directory (i.e. `cd ~/debugger/firefox`)
 2. Execute `./mach mochitest --headless devtools/client/debugger/new`
 
 If a symbolic link occurs, error message(s) will be displayed.
 
-![Test harness with symbolic link errors](http://i40.photobucket.com/albums/e250/md2k6/Public/Opensource/debugger-html-6297/mochitest-error_zpsgicbau0z.jpg)
+![Test harness with symbolic link errors](http://i40.photobucket.com/albums/e250/md2k6/Public/Opensource/debugger-6297/mochitest-error_zpsgicbau0z.jpg)
 
 3. Execute `./bin/prepare-mochitests-dev`.
 
@@ -387,7 +387,7 @@ This will attempt to fix the harness' configurations.
 
 If you are having issues running mochitest due to missing the Rust compiler, try the following:
 
-1. In the root directory of the project (i.e. `debugger.html/`), execute `./mach configure`.
+1. In the root directory of the project (i.e. `debugger/`), execute `./mach configure`.
 
 2. Execute `yarn watch`
 

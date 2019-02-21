@@ -59,9 +59,9 @@ Here is a great GitHub guide on [contributing to Open Source](https://guides.git
 
 ### Reporting Bugs :bug:
 
-If you find an issue with the code, please do [file an issue](https://github.com/firefox-devtools/debugger.html/issues/new).  We'll do our best to review the issue in a timely manner and respond.
+If you find an issue with the code, please do [file an issue](https://github.com/firefox-devtools/debugger/issues/new).  We'll do our best to review the issue in a timely manner and respond.
 
-We will also tag it with the label [bug](https://github.com/firefox-devtools/debugger.html/labels/bug).
+We will also tag it with the label [bug](https://github.com/firefox-devtools/debugger/labels/bug).
 
 ### Suggesting Enhancements :new:
 
@@ -71,9 +71,9 @@ We will also tag it with the label [enhancement][labels-enhancement].
 
 ### Writing Documentation :book:
 
-Documentation is as important as code and we need your help to maintain clear and usable documentation.  If you find an error in here or other project documentation, please [file an issue](https://github.com/firefox-devtools/debugger.html/issues/new).
+Documentation is as important as code and we need your help to maintain clear and usable documentation.  If you find an error in here or other project documentation, please [file an issue](https://github.com/firefox-devtools/debugger/issues/new).
 
-We will tag it with the label [docs](https://github.com/firefox-devtools/debugger.html/labels/docs).
+We will tag it with the label [docs](https://github.com/firefox-devtools/debugger/labels/docs).
 
 ### Give a Talk :speech_balloon:
 
@@ -137,7 +137,7 @@ These issues should be well documented.
 
 To begin your work make sure you follow these steps:
 
-* [Fork this project](https://github.com/firefox-devtools/debugger.html#fork-destination-box)
+* [Fork this project](https://github.com/firefox-devtools/debugger#fork-destination-box)
 * Create a branch to start your work `git checkout -b your-feature-name`
 * Commit your work
 * Create a [pull request](#pull-requests)
@@ -263,11 +263,11 @@ Mozilla has and continues to hire many people from within the Open Source Softwa
 **Referrals**. If you’ve been making reasonable and regular contributions to the project we’d be happy to be a reference for you.  We can make internal referrals to Mozilla or act as your reference to other companies.  Please be considerate when making this request, we are happy to help you and want to see you find a job you want but can’t do this for everyone who contributes.
 
 [getting-setup]:../docs/getting-setup.md
-[labels-available]:https://github.com/firefox-devtools/debugger.html/labels/available
-[labels-help-wanted-available]:https://github.com/firefox-devtools/debugger.html/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22+-label%3A%22in+progress%22
-[labels-difficulty-medium]:https://github.com/firefox-devtools/debugger.html/labels/difficulty%3A%medium
-[labels-difficulty-hard]:https://github.com/firefox-devtools/debugger.html/labels/difficulty%3A%hard
-[labels-enhancement]:https://github.com/firefox-devtools/debugger.html/labels/enhancement
+[labels-available]:https://github.com/firefox-devtools/debugger/labels/available
+[labels-help-wanted-available]:https://github.com/firefox-devtools/debugger/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22+-label%3A%22in+progress%22
+[labels-difficulty-medium]:https://github.com/firefox-devtools/debugger/labels/difficulty%3A%medium
+[labels-difficulty-hard]:https://github.com/firefox-devtools/debugger/labels/difficulty%3A%hard
+[labels-enhancement]:https://github.com/firefox-devtools/debugger/labels/enhancement
 
 [@jasonlaster]:https://github.com/jasonlaster
 [@bomsy]:https://github.com/bomsy
