@@ -153,7 +153,7 @@ export default class FrameComponent extends Component<FrameComponentProps> {
         role="listitem"
         key={frame.id}
         className={className}
-        onMouseDown={e => this.onMouseDown(e, frame, selectedFrame)}
+        onClick={e => this.onMouseDown(e, frame, selectedFrame)}
         onKeyUp={e => this.onKeyUp(e, frame, selectedFrame)}
         onContextMenu={disableContextMenu ? null : e => this.onContextMenu(e)}
         tabIndex={0}
