@@ -120,8 +120,15 @@ class Result extends Component {
             "Copy as JSON"
           )
       ),
-      showPacket &&
-        dom.div({ className: "packet-rep" }, Rep({ object: packet }))
+      ...(showPacket
+        ? Object.keys(packet).map(k =>
+            dom.div(
+              { className: "packet-rep" },
+              `${k}: `,
+              Rep({ object: packet[k], noGrip: true, mode: MODE.LONG })
+            )
+          )
+        : [])
     );
   }
 
