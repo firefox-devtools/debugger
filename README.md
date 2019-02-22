@@ -1,10 +1,10 @@
-# [debugger.html][website]
+# [debugger][website]
 
 [website]: http://firefox-dev.tools/debugger/
 
 [![slack-badge]][slack] [![ci-badge]][ci-status] [![PRs Welcome]][make-a-pull-request]
 
-debugger.html is a hackable debugger for modern times, built from the ground up using [React] and [Redux]. It is designed to be approachable, yet powerful. And it is engineered to be predictable, understandable, and testable.
+A hackable debugger for modern times, built from the ground up using [React] and [Redux]. It is designed to be approachable, yet powerful. And it is engineered to be predictable, understandable, and testable.
 
 [Mozilla] created this debugger for use in the [Firefox] Developer Tools. And we've purposely created this project in GitHub, using modern toolchains. We hope to not only create a great debugger that works with the [Firefox][firefox-rdp] and [Chrome][chrome-rdp] debugging protocols, but also develop a broader community that wants to create great tools for the web.
 
@@ -29,7 +29,7 @@ First, get a recent version of Node.js to run the debugger.
 curl -o- -L https://yarnpkg.com/install.sh | bash -s
 git clone https://github.com/firefox-devtools/debugger.git
 
-cd debugger.html
+cd debugger
 yarn
 yarn start
 # Go to http://localhost:8000
@@ -57,7 +57,7 @@ a look at [how we handle security bugs][vulnerabilities], and open a bug at [Bug
 
 ### Development Guide
 
-We strive to make the Debugger as development-friendly as possible. If you have a question that's not answered in the guide, ask us in [Slack][slack]. We also :heart: documentation PRs!
+We strive to make the debugger as development-friendly as possible. If you have a question that's not answered in the guide, ask us in [Slack][slack]. We also :heart: documentation PRs!
 
 |                        |                                             |
 | :--------------------: | :-----------------------------------------: |
