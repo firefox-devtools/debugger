@@ -159,18 +159,8 @@ html[dir="rtl"] .editor-mount {
 }
 
 .editor.new-breakpoint.breakpoint-disabled svg {
-  fill-opacity: 0.5;
-}
-
-.editor.column-breakpoint svg {
-  fill: var(--theme-selection-background);
-  vertical-align: middle;
-  width: 17px;
-  height: 15px;
-}
-
-.editor.column-breakpoint.breakpoint-disabled svg {
-  opacity: 0.3;
+  fill-opacity: 0.7;
+  stroke-opacity: 0.7;
 }
 
 .CodeMirror {
