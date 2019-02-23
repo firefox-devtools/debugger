@@ -26,7 +26,7 @@ add_task(async function() {
   // Select the source that had the initial debug line
   await selectSource(dbg, "debug-line-2.js");
 
-  // Ensure there's no longer a debug line
+  info("Ensuring there's no zombie debug line");
   is(
     findAllElements(dbg, "debugLine").length,
     0,
