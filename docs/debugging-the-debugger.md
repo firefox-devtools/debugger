@@ -24,7 +24,8 @@ Let's design a new theme for the debugger—don't worry, it's not so hard!
 
 - Don't forget to read about the [themes](local-development.md#themes).
 - Remember that each component has its own CSS.
-- Keep in mind that there is a CSS file for variables.
+- Keep in mind that there is a CSS file for variables: 
+  ~/debugger/node_modules/devtools-mc-assets/assets/devtools/client/themes/variables.css  
 - Take a look at the "reps"— a set of rules for the debugger!
 
 **Next Steps**
