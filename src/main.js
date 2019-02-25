@@ -4,7 +4,6 @@
 
 // @flow
 
-import React from "react";
 import ReactDOM from "react-dom";
 
 import { onConnect } from "./client";
@@ -23,19 +22,19 @@ module.exports = {
     debuggerClient,
     sourceMaps,
     panel
-  }: any) => 
-  onConnect(
-    {
-      tab: { clientType: "firefox" },
-      tabConnection: {
-        tabTarget,
-        threadClient,
-        debuggerClient
-      }
-    },
-    sourceMaps,
-    panel
-  ),
+  }: any) =>
+    onConnect(
+      {
+        tab: { clientType: "firefox" },
+        tabConnection: {
+          tabTarget,
+          threadClient,
+          debuggerClient
+        }
+      },
+      sourceMaps,
+      panel
+    ),
   destroy: () => {
     unmountRoot();
     sourceQueue.clear();
