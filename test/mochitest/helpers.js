@@ -208,9 +208,9 @@ function waitForSource(dbg, url) {
   );
 }
 
-async function waitForElement(dbg, name) {
-  await waitUntil(() => findElement(dbg, name));
-  return findElement(dbg, name);
+async function waitForElement(dbg, name, ...args) {
+  await waitUntil(() => findElement(dbg, name, ...args));
+  return findElement(dbg, name, ...args);
 }
 
 async function waitForElementWithSelector(dbg, selector) {
@@ -505,9 +505,7 @@ function clearDebuggerPreferences() {
   Services.prefs.clearUserPref("devtools.debugger.pause-on-exceptions");
   Services.prefs.clearUserPref("devtools.debugger.pause-on-caught-exceptions");
   Services.prefs.clearUserPref("devtools.debugger.ignore-caught-exceptions");
-  Services.prefs.clearUserPref("devtools.debugger.tabs");
   Services.prefs.clearUserPref("devtools.debugger.pending-selected-location");
-  Services.prefs.clearUserPref("devtools.debugger.pending-breakpoints");
   Services.prefs.clearUserPref("devtools.debugger.expressions");
   Services.prefs.clearUserPref("devtools.debugger.call-stack-visible");
   Services.prefs.clearUserPref("devtools.debugger.scopes-visible");
@@ -1139,6 +1137,11 @@ const selectors = {
   editorFooter: ".editor-pane .source-footer",
   sourceNode: i => `.sources-list .tree-node:nth-child(${i}) .node`,
   sourceNodes: ".sources-list .tree-node",
+  threadSourceTree: i => `.threads-list .sources-pane:nth-child(${i})`,
+  threadSourceTreeHeader: i =>
+    `${selectors.threadSourceTree(i)} .thread-header`,
+  threadSourceTreeSourceNode: (i, j) =>
+    `${selectors.threadSourceTree(i)} .tree-node:nth-child(${j}) .node`,
   sourceDirectoryLabel: i => `.sources-list .tree-node:nth-child(${i}) .label`,
   resultItems: ".result-list .result-item",
   fileMatch: ".project-text-search .line-value",
@@ -1153,6 +1156,8 @@ const selectors = {
   blackbox: ".action.black-box",
   projectSearchCollapsed: ".project-text-search .arrow:not(.expanded)",
   projectSerchExpandedResults: ".project-text-search .result",
+  threadsPaneItems: `.workers-pane .worker`,
+  threadsPaneItem: i => `.workers-pane .worker:nth-child(${i})`,
   CodeMirrorLines: ".CodeMirror-lines"
 };
 
@@ -1185,6 +1190,12 @@ function findAllElements(dbg, elementName, ...args) {
 
 function findAllElementsWithSelector(dbg, selector) {
   return dbg.win.document.querySelectorAll(selector);
+}
+
+function getSourceNodeLabel(dbg, index) {
+  return findElement(dbg, "sourceNode", index)
+    .textContent.trim()
+    .replace(/^[\s\u200b]*/g, "");
 }
 
 /**
@@ -1320,7 +1331,7 @@ async function hoverAtPos(dbg, { line, ch }) {
   const { left, top } = coords;
 
   // Adds a vertical offset due to increased line height
-  // https://github.com/firefox-devtools/debugger/pull/7934
+  // https://github.com/firefox-devtools/debugger.html/pull/7934
   const lineHeightOffset = 3;
 
   const tokenEl = dbg.win.document.elementFromPoint(
