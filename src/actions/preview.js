@@ -104,10 +104,6 @@ export function setPreview(
           thread: selectedFrame.thread
         });
 
-        if (!result) {
-          return;
-        }
-
         return {
           expression,
           result,
