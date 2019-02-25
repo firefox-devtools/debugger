@@ -7,16 +7,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import { isFirefoxPanel } from "devtools-environment";
-
 import { onConnect } from "./client";
-import { teardownWorkers } from "./utils/bootstrap";
-import sourceQueue from "./utils/source-queue";
-
-function unmountRoot() {
-  const mount = document.querySelector("#mount .launchpad-root");
-  ReactDOM.unmountComponentAtNode(mount);
-}
 
 const { bootstrap, L10N } = require("devtools-launchpad");
 
