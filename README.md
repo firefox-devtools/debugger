@@ -111,7 +111,7 @@ Say hello in [Slack][slack] or in the [#devtools-html][irc-devtools-html] channe
 [help]: ./docs/local-development.md#getting-help
 [participation guidelines]: https://www.mozilla.org/en-US/about/governance/policies/participation/
 [irc-devtools-html]: irc://irc.mozilla.org/devtools-html
-[community-call]: https://appear.in/debugger.html
+[community-call]: https://appear.in/firefox-debugger
 [devtools-call]: https://wiki.mozilla.org/DevTools
 [bugzilla]: https://bugzilla.mozilla.org/query.cgi
 [vulnerabilities]: https://www.mozilla.org/en-US/about/governance/policies/security-group/bugs/
