@@ -165,40 +165,5 @@
     "webpack": "^3.5.5",
     "webpack-visualizer-plugin": "^0.1.11",
     "workerjs": "github:jasonLaster/workerjs#a2425aaeebacae7a7640e496a54c2a41962f3890"
-  },
-  "lint-staged": {
-    "bin/*.js": [
-      "prettier",
-      "git add"
-    ],
-    "src/*.js": [
-      "prettier",
-      "git add"
-    ],
-    "src/*/*.js": [
-      "prettier",
-      "git add"
-    ],
-    "src/*/!(mochitest)**/*.js": [
-      "prettier",
-      "git add"
-    ],
-    "src/*/!(mochitest)*/**/*.js": [
-      "prettier",
-      "git add"
-    ],
-    "packages/**/src/*.js": [
-      "prettier",
-      "git add"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "post-checkout": "node bin/post-checkout.js",
-      "post-merge": "node bin/post-merge.js",
-      "post-rewrite": "node bin/post-rewrite.js",
-      "pre-commit": "yarn lint-staged",
-      "pre-push": "yarn lint"
-    }
   }
 }
