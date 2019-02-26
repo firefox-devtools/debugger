@@ -6,14 +6,14 @@
 // https://github.com/firefox-devtools/debugger/issues/7755
 add_task(async function() {
   // Load test files
-  const dbg = await initDebugger("doc-debug-line.html");
-  await waitForSources(dbg, "debug-line-1.js", "debug-line-2.js");
+  const dbg = await initDebugger("doc-sources.html");
+  await waitForSources(dbg, "simple1.js", "simple2.js");
 
   // Add breakpoint to debug-line-2
-  await addBreakpoint(dbg, "debug-line-2.js", 5);
+  await addBreakpoint(dbg, "simple2.js", 5);
 
   // Trigger the breakpoint ane ensure we're paused
-  invokeInTab("doThing");
+  invokeInTab("main");
   await waitForPaused(dbg);
 
   // Scroll element into view
@@ -21,13 +21,13 @@ add_task(async function() {
 
   // Click the call stack to get to debugger-line-1
   await clickElement(dbg, "frame", 2);
-  await waitForSelectedSource(dbg, "debug-line-1.js");
+  await waitForSelectedSource(dbg, "simple1.js");
 
   // Resume, which ends all pausing and would trigger the problem
   resume(dbg);
 
   // Select the source that had the initial debug line
-  await selectSource(dbg, "debug-line-2.js");
+  await selectSource(dbg, "simple2.js");
 
   info("Ensuring there's no zombie debug line");
   is(
