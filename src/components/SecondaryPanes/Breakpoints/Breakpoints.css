@@ -134,7 +134,8 @@ html .breakpoints-list .breakpoint.paused {
   text-align: end;
 }
 
-.breakpoints-list .breakpoint:hover .breakpoint-line {
+.breakpoints-list .breakpoint:hover .breakpoint-line,
+.breakpoints-list .breakpoint:focus-within .breakpoint-line {
   color: transparent;
 }
 
@@ -186,7 +187,8 @@ html .breakpoints-list .breakpoint.paused {
   display: none;
 }
 
-.breakpoint:hover .close-btn {
+.breakpoint:hover .close-btn,
+.breakpoint:focus-within .close-btn {
   display: flex;
 }
 
@@ -194,7 +196,8 @@ html .breakpoints-list .breakpoint.paused {
   visibility: hidden;
 }
 
-.breakpoint:hover .close {
+.breakpoint:hover .close,
+.breakpoint:focus-within .close {
   visibility: visible;
 }
 
