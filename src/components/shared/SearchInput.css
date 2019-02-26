@@ -120,14 +120,14 @@
   margin-inline-end: 8px;
 }
 
-.search-field .search-nav-buttons .active{
+.search-field .search-nav-buttons .active {
   background: #00000030;
 }
 
-.search-field .search-nav-buttons .active:hover{
+.search-field .search-nav-buttons .active:hover {
   background: #00000045;
 }
 
-.search-field .search-nav-buttons .margin-right{
+.search-field .search-nav-buttons .margin-right {
   margin-right: 2px;
 }
