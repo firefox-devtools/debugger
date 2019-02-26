@@ -21,7 +21,6 @@ const navBtn = (onClick, type, className, tooltip) => {
     type
   };
 
-
   return (
     <button {...props}>
       <AccessibleImage className={type} />
@@ -32,9 +31,11 @@ const navBtn = (onClick, type, className, tooltip) => {
 type Props = {
   count: number,
   expanded: boolean,
-  handleGetModifiers?: (e: SyntheticMouseEvent<HTMLDivElement>) =>void,
+  handleGetModifiers?: (e: SyntheticMouseEvent<HTMLDivElement>) => void,
   handleModifierRegexMatch?: (e: SyntheticMouseEvent<HTMLDivElement>) => void,
-  handleModifierCaseSensitive?: (e: SyntheticMouseEvent<HTMLDivElement>) => void,
+  handleModifierCaseSensitive?: (
+    e: SyntheticMouseEvent<HTMLDivElement>
+  ) => void,
   handleModifierWholeWord?: (e: SyntheticMouseEvent<HTMLDivElement>) => void,
   handleClose?: (e: SyntheticMouseEvent<HTMLDivElement>) => void,
   handleNext?: (e: SyntheticMouseEvent<HTMLButtonElement>) => void,
@@ -85,9 +86,6 @@ class SearchInput extends Component<Props, State> {
       wholeWord: false
     };
 
-    // this.handleModifierCaseSensitive = this.handleModifierCaseSensitive.bind(this);
-    // this.handleModifierRegexMatch = this.handleModifierRegexMatch.bind(this);
-    // this.handleModifierWholeWord = this.handleModifierWholeWord.bind(this);
   }
 
   componentDidMount() {
@@ -137,39 +135,44 @@ class SearchInput extends Component<Props, State> {
   //   this.props.handleModifierWholeWord();
   // }
 
-  renderModifierButtons()
-  {
-    const { handleModifierRegexMatch, handleModifierCaseSensitive, handleModifierWholeWord } = this.props;
-    const { regexMatch, caseSensitive, wholeWord } = this.props.handleGetModifiers();
+  renderModifierButtons() {
+    const {
+      handleModifierRegexMatch,
+      handleModifierCaseSensitive,
+      handleModifierWholeWord
+    } = this.props;
+    const {
+      regexMatch,
+      caseSensitive,
+      wholeWord
+    } = this.props.handleGetModifiers();
     const regexMatchActiveClass = regexMatch ? "active" : "";
     const caseSensitiveActiveClass = caseSensitive ? "active" : "";
     const wholeWordActiveClass = wholeWord ? "active" : "";
 
     return [
-    
-    navBtn(
+      navBtn(
         handleModifierRegexMatch,
         "regex-match",
-        classnames("nav-btn",  "margin-right", regexMatchActiveClass),
+        classnames("nav-btn", "margin-right", regexMatchActiveClass),
         "Regex"
       ),
-    
-    navBtn(
+
+      navBtn(
         handleModifierCaseSensitive,
         "case-match",
         classnames("nav-btn", "margin-right", caseSensitiveActiveClass),
         "Case Sensitive"
       ),
-    
-    navBtn(
+
+      navBtn(
         handleModifierWholeWord,
         "whole-word-match",
-        classnames("nav-btn",  "margin-right", wholeWordActiveClass),
+        classnames("nav-btn", "margin-right", wholeWordActiveClass),
         "Match Whole Word"
-      ),
-    ]
+      )
+    ];
   }
-
 
   renderArrowButtons() {
     const { handleNext, handlePrev } = this.props;
@@ -274,24 +277,21 @@ class SearchInput extends Component<Props, State> {
     const { count, handleNext, handlePrev } = this.props;
     if ((!handleNext && !handlePrev) || (!count || count == 1)) {
       return (
-      <div className="search-nav-buttons">  
-        <span style={{ padding : '5px'}}>  
-          Modifiers:
-        </span>
-        { this.renderModifierButtons() } </div>
-        );
+        <div className="search-nav-buttons">
+          <span style={{ padding: "5px" }}>Modifiers:</span>
+          {this.renderModifierButtons()}{" "}
+        </div>
+      );
     }
 
     return (
-      <div className="search-nav-buttons">{this.renderArrowButtons()}  
-      <span style={{ padding : '5px'}}>  
-          Modifiers:
-        </span>
-        { this.renderModifierButtons() } </div>
+      <div className="search-nav-buttons">
+        {this.renderArrowButtons()}
+        <span style={{ padding: "5px" }}>Modifiers:</span>
+        {this.renderModifierButtons()}{" "}
+      </div>
     );
   }
-
-
 
   render() {
     const {

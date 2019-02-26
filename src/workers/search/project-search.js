@@ -10,7 +10,11 @@ import getMatches from "./get-matches";
 
 import type { Source, SearchModifiers } from "../../types";
 
-export function findSourceMatches(source: Source, queryText: string, modifiers: SearchModifiers): Object[] {
+export function findSourceMatches(
+  source: Source,
+  queryText: string,
+  modifiers: SearchModifiers
+): Object[] {
   const { id, loadedState, text } = source;
   if (loadedState != "loaded" || typeof text != "string" || queryText == "") {
     return [];

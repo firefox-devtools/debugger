@@ -1,5 +1,3 @@
-
-
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
@@ -32,7 +30,6 @@ import type { List } from "immutable";
 import type { ActiveSearchType } from "../reducers/types";
 import type { StatusType } from "../reducers/project-text-search";
 import type { SearchModifiers } from "../types";
-
 
 import "./ProjectSearch.css";
 
@@ -90,14 +87,12 @@ export class ProjectSearch extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-
       inputValue: this.props.query || "",
       inputFocused: false,
       focusedItem: null,
       regexMatch: false,
       caseSensitive: false,
       wholeWord: false
-
     };
 
     this.getModifiers = this.getModifiers.bind(this);
@@ -131,12 +126,11 @@ export class ProjectSearch extends Component<Props, State> {
 
   getModifiers() {
     return {
-        caseSensitive: this.state.caseSensitive,
-        regexMatch: this.state.regexMatch,
-        wholeWord: this.state.wholeWord
-      };
+      caseSensitive: this.state.caseSensitive,
+      regexMatch: this.state.regexMatch,
+      wholeWord: this.state.wholeWord
+    };
   }
-
 
   doSearch(searchTerm: string, modifiers: SearchModifiers) {
     this.props.searchSources(searchTerm, modifiers);
@@ -187,12 +181,11 @@ export class ProjectSearch extends Component<Props, State> {
     this.setState({ focusedItem: null });
     const query = sanitizeQuery(this.state.inputValue);
     if (query) {
-
       const modifiers = {
         caseSensitive: this.state.caseSensitive,
         regexMatch: this.state.regexMatch,
         wholeWord: this.state.wholeWord
-      }
+      };
       this.doSearch(query, modifiers);
     }
   };
@@ -311,7 +304,6 @@ export class ProjectSearch extends Component<Props, State> {
   shouldShowErrorEmoji() {
     return !this.getResultCount() && this.props.status === statusType.done;
   }
-  
 
   renderInput() {
     const { status } = this.props;
@@ -333,11 +325,16 @@ export class ProjectSearch extends Component<Props, State> {
           // TODO - This function doesn't quite match the signature.
           (this.props.closeProjectSearch: any)
         }
-        handleGetModifiers = {this.getModifiers}
-        handleModifierRegexMatch = {() => this.setState({ regexMatch: !this.state.regexMatch })}
-        handleModifierCaseSensitive = {() => this.setState({ caseSensitive: !this.state.caseSensitive })} 
-        handleModifierWholeWord = {() => this.setState({ wholeWord: !this.state.wholeWord })}
-        
+        handleGetModifiers={this.getModifiers}
+        handleModifierRegexMatch={() =>
+          this.setState({ regexMatch: !this.state.regexMatch })
+        }
+        handleModifierCaseSensitive={() =>
+          this.setState({ caseSensitive: !this.state.caseSensitive })
+        }
+        handleModifierWholeWord={() =>
+          this.setState({ wholeWord: !this.state.wholeWord })
+        }
         ref="searchInput"
       />
     );

@@ -21,7 +21,7 @@ import {
 
 import type { Action, ThunkArgs } from "./types";
 import type { SearchOperation } from "../reducers/project-text-search";
-import type { SearchModifiers } from '../../types'
+import type { SearchModifiers } from "../../types";
 
 export function addSearchQuery(query: string): Action {
   return { type: "ADD_QUERY", query };
@@ -102,7 +102,11 @@ export function searchSources(query: string, modifiers: SearchModifiers) {
   return search;
 }
 
-export function searchSource(sourceId: string, query: string, modifiers: SearchModifiers) {
+export function searchSource(
+  sourceId: string,
+  query: string,
+  modifiers: SearchModifiers
+) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     const source = getSource(getState(), sourceId);
     if (!source) {
