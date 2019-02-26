@@ -21,6 +21,7 @@ import {
 
 import type { Action, ThunkArgs } from "./types";
 import type { SearchOperation } from "../reducers/project-text-search";
+import type { SearchModifiers } from "../../types";
 
 export function addSearchQuery(query: string): Action {
   return { type: "ADD_QUERY", query };
@@ -72,7 +73,7 @@ export function stopOngoingSearch() {
   };
 }
 
-export function searchSources(query: string) {
+export function searchSources(query: string, modifiers: SearchModifiers) {
   let cancelled = false;
 
   const search = async ({ dispatch, getState }: ThunkArgs) => {
@@ -89,7 +90,7 @@ export function searchSources(query: string) {
         return;
       }
       await dispatch(loadSourceText(source));
-      await dispatch(searchSource(source.id, query));
+      await dispatch(searchSource(source.id, query, modifiers));
     }
     dispatch(updateSearchStatus(statusType.done));
   };
@@ -101,14 +102,18 @@ export function searchSources(query: string) {
   return search;
 }
 
-export function searchSource(sourceId: string, query: string) {
+export function searchSource(
+  sourceId: string,
+  query: string,
+  modifiers: SearchModifiers
+) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     const source = getSource(getState(), sourceId);
     if (!source) {
       return;
     }
 
-    const matches = await findSourceMatches(source, query);
+    const matches = await findSourceMatches(source, query, modifiers);
     if (!matches.length) {
       return;
     }

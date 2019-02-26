@@ -119,3 +119,17 @@
 .search-field.big .close-btn {
   margin-inline-end: 8px;
 }
+
+.search-field .search-nav-buttons .active {
+  background: var(--grey-30);
+}
+
+.search-field .search-nav-buttons .active:hover {
+  background: var(--grey-40);
+}
+.search-nav-buttons span {
+  padding: 5px;
+}
+.search-field .search-nav-buttons .margin-right {
+  margin-right: 2px;
+}

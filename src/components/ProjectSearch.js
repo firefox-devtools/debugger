@@ -29,6 +29,7 @@ import AccessibleImage from "./shared/AccessibleImage";
 import type { List } from "immutable";
 import type { ActiveSearchType } from "../reducers/types";
 import type { StatusType } from "../reducers/project-text-search";
+import type { SearchModifiers } from "../types";
 
 import "./ProjectSearch.css";
 
@@ -88,8 +89,13 @@ export class ProjectSearch extends Component<Props, State> {
     this.state = {
       inputValue: this.props.query || "",
       inputFocused: false,
-      focusedItem: null
+      focusedItem: null,
+      regexMatch: false,
+      caseSensitive: false,
+      wholeWord: false
     };
+
+    this.getModifiers = this.getModifiers.bind(this);
   }
 
   componentDidMount() {
@@ -118,8 +124,16 @@ export class ProjectSearch extends Component<Props, State> {
     }
   }
 
-  doSearch(searchTerm: string) {
-    this.props.searchSources(searchTerm);
+  getModifiers = () => {
+    return {
+      caseSensitive: this.state.caseSensitive,
+      regexMatch: this.state.regexMatch,
+      wholeWord: this.state.wholeWord
+    };
+  };
+
+  doSearch(searchTerm: string, modifiers: SearchModifiers) {
+    this.props.searchSources(searchTerm, modifiers);
   }
 
   toggleProjectTextSearch = (key: string, e: KeyboardEvent) => {
@@ -167,7 +181,8 @@ export class ProjectSearch extends Component<Props, State> {
     this.setState({ focusedItem: null });
     const query = sanitizeQuery(this.state.inputValue);
     if (query) {
-      this.doSearch(query);
+      const modifiers = this.getModifiers();
+      this.doSearch(query, modifiers);
     }
   };
 
@@ -305,6 +320,16 @@ export class ProjectSearch extends Component<Props, State> {
         handleClose={
           // TODO - This function doesn't quite match the signature.
           (this.props.closeProjectSearch: any)
+        }
+        handleGetModifiers={this.getModifiers}
+        handleModifierRegexMatch={() =>
+          this.setState({ regexMatch: !this.state.regexMatch })
+        }
+        handleModifierCaseSensitive={() =>
+          this.setState({ caseSensitive: !this.state.caseSensitive })
+        }
+        handleModifierWholeWord={() =>
+          this.setState({ wholeWord: !this.state.wholeWord })
         }
         ref="searchInput"
       />
