@@ -16,6 +16,9 @@ add_task(async function() {
   invokeInTab("doThing");
   await waitForPaused(dbg);
 
+  // Scroll element into view
+  findElement(dbg, "frame", 2).focus();
+
   // Click the call stack to get to debugger-line-1
   await clickElement(dbg, "frame", 2);
   await waitForSelectedSource(dbg, "debug-line-1.js");
