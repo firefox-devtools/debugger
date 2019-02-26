@@ -85,7 +85,6 @@ class SearchInput extends Component<Props, State> {
       caseSensitive: false,
       wholeWord: false
     };
-
   }
 
   componentDidMount() {
@@ -277,19 +276,12 @@ class SearchInput extends Component<Props, State> {
     const { count, handleNext, handlePrev } = this.props;
     if ((!handleNext && !handlePrev) || (!count || count == 1)) {
       return (
-        <div className="search-nav-buttons">
-          <span style={{ padding: "5px" }}>Modifiers:</span>
-          {this.renderModifierButtons()}{" "}
-        </div>
+        <div className="search-nav-buttons"><span style={{ padding: "5px" }}>Modifiers:</span>{this.renderModifierButtons()}{" "}</div>
       );
     }
 
     return (
-      <div className="search-nav-buttons">
-        {this.renderArrowButtons()}
-        <span style={{ padding: "5px" }}>Modifiers:</span>
-        {this.renderModifierButtons()}{" "}
-      </div>
+      <div className="search-nav-buttons">{this.renderArrowButtons()}<span style={{ padding: "5px" }}>Modifiers:</span>{this.renderModifierButtons()}{" "}</div>
     );
   }
 
