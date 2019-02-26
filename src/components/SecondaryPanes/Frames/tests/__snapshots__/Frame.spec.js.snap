@@ -4,9 +4,9 @@ exports[`Frame getFrameTitle 1`] = `
 <div
   className="frame"
   key="1"
-  onClick={[Function]}
   onContextMenu={[Function]}
   onKeyUp={[Function]}
+  onMouseDown={[Function]}
   role="listitem"
   tabIndex={0}
   title="Jump to https://aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.com/assets/src/js/foo-view.js:10"
@@ -119,9 +119,9 @@ exports[`Frame library frame 1`] = `
 <div
   className="frame selected"
   key="3"
-  onClick={[Function]}
   onContextMenu={[Function]}
   onKeyUp={[Function]}
+  onMouseDown={[Function]}
   role="listitem"
   tabIndex={0}
 >
@@ -235,9 +235,9 @@ exports[`Frame user frame (not selected) 1`] = `
 <div
   className="frame"
   key="1"
-  onClick={[Function]}
   onContextMenu={[Function]}
   onKeyUp={[Function]}
+  onMouseDown={[Function]}
   role="listitem"
   tabIndex={0}
 >
@@ -349,9 +349,9 @@ exports[`Frame user frame 1`] = `
 <div
   className="frame selected"
   key="1"
-  onClick={[Function]}
   onContextMenu={[Function]}
   onKeyUp={[Function]}
+  onMouseDown={[Function]}
   role="listitem"
   tabIndex={0}
 >
