@@ -35,6 +35,8 @@ yarn start
 # Go to http://localhost:8000
 ```
 
+If you are having problems with setting breakpoints in the debugger, launch [Firefox Nightly](https://github.com/firefox-devtools/debugger/blob/master/docs/getting-setup.md#starting-firefox-nightly) instead of clicking on `Launch Firefox`.
+
 #### Next Steps
 
 - [`/claim`][cl] an [available] issue. If you get stuck, we'd be happy to [help].

@@ -119,6 +119,33 @@ If you are not seeing any tabs when you connect, it is possible that switching f
 > NOTE: if you are curious about how the debugger server starts listening on a port
 > this function is useful: [devtools-startup.js](https://searchfox.org/mozilla-central/source/devtools/startup/devtools-startup.js#789-854)
 
+### Starting Firefox Nightly
+
+You can open and debug a Firefox Nightly tab with the command-line interface (CLI).
+
+>Steps 4-6 is for the Firefox Nightly configuration and **only need to be done once**:
+
+1) Update/rebase your local Debugger repository, and download [Firefox Nightly](https://www.mozilla.org/en-CA/firefox/channel/desktop/)
+2) Run `yarn start` and open `localhost:8000` on your browser
+3) In a separate terminal tab, open Nightly with:
+```shell
+# For Mac Users
+/Applications/Firefox\ Nightly.app/Contents/MacOS/firefox --start-debugger-server 6080
+
+# For Windows Users
+C:\Program Files\Firefox Nightly\firefox.exe -start-debugger-server 6080
+```
+4) Go to `about:config` in the URL bar
+5) Toggle the following preferences to their corresponding values:
+
+|Preference Name|Value|
+|--|--|
+|`devtools.debugger.remote-enabled`|`true`|
+|`devtools.chrome.enabled`|`true`|
+|`devtools.debugger.prompt-connection`|`false`|
+6) Close, and then open Firefox Nightly (like in step 3)
+7) Give it a few seconds for the Nightly tab to show up in launchpad
+
 ### Starting Chrome
 
 There are two ways to run Chrome for the purposes of remote debugging with the debugger:
