@@ -10,11 +10,6 @@
   vertical-align: middle;
 }
 
-.toggle-button.end {
-  margin-inline-end: 0px;
-  margin-inline-start: auto;
-}
-
 .toggle-button.start {
   margin-inline-start: 0px;
 }

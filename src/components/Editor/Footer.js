@@ -22,7 +22,7 @@ import {
   shouldBlackbox
 } from "../../utils/source";
 import { getGeneratedSource } from "../../reducers/sources";
-import { shouldShowFooter, shouldShowPrettyPrint } from "../../utils/editor";
+import { shouldShowPrettyPrint } from "../../utils/editor";
 
 import { PaneToggleButton } from "../shared/Button";
 import AccessibleImage from "../shared/AccessibleImage";
@@ -40,7 +40,6 @@ type Props = {
   selectedSource: Source,
   mappedSource: Source,
   endPanelCollapsed: boolean,
-  editor: Object,
   horizontal: boolean,
   togglePrettyPrint: typeof actions.togglePrettyPrint,
   toggleBlackBox: typeof actions.toggleBlackBox,
@@ -59,18 +58,24 @@ class SourceFooter extends PureComponent<Props, State> {
     this.state = { cursorPosition: { line: 1, column: 1 } };
   }
 
-  componentDidMount() {
-    const { editor } = this.props;
-    editor.codeMirror.on("cursorActivity", this.onCursorChange);
+  componentDidUpdate() {
+    const eventDoc = document.querySelector(".CodeMirror");
+    if (eventDoc) {
+      eventDoc.CodeMirror.on("cursorActivity", this.onCursorChange);
+    }
   }
 
   componentWillUnmount() {
-    const { editor } = this.props;
-    editor.codeMirror.off("cursorActivity", this.onCursorChange);
+    const eventDoc = document.querySelector(".CodeMirror");
+    eventDoc.CodeMirror.off("cursorActivity", this.onCursorChange);
   }
 
   prettyPrintButton() {
     const { selectedSource, togglePrettyPrint } = this.props;
+
+    if (!selectedSource) {
+      return;
+    }
 
     if (isLoading(selectedSource) && selectedSource.isPrettyPrinted) {
       return (
@@ -108,13 +113,20 @@ class SourceFooter extends PureComponent<Props, State> {
     const { selectedSource, toggleBlackBox } = this.props;
     const sourceLoaded = selectedSource && isLoaded(selectedSource);
 
+    if (!selectedSource) {
+      return;
+    }
+
     if (!shouldBlackbox(selectedSource)) {
       return;
     }
 
     const blackboxed = selectedSource.isBlackBoxed;
 
-    const tooltip = L10N.getStr("sourceFooter.blackbox");
+    const tooltip = blackboxed
+      ? L10N.getStr("sourceFooter.unblackbox")
+      : L10N.getStr("sourceFooter.blackbox");
+
     const type = "black-box";
 
     return (
@@ -130,20 +142,6 @@ class SourceFooter extends PureComponent<Props, State> {
       >
         <AccessibleImage className="blackBox" />
       </button>
-    );
-  }
-
-  blackBoxSummary() {
-    const { selectedSource } = this.props;
-
-    if (!selectedSource || !selectedSource.isBlackBoxed) {
-      return;
-    }
-
-    return (
-      <span className="blackbox-summary" key="blackbox-summary">
-        {L10N.getStr("sourceFooter.blackboxed")}
-      </span>
     );
   }
 
@@ -164,11 +162,9 @@ class SourceFooter extends PureComponent<Props, State> {
   }
 
   renderCommands() {
-    const commands = [
-      this.prettyPrintButton(),
-      this.blackBoxButton(),
-      this.blackBoxSummary()
-    ].filter(Boolean);
+    const commands = [this.blackBoxButton(), this.prettyPrintButton()].filter(
+      Boolean
+    );
 
     return commands.length ? <div className="commands">{commands}</div> : null;
   }
@@ -221,19 +217,13 @@ class SourceFooter extends PureComponent<Props, State> {
       cursorPosition.column + 1
     );
     return (
-      <span className="cursor-position" title={title}>
+      <div className="cursor-position" title={title}>
         {text}
-      </span>
+      </div>
     );
   }
 
   render() {
-    const { selectedSource, horizontal } = this.props;
-
-    if (!shouldShowFooter(selectedSource, horizontal)) {
-      return null;
-    }
-
     return (
       <div className="source-footer">
         {this.renderCommands()}

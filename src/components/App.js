@@ -56,6 +56,7 @@ import Editor from "./Editor";
 import SecondaryPanes from "./SecondaryPanes";
 import WelcomeBox from "./WelcomeBox";
 import EditorTabs from "./Editor/Tabs";
+import EditorFooter from "./Editor/Footer";
 import QuickOpenModal from "./QuickOpenModal";
 
 type Props = {
@@ -229,6 +230,7 @@ class App extends Component<Props, State> {
             startPanelSize={startPanelSize}
             endPanelSize={endPanelSize}
           />
+          <EditorFooter horizontal={horizontal} />
           {!this.props.selectedSource ? (
             <WelcomeBox
               horizontal={horizontal}
