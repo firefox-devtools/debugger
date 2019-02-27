@@ -4,12 +4,12 @@ exports[`SourceFooter Component default case should render 1`] = `
 <div
   className="source-footer"
 >
-  <span
+  <div
     className="cursor-position"
     title="(Line 2, column 2)"
   >
     (2, 2)
-  </span>
+  </div>
   <PaneToggleButton
     collapsed={false}
     horizontal={false}
