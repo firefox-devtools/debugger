@@ -100,7 +100,6 @@ async function _setBreakpointPositions(sourceId, thunkArgs) {
 export function setBreakpointPositions(sourceId: string) {
   return async (thunkArgs: ThunkArgs) => {
     const { getState } = thunkArgs;
-
     if (hasBreakpointPositions(getState(), sourceId)) {
       return getBreakpointPositionsForSource(getState(), sourceId);
     }

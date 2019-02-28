@@ -8,8 +8,10 @@ import { createSelector } from "reselect";
 
 import {
   getViewport,
+  getSource,
   getSelectedSource,
-  getBreakpointPositions
+  getBreakpointPositions,
+  getBreakpointPositionsForSource
 } from "../selectors";
 import { getVisibleBreakpoints } from "./visibleBreakpoints";
 import { getSelectedLocation } from "../utils/source-maps";
@@ -159,6 +161,22 @@ export const visibleColumnBreakpoints: Selector<
   getSelectedSource,
   getColumnBreakpoints
 );
+
+export function getFirstBreakpointPosition(
+  state: State, 
+  { line, sourceId }: SourceLocation
+) {
+  const positions = getBreakpointPositionsForSource(state, sourceId);
+  const source = getSource(state, sourceId);
+
+  if (!source || !positions) {
+    return;
+  }
+
+  return positions.find(
+    position => getSelectedLocation(position, source).line == line
+  );
+}
 
 export function getFirstVisibleBreakpointPosition(
   state: State,

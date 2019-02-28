@@ -17,6 +17,8 @@ var { Toolbox } = require("devtools/client/framework/toolbox");
 var { Task } = require("devtools/shared/task");
 var asyncStorage = require("devtools/shared/async-storage");
 
+const { getSelectedLocation } = require("devtools/client/debugger/new/src/utils/source-maps");
+
 const sourceUtils = {
   isLoaded: source => source.loadedState === "loaded"
 };
@@ -219,10 +221,17 @@ async function waitForElementWithSelector(dbg, selector) {
 }
 
 function waitForSelectedSource(dbg, url) {
+  const {
+    getSelectedSource,
+    hasSymbols,
+    hasSourceMetaData,
+    hasBreakpointPositions
+  } = dbg.selectors;
+
   return waitForState(
     dbg,
     state => {
-      const source = dbg.selectors.getSelectedSource(state);
+      const source = getSelectedSource(state);
       const isLoaded = source && sourceUtils.isLoaded(source);
       if (!isLoaded) {
         return false;
@@ -237,13 +246,9 @@ function waitForSelectedSource(dbg, url) {
         return false;
       }
 
-      // wait for async work to be done
-      const hasSymbols = dbg.selectors.hasSymbols(state, source);
-      const hasSourceMetaData = dbg.selectors.hasSourceMetaData(
-        state,
-        source.id
-      );
-      return hasSymbols && hasSourceMetaData;
+      return hasSymbols(state, source) &&
+        hasSourceMetaData( state, source.id) &&
+        hasBreakpointPositions(state, source.id);
     },
     "selected source"
   );
@@ -729,6 +734,14 @@ async function navigate(dbg, url, ...sources) {
   return waitForSources(dbg, ...sources);
 }
 
+function getFirstBreakpointColumn(dbg, {line, sourceId}) {
+  const {getSource, getFirstBreakpointPosition} = dbg.selectors;
+  const source = getSource(dbg.getState(), sourceId)
+  const position = getFirstBreakpointPosition(dbg.getState(), { line, sourceId });
+
+  return getSelectedLocation(position, source).column;
+}
+
 /**
  * Adds a breakpoint to a source at line/col.
  *
@@ -743,6 +756,8 @@ async function navigate(dbg, url, ...sources) {
 function addBreakpoint(dbg, source, line, column) {
   source = findSource(dbg, source);
   const sourceId = source.id;
+  column = column || getFirstBreakpointColumn(dbg, {line, sourceId: source.id});
+
   dbg.actions.addBreakpoint({ sourceId, line, column });
   return waitForDispatch(dbg, "ADD_BREAKPOINT");
 }
@@ -756,22 +771,11 @@ function disableBreakpoint(dbg, source, line, column) {
 
 function findBreakpoint(dbg, url, line) {
   const {
-    selectors: { getBreakpoint },
+    selectors: { getBreakpoint, getBreakpointsList },
     getState
   } = dbg;
   const source = findSource(dbg, url);
-  let column;
-  if (
-    Services.prefs.getBoolPref("devtools.debugger.features.column-breakpoints")
-  ) {
-    ({ column } = dbg.selectors.getFirstVisibleBreakpointPosition(
-      dbg.store.getState(),
-      {
-        sourceId: source.id,
-        line
-      }
-    ));
-  }
+  const column = getFirstBreakpointColumn(dbg, {line, sourceId: source.id });
   return getBreakpoint(getState(), { sourceId: source.id, line, column });
 }
 

@@ -38,10 +38,7 @@ export { getCallStackFrames } from "./getCallStackFrames";
 export { getVisibleSelectedFrame } from "./visibleSelectedFrame";
 export { getBreakpointSources } from "./breakpointSources";
 export { getXHRBreakpoints, shouldPauseOnAnyXHR } from "./breakpoints";
-export {
-  visibleColumnBreakpoints,
-  getFirstVisibleBreakpointPosition
-} from "./visibleColumnBreakpoints";
+export * from "./visibleColumnBreakpoints";
 
 import { objectInspector } from "devtools-reps";
 

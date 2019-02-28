@@ -10,6 +10,7 @@ add_task(async function() {
   await waitForSources(dbg, "simple1.js", "simple2.js");
 
   // Add breakpoint to debug-line-2
+  await selectSource(dbg, "simple2.js")
   await addBreakpoint(dbg, "simple2.js", 5);
 
   // Trigger the breakpoint ane ensure we're paused
