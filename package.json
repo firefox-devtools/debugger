@@ -1,5 +1,5 @@
 {
-  "name": "debugger.html",
+  "name": "debugger",
   "version": "0.6.0",
   "license": "MPL-2.0",
   "repository": {
@@ -26,7 +26,7 @@
     "lint:css": "stylelint \"src/components/**/*.css\"",
     "lint:js": "eslint *.js \"src/**/*.js\" \"packages/*/src/**/*.js\" --fix",
     "lint:jsx-a11y": "eslint *.js \"src/**/*.js\" \"packages/*/src/**/*.js\" --plugin=jsx-a11y --config=.eslintrc.jsx-a11y",
-    "lint:md": "remark -u devtools-linters/markdown/preset -qf *.md src configs docs",
+    "lint:md": "remark -u devtools-linters/markdown/preset -qf *.md src",
     "mochi": "mochii --mc ./firefox --interactive --default-test-path devtools/client/debugger/new",
     "mochid": "yarn mochi -- --jsdebugger --",
     "mochir": "yarn mochi -- --repeat 10 --",
