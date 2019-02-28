@@ -3778,11 +3778,10 @@ devtools-environment@^0.0.6:
   resolved "https://registry.yarnpkg.com/devtools-environment/-/devtools-environment-0.0.6.tgz#11584f5b1ead784c2356d8da647a630fed591a4e"
   integrity sha512-tZK/UlLBnm5TCr9YnBahMkv2bpasjNyQgLNZOvFCMCO4TZSjggrccMTkljhqCr32Zb1Nx/C/jhB/KdlyiUI2Lw==
 
-
-devtools-launchpad@^0.0.149:
-  version "0.0.149"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.149.tgz#0f6ed43647704d6d72110043cdb458786f9f6ced"
-  integrity sha512-66m9Z490VJkgCTUaKCYUQ00+Rh9cN+8entHUJ13vr2O8J0DhKEa2pYNNbO+NJiClHIRAARLETGaX3w0kuqjNuA==
+devtools-launchpad@^0.0.150:
+  version "0.0.150"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.150.tgz#3091dacceb061583dc053512b836232afa5de3d5"
+  integrity sha512-YdjK+T/wvrfuzP9sxeNkJXAbKryNcXQ7lNwVMqGMnHE/1J8+DTCsGF6Gi9WuKbh0Kr2LQK0KqKUXgX2yJiqNAA==
   dependencies:
     amd-loader "0.0.8"
     autoprefixer "^7.1.2"
@@ -3828,7 +3827,6 @@ devtools-launchpad@^0.0.149:
     mustache "^2.2.1"
     node-static "^0.7.7"
     postcss "^6.0.6"
-    postcss-bidirection "^2.4.0"
     postcss-class-namespace "^0.1.0"
     postcss-loader "^2.0.6"
     postcss-url-mapper "^1.2.0"
@@ -9601,13 +9599,6 @@ posix-character-classes@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
   integrity sha1-AerA/jta9xoqbAL+q7jB/vfgDqs=
-
-postcss-bidirection@^2.4.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/postcss-bidirection/-/postcss-bidirection-2.6.0.tgz#2458a0521d86332f899e85727f7cb761dbfa2ade"
-  integrity sha512-7AFq2PSTYEkmdtiOB2HVD6MQI2OhnVEyAP567ktOAuqGKuIrPTi5vCSUZ4c8uTUJvzf6TB28WxTe04wW4koHZA==
-  dependencies:
-    postcss "^5.0.10"
 
 postcss-calc@^5.2.0:
   version "5.3.1"
