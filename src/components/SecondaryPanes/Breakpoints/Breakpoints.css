@@ -135,7 +135,7 @@ html .breakpoints-list .breakpoint.paused {
 }
 
 .breakpoints-list .breakpoint:hover .breakpoint-line,
-.breakpoints-list .breakpoint:focus-within .breakpoint-line {
+.A11y-keyboard .breakpoints-list .breakpoint:focus-within .breakpoint-line {
   color: transparent;
 }
 
@@ -188,7 +188,7 @@ html .breakpoints-list .breakpoint.paused {
 }
 
 .breakpoint:hover .close-btn,
-.breakpoint:focus-within .close-btn {
+.A11y-keyboard .breakpoint:focus-within .close-btn {
   display: flex;
 }
 
@@ -197,7 +197,7 @@ html .breakpoints-list .breakpoint.paused {
 }
 
 .breakpoint:hover .close,
-.breakpoint:focus-within .close {
+.A11y-keyboard .breakpoint:focus-within .close {
   visibility: visible;
 }
 
