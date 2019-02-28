@@ -1331,7 +1331,7 @@ async function hoverAtPos(dbg, { line, ch }) {
   const { left, top } = coords;
 
   // Adds a vertical offset due to increased line height
-  // https://github.com/firefox-devtools/debugger.html/pull/7934
+  // https://github.com/firefox-devtools/debugger/pull/7934
   const lineHeightOffset = 3;
 
   const tokenEl = dbg.win.document.elementFromPoint(
@@ -1530,12 +1530,12 @@ async function openConsoleContextMenu(hud, element) {
   const onConsoleMenuOpened = hud.ui.wrapper.once("menu-open");
   synthesizeContextMenuEvent(element);
   await onConsoleMenuOpened;
-  const doc = hud.ui.wrapper.owner.chromeWindow.document;
+  const doc = hud.chromeWindow.document;
   return doc.getElementById("webconsole-menu");
 }
 
 function hideConsoleContextMenu(hud) {
-  const doc = hud.ui.wrapper.owner.chromeWindow.document;
+  const doc = hud.chromeWindow.document;
   const popup = doc.getElementById("webconsole-menu");
   if (!popup) {
     return Promise.resolve();
