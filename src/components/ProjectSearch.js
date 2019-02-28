@@ -94,8 +94,6 @@ export class ProjectSearch extends Component<Props, State> {
       caseSensitive: false,
       wholeWord: false
     };
-
-    this.getModifiers = this.getModifiers.bind(this);
   }
 
   componentDidMount() {

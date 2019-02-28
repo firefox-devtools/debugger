@@ -135,21 +135,21 @@ class SearchInput extends Component<Props, State> {
       navBtn(
         handleModifierRegexMatch,
         "regex-match",
-        classnames("nav-btn", "margin-right", regexMatchActiveClass),
+        classnames("nav-btn", "modifier-btn", regexMatchActiveClass),
         L10N.getStr("symbolSearch.searchModifier.regex")
       ),
 
       navBtn(
         handleModifierCaseSensitive,
         "case-match",
-        classnames("nav-btn", "margin-right", caseSensitiveActiveClass),
+        classnames("nav-btn", "modifier-btn", caseSensitiveActiveClass),
         L10N.getStr("symbolSearch.searchModifier.caseSensitive")
       ),
 
       navBtn(
         handleModifierWholeWord,
         "whole-word-match",
-        classnames("nav-btn", "margin-right", wholeWordActiveClass),
+        classnames("nav-btn", "modifier-btn", wholeWordActiveClass),
         L10N.getStr("symbolSearch.searchModifier.wholeWord")
       )
     ];

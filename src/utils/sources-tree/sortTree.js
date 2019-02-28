@@ -18,7 +18,6 @@ export function sortEntireTree(
   tree: TreeDirectory,
   debuggeeUrl: string = ""
 ): TreeDirectory {
-  console.log("Sorting ENtire Tree;");
   if (nodeHasChildren(tree)) {
     const contents = sortTree(tree, debuggeeUrl).map((subtree: any) =>
       sortEntireTree(subtree)
