@@ -35,6 +35,8 @@ yarn start
 # Go to http://localhost:8000
 ```
 
+If you are having problems with setting breakpoints in the debugger, launch [Firefox Nightly][firefox-nightly] instead of clicking on `Launch Firefox`.
+
 #### Next Steps
 
 - [`/claim`][cl] an [available] issue. If you get stuck, we'd be happy to [help].
@@ -129,3 +131,4 @@ Say hello in [Slack][slack] or in the [#devtools-html][irc-devtools-html] channe
 [linting]: ./docs/local-development.md#linting
 [google-docs]: https://docs.google.com/document/d/146p7Y8Ues_AKjj4ReWCk6InOPWe3C3Koy6EQ1qnYKNM/edit
 [cl]: ./docs/issues.md#claiming-issues
+[firefox-nightly]: ./docs/getting-setup.md#starting-firefox-nightly
