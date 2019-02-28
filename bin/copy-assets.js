@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
+
 const {
   tools: { makeBundle, symlinkTests, copyFile }
 } = require("devtools-launchpad/index");
@@ -8,7 +12,7 @@ var fs = require("fs");
 var fsExtra = require("fs-extra");
 const rimraf = require("rimraf");
 const shell = require("shelljs");
-const {sortBy} = require("lodash");
+const { sortBy } = require("lodash");
 
 const feature = require("devtools-config");
 const getConfig = require("./getConfig");
@@ -17,7 +21,6 @@ const writeReadme = require("./writeReadme");
 const envConfig = getConfig();
 feature.setConfig(envConfig);
 
-
 const moz_build_tpl = `
 # -*- Mode: python; indent-tabs-mode: nil; tab-width: 40 -*-
 # vim: set filetype=python:
@@ -25,13 +28,15 @@ const moz_build_tpl = `
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+__DIRS__
+
 DevToolsModules(
 __FILES__
 )
-`
+`;
 
 function exec(cmd) {
-  return shell.exec(cmd, {silent: true});
+  return shell.exec(cmd, { silent: true });
 }
 
 function moveFile(src, dest, opts) {
@@ -44,7 +49,7 @@ function moveFile(src, dest, opts) {
 }
 
 function searchText(text, regexp) {
-  let matches = [];
+  const matches = [];
   let match;
   do {
     match = regexp.exec(text);
@@ -77,12 +82,9 @@ function copySVGs({ projectPath, mcPath }) {
    */
 
   const projectImagesPath = path.join(projectPath, "/images/");
-  const mcImagesPath = path.join(
-    mcPath,
-    "devtools/client/debugger/new/images"
-  );
+  const mcImagesPath = path.join(mcPath, "devtools/client/debugger/new/images");
 
-  let usedSvgs = [];
+  const usedSvgs = [];
   const svgTest = new RegExp(/url\(\/images\/(.*)\)/, "g");
   const cssFiles = walkSync(path.join(projectPath, "src/components"))
     .filter(file => file.match(/css$/))
@@ -90,7 +92,8 @@ function copySVGs({ projectPath, mcPath }) {
       usedSvgs.push(...searchText(fs.readFileSync(file, "utf-8"), svgTest))
     );
 
-  const files = fs.readdirSync(projectImagesPath)
+  const files = fs
+    .readdirSync(projectImagesPath)
     .filter(file => file.match(/svg$/))
     .filter(file => usedSvgs.includes(file));
 
@@ -103,13 +106,17 @@ function copySVGs({ projectPath, mcPath }) {
   );
 
   const mozBuildText = moz_build_tpl
-    .replace('__FILES__',files.map(f => `    '${f}',`).join("\n"))
+    .replace("__DIRS__", "DIRS += [\n  'sources',\n]")
+    .replace("__FILES__", files.map(f => `    '${f}',`).join("\n"));
 
-  const mozBuildPath = path.join(mcPath, "devtools/client/debugger/new/images/moz.build");
+  const mozBuildPath = path.join(
+    mcPath,
+    "devtools/client/debugger/new/images/moz.build"
+  );
   fs.writeFileSync(mozBuildPath, mozBuildText, "utf-8");
 
-
-  const sourceFiles = fs.readdirSync(path.join(projectImagesPath, "sources"))
+  const sourceFiles = fs
+    .readdirSync(path.join(projectImagesPath, "sources"))
     .filter(file => file.match(/svg$/))
     .filter(file => usedSvgs.some(svg => svg.includes(file)));
 
@@ -119,12 +126,16 @@ function copySVGs({ projectPath, mcPath }) {
       path.join(path.join(mcImagesPath, "sources"), `${file}`)
     )
   );
+
   const mozBuildSourceText = moz_build_tpl
-    .replace('__FILES__',sourceFiles.map(f => `    '${f}',`).join("\n"))
+    .replace("__DIRS__", "")
+    .replace("__FILES__", sourceFiles.map(f => `    '${f}',`).join("\n"));
 
-  const mozBuildSourcePath = path.join(mcPath, "devtools/client/debugger/new/images/sources/moz.build");
+  const mozBuildSourcePath = path.join(
+    mcPath,
+    "devtools/client/debugger/new/images/sources/moz.build"
+  );
   fs.writeFileSync(mozBuildSourcePath, mozBuildSourceText, "utf-8");
-
 
   console.log("[copy-assets] - Svg.js");
   copyFile(
@@ -191,20 +202,20 @@ function copyWasmParser({ mcPath, projectPath }) {
 
 // searches the git branches for the last release branch
 function lastRelease() {
-  const {stdout: branches} = exec(`git branch -a | grep 'origin/release'`)
-  const releases = branches.
-    split("\n")
-    .map(b => b.replace(/remotes\/origin\//, '').trim())
-    .filter(b => b.match(/^release-(\d+)$/))
+  const { stdout: branches } = exec("git branch -a | grep 'origin/release'");
+  const releases = branches
+    .split("\n")
+    .map(b => b.replace(/remotes\/origin\//, "").trim())
+    .filter(b => b.match(/^release-(\d+)$/));
 
-  const ordered = sortBy(releases, r => parseInt(/\d+/.exec(r)[0], 10)  )
-  return ordered[ordered.length -1];
+  const ordered = sortBy(releases, r => parseInt(/\d+/.exec(r)[0], 10));
+  return ordered[ordered.length - 1];
 }
 
 // updates the assets manifest with the latest release manifest
 // so that webpack bundles remain largely the same
 function updateManifest() {
-  const {stdout: branch} = exec(`git rev-parse --abbrev-ref HEAD`)
+  const { stdout: branch } = exec("git rev-parse --abbrev-ref HEAD");
 
   if (!branch.includes("release")) {
     return;
@@ -213,12 +224,12 @@ function updateManifest() {
   console.log("[copy-assets] update assets manifest");
 
   const last = lastRelease();
-  exec(`git cat-file -p ${last}:assets/module-manifest.json > assets/module-manifest.json`);
+  exec(
+    `git cat-file -p ${last}:assets/module-manifest.json > assets/module-manifest.json`
+  );
 }
 
-function start() {
-  console.log("[copy-assets] start");
-
+function createConfig() {
   const projectPath = path.resolve(__dirname, "..");
   const mcModulePath = "devtools/client/debugger/new";
 
@@ -228,7 +239,14 @@ function start() {
   // it will override whatever is in projectPath.
   mcPath = path.resolve(projectPath, mcPath);
 
-  const config = { shouldSymLink, mcPath, projectPath, mcModulePath };
+  return { shouldSymLink, mcPath, projectPath, mcModulePath };
+}
+
+function start() {
+  console.log("[copy-assets] start");
+
+  const config = createConfig();
+  const { projectPath, mcPath } = config;
 
   console.log("[copy-assets] copy static assets:");
   console.log("[copy-assets] - properties");
@@ -264,7 +282,6 @@ function start() {
     { cwd: projectPath }
   );
 
-
   // Ensure /dist path exists.
   const bundlePath = "devtools/client/debugger/new/dist";
   shell.mkdir("-p", path.join(mcPath, bundlePath));
@@ -281,66 +298,17 @@ function start() {
   copyWasmParser(config);
   writeReadme(path.join(mcPath, "devtools/client/debugger/new/README.mozilla"));
 
-  const debuggerPath = "devtools/client/debugger/new"
+  const debuggerPath = "devtools/client/debugger/new";
 
   console.log("[copy-assets] make webpack bundles");
-  return makeBundle({
-    outputPath: path.join(mcPath, bundlePath),
-    projectPath,
-    watch,
-    updateAssets,
-    onFinish: () => onBundleFinish({mcPath, bundlePath, projectPath})
-  })
-    .then()
-    .catch(err => {
-      console.log("[copy-assets] Uhoh, something went wrong. " +
-                  "The error was written to assets-error.log");
-
-      fs.writeFileSync("assets-error.log", JSON.stringify(err, null, 2));
-    });
+  bundleAssets(config);
 }
 
-function onBundleFinish({mcPath, bundlePath, projectPath}) {
-  console.log("[copy-assets] delete debugger.js bundle");
-
-  const debuggerPath = path.join(mcPath, bundlePath, "debugger.js")
-  if (fs.existsSync(debuggerPath)) {
-    fs.unlinkSync(debuggerPath)
-  }
-
-  console.log("[copy-assets] copy shared bundles to client/shared");
-  moveFile(
-    path.join(mcPath, bundlePath, "source-map-worker.js"),
-    path.join(mcPath, "devtools/client/shared/source-map/worker.js"),
-    {cwd: projectPath}
-  );
-  for (const filename of Object.keys(sourceMapAssets)) {
-    moveFile(
-      path.join(mcPath, bundlePath, "source-map-worker-assets", filename),
-      path.join(mcPath, "devtools/client/shared/source-map/assets", filename),
-      {cwd: projectPath}
-    );
-  }
-
-  moveFile(
-    path.join(mcPath, bundlePath, "source-map-index.js"),
-    path.join(mcPath, "devtools/client/shared/source-map/index.js"),
-    {cwd: projectPath}
-  );
-
-  moveFile(
-    path.join(mcPath, bundlePath, "reps.js"),
-    path.join(mcPath, "devtools/client/shared/components/reps/reps.js"),
-    {cwd: projectPath}
-  );
-
-  moveFile(
-    path.join(mcPath, bundlePath, "reps.css"),
-    path.join(mcPath, "devtools/client/shared/components/reps/reps.css"),
-    {cwd: projectPath}
-  );
-
-  console.log("[copy-assets] done");
+function bundleAssets(config) {
+  const { mcPath, mcModulePath } = config;
+  shell.cd(path.join(mcPath, mcModulePath));
+  shell.exec("node bin/bundle");
+  shell.cd("-");
 }
 
 const args = minimist(process.argv.slice(2), {
@@ -353,15 +321,14 @@ let updateAssets = args.assets;
 let watch = args.watch;
 let mcPath = args.mc || feature.getValue("firefox.mcPath");
 
-
 if (process.argv[1] == __filename) {
   start();
 } else {
-  module.exports = ({symlink, assets, watch: _watch, mc}) => {
+  module.exports = ({ symlink, assets, watch: _watch, mc }) => {
     shouldSymLink = symlink;
     updateAssets = assets;
-    watch = _watch
-    mcPath = mc
+    watch = _watch;
+    mcPath = mc;
     return start();
-  }
+  };
 }
