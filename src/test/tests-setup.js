@@ -46,7 +46,7 @@ function getL10nBundle() {
   try {
     return read("../../assets/panel/debugger.properties");
   } catch (e) {
-    return read("../../../../locales/en-us/debugger.properties");
+    return read("../../../../locales/en-US/debugger.properties");
   }
 }
 

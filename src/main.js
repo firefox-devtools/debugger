@@ -5,7 +5,6 @@
 // @flow
 
 import ReactDOM from "react-dom";
-
 import { onConnect } from "./client";
 import { teardownWorkers } from "./utils/bootstrap";
 import sourceQueue from "./utils/source-queue";

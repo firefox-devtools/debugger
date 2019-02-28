@@ -93,7 +93,7 @@ export function selectSource(
 ) {
   return async ({ dispatch }: ThunkArgs) => {
     const location = createLocation({ ...options, sourceId });
-    return await dispatch(selectSpecificLocation(location));
+    return dispatch(selectSpecificLocation(location));
   };
 }
 

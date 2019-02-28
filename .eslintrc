@@ -442,6 +442,8 @@
       ],
       "block",
       ["-\\*-(.*)-\\*-", "eslint(.*)", "vim(.*)"]
-    ]
+    ],
+    "consistent-return": "off",
+
   }
 }
