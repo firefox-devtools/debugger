@@ -22,7 +22,13 @@ import {
 import { originalToGeneratedId } from "devtools-source-map";
 import { prefs } from "../utils/prefs";
 
-import type { Source, SourceId, SourceLocation, ThreadId } from "../types";
+import type {
+  Source,
+  SourceId,
+  SourceLocation,
+  ThreadId,
+  WorkerList
+} from "../types";
 import type { PendingSelectedLocation, Selector } from "./types";
 import type { Action, DonePromiseAction, FocusItem } from "../actions/types";
 import type { LoadSourceAction } from "../actions/types/SourceAction";
@@ -225,6 +231,7 @@ function addSources(state: SourcesState, sources: Source[]) {
         [...existingSource.actors, ...source.actors],
         ({ actor }) => actor
       );
+
       updatedSource = (({ ...updatedSource, actors }: any): Source);
     }
 
