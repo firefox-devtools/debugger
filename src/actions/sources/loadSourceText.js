@@ -78,7 +78,7 @@ export function loadSourceText(source: ?Source) {
       return;
     }
 
-    const newSource = getSource(getState(), source.id);
+    let newSource = getSource(getState(), source.id);
     if (!newSource) {
       return;
     }

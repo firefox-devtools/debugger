@@ -105,9 +105,7 @@ export async function syncBreakpointPromise(
   const generatedSource = getSource(getState(), generatedSourceId);
 
   if (!source || !generatedSource) {
-    throw new Error(
-      `Could not find relevant sources ${sourceId} - ${generatedSourceId}`
-    );
+    return;
   }
 
   const { location, generatedLocation, astLocation } = pendingBreakpoint;
@@ -188,12 +186,17 @@ export function syncBreakpoint(
 ) {
   return async (thunkArgs: ThunkArgs) => {
     const { dispatch } = thunkArgs;
-    const { breakpoint, previousLocation } = await syncBreakpointPromise(
+    const response = await syncBreakpointPromise(
       thunkArgs,
       sourceId,
       pendingBreakpoint
     );
 
+    if (!response) {
+      return;
+    }
+
+    const { breakpoint, previousLocation } = response
     return dispatch(
       ({
         type: "SYNC_BREAKPOINT",

@@ -8,6 +8,7 @@ import { isOriginalId, originalToGeneratedId } from "devtools-source-map";
 import { uniqBy } from "lodash";
 
 import {
+  getSource,
   getSourceFromId,
   hasBreakpointPositions,
   getBreakpointPositionsForSource
@@ -58,7 +59,10 @@ function convertToList(results, source) {
 
 async function _setBreakpointPositions(sourceId, thunkArgs) {
   const { client, dispatch, getState, sourceMaps } = thunkArgs;
-  let generatedSource = getSourceFromId(getState(), sourceId);
+  let generatedSource = getSource(getState(), sourceId);
+  if (!generatedSource) {
+    return;
+  }
 
   let results = {};
   if (isOriginalId(sourceId)) {

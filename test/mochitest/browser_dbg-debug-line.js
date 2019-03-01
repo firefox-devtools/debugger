@@ -9,7 +9,7 @@ add_task(async function() {
   const dbg = await initDebugger("doc-sources.html");
   await waitForSources(dbg, "simple1.js", "simple2.js");
 
-  // Add breakpoint to debug-line-2
+  // Add breakpoint to simple2
   await selectSource(dbg, "simple2.js")
   await addBreakpoint(dbg, "simple2.js", 5);
 
@@ -20,7 +20,7 @@ add_task(async function() {
   // Scroll element into view
   findElement(dbg, "frame", 2).focus();
 
-  // Click the call stack to get to debugger-line-1
+  // Click the call stack to get to simple1
   await clickElement(dbg, "frame", 2);
   await waitForSelectedSource(dbg, "simple1.js");
 
