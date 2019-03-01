@@ -77,9 +77,8 @@
   background-color: #ffffff;
 }
 
-/* Use the same width as .img.arrow */
 .sources-list .tree .img.no-arrow {
-  width: 10px;
+  width: 0;
   visibility: hidden;
 }
 
