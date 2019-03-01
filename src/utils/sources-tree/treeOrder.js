@@ -7,6 +7,7 @@
 import { parse } from "../url";
 
 import { nodeHasChildren } from "./utils";
+import { isUrlExtension } from "../source";
 
 import type { TreeNode } from "./types";
 
@@ -34,6 +35,14 @@ function isExactDomainMatch(part: string, debuggeeHost: string): boolean {
   return part.startsWith("www.")
     ? part.substr("www.".length) === debuggeeHost
     : part === debuggeeHost;
+}
+
+function isNgBundler(part: string): boolean {
+  return part === "ng://";
+}
+
+function isWebpackBundler(part: string): boolean {
+  return part === "webpack://";
 }
 
 /*
@@ -93,6 +102,57 @@ function createTreeNodeMatcherWithDebuggeeHost(
   };
 }
 
+function createTreeNodeMatcherWithNgBundler(
+  debuggeeHost: ?string
+): FindNodeInContentsMatcher {
+  return (node: TreeNode) => {
+    if (node.name === IndexName) {
+      return -1;
+    }
+    if (debuggeeHost && isExactDomainMatch(node.name, debuggeeHost)) {
+      return -1;
+    }
+    return isNgBundler(node.name) ? 0 : 1;
+  };
+}
+
+function createTreeNodeMatcherWithWebpackBundler(
+  debuggeeHost: ?string
+): FindNodeInContentsMatcher {
+  return (node: TreeNode) => {
+    if (node.name === IndexName) {
+      return -1;
+    }
+    if (debuggeeHost && isExactDomainMatch(node.name, debuggeeHost)) {
+      return -1;
+    }
+    if (isNgBundler(node.name)) {
+      return -1;
+    }
+    return isWebpackBundler(node.name) ? 0 : 1;
+  };
+}
+
+function createTreeNodeMatcherWithExtension(
+  debuggeeHost: ?string
+): FindNodeInContentsMatcher {
+  return (node: TreeNode) => {
+    if (node.name === IndexName) {
+      return -1;
+    }
+    if (debuggeeHost && isExactDomainMatch(node.name, debuggeeHost)) {
+      return -1;
+    }
+    if (isNgBundler(node.name)) {
+      return -1;
+    }
+    if (isWebpackBundler(node.name)) {
+      return -1;
+    }
+    return isUrlExtension(node.name) ? 0 : 1;
+  };
+}
+
 function createTreeNodeMatcherWithNameAndOther(
   part: string,
   isDir: boolean,
@@ -105,6 +165,15 @@ function createTreeNodeMatcherWithNameAndOther(
       return -1;
     }
     if (debuggeeHost && isExactDomainMatch(node.name, debuggeeHost)) {
+      return -1;
+    }
+    if (isNgBundler(node.name)) {
+      return -1;
+    }
+    if (isWebpackBundler(node.name)) {
+      return -1;
+    }
+    if (isUrlExtension(node.name)) {
       return -1;
     }
     const nodeIsDir = nodeHasChildren(node);
@@ -144,6 +213,21 @@ export function createTreeNodeMatcher(
   if (debuggeeHost && isExactDomainMatch(part, debuggeeHost)) {
     // Specialied matcher, when we are looking for domain position.
     return createTreeNodeMatcherWithDebuggeeHost(debuggeeHost);
+  }
+
+  if (isNgBundler(part)) {
+    // Specialied matcher, when we are looking for angular bundler.
+    return createTreeNodeMatcherWithNgBundler(debuggeeHost);
+  }
+
+  if (isWebpackBundler(part)) {
+    // Specialied matcher, when we are looking for webpack bundler.
+    return createTreeNodeMatcherWithWebpackBundler(debuggeeHost);
+  }
+
+  if (isUrlExtension(part)) {
+    // Specialied matcher, when we are looking for extensions.
+    return createTreeNodeMatcherWithExtension(debuggeeHost);
   }
 
   // Rest of the cases, without mentioned above.
