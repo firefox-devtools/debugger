@@ -56,6 +56,7 @@
 
 .breakpoints-list .breakpoint {
   min-height: var(--breakpoint-expression-height);
+  overflow: hidden;
 }
 
 .breakpoints-exceptions-caught {
@@ -134,8 +135,7 @@ html .breakpoints-list .breakpoint.paused {
   text-align: end;
 }
 
-.breakpoints-list .breakpoint:hover .breakpoint-line,
-.A11y-keyboard .breakpoints-list .breakpoint:focus-within .breakpoint-line {
+.breakpoints-list .breakpoint:hover .breakpoint-line {
   color: transparent;
 }
 
@@ -183,22 +183,12 @@ html .breakpoints-list .breakpoint.paused {
   inset-inline-end: 15px;
   inset-inline-start: auto;
   position: absolute;
-  top: 8px;
-  display: none;
+  top: -100px;
 }
 
 .breakpoint:hover .close-btn,
-.A11y-keyboard .breakpoint:focus-within .close-btn {
-  display: flex;
-}
-
-.breakpoint .close {
-  visibility: hidden;
-}
-
-.breakpoint:hover .close,
-.A11y-keyboard .breakpoint:focus-within .close {
-  visibility: visible;
+.close-btn:focus {
+  top: 25%;
 }
 
 .CodeMirror.cm-s-mozilla-breakpoint {
