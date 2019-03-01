@@ -1,0 +1,113 @@
+[33m996a7ec[m Updated links and help for first contributions
+[33m6855ca2[m Update dependency devtools-launchpad to ^0.0.150 (#8046)
+[33m3009b17[m Fix 8026 - Prevent breakpoint label from triggering checkbox focus (#8044)
+[33m0f05172[m Sync 128
+[33mcedb32a[m [sync] Bug 1530554 - Fix expression evaluation in worker threads; r=bhackett
+[33mc2ea7d0[m [sync] Bug 1530441 - Enable eslint locally. r=dwalsh
+[33m329464b[m [sync] Bug 1527203 Part 5 - Listen to workerListChanged events on the tab target, r=jlast.
+[33m2f75134[m [sync] Bug 1527203 Part 4 - Add test for hitting breakpoints early in a worker execution.
+[33m78980bf[m [sync] Bug 1527203 Part 3 - Send and install breakpoints when attaching to a thread, r=ochameau,jlast.
+[33m2bf5b1a[m [sync] Bug 1527203 Part 2 - Prevent worker debuggee execution until the thread actor has attached, r=ochameau.
+[33m490f42a[m [sync] Bug 1463128 - Rename WebConsoleUI.owner into WebConsoleUI.hud; r=bgrins.
+[33mdf88e9b[m [sync] Bug 1530360 - Fix Recent flow regressions (3). r=bhackett
+[33mfe53bcb[m Prevent debug line zombie (#7994)
+[33m3cd08c3[m Added Firefox Nightly CLI launch instructions (#8038)
+[33me5ff182[m [ast] Migrate AST reducer off of immutable (#7982)
+[33m72ce456[m [Breakpoints] memoize breakpoint position fetching (#8001)
+[33mfaf6d7a[m Update setPreview to properly display falsy values in preview tooltip (#8027)
+[33m01f7cf5[m Add a BigInt rep. (#7975)
+[33ma065b9d[m Update community call link (#8020)
+[33m95d62cd[m Update debugging-the-debugger.md (#8021)
+[33m218deec[m [Breakpoints] Use the union of all mapped and unmapped regions when fetching original breakpoints. (#8014)
+[33m69c5dcc[m sync 127
+[33me576a4a[m [sync] Bug 1530415 - Fix recent jest regressions. r=bhackett
+[33m83b6eb5[m [sync] Bug 1530360 - Fix Recent flow regressions (2). r=bhackett
+[33m43394a4[m [sync] Bug 1447244 Part 7 - Devtools client changes for script source IDs, r=lsmyth.
+[33mf4a399d[m [sync] Bug 1513379 - Only check pending source statuses once. r=bhackett
+[33m11e4025[m [sync] Bug 1529427 - Refactor sources reducer so that all source actors are included.
+[33me8e7583[m [sync] Bug 1529640 -  Fix recent flow regresssions.
+[33m58da7ca[m [sync] Bug 1521864 -  It should be possible to open the debugger in a tab. r=davidwalsh
+[33m7123628[m [sync] Bug 1519130 - Enable windowless worker debugging. r=davidwalsh
+[33mbaa8ea4[m [sync] Bug 1485664 - remove attachConsole from the debugger client; r=ochameau
+[33m9acd66b[m [Breakpoints] getBreakpointPositionsForLine should return null when nothing is found (#8006)
+[33m8a97c43[m Update name of repository (#8018)
+[33md324903[m [Breakpoints] Fix color for disabled conditional breakpoints and logpoints (#8008)
+[33m0b4ce4c[m Update snapshots for SourcesTreeItem (#8016)
+[33mc4fdcff[m Fix reps launchpad (#8015)
+[33m4542d99[m tweak source consolidation work. (#7984)
+[33m309cb77[m Rename repo from debugger.html to debugger (#8009)
+[33me54493e[m Fix jest SourceTreeItem tests (#8011)
+[33m7c914cf[m [Breakpoints] Improve column breakpoint performance (#8000)
+[33mbca5fa2[m Fix community-team.md (#7999)
+[33m86b04fb[m Fixing source selection with the keyboard (fixes #7874) (#7874) (#7992)
+[33m5bb11e0[m Update debugging-the-debugger.md (#7979)
+[33mf65d249[m Ensure consistent filenames throughout tabs, tree, and search (#7957)
+[33m2ebfac2[m fixed keyboard shortcuts on MacOS [#7892] (#7893)
+[33m1537bb8[m Update mochitests docs (#7988)
+[33me4c1f2d[m [Breakpoints] Only wait for the main thread to set/clear breakpoints. (#7996)
+[33ma6a69be[m Modified the Angular regex (#7950)
+[33m1e4e6ea[m Make search result code a bit more compact (#7995)
+[33m0cada82[m Remove postcss-bidirection (#7948)
+[33m62b8b83[m [Sources] Consolidate sources reducer (#7977)
+[33m02c392b[m Update maintainer.md (#7973)
+[33m10ffd6a[m Improve EventListener UI (#7937)
+[33md40bc5d[m Fix 7947 - Show context menu when right-clicking directory (#7949)
+[33m6493c5d[m [breakpoints Remove pause points and improve breakpoint positinos (#7922)
+[33m4a1622a[m sync commits from mc (125)
+[33m615cfe3[m [sync] Bug 1527122 - Update Debugger Frontend (Release 125). r=dwalsh
+[33m547613a[m [sync] Bug 1527612 - Format displayName in the server. r=loganfsmyth
+[33meb53a24[m [sync] Bug 1527684 - Clear asyncStore on schema change. r=bhackett
+[33m4f90f3f[m [sync] Bug 1518661 - Part 7: Update debugger server to use new getPossibleBreakpoints APIs. r=jlast
+[33mb68b89f[m Switch back to tcp (#7963)
+[33md4d84f4[m Update dependency devtools-launchpad to ^0.0.149 (#7965)
+[33m475cd7b[m Update dependency flow-bin to v0.93.0 (#7958)
+[33m4d5aa2e[m Fix Bugzilla 1108132 - Provide code wrapping pref for debugger (#7959)
+[33md858f39[m Renaming our org name to firefox-devtools (#7961)
+[33m93fa3ba[m Fix Frames Group style. (#7960)
+[33m7fab34d[m Upgrade Node in Circle, Travis (#7946)
+[33m326d859[m Use different labels for start and end PaneToggleButtons (#7741) (#7935)
+[33m3296ad4[m Add better keyboard support for focusable elements inside ObjectInspector and Tree components (fixes #7874)(#7874). (#7875)
+[33m490d79e[m Improves on debugging the debugger doc to make easier the inception. (#7924)
+[33m0ba5f05[m Add black box option to context menu for source tree items and source header (#7812)
+[33m6b53430[m Update dependency devtools-launchpad to ^0.0.148 (#7943)
+[33m3d9f98d[m Sync commits from release 125 (#7942)
+[33m07e1592[m Change editor line-height to 15px (#7929) (#7934)
+[33me67b519[m Use --theme-icon-* colors for all Debugger icons (#7743, #7936) (#7939)
+[33mf39173f[m [sync] Bug 1524374 - Remove breakpoint actors, r=jlast.
+[33mfc7c49c[m sync commits from release 125
+[33m2525b22[m [sync] Bug 1526247 - Rename webconsole-output-wrapper; r=bgrins.
+[33mfff4a7d[m [sync] Bug 1525685 - Remove server side breakpoint sliding code, r=jlast.
+[33mcb343ea[m [sync] Bug 1525482 - Remove pauseOnDOMEvents logic, r=lsmyth.
+[33m4c6f157[m XHR breakpoints with methods (#7721)
+[33mdc1317e[m [Breakpoints] Improve logpoints ux (#7811)
+[33maf2845e[m Fix getting-setup.md (#7926)
+[33m62f8bb0[m Consolidate icon styles into AccessibleImage.css and SourceIcon.css (#7890)
+[33m6b0b968[m [Breakpoints] Add syntax highlighting to conditional panel (#7911)
+[33mf3ec1ff[m Run mozilla-central Frames dependent tests on Travis. (#7770)
+[33m61c8987[m Bump flow-bin to 0.92.1 (#7930)
+[33m688be85[m [client] remove backward compatibility in a couple of cases (#7916)
+[33mf7299a5[m [blackbox] fix flow types for test (#7927)
+[33mf4621c3[m Fix README.md (#7919)
+[33m8e1333d[m [Breakpoints] Prevent two active breakpoints (#7908)
+[33md7ba1fa[m [Sources] RelativeSources attributes were not updated (#7910)
+[33m2476f5f[m Add context menus for handling breakpoints on a line (#7837)
+[33m3592900[m spread the options object inside the pendingBreakpoint (#7818)
+[33mb6481c6[m sync 124
+[33m4c70b68[m [sourcemaps] persist tasks
+[33m130583c[m [parser] stop importing devtools-source-map
+[33mfd395a5[m Prevent renovate from reopening PRs (#7906)
+[33ma1d04f0[m sync commits for release 123 (#7891)
+[33m775c7a1[m [release] packages should exclude builds (#7903)
+[33m6974c99[m [release] start copying packages (#7902)
+[33md5a9fd0[m Remove breakpoint sliding code. (#7895)
+[33mf52f87b[m Add flow to breakpointPositions (#7898)
+[33m3eb93dc[m Show command bar if paused and secondary panel hidden (#7760)
+[33m6c14ca8[m Add flow type to breakpointPositions (#7896)
+[33m1e4c636[m move from presise (#7894)
+[33m2abd593[m Update dependency devtools-launchpad to ^0.0.147 (#7886)
+[33m281a40c[m Update dependency devtools-launchpad to ^0.0.146 (#7885)
+[33md9eb396[m Stop waiting for sourceMaps.clearSourceMaps (#7883)
+[33mbd9638d[m Fix mapBindings exception when declaration with no initial value is provided (#7830) (#7865)
+[33maf6ea40[m [breakpoints] Add possible breakpoints (#7754)
+[33mfebbdd3[m Fix 7844: Implement ".devtools-monospace" CSS class (#7877)
+[33m290192a[m Improving the contrast of the hover background for the buttons in the dark mode - BUG ID - 15
