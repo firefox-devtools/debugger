@@ -80,6 +80,11 @@ function render(overrides = {}, mounted = false) {
     results: [],
     query: "foo",
     activeSearch: "project",
+    modifiers: {
+      regexMatch: false,
+      caseSensitive: false,
+      wholeWord: false
+    },
     closeProjectSearch: jest.fn(),
     searchSources: jest.fn(),
     clearSearch: jest.fn(),
@@ -87,6 +92,8 @@ function render(overrides = {}, mounted = false) {
     selectSpecificLocation: jest.fn(),
     doSearchForHighlight: jest.fn(),
     setActiveSearch: jest.fn(),
+    addSearchQuery: jest.fn(),
+    toggleProjectSearchModifier: jest.fn(),
     ...overrides
   };
 
@@ -177,17 +184,20 @@ describe("ProjectSearch", () => {
 
   it("onKeyDown Enter", () => {
     const searchSources = jest.fn();
+    const addSearchQuery = jest.fn();
     const component = render(
       {
         results: testResults,
-        searchSources
+        searchSources,
+        addSearchQuery
       },
       true
     );
     component
       .find("SearchInput input")
       .simulate("keydown", { key: "Enter", stopPropagation: jest.fn() });
-    expect(searchSources).toHaveBeenCalledWith("foo");
+    expect(addSearchQuery).toHaveBeenCalledWith("foo");
+    expect(searchSources).toHaveBeenCalled();
   });
 
   it("onEnterPress shortcut no match or setExpanded", () => {

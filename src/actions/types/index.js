@@ -99,6 +99,10 @@ export type SourceTreeAction =
 export type ProjectTextSearchAction =
   | {| +type: "ADD_QUERY", +query: string |}
   | {|
+      +type: "TOGGLE_PROJECT_SEARCH_MODIFIER",
+      +modifier: string
+    |}
+  | {|
       +type: "ADD_SEARCH_RESULT",
       +result: ProjectTextSearchResult
     |}

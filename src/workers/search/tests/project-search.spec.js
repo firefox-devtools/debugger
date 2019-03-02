@@ -12,20 +12,26 @@ const text = `
   }
 `;
 
+const modifiers = {
+  regexMatch: false,
+  caseSensitive: false,
+  wholeWord: false
+};
+
 describe("project search", () => {
   const emptyResults = [];
 
   it("throws on lack of source", () => {
     const needle = "test";
     const source: any = null;
-    const matches = () => findSourceMatches(source, needle);
+    const matches = () => findSourceMatches(source, needle, modifiers);
     expect(matches).toThrow(TypeError);
   });
 
   it("handles empty source object", () => {
     const needle = "test";
     const source: any = {};
-    const matches = findSourceMatches(source, needle);
+    const matches = findSourceMatches(source, needle, modifiers);
     expect(matches).toEqual(emptyResults);
   });
 
@@ -38,7 +44,7 @@ describe("project search", () => {
       url: "http://example.com/foo/bar.js"
     };
 
-    const matches = findSourceMatches(source, needle);
+    const matches = findSourceMatches(source, needle, modifiers);
     expect(matches).toMatchSnapshot();
   });
 
@@ -50,7 +56,7 @@ describe("project search", () => {
       id: "bar.js",
       url: "http://example.com/foo/bar.js"
     };
-    const matches = findSourceMatches(source, needle);
+    const matches = findSourceMatches(source, needle, modifiers);
     expect(matches).toEqual(emptyResults);
   });
 });

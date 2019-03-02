@@ -71,8 +71,8 @@ describe("project text search", () => {
 
     await dispatch(actions.newSource(source1));
     await dispatch(actions.newSource(source2));
-
-    await dispatch(actions.searchSources(mockQuery));
+    await dispatch(actions.addSearchQuery(mockQuery));
+    await dispatch(actions.searchSources());
 
     const results = getTextSearchResults(getState());
     expect(results).toMatchSnapshot();
@@ -95,8 +95,8 @@ describe("project text search", () => {
 
     await dispatch(actions.newSource(source1));
     await dispatch(actions.newSource(source2));
-
-    await dispatch(actions.searchSources(mockQuery));
+    await dispatch(actions.addSearchQuery(mockQuery));
+    await dispatch(actions.searchSources());
 
     const results = getTextSearchResults(getState());
     expect(results).toMatchSnapshot();
@@ -116,8 +116,12 @@ describe("project text search", () => {
       throw new Error("no barSource");
     }
     const sourceId = barSource.id;
-
-    await dispatch(actions.searchSource(sourceId, "bla"), "bla");
+    const modifiers = {
+      regexMatch: false,
+      caseSensitive: false,
+      wholeWord: false
+    };
+    await dispatch(actions.searchSource(sourceId, "bla", modifiers), "bla");
 
     const results = getTextSearchResults(getState());
 
@@ -130,7 +134,8 @@ describe("project text search", () => {
     const mockQuery = "foo";
 
     await dispatch(actions.newSource(makeSource("foo1")));
-    await dispatch(actions.searchSources(mockQuery));
+    await dispatch(actions.addSearchQuery(mockQuery));
+    await dispatch(actions.searchSources());
 
     expect(getTextSearchResults(getState())).toMatchSnapshot();
 
@@ -151,7 +156,8 @@ describe("project text search", () => {
     const mockQuery = "foo";
 
     await dispatch(actions.newSource(makeSource("foo1")));
-    await dispatch(actions.searchSources(mockQuery));
+    await dispatch(actions.addSearchQuery(mockQuery));
+    await dispatch(actions.searchSources());
 
     expect(getTextSearchResults(getState())).toMatchSnapshot();
 

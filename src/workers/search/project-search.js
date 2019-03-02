@@ -8,19 +8,17 @@
 
 import getMatches from "./get-matches";
 
-import type { Source } from "../../types";
+import type { Source, SearchModifiers } from "../../types";
 
-export function findSourceMatches(source: Source, queryText: string): Object[] {
+export function findSourceMatches(
+  source: Source,
+  queryText: string,
+  modifiers: SearchModifiers
+): Object[] {
   const { id, loadedState, text } = source;
   if (loadedState != "loaded" || typeof text != "string" || queryText == "") {
     return [];
   }
-
-  const modifiers = {
-    caseSensitive: false,
-    regexMatch: false,
-    wholeWord: false
-  };
 
   const lines = text.split("\n");
 

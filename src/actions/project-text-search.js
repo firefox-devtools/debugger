@@ -16,14 +16,21 @@ import { loadSourceText } from "./sources/loadSourceText";
 import {
   statusType,
   getTextSearchOperation,
-  getTextSearchStatus
+  getTextSearchStatus,
+  getTextSearchModifiers,
+  getTextSearchQuery
 } from "../reducers/project-text-search";
 
 import type { Action, ThunkArgs } from "./types";
+import type { SearchModifiers } from "../types";
 import type { SearchOperation } from "../reducers/project-text-search";
 
 export function addSearchQuery(query: string): Action {
   return { type: "ADD_QUERY", query };
+}
+
+export function toggleProjectSearchModifier(modifier: string): Action {
+  return { type: "TOGGLE_PROJECT_SEARCH_MODIFIER", modifier };
 }
 
 export function addOngoingSearch(ongoingSearch: SearchOperation): Action {
@@ -72,14 +79,16 @@ export function stopOngoingSearch() {
   };
 }
 
-export function searchSources(query: string) {
+export function searchSources() {
   let cancelled = false;
 
   const search = async ({ dispatch, getState }: ThunkArgs) => {
+    const modifiers = getTextSearchModifiers(getState());
+    const query = getTextSearchQuery(getState());
+
     dispatch(stopOngoingSearch());
     await dispatch(addOngoingSearch(search));
     await dispatch(clearSearchResults());
-    await dispatch(addSearchQuery(query));
     dispatch(updateSearchStatus(statusType.fetching));
     const validSources = getSourceList(getState()).filter(
       source => !hasPrettySource(getState(), source.id) && !isThirdParty(source)
@@ -89,7 +98,7 @@ export function searchSources(query: string) {
         return;
       }
       await dispatch(loadSourceText(source));
-      await dispatch(searchSource(source.id, query));
+      await dispatch(searchSource(source.id, query, modifiers));
     }
     dispatch(updateSearchStatus(statusType.done));
   };
@@ -101,14 +110,18 @@ export function searchSources(query: string) {
   return search;
 }
 
-export function searchSource(sourceId: string, query: string) {
+export function searchSource(
+  sourceId: string,
+  query: string,
+  modifiers: SearchModifiers
+) {
   return async ({ dispatch, getState }: ThunkArgs) => {
     const source = getSource(getState(), sourceId);
     if (!source) {
       return;
     }
 
-    const matches = await findSourceMatches(source, query);
+    const matches = await findSourceMatches(source, query, modifiers);
     if (!matches.length) {
       return;
     }

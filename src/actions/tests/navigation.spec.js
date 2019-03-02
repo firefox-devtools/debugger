@@ -51,7 +51,8 @@ describe("navigation", () => {
     const mockQuery = "foo";
 
     await dispatch(actions.newSource(makeSource("foo1")));
-    await dispatch(actions.searchSources(mockQuery));
+    await dispatch(actions.addSearchQuery(mockQuery));
+    await dispatch(actions.searchSources());
 
     let results = getTextSearchResults(getState());
     expect(results).toHaveLength(1);

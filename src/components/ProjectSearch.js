@@ -12,6 +12,7 @@ import actions from "../actions";
 
 import { getEditor } from "../utils/editor";
 import { highlightMatches } from "../utils/project-search";
+import { CloseButton } from "./shared/Button";
 
 import { statusType } from "../reducers/project-text-search";
 import { getRelativePath } from "../utils/sources-tree";
@@ -19,13 +20,15 @@ import {
   getActiveSearch,
   getTextSearchResults,
   getTextSearchStatus,
-  getTextSearchQuery
+  getTextSearchQuery,
+  getTextSearchModifiers
 } from "../selectors";
 
 import ManagedTree from "./shared/ManagedTree";
 import SearchInput from "./shared/SearchInput";
 import AccessibleImage from "./shared/AccessibleImage";
 
+import type { SearchModifiers } from "../types";
 import type { List } from "immutable";
 import type { ActiveSearchType } from "../reducers/types";
 import type { StatusType } from "../reducers/project-text-search";
@@ -68,7 +71,10 @@ type Props = {
   clearSearch: typeof actions.clearSearch,
   selectSpecificLocation: typeof actions.selectSpecificLocation,
   setActiveSearch: typeof actions.setActiveSearch,
-  doSearchForHighlight: typeof actions.doSearchForHighlight
+  doSearchForHighlight: typeof actions.doSearchForHighlight,
+  toggleProjectSearchModifier: typeof actions.toggleProjectSearchModifier,
+  addSearchQuery: typeof actions.addSearchQuery,
+  modifiers: SearchModifiers
 };
 
 function getFilePath(item: Item, index?: number) {
@@ -119,7 +125,8 @@ export class ProjectSearch extends Component<Props, State> {
   }
 
   doSearch(searchTerm: string) {
-    this.props.searchSources(searchTerm);
+    this.props.addSearchQuery(searchTerm);
+    this.props.searchSources();
   }
 
   toggleProjectTextSearch = (key: string, e: KeyboardEvent) => {
@@ -247,6 +254,68 @@ export class ProjectSearch extends Component<Props, State> {
     return this.renderMatch(item, focused);
   };
 
+  renderModifiers = () => {
+    const {
+      toggleProjectSearchModifier,
+      searchSources,
+      modifiers
+    } = this.props;
+
+    const navBtn = (modVal, type, className, tooltip) => {
+      const props = {
+        className,
+        key: type,
+        onMouseDown: () => {
+          toggleProjectSearchModifier(modVal);
+          searchSources();
+        },
+        onKeyDown: (e: any) => {
+          if (e.key === "Enter") {
+            toggleProjectSearchModifier(modVal);
+            searchSources();
+          }
+        },
+        title: tooltip,
+        type
+      };
+
+      return (
+        <button {...props}>
+          <AccessibleImage className={type} />
+        </button>
+      );
+    };
+
+    const { regexMatch, caseSensitive, wholeWord } = modifiers;
+
+    const regexMatchActiveClass = regexMatch ? "active" : "";
+    const caseSensitiveActiveClass = caseSensitive ? "active" : "";
+    const wholeWordActiveClass = wholeWord ? "active" : "";
+
+    return [
+      navBtn(
+        "regexMatch",
+        "regex-match",
+        classnames(regexMatchActiveClass),
+        L10N.getStr("symbolSearch.searchModifier.regex")
+      ),
+
+      navBtn(
+        "caseSensitive",
+        "case-match",
+        classnames(caseSensitiveActiveClass),
+        L10N.getStr("symbolSearch.searchModifier.caseSensitive")
+      ),
+
+      navBtn(
+        "wholeWord",
+        "whole-word-match",
+        classnames(wholeWordActiveClass),
+        L10N.getStr("symbolSearch.searchModifier.wholeWord")
+      )
+    ];
+  };
+
   renderResults = () => {
     const { status, results } = this.props;
     if (!this.props.query) {
@@ -288,26 +357,46 @@ export class ProjectSearch extends Component<Props, State> {
 
   renderInput() {
     const { status } = this.props;
+    const classes = classnames("project-search-bar", {
+      "project-search-bar-focused": this.state.inputFocused
+    });
     return (
-      <SearchInput
-        query={this.state.inputValue}
-        count={this.getResultCount()}
-        placeholder={L10N.getStr("projectTextSearch.placeholder")}
-        size="big"
-        showErrorEmoji={this.shouldShowErrorEmoji()}
-        summaryMsg={this.renderSummary()}
-        isLoading={status === statusType.fetching}
-        onChange={this.inputOnChange}
-        onFocus={() => this.setState({ inputFocused: true })}
-        onBlur={() => this.setState({ inputFocused: false })}
-        onKeyDown={this.onKeyDown}
-        onHistoryScroll={this.onHistoryScroll}
-        handleClose={
-          // TODO - This function doesn't quite match the signature.
-          (this.props.closeProjectSearch: any)
-        }
-        ref="searchInput"
-      />
+      <div className={classes}>
+        <SearchInput
+          query={this.state.inputValue}
+          count={this.getResultCount()}
+          placeholder={L10N.getStr("projectTextSearch.placeholder")}
+          size="big"
+          showErrorEmoji={this.shouldShowErrorEmoji()}
+          summaryMsg={this.renderSummary()}
+          isLoading={status === statusType.fetching}
+          onChange={this.inputOnChange}
+          onFocus={() => this.setState({ inputFocused: true })}
+          onBlur={() => this.setState({ inputFocused: false })}
+          shouldFocus={this.state.inputFocused}
+          onKeyDown={this.onKeyDown}
+          onHistoryScroll={this.onHistoryScroll}
+          showClose={false}
+          ref="searchInput"
+        />
+        <div className="project-search-nav">
+          <div className="search-modifiers">
+            <span className="pipe-divider" />
+            <span className="search-type-name">
+              {L10N.getStr("symbolSearch.searchModifier.modifiersLabel")}
+            </span>
+            {this.renderModifiers()}
+            <span className="pipe-divider" />
+          </div>
+
+          <React.Fragment>
+            <CloseButton
+              handleClick={this.props.closeProjectSearch}
+              buttonClass="big"
+            />
+          </React.Fragment>
+        </div>
+      </div>
     );
   }
 
@@ -334,7 +423,8 @@ const mapStateToProps = state => ({
   activeSearch: getActiveSearch(state),
   results: getTextSearchResults(state),
   query: getTextSearchQuery(state),
-  status: getTextSearchStatus(state)
+  status: getTextSearchStatus(state),
+  modifiers: getTextSearchModifiers(state)
 });
 
 export default connect(
@@ -345,6 +435,8 @@ export default connect(
     clearSearch: actions.clearSearch,
     selectSpecificLocation: actions.selectSpecificLocation,
     setActiveSearch: actions.setActiveSearch,
-    doSearchForHighlight: actions.doSearchForHighlight
+    doSearchForHighlight: actions.doSearchForHighlight,
+    toggleProjectSearchModifier: actions.toggleProjectSearchModifier,
+    addSearchQuery: actions.addSearchQuery
   }
 )(ProjectSearch);
