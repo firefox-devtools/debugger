@@ -326,14 +326,15 @@ const {
   selectSourceURL,
   setPopupObjectProperties,
   openLink,
-  openElementInInspector: actions.openElementInInspectorCommand
+  openElementInInspectorCommand
 } = actions;
 
 const mapDispatchToProps = {
   addExpression,
   selectSourceURL,
   setPopupObjectProperties,
-  openLink
+  openLink,
+  openElementInInspector: openElementInInspectorCommand
 };
 
 export default connect(
