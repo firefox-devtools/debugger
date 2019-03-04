@@ -230,13 +230,13 @@ class App extends Component<Props, State> {
             startPanelSize={startPanelSize}
             endPanelSize={endPanelSize}
           />
-          <EditorFooter horizontal={horizontal} />
           {!this.props.selectedSource ? (
             <WelcomeBox
               horizontal={horizontal}
               toggleShortcutsModal={() => this.toggleShortcutsModal()}
             />
           ) : null}
+          <EditorFooter horizontal={horizontal} />
           <ProjectSearch />
         </div>
       </div>
