@@ -25,6 +25,7 @@
 
 .tree .tree-node {
   display: flex;
+  padding-top: 1px;
 }
 
 .tree .tree-node:not(.focused):hover {
@@ -37,11 +38,6 @@
   margin-inline-start: 5px;
   border-inline-start: 1px solid #a2d1ff;
   flex-shrink: 0;
-}
-
-/* Align with expandables siblings (where we have the arrow) */
-.tree-node[data-expandable="false"] .tree-indent:last-of-type {
-  margin-inline-end: 15px;
 }
 
 /* For non expandable root nodes, we don't have .tree-indent elements, so we declare
@@ -63,7 +59,7 @@
   border: 0;
   padding: 0;
   margin-inline-start: 1px;
-  margin-inline-end: 4px;
+  margin-inline-end: 6px;
   transform-origin: center center;
   transition: transform 125ms var(--animation-curve);
   background-color: var(--theme-icon-dimmed-color);
