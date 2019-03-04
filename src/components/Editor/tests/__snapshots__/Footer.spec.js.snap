@@ -6,9 +6,9 @@ exports[`SourceFooter Component default case should render 1`] = `
 >
   <div
     className="cursor-position"
-    title="(Line 2, column 2)"
+    title="(Line 0, column 0)"
   >
-    (2, 2)
+    (0, 0)
   </div>
   <PaneToggleButton
     collapsed={false}
@@ -25,9 +25,9 @@ exports[`SourceFooter Component move cursor should render new cursor position 1`
 >
   <div
     className="cursor-position"
-    title="(Line 6, column 11)"
+    title="(Line 5, column 10)"
   >
-    (6, 11)
+    (5, 10)
   </div>
   <PaneToggleButton
     collapsed={false}
