@@ -28,8 +28,12 @@
 }
 
 .tree.object-inspector .block .object-label::before {
-  content: "☲ ";
-  font-size: 1.1em;
+  content: "☲";
+  font-size: 1em;
+  display: inline-block;
+  margin-top: -1px;
+  vertical-align: text-top;
+  padding-inline-start: 3px;
 }
 
 .object-inspector .object-delimiter {
