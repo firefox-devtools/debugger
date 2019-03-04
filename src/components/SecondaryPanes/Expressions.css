@@ -11,8 +11,11 @@
   margin: 0;
   border: 1px;
   background-color: var(--theme-sidebar-background);
-  font-size: 12px;
-  padding: 0.5em 1.6em;
+  line-height: 16px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-inline-start: 19px;
+  padding-inline-end: 12px;
   color: var(--theme-body-color);
   outline: 0;
 }
@@ -66,19 +69,31 @@
 
 .expression-container {
   border: 1px;
-  padding: 0.6em 1em 0.6em 0.5em;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-inline-start: 20px;
+  padding-inline-end: 12px;
   width: 100%;
   color: var(--theme-body-color);
   background-color: var(--theme-body-background);
   display: block;
   position: relative;
   overflow: hidden;
-  min-height: var(--breakpoint-expression-height);
 }
 
 .expression-container > .tree {
   width: 100%;
   overflow: hidden;
+}
+
+.expression-container .tree .tree-node[aria-level="1"] {
+  padding-top: 0px;
+}
+
+.expression-container .tree-node[aria-level="1"] .object-label {
+  font-family: var(--monospace-font-family);
+  line-height: 13px;
+  padding-top: 1px;
 }
 
 :root.theme-light .expression-container:hover {
@@ -104,29 +119,41 @@
   top: calc(50% - 8px);
 }
 
-[dir="ltr"] .expression-container__close-btn {
-  right: 0;
+.expression-content .object-node {
+  padding-inline-start: 0px;
 }
 
-[dir="rtl"] .expression-container__close-btn {
-  left: 0;
+.expressions-list .tree.object-inspector .node.object-node {
+  display: flex;
+  align-items: center;
+}
+
+.expression-container__close-btn {
+  max-height: 16px;
+  padding-inline-start: 4px;
+  align-self: flex-start;
 }
 
 .expression-content {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
   position: relative;
 }
 
 .expression-content .tree {
-  overflow-x: hidden;
-  max-width: calc(100% - var(--breakpoint-expression-right-clear-space));
+  overflow: hidden;
+  flex-grow: 1;
+  line-height: 14px;
 }
 
-.expression-content .tree-node {
-  overflow-x: hidden;
+/* to prevent the row from shifting vertically upon expanding the node */
+.expression-content .tree-node[aria-expanded="true"][aria-level="1"] {
+  margin-top: 1px;
 }
 
 .expression-content .tree-node[data-expandable="false"][aria-level="1"] {
-  padding-inline-start: 10px;
+  padding-inline-start: 0px;
 }
 
 .input-expression:not(:placeholder-shown) {
