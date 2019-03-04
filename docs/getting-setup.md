@@ -61,6 +61,14 @@ Here's a [screenshot][done-screenshot].
 
 You can either try to [start Firefox manually](#starting-firefox), or you can get help by commenting on [this issue](https://github.com/firefox-devtools/debugger/issues/1341).
 
+**What should I do if am unable to see icons on debugger?**
+
+Install packages using `yarn install`
+
+If the certificate is unable to be verified, you can open set strict-ssl to false. You should be able to configure this by running:
+
+`yarn config set "strict-ssl" false -g` then run `yarn install`
+    
 ### Next Steps
 
 Try our official getting started activity [_Debugging the Debugger_](./debugging-the-debugger.md)!
