@@ -10,7 +10,7 @@ import {
   createStore,
   makeSource
 } from "../../../utils/test-head";
-const { getSourcesUrlsInSources } = selectors;
+const { getSourcesUrlsInSources, getPlainUrlSelectorForUrl } = selectors;
 
 // eslint-disable-next-line max-len
 import { sourceThreadClient as threadClient } from "../../tests/helpers/threadClient.js";
@@ -18,6 +18,9 @@ import { sourceThreadClient as threadClient } from "../../tests/helpers/threadCl
 describe("sources - sources with querystrings", () => {
   it("should find two sources when same source with querystring", async () => {
     const { dispatch, getState } = createStore(threadClient);
+    const diffSelector = getPlainUrlSelectorForUrl(
+      "http://localhost:8000/examples/diff.js?v=1"
+    );
     await dispatch(actions.newSource(makeSource("base.js?v=1")));
     await dispatch(actions.newSource(makeSource("base.js?v=2")));
     await dispatch(actions.newSource(makeSource("diff.js?v=1")));
@@ -34,5 +37,10 @@ describe("sources - sources with querystrings", () => {
         "http://localhost:8000/examples/diff.js?v=1"
       )
     ).toHaveLength(1);
+    expect(diffSelector(getState())).toHaveLength(1);
+
+    await dispatch(actions.newSource(makeSource("diff.js?v=2")));
+
+    expect(diffSelector(getState())).toHaveLength(2);
   });
 });
