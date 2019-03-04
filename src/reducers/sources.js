@@ -248,7 +248,7 @@ function addSources(state: SourcesState, sources: Source[]) {
 
     // 3. Update the plain url map
     if (source.url) {
-      const plainUrl = source.url.split("?")[0];
+      const plainUrl = getPlainUrl(source.url);
       const existingPlainUrls = state.plainUrls[plainUrl] || [];
       if (!existingPlainUrls.includes(source.url)) {
         state.plainUrls[plainUrl] = [...existingPlainUrls, source.url];
@@ -494,11 +494,16 @@ export function hasPrettySource(state: OuterState, id: string) {
   return !!getPrettySource(state, id);
 }
 
+function getPlainUrl(url: string): string {
+  const queryStart = url.indexOf("?");
+  return queryStart !== -1 ? url.slice(0, queryStart) : url;
+}
+
 export function getPlainUrlSelectorForUrl(url: string): OuterState => string[] {
   if (!url) {
     return () => [];
   }
-  const plainUrl = url.split("?")[0];
+  const plainUrl = getPlainUrl(url);
   return state => getPlainUrls(state)[plainUrl] || [];
 }
 
