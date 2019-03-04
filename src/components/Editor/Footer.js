@@ -55,7 +55,7 @@ class SourceFooter extends PureComponent<Props, State> {
   constructor() {
     super();
 
-    this.state = { cursorPosition: { line: 1, column: 1 } };
+    this.state = { cursorPosition: { line: 0, column: 0 } };
   }
 
   componentDidUpdate() {
@@ -204,17 +204,24 @@ class SourceFooter extends PureComponent<Props, State> {
   };
 
   renderCursorPosition() {
-    const { cursorPosition } = this.state;
+    const selectedSource = this.props.selectedSource;
+
+    if (!selectedSource) {
+      return null;
+    }
+
+    const line = this.state.cursorPosition.line;
+    const column = this.state.cursorPosition.column;
 
     const text = L10N.getFormatStr(
       "sourceFooter.currentCursorPosition",
-      cursorPosition.line + 1,
-      cursorPosition.column + 1
+      line,
+      column
     );
     const title = L10N.getFormatStr(
       "sourceFooter.currentCursorPosition.tooltip",
-      cursorPosition.line + 1,
-      cursorPosition.column + 1
+      line,
+      column
     );
     return (
       <div className="cursor-position" title={title}>
