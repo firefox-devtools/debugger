@@ -60,18 +60,14 @@ class SourceFooter extends PureComponent<Props, State> {
 
   componentDidUpdate() {
     const eventDoc = document.querySelector(".CodeMirror");
-    console.log(eventDoc);
-    const codeMirror = eventDoc.CodeMirror;
-    console.log(codeMirror);
-    if (codeMirror) {
-      codeMirror.on("cursorActivity", this.onCursorChange);
+    if (eventDoc) {
+      eventDoc.CodeMirror.on("cursorActivity", this.onCursorChange);
     }
   }
 
   componentWillUnmount() {
     const eventDoc = document.querySelector(".CodeMirror");
-    const codeMirror = eventDoc.CodeMirror;
-    codeMirror.off("cursorActivity", this.onCursorChange);
+    eventDoc.CodeMirror.off("cursorActivity", this.onCursorChange);
   }
 
   prettyPrintButton() {
