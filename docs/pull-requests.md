@@ -129,9 +129,9 @@ Steps:
 
 ### Spell Checking
 
-We use the fabulous [ReText] project to check spelling and grammar in our documentation.
+We use the fabulous [retext] project to check spelling and grammar in our documentation.
 
-If you are contributing changes to documentation (typically any Markdown or '.md' file), **any spelling errors detected by _ReText_ will show up as a failing test in _CircleCI_**, which you can run locally using `yarn lint`.
+If you are contributing changes to documentation (typically any Markdown or '.md' file), **any spelling errors detected by _retext_ will show up as a failing test in _CircleCI_**, which you can run locally using `yarn lint`.
 
 These errors will appear like so:
 
@@ -140,9 +140,9 @@ These errors will appear like so:
 To fix these errors, you have two options:
 
 1. In case of an actual typo or spelling error, submit a new commit to your original PR that fixes the error. 
-2. In case _ReText_ is falsely detecting a misspelled word (for example, you used a word that doesn't yet appear in our dictionary), simply submit a commit to our dictionary file [`assets/dictionary.txt`](../assets/dictionary.txt) with the new words added to the list. 
+2. In case _retext_ is falsely detecting a misspelled word (for example, you used a word that doesn't yet appear in our dictionary), simply submit a commit to our dictionary file [`assets/dictionary.txt`](../assets/dictionary.txt) with the new words added to the list. 
 
-[ReText]: https://unifiedjs.github.io/
+[retext]: https://github.com/retextjs/retext
 [sc]: https://user-images.githubusercontent.com/254562/32508090-342a0d62-c3b7-11e7-80aa-17b430a675fd.png
 
 ### Git Workflow
