@@ -4,6 +4,8 @@
 
 // @flow
 
+import typeof SourceMaps from "devtools-source-map";
+
 import type { Frame, Scope, Why, WorkerList, MainThread } from "../../types";
 import type { State } from "../../reducers/types";
 import type { MatchedLocations } from "../../reducers/file-search";
@@ -34,7 +36,7 @@ export type ThunkArgs = {
   dispatch: (action: any) => Promise<any>,
   getState: () => State,
   client: typeof clientCommands,
-  sourceMaps: any,
+  sourceMaps: SourceMaps,
   panel: Panel
 };
 

@@ -5,6 +5,7 @@
 // @flow
 
 import { isOriginalId, originalToGeneratedId } from "devtools-source-map";
+import type { GeneratedRanges } from "devtools-source-map";
 
 import { getSourceFromId, hasBreakpointPositions } from "../../selectors";
 
@@ -47,7 +48,9 @@ async function getBreakpointPositions(
 
   let results = {};
   if (isOriginalId(sourceId)) {
-    const ranges = await sourceMaps.getGeneratedRangesForOriginal(
+    // Explicitly typing ranges is required to work around the following issue
+    // https://github.com/facebook/flow/issues/5294
+    const ranges: GeneratedRanges = await sourceMaps.getGeneratedRangesForOriginal(
       sourceId,
       source.url,
       true

@@ -12,6 +12,17 @@ import type { SourceLocation, Source, SourceId } from "../../../src/types";
 import type { SourceMapConsumer } from "source-map";
 import type { locationOptions } from "./source-map";
 
+export type GeneratedRanges = Array<{
+  start: {
+    line: number,
+    column: number
+  },
+  end: {
+    line: number,
+    column: number
+  }
+}>;
+
 export const dispatcher = new WorkerDispatcher();
 
 const _getGeneratedRanges = dispatcher.task("getGeneratedRanges", {
@@ -81,18 +92,7 @@ export const getGeneratedRangesForOriginal = async (
   sourceId: SourceId,
   url: string,
   mergeUnmappedRegions?: boolean
-): Promise<
-  Array<{
-    start: {
-      line: number,
-      column: number
-    },
-    end: {
-      line: number,
-      column: number
-    }
-  }>
-> =>
+): Promise<GeneratedRanges> =>
   dispatcher.invoke(
     "getGeneratedRangesForOriginal",
     sourceId,
@@ -102,7 +102,7 @@ export const getGeneratedRangesForOriginal = async (
 
 export const getFileGeneratedRange = async (
   originalSource: Source
-): Promise<?{ start: any, end: any }> =>
+): Promise<{ start: any, end: any }> =>
   dispatcher.invoke("getFileGeneratedRange", originalSource);
 
 export const getLocationScopes = dispatcher.task("getLocationScopes");
