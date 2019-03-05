@@ -22,6 +22,7 @@ import {
 import { getSelectedLocation } from "../../../utils/source-maps";
 import { features } from "../../../utils/prefs";
 import { getEditor } from "../../../utils/editor";
+import { createEditor } from "../../../utils/editor/create-editor";
 
 import type {
   Breakpoint as BreakpointType,
@@ -133,12 +134,18 @@ class Breakpoint extends PureComponent<Props> {
 
   highlightText = memoize(
     (text = "", editor) => {
+      let fakeEditor = null;
       if (!editor.CodeMirror) {
-        return { __html: text };
+        fakeEditor = editor = createEditor();
+        fakeEditor.appendToLocalElement(document.createElement("div"));
       }
 
       const node = document.createElement("div");
       editor.CodeMirror.runMode(text, "application/javascript", node);
+
+      if (fakeEditor) {
+        fakeEditor.destroy();
+      }
       return { __html: node.innerHTML };
     },
     (text, editor) => `${text} - ${editor.CodeMirror ? "editor" : ""}`
