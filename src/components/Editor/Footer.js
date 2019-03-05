@@ -59,21 +59,27 @@ class SourceFooter extends PureComponent<Props, State> {
   }
 
   componentDidUpdate() {
-    const eventDoc = document.querySelector(".CodeMirror");
-    const codeMirror = this.getCodeMirror(eventDoc);
+    const eventDoc = document.querySelector(".editor-mount .CodeMirror");
+    // querySelector can return null
     if (eventDoc) {
-      codeMirror.on("cursorActivity", this.onCursorChange);
+      this.toggleCodeMirror(eventDoc, true);
     }
   }
 
   componentWillUnmount() {
-    const eventDoc = document.querySelector(".CodeMirror");
-    const codeMirror = this.getCodeMirror(eventDoc);
-    codeMirror.off("cursorActivity", this.onCursorChange);
+    const eventDoc = document.querySelector(".editor-mount .CodeMirror");
+
+    if (eventDoc) {
+      this.toggleCodeMirror(eventDoc, false);
+    }
   }
 
-  getCodeMirror(eventDoc: Object): Object {
-    return eventDoc.CodeMirror;
+  toggleCodeMirror(eventDoc: Object, toggle: boolean) {
+    if (toggle === true) {
+      eventDoc.CodeMirror.on("cursorActivity", this.onCursorChange);
+    } else {
+      eventDoc.CodeMirror.off("cursorActivity", this.onCursorChange);
+    }
   }
 
   prettyPrintButton() {
@@ -210,24 +216,21 @@ class SourceFooter extends PureComponent<Props, State> {
   };
 
   renderCursorPosition() {
-    const selectedSource = this.props.selectedSource;
-
-    if (!selectedSource) {
+    if (!this.props.selectedSource) {
       return null;
     }
 
-    const line = this.state.cursorPosition.line;
-    const column = this.state.cursorPosition.column;
+    const { line, column } = this.state.cursorPosition;
 
     const text = L10N.getFormatStr(
       "sourceFooter.currentCursorPosition",
-      line,
-      column
+      line + 1,
+      column + 1
     );
     const title = L10N.getFormatStr(
       "sourceFooter.currentCursorPosition.tooltip",
-      line,
-      column
+      line + 1,
+      column + 1
     );
     return (
       <div className="cursor-position" title={title}>
