@@ -120,8 +120,14 @@ function update(
         prefs.pendingSelectedLocation = location;
       }
 
+      const existingSource = state.sources[action.source.id];
+
       return {
         ...state,
+        sources: {
+          ...state.sources,
+          [action.source.id]: { ...existingSource, wasFocused: true }
+        },
         selectedLocation: {
           sourceId: action.source.id,
           ...action.location

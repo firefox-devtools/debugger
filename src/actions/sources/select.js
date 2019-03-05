@@ -138,6 +138,10 @@ export function selectLocation(
     }
 
     const tabSources = getSourcesForTabs(getState());
+    location = {
+      ...location,
+      line: source.wasFocused ? NaN : 1
+    };
     if (!tabSources.includes(source)) {
       dispatch(addTab(source));
     }
