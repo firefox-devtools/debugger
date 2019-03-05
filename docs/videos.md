@@ -33,7 +33,7 @@ This [video](https://youtu.be/NoMryxkNPk0) adds additional functionality to even
 [getting-setup]: ./getting-setup.md
 [dev-server]: https://github.com/firefox-devtools/devtools-core/blob/master/packages/devtools-launchpad/README.md#dev-server
 [first-activity]: ./debugging-the-debugger.md
-[event-listeners]: http://github.com/firefox-devtools/debugger.html/issues/1232
+[event-listeners]: http://github.com/firefox-devtools/debugger/issues/1232
 
 ### Testing the Debugger
 

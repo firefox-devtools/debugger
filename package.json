@@ -1,15 +1,15 @@
 {
-  "name": "debugger.html",
+  "name": "debugger",
   "version": "0.6.0",
   "license": "MPL-2.0",
   "repository": {
-    "url": "git://github.com/firefox-devtools/debugger.html.git",
+    "url": "git://github.com/firefox-devtools/debugger.git",
     "type": "git"
   },
   "bugs": {
-    "url": "https://github.com/firefox-devtools/debugger.html/issues"
+    "url": "https://github.com/firefox-devtools/debugger/issues"
   },
-  "homepage": "https://github.com/firefox-devtools/debugger.html#readme",
+  "homepage": "https://github.com/firefox-devtools/debugger#readme",
   "engineStrict": true,
   "engines": {
     "node": ">=10.15.0"
@@ -26,7 +26,7 @@
     "lint:css": "stylelint \"src/components/**/*.css\"",
     "lint:js": "eslint *.js \"src/**/*.js\" \"packages/*/src/**/*.js\" --fix",
     "lint:jsx-a11y": "eslint *.js \"src/**/*.js\" \"packages/*/src/**/*.js\" --plugin=jsx-a11y --config=.eslintrc.jsx-a11y",
-    "lint:md": "remark -u devtools-linters/markdown/preset -qf *.md src configs docs",
+    "lint:md": "remark -u devtools-linters/markdown/preset -qf *.md src",
     "mochi": "mochii --mc ./firefox --interactive --default-test-path devtools/client/debugger/new",
     "mochid": "yarn mochi -- --jsdebugger --",
     "mochir": "yarn mochi -- --repeat 10 --",
@@ -56,7 +56,7 @@
     "babel-plugin-transform-imports": "^1.5.0",
     "codemirror": "^5.28.0",
     "devtools-environment": "^0.0.6",
-    "devtools-launchpad": "^0.0.149",
+    "devtools-launchpad": "^0.0.150",
     "devtools-linters": "^0.0.4",
     "devtools-reps": "0.23.0",
     "devtools-source-map": "0.16.0",
@@ -130,7 +130,7 @@
     "eslint-plugin-prettier": "^3.0.0",
     "eslint-plugin-react": "^7.2.1",
     "expect.js": "^0.3.1",
-    "flow-bin": "0.93.0",
+    "flow-bin": "0.94.0",
     "glob": "^7.0.3",
     "husky": "^1.0.1",
     "jest": "^23.0.0",
@@ -165,40 +165,5 @@
     "webpack": "^3.5.5",
     "webpack-visualizer-plugin": "^0.1.11",
     "workerjs": "github:jasonLaster/workerjs#a2425aaeebacae7a7640e496a54c2a41962f3890"
-  },
-  "lint-staged": {
-    "bin/*.js": [
-      "prettier",
-      "git add"
-    ],
-    "src/*.js": [
-      "prettier",
-      "git add"
-    ],
-    "src/*/*.js": [
-      "prettier",
-      "git add"
-    ],
-    "src/*/!(mochitest)**/*.js": [
-      "prettier",
-      "git add"
-    ],
-    "src/*/!(mochitest)*/**/*.js": [
-      "prettier",
-      "git add"
-    ],
-    "packages/**/src/*.js": [
-      "prettier",
-      "git add"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "post-checkout": "node bin/post-checkout.js",
-      "post-merge": "node bin/post-merge.js",
-      "post-rewrite": "node bin/post-rewrite.js",
-      "pre-commit": "yarn lint-staged",
-      "pre-push": "yarn lint"
-    }
   }
 }

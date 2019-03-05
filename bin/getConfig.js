@@ -15,7 +15,9 @@ function getConfig() {
     return firefoxConfig;
   }
 
-  return merge({}, developmentConfig, localConfig);
+  const envConfig = developmentConfig;
+
+  return merge({}, envConfig, localConfig);
 }
 
 module.exports = getConfig;

@@ -2,14 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-const { Task } = require("devtools/shared/task");
 const { LocalizationHelper } = require("devtools/shared/l10n");
-const { gDevTools } = require("devtools/client/framework/devtools");
 const {
   gDevToolsBrowser
 } = require("devtools/client/framework/devtools-browser");
-const { TargetFactory } = require("devtools/client/framework/target");
-const { Toolbox } = require("devtools/client/framework/toolbox");
 loader.lazyRequireGetter(
   this,
   "openContentLink",
@@ -132,11 +128,19 @@ DebuggerPanel.prototype = {
     return this._selectors.isPaused(this._getState());
   },
 
-  selectSource(url, line) {
+  selectSourceURL(url, line) {
     this._actions.selectSourceURL(url, { line });
   },
 
-  getSource(sourceURL) {
+  selectSource(sourceId, line) {
+    this._actions.selectSource(sourceId, { line });
+  },
+
+  getSourceByActorId(sourceId) {
+    return this._selectors.getSourceByActorId(this._getState(), sourceId);
+  },
+
+  getSourceByURL(sourceURL) {
     return this._selectors.getSourceByURL(this._getState(), sourceURL);
   },
 

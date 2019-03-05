@@ -45,6 +45,7 @@ function createOriginalSource(
     isBlackBoxed: false,
     loadedState: "unloaded",
     introductionUrl: null,
+    isExtension: false,
     actors: []
   };
 }
@@ -67,6 +68,14 @@ function loadSourceMaps(sources: Source[]) {
     );
 
     await sourceQueue.flush();
+
+    // We would like to sync breakpoints after we are done
+    // loading source maps as sometimes generated and original
+    // files share the same paths.
+    for (const source of sources) {
+      dispatch(checkPendingBreakpoints(source.id));
+    }
+
     return flatten(sourceList);
   };
 }
@@ -210,27 +219,17 @@ export function newSource(source: Source) {
 
 export function newSources(sources: Source[]) {
   return async ({ dispatch, getState }: ThunkArgs) => {
-    if (sources.length == 0) {
-      return;
-    }
+    const _newSources = sources.filter(
+      source => !getSource(getState(), source.id)
+    );
 
     dispatch({ type: "ADD_SOURCES", sources });
 
-    for (const source of sources) {
+    for (const source of _newSources) {
       dispatch(checkSelectedSource(source.id));
     }
 
-    // We would like to restore the blackboxed state
-    // after loading all states to make sure the correctness.
-    dispatch(restoreBlackBoxedSources(sources));
-
-    dispatch(loadSourceMaps(sources)).then(() => {
-      // We would like to sync breakpoints after we are done
-      // loading source maps as sometimes generated and original
-      // files share the same paths.
-      for (const source of sources) {
-        dispatch(checkPendingBreakpoints(source.id));
-      }
-    });
+    dispatch(restoreBlackBoxedSources(_newSources));
+    dispatch(loadSourceMaps(_newSources));
   };
 }

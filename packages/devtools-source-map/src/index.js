@@ -25,6 +25,10 @@ const _getAllGeneratedLocations = dispatcher.task("getAllGeneratedLocations", {
   queue: true
 });
 
+const _getOriginalLocation = dispatcher.task("getOriginalLocation", {
+  queue: true
+});
+
 export const setAssetRootURL = async (assetRoot: string): Promise<void> =>
   dispatcher.invoke("setAssetRootURL", assetRoot);
 
@@ -71,8 +75,30 @@ export const getAllGeneratedLocations = async (
 export const getOriginalLocation = async (
   location: SourceLocation,
   options: locationOptions = {}
-): Promise<SourceLocation> =>
-  dispatcher.invoke("getOriginalLocation", location, options);
+): Promise<SourceLocation> => _getOriginalLocation(location, options);
+
+export const getGeneratedRangesForOriginal = async (
+  sourceId: SourceId,
+  url: string,
+  mergeUnmappedRegions?: boolean
+): Promise<
+  Array<{
+    start: {
+      line: number,
+      column: number
+    },
+    end: {
+      line: number,
+      column: number
+    }
+  }>
+> =>
+  dispatcher.invoke(
+    "getGeneratedRangesForOriginal",
+    sourceId,
+    url,
+    mergeUnmappedRegions
+  );
 
 export const getFileGeneratedRange = async (
   originalSource: Source

@@ -1,10 +1,10 @@
-# [debugger.html][website]
+# [debugger][website]
 
-[website]: http://firefox-dev.tools/debugger.html/
+[website]: http://firefox-dev.tools/debugger/
 
-[![slack-badge]][slack] [![ci-badge]][ci-status] [![npm-version]][npm-package] [![PRs Welcome]][make-a-pull-request]
+[![slack-badge]][slack] [![ci-badge]][ci-status] [![PRs Welcome]][make-a-pull-request]
 
-debugger.html is a hackable debugger for modern times, built from the ground up using [React] and [Redux]. It is designed to be approachable, yet powerful. And it is engineered to be predictable, understandable, and testable.
+A hackable debugger for modern times, built from the ground up using [React] and [Redux]. It is designed to be approachable, yet powerful. And it is engineered to be predictable, understandable, and testable.
 
 [Mozilla] created this debugger for use in the [Firefox] Developer Tools. And we've purposely created this project in GitHub, using modern toolchains. We hope to not only create a great debugger that works with the [Firefox][firefox-rdp] and [Chrome][chrome-rdp] debugging protocols, but also develop a broader community that wants to create great tools for the web.
 
@@ -12,12 +12,12 @@ debugger.html is a hackable debugger for modern times, built from the ground up 
 
 ## Table of Contents
 
-* [Quick Setup](#quick-setup)
-* [Next Steps](#next-steps)
-* [Getting Involved](#getting-involved)
-* [Documentation](#documentation)
-* [Discussion](#discussion)
-* [License](#license)
+- [Quick Setup](#quick-setup)
+- [Next Steps](#next-steps)
+- [Getting Involved](#getting-involved)
+- [Documentation](#documentation)
+- [Discussion](#discussion)
+- [License](#license)
 
 ### Quick Setup
 
@@ -27,21 +27,23 @@ First, get a recent version of Node.js to run the debugger.
 
 ```bash
 curl -o- -L https://yarnpkg.com/install.sh | bash -s
-git clone https://github.com/firefox-devtools/debugger.html.git
+git clone https://github.com/firefox-devtools/debugger.git
 
-cd debugger.html
+cd debugger
 yarn
 yarn start
 # Go to http://localhost:8000
 ```
 
+If you are having problems with setting breakpoints in the debugger, launch [Firefox Nightly][firefox-nightly] instead of clicking on `Launch Firefox`.
+
 #### Next Steps
 
-* [`/claim`][cl] an [available] issue. If you get stuck, we'd be happy to [help].
-* Do our getting started activity _[Debugging the Debugger][first-activity]_.
-* Read the [app overview][app-overview], or [contributing][contributing] guidelines.
-* Watch a [video][getting-started-screencast] on contributing to the debugger, or [listen][changelog] to a podcast about the project.
-* Go to the [features][tracking] board to see what we're working on.
+- [`/claim`][cl] an [available] issue. If you get stuck, we'd be happy to [help].
+- Do our getting started activity _[Debugging the Debugger][first-activity]_.
+- Read the [app overview][app-overview], or [contributing][contributing] guidelines.
+- Watch a [video][getting-started-screencast] on contributing to the debugger, or [listen][changelog] to a podcast about the project.
+- Go to the [features][tracking] board to see what we're working on.
 
 ### Getting Involved
 
@@ -57,13 +59,13 @@ a look at [how we handle security bugs][vulnerabilities], and open a bug at [Bug
 
 ### Development Guide
 
-We strive to make the Debugger as development-friendly as possible. If you have a question that's not answered in the guide, ask us in [Slack][slack]. We also :heart: documentation PRs!
+We strive to make the debugger as development-friendly as possible. If you have a question that's not answered in the guide, ask us in [Slack][slack]. We also :heart: documentation PRs!
 
 |                        |                                             |
 | :--------------------: | :-----------------------------------------: |
 |        [Themes]        |       Theming changes for light, dark       |
 | [Internationalization] | Using or adding a localized string _(l10n)_ |
-|        [Prefs]         |        Using or adding preferences          |
+|        [Prefs]         |         Using or adding preferences         |
 |         [Flow]         |   Flow best practices and common gotchas    |
 |       [Logging]        |      Tips for logging Redux and client      |
 |       [Testing]        |       Unit and integration test tips        |
@@ -80,9 +82,9 @@ Our [weekly updates][weekly-updates] are also posted!
 
 Say hello in [Slack][slack] or in the [#devtools-html][irc-devtools-html] channel on irc.mozilla.org.
 
-* **Community Call**: Every Tuesday at 2 pm EST. [Join the Hangout][community-call].
-* **DevTools Call**: Every Tuesday at 12 pm EST. [Join the DevTools Vidyo][vidyo], or read the Meeting Notes [Google Doc][google-docs].
-* **Pairing**: Ask in [Slack][slack] and you'll either find someone, or be able to schedule a time for later.
+- **Community Call**: Every Tuesday at 2 pm EST. [Join the Hangout][community-call].
+- **DevTools Call**: Every Tuesday at 12 pm EST. [Join the DevTools Vidyo][vidyo], or read the Meeting Notes [Google Doc][google-docs].
+- **Pairing**: Ask in [Slack][slack] and you'll either find someone, or be able to schedule a time for later.
 
 ### License
 
@@ -97,30 +99,28 @@ Say hello in [Slack][slack] or in the [#devtools-html][irc-devtools-html] channe
 [slack-badge]: https://devtools-html-slack.herokuapp.com/badge.svg
 [slack]: https://devtools-html-slack.herokuapp.com/
 [debugger-screenshot]: https://shipusercontent.com/47aaaa7a6512691f964101bfb0832abe/Screen%20Shot%202017-08-15%20at%202.34.05%20PM.png
-[ci-badge]: https://circleci.com/gh/firefox-devtools/debugger.html.svg??&style=shield
-[ci-status]: https://circleci.com/gh/firefox-devtools/debugger.html/tree/master
-[npm-version]: https://img.shields.io/npm/v/debugger.html.svg
-[npm-package]: https://www.npmjs.com/package/debugger.html
+[ci-badge]: https://circleci.com/gh/firefox-devtools/debugger.svg??&style=shield
+[ci-status]: https://circleci.com/gh/firefox-devtools/debugger/tree/master
 [prs welcome]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
 [make-a-pull-request]: http://makeapullrequest.com
 [getting-started]: ./docs/getting-setup.md
 [contributing]: ./.github/CONTRIBUTING.md
 [getting-started-screencast]: ./docs/videos.md
-[available]: https://github.com/firefox-devtools/debugger.html/labels/available
-[app-overview]: ./docs/debugger-html-react-redux-overview.md
+[available]: https://github.com/firefox-devtools/debugger/labels/available
+[app-overview]: ./docs/debugger-react-redux-overview.md
 [first-activity]: ./docs/debugging-the-debugger.md
-[tracking]: https://github.com/firefox-devtools/debugger.html/projects/10
+[tracking]: https://github.com/firefox-devtools/debugger/projects/10
 [help]: ./docs/local-development.md#getting-help
 [participation guidelines]: https://www.mozilla.org/en-US/about/governance/policies/participation/
 [irc-devtools-html]: irc://irc.mozilla.org/devtools-html
-[community-call]: https://appear.in/debugger.html
+[community-call]: https://appear.in/firefox-debugger
 [devtools-call]: https://wiki.mozilla.org/DevTools
 [bugzilla]: https://bugzilla.mozilla.org/query.cgi
 [vulnerabilities]: https://www.mozilla.org/en-US/about/governance/policies/security-group/bugs/
 [vidyo]: https://v.mozilla.com/flex.html?roomdirect.html&key=n9vJUD3L1vRMHKQC5OCNRT3UBjw
 [changelog]: https://changelog.com/podcast/247
-[docs]: https://firefox-devtools.github.io/debugger.html/docs/
-[weekly-updates]: https://firefox-devtools.github.io/debugger.html/docs/updates
+[docs]: https://firefox-devtools.github.io/debugger/docs/
+[weekly-updates]: https://firefox-devtools.github.io/debugger/docs/updates
 [configs]: ./docs/local-development.md#configs
 [themes]: ./docs/local-development.md#themes
 [internationalization]: ./docs/local-development.md#internationalization
@@ -131,3 +131,4 @@ Say hello in [Slack][slack] or in the [#devtools-html][irc-devtools-html] channe
 [linting]: ./docs/local-development.md#linting
 [google-docs]: https://docs.google.com/document/d/146p7Y8Ues_AKjj4ReWCk6InOPWe3C3Koy6EQ1qnYKNM/edit
 [cl]: ./docs/issues.md#claiming-issues
+[firefox-nightly]: ./docs/getting-setup.md#starting-firefox-nightly

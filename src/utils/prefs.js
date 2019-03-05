@@ -10,7 +10,6 @@ import Services from "devtools-services";
 import { asyncStoreHelper } from "./asyncStoreHelper";
 
 const prefsSchemaVersion = "1.0.8";
-
 const pref = Services.pref;
 
 if (isDevelopment()) {
@@ -34,12 +33,10 @@ if (isDevelopment()) {
   pref("devtools.debugger.end-panel-collapsed", false);
   pref("devtools.debugger.start-panel-size", 300);
   pref("devtools.debugger.end-panel-size", 300);
-  pref("devtools.debugger.tabs", "[]");
   pref("devtools.debugger.tabsBlackBoxed", "[]");
   pref("devtools.debugger.ui.editor-wrapping", false);
   pref("devtools.debugger.ui.framework-grouping-on", true);
   pref("devtools.debugger.pending-selected-location", "{}");
-  pref("devtools.debugger.pending-breakpoints", "{}");
   pref("devtools.debugger.expressions", "[]");
   pref("devtools.debugger.file-search-case-sensitive", false);
   pref("devtools.debugger.file-search-whole-word", false);
@@ -64,7 +61,7 @@ if (isDevelopment()) {
   pref("devtools.debugger.features.map-await-expression", true);
   pref("devtools.debugger.features.xhr-breakpoints", true);
   pref("devtools.debugger.features.original-blackbox", true);
-  pref("devtools.debugger.features.windowless-workers", false);
+  pref("devtools.debugger.features.windowless-workers", true);
   pref("devtools.debugger.features.event-listeners-breakpoints", true);
   pref("devtools.debugger.features.log-points", true);
 }
@@ -92,10 +89,8 @@ export const prefs = new PrefsHelper("devtools", {
   startPanelSize: ["Int", "debugger.start-panel-size"],
   endPanelSize: ["Int", "debugger.end-panel-size"],
   frameworkGroupingOn: ["Bool", "debugger.ui.framework-grouping-on"],
-  tabs: ["Json", "debugger.tabs", []],
   tabsBlackBoxed: ["Json", "debugger.tabsBlackBoxed", []],
   pendingSelectedLocation: ["Json", "debugger.pending-selected-location", {}],
-  pendingBreakpoints: ["Json", "debugger.pending-breakpoints", {}],
   expressions: ["Json", "debugger.expressions", []],
   fileSearchCaseSensitive: ["Bool", "debugger.file-search-case-sensitive"],
   fileSearchWholeWord: ["Bool", "debugger.file-search-whole-word"],
