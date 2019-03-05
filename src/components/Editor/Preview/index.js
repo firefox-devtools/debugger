@@ -41,8 +41,7 @@ function inPopup(e) {
   }
 
   const pop =
-    relatedTarget.closest(".tooltip") ||
-    relatedTarget.closest(".popover");
+    relatedTarget.closest(".tooltip") || relatedTarget.closest(".popover");
 
   return pop;
 }
