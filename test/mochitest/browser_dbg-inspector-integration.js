@@ -21,8 +21,8 @@ add_task(async function() {
 
   await addExpression(dbg, "window.document.body.firstChild");
 
-  await waitForElementWithSelector(dbg, "button.open-inspector");
-  findElementWithSelector(dbg, "button.open-inspector").click();
+  await waitForElement(dbg, "openInspector");
+  findElement(dbg, "openInspector").click();
 
   await waitForInspectorPanelChange(dbg);
 });
@@ -40,8 +40,8 @@ add_task(async function() {
   await tryHovering(dbg, 5, 8, "popup");
 
   // Click the first inspector buttom to view node in inspector
-  await waitForElementWithSelector(dbg, "button.open-inspector");
-  findElementWithSelector(dbg, "button.open-inspector").click();
+  await waitForElement(dbg, "openInspector");
+  findElement(dbg, "openInspector").click();
 
   await waitForInspectorPanelChange(dbg);
 });

@@ -1148,6 +1148,7 @@ const selectors = {
   popup: ".popover",
   tooltip: ".tooltip",
   previewPopup: ".preview-popup",
+  openInspector: "button.open-inspector",
   outlineItem: i =>
     `.outline-list__element:nth-child(${i}) .function-signature`,
   outlineItems: ".outline-list__element",
@@ -1156,7 +1157,7 @@ const selectors = {
   blackbox: ".action.black-box",
   projectSearchCollapsed: ".project-text-search .arrow:not(.expanded)",
   projectSerchExpandedResults: ".project-text-search .result",
-  threadsPaneItems: `.workers-pane .worker`,
+  threadsPaneItems: ".workers-pane .worker",
   threadsPaneItem: i => `.workers-pane .worker:nth-child(${i})`,
   CodeMirrorLines: ".CodeMirror-lines"
 };
