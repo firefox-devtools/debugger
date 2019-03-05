@@ -104,7 +104,10 @@ export function setPreview(
           thread: selectedFrame.thread
         });
 
-        if (!result) {
+        // This specific case occurs for a token that follows an errored evaluation
+        // https://github.com/firefox-devtools/debugger/pull/8056
+        // Accommodating for this case allows us to show preview for falsy values
+        if (result === null) {
           return;
         }
 
