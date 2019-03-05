@@ -12,6 +12,8 @@
   mask-size: contain;
   mask-repeat: no-repeat;
   mask-position: center;
+  /* do not let images shrink when used as flex children */
+  flex-shrink: 0;
 }
 
 /* Expand arrow icon */
