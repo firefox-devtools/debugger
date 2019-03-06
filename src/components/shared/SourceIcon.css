@@ -141,7 +141,9 @@
   mask-image: url(/images/sources/underscore.svg);
 }
 
-.img.vue {
+/* We use both 'Vue' and 'VueJS' when identifying frameworks */
+.img.vue,
+.img.vuejs {
   background-image: url(/images/sources/vuejs.svg);
   background-color: transparent !important;
 }
