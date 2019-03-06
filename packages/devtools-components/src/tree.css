@@ -57,8 +57,7 @@
   height: 10px;
   border: 0;
   padding: 0;
-  margin-inline-start: 1px;
-  margin-inline-end: 6px;
+  margin-inline-end: 4px;
   transform-origin: center center;
   transition: transform 125ms var(--animation-curve);
   background-color: var(--theme-icon-dimmed-color);
