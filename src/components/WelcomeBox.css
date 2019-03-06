@@ -20,14 +20,6 @@
   background-color: var(--theme-body-background);
 }
 
-.welcomebox .command-bar-button {
-  position: absolute;
-  top: auto;
-  inset-inline-end: 0;
-  inset-inline-start: auto;
-  bottom: 0;
-}
-
 .alignlabel {
   display: flex;
   white-space: nowrap;
@@ -88,8 +80,4 @@
 .shortcutFunction .shortcutLabel {
   padding: 10px 5px;
   display: table-cell;
-}
-
-html .welcomebox .toggle-button-end.collapsed {
-  bottom: 1px;
 }
