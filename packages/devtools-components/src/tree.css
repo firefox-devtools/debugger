@@ -34,9 +34,15 @@
 .tree-indent {
   display: inline-block;
   width: 12px;
-  margin-inline-start: 5px;
+  margin-inline-start: 3px;
   border-inline-start: 1px solid #a2d1ff;
   flex-shrink: 0;
+}
+
+.debugger .tree-indent {
+  width: 16px;
+  margin-inline-start: 0px;
+  border-inline-start: 0;
 }
 
 /* For non expandable root nodes, we don't have .tree-indent elements, so we declare
