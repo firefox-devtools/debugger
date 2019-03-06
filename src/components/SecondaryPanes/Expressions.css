@@ -9,6 +9,7 @@
 .input-expression {
   width: 100%;
   margin: 0;
+  font-size: inherit;
   border: 1px;
   background-color: var(--theme-sidebar-background);
   line-height: 16px;
@@ -94,8 +95,6 @@
 
 .expression-container .tree-node[aria-level="1"] .object-label {
   font-family: var(--monospace-font-family);
-  line-height: 13px;
-  padding-top: 1px;
 }
 
 :root.theme-light .expression-container:hover {
