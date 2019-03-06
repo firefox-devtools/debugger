@@ -85,6 +85,5 @@ html[dir="rtl"] .object-node {
 }
 
 .scopes-list .tree {
-  /* overflow: hidden; */
-  line-height: 14px;
+  line-height: 15px;
 }

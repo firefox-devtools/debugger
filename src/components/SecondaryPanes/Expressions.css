@@ -88,6 +88,8 @@
 
 .expression-container .tree .tree-node[aria-level="1"] {
   padding-top: 0px;
+  /* keep line-height at 14px to prevent row from shifting upon expansion */
+  line-height: 14px;
 }
 
 .expression-container .tree-node[aria-level="1"] .object-label {
@@ -144,7 +146,7 @@
 .expression-content .tree {
   overflow: hidden;
   flex-grow: 1;
-  line-height: 14px;
+  line-height: 15px;
 }
 
 /* to prevent the row from shifting vertically upon expanding the node */

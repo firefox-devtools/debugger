@@ -25,7 +25,6 @@
 
 .tree .tree-node {
   display: flex;
-  padding-top: 1px;
 }
 
 .tree .tree-node:not(.focused):hover {
