@@ -107,6 +107,13 @@
   background-color: currentColor;
 }
 
+/*
+ * We also show the library icon in locations, which are forced to RTL.
+ */
+.frames .location .img.annotation-logo {
+  margin-inline-start: 4px;
+}
+
 /* Some elements are added to the DOM only to be printed into the clipboard
    when the user copy some elements. We don't want those elements to mess with
    the layout so we put them outside of the screen
