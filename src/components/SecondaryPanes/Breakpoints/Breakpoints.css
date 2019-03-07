@@ -10,6 +10,11 @@
   user-select: none;
 }
 
+.breakpoints-list {
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
 .breakpoints-list .breakpoint-heading {
   text-overflow: ellipsis;
   overflow: hidden;
@@ -18,10 +23,6 @@
   align-items: center;
   padding-top: 3px;
   padding-bottom: 3px;
-}
-
-.breakpoints-list .breakpoint-heading:nth-child(2) {
-  margin-top: 4px;
 }
 
 .breakpoints-list .breakpoint-heading .filename {
@@ -59,10 +60,6 @@
   padding-bottom: 3px;
   padding-top: 3px;
   user-select: none;
-}
-
-.breakpoints-list .breakpoint:last-child {
-  margin-bottom: 4px;
 }
 
 .breakpoints-exceptions-caught {
