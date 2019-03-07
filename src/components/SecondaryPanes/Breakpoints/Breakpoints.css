@@ -17,18 +17,18 @@
 
 .breakpoints-list .breakpoint-heading {
   text-overflow: ellipsis;
-  overflow: hidden;
-  display: flex;
   width: 100%;
-  align-items: center;
-  padding-top: 3px;
-  padding-bottom: 3px;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.breakpoint-heading:not(:first-child) {
+  margin-top: 2px;
 }
 
 .breakpoints-list .breakpoint-heading .filename {
   overflow: hidden;
   text-overflow: ellipsis;
-  line-height: 14px;
 }
 
 .breakpoints-list .breakpoint-heading .filename span {
