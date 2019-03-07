@@ -352,8 +352,7 @@ type BaseSource = {|
   +relativeUrl: string,
   +introductionUrl: ?string,
   +isExtension: boolean,
-  +actors: SourceActor[],
-  wasFocused?: boolean
+  +actors: SourceActor[]
 |};
 
 /**

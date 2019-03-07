@@ -8,14 +8,14 @@ import type { SourceLocation, SourceId } from "../types";
 
 type IncompleteLocation = {
   sourceId: SourceId,
-  line?: number,
+  line?: number | null,
   column?: number,
   sourceUrl?: string
 };
 
 export function createLocation({
   sourceId,
-  line = 1,
+  line = null,
   column,
   sourceUrl = ""
 }: IncompleteLocation): SourceLocation {

@@ -24,6 +24,7 @@ import { prefs } from "../../utils/prefs";
 import { shouldPrettyPrint, isMinified } from "../../utils/source";
 import { createLocation } from "../../utils/location";
 import { getMappedLocation } from "../../utils/source-maps";
+import { hasDocument } from "../../utils/editor/source-documents";
 
 import {
   getSource,
@@ -67,10 +68,7 @@ export const clearSelectedLocation = () => ({
  * @memberof actions/sources
  * @static
  */
-export function selectSourceURL(
-  url: string,
-  options: PartialPosition = { line: 1 }
-) {
+export function selectSourceURL(url: string, options: PartialPosition = {}) {
   return async ({ dispatch, getState, sourceMaps }: ThunkArgs) => {
     const source = getSourceByURL(getState(), url);
     if (!source) {
@@ -87,10 +85,7 @@ export function selectSourceURL(
  * @memberof actions/sources
  * @static
  */
-export function selectSource(
-  sourceId: string,
-  options: PartialPosition = { line: 1 }
-) {
+export function selectSource(sourceId: string, options: PartialPosition = {}) {
   return async ({ dispatch }: ThunkArgs) => {
     const location = createLocation({ ...options, sourceId });
     return dispatch(selectSpecificLocation(location));
@@ -138,14 +133,16 @@ export function selectLocation(
     }
 
     const tabSources = getSourcesForTabs(getState());
-    location = {
-      ...location,
-      line: source.wasFocused ? NaN : 1
-    };
     if (!tabSources.includes(source)) {
       dispatch(addTab(source));
     }
 
+    location = {
+      ...location,
+      // Select first line if opening file for first time otherwise
+      // the line passed or the one user scrolled to
+      line: !location.line && hasDocument(source.id) ? null : location.line || 1
+    };
     dispatch(setSelectedLocation(source, location));
 
     await dispatch(loadSourceText(source));
