@@ -47,3 +47,7 @@
   stroke: var(--blue-60);
   fill-opacity: 0.5;
 }
+
+.img.column-marker {
+  background-image: url(/images/column-marker.svg);
+}

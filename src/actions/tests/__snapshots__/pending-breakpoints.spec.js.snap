@@ -2,7 +2,7 @@
 
 exports[`initializing when pending breakpoints exist in prefs syncs pending breakpoints 1`] = `
 Object {
-  "http://localhost:8000/examples/bar.js:5:": Object {
+  "http://localhost:8000/examples/bar.js:5:2": Object {
     "astLocation": Object {
       "index": 0,
       "name": undefined,
@@ -12,12 +12,12 @@ Object {
     },
     "disabled": false,
     "generatedLocation": Object {
-      "column": undefined,
+      "column": 2,
       "line": 5,
       "sourceUrl": "http://localhost:8000/examples/bar.js",
     },
     "location": Object {
-      "column": undefined,
+      "column": 2,
       "line": 5,
       "sourceId": "",
       "sourceUrl": "http://localhost:8000/examples/bar.js",
@@ -36,7 +36,7 @@ Object {
     "index": 0,
     "name": undefined,
     "offset": Object {
-      "column": 0,
+      "column": 1,
       "line": 5,
       "sourceId": "foo.js/originalSource",
       "sourceUrl": "http://localhost:8000/examples/foo.js",
@@ -44,12 +44,12 @@ Object {
   },
   "disabled": false,
   "generatedLocation": Object {
-    "column": undefined,
+    "column": 1,
     "line": 5,
     "sourceUrl": "http://localhost:8000/examples/foo.js",
   },
   "location": Object {
-    "column": 0,
+    "column": 1,
     "line": 5,
     "sourceUrl": "http://localhost:8000/examples/foo.js",
   },
@@ -75,7 +75,7 @@ Object {
   },
   "disabled": false,
   "generatedLocation": Object {
-    "column": undefined,
+    "column": 0,
     "line": 5,
     "sourceUrl": "http://localhost:8000/examples/foo",
   },
@@ -106,7 +106,7 @@ Object {
   },
   "disabled": false,
   "generatedLocation": Object {
-    "column": undefined,
+    "column": 0,
     "line": 5,
     "sourceUrl": "http://localhost:8000/examples/foo2",
   },

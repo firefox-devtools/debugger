@@ -90,6 +90,7 @@ async function copyCommits() {
       .split("\n");
   }
 
+
   function commitChanges(message, authorship) {
     exec(
       `git add devtools; git commit --author="${authorship}" -m "${message}"`
