@@ -97,11 +97,11 @@
 }
 
 :root.theme-light .expression-container:hover {
-  background-color: var(--theme-selection-background-hover);
+  background-color: var(--search-overlays-semitransparent);
 }
 
 :root.theme-dark .expression-container:hover {
-  background-color: var(--theme-selection-background-hover);
+  background-color: var(--search-overlays-semitransparent);
 }
 
 .tree .tree-node:not(.focused):hover {
