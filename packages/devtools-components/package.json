@@ -19,7 +19,7 @@
     "react-dom-factories": "^1.0.2"
   },
   "devDependencies": {
-    "@storybook/react": "^3.3.14",
+    "@storybook/react": "^5.0.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-preset-react": "^6.24.1",
     "devtools-license-check": "^0.7.0",
