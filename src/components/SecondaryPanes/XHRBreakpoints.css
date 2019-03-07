@@ -37,6 +37,7 @@
   padding: 3px 0px;
   flex-grow: 1;
   background-color: var(--theme-sidebar-background);
+  font-size: inherit;
   line-height: 14px;
   color: var(--theme-body-color);
 }
