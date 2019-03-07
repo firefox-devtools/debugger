@@ -149,7 +149,6 @@ class Breakpoint extends PureComponent<Props> {
     const { breakpoint } = this.props;
     const text = this.getBreakpointText();
     const editor = getEditor();
-    const labelId = `${breakpoint.id}-label`;
     return (
       <div
         className={classnames({
@@ -170,16 +169,15 @@ class Breakpoint extends PureComponent<Props> {
           checked={!breakpoint.disabled}
           onChange={this.handleBreakpointCheckbox}
           onClick={ev => ev.stopPropagation()}
-          aria-labelledby={labelId}
         />
-        <span
-          id={labelId}
+        <label
+          htmlFor={breakpoint.id}
           className="breakpoint-label cm-s-mozilla devtools-monospace"
           onClick={this.selectBreakpoint}
           title={text}
         >
           <span dangerouslySetInnerHTML={this.highlightText(text, editor)} />
-        </span>
+        </label>
         <div className="breakpoint-line-close">
           <div className="breakpoint-line devtools-monospace">
             {this.getBreakpointLocation()}

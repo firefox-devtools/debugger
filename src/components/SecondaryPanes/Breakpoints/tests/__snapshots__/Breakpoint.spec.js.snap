@@ -8,17 +8,14 @@ exports[`Breakpoint disabled 1`] = `
   onDoubleClick={[Function]}
 >
   <input
-    aria-labelledby="1-label"
     checked={false}
     className="breakpoint-checkbox"
-    id={1}
     onChange={[Function]}
     onClick={[Function]}
     type="checkbox"
   />
-  <span
+  <label
     className="breakpoint-label cm-s-mozilla devtools-monospace"
-    id="1-label"
     onClick={[Function]}
   >
     <span
@@ -28,7 +25,7 @@ exports[`Breakpoint disabled 1`] = `
         }
       }
     />
-  </span>
+  </label>
   <div
     className="breakpoint-line-close"
   >
@@ -53,17 +50,14 @@ exports[`Breakpoint paused at a different 1`] = `
   onDoubleClick={[Function]}
 >
   <input
-    aria-labelledby="1-label"
     checked={true}
     className="breakpoint-checkbox"
-    id={1}
     onChange={[Function]}
     onClick={[Function]}
     type="checkbox"
   />
-  <span
+  <label
     className="breakpoint-label cm-s-mozilla devtools-monospace"
-    id="1-label"
     onClick={[Function]}
   >
     <span
@@ -73,7 +67,7 @@ exports[`Breakpoint paused at a different 1`] = `
         }
       }
     />
-  </span>
+  </label>
   <div
     className="breakpoint-line-close"
   >
@@ -98,17 +92,14 @@ exports[`Breakpoint paused at a generatedLocation 1`] = `
   onDoubleClick={[Function]}
 >
   <input
-    aria-labelledby="1-label"
     checked={true}
     className="breakpoint-checkbox"
-    id={1}
     onChange={[Function]}
     onClick={[Function]}
     type="checkbox"
   />
-  <span
+  <label
     className="breakpoint-label cm-s-mozilla devtools-monospace"
-    id="1-label"
     onClick={[Function]}
   >
     <span
@@ -118,7 +109,7 @@ exports[`Breakpoint paused at a generatedLocation 1`] = `
         }
       }
     />
-  </span>
+  </label>
   <div
     className="breakpoint-line-close"
   >
@@ -143,17 +134,14 @@ exports[`Breakpoint paused at an original location 1`] = `
   onDoubleClick={[Function]}
 >
   <input
-    aria-labelledby="1-label"
     checked={true}
     className="breakpoint-checkbox"
-    id={1}
     onChange={[Function]}
     onClick={[Function]}
     type="checkbox"
   />
-  <span
+  <label
     className="breakpoint-label cm-s-mozilla devtools-monospace"
-    id="1-label"
     onClick={[Function]}
   >
     <span
@@ -163,7 +151,7 @@ exports[`Breakpoint paused at an original location 1`] = `
         }
       }
     />
-  </span>
+  </label>
   <div
     className="breakpoint-line-close"
   >
@@ -188,17 +176,14 @@ exports[`Breakpoint simple 1`] = `
   onDoubleClick={[Function]}
 >
   <input
-    aria-labelledby="1-label"
     checked={true}
     className="breakpoint-checkbox"
-    id={1}
     onChange={[Function]}
     onClick={[Function]}
     type="checkbox"
   />
-  <span
+  <label
     className="breakpoint-label cm-s-mozilla devtools-monospace"
-    id="1-label"
     onClick={[Function]}
   >
     <span
@@ -208,7 +193,7 @@ exports[`Breakpoint simple 1`] = `
         }
       }
     />
-  </span>
+  </label>
   <div
     className="breakpoint-line-close"
   >
