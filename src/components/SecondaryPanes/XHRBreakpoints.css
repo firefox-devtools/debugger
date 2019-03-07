@@ -65,11 +65,11 @@
 }
 
 :root.theme-light .xhr-container:hover {
-  background-color: var(--theme-selection-background-hover);
+  background-color: var(--search-overlays-semitransparent);
 }
 
 :root.theme-dark .xhr-container:hover {
-  background-color: var(--theme-selection-background-hover);
+  background-color: var(--search-overlays-semitransparent);
 }
 
 .xhr-label-method {
