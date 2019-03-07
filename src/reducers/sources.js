@@ -16,7 +16,8 @@ import {
   getRelativeUrl,
   isGenerated,
   isOriginal as isOriginalSource,
-  isUrlExtension
+  isUrlExtension,
+  getPlainUrl
 } from "../utils/source";
 
 import { originalToGeneratedId } from "devtools-source-map";
@@ -494,24 +495,16 @@ export function hasPrettySource(state: OuterState, id: string) {
   return !!getPrettySource(state, id);
 }
 
-function getPlainUrl(url: string): string {
-  const queryStart = url.indexOf("?");
-  return queryStart !== -1 ? url.slice(0, queryStart) : url;
-}
-
-export function getPlainUrlSelectorForUrl(url: string): OuterState => string[] {
-  if (!url) {
-    return () => [];
-  }
-  const plainUrl = getPlainUrl(url);
-  return state => getPlainUrls(state)[plainUrl] || [];
-}
-
 export function getSourcesUrlsInSources(
   state: OuterState,
-  url: string
+  url: ?string
 ): string[] {
-  return getPlainUrlSelectorForUrl(url)(state);
+  if (!url) {
+    return [];
+  }
+
+  const plainUrl = getPlainUrl(url);
+  return getPlainUrls(state)[plainUrl] || [];
 }
 
 export function getHasSiblingOfSameName(state: OuterState, source: ?Source) {
