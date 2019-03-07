@@ -80,41 +80,39 @@ class Breakpoints extends Component<Props> {
     if (!breakpointSources.length) {
       return null;
     }
-    
+
     const sources = [
       ...breakpointSources.map(({ source, breakpoints }) => source)
     ];
 
     return (
       <div className="pane breakpoints-list">
-        {
-          breakpointSources.map(({ source, breakpoints, i }) => {
-            const path = getDisplayPath(source, sources);
-            const sortedBreakpoints = sortSelectedBreakpoints(
-              breakpoints,
-              selectedSource
-            );
+        {breakpointSources.map(({ source, breakpoints, i }) => {
+          const path = getDisplayPath(source, sources);
+          const sortedBreakpoints = sortSelectedBreakpoints(
+            breakpoints,
+            selectedSource
+          );
 
-            return [
-              <BreakpointHeading
+          return [
+            <BreakpointHeading
+              source={source}
+              sources={sources}
+              path={path}
+              key={source.url}
+            />,
+            ...sortedBreakpoints.map(breakpoint => (
+              <Breakpoint
+                breakpoint={breakpoint}
                 source={source}
-                sources={sources}
-                path={path}
-                key={source.url}
-              />,
-              ...sortedBreakpoints.map(breakpoint => (
-                <Breakpoint
-                  breakpoint={breakpoint}
-                  source={source}
-                  selectedSource={selectedSource}
-                  key={makeBreakpointId(
-                    getSelectedLocation(breakpoint, selectedSource)
-                  )}
-                />
-              ))
-            ];
-          })
-        }
+                selectedSource={selectedSource}
+                key={makeBreakpointId(
+                  getSelectedLocation(breakpoint, selectedSource)
+                )}
+              />
+            ))
+          ];
+        })}
       </div>
     );
   }
