@@ -131,7 +131,7 @@ We are lucky to have lots of [nice people][getting-help] here.
 #### Your First Code Contribution
 
 If you're looking for a good issue, you can look through
-the [help wanted][labels-help-wanted-available] issues.
+the [:wave: good first issue](https://github.com/firefox-devtools/debugger/labels/%3Awave%3A%20%20good%20first%20issue) and [:wave: help wanted][labels-help-wanted-available] issues.
 
 These issues should be well documented.
 
