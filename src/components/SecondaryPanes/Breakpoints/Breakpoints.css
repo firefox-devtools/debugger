@@ -162,7 +162,7 @@ html .breakpoints-list .breakpoint.paused {
 
 .breakpoints-list .breakpoint-label span,
 .breakpoint-line-close {
-  display: inline-block;
+  display: inline;
   line-height: 14px;
 }
 
