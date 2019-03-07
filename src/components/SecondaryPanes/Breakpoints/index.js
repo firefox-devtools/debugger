@@ -77,14 +77,18 @@ class Breakpoints extends Component<Props> {
 
   renderBreakpoints() {
     const { breakpointSources, selectedSource } = this.props;
+    if (!breakpointSources.length) {
+      return null;
+    }
+    
     const sources = [
       ...breakpointSources.map(({ source, breakpoints }) => source)
     ];
 
     return (
       <div className="pane breakpoints-list">
-        {[
-          ...breakpointSources.map(({ source, breakpoints, i }) => {
+        {
+          breakpointSources.map(({ source, breakpoints, i }) => {
             const path = getDisplayPath(source, sources);
             const sortedBreakpoints = sortSelectedBreakpoints(
               breakpoints,
@@ -110,7 +114,7 @@ class Breakpoints extends Component<Props> {
               ))
             ];
           })
-        ]}
+        }
       </div>
     );
   }
@@ -119,7 +123,7 @@ class Breakpoints extends Component<Props> {
     return (
       <div>
         {this.renderExceptionsOptions()}
-        {!!this.props.breakpointSources.length && this.renderBreakpoints()}
+        {this.renderBreakpoints()}
       </div>
     );
   }
