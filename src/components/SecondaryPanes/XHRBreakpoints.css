@@ -5,7 +5,6 @@
 .xhr-input-container {
   display: flex;
   border: 1px solid transparent;
-
 }
 
 .xhr-input-container.focused {
