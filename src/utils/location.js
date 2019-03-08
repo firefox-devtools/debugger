@@ -15,7 +15,7 @@ type IncompleteLocation = {
 
 export function createLocation({
   sourceId,
-  line = 1,
+  line,
   column,
   sourceUrl = ""
 }: IncompleteLocation): SourceLocation {

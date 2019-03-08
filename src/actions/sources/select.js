@@ -67,10 +67,7 @@ export const clearSelectedLocation = () => ({
  * @memberof actions/sources
  * @static
  */
-export function selectSourceURL(
-  url: string,
-  options: PartialPosition = { line: 1 }
-) {
+export function selectSourceURL(url: string, options: PartialPosition = {}) {
   return async ({ dispatch, getState, sourceMaps }: ThunkArgs) => {
     const source = getSourceByURL(getState(), url);
     if (!source) {
@@ -87,10 +84,7 @@ export function selectSourceURL(
  * @memberof actions/sources
  * @static
  */
-export function selectSource(
-  sourceId: string,
-  options: PartialPosition = { line: 1 }
-) {
+export function selectSource(sourceId: string, options: PartialPosition = {}) {
   return async ({ dispatch }: ThunkArgs) => {
     const location = createLocation({ ...options, sourceId });
     return dispatch(selectSpecificLocation(location));
@@ -139,6 +133,11 @@ export function selectLocation(
 
     const tabSources = getSourcesForTabs(getState());
     if (!tabSources.includes(source)) {
+      // If the source wasn't already open, ensure the editor is scrolled
+      // to the first line
+      if (!location.line) {
+        location = { ...location, line: 1 };
+      }
       dispatch(addTab(source));
     }
 
