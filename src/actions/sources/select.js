@@ -35,7 +35,7 @@ import {
 } from "../../selectors";
 
 import type { SourceLocation, PartialPosition, Source } from "../../types";
-import type { ThunkArgs } from "../types";
+import { hasDocument } from "../../utils/editor";
 
 export const setSelectedLocation = (
   source: Source,
@@ -133,12 +133,16 @@ export function selectLocation(
 
     const tabSources = getSourcesForTabs(getState());
     if (!tabSources.includes(source)) {
-      // If the source wasn't already open, ensure the editor is scrolled
-      // to the first line
-      if (!location.line) {
-        location = { ...location, line: 1 };
-      }
       dispatch(addTab(source));
+    }
+
+    // If the source wasn't already open, ensure the editor is scrolled
+    // to the first line
+    if (
+      (!tabSources.includes(source) || !hasDocument(source.id)) &&
+      !location.line
+    ) {
+      location = { ...location, line: 1 };
     }
 
     dispatch(setSelectedLocation(source, location));
