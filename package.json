@@ -46,7 +46,9 @@
     "flow-react": "flow-coverage-report -i 'src/components/**/*.js' -t text",
     "nom": "node bin/nom",
     "diff": "node bin/diff",
-    "install": "prettier --write package.json"
+    "install": "prettier --write package.json",
+    "build-storybook": "build-storybook",
+    "storybook": "start-storybook -p 9001 -c .storybook"
   },
   "dependencies": {
     "@babel/core": "^7.0.0-beta.55",
@@ -102,6 +104,8 @@
   "main": "src/main.js",
   "author": "Jason Laster <jlaster@mozilla.com>",
   "devDependencies": {
+    "@storybook/addon-info": "^5.0.1",
+    "@storybook/react": "^4.1.13",
     "@sucrase/webpack-object-rest-spread-plugin": "^1.0.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^23.0.0",
