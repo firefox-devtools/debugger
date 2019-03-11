@@ -50,10 +50,9 @@ function getElementFromPos(pos: DOMRect) {
   // We need to use element*s*AtPoint because the tooltip overlays
   // the token and thus an undesirable element may be returned
   // $FlowIgnore
-  const elementsAtPoint = [...document.elementsFromPoint(
-    pos.x + pos.width / 2,
-    pos.y + pos.height / 2
-  )];
+  const elementsAtPoint = [
+    ...document.elementsFromPoint(pos.x + pos.width / 2, pos.y + pos.height / 2)
+  ];
 
   return elementsAtPoint.find(el => el.className.startsWith("cm-"));
 }
