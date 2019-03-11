@@ -12,7 +12,7 @@ env:
   global:
     - DISPLAY=':99.0'
     - YARN_VERSION='1.9.4'
-    - MC_COMMIT='f7dc130bc082' # https://hg.mozilla.org/mozilla-central/shortlog
+    - MC_COMMIT='2ea0c1db7e60' # https://hg.mozilla.org/mozilla-central/shortlog
 
 notifications:
   slack:
@@ -52,7 +52,6 @@ before_script:
 
 script:
   - ./node_modules/.bin/mochii --ci --mc ./firefox --headless
-    browser_browser_toolbox_debugger
     browser_keybindings_01.js
     browser_toolbox_getpanelwhenready.js
     browser_markup_links_06.js
