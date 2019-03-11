@@ -223,6 +223,10 @@ class Editor extends PureComponent<Props, State> {
       L10N.getStr("toggleCondPanel.key"),
       this.onToggleConditionalPanel
     );
+    shortcuts.on(
+      L10N.getStr("toggleLogPanel.key"),
+      this.onToggleConditionalPanel
+    );
     shortcuts.on(L10N.getStr("sourceTabs.closeTab.key"), this.onClosePress);
     shortcuts.on("Esc", this.onEscape);
     shortcuts.on(searchAgainPrevKey, this.onSearchAgain);
@@ -253,6 +257,7 @@ class Editor extends PureComponent<Props, State> {
     shortcuts.off(L10N.getStr("sourceTabs.closeTab.key"));
     shortcuts.off(L10N.getStr("toggleBreakpoint.key"));
     shortcuts.off(L10N.getStr("toggleCondPanel.key"));
+    shortcuts.off(L10N.getStr("toggleLogPanel.key"));
     shortcuts.off(searchAgainPrevKey);
     shortcuts.off(searchAgainKey);
   }
@@ -300,11 +305,16 @@ class Editor extends PureComponent<Props, State> {
     e.stopPropagation();
     e.preventDefault();
     const line = this.getCurrentLine();
+    
     if (typeof line !== "number") {
       return;
     }
 
-    this.toggleConditionalPanel(line);
+    if (key === L10N.getStr("toggleLogPanel.key")) {
+      this.toggleConditionalPanel(line, true);
+    } else {
+      this.toggleConditionalPanel(line);
+    }
   };
 
   onEditorScroll = debounce(this.props.updateViewport, 200);
@@ -453,7 +463,7 @@ class Editor extends PureComponent<Props, State> {
     }
   }
 
-  toggleConditionalPanel = line => {
+  toggleConditionalPanel = (line, log: boolean = false) => {
     const {
       conditionalPanelLocation,
       closeConditionalPanel,
@@ -473,7 +483,7 @@ class Editor extends PureComponent<Props, State> {
       line: line,
       sourceId: selectedSource.id,
       sourceUrl: selectedSource.url
-    });
+    }, log);
   };
 
   shouldScrollToLocation(nextProps) {

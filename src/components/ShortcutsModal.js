@@ -49,6 +49,10 @@ export class ShortcutsModal extends Component<Props> {
           L10N.getStr("shortcuts.toggleCondPanel"),
           formatKeyShortcut(L10N.getStr("toggleCondPanel.key"))
         )}
+        {this.renderShorcutItem(
+          L10N.getStr("shortcuts.toggleLogPanel"),
+          formatKeyShortcut(L10N.getStr("toggleLogPanel.key"))
+        )}
       </ul>
     );
   }

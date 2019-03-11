@@ -79,7 +79,7 @@ export const addLogPointItem = (
   accesskey: L10N.getStr("editor.addLogPoint.accesskey"),
   disabled: false,
   click: () => breakpointActions.openConditionalPanel(location, true),
-  accelerator: L10N.getStr("toggleCondPanel.key")
+  accelerator: L10N.getStr("toggleLogPanel.key")
 });
 
 export const editLogPointItem = (
@@ -91,7 +91,7 @@ export const editLogPointItem = (
   accesskey: L10N.getStr("editor.addLogPoint.accesskey"),
   disabled: false,
   click: () => breakpointActions.openConditionalPanel(location, true),
-  accelerator: L10N.getStr("toggleCondPanel.key")
+  accelerator: L10N.getStr("toggleLogPanel.key")
 });
 
 export const logPointItem = (
