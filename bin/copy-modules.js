@@ -54,7 +54,7 @@ DIRS += [
 __DIRS__
 ]
 
-DebuggerModules(
+CompiledModules(
 __FILES__
 )
 `;
