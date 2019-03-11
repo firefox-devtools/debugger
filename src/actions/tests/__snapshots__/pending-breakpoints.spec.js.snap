@@ -38,7 +38,7 @@ Object {
     "offset": Object {
       "column": 1,
       "line": 5,
-      "sourceId": "foo.js/originalSource",
+      "sourceId": "foo.js",
       "sourceUrl": "http://localhost:8000/examples/foo.js",
     },
   },
@@ -69,7 +69,7 @@ Object {
     "offset": Object {
       "column": 0,
       "line": 5,
-      "sourceId": "foo/originalSource",
+      "sourceId": "foo",
       "sourceUrl": "http://localhost:8000/examples/foo",
     },
   },
@@ -100,7 +100,7 @@ Object {
     "offset": Object {
       "column": 0,
       "line": 5,
-      "sourceId": "foo2/originalSource",
+      "sourceId": "foo2",
       "sourceUrl": "http://localhost:8000/examples/foo2",
     },
   },
