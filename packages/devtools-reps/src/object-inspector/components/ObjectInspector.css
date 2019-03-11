@@ -43,7 +43,7 @@
 .object-inspector .tree-node .arrow {
   display: inline-block;
   vertical-align: middle;
-  margin-inline-start: -1px
+  margin-inline-start: -1px;
 }
 
 /* Focused styles */
