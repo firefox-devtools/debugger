@@ -305,7 +305,7 @@ class Editor extends PureComponent<Props, State> {
     e.stopPropagation();
     e.preventDefault();
     const line = this.getCurrentLine();
-    
+
     if (typeof line !== "number") {
       return;
     }
@@ -479,11 +479,14 @@ class Editor extends PureComponent<Props, State> {
       return;
     }
 
-    return openConditionalPanel({
-      line: line,
-      sourceId: selectedSource.id,
-      sourceUrl: selectedSource.url
-    }, log);
+    return openConditionalPanel(
+      {
+        line: line,
+        sourceId: selectedSource.id,
+        sourceUrl: selectedSource.url
+      },
+      log
+    );
   };
 
   shouldScrollToLocation(nextProps) {
