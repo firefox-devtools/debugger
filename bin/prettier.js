@@ -14,6 +14,7 @@ const args = [
   "*.js",
   "*.json",
   "packages/**/src/*.js",
+  "packages/**/src/*.css",
   "src/*.js",
   "src/*/*.js",
   "src/components/**/*.css",
