@@ -616,7 +616,7 @@ class Editor extends PureComponent<Props, State> {
   renderSearchBar() {
     const { editor } = this.state;
 
-    if (!editor) {
+    if (!this.props.selectedSource) {
       return null;
     }
 
