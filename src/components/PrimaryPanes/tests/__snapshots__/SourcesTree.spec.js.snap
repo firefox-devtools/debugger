@@ -69,7 +69,7 @@ exports[`SourcesTree Should show a 'No Sources' message if there are no sources 
     className="no-sources-message"
     key="empty"
   >
-    No Sources
+    This page has no sources.
   </div>
 </div>
 `;
