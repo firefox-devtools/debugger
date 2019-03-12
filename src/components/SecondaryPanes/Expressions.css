@@ -95,7 +95,7 @@
 
 .expression-container__close-btn {
   position: absolute;
-  /* hiding button outside of row until hovered or focused*/
+  /* hiding button outside of row until hovered or focused */
   top: -100px;
 }
 
