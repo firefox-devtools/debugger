@@ -310,11 +310,8 @@ class Editor extends PureComponent<Props, State> {
       return;
     }
 
-    if (key === L10N.getStr("toggleLogPanel.key")) {
-      this.toggleConditionalPanel(line, true);
-    } else {
-      this.toggleConditionalPanel(line);
-    }
+    const isLog = key === L10N.getStr("toggleLogPanel.key");
+    this.toggleConditionalPanel(line, isLog);
   };
 
   onEditorScroll = debounce(this.props.updateViewport, 200);
