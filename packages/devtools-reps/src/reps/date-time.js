@@ -30,7 +30,7 @@ function DateTime(props) {
       getTitle(grip),
       span(
         { className: "Date" },
-        new Date(grip.preview.timestamp).toISOString()
+        new Date(grip.preview.timestamp).toLocaleDateString()
       )
     );
   } catch (e) {
