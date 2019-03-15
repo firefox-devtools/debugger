@@ -39,6 +39,10 @@
   list-style: none;
 }
 
+.outline-list__class-list > .outline-list__element {
+  padding-left: 2rem;
+}
+
 .outline-list__class-list .function-signature .function-name {
   color: var(--theme-highlight-green);
 }
@@ -47,15 +51,16 @@
   color: inherit;
 }
 
-.outline-list .outline-list__class h2 {
+.outline-list__class h2 {
   font-weight: normal;
   font-size: 1em;
-  padding: 3px 0 3px 10px;
+  padding: 3px 0;
+  padding-inline-start: 10px;
   color: var(--blue-55);
   margin: 0;
 }
 
-.outline-list .outline-list__class:not(:first-child) h2 {
+.outline-list__class:not(:first-child) h2 {
   margin-top: 12px;
 }
 
@@ -78,12 +83,11 @@
 }
 
 .outline-list > .outline-list__element {
-  padding-left: 0;
+  padding-inline-start: 1rem;
 }
 
 .outline-list__element-icon {
-  padding-right: 0.4rem;
-  padding-left: 1rem;
+  padding-inline-end: 0.4rem;
 }
 
 .outline-list__element:hover {
