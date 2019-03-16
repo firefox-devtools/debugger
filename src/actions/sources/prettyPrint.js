@@ -74,13 +74,7 @@ export function createPrettySource(sourceId: string) {
     dispatch(({ type: "ADD_SOURCE", source: prettySource }: Action));
     dispatch(selectSource(prettySource.id));
 
-    // const { code, mappings } = await prettyPrint({ source, url });
-
     const { text } = await prettyPrintSource(sourceMaps, prettySource, source);
-    // await sourceMaps.applySourceMap(source.id, url, code, mappings);
-
-    // The source map URL service used by other devtools listens to changes to
-    // sources based on their actor IDs, so apply the mapping there too.
 
     const loadedPrettySource: JsSource = {
       ...prettySource,
