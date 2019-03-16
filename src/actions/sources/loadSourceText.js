@@ -6,10 +6,11 @@
 
 import { PROMISE } from "../utils/middleware/promise";
 import { getGeneratedSource, getSource } from "../../selectors";
+import { prettyPrintSource } from "./prettyPrint";
 import { setBreakpointPositions } from "../breakpoints";
 
 import * as parser from "../../workers/parser";
-import { isLoaded, isOriginal } from "../../utils/source";
+import { isLoaded, isOriginal, isPretty } from "../../utils/source";
 import { Telemetry } from "devtools-modules";
 
 import defer from "../../utils/defer";
@@ -24,6 +25,12 @@ const loadSourceHistogram = "DEVTOOLS_DEBUGGER_LOAD_SOURCE_MS";
 const telemetry = new Telemetry();
 
 async function loadSource(state, source: Source, { sourceMaps, client }) {
+  const url = source.url;
+  if (isPretty(source)) {
+    const generatedSource = getGeneratedSource(state, source);
+    return prettyPrintSource(sourceMaps, source, generatedSource);
+  }
+
   if (isOriginal(source)) {
     return sourceMaps.getOriginalSourceText(source);
   }
