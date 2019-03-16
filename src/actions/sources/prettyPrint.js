@@ -27,15 +27,22 @@ import type { Action, ThunkArgs } from "../types";
 import { selectSource } from "./select";
 import type { JsSource } from "../../types";
 
-export async function prettyPrintSource(sourceMaps, prettySource, generatedSource : Source) {
+export async function prettyPrintSource(
+  sourceMaps,
+  prettySource,
+  generatedSource: Source
+) {
   const url = getPrettySourceURL(generatedSource.url);
-  const { code, mappings } = await prettyPrint({ source: generatedSource, url: url });
+  const { code, mappings } = await prettyPrint({
+    source: generatedSource,
+    url: url
+  });
   await sourceMaps.applySourceMap(generatedSource.id, url, code, mappings);
 
   // The source map URL service used by other devtools listens to changes to
   // sources based on their actor IDs, so apply the mapping there too.
   for (const sourceActor of generatedSource.actors) {
-    await sourceMaps.applySourceMap(generatedSource.actor, url, code, mappings);
+    await sourceMaps.applySourceMap(sourceActor.actor, url, code, mappings);
   }
   return {
     id: prettySource.id,
@@ -68,15 +75,12 @@ export function createPrettySource(sourceId: string) {
     dispatch(selectSource(prettySource.id));
 
     // const { code, mappings } = await prettyPrint({ source, url });
-    
+
     const { text } = await prettyPrintSource(sourceMaps, prettySource, source);
     // await sourceMaps.applySourceMap(source.id, url, code, mappings);
 
-    // // The source map URL service used by other devtools listens to changes to
-    // // sources based on their actor IDs, so apply the mapping there too.
-    // for (const sourceActor of source.actors) {
-    //   await sourceMaps.applySourceMap(sourceActor.actor, url, code, mappings);
-    // }
+    // The source map URL service used by other devtools listens to changes to
+    // sources based on their actor IDs, so apply the mapping there too.
 
     const loadedPrettySource: JsSource = {
       ...prettySource,
