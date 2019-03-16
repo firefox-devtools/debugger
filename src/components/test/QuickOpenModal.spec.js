@@ -300,28 +300,6 @@ describe("QuickOpenModal", () => {
     expect(wrapper.state().results).toEqual(null);
   });
 
-  test("basic gotoSource search", () => {
-    const { wrapper } = generateModal(
-      {
-        enabled: true,
-        query: "",
-        searchType: "shortcuts"
-      },
-      "shallow"
-    );
-    wrapper.setState(() => ({
-      results: [],
-      selectedIndex: 0
-    }));
-    expect(wrapper.state().selectedIndex).toEqual(0);
-    const event = {
-      preventDefault: jest.fn(),
-      key: "ArrowDown"
-    };
-    wrapper.find("SearchInput").simulate("keydown", event);
-    expect(wrapper.state().selectedIndex).toEqual(0);
-  });
-
   describe("onEnter", () => {
     it("on Enter go to location", () => {
       const { wrapper, props } = generateModal(
