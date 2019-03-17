@@ -29,7 +29,7 @@ import type { JsSource, Source } from "../../types";
 export async function prettyPrintSource(
   sourceMaps: any,
   prettySource: Source,
-  generatedSource: Source
+  generatedSource: any
 ) {
   const url = getPrettySourceURL(generatedSource.url);
   const { code, mappings } = await prettyPrint({
@@ -64,6 +64,7 @@ export function createPrettySource(sourceId: string) {
       isPrettyPrinted: true,
       isWasm: false,
       contentType: "text/javascript",
+      loadedState: "loading",
       introductionUrl: null,
       isExtension: false,
       actors: []
