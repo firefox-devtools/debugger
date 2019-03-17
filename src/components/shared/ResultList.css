@@ -113,10 +113,12 @@
   word-break: break-all;
   /** https://searchfox.org/mozilla-central/source/devtools/client/themes/variables.css **/
   color: var(--grey-40);
-  margin-left: 15px;
+  margin-left: 5px;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  direction: rtl; /* make ellipsis on the beginning of a string */
+  text-align: left;
 }
 
 .theme-dark .result-list.big li.selected .subtitle {
