@@ -7,6 +7,6 @@
  * This file maps the SVG React Components in the images directory.
  */
 
-import Svg from "../../../images/Svg";
+import BreakpointSvg from "../../../images/BreakpointSvg";
 
-export default Svg;
+export default BreakpointSvg;
