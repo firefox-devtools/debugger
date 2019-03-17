@@ -10,10 +10,8 @@ Object {
   "isExtension": false,
   "isPrettyPrinted": true,
   "isWasm": false,
-  "loadedState": "loaded",
+  "loadedState": "loading",
   "relativeUrl": "http://localhost:8000/examples/base.js:formatted",
-  "text": "undefined
-",
   "url": "http://localhost:8000/examples/base.js:formatted",
 }
 `;

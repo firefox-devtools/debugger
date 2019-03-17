@@ -10,7 +10,6 @@ import { remapBreakpoints, setBreakpointPositions } from "../breakpoints";
 
 import { setSymbols } from "../ast";
 import { prettyPrint } from "../../workers/pretty-print";
-import { setSource } from "../../workers/parser";
 import { getPrettySourceURL, isLoaded } from "../../utils/source";
 import { loadSourceText } from "./loadSourceText";
 import { mapFrames } from "../pause";
@@ -25,11 +24,11 @@ import {
 
 import type { Action, ThunkArgs } from "../types";
 import { selectSource } from "./select";
-import type { JsSource } from "../../types";
+import type { JsSource, Source } from "../../types";
 
 export async function prettyPrintSource(
-  sourceMaps,
-  prettySource,
+  sourceMaps: any,
+  prettySource: Source,
   generatedSource: Source
 ) {
   const url = getPrettySourceURL(generatedSource.url);
@@ -65,7 +64,6 @@ export function createPrettySource(sourceId: string) {
       isPrettyPrinted: true,
       isWasm: false,
       contentType: "text/javascript",
-      loadedState: "loading",
       introductionUrl: null,
       isExtension: false,
       actors: []
@@ -74,17 +72,7 @@ export function createPrettySource(sourceId: string) {
     dispatch(({ type: "ADD_SOURCE", source: prettySource }: Action));
     dispatch(selectSource(prettySource.id));
 
-    const { text } = await prettyPrintSource(sourceMaps, prettySource, source);
-
-    const loadedPrettySource: JsSource = {
-      ...prettySource,
-      text: text,
-      loadedState: "loaded"
-    };
-
-    setSource(loadedPrettySource);
-    dispatch(({ type: "UPDATE_SOURCE", source: loadedPrettySource }: Action));
-    await dispatch(setBreakpointPositions(loadedPrettySource.id));
+    await dispatch(setBreakpointPositions(prettySource.id));
 
     return prettySource;
   };
