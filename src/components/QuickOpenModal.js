@@ -235,8 +235,7 @@ export class QuickOpenModal extends Component<Props, State> {
     const { selectedIndex, results } = this.state;
     const resultCount = this.getResultCount();
     const index = selectedIndex + direction;
-    const nextIndex =
-      resultCount > 0 ? (index + resultCount) % resultCount : resultCount;
+    const nextIndex = (index + resultCount) % resultCount || 0;
 
     this.setState({ selectedIndex: nextIndex });
 
