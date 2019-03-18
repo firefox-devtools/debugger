@@ -2,6 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
+/* @define outline; weak */
+
 .outline {
   overflow-y: hidden;
 }
@@ -51,15 +53,11 @@
   margin: 10px 0 10px 10px;
   font-weight: normal;
   font-size: 1em;
-  color: var(--blue-55);
+  color: var(--theme-highlight-blue);
 }
 
 .outline-list h2:hover {
   background: var(--theme-toolbar-background-hover);
-}
-
-.theme-dark .outline-list h2 {
-  color: var(--theme-highlight-blue);
 }
 
 .outline-list h2 .keyword {
@@ -88,8 +86,9 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 25px;
-  background: var(--theme-body-background);
+  flex: none;
+  height: var(--editor-footer-height);
+  background-color: var(--theme-body-background);
   border-top: 1px solid var(--theme-splitter-color);
   opacity: 1;
   z-index: 1;
@@ -97,16 +96,11 @@
   user-select: none;
 }
 
-.theme-dark .outline-footer button {
+.outline-footer button {
   color: var(--theme-body-color);
 }
 
 .outline-footer button.active {
-  background: var(--theme-highlight-blue);
-  color: #ffffff;
-}
-
-.theme-dark .outline-footer button.active {
   background: var(--theme-selection-background);
   color: #ffffff;
 }

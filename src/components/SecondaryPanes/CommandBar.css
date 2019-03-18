@@ -2,6 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
+/* @define command-bar; weak */
+
 .command-bar {
   flex: 0 0 29px;
   border-bottom: 1px solid var(--theme-splitter-color);
@@ -11,12 +13,8 @@
   background-color: var(--theme-toolbar-background);
 }
 
-html[dir="rtl"] .command-bar {
+:root[dir="rtl"] .command-bar {
   border-right: 1px solid var(--theme-splitter-color);
-}
-
-.theme-dark .command-bar {
-  background-color: var(--theme-toolbar-background);
 }
 
 .command-bar .filler {
@@ -41,22 +39,20 @@ html[dir="rtl"] .command-bar {
   background-color: var(--theme-icon-checked-color);
 }
 
-.bottom {
+.command-bar.bottom {
   border-bottom: none;
   background-color: var(--theme-body-background);
   border-top: 1px solid var(--theme-splitter-color);
   flex: none;
-  height: var(--editor-footer-height);
-}
-
-.command-bar.bottom {
   justify-content: flex-end;
+  height: var(--editor-footer-height);
 }
 
 .command-bar.bottom > button {
   color: var(--theme-comment);
   width: 26px;
 }
+
 .command-bar.bottom > button:hover {
   color: var(--theme-body-color);
 }
