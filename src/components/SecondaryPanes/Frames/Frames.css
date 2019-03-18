@@ -2,13 +2,23 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
+/* @define frames; weak */
+
+.frames {
+  --frames-item-background-hover: var(--theme-toolbar-background-alt);
+}
+
+:root.theme-dark .frames {
+  --frames-item-background-hover: var(--theme-tab-toolbar-background);
+}
+
 .frames [role="list"] {
   list-style: none;
   margin-top: 4px;
   padding: 0;
 }
 
-.frames [role="list"] [role="listitem"] {
+.frames [role="listitem"] {
   padding: 2px 10px 2px 20px;
   overflow: hidden;
   display: flex;
@@ -21,7 +31,7 @@
   flex-wrap: wrap;
 }
 
-.frames [role="list"] [role="listitem"] * {
+.frames [role="listitem"] * {
   -moz-user-select: none;
   user-select: none;
 }
@@ -42,15 +52,7 @@
   text-overflow: ellipsis;
   direction: rtl;
   text-align: right;
-}
-
-.theme-light .frames .location {
-  color: var(--theme-comment);
-}
-
-:root.theme-dark .frames .location {
-  color: var(--theme-body-color);
-  opacity: 0.6;
+  opacity: 0.8;
 }
 
 .frames .title {
@@ -58,26 +60,17 @@
   overflow: hidden;
 }
 
-.frames [role="list"] [role="listitem"]:hover,
-.frames [role="list"] [role="listitem"]:focus {
-  background-color: var(--theme-toolbar-background-alt);
+.frames [role="listitem"]:hover,
+.frames [role="listitem"]:focus {
+  background-color: var(--frames-item-background-hover);
 }
 
-.theme-dark .frames [role="list"] [role="listitem"]:focus {
-  background-color: var(--theme-tab-toolbar-background);
-}
-
-.frames [role="list"] [role="listitem"].selected {
+.frames [role="listitem"].selected {
   background-color: var(--theme-selection-background);
-  color: white;
+  color: var(--theme-selection-color);
 }
 
-.frames [role="list"] [role="listitem"].selected i.annotation-logo svg path {
-  fill: white;
-}
-
-:root.theme-light .frames [role="list"] [role="listitem"].selected .location,
-:root.theme-dark .frames [role="list"] [role="listitem"].selected .location {
+.frames [role="listitem"].selected .location {
   color: white;
 }
 
