@@ -1,5 +1,8 @@
 {
-  "plugins": ["stylelint-prettier"],
+  "plugins": [
+    "stylelint-prettier",
+    "stylelint-selector-bem-pattern"
+  ],
   "rules": {
     "block-no-empty": true,
     "color-hex-length": "long",
@@ -11,6 +14,10 @@
     "function-whitespace-after": "always",
     "no-invalid-double-slash-comments": true,
     "no-missing-end-of-source-newline": true,
+    "plugin/selector-bem-pattern": {
+      "componentName": "^[a-zA-Z-]+$",
+      "componentSelectors": "^\\.{componentName}(?:[-_]+[\\w-]+)?(?:[\\.:][\\w-]+|\\[\\S+\\])*$"
+    },
     "prettier/prettier": true,
     "selector-pseudo-element-colon-notation": "double",
     "selector-type-case": "lower",

@@ -160,6 +160,7 @@
     "single-line-log": "^1.1.2",
     "stylelint": "^9.0.0",
     "stylelint-prettier": "^1.0.6",
+    "stylelint-selector-bem-pattern": "^2.0.0",
     "webpack": "^3.5.5",
     "webpack-visualizer-plugin": "^0.1.11",
     "workerjs": "github:jasonLaster/workerjs#a2425aaeebacae7a7640e496a54c2a41962f3890"
