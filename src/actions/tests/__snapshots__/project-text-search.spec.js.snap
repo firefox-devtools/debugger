@@ -82,7 +82,26 @@ Array [
 
 exports[`project text search should close project search 2`] = `Array []`;
 
-exports[`project text search should ignore sources with minified versions 1`] = `Array []`;
+exports[`project text search should ignore sources with minified versions 1`] = `
+Array [
+  Object {
+    "filepath": "http://localhost:8000/examples/bar:formatted",
+    "matches": Array [
+      Object {
+        "column": 9,
+        "line": 1,
+        "match": "bla",
+        "matchIndex": 9,
+        "sourceId": "bar:formatted",
+        "type": "MATCH",
+        "value": "function bla(x, y) {",
+      },
+    ],
+    "sourceId": "bar:formatted",
+    "type": "RESULT",
+  },
+]
+`;
 
 exports[`project text search should search a specific source 1`] = `
 Array [

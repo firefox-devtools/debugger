@@ -25,7 +25,7 @@ const loadSourceHistogram = "DEVTOOLS_DEBUGGER_LOAD_SOURCE_MS";
 const telemetry = new Telemetry();
 
 async function loadSource(state, source: Source, { sourceMaps, client }) {
-  if (isPretty(source)) {
+  if (isPretty(source) && isOriginal(source)) {
     const generatedSource = getGeneratedSource(state, source);
     return prettyPrintSource(sourceMaps, source, generatedSource);
   }
