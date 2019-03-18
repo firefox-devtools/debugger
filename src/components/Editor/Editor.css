@@ -264,3 +264,8 @@ debug-expression-error {
 .download-anchor {
   display: none;
 }
+
+/* This is not used, but it is needed to copy over column-marker.svg */
+.column-marker {
+  mask: url(/images/column-marker.svg) no-repeat;
+}
