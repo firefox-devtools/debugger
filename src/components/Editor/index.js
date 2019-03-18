@@ -220,11 +220,11 @@ class Editor extends PureComponent<Props, State> {
 
     shortcuts.on(L10N.getStr("toggleBreakpoint.key"), this.onToggleBreakpoint);
     shortcuts.on(
-      L10N.getStr("toggleCondPanel.key"),
+      L10N.getStr("toggleCondPanel.breakpoint.key"),
       this.onToggleConditionalPanel
     );
     shortcuts.on(
-      L10N.getStr("toggleLogPanel.key"),
+      L10N.getStr("toggleCondPanel.logPoint.key"),
       this.onToggleConditionalPanel
     );
     shortcuts.on(L10N.getStr("sourceTabs.closeTab.key"), this.onClosePress);
@@ -256,8 +256,8 @@ class Editor extends PureComponent<Props, State> {
     const shortcuts = this.context.shortcuts;
     shortcuts.off(L10N.getStr("sourceTabs.closeTab.key"));
     shortcuts.off(L10N.getStr("toggleBreakpoint.key"));
-    shortcuts.off(L10N.getStr("toggleCondPanel.key"));
-    shortcuts.off(L10N.getStr("toggleLogPanel.key"));
+    shortcuts.off(L10N.getStr("toggleCondPanel.breakpoint.key"));
+    shortcuts.off(L10N.getStr("toggleCondPanel.logPoint.key"));
     shortcuts.off(searchAgainPrevKey);
     shortcuts.off(searchAgainKey);
   }
@@ -310,7 +310,7 @@ class Editor extends PureComponent<Props, State> {
       return;
     }
 
-    const isLog = key === L10N.getStr("toggleLogPanel.key");
+    const isLog = key === L10N.getStr("toggleCondPanel.logPoint.key");
     this.toggleConditionalPanel(line, isLog);
   };
 
