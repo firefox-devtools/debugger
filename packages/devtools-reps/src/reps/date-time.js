@@ -28,9 +28,7 @@ function DateTime(props) {
         className: "objectBox"
       },
       getTitle(grip),
-      span(
-        { className: "Date" },
-        new Date(grip.preview.timestamp).toString()
+      span({ className: "Date" }, new Date(grip.preview.timestamp).toString()
       )
     );
   } catch (e) {
