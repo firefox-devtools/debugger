@@ -65,7 +65,7 @@ add_task(async function() {
   await addBreakpoint(dbg, "simple2", 3);
   await addBreakpoint(dbg, "simple2", 5);
 
-  rightClickElement(dbg, "breakpointItem", 3);
+  rightClickElement(dbg, "breakpointItem", 2);
   const disableBreakpointDispatch = waitForDispatch(dbg, "DISABLE_BREAKPOINT");
   selectContextMenuItem(dbg, selectors.breakpointContextMenu.disableSelf);
   await disableBreakpointDispatch;
@@ -75,7 +75,7 @@ add_task(async function() {
   is(bp1.disabled, true, "first breakpoint is disabled");
   is(bp2.disabled, false, "second breakpoint is enabled");
 
-  rightClickElement(dbg, "breakpointItem", 3);
+  rightClickElement(dbg, "breakpointItem", 2);
   const enableBreakpointDispatch = waitForDispatch(dbg, "ENABLE_BREAKPOINT");
   selectContextMenuItem(dbg, selectors.breakpointContextMenu.enableSelf);
   await enableBreakpointDispatch;
