@@ -1,5 +1,6 @@
-/* Any copyright is dedicated to the Public Domain.
- * http://creativecommons.org/publicdomain/zero/1.0/ */
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 function toggleBreakpoint(dbg, index) {
   const bp = findAllElements(dbg, "breakpointItems")[index];
@@ -63,7 +64,7 @@ add_task(async function() {
 
   // Disable the first one
   await disableBreakpoint(dbg, 0);
-  let bp1 = findBreakpoint(dbg, "simple2", 3);
+  const bp1 = findBreakpoint(dbg, "simple2", 3);
   let bp2 = findBreakpoint(dbg, "simple2", 5);
   is(bp1.disabled, true, "first breakpoint is disabled");
   is(bp2.disabled, false, "second breakpoint is enabled");
@@ -84,7 +85,7 @@ add_task(async function() {
 
   assertEmptyLines(dbg, [1, 2]);
 
-  rightClickElement(dbg, "breakpointItem", 3);
+  rightClickElement(dbg, "breakpointItem", 2); // 3 -> 2
   const disableBreakpointDispatch = waitForDispatch(dbg, "DISABLE_BREAKPOINT");
   selectContextMenuItem(dbg, selectors.breakpointContextMenu.disableSelf);
   await disableBreakpointDispatch;
@@ -94,7 +95,7 @@ add_task(async function() {
   is(bp1.disabled, true, "first breakpoint is disabled");
   is(bp2.disabled, false, "second breakpoint is enabled");
 
-  rightClickElement(dbg, "breakpointItem", 3);
+  rightClickElement(dbg, "breakpointItem", 2);
   const enableBreakpointDispatch = waitForDispatch(dbg, "ENABLE_BREAKPOINT");
   selectContextMenuItem(dbg, selectors.breakpointContextMenu.enableSelf);
   await enableBreakpointDispatch;
