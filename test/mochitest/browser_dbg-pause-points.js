@@ -11,7 +11,7 @@ async function stepOvers(dbg, count, onStep = () => {}) {
   }
 }
 function formatSteps(steps) {
-  return steps.map(loc => `(${loc.join(",")})`).join(", ")
+  return steps.map(loc => `(${loc.join(",")})`).join(", ");
 }
 
 async function testCase(dbg, { name, steps }) {
@@ -23,7 +23,10 @@ async function testCase(dbg, { name, steps }) {
   } = dbg;
 
   await stepOvers(dbg, steps.length, state => {
-    const {line, column} = getTopFrame(state, getCurrentThread(state)).location
+    const { line, column } = getTopFrame(
+      state,
+      getCurrentThread(state)
+    ).location;
     locations.push([line, column]);
   });
 
@@ -34,20 +37,29 @@ async function testCase(dbg, { name, steps }) {
 add_task(async function test() {
   const dbg = await initDebugger("doc-pause-points.html", "pause-points.js");
 
-  await selectSource(dbg, "pause-points.js")
+  await selectSource(dbg, "pause-points.js");
   await testCase(dbg, {
     name: "statements",
-    steps: [[9,2], [10,4], [10,13], [11,2], [11,21], [12,2], [12,12], [13,0]]
+    steps: [
+      [9, 2],
+      [10, 4],
+      [10, 13],
+      [11, 2],
+      [11, 21],
+      [12, 2],
+      [12, 12],
+      [13, 0]
+    ]
   });
 
   await testCase(dbg, {
     name: "expressions",
-    steps: [[40,2], [41,2], [42,12], [43,0]]
+    steps: [[40, 2], [41, 2], [42, 12], [43, 0]]
   });
 
   await testCase(dbg, {
     name: "sequences",
-    steps: [[23,2], [25,12], [29,12], [34,2], [37,0]]
+    steps: [[23, 2], [25, 12], [29, 12], [34, 2], [37, 0]]
   });
 
   await testCase(dbg, {

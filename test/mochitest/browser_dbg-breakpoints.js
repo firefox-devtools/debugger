@@ -45,8 +45,11 @@ function subset(subArray, superArray) {
 
 function assertEmptyLines(dbg, lines) {
   const sourceId = dbg.selectors.getSelectedSourceId(dbg.store.getState());
-  const emptyLines = dbg.selectors.getEmptyLines(dbg.store.getState(), sourceId);
-  ok(subset(lines, emptyLines), 'empty lines should match');
+  const emptyLines = dbg.selectors.getEmptyLines(
+    dbg.store.getState(),
+    sourceId
+  );
+  ok(subset(lines, emptyLines), "empty lines should match");
 }
 
 // Test enabling and disabling a breakpoint using the check boxes
@@ -79,7 +82,7 @@ add_task(async function() {
   await addBreakpoint(dbg, "simple2", 3);
   await addBreakpoint(dbg, "simple2", 5);
 
-  assertEmptyLines(dbg, [1,2]);
+  assertEmptyLines(dbg, [1, 2]);
 
   rightClickElement(dbg, "breakpointItem", 3);
   const disableBreakpointDispatch = waitForDispatch(dbg, "DISABLE_BREAKPOINT");

@@ -10,7 +10,7 @@ add_task(async function() {
   Services.prefs.setBoolPref("devtools.toolbox.splitconsoleEnabled", true);
   const dbg = await initDebugger("doc-script-switching.html", "switching-01");
 
-  const source = findSource(dbg, "switching-01")
+  const source = findSource(dbg, "switching-01");
   await selectSource(dbg, "switching-01");
 
   await getDebuggerSplitConsole(dbg);

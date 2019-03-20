@@ -3,7 +3,6 @@
 /* Any copyright is dedicated to the Public Domain.
  * http://creativecommons.org/publicdomain/zero/1.0/ */
 
-
 function threadIsPaused(dbg, index) {
   return findElement(dbg, "threadsPaneItem", index).querySelector(
     ".pause-badge"
@@ -98,7 +97,9 @@ add_task(async function() {
   } = dbg;
   await waitFor(() => {
     const state = getState();
-    return getIsPaused(state, worker1Thread) && getIsPaused(state, worker2Thread);
+    return (
+      getIsPaused(state, worker1Thread) && getIsPaused(state, worker2Thread)
+    );
   });
 
   dbg.actions.selectThread(worker1Thread);

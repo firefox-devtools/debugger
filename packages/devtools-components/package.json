@@ -6,8 +6,7 @@
   "scripts": {
     "copy-assets": "node bin/copy-assets",
     "license-check": "devtools-license-check",
-    "storybook":
-      "NODE_ENV=storybook start-storybook -p 9002 -c .storybook -s ./src",
+    "storybook": "NODE_ENV=storybook start-storybook -p 9002 -c .storybook -s ./src",
     "test": "jest --projects jest.config.js"
   },
   "author": "Jason Laster",

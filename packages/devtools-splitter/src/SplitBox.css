@@ -48,8 +48,10 @@
 }
 
 .split-box.vert > .splitter {
-  min-width: calc(var(--devtools-splitter-inline-start-width) +
-    var(--devtools-splitter-inline-end-width) + 1px);
+  min-width: calc(
+    var(--devtools-splitter-inline-start-width) +
+      var(--devtools-splitter-inline-end-width) + 1px
+  );
 
   border-left-width: var(--devtools-splitter-inline-start-width);
   border-right-width: var(--devtools-splitter-inline-end-width);
@@ -61,8 +63,10 @@
 }
 
 .split-box.horz > .splitter {
-  min-height: calc(var(--devtools-splitter-top-width) +
-    var(--devtools-splitter-bottom-width) + 1px);
+  min-height: calc(
+    var(--devtools-splitter-top-width) + var(--devtools-splitter-bottom-width) +
+      1px
+  );
   border-top-width: var(--devtools-splitter-top-width);
   border-bottom-width: var(--devtools-splitter-bottom-width);
 
