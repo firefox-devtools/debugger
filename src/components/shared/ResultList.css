@@ -113,7 +113,7 @@
   word-break: break-all;
   /** https://searchfox.org/mozilla-central/source/devtools/client/themes/variables.css **/
   color: var(--grey-40);
-  margin-left: 5px;
+  margin-left: 15px;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
