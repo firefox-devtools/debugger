@@ -2,7 +2,7 @@
  * http://creativecommons.org/publicdomain/zero/1.0/ */
 
 function openFirstBreakpointContextMenu(dbg){
-  rightClickElement(dbg, "breakpointItem", 3);
+  rightClickElement(dbg, "breakpointItem", 2);
 }
 
 
