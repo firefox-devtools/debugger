@@ -2,7 +2,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-const babel = require("@babel/core");
 const glob = require("glob");
 const fs = require("fs");
 const path = require("path");
@@ -23,7 +22,10 @@ function ignoreFile(file) {
 }
 
 function getFiles() {
-  return [...glob.sync("./src/**/*", {}), ...glob.sync("./packages/**/*", {})].filter(file => !ignoreFile(file));
+  return [
+    ...glob.sync("./src/**/*", {}),
+    ...glob.sync("./packages/**/*", {})
+  ].filter(file => !ignoreFile(file));
 }
 
 function copyFiles() {
@@ -59,6 +61,13 @@ __FILES__
 )
 `;
 
+function itemsStr(items) {
+  return items
+    .sort((a, b) => (a.toLowerCase() < b.toLowerCase() ? -1 : 1))
+    .map(item => `    '${item}',`)
+    .join("\n");
+}
+
 /**
  * Create the mandatory manifest file that should exist in each folder to
  * list files and subfolders that should be packaged in Firefox.
@@ -67,29 +76,29 @@ function createMozBuildFiles() {
   const builds = {};
 
   getFiles()
-    .filter(file => file.match(/.js$/))
+    .filter(file => file.match(/(js|css)$/))
     .filter(file => {
       if (file.match(/\/workers\.js/)) {
         return true;
       }
 
-     // We exclude worker files because they are bundled and we include
-     // worker/index.js files because are required by the debugger app in order
-     // to communicate with the worker.
-     if (file.match(/\/workers/)) {
-       return file.match(/workers\/(\w|-)*\/index.js/);
-     }
+      // We exclude worker files because they are bundled and we include
+      // worker/index.js files because are required by the debugger app in order
+      // to communicate with the worker.
+      if (file.match(/\/workers/)) {
+        return file.match(/workers\/(\w|-)*\/index.js/);
+      }
 
-     return !file.match(/(test|types|packages)/)
-
-   })
+      return !file.match(/(test|types|packages)/);
+    })
     .forEach(file => {
       // console.log(file)
       let dir = path.dirname(file);
-      builds[dir] = builds[dir] || { files: [], dirs: [] };
+      builds[dir] = builds[dir] || { cssFiles: [], jsFiles: [], dirs: [] };
 
       // Add the current file to its parent dir moz.build
-      builds[dir].files.push(path.basename(file));
+      const filesType = file.match(/js$/) ? "jsFiles" : "cssFiles";
+      builds[dir][filesType].push(path.basename(file));
 
       // There should be a moz.build in every folder between the root and this
       // file. Climb up the folder hierarchy and make sure a each folder of the
@@ -98,7 +107,11 @@ function createMozBuildFiles() {
         const parentDir = path.dirname(dir);
         const dirName = path.basename(dir);
 
-        builds[parentDir] = builds[parentDir] || { files: [], dirs: [] };
+        builds[parentDir] = builds[parentDir] || {
+          cssFiles: [],
+          jsFiles: [],
+          dirs: []
+        };
         if (!builds[parentDir].dirs.includes(dirName)) {
           builds[parentDir].dirs.push(dirName);
         }
@@ -107,26 +120,21 @@ function createMozBuildFiles() {
     });
 
   Object.keys(builds).forEach(build => {
-    const { files, dirs } = builds[build];
+    const { jsFiles, cssFiles, dirs } = builds[build];
 
     const buildPath = path.join(mcDebuggerPath, build);
     shell.mkdir("-p", buildPath);
 
     // Files and folders should be alphabetically sorted in moz.build
-    const fileStr = files
-      .sort((a, b) => (a.toLowerCase() < b.toLowerCase() ? -1 : 1))
-      .map(file => `    '${file}',`)
-      .join("\n");
 
-    const dirStr = dirs
-      .sort((a, b) => (a.toLowerCase() < b.toLowerCase() ? -1 : 1))
-      .map(dir => `    '${dir}',`)
-      .join("\n");
-
-    const src = MOZ_BUILD_TEMPLATE.replace("__DIRS__", dirStr).replace(
+    let src = MOZ_BUILD_TEMPLATE.replace("__DIRS__", itemsStr(dirs)).replace(
       "__FILES__",
-      fileStr
+      itemsStr(jsFiles)
     );
+
+    if (cssFiles.length > 0) {
+      src += `\nDevToolsModules(\n${itemsStr(cssFiles)}\n)\n`;
+    }
 
     fs.writeFileSync(path.join(buildPath, "moz.build"), src);
   });
