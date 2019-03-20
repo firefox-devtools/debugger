@@ -129,7 +129,7 @@ describe("XHR Breakpoints", function() {
     const xhrBreakpointsComponent = renderXHRBreakpointsComponent();
     xhrBreakpointsComponent.find(".xhr-input-url").simulate("focus");
 
-    const xhrInputContainer = xhrBreakpointsComponent.find(
+    var xhrInputContainer = xhrBreakpointsComponent.find(
       ".xhr-input-container"
     );
     expect(xhrInputContainer.hasClass("focused")).toBeTruthy();
@@ -159,7 +159,7 @@ describe("XHR Breakpoints", function() {
       propsOverride
     );
     xhrBreakpointsComponent.find(".xhr-input-url").simulate("focus");
-    let xhrInputContainer = xhrBreakpointsComponent.find(
+    var xhrInputContainer = xhrBreakpointsComponent.find(
       ".xhr-input-container"
     );
     expect(xhrInputContainer.hasClass("focused")).toBeTruthy();
@@ -201,7 +201,7 @@ describe("XHR Breakpoints", function() {
     expect(xhrBreakpointsComponent.state("clickedOnFormElement")).toBe(false);
 
     xhrBreakpointsComponent.find(".xhr-input-method").simulate("click");
-    const xhrInputContainer = xhrBreakpointsComponent.find(
+    var xhrInputContainer = xhrBreakpointsComponent.find(
       ".xhr-input-container"
     );
     expect(xhrInputContainer.hasClass("focused")).toBeTruthy();

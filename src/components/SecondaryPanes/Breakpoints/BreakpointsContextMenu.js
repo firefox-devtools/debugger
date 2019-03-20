@@ -205,8 +205,7 @@ export default function showContextMenu(props: Props) {
     click: () => {
       selectSpecificLocation(selectedLocation);
       openConditionalPanel(selectedLocation);
-    },
-    accelerator: L10N.getStr("toggleCondPanel.breakpoint.key")
+    }
   };
 
   const editConditionItem = {
@@ -216,8 +215,7 @@ export default function showContextMenu(props: Props) {
     click: () => {
       selectSpecificLocation(selectedLocation);
       openConditionalPanel(selectedLocation);
-    },
-    accelerator: L10N.getStr("toggleCondPanel.breakpoint.key")
+    }
   };
 
   const addLogPointItem = {
@@ -226,7 +224,7 @@ export default function showContextMenu(props: Props) {
     accesskey: L10N.getStr("editor.addLogPoint.accesskey"),
     disabled: false,
     click: () => openConditionalPanel(selectedLocation, true),
-    accelerator: L10N.getStr("toggleCondPanel.logPoint.key")
+    accelerator: L10N.getStr("toggleCondPanel.key")
   };
 
   const editLogPointItem = {
@@ -235,7 +233,7 @@ export default function showContextMenu(props: Props) {
     accesskey: L10N.getStr("editor.addLogPoint.accesskey"),
     disabled: false,
     click: () => openConditionalPanel(selectedLocation, true),
-    accelerator: L10N.getStr("toggleCondPanel.logPoint.key")
+    accelerator: L10N.getStr("toggleCondPanel.key")
   };
 
   const removeLogPointItem = {
