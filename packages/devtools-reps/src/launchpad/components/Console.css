@@ -27,7 +27,7 @@ main {
   padding: 0.5rem;
 }
 
-.rep-input:before {
+.rep-input::before {
   content: "➜ ";
 }
 
