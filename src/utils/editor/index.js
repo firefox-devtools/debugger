@@ -11,7 +11,7 @@ export * from "../ui";
 export { onMouseOver } from "./token-events";
 
 import { createEditor } from "./create-editor";
-import { shouldPrettyPrint } from "../source";
+import { shouldPrettyPrint, isOriginal } from "../source";
 import { findNext, findPrev } from "./source-search";
 
 import { isWasm, lineToWasmOffset, wasmOffsetToLine } from "../wasm";
@@ -60,6 +60,16 @@ export function endOperation() {
 
 export function shouldShowPrettyPrint(source: Source) {
   return shouldPrettyPrint(source);
+}
+
+export function shouldShowFooter(source: ?Source, horizontal: boolean) {
+  if (!horizontal) {
+    return true;
+  }
+  if (!source) {
+    return false;
+  }
+  return shouldShowPrettyPrint(source) || isOriginal(source);
 }
 
 export function traverseResults(
@@ -152,6 +162,12 @@ function isVisible(codeMirror: any, top: number, left: number) {
 
 export function getLocationsInViewport({ codeMirror }: Object) {
   // Get scroll position
+  if (!codeMirror) {
+    return {
+      start: { line: 0, column: 0 },
+      end: { line: 0, column: 0 }
+    };
+  }
   const charWidth = codeMirror.defaultCharWidth();
   const scrollArea = codeMirror.getScrollInfo();
   const { scrollLeft } = codeMirror.doc;

@@ -6,11 +6,10 @@
 
 import assert from "../../utils/assert";
 import { recordEvent } from "../../utils/telemetry";
-import { remapBreakpoints, setBreakpointPositions } from "../breakpoints";
+import { remapBreakpoints } from "../breakpoints";
 
 import { setSymbols } from "../ast";
 import { prettyPrint } from "../../workers/pretty-print";
-import { setSource } from "../../workers/parser";
 import { getPrettySourceURL, isLoaded } from "../../utils/source";
 import { loadSourceText } from "./loadSourceText";
 import { mapFrames } from "../pause";
@@ -19,13 +18,38 @@ import { selectSpecificLocation } from "../sources";
 import {
   getSource,
   getSourceFromId,
+  getSourceThreads,
   getSourceByURL,
   getSelectedLocation
 } from "../../selectors";
 
 import type { Action, ThunkArgs } from "../types";
 import { selectSource } from "./select";
-import type { JsSource } from "../../types";
+import type { JsSource, Source } from "../../types";
+
+export async function prettyPrintSource(
+  sourceMaps: any,
+  prettySource: Source,
+  generatedSource: any
+) {
+  const url = getPrettySourceURL(generatedSource.url);
+  const { code, mappings } = await prettyPrint({
+    source: generatedSource,
+    url: url
+  });
+  await sourceMaps.applySourceMap(generatedSource.id, url, code, mappings);
+
+  // The source map URL service used by other devtools listens to changes to
+  // sources based on their actor IDs, so apply the mapping there too.
+  for (const sourceActor of generatedSource.actors) {
+    await sourceMaps.applySourceMap(sourceActor.actor, url, code, mappings);
+  }
+  return {
+    id: prettySource.id,
+    text: code,
+    contentType: "text/javascript"
+  };
+}
 
 export function createPrettySource(sourceId: string) {
   return async ({ dispatch, getState, sourceMaps }: ThunkArgs) => {
@@ -48,26 +72,7 @@ export function createPrettySource(sourceId: string) {
     };
 
     dispatch(({ type: "ADD_SOURCE", source: prettySource }: Action));
-    dispatch(selectSource(prettySource.id));
-
-    const { code, mappings } = await prettyPrint({ source, url });
-    await sourceMaps.applySourceMap(source.id, url, code, mappings);
-
-    // The source map URL service used by other devtools listens to changes to
-    // sources based on their actor IDs, so apply the mapping there too.
-    for (const sourceActor of source.actors) {
-      await sourceMaps.applySourceMap(sourceActor.actor, url, code, mappings);
-    }
-
-    const loadedPrettySource: JsSource = {
-      ...prettySource,
-      text: code,
-      loadedState: "loaded"
-    };
-
-    setSource(loadedPrettySource);
-    dispatch(({ type: "UPDATE_SOURCE", source: loadedPrettySource }: Action));
-    await dispatch(setBreakpointPositions(loadedPrettySource.id));
+    await dispatch(selectSource(prettySource.id));
 
     return prettySource;
   };
@@ -124,7 +129,10 @@ export function togglePrettyPrint(sourceId: string) {
     const newPrettySource = await dispatch(createPrettySource(sourceId));
 
     await dispatch(remapBreakpoints(sourceId));
-    await dispatch(mapFrames());
+
+    const threads = getSourceThreads(getState(), source);
+    await Promise.all(threads.map(thread => dispatch(mapFrames(thread))));
+
     await dispatch(setSymbols(newPrettySource.id));
 
     dispatch(
