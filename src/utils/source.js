@@ -488,8 +488,3 @@ export function getSourceQueryString(source: ?Source) {
 export function isUrlExtension(url: string) {
   return /^(chrome|moz)-extension:\//.test(url);
 }
-
-export function getPlainUrl(url: string): string {
-  const queryStart = url.indexOf("?");
-  return queryStart !== -1 ? url.slice(0, queryStart) : url;
-}

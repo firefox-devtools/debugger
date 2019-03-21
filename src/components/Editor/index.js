@@ -10,7 +10,7 @@ import { bindActionCreators } from "redux";
 import ReactDOM from "react-dom";
 import { connect } from "../../utils/connect";
 import classnames from "classnames";
-import { debounce } from "lodash";
+import { throttle } from "lodash";
 
 import { isLoaded } from "../../utils/source";
 import { isFirefox } from "devtools-environment";
@@ -34,12 +34,14 @@ import {
   getSelectedSource,
   getConditionalPanelLocation,
   getSymbols,
-  getIsPaused
+  getIsPaused,
+  getCurrentThread
 } from "../../selectors";
 
 // Redux actions
 import actions from "../../actions";
 
+import Footer from "./Footer";
 import SearchBar from "./SearchBar";
 import HighlightLines from "./HighlightLines";
 import Preview from "./Preview";
@@ -56,6 +58,7 @@ import {
   updateDocument,
   showLoading,
   showErrorMessage,
+  shouldShowFooter,
   getEditor,
   clearEditor,
   getCursorLine,
@@ -74,6 +77,7 @@ import {
 import { resizeToggleButton, resizeBreakpointGutter } from "../../utils/ui";
 
 import "./Editor.css";
+import "./Breakpoints.css";
 import "./Highlight.css";
 
 import type SourceEditor from "../../utils/editor/source-editor";
@@ -81,13 +85,15 @@ import type { SymbolDeclarations } from "../../workers/parser";
 import type { SourceLocation, Source } from "../../types";
 
 const cssVars = {
-  searchbarHeight: "var(--editor-searchbar-height)"
+  searchbarHeight: "var(--editor-searchbar-height)",
+  footerHeight: "var(--editor-footer-height)"
 };
 
 export type Props = {
   selectedLocation: ?SourceLocation,
   selectedSource: ?Source,
   searchOn: boolean,
+  horizontal: boolean,
   startPanelSize: number,
   endPanelSize: number,
   conditionalPanelLocation: SourceLocation,
@@ -201,7 +207,6 @@ class Editor extends PureComponent<Props, State> {
 
     codeMirror.on("scroll", this.onEditorScroll);
     this.onEditorScroll();
-
     this.setState({ editor });
     return editor;
   }
@@ -216,11 +221,7 @@ class Editor extends PureComponent<Props, State> {
 
     shortcuts.on(L10N.getStr("toggleBreakpoint.key"), this.onToggleBreakpoint);
     shortcuts.on(
-      L10N.getStr("toggleCondPanel.breakpoint.key"),
-      this.onToggleConditionalPanel
-    );
-    shortcuts.on(
-      L10N.getStr("toggleCondPanel.logPoint.key"),
+      L10N.getStr("toggleCondPanel.key"),
       this.onToggleConditionalPanel
     );
     shortcuts.on(L10N.getStr("sourceTabs.closeTab.key"), this.onClosePress);
@@ -252,8 +253,7 @@ class Editor extends PureComponent<Props, State> {
     const shortcuts = this.context.shortcuts;
     shortcuts.off(L10N.getStr("sourceTabs.closeTab.key"));
     shortcuts.off(L10N.getStr("toggleBreakpoint.key"));
-    shortcuts.off(L10N.getStr("toggleCondPanel.breakpoint.key"));
-    shortcuts.off(L10N.getStr("toggleCondPanel.logPoint.key"));
+    shortcuts.off(L10N.getStr("toggleCondPanel.key"));
     shortcuts.off(searchAgainPrevKey);
     shortcuts.off(searchAgainKey);
   }
@@ -271,6 +271,10 @@ class Editor extends PureComponent<Props, State> {
         this.setText(this.props);
         this.setSize(this.props);
       }
+    }
+
+    if (prevProps.selectedSource != selectedSource) {
+      this.props.updateViewport();
     }
   }
 
@@ -301,16 +305,14 @@ class Editor extends PureComponent<Props, State> {
     e.stopPropagation();
     e.preventDefault();
     const line = this.getCurrentLine();
-
     if (typeof line !== "number") {
       return;
     }
 
-    const isLog = key === L10N.getStr("toggleCondPanel.logPoint.key");
-    this.toggleConditionalPanel(line, isLog);
+    this.toggleConditionalPanel(line);
   };
 
-  onEditorScroll = debounce(this.props.updateViewport, 200);
+  onEditorScroll = throttle(this.props.updateViewport, 100);
 
   onKeyDown(e: KeyboardEvent) {
     const { codeMirror } = this.state.editor;
@@ -456,7 +458,7 @@ class Editor extends PureComponent<Props, State> {
     }
   }
 
-  toggleConditionalPanel = (line, log: boolean = false) => {
+  toggleConditionalPanel = line => {
     const {
       conditionalPanelLocation,
       closeConditionalPanel,
@@ -472,14 +474,11 @@ class Editor extends PureComponent<Props, State> {
       return;
     }
 
-    return openConditionalPanel(
-      {
-        line: line,
-        sourceId: selectedSource.id,
-        sourceUrl: selectedSource.url
-      },
-      log
-    );
+    return openConditionalPanel({
+      line: line,
+      sourceId: selectedSource.id,
+      sourceUrl: selectedSource.url
+    });
   };
 
   shouldScrollToLocation(nextProps) {
@@ -578,21 +577,28 @@ class Editor extends PureComponent<Props, State> {
   }
 
   getInlineEditorStyles() {
-    const { searchOn } = this.props;
+    const { selectedSource, horizontal, searchOn } = this.props;
+
+    const subtractions = [];
+
+    if (shouldShowFooter(selectedSource, horizontal)) {
+      subtractions.push(cssVars.footerHeight);
+    }
 
     if (searchOn) {
-      return {
-        height: `calc(100% - ${cssVars.searchbarHeight})`
-      };
+      subtractions.push(cssVars.searchbarHeight);
     }
 
     return {
-      height: "100%"
+      height:
+        subtractions.length === 0
+          ? "100%"
+          : `calc(100% - ${subtractions.join(" - ")})`
     };
   }
 
   renderItems() {
-    const { selectedSource, conditionalPanelLocation } = this.props;
+    const { horizontal, selectedSource, conditionalPanelLocation } = this.props;
     const { editor, contextMenu } = this.state;
 
     if (!selectedSource || !editor || !getDocument(selectedSource.id)) {
@@ -606,6 +612,7 @@ class Editor extends PureComponent<Props, State> {
         <EmptyLines editor={editor} />
         <Breakpoints editor={editor} />
         <Preview editor={editor} editorRef={this.$editorWrapper} />
+        <Footer editor={editor} horizontal={horizontal} />
         <HighlightLines editor={editor} />
         {
           <EditorMenu
@@ -626,7 +633,7 @@ class Editor extends PureComponent<Props, State> {
   renderSearchBar() {
     const { editor } = this.state;
 
-    if (!this.props.selectedSource) {
+    if (!editor) {
       return null;
     }
 
@@ -663,7 +670,7 @@ const mapStateToProps = state => {
     searchOn: getActiveSearch(state) === "file",
     conditionalPanelLocation: getConditionalPanelLocation(state),
     symbols: getSymbols(state, selectedSource),
-    isPaused: getIsPaused(state)
+    isPaused: getIsPaused(state, getCurrentThread(state))
   };
 };
 

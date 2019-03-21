@@ -61,7 +61,8 @@ describe("sources - new sources", () => {
       threadClient,
       {},
       {
-        getOriginalURLs: async () => ["magic.js"]
+        getOriginalURLs: async () => ["magic.js"],
+        getOriginalLocations: async items => items
       }
     );
 
@@ -74,16 +75,17 @@ describe("sources - new sources", () => {
   // eslint-disable-next-line
   it("should not attempt to fetch original sources if it's missing a source map url", async () => {
     const getOriginalURLs = jest.fn();
-    const { dispatch } = createStore(threadClient, {}, { getOriginalURLs });
+    const { dispatch } = createStore(
+      threadClient,
+      {},
+      {
+        getOriginalURLs,
+        getOriginalLocations: async items => items
+      }
+    );
 
     await dispatch(actions.newSource(makeSource("base.js")));
     expect(getOriginalURLs).not.toHaveBeenCalled();
-  });
-
-  it("should not fail if there isn't a source map service", async () => {
-    const store = createStore(threadClient, {}, null);
-    await store.dispatch(actions.newSource(makeSource("base.js")));
-    expect(getSourceCount(store.getState())).toEqual(1);
   });
 
   // eslint-disable-next-line
@@ -92,7 +94,8 @@ describe("sources - new sources", () => {
       threadClient,
       {},
       {
-        getOriginalURLs: async () => new Promise(_ => {})
+        getOriginalURLs: async () => new Promise(_ => {}),
+        getOriginalLocations: async items => items
       }
     );
     const baseSource = makeSource("base.js", { sourceMapURL: "base.js.map" });
@@ -116,6 +119,7 @@ describe("sources - new sources", () => {
 
           return [source.id.replace(".js", ".cljs")];
         },
+        getOriginalLocations: async items => items,
         getGeneratedLocation: location => location
       }
     );
@@ -131,28 +135,5 @@ describe("sources - new sources", () => {
     expect(barCljs && barCljs.url).toEqual("bar.cljs");
     const bazzCljs = getSourceByURL(getState(), "bazz.cljs");
     expect(bazzCljs && bazzCljs.url).toEqual("bazz.cljs");
-  });
-
-  describe("sources - sources with querystrings", () => {
-    it(`should find two sources when same source with
-      querystring`, async () => {
-      const { getSourcesUrlsInSources } = selectors;
-      const { dispatch, getState } = createStore(threadClient);
-      await dispatch(actions.newSource(makeSource("base.js?v=1")));
-      await dispatch(actions.newSource(makeSource("base.js?v=2")));
-      await dispatch(actions.newSource(makeSource("diff.js?v=1")));
-
-      const base1 = "http://localhost:8000/examples/base.js?v=1";
-      const diff1 = "http://localhost:8000/examples/diff.js?v=1";
-      const diff2 = "http://localhost:8000/examples/diff.js?v=1";
-
-      expect(getSourcesUrlsInSources(getState(), base1)).toHaveLength(2);
-      expect(getSourcesUrlsInSources(getState(), base1)).toMatchSnapshot();
-
-      expect(getSourcesUrlsInSources(getState(), diff1)).toHaveLength(1);
-      await dispatch(actions.newSource(makeSource("diff.js?v=2")));
-      expect(getSourcesUrlsInSources(getState(), diff2)).toHaveLength(2);
-      expect(getSourcesUrlsInSources(getState(), diff1)).toHaveLength(2);
-    });
   });
 });

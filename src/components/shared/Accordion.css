@@ -74,7 +74,7 @@
 
 .accordion ._content {
   border-bottom: 1px solid var(--theme-splitter-color);
-  font-size: var(--theme-body-font-size);
+  font-size: 12px;
 }
 
 .accordion div:last-child ._content {
