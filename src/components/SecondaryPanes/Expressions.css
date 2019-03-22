@@ -115,8 +115,9 @@
 }
 
 .expression-container:hover .expression-container__close-btn,
+.expression-container:focus-within .expression-container__close-btn,
 .expression-container__close-btn:focus-within {
-  top: calc(50% - 8px);
+  top: -1px;
 }
 
 .expression-content .object-node {
@@ -131,7 +132,14 @@
 .expression-container__close-btn {
   max-height: 16px;
   padding-inline-start: 4px;
-  align-self: flex-start;
+}
+
+[dir="ltr"] .expression-container__close-btn {
+  right: 0;
+}
+
+[dir="rtl"] .expression-container__close-btn {
+  left: 0;
 }
 
 .expression-content {
@@ -145,11 +153,6 @@
   overflow: hidden;
   flex-grow: 1;
   line-height: 15px;
-}
-
-/* to prevent the row from shifting vertically upon expanding the node */
-.expression-content .tree-node[aria-expanded="true"][aria-level="1"] {
-  margin-top: 1px;
 }
 
 .expression-content .tree-node[data-expandable="false"][aria-level="1"] {
