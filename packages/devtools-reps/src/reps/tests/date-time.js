@@ -43,6 +43,6 @@ describe("test invalid DateTime", () => {
       })
     );
 
-    expect(renderedComponent.text()).toEqual("Date Invalid Date");
+    expect(renderedComponent.text()).toEqual("Invalid Date");
   });
 });
