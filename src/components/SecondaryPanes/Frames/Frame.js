@@ -54,7 +54,11 @@ function FrameLocation({ frame, displayFullUrl = false }: FrameLocationProps) {
     <span className="location">
       <span className="filename">{filename}</span>:
       <span className="line">{location.line}</span>
-	  {location.column && <span>:<span className="column">{location.column}</span></span>}
+      {location.column && (
+        <span>
+          :<span className="column">{location.column}</span>
+        </span>
+      )}
     </span>
   );
 }
