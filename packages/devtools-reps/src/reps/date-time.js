@@ -25,8 +25,8 @@ function DateTime(props) {
     const dateObject = new Date(grip.preview.timestamp);
     dateObject.toISOString();
     date = span({
-        "data-link-actor-id": grip.actor,
-        className: "objectBox"
+      "data-link-actor-id": grip.actor,
+      className: "objectBox"
       },
       getTitle(grip),
       span({ className: "Date" }, dateObject.toString())
@@ -40,8 +40,8 @@ function DateTime(props) {
 
 function getTitle(grip) {
   return span({
-      className: "objectTitle"
-    },
+    className: "objectTitle"
+  },
     `${grip.class} `
   );
 }
