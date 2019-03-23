@@ -31,7 +31,6 @@ module.exports = ({ file, options, env }) => {
         flexbox: false,
         grid: false
       }),
-      require("postcss-class-namespace")(),
       mapUrl(mapUrlDevelopment)
     ]
   };
