@@ -97,7 +97,16 @@ class Breakpoint extends PureComponent<Props> {
     }
 
     if (event.shiftKey) {
-      return breakpointActions.toggleDisabledBreakpoint(breakpoint);
+      if (breakpoint.disabled) {
+        return breakpointActions.enableBreakpointsAtLine(
+          this.selectedLocation.sourceId,
+          this.selectedLocation.line
+        );
+      }
+      return breakpointActions.disableBreakpointsAtLine(
+        this.selectedLocation.sourceId,
+        this.selectedLocation.line
+      );
     }
 
     return breakpointActions.removeBreakpointsAtLine(
