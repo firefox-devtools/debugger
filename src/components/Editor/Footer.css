@@ -18,10 +18,15 @@
   box-sizing: border-box;
 }
 
-.source-footer .commands {
+.source-footer-start {
   display: flex;
   align-items: center;
   justify-self: start;
+}
+
+.source-footer-end {
+  display: flex;
+  margin-left: auto;
 }
 
 .source-footer .commands * {
@@ -65,7 +70,6 @@
 .source-footer .cursor-position {
   color: var(--theme-body-color);
   padding-right: 2.5px;
-  margin-left: auto;
 }
 
 .source-footer .mapped-source {
