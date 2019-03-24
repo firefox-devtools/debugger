@@ -54,6 +54,9 @@ html[dir="rtl"] .object-node {
 
 .scopes-list {
   padding: 4px 0px;
+}
+
+.scopes-pane ._content {
   overflow: auto;
 }
 
