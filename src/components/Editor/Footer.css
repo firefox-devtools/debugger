@@ -34,7 +34,7 @@
   user-select: none;
 }
 
-.source-footer > .commands > .action {
+.source-footer > .source-footer-start > .commands > .action {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -44,25 +44,25 @@
   padding: 4px 6px;
 }
 
-.source-footer > .commands > button.action:hover {
+.source-footer > .source-footer-start > .commands > button.action:hover {
   background: var(--theme-toolbar-background-hover);
 }
 
-:root.theme-dark .source-footer > .commands > .action {
+:root.theme-dark .source-footer > .source-footer-start > .commands > .action {
   fill: var(--theme-body-color);
 }
 
-:root.theme-dark .source-footer > .commands > .action:hover {
+:root.theme-dark .source-footer > .source-footer-start > .commands > .action:hover {
   fill: var(--theme-selection-color);
 }
 
-.source-footer > .commands > div.loader {
+.source-footer > .source-footer-start > .commands > div.loader {
   vertical-align: top;
   width: 20px;
   margin: 0 4px;
 }
 
-.source-footer > .commands > .blackboxed > .img.blackBox {
+.source-footer > .source-footer-start > .commands > .blackboxed > .img.blackBox {
   background-color: var(--theme-icon-checked-color);
 }
 
