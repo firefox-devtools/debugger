@@ -27,9 +27,17 @@ function FrameTitle({ frame, options = {}, l10n }: FrameTitleProps) {
   return <span className="title">{displayName}</span>;
 }
 
-type FrameLocationProps = { frame: Frame, displayFullUrl: boolean };
+type FrameLocationProps = {
+  frame: Frame,
+  displayFullUrl: boolean,
+  showCol: boolean
+};
 
-function FrameLocation({ frame, displayFullUrl = false }: FrameLocationProps) {
+function FrameLocation({
+  frame,
+  displayFullUrl = false,
+  showCol = false
+}: FrameLocationProps) {
   if (!frame.source) {
     return null;
   }
@@ -54,11 +62,12 @@ function FrameLocation({ frame, displayFullUrl = false }: FrameLocationProps) {
     <span className="location">
       <span className="filename">{filename}</span>:
       <span className="line">{location.line}</span>
-      {location.column && (
-        <span>
-          :<span className="column">{location.column}</span>
-        </span>
-      )}
+      {showCol &&
+        location.column && (
+          <React.Fragment>
+            :<span className="column">{location.column}</span>
+          </React.Fragment>
+        )}
     </span>
   );
 }
@@ -172,7 +181,11 @@ export default class FrameComponent extends Component<FrameComponentProps> {
         />
         {!hideLocation && <span className="clipboard-only"> </span>}
         {!hideLocation && (
-          <FrameLocation frame={frame} displayFullUrl={displayFullUrl} />
+          <FrameLocation
+            frame={frame}
+            displayFullUrl={displayFullUrl}
+            showCol={true}
+          />
         )}
         {selectable && <br className="clipboard-only" />}
       </div>

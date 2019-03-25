@@ -108,6 +108,7 @@ exports[`Frame getFrameTitle 1`] = `
         "thread": "FakeThread",
       }
     }
+    showCol={true}
   />
   <br
     className="clipboard-only"
@@ -224,6 +225,7 @@ exports[`Frame library frame 1`] = `
         "thread": "FakeThread",
       }
     }
+    showCol={true}
   />
   <br
     className="clipboard-only"
@@ -338,6 +340,7 @@ exports[`Frame user frame (not selected) 1`] = `
         "thread": "FakeThread",
       }
     }
+    showCol={true}
   />
   <br
     className="clipboard-only"
@@ -452,6 +455,7 @@ exports[`Frame user frame 1`] = `
         "thread": "FakeThread",
       }
     }
+    showCol={true}
   />
   <br
     className="clipboard-only"
