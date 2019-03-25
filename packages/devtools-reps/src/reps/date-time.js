@@ -23,7 +23,10 @@ function DateTime(props) {
   let date;
   try {
     const dateObject = new Date(grip.preview.timestamp);
+    // Calling `toISOString` will throw if the date is invalid,
+    // so we can render an `Invalid Date` element.
     dateObject.toISOString();
+    
     date = span(
       {
         "data-link-actor-id": grip.actor,
