@@ -52,7 +52,11 @@
   fill: var(--theme-body-color);
 }
 
-:root.theme-dark .source-footer > .source-footer-start > .commands > .action:hover {
+:root.theme-dark
+  .source-footer
+  > .source-footer-start
+  > .commands
+  > .action:hover {
   fill: var(--theme-selection-color);
 }
 
@@ -62,7 +66,11 @@
   margin: 0 4px;
 }
 
-.source-footer > .source-footer-start > .commands > .blackboxed > .img.blackBox {
+.source-footer
+  > .source-footer-start
+  > .commands
+  > .blackboxed
+  > .img.blackBox {
   background-color: var(--theme-icon-checked-color);
 }
 
