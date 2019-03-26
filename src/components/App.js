@@ -57,6 +57,7 @@ import SecondaryPanes from "./SecondaryPanes";
 import WelcomeBox from "./WelcomeBox";
 import EditorTabs from "./Editor/Tabs";
 import QuickOpenModal from "./QuickOpenModal";
+import WhyPaused from "./SecondaryPanes/WhyPaused";
 
 type Props = {
   selectedSource: Source,
@@ -228,6 +229,9 @@ class App extends Component<Props, State> {
             startPanelSize={startPanelSize}
             endPanelSize={endPanelSize}
           />
+          {this.props.endPanelCollapsed ? (
+            <WhyPaused horizontal={horizontal}/>
+          ) : null}
           {!this.props.selectedSource ? (
             <WelcomeBox
               horizontal={horizontal}

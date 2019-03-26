@@ -5,8 +5,8 @@
 .why-paused {
   display: flex;
   background-color: var(--theme-body-background);
+  border-bottom: 1px solid var(--theme-splitter-color);
   color: var(--theme-body-color);
-  opacity: 0.6;
   font-size: 12px;
   text-align: center;
   font-style: italic;
