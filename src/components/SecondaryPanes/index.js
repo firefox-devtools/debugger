@@ -83,7 +83,7 @@ type Props = {
   breakpointsDisabled: boolean,
   breakpointsLoading: boolean,
   isWaitingOnBreak: boolean,
-  renderWhyPauseDelay: Number,
+  renderWhyPauseDelay: number,
   shouldMapScopes: boolean,
   shouldPauseOnExceptions: boolean,
   shouldPauseOnCaughtExceptions: boolean,
@@ -481,8 +481,8 @@ class SecondaryPanes extends Component<Props, State> {
 
 // Checks if user is in debugging mode and adds a delay preventing 
 // excessive vertical 'jumpiness'
-function getRenderWhyPauseDelay(state) {
-  const inPauseCommand = !!getPauseCommand(state);
+function getRenderWhyPauseDelay(state, thread) {
+  const inPauseCommand = !!getPauseCommand(state, thread);
   
   if (!inPauseCommand) {
     return 100;
@@ -501,7 +501,7 @@ const mapStateToProps = state => {
     breakpointsDisabled: getBreakpointsDisabled(state),
     breakpointsLoading: getBreakpointsLoading(state),
     isWaitingOnBreak: getIsWaitingOnBreak(state, thread),
-    renderWhyPauseDelay: getRenderWhyPauseDelay(state),
+    renderWhyPauseDelay: getRenderWhyPauseDelay(state, thread),
     selectedFrame: getSelectedFrame(state, thread),
     shouldMapScopes: getMapScopes(state),
     shouldPauseOnExceptions: getShouldPauseOnExceptions(state),

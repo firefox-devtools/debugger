@@ -3,29 +3,30 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 import { connect } from "../../utils/connect";
 
 import { getPauseReason } from "../../utils/pause";
 import { 
+  getCurrentThread,
   getPaneCollapse,
   getPauseReason as getWhy
 } from "../../selectors";
-import type { Grip, ExceptionReason } from "../../types";
+import type { Grip, ExceptionReason, Why } from "../../types";
 
 import "./WhyPaused.css";
 
 type Props = {
   endPanelCollapsed: boolean,
-  delay: Number,
-  why: Why
+  delay: number,
+  why: Object
 }
 
 type State = {
   hideWhyPaused: string
 }
 
-class WhyPaused extends PureComponent<Props> {
+class WhyPaused extends Component<Props, State> {
   constructor(props) {
     super(props);
     this.state = { hideWhyPaused: '' };
@@ -35,7 +36,7 @@ class WhyPaused extends PureComponent<Props> {
     const { delay } = this.props;
 
     if (delay) {
-      this.hide = setTimeout(() => {
+      setTimeout(() => {
         this.setState({ hideWhyPaused: ''});
       }, delay);
     } else {
@@ -60,7 +61,7 @@ class WhyPaused extends PureComponent<Props> {
     if (why.type == "exception" && why.exception) {
       return (
         <div className={"message warning"}>
-          {renderExceptionSummary(why.exception)}
+          {this.renderExceptionSummary(why.exception)}
         </div>
       );
     }
@@ -96,9 +97,12 @@ class WhyPaused extends PureComponent<Props> {
   }
 }
 
-const mapStateToProps = state => ({
-  endPanelCollapsed: getPaneCollapse(state, "end"),
-  why: getWhy(state)
-});
+const mapStateToProps = state => {
+  const thread = getCurrentThread(state);
+  return {
+    endPanelCollapsed: getPaneCollapse(state, "end"),
+    why: getWhy(state, thread)
+  };
+};
 
 export default connect(mapStateToProps)(WhyPaused);
