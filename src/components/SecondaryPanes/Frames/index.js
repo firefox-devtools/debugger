@@ -20,7 +20,9 @@ import { copyToTheClipboard } from "../../../utils/clipboard";
 import {
   getFrameworkGroupingState,
   getSelectedFrame,
-  getCallStackFrames
+  getCallStackFrames,
+  getPauseReason,
+  getCurrentThread
 } from "../../../selectors";
 
 import "./Frames.css";
@@ -212,7 +214,7 @@ Frames.contextTypes = { l10n: PropTypes.object };
 const mapStateToProps = state => ({
   frames: getCallStackFrames(state),
   frameworkGroupingOn: getFrameworkGroupingState(state),
-  selectedFrame: getSelectedFrame(state)
+  selectedFrame: getSelectedFrame(state, getCurrentThread(state))
 });
 
 export default connect(

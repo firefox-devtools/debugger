@@ -44,16 +44,13 @@ function contains(location: PartialPosition, range: Range) {
   );
 }
 
-function inViewport(viewport, location) {
-  return viewport && contains(location, viewport);
-}
-
 function groupBreakpoints(breakpoints, selectedSource) {
   if (!breakpoints) {
     return {};
   }
+
   const map: any = groupBy(
-    breakpoints,
+    breakpoints.filter(breakpoint => !breakpoint.options.hidden),
     breakpoint => getSelectedLocation(breakpoint, selectedSource).line
   );
 
@@ -97,7 +94,7 @@ function filterByLineCount(positions, selectedSource) {
 function filterVisible(positions, selectedSource, viewport) {
   return positions.filter(columnBreakpoint => {
     const location = getSelectedLocation(columnBreakpoint, selectedSource);
-    return inViewport(viewport, location);
+    return viewport && contains(location, viewport);
   });
 }
 
@@ -175,21 +172,5 @@ export function getFirstBreakpointPosition(
 
   return positions.find(
     position => getSelectedLocation(position, source).line == line
-  );
-}
-
-export function getFirstVisibleBreakpointPosition(
-  state: State,
-  { line }: SourceLocation
-) {
-  const positions = getVisibleBreakpointPositions(state);
-  const selectedSource = getSelectedSource(state);
-
-  if (!selectedSource || !positions) {
-    return;
-  }
-
-  return positions.find(
-    position => getSelectedLocation(position, selectedSource).line == line
   );
 }

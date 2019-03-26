@@ -7,7 +7,7 @@ import React, { PureComponent } from "react";
 import ReactDOM from "react-dom";
 import classnames from "classnames";
 import { getDocument } from "../../utils/editor";
-import Svg from "../shared/Svg";
+import BreakpointSvg from "../shared/BreakpointSvg";
 import { showMenu } from "devtools-contextmenu";
 import { breakpointItems, createBreakpointItems } from "./menus/breakpoints";
 
@@ -28,12 +28,13 @@ type Props = {
 };
 
 const breakpointImg = document.createElement("button");
-ReactDOM.render(<Svg name={"column-marker"} />, breakpointImg);
+ReactDOM.render(<BreakpointSvg column={true} />, breakpointImg);
 
 function makeBookmark({ breakpoint }, { onClick, onContextMenu }) {
   const bp = breakpointImg.cloneNode(true);
 
   const isActive = breakpoint && !breakpoint.disabled;
+  const isDisabled = breakpoint && breakpoint.disabled;
   const condition = breakpoint && breakpoint.options.condition;
   const logValue = breakpoint && breakpoint.options.logValue;
 
@@ -41,7 +42,7 @@ function makeBookmark({ breakpoint }, { onClick, onContextMenu }) {
     "has-condition": condition,
     "has-log": logValue,
     active: isActive,
-    disabled: !isActive
+    disabled: isDisabled
   });
 
   if (condition) {
