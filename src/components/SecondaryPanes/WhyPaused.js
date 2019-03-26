@@ -3,7 +3,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "../../utils/connect";
 
 import { getPauseReason } from "../../utils/pause";
@@ -26,7 +26,7 @@ type State = {
   hideWhyPaused: string
 }
 
-class WhyPaused extends Component<Props, State> {
+class WhyPaused extends PureComponent<Props, State> {
   constructor(props) {
     super(props);
     this.state = { hideWhyPaused: '' };
