@@ -4,7 +4,7 @@
 
 // @flow
 
-import React, { PureComponent } from "react";
+import { PureComponent } from "react";
 import classnames from "classnames";
 
 import { getDocument, toEditorLine } from "../../utils/editor";
