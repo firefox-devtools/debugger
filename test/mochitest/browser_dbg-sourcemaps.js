@@ -1,5 +1,6 @@
-/* Any copyright is dedicated to the Public Domain.
- * http://creativecommons.org/publicdomain/zero/1.0/ */
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // Tests loading sourcemapped sources, setting breakpoints, and
 // stepping in them.
@@ -22,10 +23,7 @@ async function assertEditorBreakpoint(dbg, line, shouldExist) {
   const exists = !!el.querySelector(".new-breakpoint");
   ok(
     exists === shouldExist,
-    "Breakpoint " +
-      (shouldExist ? "exists" : "does not exist") +
-      " on line " +
-      line
+    `Breakpoint ${shouldExist ? "exists" : "does not exist"} on line ${line}`
   );
 }
 
@@ -44,7 +42,13 @@ async function clickGutter(dbg, line) {
 
 add_task(async function() {
   // NOTE: the CORS call makes the test run times inconsistent
-  const dbg = await initDebugger("doc-sourcemaps.html", "entry.js", "output.js", "times2.js", "opts.js");
+  const dbg = await initDebugger(
+    "doc-sourcemaps.html",
+    "entry.js",
+    "output.js",
+    "times2.js",
+    "opts.js"
+  );
   const {
     selectors: { getBreakpoint, getBreakpointCount },
     getState
