@@ -49,7 +49,10 @@ add_task(async function() {
     "times2.js",
     "opts.js"
   );
-  const { getState } = dbg;
+  const {
+    selectors: { getBreakpointCount },
+    getState
+  } = dbg;
 
   ok(true, "Original sources exist");
   const bundleSrc = findSource(dbg, "bundle.js");
@@ -66,7 +69,7 @@ add_task(async function() {
 
   await clickGutter(dbg, 70);
   await waitForDispatch(dbg, "REMOVE_BREAKPOINT");
-  is(dbg.selectors.getBreakpointCount(getState()), 0, "No breakpoints exists");
+  is(getBreakpointCount(getState()), 0, "No breakpoints exists");
 
   const entrySrc = findSource(dbg, "entry.js");
 
@@ -80,7 +83,7 @@ add_task(async function() {
 
   // Test breaking on a breakpoint
   await addBreakpoint(dbg, "entry.js", 15);
-  is(dbg.selectors.getBreakpointCount(getState()), 1, "One breakpoint exists");
+  is(getBreakpointCount(getState()), 1, "One breakpoint exists");
   assertBreakpointExists(dbg, entrySrc, 15);
 
   invokeInTab("keepMeAlive");

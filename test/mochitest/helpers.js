@@ -18,7 +18,9 @@ var { Toolbox } = require("devtools/client/framework/toolbox");
 var { Task } = require("devtools/shared/task");
 var asyncStorage = require("devtools/shared/async-storage");
 
-const { getSelectedLocation } = require("devtools/client/debugger/new/src/utils/source-maps");
+const {
+  getSelectedLocation
+} = require("devtools/client/debugger/new/src/utils/source-maps");
 
 const sourceUtils = {
   isLoaded: source => source.loadedState === "loaded"
@@ -236,9 +238,11 @@ function waitForSelectedSource(dbg, url) {
         return false;
       }
 
-      return hasSymbols(state, source) &&
-        hasSourceMetaData( state, source.id) &&
-        hasBreakpointPositions(state, source.id);
+      return (
+        hasSymbols(state, source) &&
+        hasSourceMetaData(state, source.id) &&
+        hasBreakpointPositions(state, source.id)
+      );
     },
     "selected source"
   );
@@ -469,7 +473,8 @@ async function waitForPaused(dbg, url) {
 
   await waitForState(
     dbg,
-    state => isPaused(dbg) && !!getSelectedScope(state, getCurrentThread(state)),
+    state =>
+      isPaused(dbg) && !!getSelectedScope(state, getCurrentThread(state)),
     "paused"
   );
 
@@ -798,7 +803,7 @@ function disableBreakpoint(dbg, source, line, column) {
 function setBreakpointOptions(dbg, source, line, column, options) {
   source = findSource(dbg, source);
   const sourceId = source.id;
-  column = column || getFirstBreakpointColumn(dbg, {line, sourceId});
+  column = column || getFirstBreakpointColumn(dbg, { line, sourceId });
   dbg.actions.setBreakpointOptions({ sourceId, line, column }, options);
   return waitForDispatch(dbg, "SET_BREAKPOINT_OPTIONS");
 }
@@ -809,7 +814,7 @@ function findBreakpoint(dbg, url, line) {
     getState
   } = dbg;
   const source = findSource(dbg, url);
-  const column = getFirstBreakpointColumn(dbg, {line, sourceId: source.id });
+  const column = getFirstBreakpointColumn(dbg, { line, sourceId: source.id });
   return getBreakpoint(getState(), { sourceId: source.id, line, column });
 }
 
@@ -935,7 +940,7 @@ async function assertScopes(dbg, items) {
  */
 function removeBreakpoint(dbg, sourceId, line, column) {
   const source = dbg.selectors.getSource(dbg.getState(), sourceId);
-  column = column || getFirstBreakpointColumn(dbg, {line, sourceId});
+  column = column || getFirstBreakpointColumn(dbg, { line, sourceId });
   const location = { sourceId, sourceUrl: source.url, line, column };
   const bp = dbg.selectors.getBreakpointForLocation(dbg.getState(), location);
   dbg.actions.removeBreakpoint(bp);
@@ -965,9 +970,13 @@ async function togglePauseOnExceptions(
 
 function waitForActive(dbg) {
   const {
-    selectors: { getIsPaused, getCurrentThread },
+    selectors: { getIsPaused, getCurrentThread }
   } = dbg;
-  return waitForState(dbg, state => !getIsPaused(state, getCurrentThread(state)), "active");
+  return waitForState(
+    dbg,
+    state => !getIsPaused(state, getCurrentThread(state)),
+    "active"
+  );
 }
 
 // Helpers
@@ -1402,8 +1411,11 @@ async function codeMirrorGutterElement(dbg, line) {
   // https://github.com/firefox-devtools/debugger/pull/7934
   const lineHeightOffset = 3;
 
+  // Click in the center of the line/breakpoint
+  const leftOffset = 10;
+
   const tokenEl = dbg.win.document.elementFromPoint(
-    left,
+    left - leftOffset,
     top + lineHeightOffset
   );
 
@@ -1678,7 +1690,7 @@ async function checkEvaluateInTopFrame(target, text, expected) {
 }
 
 async function findConsoleMessage(dbg, query) {
-  const [message,] = await findConsoleMessages(dbg, query);
+  const [message] = await findConsoleMessages(dbg, query);
   const value = message.querySelector(".message-body").innerText;
   const link = message.querySelector(".frame-link-source-inner").innerText;
   return { value, link };
@@ -1697,5 +1709,5 @@ async function hasConsoleMessage(dbg, msg) {
   return waitFor(async () => {
     const messages = await findConsoleMessages(dbg, msg);
     return messages.length > 0;
-  })
+  });
 }
