@@ -153,6 +153,8 @@ class App extends Component<Props, State> {
       quickOpenEnabled
     } = this.props;
 
+    const { shortcutsModalEnabled } = this.state;
+
     if (activeSearch) {
       e.preventDefault();
       closeActiveSearch();
@@ -161,6 +163,10 @@ class App extends Component<Props, State> {
     if (quickOpenEnabled) {
       e.preventDefault();
       closeQuickOpen();
+    }
+
+    if (shortcutsModalEnabled) {
+      this.toggleShortcutsModal();
     }
   };
 
