@@ -4,8 +4,10 @@
 
 // @flow
 
-import { PureComponent } from "react";
+import React, { PureComponent } from "react";
+import ReactDOM from "react-dom";
 import classnames from "classnames";
+import Svg from "../shared/Svg";
 
 import { getDocument, toEditorLine } from "../../utils/editor";
 import { getSelectedLocation } from "../../utils/source-maps";
@@ -18,8 +20,7 @@ import type { EditorItemActions } from "./menus/editor";
 import type { Source, Breakpoint as BreakpointType } from "../../types";
 
 const breakpointSvg = document.createElement("div");
-breakpointSvg.innerHTML =
-  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 15" width="60" height="15"><path d="M53.07.5H1.5c-.54 0-1 .46-1 1v12c0 .54.46 1 1 1h51.57c.58 0 1.15-.26 1.53-.7l4.7-6.3-4.7-6.3c-.38-.44-.95-.7-1.53-.7z"/></svg>';
+ReactDOM.render(<Svg name="breakpoint" />, breakpointSvg);
 
 type Props = {
   breakpoint: BreakpointType,
@@ -31,37 +32,16 @@ type Props = {
 
 class Breakpoint extends PureComponent<Props> {
   componentDidMount() {
-    this.addBreakpoint();
+    this.addBreakpoint(this.props);
   }
 
-  componentDidUpdate() {
-    this.addBreakpoint();
+  componentDidUpdate(prevProps: Props) {
+    this.removeBreakpoint(prevProps);
+    this.addBreakpoint(this.props);
   }
 
   componentWillUnmount() {
-    const { breakpoint, selectedSource } = this.props;
-    if (!selectedSource || breakpoint.loading) {
-      return;
-    }
-
-    const sourceId = selectedSource.id;
-    const doc = getDocument(sourceId);
-
-    if (!doc) {
-      return;
-    }
-
-    const line = toEditorLine(sourceId, this.selectedLocation.line);
-
-    doc.setGutterMarker(line, "breakpoints", null);
-    doc.removeLineClass(line, "line", "new-breakpoint");
-    doc.removeLineClass(line, "line", "has-condition");
-    doc.removeLineClass(line, "line", "has-log");
-  }
-
-  get selectedLocation() {
-    const { breakpoint, selectedSource } = this.props;
-    return getSelectedLocation(breakpoint, selectedSource);
+    this.removeBreakpoint(this.props);
   }
 
   makeMarker() {
@@ -81,7 +61,12 @@ class Breakpoint extends PureComponent<Props> {
   }
 
   onClick = (event: MouseEvent) => {
-    const { breakpointActions, editorActions, breakpoint } = this.props;
+    const {
+      breakpointActions,
+      editorActions,
+      breakpoint,
+      selectedSource
+    } = this.props;
 
     // ignore right clicks
     if ((event.ctrlKey && event.button === 0) || event.button === 2) {
@@ -91,17 +76,25 @@ class Breakpoint extends PureComponent<Props> {
     event.stopPropagation();
     event.preventDefault();
 
+    const selectedLocation = getSelectedLocation(breakpoint, selectedSource);
     if (event.metaKey) {
-      return editorActions.continueToHere(this.selectedLocation.line);
+      return editorActions.continueToHere(selectedLocation.line);
     }
 
     if (event.shiftKey) {
+      if (features.columnBreakpoints) {
+        return breakpointActions.toggleBreakpointsAtLine(
+          !breakpoint.disabled,
+          selectedLocation.line
+        );
+      }
+
       return breakpointActions.toggleDisabledBreakpoint(breakpoint);
     }
 
     return breakpointActions.removeBreakpointsAtLine(
-      this.selectedLocation.sourceId,
-      this.selectedLocation.line
+      selectedLocation.sourceId,
+      selectedLocation.line
     );
   };
 
@@ -112,22 +105,21 @@ class Breakpoint extends PureComponent<Props> {
     showMenu(event, breakpointItems(breakpoint, breakpointActions));
   };
 
-  addBreakpoint = () => {
-    const { breakpoint, editor, selectedSource } = this.props;
+  addBreakpoint(props: Props) {
+    const { breakpoint, editor, selectedSource } = props;
+    const selectedLocation = getSelectedLocation(breakpoint, selectedSource);
 
     // Hidden Breakpoints are never rendered on the client
     if (breakpoint.options.hidden) {
       return;
     }
 
-    // NOTE: we need to wait for the breakpoint to be loaded
-    // to get the generated location
-    if (!selectedSource || breakpoint.loading) {
+    if (!selectedSource) {
       return;
     }
 
     const sourceId = selectedSource.id;
-    const line = toEditorLine(sourceId, this.selectedLocation.line);
+    const line = toEditorLine(sourceId, selectedLocation.line);
     const doc = getDocument(sourceId);
 
     doc.setGutterMarker(line, "breakpoints", this.makeMarker());
@@ -141,7 +133,29 @@ class Breakpoint extends PureComponent<Props> {
     } else if (breakpoint.options.condition) {
       editor.codeMirror.addLineClass(line, "line", "has-condition");
     }
-  };
+  }
+
+  removeBreakpoint(props: Props) {
+    const { selectedSource, breakpoint } = props;
+    if (!selectedSource) {
+      return;
+    }
+
+    const sourceId = selectedSource.id;
+    const doc = getDocument(sourceId);
+
+    if (!doc) {
+      return;
+    }
+
+    const selectedLocation = getSelectedLocation(breakpoint, selectedSource);
+    const line = toEditorLine(sourceId, selectedLocation.line);
+
+    doc.setGutterMarker(line, "breakpoints", null);
+    doc.removeLineClass(line, "line", "new-breakpoint");
+    doc.removeLineClass(line, "line", "has-condition");
+    doc.removeLineClass(line, "line", "has-log");
+  }
 
   render() {
     return null;

@@ -88,9 +88,14 @@ async function loadSourceTextPromise(
     return;
   }
 
+  dispatch({
+    type: "UPDATE_BREAKPOINT_TEXT",
+    source: newSource
+  });
+
   if (!newSource.isWasm && isLoaded(newSource)) {
     parser.setSource(newSource);
-    await dispatch(setBreakpointPositions(newSource.id));
+    dispatch(setBreakpointPositions(newSource.id));
   }
 
   return newSource;
@@ -105,6 +110,7 @@ export function loadSourceText(inputSource: ?Source) {
     if (!inputSource) {
       return;
     }
+
     // This ensures that the falsy check above is preserved into the IIFE
     // below in a way that Flow is happy with.
     const source = inputSource;

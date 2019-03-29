@@ -26,7 +26,7 @@
 }
 
 .object-node {
-  padding-inline-start: 20px;
+  padding-left: 4px;
 }
 
 html[dir="rtl"] .object-node {
@@ -52,8 +52,7 @@ html[dir="rtl"] .object-node {
   white-space: nowrap;
 }
 
-.scopes-list {
-  padding: 4px 0px;
+.scopes-pane ._content {
   overflow: auto;
 }
 
@@ -77,13 +76,4 @@ html[dir="rtl"] .object-node {
 
 .scopes-list .scope-type-toggle button:hover {
   background: transparent;
-}
-
-.scopes-list .tree.object-inspector .node.object-node {
-  display: flex;
-  align-items: center;
-}
-
-.scopes-list .tree {
-  line-height: 15px;
 }

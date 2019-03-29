@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
@@ -17,9 +18,7 @@ var { Toolbox } = require("devtools/client/framework/toolbox");
 var { Task } = require("devtools/shared/task");
 var asyncStorage = require("devtools/shared/async-storage");
 
-const {
-  getSelectedLocation
-} = require("devtools/client/debugger/new/src/utils/source-maps");
+const { getSelectedLocation } = require("devtools/client/debugger/new/src/utils/source-maps");
 
 const sourceUtils = {
   isLoaded: source => source.loadedState === "loaded"
@@ -43,40 +42,17 @@ async function waitFor(condition) {
 }
 
 // Wait until an action of `type` is dispatched. This is different
-// then `_afterDispatchDone` because it doesn't wait for async actions
+// then `waitForDispatch` because it doesn't wait for async actions
 // to be done/errored. Use this if you want to listen for the "start"
 // action of an async operation (somewhat rare).
-function waitForNextDispatch(store, type) {
+function waitForNextDispatch(store, actionType) {
   return new Promise(resolve => {
     store.dispatch({
       // Normally we would use `services.WAIT_UNTIL`, but use the
       // internal name here so tests aren't forced to always pass it
       // in
       type: "@@service/waitUntil",
-      predicate: action => action.type === type,
-      run: (dispatch, getState, action) => {
-        resolve(action);
-      }
-    });
-  });
-}
-
-// Wait until an action of `type` is dispatched. If it's part of an
-// async operation, wait until the `status` field is "done" or "error"
-function _afterDispatchDone(store, type) {
-  return new Promise(resolve => {
-    store.dispatch({
-      // Normally we would use `services.WAIT_UNTIL`, but use the
-      // internal name here so tests aren't forced to always pass it
-      // in
-      type: "@@service/waitUntil",
-      predicate: action => {
-        if (action.type === type) {
-          return action.status
-            ? action.status === "done" || action.status === "error"
-            : true;
-        }
-      },
+      predicate: action => action.type === actionType,
       run: (dispatch, getState, action) => {
         resolve(action);
       }
@@ -95,16 +71,28 @@ function _afterDispatchDone(store, type) {
  * @return {Promise}
  * @static
  */
-function waitForDispatch(dbg, type, eventRepeat = 1) {
+function waitForDispatch(dbg, actionType, eventRepeat = 1) {
   let count = 0;
+  return new Promise(resolve => {
+    dbg.store.dispatch({
+      // Normally we would use `services.WAIT_UNTIL`, but use the
+      // internal name here so tests aren't forced to always pass it
+      // in
+      type: "@@service/waitUntil",
+      predicate: action => {
+        const isDone =
+          !action.status ||
+          action.status === "done" ||
+          action.status === "error";
 
-  return Task.spawn(function* () {
-    info(`Waiting for ${type} to dispatch ${eventRepeat} time(s)`);
-    while (count < eventRepeat) {
-      yield _afterDispatchDone(dbg.store, type);
-      count++;
-      info(`${type} dispatched ${count} time(s)`);
-    }
+        if (action.type === actionType && isDone && ++count == eventRepeat) {
+          return true;
+        }
+      },
+      run: (dispatch, getState, action) => {
+        resolve(action);
+      }
+    });
   });
 }
 
@@ -248,11 +236,9 @@ function waitForSelectedSource(dbg, url) {
         return false;
       }
 
-      return (
-        hasSymbols(state, source) &&
-        hasSourceMetaData(state, source.id) &&
-        hasBreakpointPositions(state, source.id)
-      );
+      return hasSymbols(state, source) &&
+        hasSourceMetaData( state, source.id) &&
+        hasBreakpointPositions(state, source.id);
     },
     "selected source"
   );
@@ -274,6 +260,23 @@ function assertNotPaused(dbg) {
  */
 function assertPaused(dbg) {
   ok(isPaused(dbg), "client is paused");
+}
+
+function assertEmptyLines(dbg, lines) {
+  function every(array, predicate) {
+    return !array.some(item => !predicate(item));
+  }
+
+  function subset(subArray, superArray) {
+    return every(subArray, subItem => superArray.includes(subItem));
+  }
+
+  const sourceId = dbg.selectors.getSelectedSourceId(dbg.store.getState());
+  const emptyLines = dbg.selectors.getEmptyLines(
+    dbg.store.getState(),
+    sourceId
+  );
+  ok(subset(lines, emptyLines), "empty lines should match");
 }
 
 function getVisibleSelectedFrameLine(dbg) {
@@ -447,6 +450,13 @@ async function waitForLoadedScopes(dbg) {
   await waitUntil(() => scopes.querySelector('.tree-node[aria-level="2"]'));
 }
 
+function waitForBreakpointCount(dbg, count) {
+  return waitForState(
+    dbg,
+    state => dbg.selectors.getBreakpointCount(state) == count
+  );
+}
+
 /**
  * Waits for the debugger to be fully paused.
  *
@@ -459,8 +469,7 @@ async function waitForPaused(dbg, url) {
 
   await waitForState(
     dbg,
-    state =>
-      isPaused(dbg) && !!getSelectedScope(state, getCurrentThread(state)),
+    state => isPaused(dbg) && !!getSelectedScope(state, getCurrentThread(state)),
     "paused"
   );
 
@@ -767,8 +776,6 @@ function getFirstBreakpointColumn(dbg, { line, sourceId }) {
 async function addBreakpoint(dbg, source, line, column, options) {
   source = findSource(dbg, source);
   const sourceId = source.id;
-  column =
-    column || getFirstBreakpointColumn(dbg, { line, sourceId: source.id });
   const bpCount = dbg.selectors.getBreakpointCount(dbg.getState());
   dbg.actions.addBreakpoint({ sourceId, line, column }, options);
   await waitForDispatch(dbg, "ADD_BREAKPOINT");
@@ -791,7 +798,7 @@ function disableBreakpoint(dbg, source, line, column) {
 function setBreakpointOptions(dbg, source, line, column, options) {
   source = findSource(dbg, source);
   const sourceId = source.id;
-  column = column || getFirstBreakpointColumn(dbg, { line, sourceId });
+  column = column || getFirstBreakpointColumn(dbg, {line, sourceId});
   dbg.actions.setBreakpointOptions({ sourceId, line, column }, options);
   return waitForDispatch(dbg, "SET_BREAKPOINT_OPTIONS");
 }
@@ -802,7 +809,7 @@ function findBreakpoint(dbg, url, line) {
     getState
   } = dbg;
   const source = findSource(dbg, url);
-  const column = getFirstBreakpointColumn(dbg, { line, sourceId: source.id });
+  const column = getFirstBreakpointColumn(dbg, {line, sourceId: source.id });
   return getBreakpoint(getState(), { sourceId: source.id, line, column });
 }
 
@@ -928,7 +935,7 @@ async function assertScopes(dbg, items) {
  */
 function removeBreakpoint(dbg, sourceId, line, column) {
   const source = dbg.selectors.getSource(dbg.getState(), sourceId);
-  column = column || getFirstBreakpointColumn(dbg, { line, sourceId });
+  column = column || getFirstBreakpointColumn(dbg, {line, sourceId});
   const location = { sourceId, sourceUrl: source.url, line, column };
   const bp = dbg.selectors.getBreakpointForLocation(dbg.getState(), location);
   dbg.actions.removeBreakpoint(bp);
@@ -958,13 +965,9 @@ async function togglePauseOnExceptions(
 
 function waitForActive(dbg) {
   const {
-    selectors: { getIsPaused, getCurrentThread }
+    selectors: { getIsPaused, getCurrentThread },
   } = dbg;
-  return waitForState(
-    dbg,
-    state => !getIsPaused(state, getCurrentThread(state)),
-    "active"
-  );
+  return waitForState(dbg, state => !getIsPaused(state, getCurrentThread(state)), "active");
 }
 
 // Helpers
@@ -982,7 +985,7 @@ function waitForActive(dbg) {
  */
 function invokeInTab(fnc, ...args) {
   info(`Invoking in tab: ${fnc}(${args.map(uneval).join(",")})`);
-  return ContentTask.spawn(gBrowser.selectedBrowser, { fnc, args }, function* ({
+  return ContentTask.spawn(gBrowser.selectedBrowser, { fnc, args }, function*({
     fnc,
     args
   }) {
@@ -1111,17 +1114,26 @@ function isVisible(outerEl, innerEl) {
   return visible;
 }
 
-function getEditorLineEl(dbg, line) {
-  const lines = dbg.win.document.querySelectorAll(".CodeMirror-code > div");
-  return lines[line - 1];
+async function getEditorLineEl(dbg, line) {
+  let el = await codeMirrorGutterElement(dbg, line);
+  while (el && !el.matches(".CodeMirror-code > div")) {
+    el = el.parentElement;
+  }
+
+  return el;
 }
 
-function assertEditorBreakpoint(dbg, line, shouldExist) {
-  const exists = !!getEditorLineEl(dbg, line).querySelector(".new-breakpoint");
-  ok(
-    exists === shouldExist,
-    `Breakpoint ${shouldExist ? "exists" : "does not exist"} on line ${line}`
-  );
+async function assertEditorBreakpoint(dbg, line, shouldExist) {
+  const el = await getEditorLineEl(dbg, line);
+
+  const exists = !!el.querySelector(".new-breakpoint");
+  const existsStr = shouldExist ? "exists" : "does not exist";
+  ok(exists === shouldExist, `Breakpoint ${existsStr} on line ${line}`);
+}
+
+function assertBreakpointSnippet(dbg, index, snippet) {
+  const actualSnippet = findElement(dbg, "breakpointLabel", 3).innerText;
+  is(snippet, actualSnippet, `Breakpoint ${index} snippet`);
 }
 
 const selectors = {
@@ -1138,6 +1150,7 @@ const selectors = {
   expressionPlus: ".watch-expressions-pane button.plus",
   scopesHeader: ".scopes-pane ._header",
   breakpointItem: i => `.breakpoints-list div:nth-of-type(${i})`,
+  breakpointLabel: i => `${selectors.breakpointItem(i)} .breakpoint-label`,
   breakpointItems: ".breakpoints-list .breakpoint",
   breakpointContextMenu: {
     disableSelf: "#node-menu-disable-self",
@@ -1298,6 +1311,11 @@ function rightClickElement(dbg, elementName, ...args) {
   );
 }
 
+async function clickGutter(dbg, line) {
+  const el = await codeMirrorGutterElement(dbg, line);
+  clickDOMElement(dbg, el);
+}
+
 function selectContextMenuItem(dbg, selector) {
   // the context menu is in the toolbox window
   const doc = dbg.toolbox.win.document;
@@ -1384,11 +1402,8 @@ async function codeMirrorGutterElement(dbg, line) {
   // https://github.com/firefox-devtools/debugger/pull/7934
   const lineHeightOffset = 3;
 
-  // Click in the center of the line/breakpoint
-  const leftOffset = 10;
-
   const tokenEl = dbg.win.document.elementFromPoint(
-    left - leftOffset,
+    left,
     top + lineHeightOffset
   );
 
@@ -1524,6 +1539,21 @@ async function assertPreviews(dbg, previews) {
   }
 }
 
+async function waitForBreakableLine(dbg, source, lineNumber) {
+  await waitForState(
+    dbg,
+    state => {
+      const currentSource = findSource(dbg, source);
+
+      const emptyLines =
+        currentSource && dbg.selectors.getEmptyLines(state, currentSource.id);
+
+      return emptyLines && !emptyLines.includes(lineNumber);
+    },
+    `waiting for breakable line ${lineNumber}`
+  );
+}
+
 async function waitForSourceCount(dbg, i) {
   // We are forced to wait until the DOM nodes appear because the
   // source tree batches its rendering.
@@ -1594,7 +1624,7 @@ async function waitUntilPredicate(predicate) {
 // console if necessary.  This cleans up the split console pref so
 // it won't pollute other tests.
 async function getDebuggerSplitConsole(dbg) {
-  const { toolbox, win } = dbg;
+  let { toolbox, win } = dbg;
 
   if (!win) {
     win = toolbox.win;
@@ -1648,7 +1678,7 @@ async function checkEvaluateInTopFrame(target, text, expected) {
 }
 
 async function findConsoleMessage(dbg, query) {
-  const [message] = await findConsoleMessages(dbg, query);
+  const [message,] = await findConsoleMessages(dbg, query);
   const value = message.querySelector(".message-body").innerText;
   const link = message.querySelector(".frame-link-source-inner").innerText;
   return { value, link };
@@ -1667,5 +1697,5 @@ async function hasConsoleMessage(dbg, msg) {
   return waitFor(async () => {
     const messages = await findConsoleMessages(dbg, msg);
     return messages.length > 0;
-  });
+  })
 }

@@ -33,6 +33,7 @@ import * as reselect from "reselect";
 import classnames from "classnames";
 import devtoolsSplitter from "devtools-splitter";
 import move from "lodash-move";
+import Svg from "./components/shared/Svg";
 
 // We cannot directly export literals containing special characters
 // (eg. "my-module/Test") which is why they are nested in "vendored".
@@ -51,5 +52,8 @@ export const vendored = {
   "lodash-move": move,
   "react-aria-components/src/tabs": reactAriaComponentsTabs,
   "react-transition-group/Transition": transition,
-  reselect
+  reselect,
+  // Svg is required via relative paths, so the key is not imported path.
+  // See .babel/transform-mc.js
+  Svg
 };

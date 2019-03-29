@@ -3,11 +3,12 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-import { PureComponent } from "react";
+import React, { PureComponent } from "react";
+import ReactDOM from "react-dom";
 import classnames from "classnames";
-import { showMenu } from "devtools-contextmenu";
-
 import { getDocument } from "../../utils/editor";
+import Svg from "../shared/Svg";
+import { showMenu } from "devtools-contextmenu";
 import { breakpointItems, createBreakpointItems } from "./menus/breakpoints";
 
 // eslint-disable-next-line max-len
@@ -26,12 +27,11 @@ type Props = {
   breakpointActions: BreakpointItemActions
 };
 
-const breakpointButton = document.createElement("button");
-breakpointButton.innerHTML =
-  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11 13" width="11" height="13"><path d="M5.07.5H1.5c-.54 0-1 .46-1 1v10c0 .54.46 1 1 1h3.57c.58 0 1.15-.26 1.53-.7l3.7-5.3-3.7-5.3C6.22.76 5.65.5 5.07.5z"/></svg>';
+const breakpointImg = document.createElement("button");
+ReactDOM.render(<Svg name={"column-marker"} />, breakpointImg);
 
 function makeBookmark({ breakpoint }, { onClick, onContextMenu }) {
-  const bp = breakpointButton.cloneNode(true);
+  const bp = breakpointImg.cloneNode(true);
 
   const isActive = breakpoint && !breakpoint.disabled;
   const isDisabled = breakpoint && breakpoint.disabled;

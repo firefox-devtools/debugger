@@ -18,7 +18,8 @@ import {
   getBreakpointAtLocation,
   getConditionalPanelLocation,
   getBreakpointsForSource,
-  isEmptyLineInSource
+  isEmptyLineInSource,
+  getBreakpointsAtLine
 } from "../../selectors";
 import {
   assertBreakpoint,
@@ -65,10 +66,6 @@ async function removeBreakpointsPromise(client, state, breakpoint) {
  */
 export function removeBreakpoint(breakpoint: Breakpoint) {
   return ({ dispatch, getState, client }: ThunkArgs) => {
-    if (breakpoint.loading) {
-      return;
-    }
-
     recordEvent("remove_breakpoint");
 
     // If the breakpoint is already disabled, we don't need to communicate
@@ -97,10 +94,6 @@ export function removeBreakpoint(breakpoint: Breakpoint) {
  */
 export function disableBreakpoint(breakpoint: Breakpoint) {
   return async ({ dispatch, getState, client }: ThunkArgs) => {
-    if (breakpoint.loading) {
-      return;
-    }
-
     await removeBreakpointsPromise(client, getState(), breakpoint);
 
     const newBreakpoint: Breakpoint = { ...breakpoint, disabled: true };
@@ -208,6 +201,16 @@ export function toggleBreakpoints(
   };
 }
 
+export function toggleBreakpointsAtLine(
+  shouldDisableBreakpoints: boolean,
+  line: number
+) {
+  return async ({ dispatch, getState }: ThunkArgs) => {
+    const breakpoints = await getBreakpointsAtLine(getState(), line);
+    return dispatch(toggleBreakpoints(shouldDisableBreakpoints, breakpoints));
+  };
+}
+
 /**
  * Removes all breakpoints
  *
@@ -289,10 +292,6 @@ export function setBreakpointOptions(
       return dispatch(addBreakpoint(location, options));
     }
 
-    if (bp.loading) {
-      return;
-    }
-
     if (bp.disabled) {
       await dispatch(enableBreakpoint(bp));
     }
@@ -328,7 +327,7 @@ export function toggleBreakpointAtLine(line: number) {
     const bp = getBreakpointAtLocation(state, { line, column: undefined });
     const isEmptyLine = isEmptyLineInSource(state, line, selectedSource.id);
 
-    if ((!bp && isEmptyLine) || (bp && bp.loading)) {
+    if (!bp && isEmptyLine) {
       return;
     }
 
@@ -404,10 +403,6 @@ export function enableBreakpointsAtLine(sourceId: string, line: number) {
 
 export function toggleDisabledBreakpoint(breakpoint: Breakpoint) {
   return ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    if (breakpoint.loading) {
-      return;
-    }
-
     if (!breakpoint.disabled) {
       return dispatch(disableBreakpoint(breakpoint));
     }

@@ -3,21 +3,19 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-
+import { setBreakpointPositions } from "./breakpointPositions";
 import {
-  breakpointExists,
   assertBreakpoint,
   createBreakpoint,
   getASTLocation,
   makeBreakpointId,
-  makeBreakpointLocation,
-  findPosition
+  makeBreakpointLocation
 } from "../../utils/breakpoint";
 import { PROMISE } from "../utils/middleware/promise";
 import {
   getSymbols,
   getFirstBreakpointPosition,
-  getBreakpointPositionsForSource,
+  getBreakpointPositionsForLocation,
   getSourceFromId
 } from "../../selectors";
 
@@ -37,12 +35,6 @@ async function addBreakpointPromise(getState, client, sourceMaps, breakpoint) {
   const source = getSourceFromId(state, location.sourceId);
   const generatedSource = getSourceFromId(state, generatedLocation.sourceId);
 
-  if (breakpointExists(state, location)) {
-    const newBreakpoint = { ...breakpoint, location, generatedLocation };
-    assertBreakpoint(newBreakpoint);
-    return newBreakpoint;
-  }
-
   const breakpointLocation = makeBreakpointLocation(
     getState(),
     generatedLocation
@@ -58,7 +50,6 @@ async function addBreakpointPromise(getState, client, sourceMaps, breakpoint) {
   const newBreakpoint = {
     id: makeBreakpointId(generatedLocation),
     disabled: false,
-    loading: false,
     options: breakpoint.options,
     location,
     astLocation,
@@ -80,10 +71,6 @@ export function addHiddenBreakpoint(location: SourceLocation) {
 
 export function enableBreakpoint(breakpoint: Breakpoint) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
-    if (breakpoint.loading) {
-      return;
-    }
-
     // To instantly reflect in the UI, we optimistically enable the breakpoint
     const enabledBreakpoint = { ...breakpoint, disabled: false };
 
@@ -101,15 +88,14 @@ export function addBreakpoint(
 ) {
   return async ({ dispatch, getState, sourceMaps, client }: ThunkArgs) => {
     recordEvent("add_breakpoint");
-    let position;
+
     const { sourceId, column } = location;
 
-    if (column === undefined) {
-      position = getFirstBreakpointPosition(getState(), location);
-    } else {
-      const positions = getBreakpointPositionsForSource(getState(), sourceId);
-      position = findPosition(positions, location);
-    }
+    await dispatch(setBreakpointPositions(sourceId));
+
+    const position = column
+      ? getBreakpointPositionsForLocation(getState(), location)
+      : getFirstBreakpointPosition(getState(), location);
 
     if (!position) {
       return;

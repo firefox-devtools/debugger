@@ -187,6 +187,12 @@ function waitForWorkers(shouldWait: boolean) {
   shouldWaitForWorkers = shouldWait;
 }
 
+function detachWorkers() {
+  for (const thread of listWorkerThreadClients()) {
+    thread.detach();
+  }
+}
+
 function maybeGenerateLogGroupId(options) {
   if (options.logValue && tabTarget.traits && tabTarget.traits.canRewind) {
     return { ...options, logGroupId: `logGroup-${Math.random()}` };
@@ -437,14 +443,26 @@ async function getBreakpointPositions(
   source: Source,
   range: ?Range
 ): Promise<{ [string]: number[] }> {
-  const sourceActor = source.actors[0];
-  const { thread, actor } = sourceActor;
-  const sourceThreadClient = lookupThreadClient(thread);
-  const sourceClient = sourceThreadClient.source({ actor });
-  const { positions } = await sourceClient.getBreakpointPositionsCompressed(
-    range
-  );
-  return positions;
+  const sourcePositions = {};
+
+  for (const { thread, actor } of source.actors) {
+    const sourceThreadClient = lookupThreadClient(thread);
+    const sourceClient = sourceThreadClient.source({ actor });
+    const { positions } = await sourceClient.getBreakpointPositionsCompressed(
+      range
+    );
+
+    for (const line of Object.keys(positions)) {
+      let columns = positions[line];
+      const existing = sourcePositions[line];
+      if (existing) {
+        columns = [...new Set([...existing, ...columns])];
+      }
+
+      sourcePositions[line] = columns;
+    }
+  }
+  return sourcePositions;
 }
 
 const clientCommands = {
@@ -485,7 +503,8 @@ const clientCommands = {
   sendPacket,
   setSkipPausing,
   setEventListenerBreakpoints,
-  waitForWorkers
+  waitForWorkers,
+  detachWorkers
 };
 
 export { setupCommands, clientCommands };
