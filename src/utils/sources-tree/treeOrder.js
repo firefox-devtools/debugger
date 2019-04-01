@@ -148,5 +148,11 @@ export function createTreeNodeMatcher(
   }
 
   // Rest of the cases, without mentioned above.
-  return createTreeNodeMatcherWithNameAndOther(part, isDir, debuggeeHost, source, hasSameName);
+  return createTreeNodeMatcherWithNameAndOther(
+    part,
+    isDir,
+    debuggeeHost,
+    source,
+    hasSameName
+  );
 }
