@@ -48,7 +48,8 @@ function findOrCreateNode(
   part: string,
   index: number,
   url: Object,
-  debuggeeHost: ?string
+  debuggeeHost: ?string,
+  source: Source
 ): TreeDirectory {
   const addedPartIsFile = partIsFile(index, parts, url);
 
@@ -69,7 +70,11 @@ function findOrCreateNode(
 
   // if we have a naming conflict, we'll create a new node
   if (child.type === "source" || (!childIsFile && addedPartIsFile)) {
-    return createNodeInTree(part, path, subTree, childIndex);
+    const { index: insertIndex } = findNodeInContents(
+      subTree,
+      createTreeNodeMatcher(part, !addedPartIsFile, debuggeeHost, source, true)
+    );
+    return createNodeInTree(part, path, subTree, insertIndex);
   }
 
   // if there is no naming conflict, we can traverse into the child
@@ -83,7 +88,8 @@ function findOrCreateNode(
 function traverseTree(
   url: ParsedURL,
   tree: TreeDirectory,
-  debuggeeHost: ?string
+  debuggeeHost: ?string,
+  source: Source
 ): TreeNode {
   const parts = url.path.split("/").filter(p => p !== "");
   parts.unshift(url.group);
@@ -99,7 +105,8 @@ function traverseTree(
       part,
       index,
       url,
-      debuggeeHostIfRoot
+      debuggeeHostIfRoot,
+      source
     );
   }, tree);
 }
@@ -166,7 +173,7 @@ export function addToTree(
     return;
   }
 
-  const finalNode = traverseTree(url, tree, debuggeeHost);
+  const finalNode = traverseTree(url, tree, debuggeeHost, source);
 
   // $FlowIgnore
   finalNode.contents = addSourceToNode(finalNode, url, source);
