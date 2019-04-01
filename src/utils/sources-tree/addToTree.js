@@ -70,6 +70,7 @@ function findOrCreateNode(
 
   // if we have a naming conflict, we'll create a new node
   if (child.type === "source" || (!childIsFile && addedPartIsFile)) {
+    // pass true to findNodeInContents to sort node by url
     const { index: insertIndex } = findNodeInContents(
       subTree,
       createTreeNodeMatcher(part, !addedPartIsFile, debuggeeHost, source, true)

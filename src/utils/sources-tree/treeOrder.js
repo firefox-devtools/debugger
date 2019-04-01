@@ -98,7 +98,7 @@ function createTreeNodeMatcherWithNameAndOther(
   isDir: boolean,
   debuggeeHost: ?string,
   source?: Source,
-  hasSameName?: boolean
+  sortByUrl?: boolean
 ): FindNodeInContentsMatcher {
   return (node: TreeNode) => {
     if (node.name === IndexName) {
@@ -113,8 +113,7 @@ function createTreeNodeMatcherWithNameAndOther(
     } else if (!nodeIsDir && isDir) {
       return 1;
     }
-
-    if (hasSameName && node.type === "source" && source) {
+    if (sortByUrl && node.type === "source" && source) {
       return node.contents.url.localeCompare(source.url);
     }
 
@@ -135,7 +134,7 @@ export function createTreeNodeMatcher(
   isDir: boolean,
   debuggeeHost: ?string,
   source?: Source,
-  hasSameName?: boolean
+  sortByUrl?: boolean
 ): FindNodeInContentsMatcher {
   if (part === IndexName) {
     // Specialied matcher, when we are looking for "(index)" position.
@@ -153,6 +152,6 @@ export function createTreeNodeMatcher(
     isDir,
     debuggeeHost,
     source,
-    hasSameName
+    sortByUrl
   );
 }
