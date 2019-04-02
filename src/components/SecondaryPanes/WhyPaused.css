@@ -4,34 +4,48 @@
 
 .why-paused {
   display: flex;
-  background-color: var(--theme-body-background);
+  flex-direction: column;
+  justify-content: center;
+  background-color: lightgoldenrodyellow;
   border-bottom: 1px solid var(--theme-splitter-color);
   color: var(--theme-body-color);
   font-size: 12px;
-  text-align: center;
-  font-style: italic;
-  font-weight: 300;
   cursor: default;
-  min-height: 24px;
-  white-space: normal;
+  height: 44px;
+  padding: 4px 20px;
 }
 
 .why-paused > div {
-  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
 }
 
 .theme-dark .secondary-panes .why-paused {
   color: white;
 }
 
+.why-paused .pause.reason {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 .why-paused .message {
-  padding: 4px;
-  font-size: 10px;
+  font-style: italic;
+  font-weight: 100;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .why-paused .message.warning {
-  font-size: 10px;
   color: var(--theme-graphs-red);
   font-weight: bold;
-  font-style: normal;
+  font-style: italic;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
+
+

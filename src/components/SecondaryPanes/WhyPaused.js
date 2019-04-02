@@ -18,7 +18,7 @@ import "./WhyPaused.css";
 
 type Props = {
   endPanelCollapsed: boolean,
-  delay: number,
+  delay: ?number,
   why: Object
 }
 
@@ -73,6 +73,10 @@ class WhyPaused extends PureComponent<Props, State> {
     return null;
   }
 
+  // {this.renderMessage(why)
+  //   ? <span className="divider">|</span>
+  //   : null}
+
   render() {
     const { endPanelCollapsed, why } = this.props;
     const reason = getPauseReason(why);
@@ -82,7 +86,7 @@ class WhyPaused extends PureComponent<Props, State> {
         return (
           <div className={"pane why-paused"}>
             <div>
-              <div>{L10N.getStr(reason)}</div>
+              <div className="pause reason">{L10N.getStr(reason)}</div>
               {this.renderMessage(why)}
             </div>
           </div>
