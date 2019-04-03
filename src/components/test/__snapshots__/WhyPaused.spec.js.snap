@@ -5,7 +5,9 @@ exports[`WhyPaused should pause reason with message 1`] = `
   className="pane why-paused"
 >
   <div>
-    <div>
+    <div
+      className="pause reason"
+    >
       Paused on breakpoint
     </div>
     <div
@@ -17,12 +19,20 @@ exports[`WhyPaused should pause reason with message 1`] = `
 </div>
 `;
 
+exports[`WhyPaused should show an empty div when there is no pause reason 1`] = `
+<div
+  className=""
+/>
+`;
+
 exports[`WhyPaused should show pause reason with exception details 1`] = `
 <div
   className="pane why-paused"
 >
   <div>
-    <div>
+    <div
+      className="pause reason"
+    >
       Paused on exception
     </div>
     <div
@@ -39,7 +49,9 @@ exports[`WhyPaused should show pause reason with exception string 1`] = `
   className="pane why-paused"
 >
   <div>
-    <div>
+    <div
+      className="pause reason"
+    >
       Paused on exception
     </div>
     <div
