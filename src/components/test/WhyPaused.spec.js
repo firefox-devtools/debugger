@@ -61,5 +61,3 @@ describe("WhyPaused", () => {
     expect(component).toMatchSnapshot();
   });
 });
-
-  

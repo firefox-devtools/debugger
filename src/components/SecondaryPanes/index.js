@@ -424,7 +424,7 @@ class SecondaryPanes extends Component<Props, State> {
     const { renderWhyPauseDelay } = this.props;
 
     return (
-      <div> 
+      <div>
         <WhyPaused delay={renderWhyPauseDelay} />
         <Accordion items={this.getItems()} />
       </div>
@@ -440,7 +440,7 @@ class SecondaryPanes extends Component<Props, State> {
           maxSize="50%"
           splitterSize={1}
           startPanel={
-            <div style={{width: "inherit"}}>
+            <div style={{ width: "inherit" }}>
               <WhyPaused delay={this.props.renderWhyPauseDelay} />
               <Accordion items={this.getStartItems()} />
             </div>
@@ -479,11 +479,11 @@ class SecondaryPanes extends Component<Props, State> {
   }
 }
 
-// Checks if user is in debugging mode and adds a delay preventing 
+// Checks if user is in debugging mode and adds a delay preventing
 // excessive vertical 'jumpiness'
 function getRenderWhyPauseDelay(state, thread) {
   const inPauseCommand = !!getPauseCommand(state, thread);
-  
+
   if (!inPauseCommand) {
     return 100;
   }

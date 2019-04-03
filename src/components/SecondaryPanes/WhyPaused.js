@@ -7,7 +7,7 @@ import React, { PureComponent } from "react";
 import { connect } from "../../utils/connect";
 
 import { getPauseReason } from "../../utils/pause";
-import { 
+import {
   getCurrentThread,
   getPaneCollapse,
   getPauseReason as getWhy
@@ -20,16 +20,16 @@ type Props = {
   endPanelCollapsed: boolean,
   delay: ?number,
   why: Object
-}
+};
 
 type State = {
   hideWhyPaused: string
-}
+};
 
 class WhyPaused extends PureComponent<Props, State> {
   constructor(props) {
     super(props);
-    this.state = { hideWhyPaused: '' };
+    this.state = { hideWhyPaused: "" };
   }
 
   componentDidUpdate() {
@@ -37,10 +37,10 @@ class WhyPaused extends PureComponent<Props, State> {
 
     if (delay) {
       setTimeout(() => {
-        this.setState({ hideWhyPaused: ''});
+        this.setState({ hideWhyPaused: ""});
       }, delay);
     } else {
-      this.setState({ hideWhyPaused: 'pane why-paused'});
+      this.setState({ hideWhyPaused: "pane why-paused"});
     }
   }
 
@@ -73,10 +73,6 @@ class WhyPaused extends PureComponent<Props, State> {
     return null;
   }
 
-  // {this.renderMessage(why)
-  //   ? <span className="divider">|</span>
-  //   : null}
-
   render() {
     const { endPanelCollapsed, why } = this.props;
     const reason = getPauseReason(why);
@@ -91,12 +87,10 @@ class WhyPaused extends PureComponent<Props, State> {
             </div>
           </div>
         );
-      // End panel collapsed. WIP  
-      } else {
-        return null;
-      }
+      } 
+      // End panel collapsed. WIP
+      return null;
     }
-    
     return <div className={this.state.hideWhyPaused} />;
   }
 }

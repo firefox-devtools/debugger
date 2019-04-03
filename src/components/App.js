@@ -231,7 +231,7 @@ class App extends Component<Props, State> {
             endPanelSize={endPanelSize}
           />
           {this.props.endPanelCollapsed ? (
-            <WhyPaused horizontal={horizontal}/>
+            <WhyPaused horizontal={horizontal} />
           ) : null}
           {!this.props.selectedSource ? (
             <WelcomeBox

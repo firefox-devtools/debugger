@@ -21,7 +21,6 @@ import {
   getFrameworkGroupingState,
   getSelectedFrame,
   getCallStackFrames,
-  getPauseReason,
   getCurrentThread
 } from "../../../selectors";
 
