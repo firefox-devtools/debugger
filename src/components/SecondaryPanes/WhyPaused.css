@@ -11,8 +11,9 @@
   color: var(--theme-body-color);
   font-size: 12px;
   cursor: default;
-  height: 44px;
+  min-height: 44px;
   padding: 4px 20px;
+  white-space: normal;
 }
 
 .why-paused > div {
@@ -25,25 +26,13 @@
   color: white;
 }
 
-.why-paused .pause.reason {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
 .why-paused .message {
   font-style: italic;
   font-weight: 100;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
 }
 
 .why-paused .message.warning {
   color: var(--theme-graphs-red);
   font-weight: bold;
   font-style: italic;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
 }
