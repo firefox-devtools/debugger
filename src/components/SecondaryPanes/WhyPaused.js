@@ -37,10 +37,10 @@ class WhyPaused extends PureComponent<Props, State> {
 
     if (delay) {
       setTimeout(() => {
-        this.setState({ hideWhyPaused: ""});
+        this.setState({ hideWhyPaused: "" });
       }, delay);
     } else {
-      this.setState({ hideWhyPaused: "pane why-paused"});
+      this.setState({ hideWhyPaused: "pane why-paused" });
     }
   }
 
