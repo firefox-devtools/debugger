@@ -12,14 +12,14 @@ import {
   getPaneCollapse,
   getPauseReason as getWhy
 } from "../../selectors";
-import type { Grip, ExceptionReason, Why } from "../../types";
+import type { Grip, ExceptionReason } from "../../types";
 
 import "./WhyPaused.css";
 
 type Props = {
   endPanelCollapsed: boolean,
   delay: ?number,
-  why: Object
+  why: ExceptionReason
 };
 
 type State = {
@@ -87,9 +87,7 @@ class WhyPaused extends PureComponent<Props, State> {
             </div>
           </div>
         );
-      } 
-      // End panel collapsed. WIP
-      return null;
+      }
     }
     return <div className={this.state.hideWhyPaused} />;
   }
