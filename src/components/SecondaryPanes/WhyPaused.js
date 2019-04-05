@@ -5,6 +5,7 @@
 // @flow
 import React, { PureComponent } from "react";
 import { connect } from "../../utils/connect";
+import AccessibleImage from "../shared/AccessibleImage";
 
 import { getPauseReason } from "../../utils/pause";
 import {
@@ -82,8 +83,13 @@ class WhyPaused extends PureComponent<Props, State> {
         return (
           <div className={"pane why-paused"}>
             <div>
-              <div className="pause reason">{L10N.getStr(reason)}</div>
-              {this.renderMessage(why)}
+              <div className="pause reason">
+                {L10N.getStr(reason)}
+                {this.renderMessage(why)}
+              </div>
+              <div className="info icon">
+                <AccessibleImage className="info" />
+              </div>
             </div>
           </div>
         );

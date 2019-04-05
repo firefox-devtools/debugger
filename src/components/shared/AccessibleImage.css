@@ -93,6 +93,10 @@ html[dir="rtl"] .img.arrow {
   mask-image: url(/images/home.svg);
 }
 
+.img.info {
+  mask-image: url(/images/info.svg);
+}
+
 .img.loader {
   mask-image: url(/images/loader.svg);
 }

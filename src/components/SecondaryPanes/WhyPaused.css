@@ -6,24 +6,38 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: lightgoldenrodyellow;
   border-bottom: 1px solid var(--theme-splitter-color);
+  background-color: hsl(54, 100%, 92%);
   color: var(--theme-body-color);
   font-size: 12px;
   cursor: default;
   min-height: 44px;
-  padding: 4px 20px;
+  padding: 4px;
   white-space: normal;
 }
 
 .why-paused > div {
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.why-paused .info.icon {
+  align-self: center;
+  padding: 0px 4px;
+}
+
+.why-paused .pause.reason {
+  display: flex;
   flex-direction: column;
-  justify-content: start;
+  padding-left: 18px;
+  padding-right: 4px;
 }
 
 .theme-dark .secondary-panes .why-paused {
-  color: white;
+  background-color: hsl(42, 37%, 19%);
+  color: hsl(43, 94%, 81%);
+
 }
 
 .why-paused .message {

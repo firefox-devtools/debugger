@@ -57,7 +57,9 @@ describe("WhyPaused", () => {
   });
 
   it("should show an empty div when there is no pause reason", () => {
-    const { component } = render(undefined);
+    const why = undefined;
+
+    const { component } = render(why);
     expect(component).toMatchSnapshot();
   });
 });
