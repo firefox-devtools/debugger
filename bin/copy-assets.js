@@ -126,13 +126,6 @@ function copySVGs({ projectPath, mcPath }) {
 
   const mozBuildSourcePath = path.join(mcPath, "devtools/client/debugger/new/images/sources/moz.build");
   fs.writeFileSync(mozBuildSourcePath, mozBuildSourceText, "utf-8");
-
-  console.log("[copy-assets] - Svg.js");
-  copyFile(
-    path.join(projectPath, "/images/Svg.js"),
-    path.join(mcPath, "devtools/client/debugger/new/images/Svg.js"),
-    { cwd: projectPath }
-  );
 }
 
 function copyTests({ mcPath, projectPath, mcModulePath, shouldSymLink }) {

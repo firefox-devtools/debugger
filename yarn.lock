@@ -3772,10 +3772,10 @@ devtools-environment@^0.0.6:
   resolved "https://registry.yarnpkg.com/devtools-environment/-/devtools-environment-0.0.6.tgz#11584f5b1ead784c2356d8da647a630fed591a4e"
   integrity sha512-tZK/UlLBnm5TCr9YnBahMkv2bpasjNyQgLNZOvFCMCO4TZSjggrccMTkljhqCr32Zb1Nx/C/jhB/KdlyiUI2Lw==
 
-devtools-launchpad@^0.0.150:
-  version "0.0.150"
-  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.150.tgz#3091dacceb061583dc053512b836232afa5de3d5"
-  integrity sha512-YdjK+T/wvrfuzP9sxeNkJXAbKryNcXQ7lNwVMqGMnHE/1J8+DTCsGF6Gi9WuKbh0Kr2LQK0KqKUXgX2yJiqNAA==
+devtools-launchpad@^0.0.151:
+  version "0.0.151"
+  resolved "https://registry.yarnpkg.com/devtools-launchpad/-/devtools-launchpad-0.0.151.tgz#b7b3a5592b0b4369566e1a82802252a3f55b93f3"
+  integrity sha512-Ni9rojp6DoUDA5KWuKyRVCFiAYUHR7UBoB3wBx1PrRghwNh5U1PRUMK2Dh/A+TzRpXjL5Q2iNvvAm+0F1wcP6A==
   dependencies:
     amd-loader "0.0.8"
     autoprefixer "^7.1.2"
@@ -5255,10 +5255,10 @@ flatten@^1.0.2:
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
   integrity sha1-2uRqnXj74lKSJYzB54CkHZXAN4I=
 
-flow-bin@0.95.1:
-  version "0.95.1"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.95.1.tgz#633113831ccff4b7ee70a2730f63fc43b69ba85f"
-  integrity sha512-06IOC/pqPMNRYtC6AMZEWYR9Fi6UdBC7gImGinPuNUpPZFnP5E9/0cBCl3DWrH4zz/gSM2HdDilU7vPGpYIr2w==
+flow-bin@0.96.0:
+  version "0.96.0"
+  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.96.0.tgz#3b0379d97304dc1879ae6db627cd2d6819998661"
+  integrity sha512-OSxERs0EdhVxEVCst/HmlT/RcnXsQQIRqcfK9J9wC8/93JQj+xQz4RtlsmYe1PSRYaozuDLyPS5pIA81Zwzaww==
 
 flush-write-stream@^1.0.0:
   version "1.0.3"
