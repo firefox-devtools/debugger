@@ -34,6 +34,10 @@
   user-select: none;
 }
 
+.source-footer > .source-footer-start > .commands {
+  display: flex;
+}
+
 .source-footer > .source-footer-start > .commands > .action {
   display: flex;
   justify-content: center;
