@@ -276,14 +276,12 @@ describe("Grip - Object with uninteresting properties", () => {
     // @TODO This is broken at the moment.
     // See https://bugzilla.mozilla.org/show_bug.cgi?id=1276376
     const renderRep = props => shallowRenderRep(object, props);
-    const defaultOutput = 'Object { a: undefined, c: "c", d: 1, … }';
+    const defaultOutput = 'Object { c: "c", d: 1, a: undefined, … }';
 
     expect(renderRep({ mode: undefined }).text()).toBe(defaultOutput);
     expect(renderRep({ mode: MODE.TINY }).text()).toBe("{…}");
     expect(renderRep({ mode: MODE.SHORT }).text()).toBe(defaultOutput);
-    expect(renderRep({ mode: MODE.LONG }).text()).toBe(
-      'Object { a: undefined, b: undefined, c: "c", d: 1 }'
-    );
+    expect(renderRep({ mode: MODE.LONG }).text()).toBe(defaultOutput);
   });
 });
 

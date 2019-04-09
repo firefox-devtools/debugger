@@ -243,9 +243,9 @@ function propIterator(props, object, max) {
  */
 function getProps(componentProps, properties, indexes, suppressQuotes) {
   // Make indexes ordered by ascending.
-  indexes.sort(function(a, b) {
-    return a - b;
-  });
+  // indexes.sort(function(a, b) {
+  //   return a - b;
+  // });
 
   const propertiesKeys = Object.keys(properties);
   return indexes.map(i => {
