@@ -2,7 +2,7 @@
 
 Mochitests is a test runner for integration (end-to-end) testing that allows us to test the debugger literally as a user would use it natively.
 
-It is different from other test runners (Jest, Mocha, Jasmine) because it simulates a real user interacting with your application. For debugger, we do this by building your own version of Firefox with your changes to debugger.html. This Firefox build and its debugger is what's tested by Mochitests, in the same way that a user interacting with the debugger would natively.
+It is different from other test runners (Jest, Mocha, Jasmine) because it simulates a real user interacting with your application. For debugger, we do this by building your own version of Firefox with your changes to *debugger*. This Firefox build and its debugger is what's tested by Mochitests, in the same way that a user interacting with the debugger would natively.
 
 If you've submitted a pull request to this project, you've already worked with Mochitests! TravisCI, which is one of the checks your PR has to pass, runs Mochitests every time you push a new commit to your PR.
 
@@ -31,7 +31,7 @@ Typically, tests would simulate a user's action flow through the debugger _(e.g.
 
 ### Mac ###
 
-Before starting, make sure you have the most updated versions of [Homebrew](https://brew.sh/) and [Python](https://www.python.org/downloads/). Afterwards, run the following from inside the main `debugger.html` folder:
+Before starting, make sure you have the most updated versions of [Homebrew](https://brew.sh/) and [Python](https://www.python.org/downloads/). Afterwards, run the following from inside the main `debugger` folder:
 ```
 brew install mercurial
 brew install autoconf@2.13 && brew unlink autoconf
@@ -52,7 +52,7 @@ Afterwards, you can open a unix-flavor shell by starting:
 C:\mozilla-build\start-shell.bat
 ```
 
-In the shell, navigate to the Debugger.html project folder. On your first setup, `./bin/prepare-mochitests-dev` clones Firefox's repository (`mozilla-central`). Downloading all of Firefox's source files may take ~30-60minutes depending on your internet connection.
+In the shell, navigate to the *debugger* project folder. On your first setup, `./bin/prepare-mochitests-dev` clones Firefox's repository (`mozilla-central`). Downloading all of Firefox's source files may take ~30-60minutes depending on your internet connection.
 
 After your initial setup, running `./bin/prepare-mochitests-dev` updates the cloned Firefox repository.
 
@@ -60,7 +60,7 @@ After your initial setup, running `./bin/prepare-mochitests-dev` updates the clo
 
 > NOTE: Make sure you have [Yarn](https://yarnpkg.com/) installed before proceeding with the following steps
 
-Every time you want to run your tests, the Firefox clone needs to be rebuilt with your updated local debugger.html. To do that, run the following:
+Every time you want to run your tests, the Firefox clone needs to be rebuilt with your updated local *debugger*. To do that, run the following:
 
 ```
 yarn copy
@@ -158,7 +158,7 @@ add_task(async function() {
 
 While this is a simple example, most of the Mochitests you will encounter follow the same process. What's important in writing them is to know clearly the actions you expect the user to do, how the debugger should behave in response to those actions, and insert assertions to test those behaviors.
 
-In this example, we use a few helper functions that you may not be familiar with yet. These helper functions are all in [`test/mochitest/helpers.js`](https://github.com/firefox-devtools/debugger.html/blob/4a1622ae7d2230e79cae049ae0e95db7960c2cc7/test/mochitest/helpers.js), and for the most part are just variants on concepts you probably already know. For example, `findElementWithSelector()` is simply a wrapper for `document.querySelector()` specifically for your debugger instance.
+In this example, we use a few helper functions that you may not be familiar with yet. These helper functions are all in [`test/mochitest/helpers.js`](https://github.com/firefox-devtools/debugger/blob/4a1622ae7d2230e79cae049ae0e95db7960c2cc7/test/mochitest/helpers.js), and for the most part are just variants on concepts you probably already know. For example, `findElementWithSelector()` is simply a wrapper for `document.querySelector()` specifically for your debugger instance.
 
 ## Debugging your tests
 While working on your tests, you might find that they're not running the way you expect them to. There are a few ways to figure out what exactly is happening and we will list them out here.
@@ -219,7 +219,7 @@ Note that these `debugger` statements are not limited to test code. They are als
 ## Test Writing Tips ##
 By now, you should have a good grasp of the basic concepts of testing with Mochitests.
 
-At this point, it's worth taking some time to become familiar with the helper methods in [helpers.js](https://github.com/firefox-devtools/debugger.html/blob/4a1622ae7d2230e79cae049ae0e95db7960c2cc7/test/mochitest/helpers.js). Below, we list some common patterns that come up while testing, and "best practices" for how to deal with them using the helper methods.
+At this point, it's worth taking some time to become familiar with the helper methods in [helpers.js](https://github.com/firefox-devtools/debugger/blob/4a1622ae7d2230e79cae049ae0e95db7960c2cc7/test/mochitest/helpers.js). Below, we list some common patterns that come up while testing, and "best practices" for how to deal with them using the helper methods.
 
 ### Waiting in a test
 It's common to want to wait for something to happen in a test. Generally we wait for one of two things to happen:
@@ -261,7 +261,7 @@ add_task(async function() {
 ### Finding DOM elements
 You can find elements defined in the debugger instance's DOM by using either:
 
-1. `findElement()` which takes an element name from the shared `selectors` object defined in [helpers.js](https://github.com/firefox-devtools/debugger.html/blob/4a1622ae7d2230e79cae049ae0e95db7960c2cc7/test/mochitest/helpers.js).
+1. `findElement()` which takes an element name from the shared `selectors` object defined in [helpers.js](https://github.com/firefox-devtools/debugger/blob/4a1622ae7d2230e79cae049ae0e95db7960c2cc7/test/mochitest/helpers.js).
 
 ```js
 add_task(async function() {
@@ -312,7 +312,7 @@ invokeInTab(dbg, "content.document.querySelector('.source-footer .prettyPrint').
 ```
 
 ### Using Debugger (DBG) helpers ###
-The `dbg` object returned by `initDebugger()` has several helpful properties, e.g., `actions`, `selectors`, `getState`, `store`, `toolbox`, `win`. [Click here](https://github.com/firefox-devtools/debugger.html/blob/7cdf5a1e99de51a551a5814f34ca8fb7506e06fb/docs/dbg.md) to learn more about these helpers.
+The `dbg` object returned by `initDebugger()` has several helpful properties, e.g., `actions`, `selectors`, `getState`, `store`, `toolbox`, `win`. [Click here](https://github.com/firefox-devtools/debugger/blob/7cdf5a1e99de51a551a5814f34ca8fb7506e06fb/docs/dbg.md) to learn more about these helpers.
 
 ## Adding New Test Files ##
 
@@ -325,17 +325,17 @@ Intermittents are when a test succeeds most the time (~95%) of the time, but not
 ### Browser Inconsistencies ###
 Sometimes the server is not as consistent as you would like. For example, reloading can sometimes cause sources to load out of order, or stepping too quickly can cause the debugger to enter a bad state.
 
-A memorable example of this type of inconsistency came when debugging [stepping behavior](https://github.com/firefox-devtools/debugger.html/commit/7e54e6b46181b747a828ab2dc1db96c88313db95#diff-4fb7729ef51f162ae50b7c3bc020a1e3). It turns out that 1% of the time the browser toolbox will step into an unexpected location. The solution is to loosen our expectations :)
+A memorable example of this type of inconsistency came when debugging [stepping behavior](https://github.com/firefox-devtools/debugger/commit/7e54e6b46181b747a828ab2dc1db96c88313db95#diff-4fb7729ef51f162ae50b7c3bc020a1e3). It turns out that 1% of the time the browser toolbox will step into an unexpected location. The solution is to loosen our expectations :)
 
 ### Missed Action ###
 Sometimes action "B" can fire before action "A" is done. This is a race condition that can be hard to track down. When you suspect this might happen, it is a good practice to start listening for "B" before you fire action "A".
 
-[Here's](https://github.com/firefox-devtools/debugger.html/commit/7b4762d9333108b15d81bc41e12182370c81e81c) an example where this happened with reloading.
+[Here's](https://github.com/firefox-devtools/debugger/commit/7b4762d9333108b15d81bc41e12182370c81e81c) an example where this happened with reloading.
 
 ### State Changes ###
 One common way tests start failing occurs when the Redux actions introduces a new asynchronous operation. A good way to safe guard your tests is to wait on state to have certain values.
 
-For example, a test that we fixed was [pretty printing](https://github.com/firefox-devtools/debugger.html/commit/6a66ce54faf8239fb358462c53c022a75615aae6#diff-a81153d2e92178917a135261f4245c39R12). The test initially waited for the "select source" action to fire, which wasn't predictable. Switching the test to wait for the formatted source to exist first simplified the test tremendously.
+For example, a test that we fixed was [pretty printing](https://github.com/firefox-devtools/debugger/commit/6a66ce54faf8239fb358462c53c022a75615aae6#diff-a81153d2e92178917a135261f4245c39R12). The test initially waited for the "select source" action to fire, which wasn't predictable. Switching the test to wait for the formatted source to exist first simplified the test tremendously.
 
 ## Videos ##
 

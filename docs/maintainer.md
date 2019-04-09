@@ -14,7 +14,7 @@ Helping to maintain a project is the best way to contribute to its overall healt
 
 We encourage the community to help make bugs actionable, make features available,
 and close stale issues. Triaging is one of the most important contributions a
-community member can make for a project's health. [Steve Klabnik's article][gardening] on how to be an "open source gardener" reflects our values here at _debugger.html_.
+community member can make for a project's health. [Steve Klabnik's article][gardening] on how to be an "open source gardener" reflects our values here at _debugger_.
 
 #### Making Bugs Actionable
 
@@ -48,7 +48,7 @@ Here's how you can help review each of these types of issues:
 
 ### Prioritizing Issues
 
-_debugger.html_ is a highly active repository. There are too many issues open in the project at any one time for us to be able to complete them all in a timely manner.
+_debugger_ is a highly active repository. There are too many issues open in the project at any one time for us to be able to complete them all in a timely manner.
 
 We try to prioritize the issues into three buckets: **current milestone**, **backlog**, and **icebox**.
 
@@ -88,7 +88,7 @@ When done well, the person whom you follow up on feels appreciated and supported
 
 When done poorly, the person whom you follow up on feels rushed, micromanaged and second-guessed. Contributors made to feel this way will often struggle to complete their work, and they will be reluctant to ask for help. 
 
-Here at _debugger.html_, it is important that follow-ups go smoothly, and that all contributors involved feel appreciated and well-supported. 
+Here at _debugger_, it is important that follow-ups go smoothly, and that all contributors involved feel appreciated and well-supported. 
 
 Here are a few good rules of thumb that will help you follow up on in-progress work in a structured, respectful way: 
 

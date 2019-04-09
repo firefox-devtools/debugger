@@ -14,4 +14,4 @@ This setup has several benefits:
 
 ### Why is lerna forked?
 
-Lerna is forked so that the top-level package (debugger.html) can be linked with the sub-packages. This feature will hopefully be merged into Lerna soon.
+Lerna is forked so that the top-level package (`debugger`) can be linked with the sub-packages. This feature will hopefully be merged into Lerna soon.

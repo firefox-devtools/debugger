@@ -231,7 +231,7 @@ There are three steps you need to follow in order to do this:
 
 1. Rebuild with SSH
 2. Copy the SSH command
-3. `cd debugger.html`
+3. `cd debugger`
 4. `jest src`
 
 ##### Rebuild with SSH
