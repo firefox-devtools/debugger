@@ -146,7 +146,7 @@ $ "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --remote-debuggi
 
 ### Safari
 
-These are the instructions for getting the debugger.html project to connect to and debug Safari on various platforms. Please file issues or make pull requests for any errors you encounter.
+These are the instructions for getting the *debugger* project to connect to and debug Safari on various platforms. Please file issues or make pull requests for any errors you encounter.
 
 #### iOS Simulator (Mac only)
 
@@ -171,7 +171,7 @@ These are the instructions for getting the debugger.html project to connect to a
 ios_webkit_debug_proxy
 ```
 
-* Run the [debugger.html](https://github.com/firefox-devtools/debugger)
+* Run the [debugger](https://github.com/firefox-devtools/debugger)
   * `npm start`
 * Connect using the following URL
   * [http://localhost:8000/?ws=localhost:9222/devtools/page/1](http://localhost:8000/?ws=localhost:9222/devtools/page/1)

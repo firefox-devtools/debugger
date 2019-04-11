@@ -20,7 +20,7 @@ NPM installs the latest versions. We use [Yarn][yarn] because we want to make su
 
 ```bash
 git clone https://github.com/firefox-devtools/debugger.git
-cd debugger.html
+cd debugger
 yarn install
 ```
 
@@ -33,7 +33,7 @@ Yarn is still new; if you're experiencing any unusual errors with it, please lea
 Now that Firefox is open, let's start the development server. In a new terminal tab, run these commands:
 
 ```bash
-cd debugger.html
+cd debugger
 yarn start
 ```
 
@@ -82,12 +82,12 @@ This setup is for people on the DevTools team (and any of you DevTools wizards o
 ```bash
 npm i -g yarn
 git clone https://github.com/firefox-devtools/debugger.git
-cd debugger.html
+cd debugger
 yarn install
 # close Firefox if it's already running
 /Applications/Firefox.app/Contents/MacOS/firefox-bin --start-debugger-server 6080 -P development
 # create a new terminal tab
-cd debugger.html
+cd debugger
 yarn start
 ```
 

@@ -41,7 +41,7 @@ The detailed instructions for setting up your environment to build Firefox for W
 C:\mozilla-build\start-shell.bat
 ```
 
-In the shell, navigate to the debugger.html project folder, and follow the Getting Started instructions as mentioned.
+In the shell, navigate to the *debugger* project folder, and follow the Getting Started instructions as mentioned.
 
 ## Running Nightly with the local debugger
 
