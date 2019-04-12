@@ -6,7 +6,12 @@
 
 import { parse } from "../url";
 
-import { nodeHasChildren, isNgBundler, isWebpackBundler, isExactDomainMatch } from "./utils";
+import {
+  nodeHasChildren,
+  isNgBundler,
+  isWebpackBundler,
+  isExactDomainMatch
+} from "./utils";
 import { isUrlExtension } from "../source";
 
 import type { TreeNode } from "./types";

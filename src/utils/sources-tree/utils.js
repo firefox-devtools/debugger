@@ -137,7 +137,10 @@ export function getRelativePath(url: string) {
 /*
  * Checks if node name matches debugger host/domain.
  */
-export function isExactDomainMatch(part: string, debuggeeHost: string): boolean {
+export function isExactDomainMatch(
+  part: string,
+  debuggeeHost: string
+): boolean {
   return part.startsWith("www.")
     ? part.substr("www.".length) === debuggeeHost
     : part === debuggeeHost;
