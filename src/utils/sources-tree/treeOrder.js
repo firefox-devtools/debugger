@@ -6,7 +6,7 @@
 
 import { parse } from "../url";
 
-import { nodeHasChildren } from "./utils";
+import { nodeHasChildren, isNgBundler, isWebpackBundler, isExactDomainMatch } from "./utils";
 import { isUrlExtension } from "../source";
 
 import type { TreeNode } from "./types";
@@ -26,23 +26,6 @@ export function getDomain(url?: string): ?string {
     return null;
   }
   return host.startsWith("www.") ? host.substr("www.".length) : host;
-}
-
-/*
- * Checks if node name matches debugger host/domain.
- */
-function isExactDomainMatch(part: string, debuggeeHost: string): boolean {
-  return part.startsWith("www.")
-    ? part.substr("www.".length) === debuggeeHost
-    : part === debuggeeHost;
-}
-
-function isNgBundler(part: string): boolean {
-  return part === "ng://";
-}
-
-function isWebpackBundler(part: string): boolean {
-  return part === "webpack://";
 }
 
 /*

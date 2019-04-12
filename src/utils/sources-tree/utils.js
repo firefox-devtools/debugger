@@ -133,3 +133,26 @@ export function getRelativePath(url: string) {
   path.shift();
   return path.join("/");
 }
+
+/*
+ * Checks if node name matches debugger host/domain.
+ */
+export function isExactDomainMatch(part: string, debuggeeHost: string): boolean {
+  return part.startsWith("www.")
+    ? part.substr("www.".length) === debuggeeHost
+    : part === debuggeeHost;
+}
+
+/*
+ * Checks if node name matches Angular Bundler.
+ */
+export function isNgBundler(part: string): boolean {
+  return part === "ng://";
+}
+
+/*
+ * Checks if node name matches Webpack Bundler.
+ */
+export function isWebpackBundler(part: string): boolean {
+  return part === "webpack://";
+}
