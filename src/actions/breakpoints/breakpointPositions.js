@@ -89,11 +89,7 @@ async function _setBreakpointPositions(sourceId, thunkArgs) {
         };
       }
 
-      const bps = await client.getBreakpointPositions(
-        generatedSource,
-        // TODO: Range is read-only but GeneratedRanges is writable
-        (range: any)
-      );
+      const bps = await client.getBreakpointPositions(generatedSource, range);
       for (const line in bps) {
         results[line] = (results[line] || []).concat(bps[line]);
       }
