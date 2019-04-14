@@ -5,7 +5,6 @@
 // @flow
 
 import { isOriginalId, originalToGeneratedId } from "devtools-source-map";
-import type { GeneratedRanges } from "devtools-source-map";
 import { uniqBy, zip } from "lodash";
 
 import {
@@ -15,7 +14,7 @@ import {
   getBreakpointPositionsForSource
 } from "../../selectors";
 
-import type { MappedLocation, SourceLocation } from "../../types";
+import type { MappedLocation, Range, SourceLocation } from "../../types";
 import type { ThunkArgs } from "../../actions/types";
 import { makeBreakpointId } from "../../utils/breakpoint";
 import typeof SourceMaps from "../../../packages/devtools-source-map/src";
@@ -68,7 +67,7 @@ async function _setBreakpointPositions(sourceId, thunkArgs) {
   if (isOriginalId(sourceId)) {
     // Explicitly typing ranges is required to work around the following issue
     // https://github.com/facebook/flow/issues/5294
-    const ranges: GeneratedRanges = await sourceMaps.getGeneratedRangesForOriginal(
+    const ranges: Range[] = await sourceMaps.getGeneratedRangesForOriginal(
       sourceId,
       generatedSource.url,
       true
@@ -84,11 +83,17 @@ async function _setBreakpointPositions(sourceId, thunkArgs) {
       // and because we know we don't care about the end-line whitespace
       // in this case.
       if (range.end.column === Infinity) {
-        range.end.line += 1;
-        range.end.column = 0;
+        range.end = {
+          line: range.end.line + 1,
+          column: 0
+        };
       }
 
-      const bps = await client.getBreakpointPositions(generatedSource, range);
+      const bps = await client.getBreakpointPositions(
+        generatedSource,
+        // TODO: Range is read-only but GeneratedRanges is writable
+        (range: any)
+      );
       for (const line in bps) {
         results[line] = (results[line] || []).concat(bps[line]);
       }

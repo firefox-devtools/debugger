@@ -4,6 +4,8 @@
 
 // @flow
 
+import typeof SourceMaps from "devtools-source-map";
+
 import assert from "../../utils/assert";
 import { recordEvent } from "../../utils/telemetry";
 import { remapBreakpoints } from "../breakpoints";
@@ -28,7 +30,7 @@ import { selectSource } from "./select";
 import type { JsSource, Source } from "../../types";
 
 export async function prettyPrintSource(
-  sourceMaps: any,
+  sourceMaps: SourceMaps,
   prettySource: Source,
   generatedSource: any
 ) {
