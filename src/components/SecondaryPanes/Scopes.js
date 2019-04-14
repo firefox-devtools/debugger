@@ -13,8 +13,10 @@ import {
   getSelectedFrame,
   getGeneratedFrameScope,
   getOriginalFrameScope,
-  isPaused as getIsPaused,
-  getPauseReason
+  getIsPaused,
+  getPauseReason,
+  getMapScopes,
+  getCurrentThread
 } from "../../selectors";
 import { getScopes } from "../../utils/pause/scopes";
 
@@ -34,8 +36,10 @@ type Props = {
   originalFrameScopes: Object | null,
   isLoading: boolean,
   why: Why,
+  shouldMapScopes: boolean,
   openLink: typeof actions.openLink,
-  openElementInInspector: typeof actions.openElementInInspectorCommand
+  openElementInInspector: typeof actions.openElementInInspectorCommand,
+  toggleMapScopes: typeof actions.toggleMapScopes
 };
 
 type State = {
@@ -97,16 +101,22 @@ class Scopes extends PureComponent<Props, State> {
     }
   }
 
-  render() {
+  onToggleMapScopes = () => {
+    this.props.toggleMapScopes();
+  };
+
+  renderScopesList() {
     const {
       isPaused,
       isLoading,
       openLink,
-      openElementInInspector
+      openElementInInspector,
+      shouldMapScopes
     } = this.props;
     const { originalScopes, generatedScopes, showOriginal } = this.state;
 
-    const scopes = (showOriginal && originalScopes) || generatedScopes;
+    const scopes =
+      (showOriginal && shouldMapScopes && originalScopes) || generatedScopes;
 
     if (scopes && !isLoading) {
       return (
@@ -122,20 +132,6 @@ class Scopes extends PureComponent<Props, State> {
             onDOMNodeClick={grip => openElementInInspector(grip)}
             onInspectIconClick={grip => openElementInInspector(grip)}
           />
-          {originalScopes ? (
-            <div className="scope-type-toggle">
-              <button
-                onClick={e => {
-                  e.preventDefault();
-                  this.setState({ showOriginal: !showOriginal });
-                }}
-              >
-                {showOriginal
-                  ? L10N.getStr("scopes.toggleToGenerated")
-                  : L10N.getStr("scopes.toggleToOriginal")}
-              </button>
-            </div>
-          ) : null}
         </div>
       );
     }
@@ -155,10 +151,15 @@ class Scopes extends PureComponent<Props, State> {
       </div>
     );
   }
+
+  render() {
+    return <div className="scopes-content">{this.renderScopesList()}</div>;
+  }
 }
 
 const mapStateToProps = state => {
-  const selectedFrame = getSelectedFrame(state);
+  const thread = getCurrentThread(state);
+  const selectedFrame = getSelectedFrame(state, thread);
   const selectedSource = getSelectedSource(state);
 
   const {
@@ -166,6 +167,7 @@ const mapStateToProps = state => {
     pending: originalPending
   } = getOriginalFrameScope(
     state,
+    thread,
     selectedSource && selectedSource.id,
     selectedFrame && selectedFrame.id
   ) || { scope: null, pending: false };
@@ -173,16 +175,21 @@ const mapStateToProps = state => {
   const {
     scope: generatedFrameScopes,
     pending: generatedPending
-  } = getGeneratedFrameScope(state, selectedFrame && selectedFrame.id) || {
+  } = getGeneratedFrameScope(
+    state,
+    thread,
+    selectedFrame && selectedFrame.id
+  ) || {
     scope: null,
     pending: false
   };
 
   return {
     selectedFrame,
-    isPaused: getIsPaused(state),
+    shouldMapScopes: getMapScopes(state),
+    isPaused: getIsPaused(state, thread),
     isLoading: generatedPending || originalPending,
-    why: getPauseReason(state),
+    why: getPauseReason(state, thread),
     originalFrameScopes,
     generatedFrameScopes
   };
@@ -192,6 +199,7 @@ export default connect(
   mapStateToProps,
   {
     openLink: actions.openLink,
-    openElementInInspector: actions.openElementInInspectorCommand
+    openElementInInspector: actions.openElementInInspectorCommand,
+    toggleMapScopes: actions.toggleMapScopes
   }
 )(Scopes);

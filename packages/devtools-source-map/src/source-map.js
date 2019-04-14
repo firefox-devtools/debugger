@@ -35,6 +35,21 @@ const { clearWasmXScopes } = require("./utils/wasmXScopes");
 
 import type { SourceLocation, Source, SourceId } from "debugger-html";
 
+type Range = {
+  start: {
+    line: number,
+    column: number
+  },
+  end: {
+    line: number,
+    column: number
+  }
+};
+
+export type locationOptions = {
+  search?: "LEAST_UPPER_BOUND" | "GREATEST_LOWER_BOUND"
+};
+
 async function getOriginalURLs(
   generatedSource: Source
 ): Promise<SourceMapConsumer> {
@@ -246,9 +261,15 @@ async function getAllGeneratedLocations(
   }));
 }
 
-export type locationOptions = {
-  search?: "LEAST_UPPER_BOUND" | "GREATEST_LOWER_BOUND"
-};
+function getOriginalLocations(
+  locations: SourceLocation[],
+  options: locationOptions = {}
+) {
+  return Promise.all(
+    locations.map(location => getOriginalLocation(location, options))
+  );
+}
+
 async function getOriginalLocation(
   location: SourceLocation,
   { search }: locationOptions = {}
@@ -343,21 +364,12 @@ async function getGeneratedRangesForOriginal(
   sourceId: SourceId,
   url: string,
   mergeUnmappedRegions: boolean = false
-): Promise<
-  Array<{
-    start: {
-      line: number,
-      column: number
-    },
-    end: {
-      line: number,
-      column: number
-    }
-  }>
-> {
+): Promise<Range[]> {
   assert(isOriginalId(sourceId), "Source is not an original source");
 
   const map = await getSourceMap(originalToGeneratedId(sourceId));
+
+  // NOTE: this is only needed for Flow
   if (!map) {
     return [];
   }
@@ -367,9 +379,18 @@ async function getGeneratedRangesForOriginal(
     map.computeColumnSpans();
   }
 
-  const cachedGeneratedMappingsForOriginal = GENERATED_MAPPINGS.get(map);
-  if (cachedGeneratedMappingsForOriginal) {
-    return cachedGeneratedMappingsForOriginal;
+  if (!GENERATED_MAPPINGS.has(map)) {
+    GENERATED_MAPPINGS.set(map, new Map());
+  }
+
+  const generatedRangesMap = GENERATED_MAPPINGS.get(map);
+  if (!generatedRangesMap) {
+    return [];
+  }
+
+  if (generatedRangesMap.has(sourceId)) {
+    // NOTE we need to coerce the result to an array for Flow
+    return generatedRangesMap.get(sourceId) || [];
   }
 
   // Gather groups of mappings on the generated file, with new groups created
@@ -445,7 +466,7 @@ async function getGeneratedRangesForOriginal(
     }
   }
 
-  GENERATED_MAPPINGS.set(map, generatedMappingsForOriginal);
+  generatedRangesMap.set(sourceId, generatedMappingsForOriginal);
   return generatedMappingsForOriginal;
 }
 
@@ -535,6 +556,7 @@ module.exports = {
   getGeneratedLocation,
   getAllGeneratedLocations,
   getOriginalLocation,
+  getOriginalLocations,
   getOriginalSourceText,
   getGeneratedRangesForOriginal,
   getFileGeneratedRange,

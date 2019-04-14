@@ -1,5 +1,6 @@
-/* Any copyright is dedicated to the Public Domain.
- * http://creativecommons.org/publicdomain/zero/1.0/ */
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // Tests loading sourcemapped sources, setting breakpoints, and
 // stepping in them.
@@ -17,29 +18,37 @@ function assertBreakpointExists(dbg, source, line) {
   );
 }
 
-function assertEditorBreakpoint(dbg, line, shouldExist) {
-  const exists = !!getLineEl(dbg, line).querySelector(".new-breakpoint");
+async function assertEditorBreakpoint(dbg, line, shouldExist) {
+  const el = await getLineEl(dbg, line);
+  const exists = !!el.querySelector(".new-breakpoint");
   ok(
     exists === shouldExist,
-    "Breakpoint " +
-      (shouldExist ? "exists" : "does not exist") +
-      " on line " +
-      line
+    `Breakpoint ${shouldExist ? "exists" : "does not exist"} on line ${line}`
   );
 }
 
-function getLineEl(dbg, line) {
-  const lines = dbg.win.document.querySelectorAll(".CodeMirror-code > div");
-  return lines[line - 1];
+async function getLineEl(dbg, line) {
+  let el = await codeMirrorGutterElement(dbg, line);
+  while (el && !el.matches(".CodeMirror-code > div")) {
+    el = el.parentElement;
+  }
+  return el;
 }
 
-function clickGutter(dbg, line) {
-  clickElement(dbg, "gutter", line);
+async function clickGutter(dbg, line) {
+  const el = await codeMirrorGutterElement(dbg, line);
+  clickDOMElement(dbg, el);
 }
 
 add_task(async function() {
   // NOTE: the CORS call makes the test run times inconsistent
-  const dbg = await initDebugger("doc-sourcemaps.html", "entry.js", "output.js", "times2.js", "opts.js");
+  const dbg = await initDebugger(
+    "doc-sourcemaps.html",
+    "entry.js",
+    "output.js",
+    "times2.js",
+    "opts.js"
+  );
   const {
     selectors: { getBreakpoint, getBreakpointCount },
     getState
@@ -54,11 +63,11 @@ add_task(async function() {
 
   await selectSource(dbg, bundleSrc);
 
-  await clickGutter(dbg, 13);
+  await clickGutter(dbg, 70);
   await waitForDispatch(dbg, "ADD_BREAKPOINT");
-  assertEditorBreakpoint(dbg, 13, true);
+  assertEditorBreakpoint(dbg, 70, true);
 
-  await clickGutter(dbg, 13);
+  await clickGutter(dbg, 70);
   await waitForDispatch(dbg, "REMOVE_BREAKPOINT");
   is(getBreakpointCount(getState()), 0, "No breakpoints exists");
 

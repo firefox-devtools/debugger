@@ -56,6 +56,7 @@ import Editor from "./Editor";
 import SecondaryPanes from "./SecondaryPanes";
 import WelcomeBox from "./WelcomeBox";
 import EditorTabs from "./Editor/Tabs";
+import EditorFooter from "./Editor/Footer";
 import QuickOpenModal from "./QuickOpenModal";
 
 type Props = {
@@ -152,6 +153,8 @@ class App extends Component<Props, State> {
       quickOpenEnabled
     } = this.props;
 
+    const { shortcutsModalEnabled } = this.state;
+
     if (activeSearch) {
       e.preventDefault();
       closeActiveSearch();
@@ -160,6 +163,10 @@ class App extends Component<Props, State> {
     if (quickOpenEnabled) {
       e.preventDefault();
       closeQuickOpen();
+    }
+
+    if (shortcutsModalEnabled) {
+      this.toggleShortcutsModal();
     }
   };
 
@@ -234,6 +241,7 @@ class App extends Component<Props, State> {
               toggleShortcutsModal={() => this.toggleShortcutsModal()}
             />
           ) : null}
+          <EditorFooter horizontal={horizontal} />
           <ProjectSearch />
         </div>
       </div>

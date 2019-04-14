@@ -53,7 +53,7 @@ If that fails you can re-clone the repo:
 ```bash
 rm -rf [yourpath]/debugger
 git clone https://github.com/firefox-devtools/debugger
-cd debugger.html
+cd debugger
 yarn install
 yarn start
 ```

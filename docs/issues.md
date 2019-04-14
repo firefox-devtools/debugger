@@ -1,5 +1,15 @@
 ## Issues
 
+The Firefox Debugger is constantly evolving. Our community team is regularly **fixing bugs**, **adding features**, **improving documentation**, and **coming up with ideas for future versions**. 
+
+You, too, can be a part of this process by **creating an issue** in this repository. 
+
+Do this whenever you'd like to suggest a fix or make a change.
+
+To learn how to create an issue on GitHub, [click here][issue-docs].
+
+### Table of Contents
+
 * [Issue Titles](#issue-titles)
 * [Issue Descriptions](#issue-descriptions)
 * [Claiming Issues](#claiming-issues)
@@ -13,17 +23,21 @@
 
 **Components**
 
-Issues are organized in terms of components.
-Issue titles should include the name of the component as a tag
-at the very beginning. Consider the following titles:
+To keep our issues organized, we like to categorize them according to which [component][component-docs] they fix or modify.
+
+The first step in this categorization process is the **issue title**, which you create when opening an issue for the first time.
+
+Here are examples of what we consider to be *good* and *bad* issue titles.
 
 * Bad: `Fix input field padding of search bar`
 * Good: `[SearchBar] Fix input field padding`
 
-or
-
 * Bad: `Add information about titles to documentation`
 * Good: `[Docs] Add information about titles`
+
+Did you spot the differences?
+
+When you submit an issue, **the title of the issue should begin with a tag**, placed within brackets (\[ \]). The tag should reference the most relevant component for the code change you suggest.
 
 Some common tags include:
 
@@ -35,35 +49,55 @@ Some common tags include:
 |SourceFooter|CallStack||Action|
 ||Scopes||Docs|RTL|
 
-
 **User Perspective**
 
-The best issue titles are framed in terms of the impact on the user. i.e.
+There's more to an issue title than just the component tag, of course.
 
-* `[Editor] search skips odd matches`
-* `[WatchExpressions] can't remove an expression after it's been edited`
+Once you've written out your tag, you need to write a few words to explain: 
+* The bug you've discovered
+* The feature you're recommending
+* The change you would like to see made to the project
 
-Things to try and avoid in the title
-* implementation details where possible. Refactoring is an exception where it's okay
-* vague language like e.g "debugger crashes", "can't install"
-* inflammatory language "Search is terrible". Negative language has two effects, it can make someone feel guilty for breaking something. It can guilt trip someone into feeling like they *have* to fix it now.
+The best issue titles take the above details and frame them in terms of their **impact on the user**. 
+
+For example:
+
+* `[Editor] Search skips odd matches`
+* `[WatchExpressions] Can't remove an expression after it's been edited`
+
+In addition to including the above details (i.e. component tag, user impact), the best issues also **exclude information that is unhelpful or irrelevant to contributors** that are reading the issue list.
+
+Here is a list of a few **things you should avoid** in your issue titles: 
+* Implementation details, where possible. Refactoring is an exception where this is permitted.
+* Vague language (e.g. "debugger crashes", "can't install").
+* Negative language (e.g. "Search is terrible").
 
 
 ### Issue Descriptions
 
-**Steps to Reproduce** *STR*
+**Steps to Reproduce** **(STR)**
 
-Include the steps to reproduce what you found.
+Before an issue can be resolved, other contributors must first be able to reproduce it accurately.
+
+When you file an issue, be sure to **include a list of all of the steps necessary to reproduce the bug** or problem that you have found. Try to be as specific as possible. 
 
 **System Details**
 
-Often it is nice to know, which browser you were using, version of node, platform (windows, linux). You don't need to go over the top though, for instance if you're filing a UI bug then it doesn't matter which version of node you're using.
+All bugs are not reproducible in all environments. If you experience a bug, please include a list of your specific system details in the issue. This can help others reproduce the bug, and help them check if it can be reproduced on other systems, as well.
+
+Include system details such as: 
+
+* Which **browser** (and browser version) you were using when the bug occurred
+* What **platform** (Windows, Mac, Linux) you were using to run the browser
+* Which **version of Node** you have installed.
+
+**Note:** You don't need to mention system details that are irrelevant to the bug you have found. For example, if you're filing an issue about a bug in the UI, there's no need to include which version of Node you're using.
 
 **Screenshots**
 
-Include screenshots and animated GIFs in your pull request whenever possible.
+Whenever possible, please **include screenshots and/or animated GIFs** in the issues you open.
 
-**Recording GIFs** There are many great tools for recording a GIF. On a mac, we recommend [recordit](http://recordit.co/), which is a free lightweight app.
+Click the dropdown arrow below to see an example of such a GIF: 
 
 <details>
 <summary>
@@ -75,10 +109,21 @@ Include screenshots and animated GIFs in your pull request whenever possible.
 ```
 ![](http://g.recordit.co/6dE0EmM29Z.gif)
 ```
-
 </details>
 
-**Tables**: When there are multiple screenshots, such as a style change that affects different themes or rtl, it can be nice to use a table for the screenshots [docs][github-tables]
+#### Tools for Recording GIFs
+
+There are many **free tools** available that will allow you to record a GIF of the problem or bug you are referencing in your issue.
+
+For **Mac** and **Windows** users, we recommend [recordit](http://recordit.co/).
+
+For **Linux** users, we recommend [Peek](https://github.com/phw/peek).
+
+#### Tables
+
+In cases where multiple screenshots are necessary to demonstrate a bug (e.g. style issues that affect multiple themes, rtl vs. ltr errors, etc.), we recommend that you **use a table in your issue to keep everything organized**. 
+
+[Click here][github-tables] to learn more about organizing information with tables on GitHub.
 
 <details>
 <summary>
@@ -100,11 +145,14 @@ Include screenshots and animated GIFs in your pull request whenever possible.
 
 ### Claiming Issues
 
-If you'd like to work on an issue, `/claim` it in the issue and it'll be marked `in-progress`.
+If you'd like to work on an issue, simply comment `/claim` on the issue thread. A bot will then mark the issue as `in-progress`, and you can begin your work.
 
-* We'll check up regularly to see how it's progressing and if we can help
-* Don't hesitate to ask questions on the issue or in our Slack channel. Communication is the most important part. Don't worry about over communicating!
-* Don't feel bad taking yourself off the issue if you no longer have the time or interest in the issue.
+When you claim an issue, keep the following in mind: 
+
+* Don't hesitate to ask questions on the issue or in our Slack channel. Communication is the most important part of the development process, so don't worry about over-communicating!
+* Don't feel bad about taking yourself off of an issue if you no longer have the time or interest necessary to tackle it.
+
+Once you've claimed your issue, our maintainers will check up regularly to see how it's progressing. They'll offer help, too, if you need it.
 
 
 ![cl]
@@ -113,111 +161,90 @@ If you'd like to work on an issue, `/claim` it in the issue and it'll be marked 
 
 ### Labels
 
+As an active repository, it is quite normal for _debugger_ to have a wide variety of issues open at any one time.
 
-These are the [labels](https://github.com/firefox-devtools/debugger/labels) we use to help organize and communicate the state of issues and pull requests in the project.  If you find a label being used that isn't described here please file an issue to get it listed.
+To keep things organized, our goal is to assign every issue a **label**.
 
-| Label name | query:mag_right: | Description |
-| --- | --- | --- |
-| `available` | [search][labels-available] | Good for contributors to work on |
-| `difficulty:easy` | [search][labels-difficulty-easy] | Work that is small changes, updating tests, updating docs, expect very little review |
-| `difficulty:medium` | [search][labels-difficulty-medium] | Work that adapts existing code, adapts existing tests, expect quick review |
-| `difficulty:hard` | [search][labels-difficulty-hard] | Work that requires new tests, new code, and a good understanding of project; expect lots of review |
-| `docs` | [search][labels-docs] | Issues with our documentation |
-| `design` | [search][labels-design] | Issues that require design work |
-| `enhancement` | [search][labels-enhancement] | [Requests](../.github/CONTRIBUTING.md#suggesting-enhancements-new) for features |
-| `bug` | [search][labels-bug] | [Reported Bugs](../.github/CONTRIBUTING.md#reporting-bugs-bug) with the current code |
-| `chrome` | [search][labels-chrome] | Chrome only issues |
-| `firefox` | [search][labels-firefox] | Firefox only issues |
-| `infrastructure` | [search][labels-infrastructure] | Issues with testing / build infrastructure |
-| `discussion` | [search][labels-discussion] | Issues need clearer requirements before work can be started |
-| `needs-description` | [search][labels-needs-description] | Issue needs a clear description and code sketch so a contributor can work on it |
-| `needs-str` | [search][labels-needs-str] | Issue needs a clear STR so that others can reproduce |
-| `needs-investigation` | [search][labels-needs-investigation] | Issue needs to be researched |
+These labels act as categorization tools. They help our contributors understand important details about an issue at a glance. These details include issue type (*bug*, *enhancement*, etc.) and issue status (*available*, *not-available*, etc.), along with other important information. 
 
-
+To see the **current list of active labels** in the *debugger* repository, [click here][labels-list].
 
 ### Available Issues
 
-[available][labels-available] issues have clear requirements and a difficulty level.
+[Available][labels-available] issues have clear requirements and a difficulty level.
 
 They often have a patch, which should be a good starting off point.
-Sometimes the patches are enough to fix the bug!
+Sometimes, the patches themselves are enough to fix the bug!
 
-One reason we file `available` issues when the solution is somewhat simple is that it's great to get a second set of eyes. Running the fix locally and QAing it thoroughly is a huge help. A lot of times you'll discover things that we missed.
+One reason we file `available` issues when the solution is somewhat simple, is because it's helpful to get a second set of eyes on them problem. Running the fix locally and QAing it thoroughly is a huge help. A lot of times, you'll discover things that we missed.
 
 ### Triaging
 
-Triaging is the act of reviewing the open issues and making sure they're up to date.
-It's one of the most helpful ways to help a project.
+Triaging is the act of **reviewing open issues and making sure they're up to date**. Triaging issues is an extremely important task, and can contribute greatly to the overall health of the project.
 
-There are a couple of ways to think about it:
-* it's great to be able to close issues that are done or stale
-* it's great to make issue descriptions as clear as possible. Our goal is for every issue to be `available` i.e. it's clear what needs to be done.
-* it's really helpful to double check a new bug and see if you can reproduce it.
-* it's great to ask questions that help make the issue available or call out vague issues.
-* it's great to sort the issues by oldest first and help make stale issues available.
+Here are a few ways you can help triage our *Issues* list:
 
-#### Process
+* Sort issues by *Oldest* first, and work through stale issues to make them `available`
+* Ask questions and clarify issues in order to help make them `available` (i.e they have a clear plan of action)
+* Close issues that are done, or stale
+* Check new bugs to see if they can be reproduced
+* Ask questions to bring attention to vague issues
 
-1. Issues that are not likely to be worked on in the next 6 weeks will be closed and documented in the [bugs][bugs-board] or [enhancements][enhancements-board].
+#### Our Issue Resolution Process
+
+1. Issues that are not likely to be worked on in the next six (6) weeks will be closed and documented in [bugs][bugs-board] or [enhancements][enhancements-board].
 2. Issues will often be grouped in tracking issues around shippable goals.
-3. Current work is included in 2 week sprint milestones
-4. The [roadmap] document is updated at the beginning of every sprint, with our current progress and realistic expectations.
+3. Current work is included in two-week sprint milestones
+4. The [roadmap] document is updated at the beginning of every sprint, along with our current progress and realistic expectations.
 
-#### What is a triaged issue?
+#### What is a Triaged Issue?
 
-When triaging, you can think of the following description as a guide:
-a triaged issue is:
+A *triaged issue* is:
 
-* no more than 6 weeks old
-* in line with the goals of the debugger
-* a single bigger issue that is still manageable
-  *or* a set of smaller issues around a shippable goal (for example, transition the code base to JSX from `dom.div` syntax)
-* labeled (see [Labels](#labels) for more info)
-* ready to be worked on,
-  *or* has a request for more information
-  *or* has a clear next step
+* No more than six weeks old
+* In line with the goals of *debugger*
+* Labeled (see [Labels](#labels) for more info)
+* Either:
+  * A single bigger issue that is still manageable, *or* 
+  * a set of smaller issues, organized around a shippable goal (for example, transitioning the code base to JSX from `dom.div` syntax)
+* Either:
+  * Ready to be worked on,
+  *or* 
+  * has a request for more information,
+  *or*, 
+  * has a clear next step
 
-An issue that does not fulfill those traits should probably be moved to one of the boards and
+When triaging an issue, we recommend that you use the above description as a guide.
+
+An issue that does not fulfill the traits listed above should generally be moved to one of the boards and
 closed.
 
 ### Issue Organization
 
 In addition to labels and components, we use a couple of boards to organize our work.
 
-**Features** [features][features-board] a prioritized list of features that are planned or in progress. The features are often tracking issues.
+**[Features][features-board]** - A prioritized list of features that are either *planned* or *in progress*. The features are often tracking issues.
 
-**Bugs** [bugs][bugs-board] a prioritized list of reported bugs.
+**[Bugs][bugs-board]** -  A prioritized list of reported bugs.
 
-**Enhancements** [enhancements-board] a list of feature suggestions that are reviewed twice a quarter.
+**[Enhancements][enhancements-board]** - A list of feature suggestions. We review this list twice every quarter (i.e. every three months, beginning in January). 
 
 ### Community Friendly
 
 We focus on being community friendly for many reasons.
 
 * There's an educational value in having a large community of engineers who understand DevTools.
-* There's an incredible diversity of talent to help us with topics ranging from testing to internationalization.
+* There's an incredible diversity of talent that can help us with topics ranging from testing to internationalization.
 * Focusing on *contributor experience* helps us build the best development environment. For instance, if you find it's hard to describe how to make an accessibility change, maybe we should improve how we support tab navigation.
 
+[labels-list]: https://github.com/firefox-devtools/debugger/labels
 [labels-available]:https://github.com/firefox-devtools/debugger/labels/available
-[labels-first-timers-only]:https://github.com/firefox-devtools/debugger/labels/first-timers-only
-[labels-difficulty-easy]:https://github.com/firefox-devtools/debugger/labels/difficulty%3A%20easy
-[labels-difficulty-medium]:https://github.com/firefox-devtools/debugger/labels/difficulty%3A%20medium
-[labels-difficulty-hard]:https://github.com/firefox-devtools/debugger/labels/difficulty%3A%20hard
-[labels-docs]:https://github.com/firefox-devtools/debugger/labels/docs
-[labels-design]:https://github.com/firefox-devtools/debugger/labels/design
-[labels-enhancement]:https://github.com/firefox-devtools/debugger/labels/enhancement
-[labels-bug]:https://github.com/firefox-devtools/debugger/labels/bug
-[labels-chrome]:https://github.com/firefox-devtools/debugger/labels/chrome
-[labels-firefox]:https://github.com/firefox-devtools/debugger/labels/firefox
-[labels-infrastructure]:https://github.com/firefox-devtools/debugger/labels/infrastructure
-[labels-discussion]:https://github.com/firefox-devtools/debugger/labels/discussion
 [github-tables]: ./pull-requests.md#screenshots
-[labels-needs-description]:https://github.com/firefox-devtools/debugger/labels/needs-description
-[labels-needs-str]:https://github.com/firefox-devtools/debugger/labels/needs-str
-[labels-needs-investigation]:https://github.com/firefox-devtools/debugger/labels/needs-investigation
 
 [enhancements-board]: https://github.com/firefox-devtools/debugger/projects/6
 [bugs-board]: https://github.com/firefox-devtools/debugger/projects/11
 [features-board]: https://github.com/firefox-devtools/debugger/projects/10
 [roadmap]: ../ROADMAP.md
+
+[issue-docs]: https://help.github.com/en/articles/creating-an-issue
+[component-docs]: https://reactjs.org/docs/components-and-props.html

@@ -62,7 +62,7 @@ When you see that a package is included that you feel should not be in the bundl
 you can open the WebPack Analyzer and look.
 
 1.  go to [analyzer](http://webpack.github.io/analyse)
-2.  select open find the latest stats.json output `<debugger.html>/webpack-stats/stats-<sha>.json`
+2.  select open find the latest stats.json output `<debugger>/webpack-stats/stats-<sha>.json`
 
 The analyzer is a bit complicated, so here are some things to look for:
 

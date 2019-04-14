@@ -17,6 +17,10 @@ var { Toolbox } = require("devtools/client/framework/toolbox");
 var { Task } = require("devtools/shared/task");
 var asyncStorage = require("devtools/shared/async-storage");
 
+const {
+  getSelectedLocation
+} = require("devtools/client/debugger/new/src/utils/source-maps");
+
 const sourceUtils = {
   isLoaded: source => source.loadedState === "loaded"
 };
@@ -219,10 +223,17 @@ async function waitForElementWithSelector(dbg, selector) {
 }
 
 function waitForSelectedSource(dbg, url) {
+  const {
+    getSelectedSource,
+    hasSymbols,
+    hasSourceMetaData,
+    hasBreakpointPositions
+  } = dbg.selectors;
+
   return waitForState(
     dbg,
     state => {
-      const source = dbg.selectors.getSelectedSource(state);
+      const source = getSelectedSource(state);
       const isLoaded = source && sourceUtils.isLoaded(source);
       if (!isLoaded) {
         return false;
@@ -237,13 +248,11 @@ function waitForSelectedSource(dbg, url) {
         return false;
       }
 
-      // wait for async work to be done
-      const hasSymbols = dbg.selectors.hasSymbols(state, source);
-      const hasSourceMetaData = dbg.selectors.hasSourceMetaData(
-        state,
-        source.id
+      return (
+        hasSymbols(state, source) &&
+        hasSourceMetaData(state, source.id) &&
+        hasBreakpointPositions(state, source.id)
       );
-      return hasSymbols && hasSourceMetaData;
     },
     "selected source"
   );
@@ -397,10 +406,10 @@ function assertHighlightLocation(dbg, source, line) {
  */
 function isPaused(dbg) {
   const {
-    selectors: { isPaused },
+    selectors: { getIsPaused, getCurrentThread },
     getState
   } = dbg;
-  return !!isPaused(getState());
+  return getIsPaused(getState(), getCurrentThread(getState()));
 }
 
 // Make sure the debugger is paused at a certain source ID and line.
@@ -408,11 +417,11 @@ function assertPausedAtSourceAndLine(dbg, expectedSourceId, expectedLine) {
   assertPaused(dbg);
 
   const {
-    selectors: { getWorkers, getFrames },
+    selectors: { getCurrentThreadFrames },
     getState
   } = dbg;
 
-  const frames = getFrames(getState());
+  const frames = getCurrentThreadFrames(getState());
   ok(frames.length >= 1, "Got at least one frame");
   const { sourceId, line } = frames[0].location;
   ok(sourceId == expectedSourceId, "Frame has correct source");
@@ -446,11 +455,12 @@ async function waitForLoadedScopes(dbg) {
  * @static
  */
 async function waitForPaused(dbg, url) {
-  const { getSelectedScope } = dbg.selectors;
+  const { getSelectedScope, getCurrentThread } = dbg.selectors;
 
   await waitForState(
     dbg,
-    state => isPaused(dbg) && !!getSelectedScope(state),
+    state =>
+      isPaused(dbg) && !!getSelectedScope(state, getCurrentThread(state)),
     "paused"
   );
 
@@ -510,6 +520,7 @@ function clearDebuggerPreferences() {
   Services.prefs.clearUserPref("devtools.debugger.call-stack-visible");
   Services.prefs.clearUserPref("devtools.debugger.scopes-visible");
   Services.prefs.clearUserPref("devtools.debugger.skip-pausing");
+  pushPref("devtools.debugger.map-scopes-enabled", true);
 }
 
 /**
@@ -524,6 +535,8 @@ async function initDebugger(url, ...sources) {
   clearDebuggerPreferences();
   const toolbox = await openNewTabAndToolbox(EXAMPLE_URL + url, "jsdebugger");
   const dbg = createDebuggerContext(toolbox);
+  dbg.client.waitForWorkers(false);
+
   await waitForSources(dbg, ...sources);
   return dbg;
 }
@@ -729,6 +742,17 @@ async function navigate(dbg, url, ...sources) {
   return waitForSources(dbg, ...sources);
 }
 
+function getFirstBreakpointColumn(dbg, { line, sourceId }) {
+  const { getSource, getFirstBreakpointPosition } = dbg.selectors;
+  const source = getSource(dbg.getState(), sourceId);
+  const position = getFirstBreakpointPosition(dbg.getState(), {
+    line,
+    sourceId
+  });
+
+  return getSelectedLocation(position, source).column;
+}
+
 /**
  * Adds a breakpoint to a source at line/col.
  *
@@ -740,38 +764,45 @@ async function navigate(dbg, url, ...sources) {
  * @return {Promise}
  * @static
  */
-function addBreakpoint(dbg, source, line, column) {
+async function addBreakpoint(dbg, source, line, column, options) {
   source = findSource(dbg, source);
   const sourceId = source.id;
-  dbg.actions.addBreakpoint({ sourceId, line, column });
-  return waitForDispatch(dbg, "ADD_BREAKPOINT");
+  column =
+    column || getFirstBreakpointColumn(dbg, { line, sourceId: source.id });
+  const bpCount = dbg.selectors.getBreakpointCount(dbg.getState());
+  dbg.actions.addBreakpoint({ sourceId, line, column }, options);
+  await waitForDispatch(dbg, "ADD_BREAKPOINT");
+  is(
+    dbg.selectors.getBreakpointCount(dbg.getState()),
+    bpCount + 1,
+    "a new breakpoint was created"
+  );
 }
 
 function disableBreakpoint(dbg, source, line, column) {
+  column =
+    column || getFirstBreakpointColumn(dbg, { line, sourceId: source.id });
   const location = { sourceId: source.id, sourceUrl: source.url, line, column };
   const bp = dbg.selectors.getBreakpointForLocation(dbg.getState(), location);
   dbg.actions.disableBreakpoint(bp);
   return waitForDispatch(dbg, "DISABLE_BREAKPOINT");
 }
 
+function setBreakpointOptions(dbg, source, line, column, options) {
+  source = findSource(dbg, source);
+  const sourceId = source.id;
+  column = column || getFirstBreakpointColumn(dbg, { line, sourceId });
+  dbg.actions.setBreakpointOptions({ sourceId, line, column }, options);
+  return waitForDispatch(dbg, "SET_BREAKPOINT_OPTIONS");
+}
+
 function findBreakpoint(dbg, url, line) {
   const {
-    selectors: { getBreakpoint },
+    selectors: { getBreakpoint, getBreakpointsList },
     getState
   } = dbg;
   const source = findSource(dbg, url);
-  let column;
-  if (
-    Services.prefs.getBoolPref("devtools.debugger.features.column-breakpoints")
-  ) {
-    ({ column } = dbg.selectors.getFirstVisibleBreakpointPosition(
-      dbg.store.getState(),
-      {
-        sourceId: source.id,
-        line
-      }
-    ));
-  }
+  const column = getFirstBreakpointColumn(dbg, { line, sourceId: source.id });
   return getBreakpoint(getState(), { sourceId: source.id, line, column });
 }
 
@@ -846,6 +877,11 @@ async function invokeWithBreakpoint(
   await invokeResult;
 }
 
+function prettyPrint(dbg) {
+  const sourceId = dbg.selectors.getSelectedSourceId(dbg.store.getState());
+  return dbg.actions.togglePrettyPrint(sourceId);
+}
+
 async function expandAllScopes(dbg) {
   const scopes = await waitForElement(dbg, "scopes");
   const scopeElements = scopes.querySelectorAll(
@@ -892,6 +928,7 @@ async function assertScopes(dbg, items) {
  */
 function removeBreakpoint(dbg, sourceId, line, column) {
   const source = dbg.selectors.getSource(dbg.getState(), sourceId);
+  column = column || getFirstBreakpointColumn(dbg, { line, sourceId });
   const location = { sourceId, sourceUrl: source.url, line, column };
   const bp = dbg.selectors.getBreakpointForLocation(dbg.getState(), location);
   dbg.actions.removeBreakpoint(bp);
@@ -913,20 +950,21 @@ async function togglePauseOnExceptions(
   pauseOnExceptions,
   pauseOnCaughtExceptions
 ) {
-  const command = dbg.actions.pauseOnExceptions(
+  return dbg.actions.pauseOnExceptions(
     pauseOnExceptions,
     pauseOnCaughtExceptions
   );
-
-  if (!isPaused(dbg)) {
-    await waitForThreadEvents(dbg, "resumed");
-  }
-
-  return command;
 }
 
 function waitForActive(dbg) {
-  return waitForState(dbg, state => !dbg.selectors.isPaused(state), "active");
+  const {
+    selectors: { getIsPaused, getCurrentThread }
+  } = dbg;
+  return waitForState(
+    dbg,
+    state => !getIsPaused(state, getCurrentThread(state)),
+    "active"
+  );
 }
 
 // Helpers
@@ -948,7 +986,7 @@ function invokeInTab(fnc, ...args) {
     fnc,
     args
   }) {
-    return content.wrappedJSObject[fnc](...args); // eslint-disable-line mozilla/no-cpows-in-tests, max-len
+    return content.wrappedJSObject[fnc](...args); // max-len
   });
 }
 
@@ -1071,6 +1109,19 @@ function isVisible(outerEl, innerEl) {
 
   const visible = verticallyVisible && horizontallyVisible;
   return visible;
+}
+
+function getEditorLineEl(dbg, line) {
+  const lines = dbg.win.document.querySelectorAll(".CodeMirror-code > div");
+  return lines[line - 1];
+}
+
+function assertEditorBreakpoint(dbg, line, shouldExist) {
+  const exists = !!getEditorLineEl(dbg, line).querySelector(".new-breakpoint");
+  ok(
+    exists === shouldExist,
+    `Breakpoint ${shouldExist ? "exists" : "does not exist"} on line ${line}`
+  );
 }
 
 const selectors = {
@@ -1219,11 +1270,11 @@ async function clickElement(dbg, elementName, ...args) {
 }
 
 function clickElementWithSelector(dbg, selector) {
-  EventUtils.synthesizeMouseAtCenter(
-    findElementWithSelector(dbg, selector),
-    {},
-    dbg.win
-  );
+  clickDOMElement(dbg, findElementWithSelector(dbg, selector));
+}
+
+function clickDOMElement(dbg, element) {
+  EventUtils.synthesizeMouseAtCenter(element, {}, dbg.win);
 }
 
 function dblClickElement(dbg, elementName, ...args) {
@@ -1315,6 +1366,36 @@ async function waitForScrolling(codeMirror) {
     codeMirror.on("scroll", resolve);
     setTimeout(resolve, 500);
   });
+}
+
+async function codeMirrorGutterElement(dbg, line) {
+  info(`CodeMirror line ${line}`);
+  const cm = getCM(dbg);
+
+  const position = { line: line - 1, ch: 0 };
+  cm.scrollIntoView(position, 0);
+  await waitForScrolling(cm);
+
+  const coords = getCoordsFromPosition(cm, position);
+
+  const { left, top } = coords;
+
+  // Adds a vertical offset due to increased line height
+  // https://github.com/firefox-devtools/debugger/pull/7934
+  const lineHeightOffset = 3;
+
+  // Click in the center of the line/breakpoint
+  const leftOffset = 10;
+
+  const tokenEl = dbg.win.document.elementFromPoint(
+    left - leftOffset,
+    top + lineHeightOffset
+  );
+
+  if (!tokenEl) {
+    throw new Error(`Failed to find element for line ${line}`);
+  }
+  return tokenEl;
 }
 
 async function hoverAtPos(dbg, { line, ch }) {
@@ -1549,27 +1630,42 @@ function hideConsoleContextMenu(hud) {
 
 // Return a promise that resolves with the result of a thread evaluating a
 // string in the topmost frame.
-async function evaluateInTopFrame(threadClient, text) {
+async function evaluateInTopFrame(target, text) {
+  const threadClient = target.threadClient;
+  const consoleFront = await target.getFront("console");
   const { frames } = await threadClient.getFrames(0, 1);
   ok(frames.length == 1, "Got one frame");
-  const response = await threadClient.eval(frames[0].actor, text);
-  ok(response.type == "resumed", "Got resume response from eval");
-  let rval;
-  await threadClient.addOneTimeListener("paused", function(event, packet) {
-    ok(
-      packet.type == "paused" &&
-        packet.why.type == "clientEvaluated" &&
-        "return" in packet.why.frameFinished,
-      "Eval returned a value"
-    );
-    rval = packet.why.frameFinished.return;
-  });
-  return rval.type == "undefined" ? undefined : rval;
+  const options = { thread: threadClient.actor, frameActor: frames[0].actor };
+  const response = await consoleFront.evaluateJS(text, options);
+  return response.result.type == "undefined" ? undefined : response.result;
 }
 
 // Return a promise that resolves when a thread evaluates a string in the
 // topmost frame, ensuring the result matches the expected value.
-async function checkEvaluateInTopFrame(threadClient, text, expected) {
-  const rval = await evaluateInTopFrame(threadClient, text);
+async function checkEvaluateInTopFrame(target, text, expected) {
+  const rval = await evaluateInTopFrame(target, text);
   ok(rval == expected, `Eval returned ${expected}`);
+}
+
+async function findConsoleMessage(dbg, query) {
+  const [message] = await findConsoleMessages(dbg, query);
+  const value = message.querySelector(".message-body").innerText;
+  const link = message.querySelector(".frame-link-source-inner").innerText;
+  return { value, link };
+}
+
+async function findConsoleMessages(dbg, query) {
+  const webConsole = await dbg.toolbox.getPanel("webconsole");
+  const win = webConsole._frameWindow;
+  return Array.prototype.filter.call(
+    win.document.querySelectorAll(".message"),
+    e => e.innerText.includes(query)
+  );
+}
+
+async function hasConsoleMessage(dbg, msg) {
+  return waitFor(async () => {
+    const messages = await findConsoleMessages(dbg, msg);
+    return messages.length > 0;
+  });
 }

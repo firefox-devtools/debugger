@@ -209,7 +209,7 @@ describe("QuickOpenModal", () => {
     wrapper.find("input").simulate("change", { target: { value: "somefil" } });
     expect(filter).toHaveBeenCalledWith([], "somefil", {
       key: "value",
-      maxResults: 1000
+      maxResults: 100
     });
   });
 
@@ -230,7 +230,7 @@ describe("QuickOpenModal", () => {
       .simulate("change", { target: { value: "somefil:33" } });
     expect(filter).toHaveBeenCalledWith([], "somefil", {
       key: "value",
-      maxResults: 1000
+      maxResults: 100
     });
   });
 
@@ -257,7 +257,7 @@ describe("QuickOpenModal", () => {
 
       expect(filter).toHaveBeenCalledWith([], "someFunc", {
         key: "value",
-        maxResults: 1000
+        maxResults: 100
       });
     });
 
@@ -636,7 +636,7 @@ describe("QuickOpenModal", () => {
       }));
       wrapper.find("SearchInput").simulate("keydown", event);
       expect(event.preventDefault).toHaveBeenCalled();
-      expect(wrapper.state().selectedIndex).toEqual(NaN);
+      expect(wrapper.state().selectedIndex).toEqual(0);
       expect(props.selectSpecificLocation).not.toHaveBeenCalledWith();
       expect(props.highlightLineRange).not.toHaveBeenCalled();
     });

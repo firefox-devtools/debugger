@@ -5,11 +5,11 @@
 // @flow
 
 import { PrefsHelper } from "devtools-modules";
-import { isDevelopment, isTesting } from "devtools-environment";
+import { isDevelopment } from "devtools-environment";
 import Services from "devtools-services";
 import { asyncStoreHelper } from "./asyncStoreHelper";
 
-const prefsSchemaVersion = "1.0.8";
+const prefsSchemaVersion = "1.0.9";
 const pref = Services.pref;
 
 if (isDevelopment()) {
@@ -42,6 +42,7 @@ if (isDevelopment()) {
   pref("devtools.debugger.file-search-whole-word", false);
   pref("devtools.debugger.file-search-regex-match", false);
   pref("devtools.debugger.project-directory-root", "");
+  pref("devtools.debugger.map-scopes-enabled", false);
   pref("devtools.debugger.prefs-schema-version", "1.0.1");
   pref("devtools.debugger.skip-pausing", false);
   pref("devtools.debugger.features.workers", true);
@@ -53,7 +54,7 @@ if (isDevelopment()) {
   pref("devtools.debugger.features.remove-command-bar-options", true);
   pref("devtools.debugger.features.code-folding", false);
   pref("devtools.debugger.features.outline", true);
-  pref("devtools.debugger.features.column-breakpoints", false);
+  pref("devtools.debugger.features.column-breakpoints", true);
   pref("devtools.debugger.features.skip-pausing", true);
   pref("devtools.debugger.features.component-pane", false);
   pref("devtools.debugger.features.autocomplete-expressions", false);
@@ -97,7 +98,8 @@ export const prefs = new PrefsHelper("devtools", {
   fileSearchRegexMatch: ["Bool", "debugger.file-search-regex-match"],
   debuggerPrefsSchemaVersion: ["Char", "debugger.prefs-schema-version"],
   projectDirectoryRoot: ["Char", "debugger.project-directory-root", ""],
-  skipPausing: ["Bool", "debugger.skip-pausing"]
+  skipPausing: ["Bool", "debugger.skip-pausing"],
+  mapScopes: ["Bool", "debugger.map-scopes-enabled"]
 });
 
 export const features = new PrefsHelper("devtools.debugger.features", {
@@ -130,10 +132,12 @@ export const asyncStore = asyncStoreHelper("debugger", {
   eventListenerBreakpoints: ["event-listener-breakpoints", []]
 });
 
-if (!isTesting && prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
-  // clear pending Breakpoints
-  asyncStore.pendingBreakpoints = {};
-  asyncStore.tabs = [];
-  asyncStore.xhrBreakpoints = [];
-  prefs.debuggerPrefsSchemaVersion = prefsSchemaVersion;
+export function verifyPrefSchema() {
+  if (prefs.debuggerPrefsSchemaVersion !== prefsSchemaVersion) {
+    // clear pending Breakpoints
+    asyncStore.pendingBreakpoints = {};
+    asyncStore.tabs = [];
+    asyncStore.xhrBreakpoints = [];
+    prefs.debuggerPrefsSchemaVersion = prefsSchemaVersion;
+  }
 }

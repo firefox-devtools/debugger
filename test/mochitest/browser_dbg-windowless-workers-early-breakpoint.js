@@ -9,13 +9,19 @@ add_task(async function() {
 
   const workerSource = findSource(dbg, "simple-worker.js");
 
+  // NOTE: by default we do not wait on worker
+  // commands to complete because the thread could be
+  // shutting down.
+  dbg.client.waitForWorkers(true);
+
+  await selectSource(dbg, "simple-worker.js");
   await addBreakpoint(dbg, workerSource, 1);
   invokeInTab("startWorker");
   await waitForPaused(dbg, "simple-worker.js");
 
   // We should be paused at the first line of simple-worker.js
   assertPausedAtSourceAndLine(dbg, workerSource.id, 1);
-  await removeBreakpoint(dbg, workerSource.id, 1);
+  await removeBreakpoint(dbg, workerSource.id, 1, 12);
   await resume(dbg);
 
   // Make sure that suspending activity in the worker when attaching does not
@@ -26,5 +32,5 @@ add_task(async function() {
 
   // We should be paused in the message listener in simple-worker.js
   assertPausedAtSourceAndLine(dbg, workerSource.id, 10);
-  await removeBreakpoint(dbg, workerSource.id, 10);
+  await removeBreakpoint(dbg, workerSource.id, 10, 2);
 });

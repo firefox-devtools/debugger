@@ -21,7 +21,7 @@ const sources = [
 add_task(async function() {
   const dbg = await initDebugger("doc-script-switching.html");
   const {
-    selectors: { getSelectedSource, isPaused },
+    selectors: { getSelectedSource, getIsPaused, getCurrentThread },
     getState
   } = dbg;
 
@@ -29,6 +29,7 @@ add_task(async function() {
   await waitForPaused(dbg);
 
   await navigate(dbg, "doc-scripts.html", "simple1.js");
+  await selectSource(dbg, "simple1");
   await addBreakpoint(dbg, "simple1.js", 4);
   invokeInTab("main");
   await waitForPaused(dbg);
@@ -40,7 +41,7 @@ add_task(async function() {
 
   await navigate(dbg, "doc-scripts.html", ...sources);
   is(countSources(dbg), 5, "5 sources are loaded.");
-  ok(!isPaused(getState()), "Is not paused");
+  ok(!getIsPaused(getState(), getCurrentThread(getState())), "Is not paused");
 
   await navigate(dbg, "doc-scripts.html", ...sources);
   is(countSources(dbg), 5, "5 sources are loaded.");

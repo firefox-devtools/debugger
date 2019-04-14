@@ -32,6 +32,11 @@ add_task(async function() {
   const dbg = await initDebugger("doc-windowless-workers.html");
   const mainThread = dbg.toolbox.threadClient.actor;
 
+  // NOTE: by default we do not wait on worker
+  // commands to complete because the thread could be
+  // shutting down.
+  dbg.client.waitForWorkers(true);
+
   const workers = await getWorkers(dbg);
   ok(workers.length == 2, "Got two workers");
   const worker1Thread = workers[0].actor;
@@ -84,7 +89,20 @@ add_task(async function() {
   info("Test pausing in both workers");
   await addBreakpoint(dbg, "simple-worker", 10);
   invokeInTab("sayHello");
+
+  // Wait for both workers to pause. When a thread pauses the current thread
+  // changes, and we don't want to get confused.
+  const {
+    selectors: { getIsPaused },
+    getState
+  } = dbg;
+  await waitFor(() => {
+    const state = getState();
+    return getIsPaused(state, worker1Thread) && getIsPaused(state, worker2Thread);
+  });
+
   dbg.actions.selectThread(worker1Thread);
+
   await waitForPaused(dbg);
   assertPausedAtSourceAndLine(dbg, workerSource.id, 10);
 

@@ -30,16 +30,19 @@ export {
 } from "./breakpointAtLocation";
 export {
   getVisibleBreakpoints,
-  getFirstVisibleBreakpoints,
-  getFirstVisibleBreakpointPosition
+  getFirstVisibleBreakpoints
 } from "./visibleBreakpoints";
 export { inComponent } from "./inComponent";
 export { isSelectedFrameVisible } from "./isSelectedFrameVisible";
 export { getCallStackFrames } from "./getCallStackFrames";
-export { getVisibleSelectedFrame } from "./visibleSelectedFrame";
 export { getBreakpointSources } from "./breakpointSources";
 export { getXHRBreakpoints, shouldPauseOnAnyXHR } from "./breakpoints";
-export { visibleColumnBreakpoints } from "./visibleColumnBreakpoints";
+export * from "./visibleColumnBreakpoints";
+export {
+  getSelectedFrame,
+  getSelectedFrames,
+  getVisibleSelectedFrame
+} from "./pause";
 
 import { objectInspector } from "devtools-reps";
 

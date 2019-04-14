@@ -13,6 +13,7 @@ import {
 } from "../selectors";
 import { getFilename } from "../utils/source";
 import { getSelectedLocation } from "../utils/source-maps";
+import { sortSelectedBreakpoints } from "../utils/breakpoint";
 
 import type { Source, Breakpoint } from "../types";
 import type { Selector, SourcesMap } from "../reducers/types";
@@ -27,8 +28,7 @@ function getBreakpointsForSource(
   selectedSource: ?Source,
   breakpoints: Breakpoint[]
 ) {
-  return breakpoints
-    .sort((a, b) => a.location.line - b.location.line)
+  return sortSelectedBreakpoints(breakpoints, selectedSource)
     .filter(
       bp =>
         !bp.options.hidden &&
@@ -42,9 +42,12 @@ function getBreakpointsForSource(
 
 function findBreakpointSources(
   sources: SourcesMap,
-  breakpoints: Breakpoint[]
+  breakpoints: Breakpoint[],
+  selectedSource: ?Source
 ): Source[] {
-  const sourceIds: string[] = uniq(breakpoints.map(bp => bp.location.sourceId));
+  const sourceIds: string[] = uniq(
+    breakpoints.map(bp => getSelectedLocation(bp, selectedSource).sourceId)
+  );
 
   const breakpointSources = sourceIds
     .map(id => sources[id])
@@ -58,7 +61,7 @@ export const getBreakpointSources: Selector<BreakpointSources> = createSelector(
   getSources,
   getSelectedSource,
   (breakpoints: Breakpoint[], sources: SourcesMap, selectedSource: ?Source) =>
-    findBreakpointSources(sources, breakpoints)
+    findBreakpointSources(sources, breakpoints, selectedSource)
       .map(source => ({
         source,
         breakpoints: getBreakpointsForSource(

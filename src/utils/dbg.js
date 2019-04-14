@@ -18,20 +18,19 @@ function findSources(dbg: any, url: string) {
   return sources.filter(s => (s.url || "").includes(url));
 }
 
-function sendPacket(dbg: any, packet: any, callback: () => void) {
-  dbg.client.sendPacket(packet, callback || console.log);
+function sendPacket(dbg: any, packet: any) {
+  return dbg.client.sendPacket(packet);
 }
 
-function sendPacketToThread(dbg: Object, packet: any, callback: () => void) {
-  sendPacket(
-    dbg,
-    { to: dbg.connection.tabConnection.threadClient.actor, ...packet },
-    callback
-  );
+function sendPacketToThread(dbg: Object, packet: any) {
+  return sendPacket(dbg, {
+    to: dbg.connection.tabConnection.threadClient.actor,
+    ...packet
+  });
 }
 
-function evaluate(dbg: Object, expression: any, callback: () => void) {
-  dbg.client.evaluate(expression).then(callback || console.log);
+function evaluate(dbg: Object, expression: any) {
+  return dbg.client.evaluate(expression);
 }
 
 function bindSelectors(obj: Object): Object {
@@ -47,12 +46,24 @@ function getCM() {
   return cm && cm.CodeMirror;
 }
 
-function _formatColumnBreapoints(dbg: Object) {
-  console.log(
-    dbg.selectors.formatColumnBreakpoints(
-      dbg.selectors.visibleColumnBreakpoints()
-    )
+function formatMappedLocation(mappedLocation) {
+  const { location, generatedLocation } = mappedLocation;
+  return {
+    original: `(${location.line}, ${location.column})`,
+    generated: `(${generatedLocation.line}, ${generatedLocation.column})`
+  };
+}
+
+function formatMappedLocations(locations) {
+  return console.table(locations.map(loc => formatMappedLocation(loc)));
+}
+
+function formatSelectedColumnBreakpoints(dbg) {
+  const positions = dbg.selectors.getBreakpointPositionsForSource(
+    dbg.selectors.getSelectedSource().id
   );
+
+  return formatMappedLocations(positions);
 }
 
 export function setupHelper(obj: Object) {
@@ -68,12 +79,15 @@ export function setupHelper(obj: Object) {
     helpers: {
       findSource: url => findSource(dbg, url),
       findSources: url => findSources(dbg, url),
-      evaluate: (expression, cbk) => evaluate(dbg, expression, cbk),
-      sendPacketToThread: (packet, cbk) => sendPacketToThread(dbg, packet, cbk),
-      sendPacket: (packet, cbk) => sendPacket(dbg, packet, cbk)
+      evaluate: expression => evaluate(dbg, expression),
+      sendPacketToThread: packet => sendPacketToThread(dbg, packet),
+      sendPacket: packet => sendPacket(dbg, packet),
+      dumpThread: () => sendPacketToThread(dbg, { type: "dumpThread" })
     },
     formatters: {
-      visibleColumnBreakpoints: () => _formatColumnBreapoints(dbg)
+      mappedLocations: locations => formatMappedLocations(locations),
+      mappedLocation: location => formatMappedLocation(location),
+      selectedColumnBreakpoints: () => formatSelectedColumnBreakpoints(dbg)
     },
     _telemetry: {
       events: {}

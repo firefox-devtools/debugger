@@ -1,6 +1,6 @@
 # :heart: Firefox Debugger Community Team :heart:
 
-_debugger.html_ community team members help shepherd the community. They are here to help mentor newcomers, review pull requests, and facilitate issue discussions.
+_debugger_ community team members help shepherd the community. They are here to help mentor newcomers, review pull requests, and facilitate issue discussions.
 
 They are genuinely friendly human beings, and together serve as a fantastic resource for anyone wishing to contribute to the Firefox Debugger.
 
@@ -54,7 +54,7 @@ Emeritus status honors those who have dedicated time and talent to the debugger 
 
 ### Joining the Team
 
-We welcome active contributors to join the _debugger.html_ team. Specifically, we are looking for contributors with:
+We welcome active contributors to join the _debugger_ team. Specifically, we are looking for contributors with:
 
 * Passion for the Firefox Debugger project
 * Interest in helping other contributors, and fostering community growth
@@ -62,7 +62,7 @@ We welcome active contributors to join the _debugger.html_ team. Specifically, w
 
 To apply, simply contact one of our staff or community team members via Slack or email, and we'll get right back to you.
 
-We embrace diversity, and invite people from any and all backgrounds to get involved in the _debugger.html_ project. We don't discriminate based on family status, gender, gender-identity, marital status, sexual orientation, sex, age, ability, race and/or ethnicity, national origin, socioeconomic status, religion, geographic location, or any other dimension of diversity.
+We embrace diversity, and invite people from any and all backgrounds to get involved in the _debugger_ project. We don't discriminate based on family status, gender, gender-identity, marital status, sexual orientation, sex, age, ability, race and/or ethnicity, national origin, socioeconomic status, religion, geographic location, or any other dimension of diversity.
 
 ### Review Periods
 

@@ -32,7 +32,6 @@ export type PauseAction =
     |}
   | {|
       +type: "PAUSE_ON_EXCEPTIONS",
-      +thread: string,
       +shouldPauseOnExceptions: boolean,
       +shouldPauseOnCaughtExceptions: boolean
     |}
@@ -130,4 +129,8 @@ export type PauseAction =
       +type: "TOGGLE_SKIP_PAUSING",
       +thread: string,
       skipPausing: boolean
+    |}
+  | {|
+      +type: "TOGGLE_MAP_SCOPES",
+      +mapScopes: boolean
     |};

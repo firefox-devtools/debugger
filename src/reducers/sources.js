@@ -16,7 +16,8 @@ import {
   getRelativeUrl,
   isGenerated,
   isOriginal as isOriginalSource,
-  isUrlExtension
+  isUrlExtension,
+  getPlainUrl
 } from "../utils/source";
 
 import { originalToGeneratedId } from "devtools-source-map";
@@ -26,7 +27,7 @@ import type { Source, SourceId, SourceLocation, ThreadId } from "../types";
 import type { PendingSelectedLocation, Selector } from "./types";
 import type { Action, DonePromiseAction, FocusItem } from "../actions/types";
 import type { LoadSourceAction } from "../actions/types/SourceAction";
-import { mapValues, uniqBy } from "lodash";
+import { mapValues, uniqBy, uniq } from "lodash";
 
 export type SourcesMap = { [SourceId]: Source };
 export type SourcesMapByThread = { [ThreadId]: SourcesMap };
@@ -34,14 +35,22 @@ export type SourcesMapByThread = { [ThreadId]: SourcesMap };
 type UrlsMap = { [string]: SourceId[] };
 type DisplayedSources = { [ThreadId]: { [SourceId]: boolean } };
 type GetDisplayedSourcesSelector = OuterState => { [ThreadId]: SourcesMap };
+type PlainUrlsMap = { [string]: string[] };
 
 export type SourcesState = {
+  epoch: number,
+
   // All known sources.
   sources: SourcesMap,
 
   // All sources associated with a given URL. When using source maps, multiple
   // sources can have the same URL.
   urls: UrlsMap,
+
+  // All full URLs belonging to a given plain (query string stripped) URL.
+  // Query strings are only shown in the Sources tab if they are required for
+  // disambiguation.
+  plainUrls: PlainUrlsMap,
 
   // For each thread, all sources in that thread that are under the project root
   // and should be shown in the editor's sources pane.
@@ -57,12 +66,14 @@ export type SourcesState = {
 const emptySources = {
   sources: {},
   urls: {},
+  plainUrls: {},
   displayed: {}
 };
 
 export function initialSourcesState(): SourcesState {
   return {
     ...emptySources,
+    epoch: 1,
     selectedLocation: undefined,
     pendingSelectedLocation: prefs.pendingSelectedLocation,
     projectDirectoryRoot: prefs.projectDirectoryRoot,
@@ -164,7 +175,10 @@ function update(
       return updateProjectDirectoryRoot(state, action.url);
 
     case "NAVIGATE":
-      return initialSourcesState();
+      return {
+        ...initialSourcesState(),
+        epoch: state.epoch + 1
+      };
 
     case "SET_FOCUSED_SOURCE_ITEM":
       return { ...state, focusedItem: action.item };
@@ -179,6 +193,15 @@ function update(
  */
 function updateSource(state: SourcesState, source: Object) {
   const existingSource = state.sources[source.id];
+
+  // If there is no existing version of the source, it means that we probably
+  // ended up here as a result of an async action, and the sources were cleared
+  // between the action starting and the source being updated.
+  if (!existingSource) {
+    // TODO: We may want to consider throwing here once we have a better
+    // handle on async action flow control.
+    return state;
+  }
   return {
     ...state,
     sources: {
@@ -212,6 +235,7 @@ function addSources(state: SourcesState, sources: Source[]) {
     ...state,
     sources: { ...state.sources },
     urls: { ...state.urls },
+    plainUrls: { ...state.plainUrls },
     displayed: { ...state.displayed }
   };
 
@@ -238,7 +262,16 @@ function addSources(state: SourcesState, sources: Source[]) {
       state.urls[source.url] = [...existing, source.id];
     }
 
-    // 3. Update the displayed actor map
+    // 3. Update the plain url map
+    if (source.url) {
+      const plainUrl = getPlainUrl(source.url);
+      const existingPlainUrls = state.plainUrls[plainUrl] || [];
+      if (!existingPlainUrls.includes(source.url)) {
+        state.plainUrls[plainUrl] = [...existingPlainUrls, source.url];
+      }
+    }
+
+    // 4. Update the displayed actor map
     if (
       underRoot(source, state.projectDirectoryRoot) &&
       (!source.isExtension ||
@@ -287,19 +320,24 @@ function updateProjectDirectoryRoot(state: SourcesState, root: string) {
  * Update a source's loaded state fields
  * i.e. loadedState, text, error
  */
-function updateLoadedState(state, action: LoadSourceAction): SourcesState {
+function updateLoadedState(
+  state: SourcesState,
+  action: LoadSourceAction
+): SourcesState {
   const { sourceId } = action;
   let source;
+
+  // If there was a navigation between the time the action was started and
+  // completed, we don't want to update the store.
+  if (action.epoch !== state.epoch) {
+    return state;
+  }
 
   if (action.status === "start") {
     source = { id: sourceId, loadedState: "loading" };
   } else if (action.status === "error") {
     source = { id: sourceId, error: action.error, loadedState: "loaded" };
   } else {
-    if (!action.value) {
-      return state;
-    }
-
     source = {
       id: sourceId,
       text: action.value.text,
@@ -349,6 +387,15 @@ function getSourceActors(state, source) {
   // Original sources do not have actors, so use the generated source.
   const generatedSource = state.sources[originalToGeneratedId(source.id)];
   return generatedSource ? generatedSource.actors : [];
+}
+
+export function getSourceThreads(
+  state: OuterState,
+  source: Source
+): ThreadId[] {
+  return uniq(
+    getSourceActors(state.sources, source).map(actor => actor.thread)
+  );
 }
 
 export function getSourceInSources(sources: SourcesMap, id: string): ?Source {
@@ -479,17 +526,14 @@ export function hasPrettySource(state: OuterState, id: string) {
 
 export function getSourcesUrlsInSources(
   state: OuterState,
-  url: string
+  url: ?string
 ): string[] {
-  const urls = getUrls(state);
-  if (!url || !urls[url]) {
+  if (!url) {
     return [];
   }
-  const plainUrl = url.split("?")[0];
 
-  return Object.keys(urls)
-    .filter(Boolean)
-    .filter(sourceUrl => sourceUrl.split("?")[0] === plainUrl);
+  const plainUrl = getPlainUrl(url);
+  return getPlainUrls(state)[plainUrl] || [];
 }
 
 export function getHasSiblingOfSameName(state: OuterState, source: ?Source) {
@@ -504,8 +548,16 @@ export function getSources(state: OuterState) {
   return state.sources.sources;
 }
 
+export function getSourcesEpoch(state: OuterState) {
+  return state.sources.epoch;
+}
+
 export function getUrls(state: OuterState) {
   return state.sources.urls;
+}
+
+export function getPlainUrls(state: OuterState) {
+  return state.sources.plainUrls;
 }
 
 export function getSourceList(state: OuterState): Source[] {
@@ -538,6 +590,11 @@ export const getSelectedSource: Selector<?Source> = createSelector(
     return sources[selectedLocation.sourceId];
   }
 );
+
+export function getSelectedSourceId(state: OuterState) {
+  const source = getSelectedSource((state: any));
+  return source && source.id;
+}
 
 export function getProjectDirectoryRoot(state: OuterState): string {
   return state.sources.projectDirectoryRoot;

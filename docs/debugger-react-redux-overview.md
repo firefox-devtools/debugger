@@ -7,12 +7,12 @@
 
 
 
-debugger.html
+debugger
 =============
 
-Debugger.html is an open source project that is built on top of React and Redux that functions as a standalone debugger for Firefox, Chrome and Node. This project is being created to provide a debugger that is stand-alone and does not require a specific browser tool to do debugging.
+*debugger* is an open source project that is built on top of React and Redux that functions as a standalone debugger for Firefox, Chrome and Node. This project is being created to provide a debugger that is stand-alone and does not require a specific browser tool to do debugging.
 
-This document gives a detailed view of the components, actions and reducers that make up the debugger.html project. Prior knowledge of React and Redux  is suggested.
+This document gives a detailed view of the components, actions and reducers that make up the *debugger* project. Prior knowledge of React and Redux  is suggested.
 
 React documentation can be found [here](https://facebook.github.io/react/docs/getting-started.html).
 Redux documentation can be found [here](http://redux.js.org/).
@@ -22,7 +22,7 @@ As with most documentation related to code, this document may be out of date. Th
 # Architecture
 
 
-Debugger.html is a React-Redux based application — the UI is constructed using React Components. the follow illustration provides a simplistic high level view:
+*debugger* is a React-Redux based application — the UI is constructed using React Components. the follow illustration provides a simplistic high level view:
 
 ![](https://docs.google.com/drawings/d/1JTDI-62CG29M37rpTGIDh70rOTuCmJf1VqxCKPe9zxM/pub?w=960&h=720)
 <!-- Link to Edit:(https://docs.google.com/drawings/d/1JTDI-62CG29M37rpTGIDh70rOTuCmJf1VqxCKPe9zxM/edit?usp=sharing) -->
@@ -32,7 +32,7 @@ global state object (housed in a Redux store) that some components have
 access to. Many components are not aware of this state but are passed in
 values to render using React properties.
 
-In the Debugger.html project we
+In the *debugger* project we
 also often use React’s setState to manage component local state. For
 example, storing the state of a tree in the sources view or using it in
 the App component to remember if the file search box is being displayed
@@ -62,11 +62,11 @@ actual DOM will be rendered.
 # Components
 
 
-debugger.html uses React [Components](https://github.com/firefox-devtools/debugger/tree/master/src/components) to render portions of the
+*debugger* uses React [Components](https://github.com/firefox-devtools/debugger/tree/master/src/components) to render portions of the
 application. Each component’s source code is located under the
 src/components folder. In this section we will cover how the
 presentation pieces fit together; later we will discuss
-how debugger.html uses Redux to wire up data to each of the components.
+how *debugger* uses Redux to wire up data to each of the components.
 
 The top-level component is the App component; it encapsulates all
 other components. Presented below is an overview of the component
@@ -113,7 +113,7 @@ The center portion of the application displays either the source editor or a fil
 
 * At the top of the editor is the SourceTabs component, which is responsible for rendering tabs for every open file and highlighting the tab of the file currently open.
 
-* The Editor component is responsible for rendering the text, gutters and breakpoints for the currently selected file.  Debugger.html uses the CodeMirror npm package to do the actual rendering. The Editor component manages calls to CodeMirror.
+* The Editor component is responsible for rendering the text, gutters and breakpoints for the currently selected file.  *debugger* uses the CodeMirror npm package to do the actual rendering. The Editor component manages calls to CodeMirror.
 
 * Any time a breakpoint is set, the Editor creates a dynamic component called Breakpoint. The Breakpoint component is contained in the EditorBreakpoint.js file. The BreakPoint component also makes calls to CodeMirror for actual rendering of the breakpoint within the editor.
 
@@ -144,7 +144,7 @@ The farthest right section of the application is handled by many components. At 
 
 # Component Data
 
-Some components in Debugger.html are aware of the Redux store; others are
+Some components in *debugger* are aware of the Redux store; others are
 not and are just rendering passed in properties. The Redux-aware
 components are connected to the Redux store using the <code>connect()</code> method, as illustrated by the following code:
 
@@ -202,7 +202,7 @@ The **async-requests** reducer creates an array that stores a unique
 sequence number for every promise being executed from an action.
 It removes the sequence number from the array when a specific promise
 resolves or rejects. The following image shows a snapshot of the
-debugger.html state with an active promise.
+*debugger* state with an active promise.
 
 ![](images/asynchreducer.png)
 
@@ -293,7 +293,7 @@ variable scope.
 call stack.
 
 * The <code>selectedFrame</code> object stores the call stack frame
-currently selected in the Debugger.html UI.
+currently selected in the *debugger* UI.
 
 * The loadedObjects object
 stores the currently selected and expanded variable in the scopes pane.
@@ -441,7 +441,7 @@ The tabs reducer handles the following action types:
 
 # Actions
 
-The [actions](https://github.com/firefox-devtools/debugger/tree/master/src/actions) in debugger.html are all located in the
+The [actions](https://github.com/firefox-devtools/debugger/tree/master/src/actions) in *debugger* are all located in the
 src/actions folder; there is an action file corresponding to
  each reducer, which is responsible for dispatching the
 proper event when the application state needs to be modified. In this
@@ -658,7 +658,7 @@ action file exports the following functions:
 
 -   <code>getTextForSources()</code> – This function takes a set of source files and
     calls <code>loadSourceText()</code> to load each file. Currently this function is
-    not used in debugger.html.
+    not used in *debugger*.
 
 ## tabs
 
@@ -668,7 +668,7 @@ file exports the following functions:
 
 -   <code>newTabs()</code> – This function is called from src/main.js and sets
     the action type to <code>ADD\_TABS</code>. The action is dispatched from the
-    src/main.js when debugger.html is loading and displaying
+    src/main.js when *debugger* is loading and displaying
     the main page or when starting to debug when a specific tab
     is selected.
 

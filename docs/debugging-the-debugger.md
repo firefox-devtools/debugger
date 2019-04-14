@@ -92,7 +92,7 @@ When the debugger pauses, the fun begins! Here's a [gif](http://g.recordit.co/qu
 
 Here's some example code that can help you get started:
 
-The file `debugger.html/src/components/SecondaryPanes/Frames/WhyPaused.js` renders the reason for the pause in the sidebar, and the file `/debugger.html/src/utils/pause/why.js` is used in several places to expose the current paused state.
+The file `debugger/src/components/SecondaryPanes/Frames/WhyPaused.js` renders the reason for the pause in the sidebar, and the file `/debugger/src/utils/pause/why.js` is used in several places to expose the current paused state.
 
 **WhyPaused.js** (Starts at line 42):
 

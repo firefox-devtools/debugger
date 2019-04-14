@@ -69,10 +69,12 @@ type GotoLocationType = {
   column?: number
 };
 
+const maxResults = 100;
+
 function filter(values, query) {
   return fuzzyAldrin.filter(values, query, {
     key: "value",
-    maxResults: 1000
+    maxResults: maxResults
   });
 }
 
@@ -80,6 +82,13 @@ export class QuickOpenModal extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = { results: null, selectedIndex: 0 };
+  }
+
+  setResults(results: ?Array<QuickOpenResult>) {
+    if (results) {
+      results = results.slice(0, maxResults);
+    }
+    this.setState({ results });
   }
 
   componentDidMount() {
@@ -121,7 +130,7 @@ export class QuickOpenModal extends Component<Props, State> {
     const { sources } = this.props;
     const results =
       query == "" ? sources : filter(sources, this.dropGoto(query));
-    return this.setState({ results });
+    return this.setResults(results);
   };
 
   searchSymbols = (query: string) => {
@@ -133,18 +142,18 @@ export class QuickOpenModal extends Component<Props, State> {
     results = results.filter(result => result.title !== "anonymous");
 
     if (query === "@" || query === "#") {
-      return this.setState({ results });
+      return this.setResults(results);
     }
-
-    this.setState({ results: filter(results, query.slice(1)) });
+    results = filter(results, query.slice(1));
+    return this.setResults(results);
   };
 
   searchShortcuts = (query: string) => {
     const results = formatShortcutResults();
     if (query == "?") {
-      this.setState({ results });
+      this.setResults(results);
     } else {
-      this.setState({ results: filter(results, query.slice(1)) });
+      this.setResults(filter(results, query.slice(1)));
     }
   };
 
@@ -152,12 +161,9 @@ export class QuickOpenModal extends Component<Props, State> {
     const { tabs, sources } = this.props;
     if (tabs.length > 0) {
       const tabUrls = tabs.map((tab: Tab) => tab.url);
-
-      this.setState({
-        results: sources.filter(source => tabUrls.includes(source.url))
-      });
+      this.setResults(sources.filter(source => tabUrls.includes(source.url)));
     } else {
-      this.setState({ results: sources.slice(0, 100) });
+      this.setResults(sources);
     }
   };
 
@@ -235,7 +241,7 @@ export class QuickOpenModal extends Component<Props, State> {
     const { selectedIndex, results } = this.state;
     const resultCount = this.getResultCount();
     const index = selectedIndex + direction;
-    const nextIndex = (index + resultCount) % resultCount;
+    const nextIndex = (index + resultCount) % resultCount || 0;
 
     this.setState({ selectedIndex: nextIndex });
 
@@ -374,8 +380,7 @@ export class QuickOpenModal extends Component<Props, State> {
     if (!enabled) {
       return null;
     }
-    const newResults = results && results.slice(0, 100);
-    const items = this.highlightMatching(query, newResults || []);
+    const items = this.highlightMatching(query, results || []);
     const expanded = !!items && items.length > 0;
 
     return (
@@ -398,7 +403,7 @@ export class QuickOpenModal extends Component<Props, State> {
           }
           {...(this.isSourceSearch() ? { size: "big" } : {})}
         />
-        {newResults && (
+        {results && (
           <ResultList
             key="results"
             items={items}

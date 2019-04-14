@@ -5,8 +5,7 @@
 // @flow
 
 import { originalToGeneratedId, isOriginalId } from "devtools-source-map";
-import { getSelectedFrame } from "../reducers/pause";
-import { getSelectedLocation } from "../reducers/sources";
+import { getSelectedFrame, getSelectedLocation, getCurrentThread } from ".";
 import type { State } from "../reducers/types";
 
 function getGeneratedId(sourceId) {
@@ -22,8 +21,9 @@ function getGeneratedId(sourceId) {
  * selected.
  */
 export function isSelectedFrameVisible(state: State) {
+  const thread = getCurrentThread(state);
   const selectedLocation = getSelectedLocation(state);
-  const selectedFrame = getSelectedFrame(state);
+  const selectedFrame = getSelectedFrame(state, thread);
 
   if (!selectedFrame || !selectedLocation) {
     return false;

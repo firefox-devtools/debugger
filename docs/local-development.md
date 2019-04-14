@@ -55,7 +55,7 @@ We use variable theme colors to standardize the colors inside of devtools. A goo
 
 ### Internationalization
 
-The Debugger supports two types of internationalization RTL (right to left) layout and L10N (localization).
+The Debugger supports two types of internationalization: localization (L10N), and right-to-left layout (RTL).
 
 #### L10N
 
@@ -189,76 +189,47 @@ index a390df2..c610c1a 100644
 
 We use SVGs in DevTools because they look good at any resolution.
 
-**Adding a new SVG**
+To achieve sharp results on low resolutions, we make sure that our SVG icons are defined as 16-by-16 squares, with most paths and shapes following this pixel grid. See the [Photon Iconography guide](https://design.firefox.com/photon/visuals/iconography.html) for details.
 
-- add the SVG in /images](../images)
-- add it to [Svg.js](../images/Svg.js)
+#### Adding a new SVG
 
-```diff
-diff --git a/images/Svg.js b/images/Svg.js
-index 775aecf..6a7c19d 100644
---- a/images/Svg.js
-+++ b/images/Svg.js
-@@ -24,7 +24,8 @@ const svg = {
-   "subSettings": require("./subSettings.svg"),
-   "toggleBreakpoints": require("./toggle-breakpoints.svg"),
-   "worker": require("./worker.svg"),
--  "sad-face": require("./sad-face.svg")
-+  "sad-face": require("./sad-face.svg"),
-+  "happy-face": require("./happy-face.svg")
- };
+1. Your SVG file should start with a licensing comment:
+
+```xml
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
+  <!-- SVG paths and shapes go here -->
+</svg>
 ```
 
-**Using an SVG**
+2. Optimize your paths and shapes using [svgo](https://github.com/svg/svgo) or [SVGOMG](https://jakearchibald.github.io/svgomg/).
+3. Add your SVG file the [`/images`](../images) folder.
 
-- import the `Svg` module
-- call `Svg(<your-svg>)`
+#### Using SVGs
 
-```diff
-diff --git a/src/components/Breakpoints.js b/src/components/Breakpoints.js
-index 8c79f4d..6893673 100644
---- a/src/components/Breakpoints.js
-+++ b/src/components/Breakpoints.js
-@@ -4,6 +4,7 @@ const { bindActionCreators } = require("redux");
- const ImPropTypes = require("react-immutable-proptypes");
- const classnames = require("classnames");
- const actions = require("../actions");
-+const Svg = require("./shared/Svg");
- const { getSource, getPause, getBreakpoints } = require("../selectors");
- const { makeLocationId } = require("../reducers/breakpoints");
-@@ -89,6 +90,7 @@ const Breakpoints = React.createClass({
-         key: locationId,
-         onClick: () => this.selectBreakpoint(breakpoint)
-       },
-+      Svg("happy-face"),
-       dom.input({
-         type: "checkbox",
-         className: "breakpoint-checkbox",
+1. Import the `AccessibleImage` component
+2. Use it in JSX as: `<AccessibleImage className="my-icon" />`
+3. Add a CSS rule in [`AccessibleImage.css`](../src/components/shared/AccessibleImage.css) that defines your icon as a mask, for example:
+
+```css
+.img.my-icon {
+  mask-image: url(/images/my-icon.svg);
+}
 ```
 
-**Styling an SVG element**
+#### Styling an SVG element
 
-You can style several SVG elements (_svg_, _i_, _path_) just as you would other elements.
+By default, with `AccessibleImage` you will get a `<span class="img my-icon"></span>` element with a gray `background-color` and your SVG icon applied as a mask. You can set a different background color in CSS to change the icon's color.
 
-- _fill_ is especially useful for changing the color
+For multicolor icons, you will need to use `background-image` and reset the background color:
 
-```diff
-diff --git a/src/components/Breakpoints.css b/src/components/Breakpoints.css
-index 5996700..bb828d8 100644
---- a/src/components/Breakpoints.css
-+++ b/src/components/Breakpoints.css
-@@ -69,3 +69,11 @@
- .breakpoint:hover .close {
-   display: block;
- }
-+
-+.breakpoint svg {
-+  width: 16px;
-+  position: absolute;
-+  top: 12px;
-+  left: 10px;
-+  fill: var(--theme-graphs-full-red);
-+}
+```css
+.img.my-multicolor-icon {
+  background-image: url(/images/my-multicolor-icon.svg);
+  background-color: transparent !important;
+}
 ```
 
 ### Context Menus

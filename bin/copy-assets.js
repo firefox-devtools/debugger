@@ -25,6 +25,8 @@ const moz_build_tpl = `
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+__dirs__
+
 DevToolsModules(
 __FILES__
 )
@@ -101,13 +103,12 @@ function copySVGs({ projectPath, mcPath }) {
       path.join(mcImagesPath, `${file}`)
     )
   );
-
   const mozBuildText = moz_build_tpl
+    .replace('__dirs__', "DIRS += [\n  'sources',\n]")
     .replace('__FILES__',files.map(f => `    '${f}',`).join("\n"))
 
   const mozBuildPath = path.join(mcPath, "devtools/client/debugger/new/images/moz.build");
   fs.writeFileSync(mozBuildPath, mozBuildText, "utf-8");
-
 
   const sourceFiles = fs.readdirSync(path.join(projectImagesPath, "sources"))
     .filter(file => file.match(/svg$/))
@@ -120,18 +121,11 @@ function copySVGs({ projectPath, mcPath }) {
     )
   );
   const mozBuildSourceText = moz_build_tpl
+    .replace('__dirs__', '')
     .replace('__FILES__',sourceFiles.map(f => `    '${f}',`).join("\n"))
 
   const mozBuildSourcePath = path.join(mcPath, "devtools/client/debugger/new/images/sources/moz.build");
   fs.writeFileSync(mozBuildSourcePath, mozBuildSourceText, "utf-8");
-
-
-  console.log("[copy-assets] - Svg.js");
-  copyFile(
-    path.join(projectPath, "/images/Svg.js"),
-    path.join(mcPath, "devtools/client/debugger/new/images/Svg.js"),
-    { cwd: projectPath }
-  );
 }
 
 function copyTests({ mcPath, projectPath, mcModulePath, shouldSymLink }) {

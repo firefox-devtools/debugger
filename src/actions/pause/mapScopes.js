@@ -4,18 +4,48 @@
 
 // @flow
 
-import { getCurrentThread, getSource } from "../../selectors";
+import {
+  getSource,
+  getMapScopes,
+  getSelectedFrame,
+  getSelectedGeneratedScope,
+  getSelectedOriginalScope,
+  getCurrentThread
+} from "../../selectors";
 import { loadSourceText } from "../sources/loadSourceText";
 import { PROMISE } from "../utils/middleware/promise";
 
 import { features } from "../../utils/prefs";
 import { log } from "../../utils/log";
-import { isGenerated } from "../../utils/source";
+import { isGenerated, isOriginal } from "../../utils/source";
 import type { Frame, Scope } from "../../types";
 
 import type { ThunkArgs } from "../types";
 
 import { buildMappedScopes } from "../../utils/pause/mapScopes";
+
+export function toggleMapScopes() {
+  return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
+    if (getMapScopes(getState())) {
+      return dispatch({ type: "TOGGLE_MAP_SCOPES", mapScopes: false });
+    }
+
+    dispatch({ type: "TOGGLE_MAP_SCOPES", mapScopes: true });
+
+    const thread = getCurrentThread(getState());
+    if (getSelectedOriginalScope(getState(), thread)) {
+      return;
+    }
+
+    const scopes = getSelectedGeneratedScope(getState(), thread);
+    const frame = getSelectedFrame(getState(), thread);
+    if (!scopes || !frame) {
+      return;
+    }
+
+    dispatch(mapScopes(Promise.resolve(scopes.scope), frame));
+  };
+}
 
 export function mapScopes(scopes: Promise<Scope>, frame: Frame) {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
@@ -28,7 +58,7 @@ export function mapScopes(scopes: Promise<Scope>, frame: Frame) {
 
     await dispatch({
       type: "MAP_SCOPES",
-      thread: getCurrentThread(getState()),
+      thread: frame.thread,
       frame,
       [PROMISE]: (async function() {
         if (
@@ -43,6 +73,9 @@ export function mapScopes(scopes: Promise<Scope>, frame: Frame) {
         }
 
         await dispatch(loadSourceText(source));
+        if (isOriginal(source)) {
+          await dispatch(loadSourceText(generatedSource));
+        }
 
         try {
           return await buildMappedScopes(

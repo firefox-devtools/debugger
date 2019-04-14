@@ -13,6 +13,10 @@ import { isGeneratedId, isOriginalId } from "devtools-source-map";
 import { isEqual } from "lodash";
 
 import { makeBreakpointId } from "../utils/breakpoint";
+import { findEmptyLines } from "../utils/empty-lines";
+
+// eslint-disable-next-line max-len
+import { getBreakpointsList as getBreakpointsListSelector } from "../selectors/breakpoints";
 
 import type {
   XHRBreakpoint,
@@ -31,7 +35,8 @@ export type BreakpointsState = {
   breakpoints: BreakpointsMap,
   breakpointPositions: BreakpointPositionsMap,
   xhrBreakpoints: XHRBreakpointsList,
-  breakpointsDisabled: boolean
+  breakpointsDisabled: boolean,
+  emptyLines: { [string]: number[] }
 };
 
 export function initialBreakpointsState(
@@ -41,7 +46,8 @@ export function initialBreakpointsState(
     breakpoints: {},
     xhrBreakpoints: xhrBreakpoints,
     breakpointPositions: {},
-    breakpointsDisabled: false
+    breakpointsDisabled: false,
+    emptyLines: {}
   };
 }
 
@@ -111,12 +117,18 @@ function update(
     }
 
     case "ADD_BREAKPOINT_POSITIONS": {
-      const { sourceId, positions } = action;
+      const { source, positions } = action;
+      const emptyLines = findEmptyLines(source, positions);
+
       return {
         ...state,
         breakpointPositions: {
           ...state.breakpointPositions,
-          [sourceId]: positions
+          [source.id]: positions
+        },
+        emptyLines: {
+          ...state.emptyLines,
+          [source.id]: emptyLines
         }
       };
     }
@@ -284,7 +296,7 @@ export function getBreakpointsMap(state: OuterState): BreakpointsMap {
 }
 
 export function getBreakpointsList(state: OuterState): Breakpoint[] {
-  return (Object.values(getBreakpointsMap(state)): any);
+  return getBreakpointsListSelector((state: any));
 }
 
 export function getBreakpointCount(state: OuterState): number {
@@ -381,6 +393,23 @@ export function getBreakpointPositionsForLine(
     const loc = isOriginalId(sourceId) ? location : generatedLocation;
     return loc.line == line;
   });
+}
+
+export function isEmptyLineInSource(
+  state: OuterState,
+  line: number,
+  selectedSourceId: string
+) {
+  const emptyLines = getEmptyLines(state, selectedSourceId);
+  return emptyLines && emptyLines.includes(line);
+}
+
+export function getEmptyLines(state: OuterState, sourceId: string) {
+  if (!sourceId) {
+    return null;
+  }
+
+  return state.breakpoints.emptyLines[sourceId];
 }
 
 export default update;
