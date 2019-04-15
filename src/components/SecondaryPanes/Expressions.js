@@ -246,9 +246,16 @@ class Expressions extends Component<Props, State> {
             createObjectClient={grip => createObjectClient(grip)}
             onDOMNodeClick={grip => openElementInInspector(grip)}
             onInspectIconClick={grip => openElementInInspector(grip)}
-            onExpressionDblClick={(items, options) =>
-              this.editExpression(expression, index)
-            }
+            onDoubleClick={(items, options) => {
+              console.log(options);
+              const { depth } = options;
+
+              if (depth > 0) {
+                return;
+              }
+
+              this.editExpression(expression, index);
+            }}
           />
           <div className="expression-container__close-btn">
             <CloseButton
