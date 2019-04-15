@@ -247,7 +247,6 @@ class Expressions extends Component<Props, State> {
             onDOMNodeClick={grip => openElementInInspector(grip)}
             onInspectIconClick={grip => openElementInInspector(grip)}
             onDoubleClick={(items, options) => {
-              console.log(options);
               const { depth } = options;
 
               if (depth > 0) {
