@@ -103,8 +103,7 @@ export const getGeneratedRangesForOriginal = async (
 
 export const getFileGeneratedRange = async (
   originalSource: Source
-): Promise<{ start: any, end: any }> =>
-  dispatcher.invoke("getFileGeneratedRange", originalSource);
+): Promise<Range> => dispatcher.invoke("getFileGeneratedRange", originalSource);
 
 export const getLocationScopes = dispatcher.task("getLocationScopes");
 
