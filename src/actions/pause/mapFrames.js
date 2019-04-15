@@ -14,11 +14,11 @@ import {
 import assert from "../../utils/assert";
 import { findClosestFunction } from "../../utils/ast";
 
-import type { Frame, ThreadId } from "../../types";
+import type { Frame, OriginalFrame, ThreadId } from "../../types";
 import type { State } from "../../reducers/types";
 import type { ThunkArgs } from "../types";
 
-import { isGeneratedId } from "devtools-source-map";
+import SourceMaps, { isGeneratedId } from "devtools-source-map";
 
 function isFrameBlackboxed(state, frame) {
   const source = getSource(state, frame.location.sourceId);
@@ -35,7 +35,10 @@ function getSelectedFrameId(state, thread, frames) {
   return selectedFrame && selectedFrame.id;
 }
 
-export function updateFrameLocation(frame: Frame, sourceMaps: any) {
+export function updateFrameLocation(
+  frame: Frame,
+  sourceMaps: typeof SourceMaps
+) {
   if (frame.isOriginal) {
     return Promise.resolve(frame);
   }
@@ -48,7 +51,7 @@ export function updateFrameLocation(frame: Frame, sourceMaps: any) {
 
 function updateFrameLocations(
   frames: Frame[],
-  sourceMaps: any
+  sourceMaps: typeof SourceMaps
 ): Promise<Frame[]> {
   if (!frames || frames.length == 0) {
     return Promise.resolve(frames);
@@ -104,7 +107,7 @@ function isWasmOriginalSourceFrame(frame, getState: () => State): boolean {
 
 async function expandFrames(
   frames: Frame[],
-  sourceMaps: any,
+  sourceMaps: typeof SourceMaps,
   getState: () => State
 ): Promise<Frame[]> {
   const result = [];
@@ -114,9 +117,9 @@ async function expandFrames(
       result.push(frame);
       continue;
     }
-    const originalFrames = await sourceMaps.getOriginalStackFrames(
-      frame.generatedLocation
-    );
+    const originalFrames: ?Array<
+      OriginalFrame
+    > = await sourceMaps.getOriginalStackFrames(frame.generatedLocation);
     if (!originalFrames) {
       result.push(frame);
       continue;
@@ -130,6 +133,10 @@ async function expandFrames(
     };
 
     originalFrames.forEach((originalFrame, j) => {
+      if (!originalFrame.location || !originalFrame.thread) {
+        return;
+      }
+
       // Keep outer most frame with true actor ID, and generate uniquie
       // one for the nested frames.
       const id = j == 0 ? frame.id : `${frame.id}-originalFrame${j}`;
