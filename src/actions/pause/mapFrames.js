@@ -18,6 +18,7 @@ import type { Frame, OriginalFrame, ThreadId } from "../../types";
 import type { State } from "../../reducers/types";
 import type { ThunkArgs } from "../types";
 
+/* eslint-disable import/no-duplicates */
 import { isGeneratedId } from "devtools-source-map";
 import typeof SourceMaps from "devtools-source-map";
 
@@ -115,9 +116,9 @@ async function expandFrames(
       result.push(frame);
       continue;
     }
-    const originalFrames: ?(OriginalFrame[]) = await sourceMaps.getOriginalStackFrames(
-      frame.generatedLocation
-    );
+    const originalFrames: ?Array<
+      OriginalFrame
+    > = await sourceMaps.getOriginalStackFrames(frame.generatedLocation);
     if (!originalFrames) {
       result.push(frame);
       continue;
