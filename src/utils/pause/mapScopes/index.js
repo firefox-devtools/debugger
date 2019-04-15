@@ -4,6 +4,8 @@
 
 // @flow
 
+import typeof SourceMaps from "devtools-source-map";
+
 import {
   getScopes,
   type SourceScope,
@@ -43,7 +45,6 @@ import type {
   BindingContents,
   ScopeBindings
 } from "../../../types";
-import typeof SourceMaps from "../../../../packages/devtools-source-map/src";
 
 export type OriginalScope = RenderableScope;
 

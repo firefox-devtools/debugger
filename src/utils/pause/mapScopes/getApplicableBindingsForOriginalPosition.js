@@ -4,13 +4,14 @@
 
 // @flow
 
+import typeof SourceMaps from "devtools-source-map";
+
 import type { BindingLocationType, BindingType } from "../../../workers/parser";
 import { positionCmp } from "./positionCmp";
 import { filterSortedArray } from "./filtering";
 import { mappingContains } from "./mappingContains";
 
 import type { Source, SourceLocation, PartialPosition } from "../../../types";
-import typeof SourceMaps from "../../../../packages/devtools-source-map/src";
 
 import type { GeneratedBindingLocation } from "./buildGeneratedBindingList";
 

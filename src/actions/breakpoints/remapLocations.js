@@ -4,8 +4,9 @@
 
 // @flow
 
+import typeof SourceMaps from "devtools-source-map";
+
 import type { Breakpoint } from "../../types";
-import typeof SourceMaps from "../../../packages/devtools-source-map/src";
 
 export default function remapLocations(
   breakpoints: Breakpoint[],

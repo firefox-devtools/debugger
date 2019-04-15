@@ -4,7 +4,10 @@
 
 // @flow
 
-import { isOriginalId, originalToGeneratedId } from "devtools-source-map";
+import SourceMaps, {
+  isOriginalId,
+  originalToGeneratedId
+} from "devtools-source-map";
 import { uniqBy, zip } from "lodash";
 
 import {
@@ -17,13 +20,12 @@ import {
 import type { MappedLocation, Range, SourceLocation } from "../../types";
 import type { ThunkArgs } from "../../actions/types";
 import { makeBreakpointId } from "../../utils/breakpoint";
-import typeof SourceMaps from "../../../packages/devtools-source-map/src";
 
 const requests = new Map();
 
 async function mapLocations(
   generatedLocations: SourceLocation[],
-  { sourceMaps }: { sourceMaps: SourceMaps }
+  { sourceMaps }: { sourceMaps: typeof SourceMaps }
 ) {
   const originalLocations = await sourceMaps.getOriginalLocations(
     generatedLocations

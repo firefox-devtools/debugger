@@ -4,13 +4,14 @@
 
 // @flow
 
+import typeof SourceMaps from "devtools-source-map";
+
 import { locColumn } from "./locColumn";
 import { positionCmp } from "./positionCmp";
 import { filterSortedArray } from "./filtering";
 
 import type { SourceScope } from "../../../workers/parser";
 import type { PartialPosition, Frame, Source } from "../../../types";
-import typeof SourceMaps from "../../../../packages/devtools-source-map/src";
 
 type SourceOriginalRange = {
   line: number,

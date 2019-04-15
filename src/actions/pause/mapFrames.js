@@ -18,9 +18,7 @@ import type { Frame, OriginalFrame, ThreadId } from "../../types";
 import type { State } from "../../reducers/types";
 import type { ThunkArgs } from "../types";
 
-/* eslint-disable import/no-duplicates */
-import { isGeneratedId } from "devtools-source-map";
-import typeof SourceMaps from "devtools-source-map";
+import SourceMaps, { isGeneratedId } from "devtools-source-map";
 
 function isFrameBlackboxed(state, frame) {
   const source = getSource(state, frame.location.sourceId);
@@ -37,7 +35,10 @@ function getSelectedFrameId(state, thread, frames) {
   return selectedFrame && selectedFrame.id;
 }
 
-export function updateFrameLocation(frame: Frame, sourceMaps: SourceMaps) {
+export function updateFrameLocation(
+  frame: Frame,
+  sourceMaps: typeof SourceMaps
+) {
   if (frame.isOriginal) {
     return Promise.resolve(frame);
   }
@@ -50,7 +51,7 @@ export function updateFrameLocation(frame: Frame, sourceMaps: SourceMaps) {
 
 function updateFrameLocations(
   frames: Frame[],
-  sourceMaps: SourceMaps
+  sourceMaps: typeof SourceMaps
 ): Promise<Frame[]> {
   if (!frames || frames.length == 0) {
     return Promise.resolve(frames);
@@ -106,7 +107,7 @@ function isWasmOriginalSourceFrame(frame, getState: () => State): boolean {
 
 async function expandFrames(
   frames: Frame[],
-  sourceMaps: SourceMaps,
+  sourceMaps: typeof SourceMaps,
   getState: () => State
 ): Promise<Frame[]> {
   const result = [];
