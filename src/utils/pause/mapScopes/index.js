@@ -43,6 +43,7 @@ import type {
   BindingContents,
   ScopeBindings
 } from "../../../types";
+import typeof SourceMaps from "../../../../packages/devtools-source-map/src";
 
 export type OriginalScope = RenderableScope;
 
@@ -200,7 +201,7 @@ function hasLineMappings(ranges) {
 function batchScopeMappings(
   originalAstScopes: Array<SourceScope>,
   source: Source,
-  sourceMaps: any
+  sourceMaps: SourceMaps
 ) {
   const precalculatedRanges = new Map();
   const precalculatedLocations = new Map();

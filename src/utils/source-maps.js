@@ -14,7 +14,7 @@ export async function getGeneratedLocation(
   state: Object,
   source: Source,
   location: SourceLocation,
-  sourceMaps: Object
+  sourceMaps: SourceMaps
 ): Promise<SourceLocation> {
   if (!isOriginalId(location.sourceId)) {
     return location;
@@ -81,7 +81,7 @@ export async function getMappedLocation(
 
 export async function mapLocation(
   state: Object,
-  sourceMaps: Object,
+  sourceMaps: SourceMaps,
   location: SourceLocation
 ): Promise<SourceLocation> {
   const source = getSource(state, location.sourceId);
@@ -94,7 +94,7 @@ export async function mapLocation(
     return getGeneratedLocation(state, source, location, sourceMaps);
   }
 
-  return sourceMaps.getOriginalLocation(location, source);
+  return sourceMaps.getOriginalLocation(location);
 }
 
 export function isOriginalSource(source: ?Source) {

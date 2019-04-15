@@ -10,6 +10,7 @@ import { filterSortedArray } from "./filtering";
 
 import type { SourceScope } from "../../../workers/parser";
 import type { PartialPosition, Frame, Source } from "../../../types";
+import typeof SourceMaps from "../../../../packages/devtools-source-map/src";
 
 type SourceOriginalRange = {
   line: number,
@@ -34,7 +35,7 @@ export async function loadRangeMetadata(
   source: Source,
   frame: Frame,
   originalAstScopes: Array<SourceScope>,
-  sourceMaps: any
+  sourceMaps: SourceMaps
 ): Promise<Array<MappedOriginalRange>> {
   const originalRanges: Array<
     SourceOriginalRange
