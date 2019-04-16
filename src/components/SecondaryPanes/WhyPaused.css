@@ -7,13 +7,13 @@
   flex-direction: column;
   justify-content: center;
   border-bottom: 1px solid var(--theme-splitter-color);
+  background-color: hsl(54, 100%, 92%);
   color: var(--theme-body-color);
   font-size: 12px;
   cursor: default;
   min-height: 44px;
   padding: 4px;
   white-space: normal;
-  font-weight: bold;
 }
 
 .why-paused > div {
@@ -30,8 +30,13 @@
 .why-paused .pause.reason {
   display: flex;
   flex-direction: column;
-  padding-left: 16px;
+  padding-left: 18px;
   padding-right: 4px;
+}
+
+.theme-dark .secondary-panes .why-paused {
+  background-color: hsl(42, 37%, 19%);
+  color: hsl(43, 94%, 81%);
 }
 
 .why-paused .message {
