@@ -8,8 +8,8 @@
 }
 
 .popover.orientation-right {
-	display: flex;
-	flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .popover.orientation-right .gap {
