@@ -5,7 +5,6 @@
 .source-footer {
   background: var(--theme-body-background);
   border-top: 1px solid var(--theme-splitter-color);
-  border-bottom: 1px solid var(--theme-splitter-color);
   position: absolute;
   display: flex;
   bottom: 0;
