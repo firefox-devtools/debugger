@@ -225,7 +225,10 @@ export default function showContextMenu(props: Props) {
     label: L10N.getStr("editor.addLogPoint"),
     accesskey: L10N.getStr("editor.addLogPoint.accesskey"),
     disabled: false,
-    click: () => openConditionalPanel(selectedLocation, true),
+    click: () => {
+      selectSpecificLocation(cx, selectedLocation);
+      openConditionalPanel(selectedLocation, true);
+    },
     accelerator: L10N.getStr("toggleCondPanel.logPoint.key")
   };
 
@@ -234,7 +237,10 @@ export default function showContextMenu(props: Props) {
     label: L10N.getStr("editor.editLogPoint"),
     accesskey: L10N.getStr("editor.addLogPoint.accesskey"),
     disabled: false,
-    click: () => openConditionalPanel(selectedLocation, true),
+    click: () => {
+      selectSpecificLocation(cx, selectedLocation);
+      openConditionalPanel(selectedLocation, true);
+    },
     accelerator: L10N.getStr("toggleCondPanel.logPoint.key")
   };
 
