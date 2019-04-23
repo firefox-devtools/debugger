@@ -432,7 +432,7 @@ class SecondaryPanes extends Component<Props, State> {
   }
 
   renderVerticalLayout() {
-    return ( 
+    return (
       <SplitBox
         initialSize="300px"
         minSize={10}
