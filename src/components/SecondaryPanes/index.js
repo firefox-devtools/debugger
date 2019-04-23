@@ -433,7 +433,7 @@ class SecondaryPanes extends Component<Props, State> {
 
   renderVerticalLayout() {
     return (
-      <div>
+      
         <SplitBox
           initialSize="300px"
           minSize={10}
@@ -447,7 +447,7 @@ class SecondaryPanes extends Component<Props, State> {
           }
           endPanel={<Accordion items={this.getEndItems()} />}
         />
-      </div>
+      
     );
   }
 

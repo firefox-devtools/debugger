@@ -271,14 +271,12 @@ class App extends Component<Props, State> {
     const { startPanelCollapsed, endPanelCollapsed } = this.props;
     const horizontal = this.isHorizontal();
 
-    const maxSize = horizontal ? "70%" : "95%";
-
     return (
       <SplitBox
         style={{ width: "100vw" }}
         initialSize={prefs.endPanelSize}
         minSize={30}
-        maxSize={maxSize}
+        maxSize="80%"
         splitterSize={1}
         vert={horizontal}
         onResizeEnd={num => {
