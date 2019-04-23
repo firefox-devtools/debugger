@@ -9,7 +9,6 @@
   flex-direction: column;
   overflow: hidden;
   position: relative;
-  min-height: 300px;
 }
 
 .sources-panel * {

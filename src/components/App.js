@@ -276,7 +276,7 @@ class App extends Component<Props, State> {
         style={{ width: "100vw" }}
         initialSize={prefs.endPanelSize}
         minSize={30}
-        maxSize="80%"
+        maxSize="70%"
         splitterSize={1}
         vert={horizontal}
         onResizeEnd={num => {
