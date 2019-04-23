@@ -160,8 +160,8 @@ export class QuickOpenModal extends Component<Props, State> {
   showTopSources = () => {
     const { tabs, sources } = this.props;
     if (tabs.length > 0) {
-      const tabUrls = tabs.map((tab: Tab) => tab.url);
-      this.setResults(sources.filter(source => tabUrls.includes(source.url)));
+      const tabUrls = new Set(tabs.map((tab: Tab) => tab.url));
+      this.setResults(sources.filter(source => tabUrls.has(source.url)));
     } else {
       this.setResults(sources);
     }
@@ -422,16 +422,18 @@ export class QuickOpenModal extends Component<Props, State> {
 /* istanbul ignore next: ignoring testing of redux connection stuff */
 function mapStateToProps(state) {
   const selectedSource = getSelectedSource(state);
+  const tabs = getTabs(state);
+  const tabUrls = new Set(tabs.map((tab: Tab) => tab.url));
 
   return {
     enabled: getQuickOpenEnabled(state),
-    sources: formatSources(getDisplayedSourcesList(state), getTabs(state)),
+    sources: formatSources(getDisplayedSourcesList(state), tabUrls),
     selectedSource,
     symbols: formatSymbols(getSymbols(state, selectedSource)),
     symbolsLoading: isSymbolsLoading(state, selectedSource),
     query: getQuickOpenQuery(state),
     searchType: getQuickOpenType(state),
-    tabs: getTabs(state)
+    tabs
   };
 }
 
