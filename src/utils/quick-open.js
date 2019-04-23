@@ -139,7 +139,6 @@ export function formatSources(
   tabs: TabList
 ): Array<QuickOpenResult> {
   return sources
-    .filter(source => !isPretty(source))
-    .filter(({ relativeUrl }) => !!relativeUrl)
+    .filter(source => !!source.relativeUrl && !isPretty(source))
     .map(source => formatSourcesForList(source, tabs));
 }
