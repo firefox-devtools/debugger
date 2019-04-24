@@ -7,6 +7,7 @@ import React, { Component } from "react";
 import { connect } from "../utils/connect";
 import fuzzyAldrin from "fuzzaldrin-plus";
 import { basename } from "../utils/path";
+import { debounce } from "lodash";
 
 import actions from "../actions";
 import {
@@ -43,7 +44,6 @@ import "./QuickOpenModal.css";
 
 type Props = {
   enabled: boolean,
-  sources: Array<Object>,
   selectedSource?: Source,
   query: string,
   searchType: QuickOpenType,
@@ -55,7 +55,8 @@ type Props = {
   setQuickOpenQuery: typeof actions.setQuickOpenQuery,
   highlightLineRange: typeof actions.highlightLineRange,
   closeQuickOpen: typeof actions.closeQuickOpen,
-  toggleShortcutsModal: () => void
+  toggleShortcutsModal: () => void,
+  computeSources: (tabUrls: Set<$PropertyType<Tab, "url">>) => Array<Object>
 };
 
 type State = {
@@ -69,12 +70,16 @@ type GotoLocationType = {
   column?: number
 };
 
+const updateResultsDebounce = 100;
 const maxResults = 100;
 
 function filter(values, query) {
+  const preparedQuery = fuzzyAldrin.prepareQuery(query);
+
   return fuzzyAldrin.filter(values, query, {
     key: "value",
-    maxResults: maxResults
+    maxResults: maxResults,
+    preparedQuery
   });
 }
 
@@ -127,7 +132,9 @@ export class QuickOpenModal extends Component<Props, State> {
   };
 
   searchSources = (query: string) => {
-    const { sources } = this.props;
+    const { computeSources, tabs } = this.props;
+    const tabUrls = new Set(tabs.map((tab: Tab) => tab.url));
+    const sources = computeSources(tabUrls);
     const results =
       query == "" ? sources : filter(sources, this.dropGoto(query));
     return this.setResults(results);
@@ -158,16 +165,17 @@ export class QuickOpenModal extends Component<Props, State> {
   };
 
   showTopSources = () => {
-    const { tabs, sources } = this.props;
+    const { tabs, computeSources } = this.props;
+    const tabUrls = new Set(tabs.map((tab: Tab) => tab.url));
+    const sources = computeSources(tabUrls);
     if (tabs.length > 0) {
-      const tabUrls = new Set(tabs.map((tab: Tab) => tab.url));
       this.setResults(sources.filter(source => tabUrls.has(source.url)));
     } else {
       this.setResults(sources);
     }
   };
 
-  updateResults = (query: string) => {
+  updateResults = debounce((query: string) => {
     if (this.isGotoQuery()) {
       return;
     }
@@ -185,7 +193,7 @@ export class QuickOpenModal extends Component<Props, State> {
     }
 
     return this.searchSources(query);
-  };
+  }, updateResultsDebounce);
 
   setModifier = (item: QuickOpenResult) => {
     if (["@", "#", ":"].includes(item.id)) {
@@ -383,6 +391,8 @@ export class QuickOpenModal extends Component<Props, State> {
     const items = this.highlightMatching(query, results || []);
     const expanded = !!items && items.length > 0;
 
+    console.log('results', results);
+
     return (
       <Modal in={enabled} handleClose={this.closeModal}>
         <SearchInput
@@ -423,17 +433,18 @@ export class QuickOpenModal extends Component<Props, State> {
 function mapStateToProps(state) {
   const selectedSource = getSelectedSource(state);
   const tabs = getTabs(state);
-  const tabUrls = new Set(tabs.map((tab: Tab) => tab.url));
 
   return {
     enabled: getQuickOpenEnabled(state),
-    sources: formatSources(getDisplayedSourcesList(state), tabUrls),
     selectedSource,
     symbols: formatSymbols(getSymbols(state, selectedSource)),
     symbolsLoading: isSymbolsLoading(state, selectedSource),
     query: getQuickOpenQuery(state),
     searchType: getQuickOpenType(state),
-    tabs
+    tabs,
+    computeSources: (tabUrls: Set<$PropertyType<Tab, "url">>): Array<Object> => {
+      return formatSources(getDisplayedSourcesList(state), tabUrls);
+    }
   };
 }
 
