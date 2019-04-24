@@ -440,7 +440,9 @@ function mapStateToProps(state) {
     query: getQuickOpenQuery(state),
     searchType: getQuickOpenType(state),
     tabs,
-    computeSources: (tabUrls: Set<$PropertyType<Tab, "url">>): Array<Object> => {
+    computeSources: (
+      tabUrls: Set<$PropertyType<Tab, "url">>
+    ): Array<Object> => {
       return formatSources(getDisplayedSourcesList(state), tabUrls);
     }
   };
