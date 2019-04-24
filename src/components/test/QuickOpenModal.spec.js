@@ -7,10 +7,14 @@
 
 import React from "react";
 import { shallow, mount } from "enzyme";
+import lodash from "lodash";
 import { QuickOpenModal } from "../QuickOpenModal";
 
 jest.mock("fuzzaldrin-plus");
-jest.useFakeTimers();
+jest.unmock("lodash");
+
+// $FlowIgnore
+lodash.debounce = jest.fn(fn => fn);
 
 import { filter } from "fuzzaldrin-plus";
 
@@ -70,13 +74,11 @@ describe("QuickOpenModal", () => {
 
   test("Renders when enabled", () => {
     const { wrapper } = generateModal({ enabled: true });
-    jest.runAllTimers();
     expect(wrapper).toMatchSnapshot();
   });
 
   test("Basic render with mount", () => {
     const { wrapper } = generateModal({ enabled: true }, "mount");
-    jest.runAllTimers();
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -93,7 +95,6 @@ describe("QuickOpenModal", () => {
       },
       "mount"
     );
-    jest.runAllTimers();
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -120,7 +121,6 @@ describe("QuickOpenModal", () => {
       },
       "shallow"
     );
-    jest.runAllTimers();
     expect(wrapper.state("results")).toEqual([{ url: "mozilla.com" }]);
   });
 
@@ -156,7 +156,6 @@ describe("QuickOpenModal", () => {
       },
       "mount"
     );
-    jest.runAllTimers();
     expect(wrapper.find("ResultList")).toHaveLength(1);
     expect(wrapper.find("li")).toHaveLength(1);
   });
@@ -190,17 +189,14 @@ describe("QuickOpenModal", () => {
       },
       "mount"
     );
-    jest.runAllTimers();
     expect(wrapper.find("ResultList")).toHaveLength(1);
     expect(wrapper.find("li")).toHaveLength(3);
   });
 
   test("updateResults on enable", () => {
     const { wrapper } = generateModal({}, "mount");
-    jest.runAllTimers();
     expect(wrapper).toMatchSnapshot();
     wrapper.setProps({ enabled: true });
-    jest.runAllTimers();
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -216,7 +212,6 @@ describe("QuickOpenModal", () => {
       "mount"
     );
     wrapper.find("input").simulate("change", { target: { value: "somefil" } });
-    jest.runAllTimers();
     expect(filter).toHaveBeenCalledWith([], "somefil", {
       key: "value",
       maxResults: 100
@@ -238,7 +233,6 @@ describe("QuickOpenModal", () => {
     wrapper
       .find("input")
       .simulate("change", { target: { value: "somefil:33" } });
-    jest.runAllTimers();
     expect(filter).toHaveBeenCalledWith([], "somefil", {
       key: "value",
       maxResults: 100
@@ -265,8 +259,6 @@ describe("QuickOpenModal", () => {
       wrapper
         .find("input")
         .simulate("change", { target: { value: "@someFunc" } });
-
-      jest.runAllTimers();
 
       expect(filter).toHaveBeenCalledWith([], "someFunc", {
         key: "value",
@@ -799,7 +791,7 @@ describe("QuickOpenModal", () => {
         },
         "mount"
       );
-      jest.runAllTimers();
+
       expect(wrapper).toMatchSnapshot();
     });
 
