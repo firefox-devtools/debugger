@@ -391,8 +391,6 @@ export class QuickOpenModal extends Component<Props, State> {
     const items = this.highlightMatching(query, results || []);
     const expanded = !!items && items.length > 0;
 
-    console.log('results', results);
-
     return (
       <Modal in={enabled} handleClose={this.closeModal}>
         <SearchInput
