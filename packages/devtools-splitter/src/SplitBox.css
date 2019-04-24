@@ -76,7 +76,7 @@
 }
 
 .split-box.horz > .splitter:hover {
-  background-color: #cacbcb;
+  background-color: var(--theme-emphasized-splitter-color-hover);
 }
 
 .split-box.disabled {
