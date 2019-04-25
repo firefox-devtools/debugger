@@ -45,6 +45,7 @@ import "./QuickOpenModal.css";
 type Props = {
   enabled: boolean,
   selectedSource?: Source,
+  displayedSources: Source[],
   query: string,
   searchType: QuickOpenType,
   symbols: FormattedSymbolDeclarations,
@@ -55,8 +56,7 @@ type Props = {
   setQuickOpenQuery: typeof actions.setQuickOpenQuery,
   highlightLineRange: typeof actions.highlightLineRange,
   closeQuickOpen: typeof actions.closeQuickOpen,
-  toggleShortcutsModal: () => void,
-  computeSources: (tabUrls: Set<$PropertyType<Tab, "url">>) => Array<Object>
+  toggleShortcutsModal: () => void
 };
 
 type State = {
@@ -132,9 +132,9 @@ export class QuickOpenModal extends Component<Props, State> {
   };
 
   searchSources = (query: string) => {
-    const { computeSources, tabs } = this.props;
+    const { displayedSources, tabs } = this.props;
     const tabUrls = new Set(tabs.map((tab: Tab) => tab.url));
-    const sources = computeSources(tabUrls);
+    const sources = formatSources(displayedSources, tabUrls);
     const results =
       query == "" ? sources : filter(sources, this.dropGoto(query));
     return this.setResults(results);
@@ -165,13 +165,20 @@ export class QuickOpenModal extends Component<Props, State> {
   };
 
   showTopSources = () => {
-    const { tabs, computeSources } = this.props;
+    const { displayedSources, tabs } = this.props;
     const tabUrls = new Set(tabs.map((tab: Tab) => tab.url));
-    const sources = computeSources(tabUrls);
+
     if (tabs.length > 0) {
-      this.setResults(sources.filter(source => tabUrls.has(source.url)));
+      this.setResults(
+        formatSources(
+          displayedSources.filter(
+            source => !!source.url && tabUrls.has(source.url)
+          ),
+          tabUrls
+        )
+      );
     } else {
-      this.setResults(sources);
+      this.setResults(formatSources(displayedSources, tabUrls));
     }
   };
 
@@ -435,16 +442,12 @@ function mapStateToProps(state) {
   return {
     enabled: getQuickOpenEnabled(state),
     selectedSource,
+    displayedSources: getDisplayedSourcesList(state),
     symbols: formatSymbols(getSymbols(state, selectedSource)),
     symbolsLoading: isSymbolsLoading(state, selectedSource),
     query: getQuickOpenQuery(state),
     searchType: getQuickOpenType(state),
-    tabs,
-    computeSources: (
-      tabUrls: Set<$PropertyType<Tab, "url">>
-    ): Array<Object> => {
-      return formatSources(getDisplayedSourcesList(state), tabUrls);
-    }
+    tabs
   };
 }
 

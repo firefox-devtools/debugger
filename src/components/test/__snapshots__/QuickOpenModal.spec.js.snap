@@ -4,7 +4,7 @@ exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
 <QuickOpenModal
   clearHighlightLineRange={[MockFunction]}
   closeQuickOpen={[MockFunction]}
-  computeSources={[Function]}
+  displayedSources={Array []}
   enabled={true}
   highlightLineRange={[MockFunction]}
   isOriginal={false}
@@ -132,7 +132,7 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
 <QuickOpenModal
   clearHighlightLineRange={[MockFunction]}
   closeQuickOpen={[MockFunction]}
-  computeSources={[Function]}
+  displayedSources={Array []}
   enabled={true}
   highlightLineRange={[MockFunction]}
   isOriginal={false}
@@ -244,7 +244,7 @@ exports[`QuickOpenModal Basic render with mount 1`] = `
 <QuickOpenModal
   clearHighlightLineRange={[MockFunction]}
   closeQuickOpen={[MockFunction]}
-  computeSources={[Function]}
+  displayedSources={Array []}
   enabled={true}
   highlightLineRange={[MockFunction]}
   isOriginal={false}
@@ -406,7 +406,7 @@ exports[`QuickOpenModal Simple goto search query = :abc & searchType = goto 1`] 
 <QuickOpenModal
   clearHighlightLineRange={[MockFunction]}
   closeQuickOpen={[MockFunction]}
-  computeSources={[Function]}
+  displayedSources={Array []}
   enabled={true}
   highlightLineRange={[MockFunction]}
   isOriginal={false}
@@ -523,7 +523,7 @@ exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
 <QuickOpenModal
   clearHighlightLineRange={[MockFunction]}
   closeQuickOpen={[MockFunction]}
-  computeSources={[Function]}
+  displayedSources={Array []}
   enabled={true}
   highlightLineRange={[MockFunction]}
   isOriginal={false}
@@ -682,7 +682,7 @@ exports[`QuickOpenModal showErrorEmoji false when goto numeric ':2222' 1`] = `
 <QuickOpenModal
   clearHighlightLineRange={[MockFunction]}
   closeQuickOpen={[MockFunction]}
-  computeSources={[Function]}
+  displayedSources={Array []}
   enabled={true}
   highlightLineRange={[MockFunction]}
   isOriginal={false}
@@ -798,7 +798,7 @@ exports[`QuickOpenModal showErrorEmoji false when no query 1`] = `
 <QuickOpenModal
   clearHighlightLineRange={[MockFunction]}
   closeQuickOpen={[MockFunction]}
-  computeSources={[Function]}
+  displayedSources={Array []}
   enabled={true}
   highlightLineRange={[MockFunction]}
   isOriginal={false}
@@ -925,7 +925,7 @@ exports[`QuickOpenModal showErrorEmoji true when goto not numeric ':22k22' 1`] =
 <QuickOpenModal
   clearHighlightLineRange={[MockFunction]}
   closeQuickOpen={[MockFunction]}
-  computeSources={[Function]}
+  displayedSources={Array []}
   enabled={true}
   highlightLineRange={[MockFunction]}
   isOriginal={false}
@@ -1041,7 +1041,7 @@ exports[`QuickOpenModal showErrorEmoji true when no count + query 1`] = `
 <QuickOpenModal
   clearHighlightLineRange={[MockFunction]}
   closeQuickOpen={[MockFunction]}
-  computeSources={[Function]}
+  displayedSources={Array []}
   enabled={true}
   highlightLineRange={[MockFunction]}
   isOriginal={false}
@@ -1185,7 +1185,7 @@ exports[`QuickOpenModal updateResults on enable 1`] = `
 <QuickOpenModal
   clearHighlightLineRange={[MockFunction]}
   closeQuickOpen={[MockFunction]}
-  computeSources={[Function]}
+  displayedSources={Array []}
   enabled={false}
   highlightLineRange={[MockFunction]}
   isOriginal={false}
@@ -1210,7 +1210,7 @@ exports[`QuickOpenModal updateResults on enable 2`] = `
 <QuickOpenModal
   clearHighlightLineRange={[MockFunction]}
   closeQuickOpen={[MockFunction]}
-  computeSources={[Function]}
+  displayedSources={Array []}
   enabled={true}
   highlightLineRange={[MockFunction]}
   isOriginal={false}

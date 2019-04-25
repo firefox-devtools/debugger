@@ -23,7 +23,7 @@ function generateModal(propOverrides, renderType = "shallow") {
     enabled: false,
     query: "",
     searchType: "sources",
-    computeSources: () => [],
+    displayedSources: [],
     tabs: [],
     selectSpecificLocation: jest.fn(),
     setQuickOpenQuery: jest.fn(),
@@ -116,12 +116,24 @@ describe("QuickOpenModal", () => {
       {
         enabled: true,
         query: "",
-        computeSources: () => [{ url: "mozilla.com" }],
+        displayedSources: [
+          // $FlowIgnore
+          { url: "mozilla.com", relativeUrl: true }
+        ],
         tabs: [generateTab("mozilla.com")]
       },
       "shallow"
     );
-    expect(wrapper.state("results")).toEqual([{ url: "mozilla.com" }]);
+    expect(wrapper.state("results")).toEqual([
+      {
+        id: undefined,
+        icon: "tab result-item-icon",
+        subtitle: "true",
+        title: "mozilla.com",
+        url: "mozilla.com",
+        value: "true"
+      }
+    ]);
   });
 
   describe("shows loading", () => {
