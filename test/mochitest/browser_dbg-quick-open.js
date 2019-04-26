@@ -121,6 +121,7 @@ add_task(async function() {
   info("Testing gotoSource");
   quickOpen(dbg, "sw1:5");
   pressKey(dbg, "Enter");
+  await waitForTime(150);
   await waitForSelectedSource(dbg, "switching-01");
   assertLine(dbg, 5);
 });
