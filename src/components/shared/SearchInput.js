@@ -78,22 +78,18 @@ class SearchInput extends Component<Props, State> {
   }
 
   setFocus() {
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        if (this.$input) {
-          const input = this.$input;
-          input.focus();
+    if (this.$input) {
+      const input = this.$input;
+      input.focus();
 
-          if (!input.value) {
-            return;
-          }
+      if (!input.value) {
+        return;
+      }
 
-          // omit prefix @:# from being selected
-          const selectStartPos = this.props.hasPrefix ? 1 : 0;
-          input.setSelectionRange(selectStartPos, input.value.length + 1);
-        }
-      });
-    });
+      // omit prefix @:# from being selected
+      const selectStartPos = this.props.hasPrefix ? 1 : 0;
+      input.setSelectionRange(selectStartPos, input.value.length + 1);
+    }
   }
 
   renderSvg() {
