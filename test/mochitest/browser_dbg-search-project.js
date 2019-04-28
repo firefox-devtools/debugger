@@ -2,12 +2,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
-function openProjectSearch(dbg) {
+async function openProjectSearch(dbg) {
   synthesizeKeyShortcut("CmdOrCtrl+Shift+F");
-  return waitForState(
+  await waitForState(
     dbg,
     state => dbg.selectors.getActiveSearch(state) === "project"
   );
+  await waitForTime(0);
 }
 
 function closeProjectSearch(dbg) {
