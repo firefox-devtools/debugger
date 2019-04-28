@@ -51,10 +51,9 @@ async function quickOpen(dbg, query, shortcut = "quickOpen") {
   pressKey(dbg, shortcut);
   assertEnabled(dbg);
 
-  if (query !== "") {
-    type(dbg, query);
-    await waitForTime(150);
-  }
+  query !== "" && type(dbg, query);
+
+  await waitForTime(150);
 }
 
 function findResultEl(dbg, index = 1) {
@@ -109,6 +108,7 @@ add_task(async function() {
   is(resultCount(dbg), 2, "two function results");
 
   type(dbg, "@x");
+  await waitForTime(150);
   is(resultCount(dbg), 0, "no functions with 'x' in name");
 
   pressKey(dbg, "Escape");
