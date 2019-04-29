@@ -14,7 +14,7 @@ jest.mock("fuzzaldrin-plus");
 jest.unmock("lodash");
 
 // $FlowIgnore
-lodash.debounce = jest.fn(fn => fn);
+lodash.throttle = jest.fn(fn => fn);
 
 import { filter } from "fuzzaldrin-plus";
 
