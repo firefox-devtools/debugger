@@ -7,7 +7,7 @@ import React, { Component } from "react";
 import { connect } from "../utils/connect";
 import fuzzyAldrin from "fuzzaldrin-plus";
 import { basename } from "../utils/path";
-import { debounce } from "lodash";
+import { throttle } from "lodash";
 
 import actions from "../actions";
 import {
@@ -70,7 +70,7 @@ type GotoLocationType = {
   column?: number
 };
 
-const updateResultsDebounce = 100;
+const updateResultsThrottle = 100;
 const maxResults = 100;
 
 function filter(values, query) {
@@ -182,7 +182,7 @@ export class QuickOpenModal extends Component<Props, State> {
     }
   };
 
-  updateResults = debounce((query: string) => {
+  updateResults = throttle((query: string) => {
     if (this.isGotoQuery()) {
       return;
     }
@@ -200,7 +200,7 @@ export class QuickOpenModal extends Component<Props, State> {
     }
 
     return this.searchSources(query);
-  }, updateResultsDebounce);
+  }, updateResultsThrottle);
 
   setModifier = (item: QuickOpenResult) => {
     if (["@", "#", ":"].includes(item.id)) {

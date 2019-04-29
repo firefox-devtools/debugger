@@ -42,6 +42,8 @@ function chromeScrollList(elem: Element, index: number): void {
     return;
   }
 
+  // Avoid expensive DOM computations (reading clientHeight)
+  // https://nolanlawson.com/2018/09/25/accurately-measuring-layout-on-the-web/
   requestAnimationFrame(() => {
     setTimeout(() => {
       const resultsHeight: number = resultsEl.clientHeight;
