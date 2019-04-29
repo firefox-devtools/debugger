@@ -14,7 +14,7 @@ import {
 import type { Location as BabelLocation } from "@babel/types";
 import type { Symbols } from "../reducers/ast";
 import type { QuickOpenType } from "../reducers/quick-open";
-import type { Tab } from "../reducers/tabs";
+import type { TabList } from "../reducers/tabs";
 import type { Source } from "../types";
 import type {
   SymbolDeclaration,
@@ -58,10 +58,7 @@ export function parseLineColumn(query: string) {
   }
 }
 
-export function formatSourcesForList(
-  source: Source,
-  tabUrls: Set<$PropertyType<Tab, "url">>
-) {
+export function formatSourcesForList(source: Source, tabs: TabList) {
   const title = getFilename(source);
   const relativeUrlWithQuery = `${source.relativeUrl}${getSourceQueryString(
     source
@@ -71,7 +68,7 @@ export function formatSourcesForList(
     value: relativeUrlWithQuery,
     title,
     subtitle: relativeUrlWithQuery,
-    icon: tabUrls.has(source.url)
+    icon: tabs.some(tab => tab.url == source.url)
       ? "tab result-item-icon"
       : classnames(getSourceClassnames(source), "result-item-icon"),
     id: source.id,
@@ -139,9 +136,10 @@ export function formatShortcutResults(): Array<QuickOpenResult> {
 
 export function formatSources(
   sources: Source[],
-  tabUrls: Set<$PropertyType<Tab, "url">>
+  tabs: TabList
 ): Array<QuickOpenResult> {
   return sources
-    .filter(source => !!source.relativeUrl && !isPretty(source))
-    .map(source => formatSourcesForList(source, tabUrls));
+    .filter(source => !isPretty(source))
+    .filter(({ relativeUrl }) => !!relativeUrl)
+    .map(source => formatSourcesForList(source, tabs));
 }
