@@ -82,11 +82,23 @@
 }
 
 .xhr-input-method {
-  display: none;
+  visibility: hidden;
+  margin-inline-start: 4px;
+  padding-block: 0;
+  padding-inline-start: 2px;
+  padding-inline-end: 14px;
+  border: none;
+  border-radius: 2px;
+  font: inherit;
+  color: inherit;
+  background-color: var(--toolbarbutton-background);
+  -moz-appearance: none;
+  appearance: none;
+  background: right no-repeat url("/images/arrow.svg");
 }
 
 .xhr-input-container.focused .xhr-input-method {
-  display: block;
+  visibility: visible;
 }
 
 .xhr-label-url {
