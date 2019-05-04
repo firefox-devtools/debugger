@@ -249,6 +249,7 @@ class SourceTreeItem extends Component<Props, State> {
         key={item.path}
         onClick={this.onClick}
         onContextMenu={e => this.onContextMenu(e, item)}
+        title={unescape(item.name)}
       >
         {this.renderItemArrow()}
         {this.getIcon(item, depth)}
