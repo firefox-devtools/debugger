@@ -91,10 +91,11 @@
   border-radius: 2px;
   font: inherit;
   color: inherit;
-  background-color: var(--toolbarbutton-background);
   -moz-appearance: none;
   appearance: none;
-  background: right no-repeat url("/images/arrow.svg");
+  background: var(--toolbarbutton-background) right no-repeat url("/images/arrow.svg");
+  -moz-context-properties: fill;
+  fill: var(--theme-icon-dimmed-color);
 }
 
 .xhr-input-container.focused .xhr-input-method {
