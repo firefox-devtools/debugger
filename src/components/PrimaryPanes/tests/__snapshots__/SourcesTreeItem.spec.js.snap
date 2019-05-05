@@ -7,6 +7,7 @@ Object {
     key="mdn.com/one.js"
     onClick={[Function]}
     onContextMenu={[Function]}
+    title="one.js"
   >
     <span
       className="img no-arrow"
@@ -146,6 +147,7 @@ Object {
           className="node"
           onClick={[Function]}
           onContextMenu={[Function]}
+          title="one.js"
         >
           <span
             className="img no-arrow"
@@ -234,6 +236,7 @@ Object {
     key="http://mdn.com/one.js"
     onClick={[Function]}
     onContextMenu={[Function]}
+    title="one.js"
   >
     <span
       className="img no-arrow"
@@ -382,6 +385,7 @@ Object {
           className="node"
           onClick={[Function]}
           onContextMenu={[Function]}
+          title="one.js"
         >
           <span
             className="img no-arrow"
@@ -477,6 +481,7 @@ Object {
     key="root"
     onClick={[Function]}
     onContextMenu={[Function]}
+    title="root"
   >
     <span
       className="img no-arrow"
@@ -605,6 +610,7 @@ Object {
           className="node"
           onClick={[Function]}
           onContextMenu={[Function]}
+          title="root"
         >
           <span
             className="img no-arrow"
@@ -680,6 +686,7 @@ Object {
     key="root"
     onClick={[Function]}
     onContextMenu={[Function]}
+    title="http://mdn.com"
   >
     <AccessibleImage
       className="arrow"
@@ -782,6 +789,7 @@ Object {
           className="node"
           onClick={[Function]}
           onContextMenu={[Function]}
+          title="http://mdn.com"
         >
           <AccessibleImage
             className="arrow"
@@ -844,6 +852,7 @@ Object {
     key="root"
     onClick={[Function]}
     onContextMenu={[Function]}
+    title="http://mdn.com"
   >
     <AccessibleImage
       className="arrow"
@@ -948,6 +957,7 @@ Object {
           className="node focused"
           onClick={[Function]}
           onContextMenu={[Function]}
+          title="http://mdn.com"
         >
           <AccessibleImage
             className="arrow"
@@ -1011,6 +1021,7 @@ Object {
     key="folder/"
     onClick={[Function]}
     onContextMenu={[Function]}
+    title="folder"
   >
     <AccessibleImage
       className="arrow expanded"
@@ -1087,6 +1098,7 @@ Object {
           className="node focused"
           onClick={[Function]}
           onContextMenu={[Function]}
+          title="folder"
         >
           <AccessibleImage
             className="arrow expanded"
@@ -1137,6 +1149,7 @@ Object {
     key="ng://"
     onClick={[Function]}
     onContextMenu={[Function]}
+    title="ng://"
   >
     <AccessibleImage
       className="arrow"
@@ -1237,6 +1250,7 @@ Object {
           className="node"
           onClick={[Function]}
           onContextMenu={[Function]}
+          title="ng://"
         >
           <AccessibleImage
             className="arrow"
@@ -1298,6 +1312,7 @@ Object {
     key="folder/"
     onClick={[Function]}
     onContextMenu={[Function]}
+    title="folder"
   >
     <AccessibleImage
       className="arrow"
@@ -1370,6 +1385,7 @@ Object {
           className="node"
           onClick={[Function]}
           onContextMenu={[Function]}
+          title="folder"
         >
           <AccessibleImage
             className="arrow"
@@ -1418,6 +1434,7 @@ Object {
     key="folder/"
     onClick={[Function]}
     onContextMenu={[Function]}
+    title="folder"
   >
     <AccessibleImage
       className="arrow expanded"
@@ -1494,6 +1511,7 @@ Object {
           className="node"
           onClick={[Function]}
           onContextMenu={[Function]}
+          title="folder"
         >
           <AccessibleImage
             className="arrow expanded"
@@ -1544,6 +1562,7 @@ Object {
     key="moz-extension://e37c3c08-beac-a04b-8032-c4f699a1a856"
     onClick={[Function]}
     onContextMenu={[Function]}
+    title="moz-extension://e37c3c08-beac-a04b-8032-c4f699a1a856"
   >
     <AccessibleImage
       className="arrow"
@@ -1646,6 +1665,7 @@ Object {
           className="node"
           onClick={[Function]}
           onContextMenu={[Function]}
+          title="moz-extension://e37c3c08-beac-a04b-8032-c4f699a1a856"
         >
           <AccessibleImage
             className="arrow"
@@ -1708,6 +1728,7 @@ Object {
     key="webpack://"
     onClick={[Function]}
     onContextMenu={[Function]}
+    title="webpack://"
   >
     <AccessibleImage
       className="arrow"
@@ -1808,6 +1829,7 @@ Object {
           className="node"
           onClick={[Function]}
           onContextMenu={[Function]}
+          title="webpack://"
         >
           <AccessibleImage
             className="arrow"
@@ -1869,6 +1891,7 @@ Object {
     key="http://mdn.com/one.js"
     onClick={[Function]}
     onContextMenu={[Function]}
+    title="one.js"
   >
     <span
       className="img no-arrow"
@@ -2010,6 +2033,7 @@ Object {
           className="node"
           onClick={[Function]}
           onContextMenu={[Function]}
+          title="one.js"
         >
           <span
             className="img no-arrow"
@@ -2099,6 +2123,7 @@ Object {
     key="mdn.com/one.js"
     onClick={[Function]}
     onContextMenu={[Function]}
+    title="one.js"
   >
     <span
       className="img no-arrow"
@@ -2242,6 +2267,7 @@ Object {
           className="node focused"
           onClick={[Function]}
           onContextMenu={[Function]}
+          title="one.js"
         >
           <span
             className="img no-arrow"
@@ -2332,6 +2358,7 @@ Object {
     key="mdn.com/external%20file"
     onClick={[Function]}
     onContextMenu={[Function]}
+    title="external file"
   >
     <span
       className="img no-arrow"
@@ -2473,6 +2500,7 @@ Object {
           className="node"
           onClick={[Function]}
           onContextMenu={[Function]}
+          title="external file"
         >
           <span
             className="img no-arrow"
