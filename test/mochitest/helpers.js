@@ -222,7 +222,7 @@ async function waitForElementWithSelector(dbg, selector) {
   return findElementWithSelector(dbg, selector);
 }
 
-async function waitForSelectedSource(dbg, url) {
+function waitForSelectedSource(dbg, url) {
   const {
     getSelectedSource,
     hasSymbols,
@@ -230,7 +230,7 @@ async function waitForSelectedSource(dbg, url) {
     hasBreakpointPositions
   } = dbg.selectors;
 
-  waitForState(
+  return waitForState(
     dbg,
     state => {
       const source = getSelectedSource(state);
@@ -256,8 +256,6 @@ async function waitForSelectedSource(dbg, url) {
     },
     "selected source"
   );
-
-  await waitForTime(150);
 }
 
 /**
@@ -635,7 +633,7 @@ async function selectSource(dbg, url, line) {
     { sourceId: source.id, line },
     { keepContext: false }
   );
-  return await waitForSelectedSource(dbg, url);
+  return waitForSelectedSource(dbg, url);
 }
 
 async function closeTab(dbg, url) {
