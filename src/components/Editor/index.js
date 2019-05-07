@@ -143,7 +143,9 @@ class Editor extends PureComponent<Props, State> {
       return;
     }
 
-    showLoading(this.state.editor);
+    if (nextProps.selectedSource !== this.props.selectedSource) {
+      showLoading(this.state.editor);
+    }
 
     // Allow one paint before updating the DOM to feel responsive
     requestAnimationFrame(() => {
