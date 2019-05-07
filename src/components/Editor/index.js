@@ -143,9 +143,16 @@ class Editor extends PureComponent<Props, State> {
       return;
     }
 
-    this.setText(nextProps);
-    this.setSize(nextProps);
-    this.scrollToLocation(nextProps);
+    showLoading(this.state.editor);
+
+    // Allow one paint before updating the DOM to feel responsive
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        this.setText(nextProps);
+        this.setSize(nextProps);
+        this.scrollToLocation(nextProps);
+      });
+    });
   }
 
   setupEditor() {
@@ -260,23 +267,28 @@ class Editor extends PureComponent<Props, State> {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { selectedSource } = this.props;
-    // NOTE: when devtools are opened, the editor is not set when
-    // the source loads so we need to wait until the editor is
-    // set to update the text and size.
-    if (!prevState.editor && selectedSource) {
-      if (!this.state.editor) {
-        const editor = this.setupEditor();
-        updateDocument(editor, selectedSource);
-      } else {
-        this.setText(this.props);
-        this.setSize(this.props);
-      }
-    }
+    // Allow one paint before updating the DOM to feel responsive
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        const { selectedSource } = this.props;
+        // NOTE: when devtools are opened, the editor is not set when
+        // the source loads so we need to wait until the editor is
+        // set to update the text and size.
+        if (!prevState.editor && selectedSource) {
+          if (!this.state.editor) {
+            const editor = this.setupEditor();
+            updateDocument(editor, selectedSource);
+          } else {
+            this.setText(this.props);
+            this.setSize(this.props);
+          }
+        }
 
-    if (prevProps.selectedSource != selectedSource) {
-      this.props.updateViewport();
-    }
+        if (prevProps.selectedSource != selectedSource) {
+          this.props.updateViewport();
+        }
+      });
+    });
   }
 
   getCurrentLine() {

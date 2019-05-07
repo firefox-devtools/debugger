@@ -79,6 +79,14 @@ function render(overrides = {}) {
 }
 
 describe("Editor", () => {
+  beforeEach(() => {
+    jest
+      .spyOn(window, "requestAnimationFrame")
+      .mockImplementation(callback => callback());
+
+    jest.spyOn(window, "setTimeout").mockImplementation(callback => callback());
+  });
+
   describe("When empty", () => {
     it("should render", async () => {
       const { component } = render();
@@ -179,7 +187,7 @@ describe("Editor", () => {
         selectedLocation: { sourceId: "bar", line: 1, column: 1 }
       });
 
-      expect(mockEditor.replaceDocument.mock.calls[1][0].getValue()).toBe(
+      expect(mockEditor.replaceDocument.mock.calls[2][0].getValue()).toBe(
         "Loading…"
       );
 
@@ -204,6 +212,7 @@ describe("Editor", () => {
       await component.setProps({ ...props, selectedSource, symbols });
 
       expect(mockEditor.setMode.mock.calls).toEqual([
+        [{ name: "text" }],
         [{ name: "javascript" }],
         [{ name: "jsx" }]
       ]);
@@ -238,6 +247,7 @@ describe("Editor", () => {
       });
 
       expect(mockEditor.setMode.mock.calls).toEqual([
+        [{ name: "text" }],
         [{ name: "javascript" }],
         [{ name: "jsx" }]
       ]);
