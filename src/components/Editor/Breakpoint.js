@@ -31,11 +31,23 @@ type Props = {
 
 class Breakpoint extends PureComponent<Props> {
   componentDidMount() {
-    this.addBreakpoint();
+    const props = this.props;
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        this.addBreakpoint(props);
+      });
+    });
   }
 
   componentDidUpdate() {
-    this.addBreakpoint();
+    const props = this.props;
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        this.addBreakpoint(props);
+      });
+    });
   }
 
   componentWillUnmount() {
@@ -112,8 +124,8 @@ class Breakpoint extends PureComponent<Props> {
     showMenu(event, breakpointItems(breakpoint, breakpointActions));
   };
 
-  addBreakpoint = () => {
-    const { breakpoint, editor, selectedSource } = this.props;
+  addBreakpoint = (props: Props) => {
+    const { breakpoint, editor, selectedSource } = props;
 
     // Hidden Breakpoints are never rendered on the client
     if (breakpoint.options.hidden) {

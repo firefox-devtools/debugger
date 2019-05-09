@@ -772,7 +772,7 @@ async function addBreakpoint(dbg, source, line, column, options) {
   const bpCount = dbg.selectors.getBreakpointCount(dbg.getState());
   dbg.actions.addBreakpoint({ sourceId, line, column }, options);
   await waitForDispatch(dbg, "ADD_BREAKPOINT");
-  await new Promise(resolve => requestAnimationFrame(() => setTimeout(resolve)));
+  await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
   is(
     dbg.selectors.getBreakpointCount(dbg.getState()),
     bpCount + 1,

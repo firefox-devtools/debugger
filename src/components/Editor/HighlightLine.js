@@ -61,11 +61,23 @@ export class HighlightLine extends Component<Props> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    this.completeHighlightLine(prevProps);
+    const props = this.props;
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        this.completeHighlightLine(props, prevProps);
+      });
+    });
   }
 
   componentDidMount() {
-    this.completeHighlightLine(null);
+    const props = this.props;
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        this.completeHighlightLine(props, null);
+      });
+    });
   }
 
   shouldSetHighlightLine(
@@ -86,13 +98,13 @@ export class HighlightLine extends Component<Props> {
     return true;
   }
 
-  completeHighlightLine(prevProps: Props | null) {
+  completeHighlightLine(props: Props, prevProps: Props | null) {
     const {
       pauseCommand,
       selectedLocation,
       selectedFrame,
       selectedSource
-    } = this.props;
+    } = props;
     if (pauseCommand) {
       this.isStepping = true;
     }

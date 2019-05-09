@@ -45,15 +45,24 @@ export class DebugLine extends Component<Props> {
   componentDidUpdate(prevProps: Props) {
     const { why, frame, source } = this.props;
 
-    startOperation();
-    this.clearDebugLine(prevProps.why, prevProps.frame, prevProps.source);
-    this.setDebugLine(why, frame, source);
-    endOperation();
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        startOperation();
+        this.clearDebugLine(prevProps.why, prevProps.frame, prevProps.source);
+        this.setDebugLine(why, frame, source);
+        endOperation();
+      });
+    });
   }
 
   componentDidMount() {
     const { why, frame, source } = this.props;
-    this.setDebugLine(why, frame, source);
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        this.setDebugLine(why, frame, source);
+      });
+    });
   }
 
   componentWillUnmount() {
