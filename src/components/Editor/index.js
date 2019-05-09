@@ -151,9 +151,9 @@ class Editor extends PureComponent<Props, State> {
 
     // Allow one paint before updating the DOM to feel responsive
     requestAnimationFrame(() => {
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         this.setText(nextProps);
-        this.setSize(nextProps);
+        this.setSize(nextProps, prevProps);
         this.scrollToLocation(nextProps, prevProps);
       });
     });
@@ -271,25 +271,26 @@ class Editor extends PureComponent<Props, State> {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    const props = this.props;
+
     // Allow one paint before updating the DOM to feel responsive
     requestAnimationFrame(() => {
-      setTimeout(() => {
-        const { selectedSource } = this.props;
+      requestAnimationFrame(() => {
         // NOTE: when devtools are opened, the editor is not set when
         // the source loads so we need to wait until the editor is
         // set to update the text and size.
-        if (!prevState.editor && selectedSource) {
+        if (!prevState.editor && props.selectedSource) {
           if (!this.state.editor) {
             const editor = this.setupEditor();
-            updateDocument(editor, selectedSource);
+            updateDocument(editor, props.selectedSource);
           } else {
-            this.setText(this.props);
-            this.setSize(this.props);
+            this.setText(props, prevProps);
+            this.setSize(props);
           }
         }
 
-        if (prevProps.selectedSource != selectedSource) {
-          this.props.updateViewport();
+        if (prevProps.selectedSource != props.selectedSource) {
+          props.updateViewport();
         }
       });
     });
@@ -542,14 +543,14 @@ class Editor extends PureComponent<Props, State> {
     }
   }
 
-  setSize(nextProps) {
+  setSize(nextProps: Props, prevProps: Props) {
     if (!this.state.editor) {
       return;
     }
 
     if (
-      nextProps.startPanelSize !== this.props.startPanelSize ||
-      nextProps.endPanelSize !== this.props.endPanelSize
+      nextProps.startPanelSize !== prevProps.startPanelSize ||
+      nextProps.endPanelSize !== prevProps.endPanelSize
     ) {
       this.state.editor.codeMirror.setSize();
     }
