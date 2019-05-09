@@ -147,12 +147,14 @@ class Editor extends PureComponent<Props, State> {
       showLoading(this.state.editor);
     }
 
+    const prevProps = this.props;
+
     // Allow one paint before updating the DOM to feel responsive
     requestAnimationFrame(() => {
       setTimeout(() => {
         this.setText(nextProps);
         this.setSize(nextProps);
-        this.scrollToLocation(nextProps);
+        this.scrollToLocation(nextProps, prevProps);
       });
     });
   }
@@ -501,8 +503,8 @@ class Editor extends PureComponent<Props, State> {
     );
   };
 
-  shouldScrollToLocation(nextProps) {
-    const { selectedLocation, selectedSource } = this.props;
+  shouldScrollToLocation(nextProps, prevProps) {
+    const { selectedLocation, selectedSource } = prevProps;
     const { editor } = this.state;
 
     if (
@@ -519,16 +521,16 @@ class Editor extends PureComponent<Props, State> {
       (!selectedSource || !isLoaded(selectedSource)) &&
       isLoaded(nextProps.selectedSource);
     const locationChanged = selectedLocation !== nextProps.selectedLocation;
-    const symbolsChanged = nextProps.symbols != this.props.symbols;
+    const symbolsChanged = nextProps.symbols != prevProps.symbols;
 
     return isFirstLoad || locationChanged || symbolsChanged;
   }
 
-  scrollToLocation(nextProps) {
+  scrollToLocation(nextProps, prevProps) {
     const { editor } = this.state;
     const { selectedLocation, selectedSource } = nextProps;
 
-    if (selectedLocation && this.shouldScrollToLocation(nextProps)) {
+    if (selectedLocation && this.shouldScrollToLocation(nextProps, prevProps)) {
       let { line, column } = toEditorPosition(selectedLocation);
 
       if (selectedSource && hasDocument(selectedSource.id)) {
