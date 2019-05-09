@@ -103,11 +103,11 @@
   top: 5px;
   width: 10px;
   height: 10px;
-  -webkit-mask-image: url("/images/arrow.svg");
-  mask-image: url("/images/arrow.svg");
+  -webkit-mask-image: url("chrome://devtools/skin/images/select-arrow.svg");
+  mask-image: url("chrome://devtools/skin/images/select-arrow.svg");
   -webkit-mask-size: 10px 10px;
   mask-size: 10px 10px;
-  background-color: var(--theme-icon-dimmed-color);
+  background-color: var(--theme-icon-color);
 }
 
 .xhr-input-container.focused .xhr-input-method {
