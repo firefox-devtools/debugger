@@ -96,7 +96,7 @@
   background-color: var(--toolbarbutton-background);
 }
 
-.xhr-input-container.focused:after {
+.xhr-input-container.focused::after {
   content: "";
   position: relative;
   right: 25px;
