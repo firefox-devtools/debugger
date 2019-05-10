@@ -30,8 +30,11 @@ function copyFiles() {
   getFiles().forEach(file => {
     try {
       if (ignoreFile(file)) {
+        console.log("IGNORING File: ", file);
         return;
       }
+
+      console.log("COPYING File: ", file);
 
       const filePath = path.join(__dirname, "..", file);
       const code = fs.readFileSync(filePath, "utf8");
