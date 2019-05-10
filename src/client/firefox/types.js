@@ -16,11 +16,11 @@ import type {
   FrameId,
   ActorId,
   Script,
-  Source,
   Pause,
   PendingLocation,
   Frame,
   SourceId,
+  QueuedSourceData,
   Worker,
   Range
 } from "../../types";
@@ -89,14 +89,11 @@ export type FramePacket = {
  */
 export type SourcePayload = {
   actor: ActorId,
-  generatedUrl?: URL,
-  introductionType: string,
-  introductionUrl?: URL,
+  url: URL | null,
   isBlackBoxed: boolean,
-  isPrettyPrinted: boolean,
-  isSourceMapped: boolean,
-  sourceMapURL?: URL,
-  url: URL
+  sourceMapURL: URL | null,
+  introductionUrl: URL | null,
+  introductionType: string | null
 };
 
 /**
@@ -189,7 +186,7 @@ export type TabPayload = {
 export type Actions = {
   paused: Pause => void,
   resumed: ResumedPacket => void,
-  newSources: (Source[]) => void,
+  newQueuedSources: (QueuedSourceData[]) => void,
   fetchEventListeners: () => void,
   updateWorkers: () => void
 };
@@ -201,6 +198,7 @@ export type Actions = {
  */
 export type TabTarget = {
   on: (string, Function) => void,
+  emit: (string, any) => void,
   activeConsole: {
     evaluateJS: (
       script: Script,
@@ -211,7 +209,7 @@ export type TabTarget = {
       script: Script,
       func: Function,
       params?: { frameActor: ?FrameId }
-    ) => Promise<{ result: ?Object }>,
+    ) => Promise<{ result: Grip | null }>,
     autocomplete: (
       input: string,
       cursor: number,
@@ -279,9 +277,26 @@ export type TabClient = {
  * @memberof firefox
  * @static
  */
-// FIXME: need Grip definition
 export type Grip = {
-  actor: string
+  actor: string,
+  class: string,
+  displayClass: string,
+  displayName?: string,
+  parameterNames?: string[],
+  userDisplayName?: string,
+  name: string,
+  extensible: boolean,
+  location: {
+    url: string,
+    line: number,
+    column: number
+  },
+  frozen: boolean,
+  ownPropertyLength: number,
+  preview: Object,
+  sealed: boolean,
+  optimizedOut: boolean,
+  type: string
 };
 
 export type FunctionGrip = {|
@@ -308,7 +323,8 @@ export type SourceClient = {
   prettyPrint: number => Promise<*>,
   disablePrettyPrint: () => Promise<*>,
   blackBox: (range?: Range) => Promise<*>,
-  unblackBox: (range?: Range) => Promise<*>
+  unblackBox: (range?: Range) => Promise<*>,
+  getBreakableLines: () => Promise<number[]>
 };
 
 /**
@@ -359,17 +375,12 @@ export type ThreadClient = {
   skipBreakpoints: boolean => Promise<{| skip: boolean |}>
 };
 
-export type FirefoxClientConnection = {
-  getTabTarget: () => TabTarget,
-  getThreadClient: () => ThreadClient,
-  setTabTarget: (target: TabTarget) => void,
-  setThreadClient: (client: ThreadClient) => void
-};
-
 export type Panel = {|
   emit: (eventName: string) => void,
   openLink: (url: string) => void,
   openWorkerToolbox: (worker: Worker) => void,
   openElementInInspector: (grip: Object) => void,
-  openConsoleAndEvaluate: (input: string) => void
+  openConsoleAndEvaluate: (input: string) => void,
+  highlightDomElement: (grip: Object) => void,
+  unHighlightDomElement: (grip: Object) => void
 |};

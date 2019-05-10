@@ -10,10 +10,10 @@ import type {
   BreakpointOptions
 } from "../../../types";
 
-function createSource(name) {
+export function createSource(name: string, code?: string) {
   name = name.replace(/\..*$/, "");
   return {
-    source: `function ${name}() {\n  return ${name} \n}`,
+    source: code || `function ${name}() {\n  return ${name} \n}`,
     contentType: "text/javascript"
   };
 }
@@ -74,8 +74,10 @@ export const sourceThreadClient = {
       reject(`unknown source: ${source}`);
     });
   },
+  setBreakpoint: async () => {},
   threadClient: async () => {},
   getFrameScopes: async () => {},
   evaluateExpressions: async () => {},
-  getBreakpointPositions: async () => ({})
+  getBreakpointPositions: async () => ({}),
+  getBreakableLines: async () => []
 };

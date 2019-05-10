@@ -30,14 +30,6 @@
   overflow-anchor: none;
 }
 
-.theme-dark {
-  --theme-conditional-breakpoint-color: #9fa4a9;
-}
-
-.theme-light {
-  --theme-conditional-breakpoint-color: var(--theme-body-color);
-}
-
 /**
  * There's a known codemirror flex issue with chrome that this addresses.
  * BUG https://github.com/firefox-devtools/debugger/issues/63
@@ -97,7 +89,7 @@ html[dir="rtl"] .editor-mount {
 }
 
 /* set the linenumber white when there is a breakpoint */
-.cm-s-mozilla
+.editor-wrapper:not(.skip-pausing)
   .new-breakpoint
   .CodeMirror-gutter-wrapper
   .CodeMirror-linenumber {
@@ -114,15 +106,15 @@ html[dir="rtl"] .editor-mount {
 }
 
 .debug-expression,
-.new-debug-line .column-breakpoint {
+.debug-expression ~ .CodeMirror-widget {
   background-color: var(--debug-expression-background);
 }
 
-debug-expression-error {
+.debug-expression-error {
   background-color: var(--debug-expression-error-background);
 }
 
-.new-debug-line .CodeMirror-line {
+:not(.conditional-breakpoint-panel) .new-debug-line .CodeMirror-line {
   background-color: transparent !important;
   outline: var(--debug-line-border) solid 1px;
 }
@@ -133,7 +125,7 @@ debug-expression-error {
   display: none;
 }
 
-.new-debug-line-error .CodeMirror-line {
+:not(.conditional-breakpoint-panel) .new-debug-line-error .CodeMirror-line {
   background-color: var(--debug-expression-error-background) !important;
   outline: var(--debug-line-error-border) solid 1px;
 }

@@ -3,16 +3,19 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-
-import typeof SourceMaps from "devtools-source-map";
+import SourceMaps, { generatedToOriginalId } from "devtools-source-map";
 
 import assert from "../../utils/assert";
 import { recordEvent } from "../../utils/telemetry";
 import { remapBreakpoints } from "../breakpoints";
 
-import { setSymbols } from "../ast";
+import { setSymbols } from "./symbols";
 import { prettyPrint } from "../../workers/pretty-print";
-import { getPrettySourceURL, isLoaded } from "../../utils/source";
+import {
+  getPrettySourceURL,
+  isGenerated,
+  isJavaScript
+} from "../../utils/source";
 import { loadSourceText } from "./loadSourceText";
 import { mapFrames } from "../pause";
 import { selectSpecificLocation } from "../sources";
@@ -20,63 +23,80 @@ import { selectSpecificLocation } from "../sources";
 import {
   getSource,
   getSourceFromId,
-  getSourceThreads,
   getSourceByURL,
-  getSelectedLocation
+  getSelectedLocation,
+  getThreadContext
 } from "../../selectors";
 
 import type { Action, ThunkArgs } from "../types";
 import { selectSource } from "./select";
-import type { JsSource, Source } from "../../types";
+import type { Source, SourceContent, SourceActor, Context } from "../../types";
 
 export async function prettyPrintSource(
-  sourceMaps: SourceMaps,
-  prettySource: Source,
-  generatedSource: any
+  sourceMaps: typeof SourceMaps,
+  generatedSource: Source,
+  content: SourceContent,
+  actors: Array<SourceActor>
 ) {
+  if (!isJavaScript(generatedSource, content) || content.type !== "text") {
+    throw new Error("Can't prettify non-javascript files.");
+  }
+
   const url = getPrettySourceURL(generatedSource.url);
   const { code, mappings } = await prettyPrint({
-    source: generatedSource,
+    text: content.value,
     url: url
   });
   await sourceMaps.applySourceMap(generatedSource.id, url, code, mappings);
 
   // The source map URL service used by other devtools listens to changes to
   // sources based on their actor IDs, so apply the mapping there too.
-  for (const sourceActor of generatedSource.actors) {
-    await sourceMaps.applySourceMap(sourceActor.actor, url, code, mappings);
+  for (const { actor } of actors) {
+    await sourceMaps.applySourceMap(actor, url, code, mappings);
   }
   return {
-    id: prettySource.id,
     text: code,
     contentType: "text/javascript"
   };
 }
 
-export function createPrettySource(sourceId: string) {
+export function createPrettySource(cx: Context, sourceId: string) {
   return async ({ dispatch, getState, sourceMaps }: ThunkArgs) => {
     const source = getSourceFromId(getState(), sourceId);
     const url = getPrettySourceURL(source.url);
-    const id = await sourceMaps.generatedToOriginalId(sourceId, url);
+    const id = generatedToOriginalId(sourceId, url);
 
-    const prettySource: JsSource = {
+    const prettySource: Source = {
+      id,
       url,
       relativeUrl: url,
-      id,
       isBlackBoxed: false,
       isPrettyPrinted: true,
       isWasm: false,
-      contentType: "text/javascript",
-      loadedState: "loading",
       introductionUrl: null,
-      isExtension: false,
-      actors: []
+      introductionType: undefined,
+      isExtension: false
     };
 
-    dispatch(({ type: "ADD_SOURCE", source: prettySource }: Action));
-    await dispatch(selectSource(prettySource.id));
+    dispatch(({ type: "ADD_SOURCE", cx, source: prettySource }: Action));
+    await dispatch(selectSource(cx, prettySource.id));
 
     return prettySource;
+  };
+}
+
+function selectPrettyLocation(cx: Context, prettySource: Source) {
+  return async ({ dispatch, sourceMaps, getState }: ThunkArgs) => {
+    let location = getSelectedLocation(getState());
+
+    if (location) {
+      location = await sourceMaps.getOriginalLocation(location);
+      return dispatch(
+        selectSpecificLocation(cx, { ...location, sourceId: prettySource.id })
+      );
+    }
+
+    return dispatch(selectSource(cx, prettySource.id));
   };
 }
 
@@ -92,7 +112,7 @@ export function createPrettySource(sourceId: string) {
  *          A promise that resolves to [aSource, prettyText] or rejects to
  *          [aSource, error].
  */
-export function togglePrettyPrint(sourceId: string) {
+export function togglePrettyPrint(cx: Context, sourceId: string) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const source = getSource(getState(), sourceId);
     if (!source) {
@@ -103,46 +123,29 @@ export function togglePrettyPrint(sourceId: string) {
       recordEvent("pretty_print");
     }
 
-    if (!isLoaded(source)) {
-      await dispatch(loadSourceText(source));
-    }
+    await dispatch(loadSourceText({ cx, source }));
 
     assert(
-      sourceMaps.isGeneratedId(sourceId),
+      isGenerated(source),
       "Pretty-printing only allowed on generated sources"
     );
 
-    const selectedLocation = getSelectedLocation(getState());
     const url = getPrettySourceURL(source.url);
     const prettySource = getSourceByURL(getState(), url);
 
-    const options = {};
-    if (selectedLocation) {
-      options.location = await sourceMaps.getOriginalLocation(selectedLocation);
-    }
-
     if (prettySource) {
-      const _sourceId = prettySource.id;
-      return dispatch(
-        selectSpecificLocation({ ...options.location, sourceId: _sourceId })
-      );
+      return dispatch(selectPrettyLocation(cx, prettySource));
     }
 
-    const newPrettySource = await dispatch(createPrettySource(sourceId));
+    const newPrettySource = await dispatch(createPrettySource(cx, sourceId));
+    await dispatch(selectPrettyLocation(cx, newPrettySource));
 
-    await dispatch(remapBreakpoints(sourceId));
+    const threadcx = getThreadContext(getState());
+    await dispatch(mapFrames(threadcx));
 
-    const threads = getSourceThreads(getState(), source);
-    await Promise.all(threads.map(thread => dispatch(mapFrames(thread))));
+    await dispatch(setSymbols({ cx, source: newPrettySource }));
 
-    await dispatch(setSymbols(newPrettySource.id));
-
-    dispatch(
-      selectSpecificLocation({
-        ...options.location,
-        sourceId: newPrettySource.id
-      })
-    );
+    await dispatch(remapBreakpoints(cx, sourceId));
 
     return newPrettySource;
   };

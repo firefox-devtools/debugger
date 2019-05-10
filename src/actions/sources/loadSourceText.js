@@ -7,22 +7,31 @@
 import { PROMISE } from "../utils/middleware/promise";
 import {
   getSource,
+  getSourceFromId,
+  getSourceWithContent,
+  getSourceContent,
   getGeneratedSource,
-  getSourcesEpoch
+  getSourcesEpoch,
+  getBreakpointsForSource,
+  getSourceActorsForSource
 } from "../../selectors";
-import { setBreakpointPositions } from "../breakpoints";
+import { addBreakpoint } from "../breakpoints";
 
 import { prettyPrintSource } from "./prettyPrint";
+import { setBreakableLines } from "./breakableLines";
+import { isFulfilled } from "../../utils/async-value";
 
 import * as parser from "../../workers/parser";
-import { isLoaded, isOriginal, isPretty } from "../../utils/source";
+import { isOriginal, isPretty } from "../../utils/source";
+import {
+  memoizeableAction,
+  type MemoizedAction
+} from "../../utils/memoizableAction";
+
 import { Telemetry } from "devtools-modules";
 
 import type { ThunkArgs } from "../types";
-
-import type { Source } from "../../types";
-
-const requests = new Map();
+import type { Source, Context } from "../../types";
 
 // Measures the time it takes for a source to load
 const loadSourceHistogram = "DEVTOOLS_DEBUGGER_LOAD_SOURCE_MS";
@@ -31,14 +40,27 @@ const telemetry = new Telemetry();
 async function loadSource(
   state,
   source: Source,
-  { sourceMaps, client }
+  { sourceMaps, client, getState }
 ): Promise<?{
   text: string,
   contentType: string
 }> {
   if (isPretty(source) && isOriginal(source)) {
     const generatedSource = getGeneratedSource(state, source);
-    return prettyPrintSource(sourceMaps, source, generatedSource);
+    if (!generatedSource) {
+      throw new Error("Unable to find minified original.");
+    }
+    const content = getSourceContent(state, generatedSource.id);
+    if (!content || !isFulfilled(content)) {
+      throw new Error("Cannot pretty-print a file that has not loaded");
+    }
+
+    return prettyPrintSource(
+      sourceMaps,
+      generatedSource,
+      content.value,
+      getSourceActorsForSource(state, generatedSource.id)
+    );
   }
 
   if (isOriginal(source)) {
@@ -53,12 +75,13 @@ async function loadSource(
     return result;
   }
 
-  if (!source.actors.length) {
+  const actors = getSourceActorsForSource(state, source.id);
+  if (!actors.length) {
     throw new Error("No source actor for loadSource");
   }
 
   telemetry.start(loadSourceHistogram, source);
-  const response = await client.sourceContents(source.actors[0]);
+  const response = await client.sourceContents(actors[0]);
   telemetry.finish(loadSourceHistogram, source);
 
   return {
@@ -68,65 +91,67 @@ async function loadSource(
 }
 
 async function loadSourceTextPromise(
+  cx: Context,
   source: Source,
-  epoch: number,
   { dispatch, getState, client, sourceMaps }: ThunkArgs
 ): Promise<?Source> {
-  if (isLoaded(source)) {
-    return source;
-  }
-
+  const epoch = getSourcesEpoch(getState());
   await dispatch({
     type: "LOAD_SOURCE_TEXT",
     sourceId: source.id,
     epoch,
-    [PROMISE]: loadSource(getState(), source, { sourceMaps, client })
+    [PROMISE]: loadSource(getState(), source, { sourceMaps, client, getState })
   });
 
   const newSource = getSource(getState(), source.id);
+
   if (!newSource) {
     return;
   }
+  const content = getSourceContent(getState(), newSource.id);
 
-  if (!newSource.isWasm && isLoaded(newSource)) {
-    parser.setSource(newSource);
-    await dispatch(setBreakpointPositions(newSource.id));
+  if (!newSource.isWasm && content) {
+    parser.setSource(
+      newSource.id,
+      isFulfilled(content)
+        ? content.value
+        : { type: "text", value: "", contentType: undefined }
+    );
+
+    await dispatch(setBreakableLines(cx, source.id));
+    // Update the text in any breakpoints for this source by re-adding them.
+    const breakpoints = getBreakpointsForSource(getState(), source.id);
+    for (const { location, options, disabled } of breakpoints) {
+      await dispatch(addBreakpoint(cx, location, options, disabled));
+    }
   }
 
   return newSource;
 }
 
-/**
- * @memberof actions/sources
- * @static
- */
-export function loadSourceText(inputSource: ?Source) {
-  return async (thunkArgs: ThunkArgs) => {
-    if (!inputSource) {
-      return;
-    }
-    // This ensures that the falsy check above is preserved into the IIFE
-    // below in a way that Flow is happy with.
-    const source = inputSource;
-
-    const epoch = getSourcesEpoch(thunkArgs.getState());
-
-    const id = `${epoch}:${source.id}`;
-    let promise = requests.get(id);
-    if (!promise) {
-      promise = (async () => {
-        try {
-          return await loadSourceTextPromise(source, epoch, thunkArgs);
-        } catch (e) {
-          // TODO: This swallows errors for now. Ideally we would get rid of
-          // this once we have a better handle on our async state management.
-        } finally {
-          requests.delete(id);
-        }
-      })();
-      requests.set(id, promise);
-    }
-
-    return promise;
+export function loadSourceById(cx: Context, sourceId: string) {
+  return ({ getState, dispatch }: ThunkArgs) => {
+    const source = getSourceFromId(getState(), sourceId);
+    return dispatch(loadSourceText({ cx, source }));
   };
 }
+
+export const loadSourceText: MemoizedAction<
+  { cx: Context, source: Source },
+  ?Source
+> = memoizeableAction("loadSourceText", {
+  exitEarly: ({ source }) => !source,
+  hasValue: ({ source }, { getState }) => {
+    return !!(
+      getSource(getState(), source.id) &&
+      getSourceWithContent(getState(), source.id).content
+    );
+  },
+  getValue: ({ source }, { getState }) => getSource(getState(), source.id),
+  createKey: ({ source }, { getState }) => {
+    const epoch = getSourcesEpoch(getState());
+    return `${epoch}:${source.id}`;
+  },
+  action: ({ cx, source }, thunkArgs) =>
+    loadSourceTextPromise(cx, source, thunkArgs)
+});

@@ -6,49 +6,58 @@
 
 import {
   getSource,
-  getMapScopes,
+  getSourceContent,
+  isMapScopesEnabled,
   getSelectedFrame,
   getSelectedGeneratedScope,
   getSelectedOriginalScope,
-  getCurrentThread
+  getThreadContext
 } from "../../selectors";
 import { loadSourceText } from "../sources/loadSourceText";
 import { PROMISE } from "../utils/middleware/promise";
+import assert from "../../utils/assert";
 
-import { features } from "../../utils/prefs";
 import { log } from "../../utils/log";
 import { isGenerated, isOriginal } from "../../utils/source";
-import type { Frame, Scope } from "../../types";
+import type { Frame, Scope, ThreadContext } from "../../types";
 
 import type { ThunkArgs } from "../types";
 
 import { buildMappedScopes } from "../../utils/pause/mapScopes";
+import { isFulfilled } from "../../utils/async-value";
 
 export function toggleMapScopes() {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
-    if (getMapScopes(getState())) {
+    if (isMapScopesEnabled(getState())) {
       return dispatch({ type: "TOGGLE_MAP_SCOPES", mapScopes: false });
     }
 
     dispatch({ type: "TOGGLE_MAP_SCOPES", mapScopes: true });
 
-    const thread = getCurrentThread(getState());
-    if (getSelectedOriginalScope(getState(), thread)) {
+    const cx = getThreadContext(getState());
+
+    if (getSelectedOriginalScope(getState(), cx.thread)) {
       return;
     }
 
-    const scopes = getSelectedGeneratedScope(getState(), thread);
-    const frame = getSelectedFrame(getState(), thread);
+    const scopes = getSelectedGeneratedScope(getState(), cx.thread);
+    const frame = getSelectedFrame(getState(), cx.thread);
     if (!scopes || !frame) {
       return;
     }
 
-    dispatch(mapScopes(Promise.resolve(scopes.scope), frame));
+    dispatch(mapScopes(cx, Promise.resolve(scopes.scope), frame));
   };
 }
 
-export function mapScopes(scopes: Promise<Scope>, frame: Frame) {
+export function mapScopes(
+  cx: ThreadContext,
+  scopes: Promise<Scope>,
+  frame: Frame
+) {
   return async function({ dispatch, getState, client, sourceMaps }: ThunkArgs) {
+    assert(cx.thread == frame.thread, "Thread mismatch");
+
     const generatedSource = getSource(
       getState(),
       frame.generatedLocation.sourceId
@@ -58,11 +67,12 @@ export function mapScopes(scopes: Promise<Scope>, frame: Frame) {
 
     await dispatch({
       type: "MAP_SCOPES",
-      thread: frame.thread,
+      cx,
+      thread: cx.thread,
       frame,
       [PROMISE]: (async function() {
         if (
-          !features.mapScopes ||
+          !isMapScopesEnabled(getState()) ||
           !source ||
           !generatedSource ||
           generatedSource.isWasm ||
@@ -72,14 +82,21 @@ export function mapScopes(scopes: Promise<Scope>, frame: Frame) {
           return null;
         }
 
-        await dispatch(loadSourceText(source));
+        await dispatch(loadSourceText({ cx, source }));
         if (isOriginal(source)) {
-          await dispatch(loadSourceText(generatedSource));
+          await dispatch(loadSourceText({ cx, source: generatedSource }));
         }
 
         try {
+          const content =
+            getSource(getState(), source.id) &&
+            getSourceContent(getState(), source.id);
+
           return await buildMappedScopes(
             source,
+            content && isFulfilled(content)
+              ? content.value
+              : { type: "text", value: "", contentType: undefined },
             frame,
             await scopes,
             sourceMaps,

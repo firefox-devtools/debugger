@@ -11,11 +11,14 @@ import { showMenu } from "devtools-contextmenu";
 
 import SourceIcon from "../shared/SourceIcon";
 import AccessibleImage from "../shared/AccessibleImage";
+import { getDisplayName, isWorker } from "../../utils/workers";
 
 import {
   getGeneratedSourceByURL,
   getHasSiblingOfSameName,
-  hasPrettySource as checkHasPrettySource
+  hasPrettySource as checkHasPrettySource,
+  getContext,
+  getMainThread
 } from "../../selectors";
 import actions from "../../actions";
 
@@ -30,9 +33,11 @@ import { copyToTheClipboard } from "../../utils/clipboard";
 import { features } from "../../utils/prefs";
 
 import type { TreeNode } from "../../utils/sources-tree/types";
-import type { Source } from "../../types";
+import type { Source, Context, MainThread, Thread } from "../../types";
 
 type Props = {
+  autoExpand: ?boolean,
+  cx: Context,
   debuggeeUrl: string,
   projectRoot: string,
   source: ?Source,
@@ -40,6 +45,8 @@ type Props = {
   depth: number,
   focused: boolean,
   expanded: boolean,
+  threads: Thread[],
+  mainThread: MainThread,
   hasMatchingGeneratedSource: boolean,
   hasSiblingOfSameName: boolean,
   hasPrettySource: boolean,
@@ -63,47 +70,17 @@ type MenuOption = {
 type ContextMenu = Array<MenuOption>;
 
 class SourceTreeItem extends Component<Props, State> {
-  getIcon(item: TreeNode, depth: number) {
-    const { debuggeeUrl, projectRoot, source, hasPrettySource } = this.props;
-
-    if (item.path === "webpack://") {
-      return <AccessibleImage className="webpack" />;
-    } else if (item.path === "ng://") {
-      return <AccessibleImage className="angular" />;
-    } else if (isUrlExtension(item.path) && depth === 0) {
-      return <AccessibleImage className="extension" />;
+  componentDidMount() {
+    const { autoExpand, item } = this.props;
+    if (autoExpand) {
+      this.props.setExpanded(item, true, false);
     }
-
-    if (depth === 0 && projectRoot === "") {
-      return (
-        <AccessibleImage
-          className={classnames("globe-small", {
-            debuggee: debuggeeUrl && debuggeeUrl.includes(item.name)
-          })}
-        />
-      );
-    }
-
-    if (isDirectory(item)) {
-      return <AccessibleImage className="folder" />;
-    }
-
-    if (hasPrettySource) {
-      return <AccessibleImage className="prettyPrint" />;
-    }
-
-    if (source) {
-      return <SourceIcon source={source} />;
-    }
-
-    return null;
   }
 
   onClick = (e: MouseEvent) => {
     const { item, focusItem, selectItem } = this.props;
 
     focusItem(item);
-
     if (!isDirectory(item)) {
       selectItem(item);
     }
@@ -134,7 +111,7 @@ class SourceTreeItem extends Component<Props, State> {
           click: () => copyToTheClipboard(contents.url)
         };
 
-        const { source } = this.props;
+        const { cx, source } = this.props;
         if (source) {
           const blackBoxMenuItem = {
             id: "node-menu-blackbox",
@@ -143,7 +120,7 @@ class SourceTreeItem extends Component<Props, State> {
               : L10N.getStr("sourceFooter.blackbox"),
             accesskey: L10N.getStr("sourceFooter.blackbox.accesskey"),
             disabled: !shouldBlackbox(source),
-            click: () => this.props.toggleBlackBox(source)
+            click: () => this.props.toggleBlackBox(cx, source)
           };
           menuOptions.push(copySourceUri2, blackBoxMenuItem);
         }
@@ -155,14 +132,14 @@ class SourceTreeItem extends Component<Props, State> {
 
       if (features.root) {
         const { path } = item;
-        const { projectRoot } = this.props;
+        const { cx, projectRoot } = this.props;
 
         if (projectRoot.endsWith(path)) {
           menuOptions.push({
             id: "node-remove-directory-root",
             label: removeDirectoryRootLabel,
             disabled: false,
-            click: () => this.props.clearProjectDirectoryRoot()
+            click: () => this.props.clearProjectDirectoryRoot(cx)
           });
         } else {
           menuOptions.push({
@@ -170,7 +147,7 @@ class SourceTreeItem extends Component<Props, State> {
             label: setDirectoryRootLabel,
             accesskey: setDirectoryRootKey,
             disabled: false,
-            click: () => this.props.setProjectDirectoryRoot(path)
+            click: () => this.props.setProjectDirectoryRoot(cx, path)
           });
         }
       }
@@ -206,8 +183,69 @@ class SourceTreeItem extends Component<Props, State> {
     );
   }
 
-  renderItemName() {
-    const { item } = this.props;
+  renderIcon(item: TreeNode, depth: number) {
+    const {
+      debuggeeUrl,
+      projectRoot,
+      source,
+      hasPrettySource,
+      threads
+    } = this.props;
+
+    if (item.name === "webpack://") {
+      return <AccessibleImage className="webpack" />;
+    } else if (item.name === "ng://") {
+      return <AccessibleImage className="angular" />;
+    } else if (isUrlExtension(item.path) && depth === 1) {
+      return <AccessibleImage className="extension" />;
+    }
+
+    // Threads level
+    if (depth === 0 && projectRoot === "") {
+      const thread = threads.find(thrd => thrd.actor == item.name);
+
+      if (thread) {
+        const icon = thread === this.props.mainThread ? "window" : "worker";
+        return (
+          <AccessibleImage
+            className={classnames(icon, {
+              debuggee: debuggeeUrl && debuggeeUrl.includes(item.name)
+            })}
+          />
+        );
+      }
+    }
+
+    if (isDirectory(item)) {
+      // Domain level
+      if (depth === 1) {
+        return <AccessibleImage className="globe-small" />;
+      }
+      return <AccessibleImage className="folder" />;
+    }
+
+    if (hasPrettySource) {
+      return <AccessibleImage className="prettyPrint" />;
+    }
+
+    if (source) {
+      return <SourceIcon source={source} />;
+    }
+
+    return null;
+  }
+
+  renderItemName(depth) {
+    const { item, threads } = this.props;
+
+    if (depth === 0) {
+      const thread = threads.find(({ actor }) => actor == item.name);
+      if (thread) {
+        return isWorker(thread)
+          ? getDisplayName((thread: any))
+          : L10N.getStr("mainThread");
+      }
+    }
 
     switch (item.name) {
       case "ng://":
@@ -251,10 +289,9 @@ class SourceTreeItem extends Component<Props, State> {
         onContextMenu={e => this.onContextMenu(e, item)}
       >
         {this.renderItemArrow()}
-        {this.getIcon(item, depth)}
+        {this.renderIcon(item, depth)}
         <span className="label">
-          {" "}
-          {this.renderItemName()}
+          {this.renderItemName(depth)}
           {query} {suffix}
         </span>
       </div>
@@ -273,6 +310,8 @@ function getHasMatchingGeneratedSource(state, source: ?Source) {
 const mapStateToProps = (state, props) => {
   const { source } = props;
   return {
+    cx: getContext(state),
+    mainThread: getMainThread(state),
     hasMatchingGeneratedSource: getHasMatchingGeneratedSource(state, source),
     hasSiblingOfSameName: getHasSiblingOfSameName(state, source),
     hasPrettySource: source ? checkHasPrettySource(state, source.id) : false

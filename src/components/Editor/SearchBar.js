@@ -13,11 +13,13 @@ import actions from "../../actions";
 import {
   getActiveSearch,
   getSelectedSource,
+  getSourceContent,
   getSelectedLocation,
   getFileSearchQuery,
   getFileSearchModifiers,
   getFileSearchResults,
-  getHighlightedLineRange
+  getHighlightedLineRange,
+  getContext
 } from "../../selectors";
 
 import { removeOverlay } from "../../utils/editor";
@@ -25,7 +27,7 @@ import { removeOverlay } from "../../utils/editor";
 import { scrollList } from "../../utils/result-list";
 import classnames from "classnames";
 
-import type { Source } from "../../types";
+import type { Source, Context } from "../../types";
 import type { Modifiers, SearchResults } from "../../reducers/file-search";
 
 import SearchInput from "../shared/SearchInput";
@@ -54,8 +56,10 @@ type State = {
 };
 
 type Props = {
+  cx: Context,
   editor: SourceEditor,
   selectedSource?: Source,
+  selectedContentLoaded: boolean,
   searchOn: boolean,
   searchResults: SearchResults,
   modifiers: Modifiers,
@@ -135,10 +139,10 @@ class SearchBar extends Component<Props, State> {
   };
 
   closeSearch = (e: SyntheticEvent<HTMLElement>) => {
-    const { closeFileSearch, editor, searchOn } = this.props;
+    const { cx, closeFileSearch, editor, searchOn } = this.props;
     if (editor && searchOn) {
       this.clearSearch();
-      closeFileSearch(editor);
+      closeFileSearch(cx, editor);
       e.stopPropagation();
       e.preventDefault();
     }
@@ -167,12 +171,12 @@ class SearchBar extends Component<Props, State> {
   };
 
   doSearch = (query: string) => {
-    const { selectedSource } = this.props;
-    if (!selectedSource || !selectedSource.text) {
+    const { cx, selectedSource, selectedContentLoaded } = this.props;
+    if (!selectedSource || !selectedContentLoaded) {
       return;
     }
 
-    this.props.doSearch(query, this.props.editor);
+    this.props.doSearch(cx, query, this.props.editor);
   };
 
   traverseResults = (e: SyntheticEvent<HTMLElement>, rev: boolean) => {
@@ -183,7 +187,7 @@ class SearchBar extends Component<Props, State> {
     if (!editor) {
       return;
     }
-    this.props.traverseResults(rev, editor);
+    this.props.traverseResults(this.props.cx, rev, editor);
   };
 
   // Handlers
@@ -232,7 +236,7 @@ class SearchBar extends Component<Props, State> {
   }
 
   renderSearchModifiers = () => {
-    const { modifiers, toggleFileSearchModifier, query } = this.props;
+    const { cx, modifiers, toggleFileSearchModifier, query } = this.props;
     const { doSearch } = this;
 
     function SearchModBtn({ modVal, className, svgName, tooltip }) {
@@ -243,12 +247,12 @@ class SearchBar extends Component<Props, State> {
         <button
           className={preppedClass}
           onMouseDown={() => {
-            toggleFileSearchModifier(modVal);
+            toggleFileSearchModifier(cx, modVal);
             doSearch(query);
           }}
           onKeyDown={(e: any) => {
             if (e.key === "Enter") {
-              toggleFileSearchModifier(modVal);
+              toggleFileSearchModifier(cx, modVal);
               doSearch(query);
             }
           }}
@@ -306,6 +310,7 @@ class SearchBar extends Component<Props, State> {
     if (!searchOn) {
       return <div />;
     }
+
     return (
       <div className="search-bar">
         <SearchInput
@@ -340,15 +345,23 @@ SearchBar.contextTypes = {
   shortcuts: PropTypes.object
 };
 
-const mapStateToProps = state => ({
-  searchOn: getActiveSearch(state) === "file",
-  selectedSource: getSelectedSource(state),
-  selectedLocation: getSelectedLocation(state),
-  query: getFileSearchQuery(state),
-  modifiers: getFileSearchModifiers(state),
-  highlightedLineRange: getHighlightedLineRange(state),
-  searchResults: getFileSearchResults(state)
-});
+const mapStateToProps = state => {
+  const selectedSource = getSelectedSource(state);
+
+  return {
+    cx: getContext(state),
+    searchOn: getActiveSearch(state) === "file",
+    selectedSource,
+    selectedContentLoaded: selectedSource
+      ? !!getSourceContent(state, selectedSource.id)
+      : null,
+    selectedLocation: getSelectedLocation(state),
+    query: getFileSearchQuery(state),
+    modifiers: getFileSearchModifiers(state),
+    highlightedLineRange: getHighlightedLineRange(state),
+    searchResults: getFileSearchResults(state)
+  };
+};
 
 export default connect(
   mapStateToProps,

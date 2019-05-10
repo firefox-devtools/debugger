@@ -99,6 +99,21 @@ DebuggerPanel.prototype = {
     return Promise.all([onNodeFrontSet, onInspectorUpdated]);
   },
 
+  highlightDomElement: async function(grip) {
+    await this.toolbox.initInspector();
+    if (!this.toolbox.highlighter) {
+      return null;
+    }
+    const nodeFront = await this.toolbox.walker.gripToNodeFront(grip);
+    return this.toolbox.highlighter.highlight(nodeFront);
+  },
+
+  unHighlightDomElement: function() {
+    return this.toolbox.highlighter
+      ? this.toolbox.highlighter.unhighlight(false)
+      : null;
+  },
+
   getFrames: function() {
     const thread = this._selectors.getCurrentThread(this._getState());
     const frames = this._selectors.getFrames(this._getState(), thread);
@@ -124,6 +139,10 @@ DebuggerPanel.prototype = {
     return { frames, selected };
   },
 
+  lookupConsoleClient: function(thread) {
+    return this._client.lookupConsoleClient(thread);
+  },
+
   getMappedExpression(expression) {
     return this._actions.getMappedExpression(expression);
   },
@@ -133,12 +152,14 @@ DebuggerPanel.prototype = {
     return this._selectors.getIsPaused(this._getState(), thread);
   },
 
-  selectSourceURL(url, line) {
-    return this._actions.selectSourceURL(url, { line });
+  selectSourceURL(url, line, column) {
+    const cx = this._selectors.getContext(this._getState());
+    return this._actions.selectSourceURL(cx, url, { line, column });
   },
 
-  selectSource(sourceId, line) {
-    return this._actions.selectSource(sourceId, { line });
+  selectSource(sourceId, line, column) {
+    const cx = this._selectors.getContext(this._getState());
+    return this._actions.selectSource(cx, sourceId, { line, column });
   },
 
   getSourceByActorId(sourceId) {

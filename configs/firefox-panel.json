@@ -6,10 +6,10 @@
     "mcPath": "./firefox"
   },
   "workers": {
-    "parserURL": "resource://devtools/client/debugger/new/parser-worker.js",
+    "parserURL": "resource://devtools/client/debugger/parser-worker.js",
     "prettyPrintURL":
-      "resource://devtools/client/debugger/new/pretty-print-worker.js",
-    "searchURL": "resource://devtools/client/debugger/new/search-worker.js"
+      "resource://devtools/client/debugger/pretty-print-worker.js",
+    "searchURL": "resource://devtools/client/debugger/search-worker.js"
   },
   "features": {}
 }

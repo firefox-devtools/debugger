@@ -52,12 +52,12 @@ html[dir="rtl"] .object-node {
   white-space: nowrap;
 }
 
-.scopes-list {
-  padding: 4px 0px;
-}
-
 .scopes-pane ._content {
   overflow: auto;
+}
+
+.scopes-list {
+  padding: 4px 0px;
 }
 
 .scopes-list .function-signature {

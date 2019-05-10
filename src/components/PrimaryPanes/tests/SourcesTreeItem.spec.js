@@ -87,7 +87,7 @@ describe("SourceTreeItem", () => {
         {
           accesskey: "B",
           click: expect.any(Function),
-          disabled: true,
+          disabled: false,
           id: "node-menu-blackbox",
           label: "Blackbox source"
         }
@@ -126,7 +126,7 @@ describe("SourceTreeItem", () => {
         {
           accesskey: "B",
           click: expect.any(Function),
-          disabled: true,
+          disabled: false,
           id: "node-menu-blackbox",
           label: "Blackbox source"
         }
@@ -375,6 +375,7 @@ function generateDefaults(overrides) {
     selectItem: jest.fn(),
     focusItem: jest.fn(),
     setExpanded: jest.fn(),
+    threads: [{ name: "Main Thread" }],
     ...overrides
   };
 }
@@ -389,7 +390,11 @@ function render(overrides = {}) {
   return { component, props, defaultState, instance };
 }
 
-function createMockDirectory(path = "folder/", name = "folder", contents = []) {
+function createMockDirectory(
+  path = "domain/subfolder",
+  name = "folder",
+  contents = []
+) {
   return {
     type: "directory",
     name,

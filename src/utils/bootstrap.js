@@ -70,7 +70,7 @@ export function bootstrapStore(
 export function bootstrapWorkers() {
   const workerPath = isDevelopment()
     ? "assets/build"
-    : "resource://devtools/client/debugger/new/dist";
+    : "resource://devtools/client/debugger/dist";
 
   if (isDevelopment()) {
     // When used in Firefox, the toolbox manages the source map worker.

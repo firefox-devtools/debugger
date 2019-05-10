@@ -8,9 +8,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 const getConfig = require("./bin/getConfig");
 const mozillaCentralMappings = require("./configs/mozilla-central-mappings");
-const { NormalModuleReplacementPlugin } = require("webpack");
 const path = require("path");
-var Visualizer = require("webpack-visualizer-plugin");
 const ObjectRestSpreadPlugin = require("@sucrase/webpack-object-rest-spread-plugin");
 
 const isProduction = process.env.NODE_ENV === "production";
@@ -28,9 +26,6 @@ const webpackConfig = {
   entry: {
     // We always generate the debugger bundle, but we will only copy the CSS
     // artifact over to mozilla-central.
-    debugger: getEntry(
-      isProduction ? "src/main.js" : "src/main.development.js"
-    ),
     "parser-worker": getEntry("src/workers/parser/worker.js"),
     "pretty-print-worker": getEntry("src/workers/pretty-print/worker.js"),
     "search-worker": getEntry("src/workers/search/worker.js"),
@@ -60,6 +55,8 @@ if (isProduction) {
   // compatible with the DevTools Loader.
   webpackConfig.entry.vendors = getEntry("src/vendors.js");
   webpackConfig.entry.reps = getEntry("packages/devtools-reps/src/index.js");
+} else {
+  webpackConfig.entry.debugger = getEntry("src/main.development.js");
 }
 
 const envConfig = getConfig();
@@ -75,26 +72,8 @@ if (!isProduction) {
   webpackConfig.module.rules = webpackConfig.module.rules || [];
 } else {
   webpackConfig.output.libraryTarget = "umd";
-
-  if (process.env.vis) {
-    const viz = new Visualizer({
-      filename: "webpack-stats.html"
-    });
-    webpackConfig.plugins.push(viz);
-  }
-
-  const mappings = [
-    [/\.\/mocha/, "./mochitest"],
-    [/\.\.\/utils\/mocha/, "../utils/mochitest"],
-    [/\.\/utils\/mocha/, "./utils/mochitest"],
-    [/\.\/percy-stub/, "./percy-webpack"]
-  ];
-
   extra.excludeMap = mozillaCentralMappings;
-
-  mappings.forEach(([regex, res]) => {
-    webpackConfig.plugins.push(new NormalModuleReplacementPlugin(regex, res));
-  });
+  extra.recordsPath = "bin/module-manifest.json";
 }
 
 module.exports = toolbox.toolboxConfig(webpackConfig, envConfig, extra);

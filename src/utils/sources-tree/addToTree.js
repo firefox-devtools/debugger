@@ -90,15 +90,25 @@ function traverseTree(
   url: ParsedURL,
   tree: TreeDirectory,
   debuggeeHost: ?string,
-  source: Source
+  source: Source,
+  thread: string
 ): TreeNode {
   const parts = url.path.split("/").filter(p => p !== "");
   parts.unshift(url.group);
+  if (thread) {
+    parts.unshift(thread);
+  }
 
   let path = "";
   return parts.reduce((subTree, part, index) => {
-    path = path ? `${path}/${part}` : part;
-    const debuggeeHostIfRoot = index === 0 ? debuggeeHost : null;
+    if (index == 0 && thread) {
+      path = thread;
+    } else {
+      path = `${path}/${part}`;
+    }
+
+    const debuggeeHostIfRoot = index === 1 ? debuggeeHost : null;
+
     return findOrCreateNode(
       parts,
       subTree,
@@ -166,7 +176,7 @@ export function addToTree(
   tree: TreeDirectory,
   source: Source,
   debuggeeHost: ?string,
-  projectRoot: string
+  thread: string
 ) {
   const url = getURL(source, debuggeeHost);
 
@@ -174,7 +184,7 @@ export function addToTree(
     return;
   }
 
-  const finalNode = traverseTree(url, tree, debuggeeHost, source);
+  const finalNode = traverseTree(url, tree, debuggeeHost, source, thread);
 
   // $FlowIgnore
   finalNode.contents = addSourceToNode(finalNode, url, source);

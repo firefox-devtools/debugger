@@ -47,7 +47,7 @@ function getL10nBundle() {
   try {
     return read("./assets/panel/debugger.properties");
   } catch (e) {
-    return read("../../locales/en-US/debugger.properties");
+    return read("../locales/en-US/debugger.properties");
   }
 }
 
@@ -116,7 +116,7 @@ function mockIndexeddDB() {
 // NOTE: We polyfill finally because TRY uses node 8
 if (!global.Promise.prototype.finally) {
   global.Promise.prototype.finally = function finallyPolyfill(callback) {
-    var constructor = this.constructor;
+    const constructor = this.constructor;
 
     return this.then(
       function(value) {

@@ -16,9 +16,11 @@ import {
   getQuickOpenQuery,
   getQuickOpenType,
   getSelectedSource,
+  getSourceContent,
   getSymbols,
   getTabs,
-  isSymbolsLoading
+  isSymbolsLoading,
+  getContext
 } from "../selectors";
 import { scrollList } from "../utils/result-list";
 import {
@@ -36,16 +38,18 @@ import type {
   QuickOpenResult
 } from "../utils/quick-open";
 
-import type { Source } from "../types";
+import type { Source, Context } from "../types";
 import type { QuickOpenType } from "../reducers/quick-open";
 import type { Tab } from "../reducers/tabs";
 
 import "./QuickOpenModal.css";
 
 type Props = {
+  cx: Context,
   enabled: boolean,
-  selectedSource?: Source,
   displayedSources: Source[],
+  selectedSource?: Source,
+  selectedContentLoaded?: boolean,
   query: string,
   searchType: QuickOpenType,
   symbols: FormattedSymbolDeclarations,
@@ -135,6 +139,7 @@ export class QuickOpenModal extends Component<Props, State> {
     const { displayedSources, tabs } = this.props;
     const tabUrls = new Set(tabs.map((tab: Tab) => tab.url));
     const sources = formatSources(displayedSources, tabUrls);
+
     const results =
       query == "" ? sources : filter(sources, this.dropGoto(query));
     return this.setResults(results);
@@ -266,11 +271,11 @@ export class QuickOpenModal extends Component<Props, State> {
   };
 
   gotoLocation = (location: ?GotoLocationType) => {
-    const { selectSpecificLocation, selectedSource } = this.props;
+    const { cx, selectSpecificLocation, selectedSource } = this.props;
     const selectedSourceId = selectedSource ? selectedSource.id : "";
     if (location != null) {
       const sourceId = location.sourceId ? location.sourceId : selectedSourceId;
-      selectSpecificLocation({
+      selectSpecificLocation(cx, {
         sourceId,
         line: location.line,
         column: location.column
@@ -280,9 +285,13 @@ export class QuickOpenModal extends Component<Props, State> {
   };
 
   onChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
-    const { selectedSource, setQuickOpenQuery } = this.props;
+    const {
+      selectedSource,
+      selectedContentLoaded,
+      setQuickOpenQuery
+    } = this.props;
     setQuickOpenQuery(e.target.value);
-    const noSource = !selectedSource || !selectedSource.text;
+    const noSource = !selectedSource || !selectedContentLoaded;
     if ((this.isSymbolSearch() && noSource) || this.isGotoQuery()) {
       return;
     }
@@ -437,12 +446,17 @@ export class QuickOpenModal extends Component<Props, State> {
 /* istanbul ignore next: ignoring testing of redux connection stuff */
 function mapStateToProps(state) {
   const selectedSource = getSelectedSource(state);
+  const displayedSources = getDisplayedSourcesList(state);
   const tabs = getTabs(state);
 
   return {
+    cx: getContext(state),
     enabled: getQuickOpenEnabled(state),
+    displayedSources,
     selectedSource,
-    displayedSources: getDisplayedSourcesList(state),
+    selectedContentLoaded: selectedSource
+      ? !!getSourceContent(state, selectedSource.id)
+      : undefined,
     symbols: formatSymbols(getSymbols(state, selectedSource)),
     symbolsLoading: isSymbolsLoading(state, selectedSource),
     query: getQuickOpenQuery(state),

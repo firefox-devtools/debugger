@@ -153,7 +153,6 @@ class App extends Component<Props, State> {
       closeQuickOpen,
       quickOpenEnabled
     } = this.props;
-
     const { shortcutsModalEnabled } = this.state;
 
     if (activeSearch) {

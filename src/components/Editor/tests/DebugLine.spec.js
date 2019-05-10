@@ -10,7 +10,9 @@ import { shallow } from "enzyme";
 
 import DebugLine from "../DebugLine";
 
-import { makeSource } from "../../../utils/test-head";
+import type { SourceWithContent } from "../../../types";
+import * as asyncValue from "../../../utils/async-value";
+import { createSourceObject } from "../../../utils/test-head";
 import { setDocument, toEditorLine } from "../../../utils/editor";
 
 function createMockDocument(clear) {
@@ -31,7 +33,10 @@ function generateDefaults(editor, overrides) {
       why: { type: "breakpoint" }
     },
     frame: null,
-    source: makeSource("foo"),
+    source: ({
+      source: createSourceObject("foo"),
+      content: null
+    }: SourceWithContent),
     ...overrides
   };
 }
@@ -52,7 +57,7 @@ function render(overrides = {}) {
   const props = generateDefaults(editor, overrides);
 
   const doc = createMockDocument(clear);
-  setDocument(props.source.id, doc);
+  setDocument(props.source.source.id, doc);
 
   // $FlowIgnore
   const component = shallow(<DebugLine.WrappedComponent {...props} />, {
@@ -65,7 +70,14 @@ describe("DebugLine Component", () => {
   describe("pausing at the first location", () => {
     it("should show a new debug line", async () => {
       const { component, props, doc } = render({
-        source: makeSource("foo", { loadedState: "loaded" })
+        source: {
+          source: createSourceObject("foo"),
+          content: asyncValue.fulfilled({
+            type: "text",
+            value: "",
+            contentType: undefined
+          })
+        }
       });
       const line = 2;
       const frame = createFrame(line);
@@ -81,7 +93,14 @@ describe("DebugLine Component", () => {
     describe("pausing at a new location", () => {
       it("should replace the first debug line", async () => {
         const { props, component, clear, doc } = render({
-          source: makeSource("foo", { loadedState: "loaded" })
+          source: {
+            source: createSourceObject("foo"),
+            content: asyncValue.fulfilled({
+              type: "text",
+              value: "",
+              contentType: undefined
+            })
+          }
         });
 
         component.instance().debugExpression = { clear: jest.fn() };
