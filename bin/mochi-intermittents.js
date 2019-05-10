@@ -18,7 +18,7 @@ and looking for `TEST-START <test-name>`
 function run(count) {
   fs.writeFileSync("logs", "");
   const headlessParam = headless ? '': `-- --setenv MOZ_HEADLESS=1`
-  const cmd = `mochii --ci true --mc ./firefox --default-test-path devtools/client/debugger/new`;
+  const cmd = `mochii --ci true --mc ./firefox --default-test-path devtools/client/debugger`;
   _.times(count).forEach(i => {
     console.log(`### RUN ${i}`);
     fs.appendFileSync("logs", `### RUN ${i}`);

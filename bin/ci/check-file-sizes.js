@@ -16,7 +16,7 @@ function checkFileSizes() {
   Object.keys(fileSizes).forEach(key => {
     const fullFirefoxPath = path.join(process.cwd(), firefoxPath);
     const testFile = fs.readFileSync(
-      path.join(fullFirefoxPath, `devtools/client/debugger/new/dist/${key}`),
+      path.join(fullFirefoxPath, `devtools/client/debugger/dist/${key}`),
       "utf8"
     );
     const lineCount = testFile.split("\n").length;
