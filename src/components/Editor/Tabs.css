@@ -8,6 +8,8 @@
   height: var(--editor-header-height);
   border-bottom: 1px solid var(--theme-splitter-color);
   background-color: var(--theme-toolbar-background);
+  position: absolute;
+  z-index: 6;
 }
 
 .source-header * {
