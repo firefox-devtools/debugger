@@ -355,7 +355,7 @@ The mochitest cli has a lot of advanced options that are worth learning about. H
 
 ```
 cd firefox
-./mach mochitest devtools/client/debugger/new # runs all the debugger tests
+./mach mochitest devtools/client/debugger # runs all the debugger tests
 ./mach mochitest browser_dbg-editor-highlight # runs one test
 ./mach mochitest --jsdebugger browser_dbg-editor-highlight # runs one test with the browser toolbox open
 ```
@@ -367,7 +367,7 @@ Visit the [mochitest](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/
 If symbolic link is suddenly lost between debugger and Firefox source, in your terminal, try the following
 
 1. Navigate to the firefox directory (i.e. `cd ~/debugger/firefox`)
-2. Execute `./mach mochitest --headless devtools/client/debugger/new`
+2. Execute `./mach mochitest --headless devtools/client/debugger`
 
 If a symbolic link occurs, error message(s) will be displayed.
 

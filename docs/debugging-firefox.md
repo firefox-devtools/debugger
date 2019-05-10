@@ -9,7 +9,7 @@
 
 ### Firefox Code Base
 
-Firefox is a large project, but for the most part the relevant source code is in `/devtools`. The debugger client, is in `/devtools/client/debugger/new`.
+Firefox is a large project, but for the most part the relevant source code is in `/devtools`. The debugger client, is in `/devtools/client/debugger`.
 
 #### Updating the Debugger
 
