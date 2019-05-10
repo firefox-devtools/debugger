@@ -64,7 +64,7 @@
 .split-box.horz > .splitter {
   /* prettier-ignore */
   min-height: calc(var(--devtools-splitter-top-width) +
-    var(--devtools-splitter-bottom-width) + 2px);
+    var(--devtools-splitter-bottom-width) + 1px);
 
   border-top-width: var(--devtools-splitter-top-width);
   border-bottom-width: var(--devtools-splitter-bottom-width);
@@ -73,10 +73,6 @@
   margin-bottom: calc(-1 * var(--devtools-splitter-bottom-width));
 
   cursor: ns-resize;
-}
-
-.split-box.horz > .splitter:hover {
-  background-color: var(--theme-emphasized-splitter-color-hover);
 }
 
 .split-box.disabled {
