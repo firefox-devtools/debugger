@@ -4,6 +4,7 @@ exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
 <QuickOpenModal
   clearHighlightLineRange={[MockFunction]}
   closeQuickOpen={[MockFunction]}
+  displayedSources={Array []}
   enabled={true}
   highlightLineRange={[MockFunction]}
   isOriginal={false}
@@ -12,7 +13,6 @@ exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
   selectSpecificLocation={[MockFunction]}
   setQuickOpenQuery={[MockFunction]}
   shortcutsModalEnabled={false}
-  sources={Array []}
   symbols={
     Object {
       "functions": Array [],
@@ -93,9 +93,7 @@ exports[`QuickOpenModal Basic render with mount & searchType = functions 1`] = `
                     aria-autocomplete="list"
                     aria-controls="result-list"
                     className="empty"
-                    onBlur={[Function]}
                     onChange={[Function]}
-                    onFocus={[Function]}
                     onKeyDown={[Function]}
                     placeholder="Go to file…"
                     spellCheck={false}
@@ -132,6 +130,7 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
 <QuickOpenModal
   clearHighlightLineRange={[MockFunction]}
   closeQuickOpen={[MockFunction]}
+  displayedSources={Array []}
   enabled={true}
   highlightLineRange={[MockFunction]}
   isOriginal={false}
@@ -140,7 +139,6 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
   selectSpecificLocation={[MockFunction]}
   setQuickOpenQuery={[MockFunction]}
   shortcutsModalEnabled={false}
-  sources={Array []}
   symbols={
     Object {
       "functions": Array [],
@@ -221,9 +219,7 @@ exports[`QuickOpenModal Basic render with mount & searchType = variables 1`] = `
                     aria-autocomplete="list"
                     aria-controls="result-list"
                     className="empty"
-                    onBlur={[Function]}
                     onChange={[Function]}
-                    onFocus={[Function]}
                     onKeyDown={[Function]}
                     placeholder="Go to file…"
                     spellCheck={false}
@@ -244,6 +240,7 @@ exports[`QuickOpenModal Basic render with mount 1`] = `
 <QuickOpenModal
   clearHighlightLineRange={[MockFunction]}
   closeQuickOpen={[MockFunction]}
+  displayedSources={Array []}
   enabled={true}
   highlightLineRange={[MockFunction]}
   isOriginal={false}
@@ -252,7 +249,6 @@ exports[`QuickOpenModal Basic render with mount 1`] = `
   selectSpecificLocation={[MockFunction]}
   setQuickOpenQuery={[MockFunction]}
   shortcutsModalEnabled={false}
-  sources={Array []}
   symbols={
     Object {
       "functions": Array [],
@@ -332,9 +328,7 @@ exports[`QuickOpenModal Basic render with mount 1`] = `
                     aria-autocomplete="list"
                     aria-controls="result-list"
                     className=""
-                    onBlur={[Function]}
                     onChange={[Function]}
-                    onFocus={[Function]}
                     onKeyDown={[Function]}
                     placeholder="Go to file…"
                     spellCheck={false}
@@ -406,6 +400,7 @@ exports[`QuickOpenModal Simple goto search query = :abc & searchType = goto 1`] 
 <QuickOpenModal
   clearHighlightLineRange={[MockFunction]}
   closeQuickOpen={[MockFunction]}
+  displayedSources={Array []}
   enabled={true}
   highlightLineRange={[MockFunction]}
   isOriginal={false}
@@ -414,7 +409,6 @@ exports[`QuickOpenModal Simple goto search query = :abc & searchType = goto 1`] 
   selectSpecificLocation={[MockFunction]}
   setQuickOpenQuery={[MockFunction]}
   shortcutsModalEnabled={false}
-  sources={Array []}
   symbols={
     Object {
       "functions": Array [],
@@ -495,9 +489,7 @@ exports[`QuickOpenModal Simple goto search query = :abc & searchType = goto 1`] 
                     aria-autocomplete="list"
                     aria-controls="result-list"
                     className="empty"
-                    onBlur={[Function]}
                     onChange={[Function]}
-                    onFocus={[Function]}
                     onKeyDown={[Function]}
                     placeholder="Go to file…"
                     spellCheck={false}
@@ -523,6 +515,7 @@ exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
 <QuickOpenModal
   clearHighlightLineRange={[MockFunction]}
   closeQuickOpen={[MockFunction]}
+  displayedSources={Array []}
   enabled={true}
   highlightLineRange={[MockFunction]}
   isOriginal={false}
@@ -531,7 +524,6 @@ exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
   selectSpecificLocation={[MockFunction]}
   setQuickOpenQuery={[MockFunction]}
   shortcutsModalEnabled={false}
-  sources={Array []}
   symbols={
     Object {
       "functions": Array [],
@@ -611,9 +603,7 @@ exports[`QuickOpenModal showErrorEmoji false when count + query 1`] = `
                     aria-autocomplete="list"
                     aria-controls="result-list"
                     className=""
-                    onBlur={[Function]}
                     onChange={[Function]}
-                    onFocus={[Function]}
                     onKeyDown={[Function]}
                     placeholder="Go to file…"
                     spellCheck={false}
@@ -682,6 +672,7 @@ exports[`QuickOpenModal showErrorEmoji false when goto numeric ':2222' 1`] = `
 <QuickOpenModal
   clearHighlightLineRange={[MockFunction]}
   closeQuickOpen={[MockFunction]}
+  displayedSources={Array []}
   enabled={true}
   highlightLineRange={[MockFunction]}
   isOriginal={false}
@@ -690,7 +681,6 @@ exports[`QuickOpenModal showErrorEmoji false when goto numeric ':2222' 1`] = `
   selectSpecificLocation={[MockFunction]}
   setQuickOpenQuery={[MockFunction]}
   shortcutsModalEnabled={false}
-  sources={Array []}
   symbols={
     Object {
       "functions": Array [],
@@ -770,9 +760,7 @@ exports[`QuickOpenModal showErrorEmoji false when goto numeric ':2222' 1`] = `
                     aria-autocomplete="list"
                     aria-controls="result-list"
                     className=""
-                    onBlur={[Function]}
                     onChange={[Function]}
-                    onFocus={[Function]}
                     onKeyDown={[Function]}
                     placeholder="Go to file…"
                     spellCheck={false}
@@ -798,6 +786,7 @@ exports[`QuickOpenModal showErrorEmoji false when no query 1`] = `
 <QuickOpenModal
   clearHighlightLineRange={[MockFunction]}
   closeQuickOpen={[MockFunction]}
+  displayedSources={Array []}
   enabled={true}
   highlightLineRange={[MockFunction]}
   isOriginal={false}
@@ -806,7 +795,6 @@ exports[`QuickOpenModal showErrorEmoji false when no query 1`] = `
   selectSpecificLocation={[MockFunction]}
   setQuickOpenQuery={[MockFunction]}
   shortcutsModalEnabled={false}
-  sources={Array []}
   symbols={
     Object {
       "functions": Array [],
@@ -886,9 +874,7 @@ exports[`QuickOpenModal showErrorEmoji false when no query 1`] = `
                     aria-autocomplete="list"
                     aria-controls="result-list"
                     className=""
-                    onBlur={[Function]}
                     onChange={[Function]}
-                    onFocus={[Function]}
                     onKeyDown={[Function]}
                     placeholder="Go to file…"
                     spellCheck={false}
@@ -925,6 +911,7 @@ exports[`QuickOpenModal showErrorEmoji true when goto not numeric ':22k22' 1`] =
 <QuickOpenModal
   clearHighlightLineRange={[MockFunction]}
   closeQuickOpen={[MockFunction]}
+  displayedSources={Array []}
   enabled={true}
   highlightLineRange={[MockFunction]}
   isOriginal={false}
@@ -933,7 +920,6 @@ exports[`QuickOpenModal showErrorEmoji true when goto not numeric ':22k22' 1`] =
   selectSpecificLocation={[MockFunction]}
   setQuickOpenQuery={[MockFunction]}
   shortcutsModalEnabled={false}
-  sources={Array []}
   symbols={
     Object {
       "functions": Array [],
@@ -1013,9 +999,7 @@ exports[`QuickOpenModal showErrorEmoji true when goto not numeric ':22k22' 1`] =
                     aria-autocomplete="list"
                     aria-controls="result-list"
                     className="empty"
-                    onBlur={[Function]}
                     onChange={[Function]}
-                    onFocus={[Function]}
                     onKeyDown={[Function]}
                     placeholder="Go to file…"
                     spellCheck={false}
@@ -1041,6 +1025,7 @@ exports[`QuickOpenModal showErrorEmoji true when no count + query 1`] = `
 <QuickOpenModal
   clearHighlightLineRange={[MockFunction]}
   closeQuickOpen={[MockFunction]}
+  displayedSources={Array []}
   enabled={true}
   highlightLineRange={[MockFunction]}
   isOriginal={false}
@@ -1049,7 +1034,6 @@ exports[`QuickOpenModal showErrorEmoji true when no count + query 1`] = `
   selectSpecificLocation={[MockFunction]}
   setQuickOpenQuery={[MockFunction]}
   shortcutsModalEnabled={false}
-  sources={Array []}
   symbols={
     Object {
       "functions": Array [],
@@ -1129,9 +1113,7 @@ exports[`QuickOpenModal showErrorEmoji true when no count + query 1`] = `
                     aria-autocomplete="list"
                     aria-controls="result-list"
                     className="empty"
-                    onBlur={[Function]}
                     onChange={[Function]}
-                    onFocus={[Function]}
                     onKeyDown={[Function]}
                     placeholder="Go to file…"
                     spellCheck={false}
@@ -1185,6 +1167,7 @@ exports[`QuickOpenModal updateResults on enable 1`] = `
 <QuickOpenModal
   clearHighlightLineRange={[MockFunction]}
   closeQuickOpen={[MockFunction]}
+  displayedSources={Array []}
   enabled={false}
   highlightLineRange={[MockFunction]}
   isOriginal={false}
@@ -1193,7 +1176,6 @@ exports[`QuickOpenModal updateResults on enable 1`] = `
   selectSpecificLocation={[MockFunction]}
   setQuickOpenQuery={[MockFunction]}
   shortcutsModalEnabled={false}
-  sources={Array []}
   symbols={
     Object {
       "functions": Array [],
@@ -1210,6 +1192,7 @@ exports[`QuickOpenModal updateResults on enable 2`] = `
 <QuickOpenModal
   clearHighlightLineRange={[MockFunction]}
   closeQuickOpen={[MockFunction]}
+  displayedSources={Array []}
   enabled={true}
   highlightLineRange={[MockFunction]}
   isOriginal={false}
@@ -1218,7 +1201,6 @@ exports[`QuickOpenModal updateResults on enable 2`] = `
   selectSpecificLocation={[MockFunction]}
   setQuickOpenQuery={[MockFunction]}
   shortcutsModalEnabled={false}
-  sources={Array []}
   symbols={
     Object {
       "functions": Array [],
@@ -1298,9 +1280,7 @@ exports[`QuickOpenModal updateResults on enable 2`] = `
                     aria-autocomplete="list"
                     aria-controls="result-list"
                     className=""
-                    onBlur={[Function]}
                     onChange={[Function]}
-                    onFocus={[Function]}
                     onKeyDown={[Function]}
                     placeholder="Go to file…"
                     spellCheck={false}
