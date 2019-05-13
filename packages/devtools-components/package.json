@@ -27,7 +27,7 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^5.0.0",
     "eslint-plugin-mozilla": "1.2.1",
-    "fs-extra": "^7.0.0",
+    "fs-extra": "^8.0.0",
     "lodash": "^4.17.2"
   }
 }
