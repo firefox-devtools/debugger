@@ -336,15 +336,17 @@ class XHRBreakpoints extends Component<Props, State> {
 
   renderMethodSelectElement = () => {
     return (
-      <select
-        value={this.state.inputMethod}
-        className={"xhr-input-method"}
-        onChange={this.handleMethodChange}
-        onMouseDown={this.onMouseDown}
-        onKeyDown={this.handleTab}
-      >
-        {xhrMethods.map(this.renderMethodOption)}
-      </select>
+      <span className={"xhr-input-method-container"}>
+        <select
+          value={this.state.inputMethod}
+          className={"xhr-input-method"}
+          onChange={this.handleMethodChange}
+          onMouseDown={this.onMouseDown}
+          onKeyDown={this.handleTab}
+        >
+          {xhrMethods.map(this.renderMethodOption)}
+        </select>
+      </span>
     );
   };
 
