@@ -11,6 +11,10 @@ DIRS += [
 
 include('../shared/build/node-templates.mozbuild')
 
+BROWSER_CHROME_MANIFESTS += [
+  'test/mochitest/browser.ini',
+]
+
 DevToolsModules(
     'panel.js',
 )
