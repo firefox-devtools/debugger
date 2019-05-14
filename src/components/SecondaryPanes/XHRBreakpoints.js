@@ -113,7 +113,7 @@ class XHRBreakpoints extends Component<Props, State> {
     // before setting XHR breakpoint
     this.setState(
       // $FlowIgnore
-      { inputMethod: e.target.children[1].value },
+      { inputMethod: e.target.querySelector(".xhr-input-method").value },
       setXHRBreakpoint
     );
   };
