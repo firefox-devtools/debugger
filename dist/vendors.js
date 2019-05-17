@@ -234,6 +234,7 @@ class ArrowExpander extends Component {
 }
 
 const treeIndent = _reactDomFactories2.default.span({ className: "tree-indent" }, "\u200B");
+const treeLastIndent = _reactDomFactories2.default.span({ className: "tree-indent tree-last-indent" }, "\u200B");
 
 class TreeNode extends Component {
   static get propTypes() {
@@ -359,7 +360,13 @@ class TreeNode extends Component {
       ariaExpanded = true;
     }
 
-    const indents = Array.from({ length: depth }).fill(treeIndent);
+    const indents = Array.from({ length: depth }, (_, i) => {
+      if (i == depth - 1) {
+        return treeLastIndent;
+      }
+      return treeIndent;
+    });
+
     const items = indents.concat(renderItem(item, depth, focused, arrow, expanded));
 
     return _reactDomFactories2.default.div({
@@ -2610,12 +2617,12 @@ function showMenu(evt, items) {
   });
 
   if (inToolbox()) {
-    menu.popup(evt.screenX, evt.screenY, { doc: window.parent.document });
+    menu.popup(evt.screenX, evt.screenY, window.parent.document);
     return;
   }
 
   menu.on("open", (_, popup) => onShown(menu, popup));
-  menu.popup(evt.clientX, evt.clientY, { doc: document });
+  menu.popup(evt.clientX, evt.clientY, document);
 }
 
 function createSubMenu(subItems) {
@@ -2754,6 +2761,11 @@ Menu.prototype.insert = function (pos, menuItem) {
   throw Error("Not implemented");
 };
 
+// Copied from m-c DevToolsUtils.
+function getTopWindow(win) {
+  return win.windowRoot ? win.windowRoot.ownerGlobal : win.top;
+}
+
 /**
  * Show the Menu at a specified location on the screen
  *
@@ -2766,8 +2778,9 @@ Menu.prototype.insert = function (pos, menuItem) {
  * @param Toolbox toolbox (non standard)
  *        Needed so we in which window to inject XUL
  */
-Menu.prototype.popup = function (screenX, screenY, toolbox) {
-  let doc = toolbox.doc;
+Menu.prototype.popup = function (screenX, screenY, doc) {
+  const win = doc.defaultView;
+  doc = getTopWindow(doc.defaultView).document;
   let popupset = doc.querySelector("popupset");
   if (!popupset) {
     popupset = doc.createXULElement("popupset");
@@ -2789,10 +2802,15 @@ Menu.prototype.popup = function (screenX, screenY, toolbox) {
     popup.id = this.id;
   }
   this._createMenuItems(popup);
+  // The context menu will be created in the topmost chrome window. Hide it manually when
+  // the owner document is unloaded.
+  const onWindowUnload = () => popup.hidePopup();
+  win.addEventListener("unload", onWindowUnload);
 
   // Remove the menu from the DOM once it's hidden.
   popup.addEventListener("popuphidden", e => {
     if (e.target === popup) {
+      win.removeEventListener("unload", onWindowUnload);
       popup.remove();
       this.emit("close", popup);
     }
@@ -2809,7 +2827,11 @@ Menu.prototype.popup = function (screenX, screenY, toolbox) {
 };
 
 Menu.prototype.createPopup = function (doc) {
-  return doc.createElement("menupopup");
+  const popup = doc.createXULElement("menupopup");
+  popup.setAttribute("menu-api", "true");
+  popup.setAttribute("consumeoutsideclicks", "false");
+  popup.setAttribute("incontentshell", "false");
+  return popup;
 };
 
 Menu.prototype._createMenuItems = function (parent) {
@@ -2820,16 +2842,16 @@ Menu.prototype._createMenuItems = function (parent) {
     }
 
     if (item.submenu) {
-      let menupopup = doc.createElement("menupopup");
+      let menupopup = doc.createXULElement("menupopup");
       item.submenu._createMenuItems(menupopup);
 
-      let menuitem = doc.createElement("menuitem");
+      let menuitem = doc.createXULElement("menuitem");
       menuitem.setAttribute("label", item.label);
       if (!inToolbox()) {
         menuitem.textContent = item.label;
       }
 
-      let menu = doc.createElement("menu");
+      let menu = doc.createXULElement("menu");
       menu.appendChild(menuitem);
       menu.appendChild(menupopup);
       if (item.disabled) {
@@ -2846,10 +2868,10 @@ Menu.prototype._createMenuItems = function (parent) {
       }
       parent.appendChild(menu);
     } else if (item.type === "separator") {
-      let menusep = doc.createElement("menuseparator");
+      let menusep = doc.createXULElement("menuseparator");
       parent.appendChild(menusep);
     } else {
-      let menuitem = doc.createElement("menuitem");
+      let menuitem = doc.createXULElement("menuitem");
       menuitem.setAttribute("label", item.label);
 
       if (!inToolbox()) {
