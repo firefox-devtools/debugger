@@ -637,7 +637,302 @@
       "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../packages/devtools-reps/src/object-inspector/components/ObjectInspector.css": 486,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/object-inspector/components/ObjectInspectorItem.js": 487,
       "../../babel-loader/lib/index.js?ignore=src/lib!../../../packages/devtools-reps/src/object-inspector/utils/selection.js": 488,
-      "../../css-loader/lib/css-base.js": 489
+      "../../css-loader/lib/css-base.js": 489,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/selectors/index.js": 490,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/connect.js": 491,
+      "../../../src/utils/prefs.js": 492,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/index.js": 493,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/source.js": 494,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/shared/AccessibleImage.js": 495,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/editor/index.js": 496,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/async-value.js": 497,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/reducers/sources.js": 498,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/breakpoint/index.js": 499,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/utils/middleware/promise.js": 500,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/selected-location.js": 501,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/shared/Button/index.js": 502,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/workers/parser/index.js": 503,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/breakpoints/index.js": 504,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/sources/index.js": 505,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/sources-tree/utils.js": 506,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/sources/loadSourceText.js": 507,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/client/firefox.js": 508,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/location.js": 509,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/frames/index.js": 510,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/expressions.js": 511,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/clipboard.js": 512,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/source-queue.js": 513,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/text.js": 514,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/url.js": 515,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/wasm.js": 516,
+      "external \"devtools/client/shared/vendor/redux\"": 517,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/reducers/breakpoints.js": 518,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/ast.js": 519,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/telemetry.js": 520,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/sources/symbols.js": 521,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/mapScopes/locColumn.js": 522,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/Editor/menus/breakpoints.js": 523,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/utils.js": 524,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/ui.js": 525,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/sources-tree/index.js": 526,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/makeRecord.js": 527,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/resource/compare.js": 528,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/reducers/source-actors.js": 529,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/reducers/pause.js": 530,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/workers.js": 531,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/reducers/project-text-search.js": 532,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/frames/getFrameUrl.js": 533,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/breakpoints/breakpointPositions.js": 534,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/sources/prettyPrint.js": 535,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/indentation.js": 536,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/fetchScopes.js": 537,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/ui.js": 538,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/client/firefox/create.js": 539,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/editor/source-documents.js": 540,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/sources-tree/getURL.js": 541,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/workers/search/index.js": 542,
+      "external \"devtools/client/shared/vendor/immutable\"": 543,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/resource/core.js": 544,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/reducers/tabs.js": 545,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/memoizableAction.js": 546,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/tabs.js": 547,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/index.js": 548,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/mapScopes/positionCmp.js": 549,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/index.js": 550,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/sources/select.js": 551,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/source-actors.js": 552,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/shared/SearchInput.js": 553,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/shared/Button/CommandBarButton.js": 554,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/shared/SourceIcon.js": 555,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/tabs.js": 556,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/Editor/menus/editor.js": 557,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/client/firefox/commands.js": 558,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/client/firefox/events.js": 559,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/client/chrome/create.js": 560,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/editor/create-editor.js": 561,
+      "external \"devtools/client/sourceeditor/editor\"": 562,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/sources-tree/addToTree.js": 563,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/sources-tree/treeOrder.js": 564,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/sources-tree/collapseTree.js": 565,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/bootstrap.js": 566,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/workers/pretty-print/index.js": 567,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/context.js": 568,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/reducers/expressions.js": 569,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/resource/index.js": 570,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/resource/base-query.js": 571,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/resource/query-cache.js": 572,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/resource/memoize.js": 573,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/breakpoint/breakpointPositions.js": 574,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/reducers/event-listeners.js": 575,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/selectors/pause.js": 576,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/reducers/debuggee.js": 577,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/path.js": 578,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/selectors/breakpoints.js": 579,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/reducers/pending-breakpoints.js": 580,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/reducers/ui.js": 581,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/reducers/file-search.js": 582,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/reducers/ast.js": 583,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/reducers/source-tree.js": 584,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/reducers/quick-open.js": 585,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/quick-open.js": 586,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/selectors/visibleBreakpoints.js": 587,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/frames/getLibraryFromUrl.js": 588,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/sources/blackbox.js": 589,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/sources/breakableLines.js": 590,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/commands.js": 591,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/expressions.js": 592,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/mapScopes.js": 593,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/log.js": 594,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/mapScopes/filtering.js": 595,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/mapScopes/mappingContains.js": 596,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/ast.js": 597,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/file-search.js": 598,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/debuggee.js": 599,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/shared/Modal.js": 600,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/shared/ManagedTree.js": 601,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/shared/PreviewFunction.js": 602,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/result-list.js": 603,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/Breakpoints/ExceptionOption.js": 604,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/Frames/Frame.js": 605,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/Frames/FrameMenu.js": 606,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/Frames/FrameIndent.js": 607,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/CommandBar.js": 608,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/CommandBar.css": 609,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/WhyPaused.js": 610,
+      "multi ../../../src/main.js": 611,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/main.js": 612,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/client/index.js": 613,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/client/firefox/workers.js": 614,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/asyncStoreHelper.js": 615,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/client/chrome.js": 616,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/client/chrome/commands.js": 617,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/client/chrome/events.js": 618,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/dbg.js": 619,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/timings.js": 620,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/isMinified.js": 621,
+      "external \"devtools/client/shared/vendor/WasmParser\"": 622,
+      "external \"devtools/client/shared/vendor/WasmDis\"": 623,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/editor/get-token-location.js": 624,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/editor/source-search.js": 625,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/editor/token-events.js": 626,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/sources-tree/formatTree.js": 627,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/sources-tree/getDirectories.js": 628,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/sources-tree/sortTree.js": 629,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/sources-tree/updateTree.js": 630,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/utils/create-store.js": 631,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/utils/middleware/wait-service.js": 632,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/utils/middleware/log.js": 633,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/utils/middleware/history.js": 634,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/DevToolsUtils.js": 635,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/utils/middleware/thunk.js": 636,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/utils/middleware/timing.js": 637,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/utils/middleware/context.js": 638,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/resource/selector.js": 639,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/resource/query.js": 640,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/breakpoint/astBreakpointLocation.js": 641,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/selectors/breakpointAtLocation.js": 642,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/selectors/inComponent.js": 643,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/selectors/isSelectedFrameVisible.js": 644,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/selectors/getCallStackFrames.js": 645,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/frames/annotateFrames.js": 646,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/frames/collapseFrames.js": 647,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/frames/displayName.js": 648,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/selectors/breakpointSources.js": 649,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/selectors/visibleColumnBreakpoints.js": 650,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/reducers/index.js": 651,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/reducers/async-requests.js": 652,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/App.js": 653,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/breakpoints/modify.js": 654,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/breakpoints/syncBreakpoint.js": 655,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/mapScopes/index.js": 656,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/mapScopes/rangeMetadata.js": 657,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/mapScopes/findGeneratedBindingFromPosition.js": 658,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/mapScopes/buildGeneratedBindingList.js": 659,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/mapScopes/getApplicableBindingsForOriginalPosition.js": 660,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/paused.js": 661,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/resumed.js": 662,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/why.js": 663,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/continueToHere.js": 664,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/breakOnNext.js": 665,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/mapFrames.js": 666,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/pauseOnExceptions.js": 667,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/selectFrame.js": 668,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/pause/skipPausing.js": 669,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/ast/setInScopeLines.js": 670,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/source-maps.js": 671,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/sources/newSources.js": 672,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/breakpoints/remapLocations.js": 673,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/event-listeners.js": 674,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/navigation.js": 675,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/project-text-search.js": 676,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/quick-open.js": 677,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/source-tree.js": 678,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/toolbox.js": 679,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/actions/preview.js": 680,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/preview.js": 681,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/editor/get-expression.js": 682,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/A11yIntention.js": 683,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/A11yIntention.css": 684,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/ShortcutsModal.js": 685,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Modal.css": 686,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/ShortcutsModal.css": 687,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/variables.css": 688,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/App.css": 689,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!components/Root.css": 690,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/menu.css": 691,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/reps.css": 692,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/ProjectSearch.js": 693,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/project-search.js": 694,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/ManagedTree.css": 695,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/shared/Button/CloseButton.js": 696,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/AccessibleImage.css": 697,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/styles/CloseButton.css": 698,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/styles/CommandBarButton.css": 699,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/shared/Button/PaneToggleButton.js": 700,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/styles/PaneToggleButton.css": 701,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/SearchInput.css": 702,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/ProjectSearch.css": 703,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/PrimaryPanes/index.js": 704,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/PrimaryPanes/Outline.js": 705,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/function.js": 706,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/PrimaryPanes/OutlineFilter.js": 707,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/PrimaryPanes/OutlineFilter.css": 708,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/PrimaryPanes/Outline.css": 709,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/PreviewFunction.css": 710,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/PrimaryPanes/SourcesTree.js": 711,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/PrimaryPanes/SourcesTreeItem.js": 712,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/SourceIcon.css": 713,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/PrimaryPanes/Sources.css": 714,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/Editor/index.js": 715,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/Editor/SearchBar.js": 716,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/SearchBar.css": 717,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/Editor/HighlightLines.js": 718,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/Editor/Preview/index.js": 719,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/Editor/Preview/Popup.js": 720,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/shared/Popover.js": 721,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/shared/BracketArrow.js": 722,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/BracketArrow.css": 723,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Popover.css": 724,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/Preview/Popup.css": 725,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/Editor/Breakpoints.js": 726,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/Editor/Breakpoint.js": 727,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/Editor/ColumnBreakpoints.js": 728,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/Editor/ColumnBreakpoint.js": 729,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/Editor/DebugLine.js": 730,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/Editor/HighlightLine.js": 731,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/Editor/EmptyLines.js": 732,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/Editor/EditorMenu.js": 733,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/Editor/ConditionalPanel.js": 734,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/ConditionalPanel.css": 735,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/Editor.css": 736,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/Breakpoints.css": 737,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/Highlight.css": 738,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/index.js": 739,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/Breakpoints/index.js": 740,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/Breakpoints/Breakpoint.js": 741,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/Breakpoints/BreakpointsContextMenu.js": 742,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/Breakpoints/BreakpointHeading.js": 743,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/Breakpoints/BreakpointHeadingsContextMenu.js": 744,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Breakpoints/Breakpoints.css": 745,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/Expressions.js": 746,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Expressions.css": 747,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/Frames/index.js": 748,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/Frames/Group.js": 749,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Frames/Group.css": 750,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/shared/Badge.js": 751,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Badge.css": 752,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Frames/Frames.css": 753,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/Workers.js": 754,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/Worker.js": 755,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Workers.css": 756,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/shared/Accordion.js": 757,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Accordion.css": 758,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/UtilsBar.js": 759,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/XHRBreakpoints.js": 760,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/XHRBreakpoints.css": 761,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/EventListeners.js": 762,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/EventListeners.css": 763,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/WhyPaused.css": 764,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/SecondaryPanes/Scopes.js": 765,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/scopes/index.js": 766,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/scopes/getScope.js": 767,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/scopes/getVariables.js": 768,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/utils/pause/scopes/utils.js": 769,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Scopes.css": 770,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/SecondaryPanes.css": 771,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/WelcomeBox.js": 772,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/WelcomeBox.css": 773,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/Editor/Tabs.js": 774,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/Tabs.css": 775,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/Editor/Tab.js": 776,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/shared/Dropdown.js": 777,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Dropdown.css": 778,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/Editor/Footer.js": 779,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/Footer.css": 780,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/QuickOpenModal.js": 781,
+      "../../babel-loader/lib/index.js?ignore=src/lib!../../../src/components/shared/ResultList.js": 782,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/ResultList.css": 783,
+      "../../extract-text-webpack-plugin/dist/loader.js??ref--3-0!../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/QuickOpenModal.css": 784
     },
     "usedIds": {
       "0": 0,
@@ -1129,7 +1424,302 @@
       "486": 486,
       "487": 487,
       "488": 488,
-      "489": 489
+      "489": 489,
+      "490": 490,
+      "491": 491,
+      "492": 492,
+      "493": 493,
+      "494": 494,
+      "495": 495,
+      "496": 496,
+      "497": 497,
+      "498": 498,
+      "499": 499,
+      "500": 500,
+      "501": 501,
+      "502": 502,
+      "503": 503,
+      "504": 504,
+      "505": 505,
+      "506": 506,
+      "507": 507,
+      "508": 508,
+      "509": 509,
+      "510": 510,
+      "511": 511,
+      "512": 512,
+      "513": 513,
+      "514": 514,
+      "515": 515,
+      "516": 516,
+      "517": 517,
+      "518": 518,
+      "519": 519,
+      "520": 520,
+      "521": 521,
+      "522": 522,
+      "523": 523,
+      "524": 524,
+      "525": 525,
+      "526": 526,
+      "527": 527,
+      "528": 528,
+      "529": 529,
+      "530": 530,
+      "531": 531,
+      "532": 532,
+      "533": 533,
+      "534": 534,
+      "535": 535,
+      "536": 536,
+      "537": 537,
+      "538": 538,
+      "539": 539,
+      "540": 540,
+      "541": 541,
+      "542": 542,
+      "543": 543,
+      "544": 544,
+      "545": 545,
+      "546": 546,
+      "547": 547,
+      "548": 548,
+      "549": 549,
+      "550": 550,
+      "551": 551,
+      "552": 552,
+      "553": 553,
+      "554": 554,
+      "555": 555,
+      "556": 556,
+      "557": 557,
+      "558": 558,
+      "559": 559,
+      "560": 560,
+      "561": 561,
+      "562": 562,
+      "563": 563,
+      "564": 564,
+      "565": 565,
+      "566": 566,
+      "567": 567,
+      "568": 568,
+      "569": 569,
+      "570": 570,
+      "571": 571,
+      "572": 572,
+      "573": 573,
+      "574": 574,
+      "575": 575,
+      "576": 576,
+      "577": 577,
+      "578": 578,
+      "579": 579,
+      "580": 580,
+      "581": 581,
+      "582": 582,
+      "583": 583,
+      "584": 584,
+      "585": 585,
+      "586": 586,
+      "587": 587,
+      "588": 588,
+      "589": 589,
+      "590": 590,
+      "591": 591,
+      "592": 592,
+      "593": 593,
+      "594": 594,
+      "595": 595,
+      "596": 596,
+      "597": 597,
+      "598": 598,
+      "599": 599,
+      "600": 600,
+      "601": 601,
+      "602": 602,
+      "603": 603,
+      "604": 604,
+      "605": 605,
+      "606": 606,
+      "607": 607,
+      "608": 608,
+      "609": 609,
+      "610": 610,
+      "611": 611,
+      "612": 612,
+      "613": 613,
+      "614": 614,
+      "615": 615,
+      "616": 616,
+      "617": 617,
+      "618": 618,
+      "619": 619,
+      "620": 620,
+      "621": 621,
+      "622": 622,
+      "623": 623,
+      "624": 624,
+      "625": 625,
+      "626": 626,
+      "627": 627,
+      "628": 628,
+      "629": 629,
+      "630": 630,
+      "631": 631,
+      "632": 632,
+      "633": 633,
+      "634": 634,
+      "635": 635,
+      "636": 636,
+      "637": 637,
+      "638": 638,
+      "639": 639,
+      "640": 640,
+      "641": 641,
+      "642": 642,
+      "643": 643,
+      "644": 644,
+      "645": 645,
+      "646": 646,
+      "647": 647,
+      "648": 648,
+      "649": 649,
+      "650": 650,
+      "651": 651,
+      "652": 652,
+      "653": 653,
+      "654": 654,
+      "655": 655,
+      "656": 656,
+      "657": 657,
+      "658": 658,
+      "659": 659,
+      "660": 660,
+      "661": 661,
+      "662": 662,
+      "663": 663,
+      "664": 664,
+      "665": 665,
+      "666": 666,
+      "667": 667,
+      "668": 668,
+      "669": 669,
+      "670": 670,
+      "671": 671,
+      "672": 672,
+      "673": 673,
+      "674": 674,
+      "675": 675,
+      "676": 676,
+      "677": 677,
+      "678": 678,
+      "679": 679,
+      "680": 680,
+      "681": 681,
+      "682": 682,
+      "683": 683,
+      "684": 684,
+      "685": 685,
+      "686": 686,
+      "687": 687,
+      "688": 688,
+      "689": 689,
+      "690": 690,
+      "691": 691,
+      "692": 692,
+      "693": 693,
+      "694": 694,
+      "695": 695,
+      "696": 696,
+      "697": 697,
+      "698": 698,
+      "699": 699,
+      "700": 700,
+      "701": 701,
+      "702": 702,
+      "703": 703,
+      "704": 704,
+      "705": 705,
+      "706": 706,
+      "707": 707,
+      "708": 708,
+      "709": 709,
+      "710": 710,
+      "711": 711,
+      "712": 712,
+      "713": 713,
+      "714": 714,
+      "715": 715,
+      "716": 716,
+      "717": 717,
+      "718": 718,
+      "719": 719,
+      "720": 720,
+      "721": 721,
+      "722": 722,
+      "723": 723,
+      "724": 724,
+      "725": 725,
+      "726": 726,
+      "727": 727,
+      "728": 728,
+      "729": 729,
+      "730": 730,
+      "731": 731,
+      "732": 732,
+      "733": 733,
+      "734": 734,
+      "735": 735,
+      "736": 736,
+      "737": 737,
+      "738": 738,
+      "739": 739,
+      "740": 740,
+      "741": 741,
+      "742": 742,
+      "743": 743,
+      "744": 744,
+      "745": 745,
+      "746": 746,
+      "747": 747,
+      "748": 748,
+      "749": 749,
+      "750": 750,
+      "751": 751,
+      "752": 752,
+      "753": 753,
+      "754": 754,
+      "755": 755,
+      "756": 756,
+      "757": 757,
+      "758": 758,
+      "759": 759,
+      "760": 760,
+      "761": 761,
+      "762": 762,
+      "763": 763,
+      "764": 764,
+      "765": 765,
+      "766": 766,
+      "767": 767,
+      "768": 768,
+      "769": 769,
+      "770": 770,
+      "771": 771,
+      "772": 772,
+      "773": 773,
+      "774": 774,
+      "775": 775,
+      "776": 776,
+      "777": 777,
+      "778": 778,
+      "779": 779,
+      "780": 780,
+      "781": 781,
+      "782": 782,
+      "783": 783,
+      "784": 784
     }
   },
   "chunks": {
@@ -1140,7 +1730,8 @@
       "source-map-worker": 3,
       "search-worker": 4,
       "pretty-print-worker": 5,
-      "source-map-index": 6
+      "source-map-index": 6,
+      "debugger": 7
     },
     "byBlocks": {},
     "usedIds": {
@@ -1150,7 +1741,995 @@
       "3": 3,
       "4": 4,
       "5": 5,
-      "6": 6
+      "6": 6,
+      "7": 7
     }
-  }
+  },
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/variables.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/variables.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/App.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/App.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!components/Root.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!components/Root.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/menu.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/menu.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/reps.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/reps.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/WhyPaused.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/WhyPaused.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/AccessibleImage.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/AccessibleImage.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/QuickOpenModal.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/QuickOpenModal.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/ResultList.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/ResultList.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/SearchInput.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/SearchInput.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/styles/PaneToggleButton.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/styles/PaneToggleButton.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/styles/CommandBarButton.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/styles/CommandBarButton.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/styles/CloseButton.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Button/styles/CloseButton.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Modal.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Modal.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/Footer.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/Footer.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/Tabs.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/Tabs.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/CommandBar.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/CommandBar.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Dropdown.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Dropdown.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/SourceIcon.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/SourceIcon.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/WelcomeBox.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/WelcomeBox.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/SecondaryPanes.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/SecondaryPanes.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Scopes.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Scopes.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/EventListeners.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/EventListeners.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/XHRBreakpoints.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/XHRBreakpoints.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Accordion.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Accordion.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Workers.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Workers.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Frames/Frames.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Frames/Frames.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Frames/Group.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Frames/Group.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Badge.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Badge.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Expressions.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Expressions.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Breakpoints/Breakpoints.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/SecondaryPanes/Breakpoints/Breakpoints.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/Editor.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/Editor.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/Breakpoints.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/Breakpoints.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/Highlight.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/Highlight.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/ConditionalPanel.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/ConditionalPanel.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/Preview/Popup.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/Preview/Popup.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/PreviewFunction.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/PreviewFunction.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Popover.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/Popover.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/BracketArrow.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/BracketArrow.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/SearchBar.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/Editor/SearchBar.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/PrimaryPanes/Sources.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/PrimaryPanes/Sources.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/ManagedTree.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/shared/ManagedTree.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/PrimaryPanes/Outline.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/PrimaryPanes/Outline.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/PrimaryPanes/OutlineFilter.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/PrimaryPanes/OutlineFilter.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/ProjectSearch.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/ProjectSearch.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/ShortcutsModal.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/ShortcutsModal.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ],
+  "extract-text-webpack-plugin ../../extract-text-webpack-plugin/dist ../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/A11yIntention.css": [
+    {
+      "modules": {
+        "byIdentifier": {
+          "../../css-loader/index.js??ref--3-1!../../postcss-loader/lib/index.js!../../../src/components/A11yIntention.css": 0,
+          "../../css-loader/lib/css-base.js": 1
+        },
+        "usedIds": {
+          "0": 0,
+          "1": 1
+        }
+      },
+      "chunks": {
+        "byName": {},
+        "byBlocks": {},
+        "usedIds": {
+          "1": 1
+        }
+      }
+    }
+  ]
 }
