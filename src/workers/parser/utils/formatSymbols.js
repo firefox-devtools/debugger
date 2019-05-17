@@ -5,9 +5,8 @@
 // @flow
 
 import { getSymbols } from "../getSymbols";
-import { setSource } from "../sources";
 
-import type { Source } from "../../../types";
+import type { SourceId } from "../../../types";
 
 function formatLocation(loc) {
   if (!loc) {
@@ -40,8 +39,13 @@ function summarize(symbol) {
   return `${loc} ${expression} ${name}${params} ${klass} ${names} ${values} ${index}`.trim(); // eslint-disable-line max-len
 }
 const bools = ["hasJsx", "hasTypes", "loading"];
+const strings = ["framework"];
 function formatBool(name, symbols) {
   return `${name}: ${symbols[name] ? "true" : "false"}`;
+}
+
+function formatString(name, symbols) {
+  return `${name}: ${symbols[name]}`;
 }
 
 function formatKey(name: string, symbols: any) {
@@ -49,15 +53,17 @@ function formatKey(name: string, symbols: any) {
     return formatBool(name, symbols);
   }
 
+  if (strings.includes(name)) {
+    return formatString(name, symbols);
+  }
+
   return `${name}:\n${symbols[name].map(summarize).join("\n")}`;
 }
 
-export function formatSymbols(source: Source) {
-  setSource(source);
-  const symbols = getSymbols(source.id);
+export function formatSymbols(sourceId: SourceId) {
+  const symbols = getSymbols(sourceId);
 
   return Object.keys(symbols)
-
     .map(name => formatKey(name, symbols))
     .join("\n\n");
 }

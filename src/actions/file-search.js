@@ -12,13 +12,13 @@ import {
   removeOverlay,
   searchSourceForHighlight
 } from "../utils/editor";
-import { isWasm, renderWasmText } from "../utils/wasm";
+import { renderWasmText } from "../utils/wasm";
 import { getMatches } from "../workers/search";
 import type { Action, FileTextSearchModifier, ThunkArgs } from "./types";
-import type { WasmSource } from "../types";
+import type { Context } from "../types";
 
 import {
-  getSelectedSource,
+  getSelectedSourceWithContent,
   getFileSearchModifiers,
   getFileSearchQuery,
   getFileSearchResults
@@ -29,18 +29,19 @@ import {
   clearHighlightLineRange,
   setActiveSearch
 } from "./ui";
+import { isFulfilled } from "../utils/async-value";
 type Editor = Object;
 type Match = Object;
 
-export function doSearch(query: string, editor: Editor) {
+export function doSearch(cx: Context, query: string, editor: Editor) {
   return ({ getState, dispatch }: ThunkArgs) => {
-    const selectedSource = getSelectedSource(getState());
-    if (!selectedSource || !selectedSource.text) {
+    const selectedSourceWithContent = getSelectedSourceWithContent(getState());
+    if (!selectedSourceWithContent || !selectedSourceWithContent.content) {
       return;
     }
 
-    dispatch(setFileSearchQuery(query));
-    dispatch(searchContents(query, editor));
+    dispatch(setFileSearchQuery(cx, query));
+    dispatch(searchContents(cx, query, editor));
   };
 }
 
@@ -51,28 +52,31 @@ export function doSearchForHighlight(
   ch: number
 ) {
   return async ({ getState, dispatch }: ThunkArgs) => {
-    const selectedSource = getSelectedSource(getState());
-    if (!selectedSource || !selectedSource.text) {
+    const selectedSourceWithContent = getSelectedSourceWithContent(getState());
+    if (!selectedSourceWithContent || !selectedSourceWithContent.content) {
       return;
     }
     dispatch(searchContentsForHighlight(query, editor, line, ch));
   };
 }
 
-export function setFileSearchQuery(query: string): Action {
+export function setFileSearchQuery(cx: Context, query: string): Action {
   return {
     type: "UPDATE_FILE_SEARCH_QUERY",
+    cx,
     query
   };
 }
 
 export function toggleFileSearchModifier(
+  cx: Context,
   modifier: FileTextSearchModifier
 ): Action {
-  return { type: "TOGGLE_FILE_SEARCH_MODIFIER", modifier };
+  return { type: "TOGGLE_FILE_SEARCH_MODIFIER", cx, modifier };
 }
 
 export function updateSearchResults(
+  cx: Context,
   characterIndex: number,
   line: number,
   matches: Match[]
@@ -83,6 +87,7 @@ export function updateSearchResults(
 
   return {
     type: "UPDATE_SEARCH_RESULTS",
+    cx,
     results: {
       matches,
       matchIndex,
@@ -92,14 +97,27 @@ export function updateSearchResults(
   };
 }
 
-export function searchContents(query: string, editor: Object) {
+export function searchContents(
+  cx: Context,
+  query: string,
+  editor: Object,
+  focusFirstResult?: boolean = true
+) {
   return async ({ getState, dispatch }: ThunkArgs) => {
     const modifiers = getFileSearchModifiers(getState());
-    const selectedSource = getSelectedSource(getState());
+    const selectedSourceWithContent = getSelectedSourceWithContent(getState());
 
-    if (!editor || !selectedSource || !selectedSource.text || !modifiers) {
+    if (
+      !editor ||
+      !selectedSourceWithContent ||
+      !selectedSourceWithContent.content ||
+      !isFulfilled(selectedSourceWithContent.content) ||
+      !modifiers
+    ) {
       return;
     }
+    const selectedSource = selectedSourceWithContent.source;
+    const selectedContent = selectedSourceWithContent.content.value;
 
     const ctx = { ed: editor, cm: editor.codeMirror };
 
@@ -109,22 +127,23 @@ export function searchContents(query: string, editor: Object) {
     }
 
     const _modifiers = modifiers.toJS();
-    let text = selectedSource.text;
-
-    if (isWasm(selectedSource.id)) {
-      text = renderWasmText(((selectedSource: any): WasmSource)).join("\n");
+    let text;
+    if (selectedContent.type === "wasm") {
+      text = renderWasmText(selectedSource.id, selectedContent).join("\n");
+    } else {
+      text = selectedContent.value;
     }
 
     const matches = await getMatches(query, text, _modifiers);
 
-    const res = find(ctx, query, true, _modifiers);
+    const res = find(ctx, query, true, _modifiers, focusFirstResult);
     if (!res) {
       return;
     }
 
     const { ch, line } = res;
 
-    dispatch(updateSearchResults(ch, line, matches));
+    dispatch(updateSearchResults(cx, ch, line, matches));
   };
 }
 
@@ -136,13 +155,13 @@ export function searchContentsForHighlight(
 ) {
   return async ({ getState, dispatch }: ThunkArgs) => {
     const modifiers = getFileSearchModifiers(getState());
-    const selectedSource = getSelectedSource(getState());
+    const selectedSource = getSelectedSourceWithContent(getState());
 
     if (
       !query ||
       !editor ||
       !selectedSource ||
-      !selectedSource.text ||
+      !selectedSource.content ||
       !modifiers
     ) {
       return;
@@ -155,7 +174,7 @@ export function searchContentsForHighlight(
   };
 }
 
-export function traverseResults(rev: boolean, editor: Editor) {
+export function traverseResults(cx: Context, rev: boolean, editor: Editor) {
   return async ({ getState, dispatch }: ThunkArgs) => {
     if (!editor) {
       return;
@@ -180,12 +199,12 @@ export function traverseResults(rev: boolean, editor: Editor) {
         return;
       }
       const { ch, line } = results;
-      dispatch(updateSearchResults(ch, line, matchedLocations));
+      dispatch(updateSearchResults(cx, ch, line, matchedLocations));
     }
   };
 }
 
-export function closeFileSearch(editor: Editor) {
+export function closeFileSearch(cx: Context, editor: Editor) {
   return ({ getState, dispatch }: ThunkArgs) => {
     if (editor) {
       const query = getFileSearchQuery(getState());
@@ -193,7 +212,7 @@ export function closeFileSearch(editor: Editor) {
       removeOverlay(ctx, query);
     }
 
-    dispatch(setFileSearchQuery(""));
+    dispatch(setFileSearchQuery(cx, ""));
     dispatch(closeActiveSearch());
     dispatch(clearHighlightLineRange());
   };

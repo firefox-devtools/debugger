@@ -4,7 +4,9 @@
 
 // @flow
 export * from "./blackbox";
+export * from "./breakableLines";
 export * from "./loadSourceText";
 export * from "./newSources";
 export * from "./prettyPrint";
 export * from "./select";
+export { setSymbols } from "./symbols";

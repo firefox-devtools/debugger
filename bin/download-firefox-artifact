@@ -24,8 +24,8 @@ if [ -d "$FIREFOX_PATH" ]; then
 
         # If the mochitest dir has been symlinked, remove it as revert
         # does not follow symlinks.
-        if [ -h "$FIREFOX_PATH/devtools/client/debugger/new/test/mochitest" ]; then
-           rm "$FIREFOX_PATH/devtools/client/debugger/new/test/mochitest";
+        if [ -h "$FIREFOX_PATH/devtools/client/debugger/test/mochitest" ]; then
+           rm "$FIREFOX_PATH/devtools/client/debugger/test/mochitest";
         fi
 
         hg revert -a

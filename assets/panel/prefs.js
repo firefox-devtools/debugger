@@ -19,7 +19,8 @@ pref("devtools.debugger.auto-black-box", true);
 pref("devtools.debugger.workers", false);
 
 // The default Debugger UI settings
-pref("devtools.debugger.prefs-schema-version", "1.0.0");
+// This schema version needs to match that in devtools/client/debugger/src/utils/prefs.js.
+pref("devtools.debugger.prefs-schema-version", "1.0.9");
 pref("devtools.debugger.ui.panes-workers-and-sources-width", 200);
 pref("devtools.debugger.ui.panes-instruments-width", 300);
 pref("devtools.debugger.ui.panes-visible-on-startup", false);
@@ -53,6 +54,7 @@ pref("devtools.debugger.project-directory-root", "");
 pref("devtools.debugger.skip-pausing", false);
 pref("devtools.debugger.logging", false);
 pref("devtools.debugger.map-scopes-enabled", false);
+pref("devtools.debugger.log-actions", false);
 
 pref("devtools.debugger.features.wasm", true);
 pref("devtools.debugger.features.shortcuts", true);

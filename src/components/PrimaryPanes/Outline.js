@@ -14,9 +14,10 @@ import { findFunctionText } from "../../utils/function";
 
 import actions from "../../actions";
 import {
-  getSelectedSource,
+  getSelectedSourceWithContent,
   getSymbols,
-  getSelectedLocation
+  getSelectedLocation,
+  getContext
 } from "../../selectors";
 
 import OutlineFilter from "./OutlineFilter";
@@ -30,9 +31,10 @@ import type {
   SymbolDeclaration,
   FunctionDeclaration
 } from "../../workers/parser";
-import type { Source } from "../../types";
+import type { Source, Context } from "../../types";
 
 type Props = {
+  cx: Context,
   symbols: SymbolDeclarations,
   selectedSource: ?Source,
   alphabetizeOutline: boolean,
@@ -72,12 +74,12 @@ export class Outline extends Component<Props, State> {
   }
 
   selectItem(location: AstLocation) {
-    const { selectedSource, selectLocation } = this.props;
+    const { cx, selectedSource, selectLocation } = this.props;
     if (!selectedSource) {
       return;
     }
 
-    selectLocation({
+    selectLocation(cx, {
       sourceId: selectedSource.id,
       line: location.start.line,
       column: location.start.column
@@ -177,12 +179,12 @@ export class Outline extends Component<Props, State> {
     );
 
     return (
-      <div className="outline-list__class" key={klass}>
+      <li className="outline-list__class" key={klass}>
         {heading}
         <ul className="outline-list__class-list">
           {classFunctions.map(func => this.renderFunction(func))}
         </ul>
-      </div>
+      </li>
     );
   }
 
@@ -260,12 +262,15 @@ export class Outline extends Component<Props, State> {
 }
 
 const mapStateToProps = state => {
-  const selectedSource = getSelectedSource(state);
-  const symbols = selectedSource ? getSymbols(state, selectedSource) : null;
+  const selectedSource = getSelectedSourceWithContent(state);
+  const symbols = selectedSource
+    ? getSymbols(state, selectedSource.source)
+    : null;
 
   return {
+    cx: getContext(state),
     symbols,
-    selectedSource,
+    selectedSource: selectedSource && selectedSource.source,
     selectedLocation: getSelectedLocation(state),
     getFunctionText: line => {
       if (selectedSource) {

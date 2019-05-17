@@ -13,7 +13,7 @@ function assertBreakpointExists(dbg, source, line) {
   } = dbg;
 
   ok(
-    getBreakpoint(getState(), { sourceId: source.id, line }),
+    getBreakpoint({ sourceId: source.id, line }),
     "Breakpoint has correct line"
   );
 }
@@ -40,6 +40,14 @@ async function clickGutter(dbg, line) {
   clickDOMElement(dbg, el);
 }
 
+async function waitForBreakpointCount(dbg, count) {
+  const {
+    selectors: { getBreakpointCount },
+    getState
+  } = dbg;
+  await waitForState(dbg, state => getBreakpointCount() == count);
+}
+
 add_task(async function() {
   // NOTE: the CORS call makes the test run times inconsistent
   const dbg = await initDebugger(
@@ -50,7 +58,7 @@ add_task(async function() {
     "opts.js"
   );
   const {
-    selectors: { getBreakpoint, getBreakpointCount },
+    selectors: { getBreakpointCount },
     getState
   } = dbg;
 
@@ -58,18 +66,18 @@ add_task(async function() {
   const bundleSrc = findSource(dbg, "bundle.js");
 
   // Check that the original sources appear in the source tree
-  await clickElement(dbg, "sourceDirectoryLabel", 3);
-  await assertSourceCount(dbg, 8);
+  await clickElement(dbg, "sourceDirectoryLabel", 4);
+  await assertSourceCount(dbg, 9);
 
   await selectSource(dbg, bundleSrc);
 
   await clickGutter(dbg, 70);
-  await waitForDispatch(dbg, "ADD_BREAKPOINT");
-  assertEditorBreakpoint(dbg, 70, true);
+  await waitForBreakpointCount(dbg, 1);
+  await assertEditorBreakpoint(dbg, 70, true);
 
   await clickGutter(dbg, 70);
-  await waitForDispatch(dbg, "REMOVE_BREAKPOINT");
-  is(getBreakpointCount(getState()), 0, "No breakpoints exists");
+  await waitForBreakpointCount(dbg, 0);
+  is(dbg.selectors.getBreakpointCount(), 0, "No breakpoints exists");
 
   const entrySrc = findSource(dbg, "entry.js");
 
@@ -83,7 +91,7 @@ add_task(async function() {
 
   // Test breaking on a breakpoint
   await addBreakpoint(dbg, "entry.js", 15);
-  is(getBreakpointCount(getState()), 1, "One breakpoint exists");
+  is(getBreakpointCount(), 1, "One breakpoint exists");
   assertBreakpointExists(dbg, entrySrc, 15);
 
   invokeInTab("keepMeAlive");
@@ -93,12 +101,12 @@ add_task(async function() {
   await stepIn(dbg);
   assertPausedLocation(dbg);
 
-  await dbg.actions.jumpToMappedSelectedLocation();
+  await dbg.actions.jumpToMappedSelectedLocation(getContext(dbg));
   await stepOver(dbg);
   assertPausedLocation(dbg);
   assertDebugLine(dbg, 71);
 
-  await dbg.actions.jumpToMappedSelectedLocation();
+  await dbg.actions.jumpToMappedSelectedLocation(getContext(dbg));
   await stepOut(dbg);
   assertPausedLocation(dbg);
   assertDebugLine(dbg, 16);

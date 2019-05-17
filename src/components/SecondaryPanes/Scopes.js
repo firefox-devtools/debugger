@@ -15,11 +15,12 @@ import {
   getOriginalFrameScope,
   getIsPaused,
   getPauseReason,
-  getMapScopes,
+  isMapScopesEnabled,
   getCurrentThread
 } from "../../selectors";
 import { getScopes } from "../../utils/pause/scopes";
 
+// eslint-disable-next-line import/named
 import { objectInspector } from "devtools-reps";
 
 import type { Why } from "../../types";
@@ -36,9 +37,11 @@ type Props = {
   originalFrameScopes: Object | null,
   isLoading: boolean,
   why: Why,
-  shouldMapScopes: boolean,
+  mapScopesEnabled: boolean,
   openLink: typeof actions.openLink,
   openElementInInspector: typeof actions.openElementInInspectorCommand,
+  highlightDomElement: typeof actions.highlightDomElement,
+  unHighlightDomElement: typeof actions.unHighlightDomElement,
   toggleMapScopes: typeof actions.toggleMapScopes
 };
 
@@ -111,14 +114,16 @@ class Scopes extends PureComponent<Props, State> {
       isLoading,
       openLink,
       openElementInInspector,
-      shouldMapScopes
+      highlightDomElement,
+      unHighlightDomElement,
+      mapScopesEnabled
     } = this.props;
     const { originalScopes, generatedScopes, showOriginal } = this.state;
 
     const scopes =
-      (showOriginal && shouldMapScopes && originalScopes) || generatedScopes;
+      (showOriginal && mapScopesEnabled && originalScopes) || generatedScopes;
 
-    if (scopes && !isLoading) {
+    if (scopes && scopes.length > 0 && !isLoading) {
       return (
         <div className="pane scopes-list">
           <ObjectInspector
@@ -131,6 +136,8 @@ class Scopes extends PureComponent<Props, State> {
             createObjectClient={grip => createObjectClient(grip)}
             onDOMNodeClick={grip => openElementInInspector(grip)}
             onInspectIconClick={grip => openElementInInspector(grip)}
+            onDOMNodeMouseOver={grip => highlightDomElement(grip)}
+            onDOMNodeMouseOut={grip => unHighlightDomElement(grip)}
           />
         </div>
       );
@@ -186,7 +193,7 @@ const mapStateToProps = state => {
 
   return {
     selectedFrame,
-    shouldMapScopes: getMapScopes(state),
+    mapScopesEnabled: isMapScopesEnabled(state),
     isPaused: getIsPaused(state, thread),
     isLoading: generatedPending || originalPending,
     why: getPauseReason(state, thread),
@@ -200,6 +207,8 @@ export default connect(
   {
     openLink: actions.openLink,
     openElementInInspector: actions.openElementInInspectorCommand,
+    highlightDomElement: actions.highlightDomElement,
+    unHighlightDomElement: actions.unHighlightDomElement,
     toggleMapScopes: actions.toggleMapScopes
   }
 )(Scopes);

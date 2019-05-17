@@ -13,12 +13,16 @@ import {
 
 describe("blackbox", () => {
   it("should blackbox a source", async () => {
-    const store = createStore({ blackBox: async () => true });
-    const { dispatch, getState } = store;
+    const store = createStore({
+      blackBox: async () => true,
+      getBreakableLines: async () => []
+    });
+    const { dispatch, getState, cx } = store;
 
-    const foo1Source = makeSource("foo1");
-    await dispatch(actions.newSource(foo1Source));
-    await dispatch(actions.toggleBlackBox(foo1Source));
+    const foo1Source = await dispatch(
+      actions.newGeneratedSource(makeSource("foo1"))
+    );
+    await dispatch(actions.toggleBlackBox(cx, foo1Source));
 
     const fooSource = selectors.getSource(getState(), "foo1");
 
@@ -26,13 +30,10 @@ describe("blackbox", () => {
       throw new Error("foo should exist");
     }
 
-    const thread = foo1Source.actors[0].thread;
-    const displayedSources = selectors.getDisplayedSourcesForThread(
-      getState(),
-      thread
+    const displayedSources = selectors.getDisplayedSources(getState());
+    expect(displayedSources.FakeThread[fooSource.id].isBlackBoxed).toEqual(
+      true
     );
-
-    expect(displayedSources[fooSource.id].isBlackBoxed).toEqual(true);
     expect(fooSource.isBlackBoxed).toEqual(true);
   });
 });

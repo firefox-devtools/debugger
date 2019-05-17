@@ -4,46 +4,56 @@
 
 // @flow
 
-import type { Source, SourceLocation } from "../../types";
+import type { SourceId, Source, SourceLocation, Context } from "../../types";
 import type { PromiseAction } from "../utils/middleware/promise";
 
 export type LoadSourceAction = PromiseAction<
   {|
     +type: "LOAD_SOURCE_TEXT",
+    +cx: Context,
     +sourceId: string,
     +epoch: number
   |},
-  Source
+  {
+    text: string | {| binary: Object |},
+    contentType: string | void
+  }
 >;
 export type SourceAction =
   | LoadSourceAction
   | {|
       +type: "ADD_SOURCE",
+      +cx: Context,
       +source: Source
     |}
   | {|
       +type: "ADD_SOURCES",
+      +cx: Context,
       +sources: Array<Source>
     |}
   | {|
-      +type: "UPDATE_SOURCE",
-      +source: Source
+      +type: "CLEAR_SOURCE_MAP_URL",
+      +cx: Context,
+      +sourceId: SourceId
     |}
   | {|
       +type: "SET_SELECTED_LOCATION",
+      +cx: Context,
       +source: Source,
       +location?: SourceLocation
     |}
   | {|
       +type: "SET_PENDING_SELECTED_LOCATION",
+      +cx: Context,
       +url: string,
       +line?: number,
       +column?: number
     |}
-  | {| type: "CLEAR_SELECTED_LOCATION" |}
+  | {| type: "CLEAR_SELECTED_LOCATION", +cx: Context |}
   | PromiseAction<
       {|
         +type: "BLACKBOX",
+        +cx: Context,
         +source: Source
       |},
       {|
@@ -64,4 +74,10 @@ export type SourceAction =
       +type: "CLOSE_TABS",
       +sources: Array<Source>,
       +tabs: any
+    |}
+  | {|
+      type: "SET_BREAKABLE_LINES",
+      +cx: Context,
+      breakableLines: number[],
+      sourceId: string
     |};

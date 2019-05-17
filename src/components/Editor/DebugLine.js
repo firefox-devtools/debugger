@@ -3,31 +3,31 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 // @flow
-import { Component } from "react";
+import { PureComponent } from "react";
 import {
   toEditorPosition,
   getDocument,
   hasDocument,
   startOperation,
-  endOperation
+  endOperation,
+  getTokenEnd
 } from "../../utils/editor";
-import { isLoaded } from "../../utils/source";
 import { isException } from "../../utils/pause";
 import { getIndentation } from "../../utils/indentation";
 import { connect } from "../../utils/connect";
 import {
   getVisibleSelectedFrame,
   getPauseReason,
-  getSourceFromId,
+  getSourceWithContent,
   getCurrentThread
 } from "../../selectors";
 
-import type { Frame, Why, Source } from "../../types";
+import type { Frame, Why, SourceWithContent } from "../../types";
 
 type Props = {
   frame: Frame,
   why: Why,
-  source: Source
+  source: ?SourceWithContent
 };
 
 type TextClasses = {
@@ -35,21 +35,14 @@ type TextClasses = {
   lineClass: string
 };
 
-function isDocumentReady(source, frame) {
-  return frame && isLoaded(source) && hasDocument(frame.location.sourceId);
+function isDocumentReady(source: ?SourceWithContent, frame) {
+  return (
+    frame && source && source.content && hasDocument(frame.location.sourceId)
+  );
 }
 
-export class DebugLine extends Component<Props> {
+export class DebugLine extends PureComponent<Props> {
   debugExpression: null;
-
-  componentDidUpdate(prevProps: Props) {
-    const { why, frame, source } = this.props;
-
-    startOperation();
-    this.clearDebugLine(prevProps.why, prevProps.frame, prevProps.source);
-    this.setDebugLine(why, frame, source);
-    endOperation();
-  }
 
   componentDidMount() {
     const { why, frame, source } = this.props;
@@ -61,7 +54,16 @@ export class DebugLine extends Component<Props> {
     this.clearDebugLine(why, frame, source);
   }
 
-  setDebugLine(why: Why, frame: Frame, source: Source) {
+  componentDidUpdate(prevProps: Props) {
+    const { why, frame, source } = this.props;
+
+    startOperation();
+    this.clearDebugLine(prevProps.why, prevProps.frame, prevProps.source);
+    this.setDebugLine(why, frame, source);
+    endOperation();
+  }
+
+  setDebugLine(why: Why, frame: Frame, source: ?SourceWithContent) {
     if (!isDocumentReady(source, frame)) {
       return;
     }
@@ -75,14 +77,18 @@ export class DebugLine extends Component<Props> {
     const lineText = doc.getLine(line);
     column = Math.max(column, getIndentation(lineText));
 
+    // If component updates because user clicks on
+    // another source tab, codeMirror will be null.
+    const columnEnd = doc.cm ? getTokenEnd(doc.cm, line, column) : null;
+
     this.debugExpression = doc.markText(
       { ch: column, line },
-      { ch: null, line },
+      { ch: columnEnd, line },
       { className: markTextClass }
     );
   }
 
-  clearDebugLine(why: Why, frame: Frame, source: Source) {
+  clearDebugLine(why: Why, frame: Frame, source: ?SourceWithContent) {
     if (!isDocumentReady(source, frame)) {
       return;
     }
@@ -118,7 +124,7 @@ const mapStateToProps = state => {
   const frame = getVisibleSelectedFrame(state);
   return {
     frame,
-    source: frame && getSourceFromId(state, frame.location.sourceId),
+    source: frame && getSourceWithContent(state, frame.location.sourceId),
     why: getPauseReason(state, getCurrentThread(state))
   };
 };

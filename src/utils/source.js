@@ -21,9 +21,15 @@ export { isMinified } from "./isMinified";
 import { getURL, getFileExtension } from "./sources-tree";
 import { prefs, features } from "./prefs";
 
-import type { Source, SourceLocation, JsSource } from "../types";
-import type { SourceMetaDataType } from "../reducers/ast";
-import type { SymbolDeclarations } from "../workers/parser";
+import type {
+  SourceId,
+  Source,
+  SourceActor,
+  SourceContent,
+  SourceLocation
+} from "../types";
+import { isFulfilled, type AsyncValue } from "./async-value";
+import type { Symbols } from "../reducers/types";
 
 type transformUrlCallback = string => string;
 
@@ -60,7 +66,7 @@ export function shouldBlackbox(source: ?Source) {
     return false;
   }
 
-  if (!isLoaded(source) || !source.url) {
+  if (!source.url) {
     return false;
   }
 
@@ -71,11 +77,14 @@ export function shouldBlackbox(source: ?Source) {
   return true;
 }
 
-export function shouldPrettyPrint(source: Source) {
+export function shouldPrettyPrint(
+  source: Source,
+  content: SourceContent
+): boolean {
   if (
     !source ||
     isPretty(source) ||
-    !isJavaScript(source) ||
+    !isJavaScript(source, content) ||
     isOriginal(source) ||
     (prefs.clientSourceMapsEnabled && source.sourceMapURL)
   ) {
@@ -95,9 +104,9 @@ export function shouldPrettyPrint(source: Source) {
  * @memberof utils/source
  * @static
  */
-export function isJavaScript(source: Source): boolean {
+export function isJavaScript(source: Source, content: SourceContent): boolean {
   const url = source.url;
-  const contentType = source.contentType;
+  const contentType = content.type === "wasm" ? null : content.contentType;
   return (
     (url && /\.(jsm|js)?$/.test(trimUrlQuery(url))) ||
     !!(contentType && contentType.includes("javascript"))
@@ -284,15 +293,13 @@ export function getSourcePath(url: string) {
  * Returns amount of lines in the source. If source is a WebAssembly binary,
  * the function returns amount of bytes.
  */
-export function getSourceLineCount(source: Source) {
-  if (source.error) {
-    return 0;
-  }
-  if (source.isWasm) {
-    const { binary } = (source.text: any);
+export function getSourceLineCount(content: SourceContent): number {
+  if (content.type === "wasm") {
+    const { binary } = content.value;
     return binary.length;
   }
-  return source.text != undefined ? source.text.split("\n").length : 0;
+
+  return content.value.split("\n").length;
 }
 
 /**
@@ -313,18 +320,19 @@ export function getSourceLineCount(source: Source) {
  * @memberof utils/source
  * @static
  */
-
+// eslint-disable-next-line complexity
 export function getMode(
   source: Source,
-  symbols?: SymbolDeclarations
+  content: SourceContent,
+  symbols?: Symbols
 ): { name: string, base?: Object } {
-  if (source.isWasm) {
+  const { url } = source;
+
+  if (content.type !== "text") {
     return { name: "text" };
   }
-  const { contentType, text, url } = source;
-  if (!text) {
-    return { name: "text" };
-  }
+
+  const { contentType, value: text } = content;
 
   if ((url && url.match(/\.jsx$/i)) || (symbols && symbols.hasJsx)) {
     if (symbols && symbols.hasTypes) {
@@ -395,30 +403,30 @@ export function getMode(
   return { name: "text" };
 }
 
-export function isLoaded(source: Source) {
-  return source.loadedState === "loaded";
+export function isInlineScript(source: SourceActor): boolean {
+  return source.introductionType === "scriptElement";
 }
 
-export function isLoading(source: Source) {
-  return source.loadedState === "loading";
-}
-
-export function getTextAtPosition(source: ?Source, location: SourceLocation) {
-  if (!source || !source.text) {
+export function getTextAtPosition(
+  sourceId: SourceId,
+  asyncContent: AsyncValue<SourceContent> | null,
+  location: SourceLocation
+) {
+  if (!asyncContent || !isFulfilled(asyncContent)) {
     return "";
   }
 
+  const content = asyncContent.value;
   const line = location.line;
   const column = location.column || 0;
 
-  if (source.isWasm) {
+  if (content.type === "wasm") {
     const { line: editorLine } = toEditorPosition(location);
-    const lines = renderWasmText(source);
+    const lines = renderWasmText(sourceId, content);
     return lines[editorLine];
   }
 
-  const text = ((source: any): JsSource).text || "";
-  const lineText = text.split("\n")[line - 1];
+  const lineText = content.value.split("\n")[line - 1];
   if (!lineText) {
     return "";
   }
@@ -426,10 +434,7 @@ export function getTextAtPosition(source: ?Source, location: SourceLocation) {
   return lineText.slice(column, column + 100).trim();
 }
 
-export function getSourceClassnames(
-  source: Object,
-  sourceMetaData?: SourceMetaDataType
-) {
+export function getSourceClassnames(source: Object, symbols?: Symbols) {
   // Conditionals should be ordered by priority of icon!
   const defaultClassName = "file";
 
@@ -445,8 +450,8 @@ export function getSourceClassnames(
     return "blackBox";
   }
 
-  if (sourceMetaData && sourceMetaData.framework) {
-    return sourceMetaData.framework.toLowerCase();
+  if (symbols && !symbols.loading && symbols.framework) {
+    return symbols.framework.toLowerCase();
   }
 
   return sourceTypes[getFileExtension(source)] || defaultClassName;
@@ -486,7 +491,7 @@ export function getSourceQueryString(source: ?Source) {
 }
 
 export function isUrlExtension(url: string) {
-  return /^(chrome|moz)-extension:\//.test(url);
+  return /\/?(chrome|moz)-extension:\//.test(url);
 }
 
 export function getPlainUrl(url: string): string {

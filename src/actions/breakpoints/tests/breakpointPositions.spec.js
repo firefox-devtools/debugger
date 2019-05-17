@@ -11,17 +11,25 @@ import {
   makeSource,
   waitForState
 } from "../../../utils/test-head";
+import { createSource } from "../../tests/helpers/threadClient";
 
 describe("breakpointPositions", () => {
   it("fetches positions", async () => {
+    const fooContent = createSource("foo", "");
+
     const store = createStore({
-      getBreakpointPositions: async () => ({ "9": [1] })
+      getBreakpointPositions: async () => ({ "9": [1] }),
+      getBreakableLines: async () => [],
+      sourceContents: async () => fooContent
     });
 
-    const { dispatch, getState } = store;
-    await dispatch(actions.newSource(makeSource("foo")));
+    const { dispatch, getState, cx } = store;
+    const source = await dispatch(
+      actions.newGeneratedSource(makeSource("foo"))
+    );
+    await dispatch(actions.loadSourceById(cx, source.id));
 
-    dispatch(actions.setBreakpointPositions("foo"));
+    dispatch(actions.setBreakpointPositions({ cx, sourceId: "foo", line: 9 }));
 
     await waitForState(store, state =>
       selectors.hasBreakpointPositions(state, "foo")
@@ -29,25 +37,29 @@ describe("breakpointPositions", () => {
 
     expect(
       selectors.getBreakpointPositionsForSource(getState(), "foo")
-    ).toEqual([
-      {
-        location: {
-          line: 9,
-          column: 1,
-          sourceId: "foo",
-          sourceUrl: "http://localhost:8000/examples/foo"
-        },
-        generatedLocation: {
-          line: 9,
-          column: 1,
-          sourceId: "foo",
-          sourceUrl: "http://localhost:8000/examples/foo"
+    ).toEqual({
+      [9]: [
+        {
+          location: {
+            line: 9,
+            column: 1,
+            sourceId: "foo",
+            sourceUrl: "http://localhost:8000/examples/foo"
+          },
+          generatedLocation: {
+            line: 9,
+            column: 1,
+            sourceId: "foo",
+            sourceUrl: "http://localhost:8000/examples/foo"
+          }
         }
-      }
-    ]);
+      ]
+    });
   });
 
   it("doesn't re-fetch positions", async () => {
+    const fooContent = createSource("foo", "");
+
     let resolve = _ => {};
     let count = 0;
     const store = createStore({
@@ -55,14 +67,19 @@ describe("breakpointPositions", () => {
         new Promise(r => {
           count++;
           resolve = r;
-        })
+        }),
+      getBreakableLines: async () => [],
+      sourceContents: async () => fooContent
     });
 
-    const { dispatch, getState } = store;
-    await dispatch(actions.newSource(makeSource("foo")));
+    const { dispatch, getState, cx } = store;
+    const source = await dispatch(
+      actions.newGeneratedSource(makeSource("foo"))
+    );
+    await dispatch(actions.loadSourceById(cx, source.id));
 
-    dispatch(actions.setBreakpointPositions("foo"));
-    dispatch(actions.setBreakpointPositions("foo"));
+    dispatch(actions.setBreakpointPositions({ cx, sourceId: "foo", line: 9 }));
+    dispatch(actions.setBreakpointPositions({ cx, sourceId: "foo", line: 9 }));
 
     resolve({ "9": [1] });
     await waitForState(store, state =>
@@ -71,22 +88,24 @@ describe("breakpointPositions", () => {
 
     expect(
       selectors.getBreakpointPositionsForSource(getState(), "foo")
-    ).toEqual([
-      {
-        location: {
-          line: 9,
-          column: 1,
-          sourceId: "foo",
-          sourceUrl: "http://localhost:8000/examples/foo"
-        },
-        generatedLocation: {
-          line: 9,
-          column: 1,
-          sourceId: "foo",
-          sourceUrl: "http://localhost:8000/examples/foo"
+    ).toEqual({
+      [9]: [
+        {
+          location: {
+            line: 9,
+            column: 1,
+            sourceId: "foo",
+            sourceUrl: "http://localhost:8000/examples/foo"
+          },
+          generatedLocation: {
+            line: 9,
+            column: 1,
+            sourceId: "foo",
+            sourceUrl: "http://localhost:8000/examples/foo"
+          }
         }
-      }
-    ]);
+      ]
+    });
 
     expect(count).toEqual(1);
   });
