@@ -70,7 +70,7 @@ function formatKey(action) {
     const winKey =
       getKeyForOS("WINNT", `${action}Display`) || getKeyForOS("WINNT", action);
     // display both Windows type and Mac specific keys
-    return formatKeyShortcut([key, winKey].join(" "));
+    return formatKeyShortcut(`(${key} or ${winKey})`);
   }
   return formatKeyShortcut(key);
 }
