@@ -6,20 +6,23 @@
 // @flow
 
 import React from "react";
-import { shallow, mount } from "enzyme";
 import lodash from "lodash";
+
+import { shallow, mount } from "enzyme";
 import { QuickOpenModal } from "../QuickOpenModal";
+import { mockcx } from "../../utils/test-mockup";
 
 jest.mock("fuzzaldrin-plus");
 jest.unmock("lodash");
 
+import { filter } from "fuzzaldrin-plus";
+
 // $FlowIgnore
 lodash.throttle = jest.fn(fn => fn);
 
-import { filter } from "fuzzaldrin-plus";
-
 function generateModal(propOverrides, renderType = "shallow") {
   const props = {
+    cx: mockcx,
     enabled: false,
     query: "",
     searchType: "sources",
@@ -263,7 +266,8 @@ describe("QuickOpenModal", () => {
           },
           // symbol searching relies on a source being selected.
           // So we dummy out the source and the API.
-          selectedSource: { id: "foo", text: "yo" }
+          selectedSource: { id: "foo", text: "yo" },
+          selectedContentLoaded: true
         },
         "mount"
       );
@@ -289,7 +293,8 @@ describe("QuickOpenModal", () => {
           },
           // symbol searching relies on a source being selected.
           // So we dummy out the source and the API.
-          selectedSource: null
+          selectedSource: null,
+          selectedContentLoaded: false
         },
         "mount"
       );
@@ -331,7 +336,7 @@ describe("QuickOpenModal", () => {
         key: "Enter"
       };
       wrapper.find("SearchInput").simulate("keydown", event);
-      expect(props.selectSpecificLocation).toHaveBeenCalledWith({
+      expect(props.selectSpecificLocation).toHaveBeenCalledWith(mockcx, {
         column: 12,
         line: 34,
         sourceId: ""
@@ -345,7 +350,8 @@ describe("QuickOpenModal", () => {
           enabled: true,
           query: ":34:12",
           searchType: "goto",
-          selectedSource: { id: sourceId }
+          selectedSource: { id: sourceId },
+          selectedContentLoaded: true
         },
         "shallow"
       );
@@ -353,7 +359,7 @@ describe("QuickOpenModal", () => {
         key: "Enter"
       };
       wrapper.find("SearchInput").simulate("keydown", event);
-      expect(props.selectSpecificLocation).toHaveBeenCalledWith({
+      expect(props.selectSpecificLocation).toHaveBeenCalledWith(mockcx, {
         column: 12,
         line: 34,
         sourceId: sourceId
@@ -464,7 +470,7 @@ describe("QuickOpenModal", () => {
         key: "Enter"
       };
       wrapper.find("SearchInput").simulate("keydown", event);
-      expect(props.selectSpecificLocation).toHaveBeenCalledWith({
+      expect(props.selectSpecificLocation).toHaveBeenCalledWith(mockcx, {
         column: undefined,
         sourceId: id,
         line: 0
@@ -494,7 +500,7 @@ describe("QuickOpenModal", () => {
         key: "Enter"
       };
       wrapper.find("SearchInput").simulate("keydown", event);
-      expect(props.selectSpecificLocation).toHaveBeenCalledWith({
+      expect(props.selectSpecificLocation).toHaveBeenCalledWith(mockcx, {
         column: undefined,
         line: 0,
         sourceId: ""
@@ -524,7 +530,7 @@ describe("QuickOpenModal", () => {
         key: "Enter"
       };
       wrapper.find("SearchInput").simulate("keydown", event);
-      expect(props.selectSpecificLocation).toHaveBeenCalledWith({
+      expect(props.selectSpecificLocation).toHaveBeenCalledWith(mockcx, {
         column: 4,
         line: 3,
         sourceId: id
@@ -601,6 +607,7 @@ describe("QuickOpenModal", () => {
           query: "test",
           searchType: "functions",
           selectedSource: { id: sourceId },
+          selectedContentLoaded: true,
           symbols: {
             functions: [],
             variables: {}
@@ -666,6 +673,7 @@ describe("QuickOpenModal", () => {
           query: "test",
           searchType: "functions",
           selectedSource: { id: sourceId },
+          selectedContentLoaded: true,
           symbols: {
             functions: [],
             variables: {}
@@ -699,6 +707,7 @@ describe("QuickOpenModal", () => {
             query: "test",
             searchType: "variables",
             selectedSource: null,
+            selectedContentLoaded: true,
             symbols: {
               functions: [],
               variables: {}
@@ -738,6 +747,7 @@ describe("QuickOpenModal", () => {
             query: "test",
             searchType: "other",
             selectedSource: { id: sourceId },
+            selectedContentLoaded: true,
             symbols: {
               functions: [],
               variables: {}
@@ -803,7 +813,6 @@ describe("QuickOpenModal", () => {
         },
         "mount"
       );
-
       expect(wrapper).toMatchSnapshot();
     });
 

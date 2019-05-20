@@ -14,16 +14,16 @@ import {
   getTopFrame,
   getBreakpointsList,
   getBreakpointsDisabled,
-  getBreakpointsLoading,
   getExpressions,
   getIsWaitingOnBreak,
   getPauseCommand,
-  getMapScopes,
+  isMapScopesEnabled,
   getSelectedFrame,
   getShouldPauseOnExceptions,
   getShouldPauseOnCaughtExceptions,
   getWorkers,
-  getCurrentThread
+  getCurrentThread,
+  getThreadContext
 } from "../../selectors";
 
 import AccessibleImage from "../shared/AccessibleImage";
@@ -45,7 +45,7 @@ import Scopes from "./Scopes";
 
 import "./SecondaryPanes.css";
 
-import type { Expression, Frame, WorkerList } from "../../types";
+import type { Expression, Frame, WorkerList, ThreadContext } from "../../types";
 
 type AccordionPaneItem = {
   header: string,
@@ -75,16 +75,16 @@ type State = {
 };
 
 type Props = {
+  cx: ThreadContext,
   expressions: List<Expression>,
   hasFrames: boolean,
   horizontal: boolean,
   breakpoints: Object,
   selectedFrame: ?Frame,
   breakpointsDisabled: boolean,
-  breakpointsLoading: boolean,
   isWaitingOnBreak: boolean,
   renderWhyPauseDelay: number,
-  shouldMapScopes: boolean,
+  mapScopesEnabled: boolean,
   shouldPauseOnExceptions: boolean,
   shouldPauseOnCaughtExceptions: boolean,
   workers: WorkerList,
@@ -119,10 +119,10 @@ class SecondaryPanes extends Component<Props, State> {
 
   renderBreakpointsToggle() {
     const {
+      cx,
       toggleAllBreakpoints,
       breakpoints,
-      breakpointsDisabled,
-      breakpointsLoading
+      breakpointsDisabled
     } = this.props;
     const isIndeterminate =
       !breakpointsDisabled && breakpoints.some(x => x.disabled);
@@ -137,11 +137,11 @@ class SecondaryPanes extends Component<Props, State> {
         ? L10N.getStr("breakpoints.enable")
         : L10N.getStr("breakpoints.disable"),
       className: "breakpoints-toggle",
-      disabled: breakpointsLoading,
+      disabled: false,
       key: "breakpoints-toggle",
       onChange: e => {
         e.stopPropagation();
-        toggleAllBreakpoints(!breakpointsDisabled);
+        toggleAllBreakpoints(cx, !breakpointsDisabled);
       },
       onClick: e => e.stopPropagation(),
       checked: !breakpointsDisabled && !isIndeterminate,
@@ -168,7 +168,7 @@ class SecondaryPanes extends Component<Props, State> {
         debugBtn(
           evt => {
             evt.stopPropagation();
-            this.props.evaluateExpressions();
+            this.props.evaluateExpressions(this.props.cx);
           },
           "refresh",
           "refresh",
@@ -228,18 +228,14 @@ class SecondaryPanes extends Component<Props, State> {
   }
 
   getScopesButtons() {
-    const { selectedFrame, shouldMapScopes } = this.props;
+    const { selectedFrame, mapScopesEnabled } = this.props;
 
-    if (
-      !features.mapScopes ||
-      !selectedFrame ||
-      isGeneratedId(selectedFrame.location.sourceId)
-    ) {
+    if (!selectedFrame || isGeneratedId(selectedFrame.location.sourceId)) {
       return null;
     }
 
     return [
-      <div>
+      <div key="scopes-buttons">
         <label
           className="map-scopes-header"
           title={L10N.getStr("scopes.mapping.label")}
@@ -247,7 +243,7 @@ class SecondaryPanes extends Component<Props, State> {
         >
           <input
             type="checkbox"
-            checked={shouldMapScopes ? "checked" : ""}
+            checked={mapScopesEnabled ? "checked" : ""}
             onChange={e => this.props.toggleMapScopes()}
           />
           {L10N.getStr("scopes.map.label")}
@@ -433,21 +429,19 @@ class SecondaryPanes extends Component<Props, State> {
 
   renderVerticalLayout() {
     return (
-      <div>
-        <SplitBox
-          initialSize="300px"
-          minSize={10}
-          maxSize="50%"
-          splitterSize={1}
-          startPanel={
-            <div style={{ width: "inherit" }}>
-              <WhyPaused delay={this.props.renderWhyPauseDelay} />
-              <Accordion items={this.getStartItems()} />
-            </div>
-          }
-          endPanel={<Accordion items={this.getEndItems()} />}
-        />
-      </div>
+      <SplitBox
+        initialSize="300px"
+        minSize={10}
+        maxSize="50%"
+        splitterSize={1}
+        startPanel={
+          <div style={{ width: "inherit" }}>
+            <WhyPaused delay={this.props.renderWhyPauseDelay} />
+            <Accordion items={this.getStartItems()} />
+          </div>
+        }
+        endPanel={<Accordion items={this.getEndItems()} />}
+      />
     );
   }
 
@@ -495,15 +489,15 @@ const mapStateToProps = state => {
   const thread = getCurrentThread(state);
 
   return {
+    cx: getThreadContext(state),
     expressions: getExpressions(state),
     hasFrames: !!getTopFrame(state, thread),
     breakpoints: getBreakpointsList(state),
     breakpointsDisabled: getBreakpointsDisabled(state),
-    breakpointsLoading: getBreakpointsLoading(state),
     isWaitingOnBreak: getIsWaitingOnBreak(state, thread),
     renderWhyPauseDelay: getRenderWhyPauseDelay(state, thread),
     selectedFrame: getSelectedFrame(state, thread),
-    shouldMapScopes: getMapScopes(state),
+    mapScopesEnabled: isMapScopesEnabled(state),
     shouldPauseOnExceptions: getShouldPauseOnExceptions(state),
     shouldPauseOnCaughtExceptions: getShouldPauseOnCaughtExceptions(state),
     workers: getWorkers(state)

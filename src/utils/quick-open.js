@@ -4,6 +4,7 @@
 
 // @flow
 import classnames from "classnames";
+import { endTruncateStr } from "./utils";
 import {
   isPretty,
   getFilename,
@@ -66,11 +67,12 @@ export function formatSourcesForList(
   const relativeUrlWithQuery = `${source.relativeUrl}${getSourceQueryString(
     source
   ) || ""}`;
-
+  const subtitle = endTruncateStr(relativeUrlWithQuery, 100);
+  const value = relativeUrlWithQuery;
   return {
-    value: relativeUrlWithQuery,
+    value,
     title,
-    subtitle: relativeUrlWithQuery,
+    subtitle,
     icon: tabUrls.has(source.url)
       ? "tab result-item-icon"
       : classnames(getSourceClassnames(source), "result-item-icon"),
@@ -142,6 +144,7 @@ export function formatSources(
   tabUrls: Set<$PropertyType<Tab, "url">>
 ): Array<QuickOpenResult> {
   return sources
+    .filter(source => !isPretty(source))
     .filter(source => !!source.relativeUrl && !isPretty(source))
     .map(source => formatSourcesForList(source, tabUrls));
 }

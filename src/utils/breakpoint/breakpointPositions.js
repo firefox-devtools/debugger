@@ -5,7 +5,7 @@
  * file, You can obtain one at <http://mozilla.org/MPL/2.0/>. */
 
 import { comparePosition } from "../location";
-import { getSelectedLocation } from "../source-maps";
+import { getSelectedLocation } from "../selected-location";
 import type { BreakpointPositions, SourceLocation } from "../../types";
 
 export function findPosition(
@@ -16,7 +16,11 @@ export function findPosition(
     return null;
   }
 
-  return positions.find(pos =>
+  const lineBps = positions[location.line];
+  if (!lineBps) {
+    return null;
+  }
+  return lineBps.find(pos =>
     comparePosition(getSelectedLocation(pos, location), location)
   );
 }

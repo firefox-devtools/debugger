@@ -26,9 +26,10 @@ describe("test DateTime", () => {
       })
     );
 
-    expect(renderedComponent.text()).toEqual(
-      "Date Thu Mar 31 2016 00:17:24 GMT+0300 (East Africa Time)"
-    );
+    const expectedDate = new Date(
+      "Date Thu Mar 31 2016 00:17:24 GMT+0300 (EAT)"
+    ).toString();
+    expect(renderedComponent.text()).toEqual(`Date ${expectedDate}`);
     expectActorAttribute(renderedComponent, stub.actor);
   });
 });

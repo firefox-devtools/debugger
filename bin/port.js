@@ -56,7 +56,7 @@ function copyCommitFiles({mcModulePath, mcPath, projectPath}) {
 
 function start() {
   const projectPath = path.resolve(__dirname, "..");
-  const mcModulePath = "devtools/client/debugger/new/";
+  const mcModulePath = "devtools/client/debugger/";
 
   // resolving against the project path in case it's relative. If it's absolute
   // it will override whatever is in projectPath.

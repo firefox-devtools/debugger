@@ -4,12 +4,37 @@
 
 // @flow
 
+import { differenceBy } from "lodash";
 import type { Action, ThunkArgs } from "./types";
+import { removeSourceActors } from "./source-actors";
+
+import { getContext, getWorkers, getSourceActorsForThread } from "../selectors";
 
 export function updateWorkers() {
   return async function({ dispatch, getState, client }: ThunkArgs) {
+    const cx = getContext(getState());
     const workers = await client.fetchWorkers();
-    const mainThread = client.getMainThread();
-    dispatch(({ type: "SET_WORKERS", workers, mainThread }: Action));
+
+    const currentWorkers = getWorkers(getState());
+
+    const addedWorkers = differenceBy(workers, currentWorkers, w => w.actor);
+    const removedWorkers = differenceBy(currentWorkers, workers, w => w.actor);
+    if (removedWorkers.length > 0) {
+      const sourceActors = getSourceActorsForThread(
+        getState(),
+        removedWorkers.map(w => w.actor)
+      );
+      dispatch(removeSourceActors(sourceActors));
+      dispatch(
+        ({
+          type: "REMOVE_WORKERS",
+          cx,
+          workers: removedWorkers.map(w => w.actor)
+        }: Action)
+      );
+    }
+    if (addedWorkers.length > 0) {
+      dispatch(({ type: "INSERT_WORKERS", cx, workers: addedWorkers }: Action));
+    }
   };
 }

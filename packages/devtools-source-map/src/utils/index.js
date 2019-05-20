@@ -6,13 +6,19 @@
 
 const md5 = require("md5");
 
-function originalToGeneratedId(originalId: string) {
-  const match = originalId.match(/(.*)\/originalSource/);
+function originalToGeneratedId(sourceId: string) {
+  if (isGeneratedId(sourceId)) {
+    return sourceId;
+  }
+
+  const match = sourceId.match(/(.*)\/originalSource/);
   return match ? match[1] : "";
 }
 
+const getMd5 = memoize((url: string) => md5(url));
+
 function generatedToOriginalId(generatedId: string, url: string) {
-  return `${generatedId}/originalSource-${md5(url)}`;
+  return `${generatedId}/originalSource-${getMd5(url)}`;
 }
 
 function isOriginalId(id: string) {
@@ -72,6 +78,20 @@ function getContentType(url: string): string {
     }
   }
   return "text/plain";
+}
+
+function memoize<T: Function, A, R>(func: T): A => R {
+  const map = new Map();
+
+  return (arg: A) => {
+    if (map.has(arg)) {
+      return ((map.get(arg): any): R);
+    }
+
+    const result: R = func(arg);
+    map.set(arg, result);
+    return result;
+  };
 }
 
 module.exports = {

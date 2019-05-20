@@ -16,9 +16,7 @@ export {
   stepOut,
   resume,
   rewind,
-  reverseStepIn,
-  reverseStepOver,
-  reverseStepOut
+  reverseStepOver
 } from "./commands";
 export { fetchScopes } from "./fetchScopes";
 export { paused } from "./paused";
@@ -26,7 +24,6 @@ export { resumed } from "./resumed";
 export { continueToHere } from "./continueToHere";
 export { breakOnNext } from "./breakOnNext";
 export { mapFrames } from "./mapFrames";
-export { setPopupObjectProperties } from "./setPopupObjectProperties";
 export { pauseOnExceptions } from "./pauseOnExceptions";
 export { selectFrame } from "./selectFrame";
 export { toggleSkipPausing } from "./skipPausing";

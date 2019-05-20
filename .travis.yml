@@ -12,7 +12,7 @@ env:
   global:
     - DISPLAY=':99.0'
     - YARN_VERSION='1.9.4'
-    - MC_COMMIT='25398e555020' # https://hg.mozilla.org/mozilla-central/shortlog
+    - MC_COMMIT='839cdad764d7' # https://hg.mozilla.org/mozilla-central/shortlog
 
 notifications:
   slack:
@@ -69,4 +69,4 @@ script:
     browser_webconsole_context_menu_export_console_output_clipboard.js
     browser_webconsole_context_menu_copy_message_with_framework_stacktrace.js
     test_smart-trace
-  - ./node_modules/.bin/mochii --ci --mc ./firefox --headless devtools/client/debugger/new
+  - ./node_modules/.bin/mochii --ci --mc ./firefox --headless devtools/client/debugger

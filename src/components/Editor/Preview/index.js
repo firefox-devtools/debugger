@@ -9,27 +9,19 @@ import { connect } from "../../../utils/connect";
 
 import Popup from "./Popup";
 
-import {
-  getPreview,
-  getSelectedSource,
-  getIsPaused,
-  getCurrentThread
-} from "../../../selectors";
+import { getPreview, getThreadContext } from "../../../selectors";
 import actions from "../../../actions";
-import { toEditorRange } from "../../../utils/editor";
 
-import type { Source } from "../../../types";
+import type { ThreadContext } from "../../../types";
 
 import type { Preview as PreviewType } from "../../../reducers/ast";
 
 type Props = {
+  cx: ThreadContext,
   editor: any,
   editorRef: ?HTMLDivElement,
-  selectedSource: Source,
   preview: PreviewType,
-  isPaused: boolean,
   clearPreview: typeof actions.clearPreview,
-  setPopupObjectProperties: typeof actions.setPopupObjectProperties,
   addExpression: typeof actions.addExpression,
   updatePreview: typeof actions.updatePreview
 };
@@ -113,69 +105,55 @@ class Preview extends PureComponent<Props, State> {
   }
 
   onTokenEnter = ({ target, tokenPos }) => {
-    if (this.props.isPaused) {
-      this.props.updatePreview(target, tokenPos, this.props.editor.codeMirror);
+    const { cx, updatePreview, editor } = this.props;
+    if (cx.isPaused) {
+      updatePreview(cx, target, tokenPos, editor.codeMirror);
     }
   };
 
   onTokenLeave = e => {
-    if (this.props.isPaused && !inPopup(e)) {
-      this.props.clearPreview();
+    if (this.props.cx.isPaused && !inPopup(e)) {
+      this.props.clearPreview(this.props.cx);
     }
   };
 
   onMouseUp = () => {
-    if (this.props.isPaused) {
+    if (this.props.cx.isPaused) {
       this.setState({ selecting: false });
       return true;
     }
   };
 
   onMouseDown = () => {
-    if (this.props.isPaused) {
+    if (this.props.cx.isPaused) {
       this.setState({ selecting: true });
       return true;
     }
   };
 
   onScroll = () => {
-    if (this.props.isPaused) {
-      this.props.clearPreview();
+    if (this.props.cx.isPaused) {
+      this.props.clearPreview(this.props.cx);
     }
   };
 
   onClose = e => {
-    if (this.props.isPaused) {
-      this.props.clearPreview();
+    if (this.props.cx.isPaused) {
+      this.props.clearPreview(this.props.cx);
     }
   };
 
   render() {
-    const { selectedSource, preview } = this.props;
-    if (!this.props.editor || !selectedSource || this.state.selecting) {
+    const { preview } = this.props;
+    if (!preview || preview.updating || this.state.selecting) {
       return null;
     }
-
-    if (!preview || preview.updating) {
-      return null;
-    }
-
-    const { result, expression, location, cursorPos } = preview;
-    const value = result;
-    if (typeof value == "undefined" || value.optimizedOut) {
-      return null;
-    }
-
-    const editorRange = toEditorRange(selectedSource.id, location);
 
     return (
       <Popup
-        value={value}
+        preview={preview}
         editor={this.props.editor}
         editorRef={this.props.editorRef}
-        range={editorRange}
-        expression={expression}
-        popoverPos={cursorPos}
         onClose={this.onClose}
       />
     );
@@ -183,16 +161,14 @@ class Preview extends PureComponent<Props, State> {
 }
 
 const mapStateToProps = state => ({
-  preview: getPreview(state),
-  isPaused: getIsPaused(state, getCurrentThread(state)),
-  selectedSource: getSelectedSource(state)
+  cx: getThreadContext(state),
+  preview: getPreview(state)
 });
 
 export default connect(
   mapStateToProps,
   {
     clearPreview: actions.clearPreview,
-    setPopupObjectProperties: actions.setPopupObjectProperties,
     addExpression: actions.addExpression,
     updatePreview: actions.updatePreview
   }

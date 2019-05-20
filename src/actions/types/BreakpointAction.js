@@ -9,25 +9,14 @@ import type {
   SourceLocation,
   XHRBreakpoint,
   Source,
-  BreakpointPositions
+  BreakpointPositions,
+  PendingLocation,
+  Context
 } from "../../types";
 
 import type { PromiseAction } from "../utils/middleware/promise";
 
 export type BreakpointAction =
-  | PromiseAction<
-      {|
-        +type: "ADD_BREAKPOINT",
-        +breakpoint: Breakpoint,
-        +condition?: string
-      |},
-      Breakpoint
-    >
-  | PromiseAction<{|
-      +type: "REMOVE_BREAKPOINT",
-      +breakpoint: Breakpoint,
-      +disabled: boolean
-    |}>
   | PromiseAction<{|
       +type: "SET_XHR_BREAKPOINT",
       +breakpoint: XHRBreakpoint
@@ -53,48 +42,23 @@ export type BreakpointAction =
       +breakpoint: XHRBreakpoint
     |}>
   | {|
+      +type: "SET_BREAKPOINT",
+      +cx: Context,
+      +breakpoint: Breakpoint
+    |}
+  | {|
       +type: "REMOVE_BREAKPOINT",
-      +breakpoint: Breakpoint,
-      +status: "done"
+      +cx: Context,
+      +location: SourceLocation
     |}
   | {|
-      +type: "SET_BREAKPOINT_OPTIONS",
-      +breakpoint: Breakpoint
-    |}
-  | PromiseAction<{|
-      +type: "TOGGLE_BREAKPOINTS",
-      +shouldDisableBreakpoints: boolean
-    |}>
-  | {|
-      +type: "SYNC_BREAKPOINT",
-      +breakpoint: ?Breakpoint,
-      +previousLocation: SourceLocation
-    |}
-  | PromiseAction<
-      {|
-        +type: "ENABLE_BREAKPOINT",
-        +breakpoint: Breakpoint
-      |},
-      Breakpoint
-    >
-  | {|
-      +type: "DISABLE_BREAKPOINT",
-      +breakpoint: Breakpoint
-    |}
-  | {|
-      +type: "DISABLE_ALL_BREAKPOINTS",
-      +breakpoints: Breakpoint[]
-    |}
-  | {|
-      +type: "ENABLE_ALL_BREAKPOINTS",
-      +breakpoints: Breakpoint[]
-    |}
-  | {|
-      +type: "REMAP_BREAKPOINTS",
-      +breakpoints: Breakpoint[]
+      +type: "REMOVE_PENDING_BREAKPOINT",
+      +cx: Context,
+      +location: PendingLocation
     |}
   | {|
       type: "ADD_BREAKPOINT_POSITIONS",
+      +cx: Context,
       positions: BreakpointPositions,
       source: Source
     |};

@@ -39,12 +39,12 @@ Services.scriptloader.loadSubScript(
 );
 
 Services.scriptloader.loadSubScript(
-  "chrome://mochitests/content/browser/devtools/client/debugger/new/test/mochitest/helpers.js",
+  "chrome://mochitests/content/browser/devtools/client/debugger/test/mochitest/helpers.js",
   this
 );
 
 const EXAMPLE_URL =
-  "http://example.com/browser/devtools/client/debugger/new/test/mochitest/examples/";
+  "http://example.com/browser/devtools/client/debugger/test/mochitest/examples/";
 
 
 // NOTE: still experimental, the screenshots might not be exactly correct

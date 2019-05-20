@@ -7,28 +7,29 @@
 import { getSymbols, clearSymbols } from "./getSymbols";
 import { clearASTs } from "./utils/ast";
 import getScopes, { clearScopes } from "./getScopes";
-import { hasSource, setSource, clearSources } from "./sources";
+import { setSource, clearSources } from "./sources";
 import findOutOfScopeLocations from "./findOutOfScopeLocations";
 import { getNextStep } from "./steps";
 import { hasSyntaxError } from "./validate";
-import { getFramework } from "./frameworks";
 import mapExpression from "./mapExpression";
 
 import { workerUtils } from "devtools-utils";
 const { workerHandler } = workerUtils;
 
+function clearState() {
+  clearASTs();
+  clearScopes();
+  clearSources();
+  clearSymbols();
+}
+
 self.onmessage = workerHandler({
   findOutOfScopeLocations,
   getSymbols,
   getScopes,
-  clearSymbols,
-  clearScopes,
-  clearASTs,
-  hasSource,
-  setSource,
-  clearSources,
+  clearState,
   getNextStep,
   hasSyntaxError,
-  getFramework,
-  mapExpression
+  mapExpression,
+  setSource
 });

@@ -117,8 +117,6 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  direction: rtl; /* make ellipsis on the beginning of a string */
-  text-align: left;
 }
 
 .theme-dark .result-list.big li.selected .subtitle {
@@ -126,7 +124,7 @@
 }
 
 .theme-dark .result-list.big li .subtitle {
-  color: var(--theme-comment-alt);
+  color: var(--theme-text-color-inactive);
 }
 
 .search-bar .result-list li.selected .subtitle {

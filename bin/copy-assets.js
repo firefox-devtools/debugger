@@ -81,51 +81,9 @@ function copySVGs({ projectPath, mcPath }) {
   const projectImagesPath = path.join(projectPath, "/images/");
   const mcImagesPath = path.join(
     mcPath,
-    "devtools/client/debugger/new/images"
+    "devtools/client/debugger/images"
   );
-
-  let usedSvgs = [];
-  const svgTest = new RegExp(/url\(\/images\/(.*)\)/, "g");
-  const cssFiles = walkSync(path.join(projectPath, "src/components"))
-    .filter(file => file.match(/css$/))
-    .forEach(file =>
-      usedSvgs.push(...searchText(fs.readFileSync(file, "utf-8"), svgTest))
-    );
-
-  const files = fs.readdirSync(projectImagesPath)
-    .filter(file => file.match(/svg$/))
-    .filter(file => usedSvgs.includes(file));
-
-  rimraf.sync(mcImagesPath);
-  files.forEach(file =>
-    fsExtra.copySync(
-      path.join(projectImagesPath, file),
-      path.join(mcImagesPath, `${file}`)
-    )
-  );
-  const mozBuildText = moz_build_tpl
-    .replace('__dirs__', "DIRS += [\n  'sources',\n]")
-    .replace('__FILES__',files.map(f => `    '${f}',`).join("\n"))
-
-  const mozBuildPath = path.join(mcPath, "devtools/client/debugger/new/images/moz.build");
-  fs.writeFileSync(mozBuildPath, mozBuildText, "utf-8");
-
-  const sourceFiles = fs.readdirSync(path.join(projectImagesPath, "sources"))
-    .filter(file => file.match(/svg$/))
-    .filter(file => usedSvgs.some(svg => svg.includes(file)));
-
-  sourceFiles.forEach(file =>
-    fsExtra.copySync(
-      path.join(path.join(projectImagesPath, "sources"), file),
-      path.join(path.join(mcImagesPath, "sources"), `${file}`)
-    )
-  );
-  const mozBuildSourceText = moz_build_tpl
-    .replace('__dirs__', '')
-    .replace('__FILES__',sourceFiles.map(f => `    '${f}',`).join("\n"))
-
-  const mozBuildSourcePath = path.join(mcPath, "devtools/client/debugger/new/images/sources/moz.build");
-  fs.writeFileSync(mozBuildSourcePath, mozBuildSourceText, "utf-8");
+  fsExtra.copySync(projectImagesPath, mcImagesPath);
 }
 
 function copyTests({ mcPath, projectPath, mcModulePath, shouldSymLink }) {
@@ -214,7 +172,7 @@ function start() {
   console.log("[copy-assets] start");
 
   const projectPath = path.resolve(__dirname, "..");
-  const mcModulePath = "devtools/client/debugger/new";
+  const mcModulePath = "devtools/client/debugger";
 
   process.env.NODE_ENV = "production";
 
@@ -242,25 +200,25 @@ function start() {
   console.log("[copy-assets] - index.html, index.js");
   copyFile(
     path.join(projectPath, "./assets/panel/index.html"),
-    path.join(mcPath, "devtools/client/debugger/new/index.html"),
+    path.join(mcPath, "devtools/client/debugger/index.html"),
     { cwd: projectPath }
   );
   copyFile(
     path.join(projectPath, "./assets/panel/panel.js"),
-    path.join(mcPath, "devtools/client/debugger/new/panel.js"),
+    path.join(mcPath, "devtools/client/debugger/panel.js"),
     { cwd: projectPath }
   );
 
   console.log("[copy-assets] - moz.build");
   copyFile(
     path.join(projectPath, "./assets/panel/moz.build"),
-    path.join(mcPath, "devtools/client/debugger/new/moz.build"),
+    path.join(mcPath, "devtools/client/debugger/moz.build"),
     { cwd: projectPath }
   );
 
 
   // Ensure /dist path exists.
-  const bundlePath = "devtools/client/debugger/new/dist";
+  const bundlePath = "devtools/client/debugger/dist";
   shell.mkdir("-p", path.join(mcPath, bundlePath));
 
   console.log("[copy-assets] - dist/moz.build");
@@ -273,9 +231,9 @@ function start() {
   copySVGs(config);
   copyTests(config);
   copyWasmParser(config);
-  writeReadme(path.join(mcPath, "devtools/client/debugger/new/README.mozilla"));
+  writeReadme(path.join(mcPath, "devtools/client/debugger/README.mozilla"));
 
-  const debuggerPath = "devtools/client/debugger/new"
+  const debuggerPath = "devtools/client/debugger"
 
   console.log("[copy-assets] make webpack bundles");
   return makeBundle({

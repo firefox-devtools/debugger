@@ -12,22 +12,21 @@
 import { isOriginalId, originalToGeneratedId } from "devtools-source-map";
 import { recordEvent } from "../../utils/telemetry";
 import { features } from "../../utils/prefs";
-import { getSourceFromId } from "../../selectors";
+import { getSourceActorsForSource } from "../../selectors";
 
 import { PROMISE } from "../utils/middleware/promise";
 
-import type { Source } from "../../types";
+import type { Source, Context } from "../../types";
 import type { ThunkArgs } from "../types";
 
 async function blackboxActors(state, client, sourceId, isBlackBoxed, range?) {
-  const source = getSourceFromId(state, sourceId);
-  for (const sourceActor of source.actors) {
-    await client.blackBox(sourceActor, isBlackBoxed, range);
+  for (const actor of getSourceActorsForSource(state, sourceId)) {
+    await client.blackBox(actor, isBlackBoxed, range);
   }
   return { isBlackBoxed: !isBlackBoxed };
 }
 
-export function toggleBlackBox(source: Source) {
+export function toggleBlackBox(cx: Context, source: Source) {
   return async ({ dispatch, getState, client, sourceMaps }: ThunkArgs) => {
     const { isBlackBoxed } = source;
 
@@ -45,6 +44,7 @@ export function toggleBlackBox(source: Source) {
 
     return dispatch({
       type: "BLACKBOX",
+      cx,
       source,
       [PROMISE]: blackboxActors(
         getState(),

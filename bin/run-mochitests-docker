@@ -4,17 +4,17 @@ rm -rf ./assets/build
 node ./bin/publish-assets
 
 docker run -it \
-  -v `pwd`/assets/build/debugger.js:/gecko/devtools/client/debugger/new/debugger.js \
-  -v `pwd`/assets/build/pretty-print-worker.js:/gecko/devtools/client/debugger/new/pretty-print-worker.js \
-  -v `pwd`/assets/build/parser-worker.js:/gecko/devtools/client/debugger/new/parser-worker.js \
-  -v `pwd`/assets/build/search-worker.js:/gecko/devtools/client/debugger/new/search-worker.js \
-  -v `pwd`/assets/build/debugger.css:/gecko/devtools/client/debugger/new/debugger.css \
+  -v `pwd`/assets/build/debugger.js:/gecko/devtools/client/debugger/debugger.js \
+  -v `pwd`/assets/build/pretty-print-worker.js:/gecko/devtools/client/debugger/pretty-print-worker.js \
+  -v `pwd`/assets/build/parser-worker.js:/gecko/devtools/client/debugger/parser-worker.js \
+  -v `pwd`/assets/build/search-worker.js:/gecko/devtools/client/debugger/search-worker.js \
+  -v `pwd`/assets/build/debugger.css:/gecko/devtools/client/debugger/debugger.css \
   -v `pwd`/assets/build/panel/debugger.properties:/gecko/devtools/client/locales/en-US/debugger.properties \
   -v `pwd`/assets/build/panel/prefs.js:/gecko/devtools/client/preferences/debugger.js \
-  -v `pwd`/assets/build/panel/panel.js:/gecko/devtools/client/debugger/new/panel.js \
-  -v `pwd`/assets/build/panel/index.html:/gecko/devtools/client/debugger/new/index.html \
-  -v `pwd`/assets/build/panel/moz.build:/gecko/devtools/client/debugger/new/moz.build \
-  -v `pwd`/assets/build/mochitest:/gecko/devtools/client/debugger/new/test/mochitest \
+  -v `pwd`/assets/build/panel/panel.js:/gecko/devtools/client/debugger/panel.js \
+  -v `pwd`/assets/build/panel/index.html:/gecko/devtools/client/debugger/index.html \
+  -v `pwd`/assets/build/panel/moz.build:/gecko/devtools/client/debugger/moz.build \
+  -v `pwd`/assets/build/mochitest:/gecko/devtools/client/debugger/test/mochitest \
   -v `pwd`/node_modules/lodash/lodash.js:/gecko/devtools/client/shared/vendor/lodash.js \
   -v `pwd`/node_modules/wasmparser/dist/WasmParser.js:/gecko/devtools/client/shared/vendor/WasmParser.js \
   -v `pwd`/node_modules/wasmparser/dist/WasmDis.js:/gecko/devtools/client/shared/vendor/WasmDis.js \
@@ -23,14 +23,14 @@ docker run -it \
   --ipc host \
   jryans/debugger-gecko \
   /bin/bash -c "export SHELL=/bin/bash; \
-    touch devtools/client/debugger/new/test/mochitest/browser.ini \
+    touch devtools/client/debugger/test/mochitest/browser.ini \
     && awk 'NR==11{print \"    \x27lodash.js\x27,\"}7' devtools/client/shared/vendor/moz.build \
       | awk 'NR==30{print \"    \x27WasmDis.js\x27,\"}7' \
       | awk 'NR==31{print \"    \x27WasmParser.js\x27\"}7' > foo \
     && mv foo devtools/client/shared/vendor/moz.build \
     && ./mach clobber \
     && ./mach build \
-    && ./mach mochitest --subsuite devtools --setenv MOZ_HEADLESS=1 devtools/client/debugger/new/test/mochitest/ \
+    && ./mach mochitest --subsuite devtools --setenv MOZ_HEADLESS=1 devtools/client/debugger/test/mochitest/ \
   " \
   > output.txt
 test_exit_code=$?

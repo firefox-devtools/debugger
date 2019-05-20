@@ -32,6 +32,7 @@ function generateDefaults() {
     selectedSource: {
       text: " text text query text"
     },
+    selectedContentLoaded: true,
     setFileSearchQuery: msg => msg,
     symbolSearchResults: [],
     modifiers: {
@@ -67,7 +68,7 @@ describe("doSearch", () => {
       .find("SearchInput")
       .simulate("change", { target: { value: "query" } });
 
-    const doSearchArgs = props.doSearch.mock.calls[0][0];
+    const doSearchArgs = props.doSearch.mock.calls[0][1];
     expect(doSearchArgs).toMatchSnapshot();
   });
 });

@@ -8,39 +8,30 @@ declare var it: (desc: string, func: () => void) => void;
 declare var expect: (value: any) => any;
 
 import update, { initialSourcesState, getDisplayedSources } from "../sources";
-import type { Source } from "../../types";
+import updateSourceActors from "../source-actors";
+import type { Source, SourceActor } from "../../types";
 import { prefs } from "../../utils/prefs";
-import { makeMockSource } from "../../utils/test-mockup";
+import { makeMockSource, mockcx } from "../../utils/test-mockup";
+import { getResourceIds } from "../../utils/resource";
 
 const extensionSource = {
   ...makeMockSource(),
   id: "extensionId",
-  url: "http://example.com/script.js",
-  actors: [{ actor: "extensionId-actor", source: "extensionId", thread: "foo" }]
+  url: "http://example.com/script.js"
 };
 
 const firefoxExtensionSource = {
   ...makeMockSource(),
   id: "firefoxExtension",
   url: "moz-extension://id/js/content.js",
-  isExtension: true,
-  actors: [
-    {
-      actor: "firefoxExtension-actor",
-      source: "firefoxExtension",
-      thread: "foo"
-    }
-  ]
+  isExtension: true
 };
 
 const chromeExtensionSource = {
   ...makeMockSource(),
   id: "chromeExtension",
   isExtension: true,
-  url: "chrome-extension://id/js/content.js",
-  actors: [
-    { actor: "chromeExtension-actor", source: "chromeExtension", thread: "foo" }
-  ]
+  url: "chrome-extension://id/js/content.js"
 };
 
 const mockedSources = [
@@ -49,14 +40,36 @@ const mockedSources = [
   chromeExtensionSource
 ];
 
+const mockSourceActors: Array<SourceActor> = ([
+  {
+    id: "extensionId-actor",
+    actor: "extensionId-actor",
+    source: "extensionId",
+    thread: "foo"
+  },
+  {
+    id: "firefoxExtension-actor",
+    actor: "firefoxExtension-actor",
+    source: "firefoxExtension",
+    thread: "foo"
+  },
+  {
+    id: "chromeExtension-actor",
+    actor: "chromeExtension-actor",
+    source: "chromeExtension",
+    thread: "foo"
+  }
+]: any);
+
 describe("sources reducer", () => {
   it("should work", () => {
     let state = initialSourcesState();
     state = update(state, {
       type: "ADD_SOURCE",
+      cx: mockcx,
       source: makeMockSource()
     });
-    expect(Object.keys(state.sources)).toHaveLength(1);
+    expect(getResourceIds(state.sources)).toHaveLength(1);
   });
 });
 
@@ -67,13 +80,21 @@ describe("sources selectors", () => {
     state = {
       sources: update(state, {
         type: "ADD_SOURCES",
-        // coercing to a Source for the purpose of this test
+        cx: mockcx,
         sources: ((mockedSources: any): Source[])
-      })
+      }),
+      sourceActors: undefined
     };
-    const selectedDisplayedSources = getDisplayedSources(state);
-    const threadSources = selectedDisplayedSources.foo;
-    expect(Object.values(threadSources)).toHaveLength(3);
+    const insertAction = {
+      type: "INSERT_SOURCE_ACTORS",
+      items: mockSourceActors
+    };
+    state = {
+      sources: update(state.sources, insertAction),
+      sourceActors: updateSourceActors(state.sourceActors, insertAction)
+    };
+    const threadSources = getDisplayedSources(state);
+    expect(Object.values(threadSources.foo)).toHaveLength(3);
   });
 
   it("should omit all extensions when chrome preference enabled", () => {
@@ -82,12 +103,22 @@ describe("sources selectors", () => {
     state = {
       sources: update(state, {
         type: "ADD_SOURCES",
-        // coercing to a Source for the purpose of this test
+        cx: mockcx,
         sources: ((mockedSources: any): Source[])
-      })
+      }),
+      sourceActors: undefined
     };
-    const selectedDisplayedSources = getDisplayedSources(state);
-    const threadSources = selectedDisplayedSources.foo;
-    expect(Object.values(threadSources)).toHaveLength(1);
+
+    const insertAction = {
+      type: "INSERT_SOURCE_ACTORS",
+      items: mockSourceActors
+    };
+
+    state = {
+      sources: update(state.sources, insertAction),
+      sourceActors: updateSourceActors(state.sourceActors, insertAction)
+    };
+    const threadSources = getDisplayedSources(state);
+    expect(Object.values(threadSources.foo)).toHaveLength(1);
   });
 });

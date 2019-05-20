@@ -34,7 +34,7 @@
   width: 5px;
   margin: 0 2px 0 6px;
   vertical-align: bottom;
-  background: var(--theme-body-color-alt);
+  background: var(--theme-text-color-alt);
 }
 
 .sources-clear-root-label {
@@ -231,6 +231,17 @@
 
 .thread-header {
   margin-top: 10px;
+}
+
+.thread-header .img.worker,
+.thread-header .img.file {
+  margin-top: -1px;
+  margin-inline-end: 4px;
+  margin-inline-start: 2px;
+}
+
+.thread-header .img.file {
+  margin-top: -2px;
 }
 
 .thread-header .label {
