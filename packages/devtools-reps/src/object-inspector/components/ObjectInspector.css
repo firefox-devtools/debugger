@@ -35,6 +35,11 @@
   line-height: 14px;
 }
 
+.tree.object-inspector .object-shadowed {
+  text-decoration: line-through;
+  color: var(--theme-comment);
+}
+
 .object-inspector .object-delimiter {
   color: var(--theme-comment);
   white-space: pre-wrap;

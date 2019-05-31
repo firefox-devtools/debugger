@@ -267,9 +267,11 @@ class ObjectInspectorItem extends Component<Props> {
     }
 
     const { item, depth, focused, expanded, onLabelClick } = this.props;
+    const shadowedName = item.shadowed ? " object-shadowed" : "";
+    const className = `object-label${shadowedName}`;
     return dom.span(
       {
-        className: "object-label",
+        className,
         onClick: onLabelClick
           ? event => {
               event.stopPropagation();
