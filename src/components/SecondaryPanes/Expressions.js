@@ -236,7 +236,19 @@ class Expressions extends Component<Props, State> {
     };
 
     return (
-      <li className="expression-container" key={input} title={expression.input}>
+      <li
+        className="expression-container"
+        key={input}
+        title={expression.input}
+        onDoubleClick={e => {
+          const treeNode = e.target.closest(".tree-node");
+          const level =
+            treeNode && parseInt(treeNode.getAttribute("aria-level"), 10);
+          if (!treeNode || level === 1) {
+            this.editExpression(expression, index);
+          }
+        }}
+      >
         <div className="expression-content">
           <ObjectInspector
             roots={[root]}
@@ -246,15 +258,6 @@ class Expressions extends Component<Props, State> {
             createObjectClient={grip => createObjectClient(grip)}
             onDOMNodeClick={grip => openElementInInspector(grip)}
             onInspectIconClick={grip => openElementInInspector(grip)}
-            onDoubleClick={(items, options) => {
-              const { depth } = options;
-
-              if (depth > 0) {
-                return;
-              }
-
-              this.editExpression(expression, index);
-            }}
           />
           <div className="expression-container__close-btn">
             <CloseButton
