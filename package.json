@@ -114,7 +114,7 @@
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "3.3.4",
-    "eslint": "^5.0.0",
+    "eslint": "^6.0.0",
     "eslint-config-prettier": "^4.0.0",
     "eslint-plugin-babel": "^5.0.0",
     "eslint-plugin-file-header": "0.0.1",
