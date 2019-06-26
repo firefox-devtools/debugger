@@ -10,6 +10,7 @@ type Props = {
   children: number
 };
 
+// This is a test PR
 const Badge = ({ children }: Props) => (
   <span className="badge text-white text-center">{children}</span>
 );
