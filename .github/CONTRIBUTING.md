@@ -100,7 +100,7 @@ Of course, feel free to ask questions in [Slack][slack] or share talk slides or 
 
 Another way to contribute to debugger is to write about it online, either on your own blog or on publishing platforms like [Medium][medium].
 
-Writing about DevTools is the best wayto dispel the myth that what we do here is magic. Additionall, it's a great way to share what you learn and articulate your passion for DevTools or *debugger*.
+Writing about DevTools is the best way to dispel the myth that what we do here is magic. Additionally, it's a great way to share what you learn and articulate your passion for DevTools or *debugger*.
 
 Good writing builds understanding, which fits our primary goal: to help developers understand that they can improve their own development environments. 
 
