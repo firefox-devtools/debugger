@@ -9941,18 +9941,18 @@ remark-validate-links@^7.0.0:
     urljoin "^0.1.5"
     xtend "^4.0.1"
 
-remark-validate-links@^8.0.0:
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/remark-validate-links/-/remark-validate-links-8.0.0.tgz#4127c255a08610aa8acb1d7c072d878dc087222f"
+remark-validate-links@^9.0.0:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/remark-validate-links/-/remark-validate-links-9.0.0.tgz#c8c8e6fbcfb7ca9447561aaacdb979503e660731"
+  integrity sha512-HXvYJ3vMv9qXszWsmMUWWpfKetHoC7PEa2YjZTEaONXxzAw/7jJIVPws47Wr6IjcyjFwV1mk2M+sYNiFyG63Cg==
   dependencies:
     github-slugger "^1.2.0"
     hosted-git-info "^2.5.0"
-    mdast-util-definitions "^1.0.0"
     mdast-util-to-string "^1.0.4"
     propose "0.0.5"
+    trough "^1.0.0"
     unist-util-visit "^1.0.0"
-    urljoin "^0.1.5"
-    xtend "^4.0.1"
+    xtend "^4.0.0"
 
 remark@^10.0.0:
   version "10.0.0"
