@@ -129,6 +129,6 @@ Say hello in [Slack][slack] or in the [#devtools-html][irc-devtools-html] channe
 [logging]: ./docs/local-development.md#logging
 [testing]: ./docs/local-development.md#testing
 [linting]: ./docs/local-development.md#linting
-[google-docs]: https://docs.google.com/document/d/146p7Y8Ues_AKjj4ReWCk6InOPWe3C3Koy6EQ1qnYKNM/edit
+[google-docs]: https://docs.google.com/document/d/1lxy0IzUM14dYACk_q862vVYwpU1AA4NQVrUNAm6uc-8/edit#heading=h.onwi5ko98n17
 [cl]: ./docs/issues.md#claiming-issues
 [firefox-nightly]: ./docs/getting-setup.md#starting-firefox-nightly
