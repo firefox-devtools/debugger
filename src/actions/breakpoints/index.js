@@ -79,6 +79,9 @@ export function enableBreakpointsInSource(cx: Context, source: Source) {
     for (const breakpoint of breakpoints) {
       if (breakpoint.disabled) {
         dispatch(enableBreakpoint(cx, breakpoint));
+      if (!getState.disabled) {
+        dispatch(toggleBreakpoints(cx, breakpoint));
+        }
       }
     }
   };
@@ -260,6 +263,10 @@ export function addBreakpointAtLine(
     const options = {};
     if (shouldLog) {
       options.logValue = "displayName";
+    }
+
+    if (!getState.disabled) {
+        dispatch(toggleBreakpoints(cx, breakpoint));
     }
 
     return dispatch(addBreakpoint(cx, breakpointLocation, options, disabled));
