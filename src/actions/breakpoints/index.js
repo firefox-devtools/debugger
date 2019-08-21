@@ -79,7 +79,7 @@ export function enableBreakpointsInSource(cx: Context, source: Source) {
     for (const breakpoint of breakpoints) {
       if (breakpoint.disabled) {
         dispatch(enableBreakpoint(cx, breakpoint));
-      if (!getState.disabled) {
+      if (!getSkipPausing(getState())) {
         dispatch(toggleBreakpoints(cx, breakpoint));
         }
       }
@@ -265,7 +265,7 @@ export function addBreakpointAtLine(
       options.logValue = "displayName";
     }
 
-    if (!getState.disabled) {
+    if (!getSkipPausing(getState())) {
         dispatch(toggleBreakpoints(cx, breakpoint));
     }
 
