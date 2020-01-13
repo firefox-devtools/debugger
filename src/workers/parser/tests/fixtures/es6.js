@@ -1,1 +1,0 @@
-dispatch({ ...action, [PROMISE]: promise });

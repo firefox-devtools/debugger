@@ -1,5 +1,0 @@
-if [[ ! -e ~/.yarn/bin/yarn || $(yarn --version) != "${YARN_VERSION}" ]]; then
-  echo "Installing Yarn $YARN_VERSION"
-  rm -rf ~/.yarn
-  npm i -g yarn@$YARN_VERSION
-fi

@@ -1,6 +1,0 @@
-{
-  "theme": "light",
-  "firefox": {
-    "webSocketConnection": false
-  }
-}
