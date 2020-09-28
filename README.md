@@ -1,10 +1,10 @@
 # [Firefox Debugger][website]
 
-The Firefox Debugger is now maintained in Mozilla's central repository.
+The Firefox Debugger is now maintained in the Mozilla's central repository.
 
-- Visit [docs][devtools-docs] to learn how to contribute
-- Checkout our [dashboard][gfb] to find good first bugs.
-- Go to [bugzilla][debugger-bugs] to report an issue or suggest an enhancement.
+- Visit [docs][devtools-docs] to learn more about how to contribute
+- Checkout our [dashboard][gfb] to find some good first bugs.
+- Go to [bugzilla][debugger-bugs] to either report an issue or suggest an enhancement.
 
 ![debugger-screenshot]
 
@@ -14,7 +14,7 @@ The Firefox Debugger is now maintained in Mozilla's central repository.
 
 ### Discussion
 
-Say hello in [Slack][slack] or join our weekly community calls.
+Say hello either in [Slack][slack] or join our weekly community calls.
 
 - **Community Call**: Every Tuesday at 2 pm EST. [Join the Hangout][community-call].
 - **Pairing**: Ask in [Slack][slack] and you'll either find someone, or be able to schedule a time for later.
